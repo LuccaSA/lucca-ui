@@ -18,5 +18,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuccaSA/lucca-ui.git"
+  }
 }
