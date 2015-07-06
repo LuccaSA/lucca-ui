@@ -1,0 +1,56 @@
+﻿.lucca-checkbox {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	height: 1.25em;
+	width: 1.25em;
+
+	input, label {
+		margin: 0;
+	}
+
+	input {
+		position: absolute;
+		left: 0; top: 0;
+		z-index: 4;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		opacity: 0;
+	}
+
+	label {
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: relative;
+
+		.mixin-icon("m", left); // Before is unchecked
+		.mixin-icon("n", right); // After is checked
+		.lucca-icon-checkbox;
+
+		&:before, &:after {
+			position: absolute;
+			top: 0; left: 0;
+			z-index: 2;
+			font-size: 1.25em;
+			margin: 0;
+		}
+
+		&:after {
+			z-index: 3;
+			opacity: 0;
+			.transition();
+		}
+	}
+
+	input:checked ~ label {
+		&:after {
+			opacity: 1;
+		}
+	}
+
+	&:hover label:after {
+		opacity: 0.5;
+	}
+}

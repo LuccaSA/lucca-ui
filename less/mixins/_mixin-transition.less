@@ -1,0 +1,26 @@
+/**
+ * DEFAULT TRIANGLES VARIABLES
+ */
+@default-transition-duration: 0.2s;
+@default-transition-easing: ease-out;
+
+.transition(@prop: all, @time: @default-transition-duration, @ease: @default-transition-easing) {
+  -webkit-transition: @prop @time @ease;
+  -moz-transition: @prop @time @ease;
+  -o-transition: @prop @time @ease;
+  -ms-transition: @prop @time @ease;
+  transition: @prop @time @ease;
+}
+.transition-properties(...) {
+  @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
+  -webkit-transition-property: @props;
+  -moz-transition-property: @props;
+  -o-transition-property: @props;
+  transition-property: @props;
+}
+.transition-duration(@duration: @default-transition-duration) {
+  -moz-transition-duration: @duration;
+  -webkit-transition-duration: @duration;
+  -o-transition-duration: @duration;
+  transition-duration: @duration;
+}

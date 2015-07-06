@@ -1,0 +1,44 @@
+﻿body {
+  font-size: 16px;
+}
+p {
+  line-height: 1.75em;
+}
+article > h2 {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 0;
+  margin-top: 2em;
+}
+code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  padding: 3px;
+  border-radius: 3px;
+}
+#component-icons .icon-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#component-icons .icon-list li {
+  margin: 0 30px 20px 0;
+  padding: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+}
+#component-icons .icon-list li div {
+  display: block;
+  color: #162a36;
+  overflow: hidden;
+  font-size: 24px;
+}
+#component-icons .icon-list li input {
+  display: block;
+  padding: 5px;
+  font-size: 12px;
+  text-align: center;
+}
+/*# sourceMappingURL=demo.css.map */

@@ -1,0 +1,53 @@
+﻿.save-button {
+	.lucca-button;
+	
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+
+	&.success {
+		.mixin-icon('l');
+		&:before {
+			color: @color-primary;
+		}
+	}
+
+	&.failure {
+		.mixin-icon('p');
+		&:before {
+			color: @color-error;
+		}
+	}
+
+	&.sending:before {
+		.loading-gif();
+	}
+
+	&.sending, &.success, &.failure {
+		color: transparent;
+		&:before {
+			opacity: 1;
+			top: 50% !important;
+		}
+	}
+
+
+	&:before {
+		background-color: #FFF;
+		border: 1px solid @color-grey-light;
+		.border-radius(50%);
+		width: 2em !important;
+		height: 2em !important;
+		line-height: 2em !important;
+		content: "";
+		display: block;
+		position: absolute !important;
+		z-index: 1;
+		top: 0 !important; 
+		left: 50%;
+		margin: -1em 0 0 -1em !important;
+		opacity: 0;
+
+		.transition();
+	}
+}

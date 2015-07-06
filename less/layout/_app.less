@@ -1,0 +1,60 @@
+// Brings the iLucca banner in fixed top position over all content
+#ilucca-banner{
+	position: fixed;
+	width: 100%;
+	z-index: 9000;
+}
+#iLuccaAccount {
+	width: 100%;
+	z-index: 9001; // It's over 9000 !
+	position: absolute;
+	background-color: #FFF;
+}
+
+// This is a ~ hack that hides the effects of the possible desync between the #main-sidebar and <main> transitions
+body {
+  background-color: @sidebar-bg-color;
+}
+
+// <div id="app"> should be the first (and only) element coming after the iLucca banner
+#app {
+	width: 100%;
+	min-height: 100%; min-height: 100vh;
+	overflow-x: hidden;
+	position: relative;
+	top: 0; left: 0;
+
+	background-color: @body-bg-color;
+
+	// #app contains a <main> element
+	// There can be only one <main> element in a page (http://www.w3schools.com/tags/tag_main.asp)
+	// This is your current app view (main-sidebar excluded)
+	main {
+		min-height: 100vh;
+		position: relative;
+		left: 0;
+		padding-left: @sidebar-width-collapsed;
+		.transition-properties(left);
+		.transition-duration();
+	}
+
+	// Full width sidebar State
+	// This is where the behaviors when toggling full-width state are defined
+	&.collapse-sidebar {
+		main {
+			left: @sidebar-width-full - @sidebar-width-collapsed;
+		}
+
+		#main-sidebar {
+			.fullwidth-sidebar;
+		}
+	}
+}
+
+
+.lucca-container {
+	.clearfix;
+	width: 90%;
+	max-width: 1500px;
+	margin: 0 auto;
+}

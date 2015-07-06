@@ -1,0 +1,17 @@
+.placeholder(@properties) {
+  &::-webkit-input-placeholder {
+    @properties();
+  }
+
+  &:-moz-placeholder {
+    @properties();
+  }
+
+  &::-moz-placeholder {
+    @properties();
+  }
+
+  &:-ms-input-placeholder {
+    @properties();
+  }
+}

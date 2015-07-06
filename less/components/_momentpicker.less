@@ -1,0 +1,61 @@
+moment-picker, .moment-picker{
+	.lucca-input;
+	position: relative;
+	display: inline-block;
+	width: 3.1em;
+
+	&:active, &:focus {
+		.no-shadow();
+	}
+
+	&.ng-invalid{
+		.mp-button{
+			background-color: @color-error;
+		}
+	}
+
+	// styling the inputs inside the directive
+	input, .input{
+
+		&:focus, &:active {
+			outline: none;
+			.no-shadow();
+		}
+
+		background-color: transparent;
+		border: none;
+		width: 1.3em;
+		&:nth-child(1) {
+			text-align: right;
+		}
+		&.ng-invalid {
+		}
+	}
+	// buttons + -
+	.mp-button {
+		user-select: none;
+		font-size: 75%;
+		position: absolute;
+		z-index: 999;
+		cursor: pointer;
+		left:-1px;
+		right:-1px;
+		text-align: center;
+		color: white;
+		background-color: @default-input-border-color;
+		&.top{
+			bottom: 100%;
+		}
+		&.bottom{
+			top: 100%;
+		}
+		&.left{
+			right: 50%;
+		}
+		&.right{
+			left: 50%;
+		}
+		&.disabled{
+		}
+	}
+}

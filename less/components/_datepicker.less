@@ -1,0 +1,127 @@
+﻿/**
+ * Lucca Datepicker 
+ * A basic reskin of the Angular-UI (Bootstrap) datepicker
+*/
+
+.lucca-datepicker {
+	position: relative;
+	display: inline-block;
+	.mixin-icon("q");
+	// Style reset
+	button {
+		outline: none;
+	}
+	// Displays a calendar icon
+	&:before {
+		position: absolute;
+		z-index: 1;
+		top: 50%;
+		left: 0.3em;
+		margin-top: -.5em;
+		z-index: 2;
+		color: @color-grey-light;
+		color: rgba(25, 25, 25, 0.5);
+		font-size: 1.2em;
+	}
+
+	> input {
+		.lucca-input;
+		padding-left: 2.5em;
+	}
+	// Icon should be hidden for inline datepickers
+	&.inline {
+		&:before {
+			display: none;
+		}
+
+		> input {
+			.lucca-input;
+		}
+	}
+
+	table {
+		width: 100%;
+		margin-bottom: 0.5em;
+
+		&, &:active, &:focus {
+			outline: 0;
+		}
+
+		button {
+			border: none;
+			background-color: transparent;
+			.border-radius(0);
+
+			&:active,
+			&:focus {
+				outline: none;
+			}
+		}
+
+		thead tr {
+			// Month & year
+			&:first-child {
+				background-color: @color-primary;
+				border: none;
+				margin: 0;
+
+				th {
+					button {
+						color: @color-over-primary;
+						padding-top: 1em;
+						padding-bottom: 1em;
+						.border-radius(0);
+						font-size: 1.1em;
+
+						&:hover, &:active, &:focus {
+							background-color: lighten(@color-primary, 10);
+						}
+					}
+				}
+			}
+		}
+
+		tbody {
+			button {
+				color: @default-link-color;
+
+				&:hover {
+					background-color: #fafafa;
+				}
+
+				&.active {
+					font-weight: 600;
+					color: @default-link-color-hover;
+					.no-shadow();
+					background-color: lighten(@color-primary, 30);
+				}
+			}
+		}
+	}
+
+	.dropdown-menu {
+		width: 100%;
+		min-width: 300px;
+		padding: 0;
+		.border-radius(0);
+
+		> li.ng-scope {
+			margin: 0.5em 0;
+			overflow: hidden;
+
+			& > span.btn-group {
+				.lucca-button-group;
+				margin: 0;
+			}
+
+			& > button,
+			& > span.btn-group > button {
+				&.btn-info,
+				&.btn-danger,
+				&.btn-success {
+					.lucca-button;
+				}
+			}
+		}
+	}
+}

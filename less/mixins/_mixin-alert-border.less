@@ -1,0 +1,18 @@
+@default-alert-border-width: 5px;
+
+.alert-border(@color: @color-grey, @width: @default-alert-border-width) {
+  position: relative;
+  display: block;
+  &:before {
+    box-sizing: content-box;
+    position: absolute;
+    left: -1px; top: -1px;
+    display: block;
+    content: " ";
+    height: 100%;
+    width: @width;
+    border-top: 1px solid @color;
+    border-bottom: 1px solid @color;
+    background-color: @color;
+  }
+}

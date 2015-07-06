@@ -1,0 +1,118 @@
+@default-v-menu-sub-bg-color: #fafafa;
+@default-v-menu-sub-highlight-color: @color-primary;
+@default-v-menu-sub-highlight-text-color: @color-over-primary;
+
+.vertical-menu {
+	.reset-list;
+
+	a {
+		.reset-links;
+		display: block;
+		color: @color-grey;
+		padding: 0.5em 2em;
+
+		&:hover {
+			color: @color-grey-dark;
+		}
+	}
+
+	> ul {
+		> li {
+			position: relative;
+
+			> a {
+				text-transform: uppercase;
+				color: @default-link-color-hover;
+				font-weight: 600;
+				border-bottom: 1px solid @color-grey-light;
+
+				&:hover {
+					background-color: @default-v-menu-sub-bg-color;
+				}
+			}
+
+			&.active > a {
+				font-weight: bold;
+				color: @default-v-menu-sub-highlight-text-color;
+				background-color: @default-v-menu-sub-highlight-color;
+				border-bottom: 1px solid @default-v-menu-sub-highlight-color;
+				border-top: 1px solid @default-v-menu-sub-highlight-color;
+				margin-top: -1px;
+			}
+			// Sub nav
+			> ul {
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding: 0;
+				background-color: @default-v-menu-sub-bg-color;
+				max-height: 0;
+				.transition();
+				.mixin-icon("f", right);
+
+				&:after {
+					font-size: 0.7em;
+					pointer-events: none;
+					position: absolute;
+					right: 1em;
+					top: 0.9em;
+					color: @color-grey;
+				}
+
+				li {
+					position: relative;
+
+					&:after {
+						position: absolute;
+						display: none;
+						content: "";
+						height: 100%;
+						width: 3px;
+						left: 0;
+						top: 0;
+						background-color: @default-v-menu-sub-highlight-color;
+					}
+
+					a {
+						color: darken(@color-grey, 15);
+					}
+
+					&.active {
+						a {
+							font-weight: bold;
+							color: @default-link-color-hover;
+							color: darken(@color-grey, 25);
+						} 
+
+						&:after {
+							display: block;
+						}
+					}
+				}
+			}
+
+			&.collapsed {
+				.v-nav-collapsed();
+			}
+
+			&.active {
+				.v-nav-collapsed();
+
+				> ul:after {
+					color: @color-over-primary;
+				}
+			}
+		}
+	}
+}
+
+.v-nav-collapsed {
+	> ul {
+		max-height: 400px;
+		border-bottom: 1px solid @color-grey-light;
+
+		&:after {
+			content: "e";
+			color: @color-over-primary;
+		}
+	}
+}

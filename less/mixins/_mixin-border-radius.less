@@ -1,0 +1,28 @@
+/**
+ * DEFAULT BORDER-RADIUS VARIABLES
+ */
+@default-border-radius: 2px;
+
+// Shortcut, just add the "rounded" class to an element
+.rounded {
+  .border-radius(@default-border-radius);
+}
+
+.border-radius(@topright: @default-border-radius, @bottomright: @topright, @bottomleft: @topright, @topleft: @topright) {
+  -webkit-border-top-right-radius: @topright;
+  -webkit-border-bottom-right-radius: @bottomright;
+  -webkit-border-bottom-left-radius: @bottomleft;
+  -webkit-border-top-left-radius: @topleft;
+  -moz-border-radius-topright: @topright;
+  -moz-border-radius-bottomright: @bottomright;
+  -moz-border-radius-bottomleft: @bottomleft;
+  -moz-border-radius-topleft: @topleft;
+  border-top-right-radius: @topright;
+  border-bottom-right-radius: @bottomright;
+  border-bottom-left-radius: @bottomleft;
+  border-top-left-radius: @topleft;
+
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}

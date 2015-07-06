@@ -1,0 +1,15 @@
+/**
+ * DEFAULT BORDER-RADIUS VARIABLES
+ * Has support for old versions of IE through progid and filters
+ */
+@default-opacity: 0.5;
+
+.opacity(@opacity: @default-opacity) {
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  -webkit-opacity: @opacity;
+  opacity: @opacity;
+  @opperc: @opacity * 100;
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+  filter: ~"alpha(opacity=@{opperc})";
+}

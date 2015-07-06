@@ -1,0 +1,136 @@
+@popover-min-width: 15em;
+
+.lucca-popover-source{
+	position: relative;
+}
+.lucca-popover{
+	min-width: @popover-min-width;
+	position: absolute;
+	border: 1px solid @color-grey-light;
+	padding: .5em;
+	background-color: white;
+	z-index: 100;
+	.rounded;
+	.drop-shadow();
+
+	// This is for the arrow
+	&:before {
+		position: absolute;
+	}
+
+	&.left, &.right {
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		transform: translateY(-50%);
+		&:before {
+			top: 50%;
+			margin-top: -@default-triangle-width/2;
+		}
+	}
+	&.left {
+		right: 100%;
+		margin-right: @default-triangle-width;
+		&:before {
+			left: 100%;
+			.triangle-right();
+		}
+	}
+	&.right {
+		left: 100%;
+		margin-left: @default-triangle-width;
+		&:before {
+			right: 100%;
+			.triangle-left();
+		}
+	}
+
+	&.top, &.bottom {
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		-o-transform: translateX(-50%);
+		transform: translateX(-50%);
+		&:before {
+			left: 50%;
+			margin-left: -@default-triangle-width/2;
+		}
+	}
+	&.top {
+		bottom: 100%;
+		margin-bottom: @default-triangle-width;
+		&:before {
+			top: 100%;
+			.triangle-down();
+		}
+	}
+	&.bottom {
+		top: 100%;
+		margin-top: @default-triangle-width;
+		&:before {
+			bottom: 100%;
+			.triangle-up();
+		}
+	}
+
+	.button-bar{
+		text-align: right;
+	}
+
+	input,.ui-select-container {
+		width: 100%;
+	}
+
+	// Default colouring
+	&.bottom:before {
+		border-bottom-color: @color-grey;
+	}
+	&.top:before {
+		border-top-color: @color-grey;
+	}
+	&.left:before {
+		border-left-color: @color-grey;
+	}
+	&.right:before {
+		border-right-color: @color-grey;
+	}
+
+	&.error {
+		background-color: @color-error;
+		color: #FFF;
+		border: none;
+		&.bottom:before {
+			border-bottom-color: @color-error;
+		}
+		&.top:before {
+			border-top-color: @color-error;
+		}
+		&.left:before {
+			border-left-color: @color-error;
+		}
+		&.right:before {
+			border-right-color: @color-error;
+		}
+	}
+
+	&.secondary {
+		background-color: @color-secondary;
+		color: @color-over-secondary;
+		border: none;
+		&.bottom:before {
+			border-bottom-color: @color-secondary;
+		}
+		&.top:before {
+			border-top-color: @color-secondary;
+		}
+		&.left:before {
+			border-left-color: @color-secondary;
+		}
+		&.right:before {
+			border-right-color: @color-secondary;
+		}
+	}
+}
