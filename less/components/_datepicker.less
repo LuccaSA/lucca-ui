@@ -105,21 +105,27 @@
 		padding: 0;
 		.border-radius(0);
 
-		> li.ng-scope {
-			margin: 0.5em 0;
-			overflow: hidden;
-
-			& > span.btn-group {
-				.lucca-button-group;
-				margin: 0;
+		> li {
+			.text-muted {
+				color: lighten(@default-link-color, 15);
 			}
 
-			& > button,
-			& > span.btn-group > button {
-				&.btn-info,
-				&.btn-danger,
-				&.btn-success {
-					.lucca-button;
+			&.ng-scope {
+				margin: 0.5em 0;
+				overflow: hidden;
+
+				& > span.btn-group {
+					.lucca-button-group;
+					margin: 0;
+				}
+
+				& > button,
+				& > span.btn-group > button {
+					&.btn-info,
+					&.btn-danger,
+					&.btn-success {
+						.lucca-button;
+					}
 				}
 			}
 		}
