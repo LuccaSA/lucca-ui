@@ -24,9 +24,16 @@ module.exports = function(grunt) {
                     { "dist/lucca-ui.min.css": "less/lucca-ui.less" }
                 ]
             }
+        },
+        concurrent: {
+            options: {
+                logConcurrentOutput: true
+            },
+            dev: ['watch:less']
         }
     });
-    grunt.loadNpmTasks('grunt-contrib-less'); // charge la contrib less
-    grunt.loadNpmTasks('grunt-contrib-watch'); // charge la contrib watch
-    grunt.registerTask('default', ['less', 'watch']); // tache executees lors de la commande "$ grunt"
+    grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
+    grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
+    grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
+    grunt.registerTask('default', ['concurrent']);
 };
