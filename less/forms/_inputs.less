@@ -4,6 +4,55 @@
 @default-input-placeholder-text-color: #CCC;
 @default-input-height: 18px;
 
+/**
+ * Lucca input - base class
+ * --------------------------------------------------------------------------- */
+.lucca-input {
+	.lucca-input-size;
+	.rounded();
+	border: 1px solid @default-input-border-color;
+	color: @default-body-text-color;
+	.transition-properties(border-color, color, background-color);
+	.transition-duration(0.5s);
+
+	&:active,
+	&:focus {
+		outline: none;
+		.inner-shadow();
+	}
+
+	.placeholder({
+		color: @default-input-placeholder-text-color;
+		font-style: italic;
+	});
+
+	&input:read-only {
+		background-color: @default-readonly-bg-color;
+	}
+
+	&.success:focus, &.valid:focus, &.ng-valid.ng-dirty:focus {
+		.valid-input;
+	}
+
+	&.error, &.warning, &.invalid, &.ng-invalid.ng-dirty {
+		.invalid-input;
+	}
+	// Default width
+	width: 10em;
+
+	&.long {
+		width: 15em;
+	}
+
+	&.short {
+		width: 5em;
+	}
+
+	&.x-short {
+		width: 2.8em;
+	}
+}
+
 .lucca-input-group,
 .lucca-form,
 .lucca-form-validation {
@@ -136,51 +185,7 @@
 	padding: (2*@default-input-v-margin + 2px) 1em;
 }
 
-.lucca-input {
-	.lucca-input-size;
-	.rounded();
-	border: 1px solid @default-input-border-color;
-	color: @default-body-text-color;
-	.transition-properties(border-color, color, background-color);
-	.transition-duration(0.5s);
 
-	&:active,
-	&:focus {
-		outline: none;
-		.inner-shadow();
-	}
-
-	.placeholder({
-		color: @default-input-placeholder-text-color;
-		font-style: italic;
-	});
-
-	&input:read-only {
-		background-color: @default-readonly-bg-color;
-	}
-
-	&.success:focus, &.valid:focus, &.ng-valid.ng-dirty:focus {
-		.valid-input;
-	}
-
-	&.error, &.warning, &.invalid, &.ng-invalid.ng-dirty {
-		.invalid-input;
-	}
-	// Default width
-	width: 10em;
-
-	&.long {
-		width: 15em;
-	}
-
-	&.short {
-		width: 5em;
-	}
-
-	&.x-short {
-		width: 2.8em;
-	}
-}
 
 textarea.lucca-input {
 	height: auto;
@@ -289,7 +294,7 @@ textarea.lucca-input {
 			outline: none;
 		}
 	}
-	
+
 	.ui-select-choices-row.active > a {
 		background-color: @color-primary;
 		color: @color-over-primary;

@@ -1,26 +1,43 @@
-﻿.save-button {
+@save-button-success-color: @color-primary;
+@save-button-error-color: @color-error;
+
+/**
+ * Save button
+ * ===
+ * List of available states:
+ * - 'sending': displays a loading gif
+ * - 'success': displays a check icon
+ * - 'failure': displays an error icon
+ *
+ * List of variables:
+ * - @save-button-success-color (defaults to @color-primary)
+ * - @save-button-error-color (defaults to @color-error)
+ * -------------------------------------------------------------------------- */﻿
+
+.save-button {
+	// Import default lucca-button properties
 	.lucca-button;
-	
+
 	position: relative;
 	z-index: 2;
 	overflow: hidden;
 
 	&.success {
-		.mixin-icon('l');
+		.mixin-icon('l'); // check icon
 		&:before {
-			color: @color-primary;
+			color: @save-button-success-color;
 		}
 	}
 
 	&.failure {
-		.mixin-icon('p');
+		.mixin-icon('p'); // error icon
 		&:before {
-			color: @color-error;
+			color: @save-button-error-color;
 		}
 	}
 
 	&.sending:before {
-		.loading-gif();
+		.loading-gif(); // loading gif
 	}
 
 	&.sending, &.success, &.failure {
@@ -30,7 +47,6 @@
 			top: 50% !important;
 		}
 	}
-
 
 	&:before {
 		background-color: #FFF;
@@ -43,7 +59,7 @@
 		display: block;
 		position: absolute !important;
 		z-index: 1;
-		top: 0 !important; 
+		top: 0 !important;
 		left: 50%;
 		margin: -1em 0 0 -1em !important;
 		opacity: 0;
