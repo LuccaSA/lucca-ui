@@ -1,6 +1,5 @@
-// out: ../demo.min.css, compress: true, sourcemap: true
-
-@import "../../less/lucca-ui.less";
+@import "../../less/lucca-ui";
+@import "../../less2/lucca-ui2.less";
 
 // Table of contents
 @toc-width: 10em;
@@ -10,6 +9,14 @@ html, body {
     width: 100%;
 }
 
+.dark {
+    background-color: #333;
+    padding: 1em;
+    &.inline {
+        display: inline-block;
+    }
+}
+
 #toc {
     position: fixed;
     z-index: 10;
@@ -17,9 +24,54 @@ html, body {
 
     width: @toc-width;
     height: 100%;
-    background-color: #333;
+    //background-color: #333;
 }
 #main-content {
     margin-left: @toc-width;
     padding: 2em;
+}
+
+
+body {
+  font-size: 16px;
+}
+p {
+  line-height: 1.75em;
+}
+article > h2 {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 0;
+  margin-top: 2em;
+}
+code {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 14px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    padding: 3px;
+    border-radius: 3px;
+}
+#lui-icon .icon-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+        margin: 0 30px 20px 0;
+        padding: 0;
+        display: inline-block;
+        overflow: hidden;
+        text-align: center;
+        i {
+            display: block;
+            color: #162a36;
+            overflow: hidden;
+            font-size: 24px;
+        }
+        input {
+            display: block;
+            padding: 5px;
+            font-size: 12px;
+            text-align: center;
+        }
+    }
 }

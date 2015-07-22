@@ -1,27 +1,30 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        watch: { 
+        watch: {
             less: {
-                files: ['**/*.less'], 
-                tasks: ['less'], 
+                files: ['**/*.less'],
+                tasks: ['less'],
                 options: {
-                    nospawn: true 
+                    nospawn: true
                 }
             }
         },
         less: {
             development: {
                 options: {
-                    compress: true, 
-                    relativeUrls:true, 
-                    sourceMap:true, 
-                    sourceMapFileInline:true, 
+                    compress: true,
+                    relativeUrls:true,
+                    sourceMap:true,
+                    sourceMapFileInline:true,
                     sourceMapRootpath:"..",
-                    optimization: 2 
+                    optimization: 2
                 },
                 files: [
-                    { "dist/lucca-ui.min.css": "less/lucca-ui.less" }
+                    {
+                        "dist/lucca-ui.min.css": "less/lucca-ui.less",
+                        "demo/demo.min.css": "demo/less/demo.less"
+                    }
                 ]
             }
         },

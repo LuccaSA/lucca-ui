@@ -1,0 +1,578 @@
+/**
+ * Icon support
+ * --------------------------------------------------------------------------- */
+.lui.button .lui.icon {
+	margin-right: 0.5em;
+	&.right {
+		margin-left: 0.5em; margin-right: 0;
+	}
+}
+.lui.button.icon:before {
+	margin: 0.07em 0;
+}
+
+/**
+ * Button
+ * --------------------------------------------------------------------------- */
+
+.lui_button_sizing() {
+	display: inline-block;
+	vertical-align: middle;
+	box-sizing: border-box;
+
+	min-height: @lui_button-min_height;
+	min-width: @lui_button-min_width;
+	padding: @lui_button-v_padding @lui_button-h_padding;
+	margin: @lui_button-v_margin @lui_button-h_margin;
+}
+
+.lui.button {
+	cursor: pointer;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	font-style: normal;
+	user-select: none;
+
+	.lui_button_sizing();
+
+	white-space: nowrap;
+	text-transform: @lui_button-text_transform;
+	text-shadow: @lui_button-text_shadow;
+	text-align: center;
+
+	.lui_border_radius(@lui_button-border_radius);
+
+	.transition-properties(color, background, opacity, box-shadow);
+}
+
+
+/**
+ * Button states
+ * --------------------------------------------------------------------------- */
+
+.lui.button:hover {
+	.opacity(0.9);
+	.lui_drop_shadow(0px, 1px, 2px, 0, rgba(50, 50, 50, 0.25));
+}
+.lui.button:active, .lui.button.active {
+	.lui_inner_shadow(0px, 2px, 2px, 0, rgba(50, 50, 50, 0.25));
+}
+.lui.button.disabled {
+	.opacity(0.5);
+	cursor: normal;
+	pointer-events: none;
+}
+
+
+/**
+ * Button sizes
+ * --------------------------------------------------------------------------- */
+.lui.button.regular,
+.lui.buttons.regular {
+ 	font-size: @lui_sizes-regular;
+ }
+.lui.button.small,
+.lui.buttons.small {
+	font-size: @lui_sizes-small;
+}
+.lui.button.large,
+.lui.buttons.large {
+	font-size: @lui_sizes-large;
+}
+.lui.button.x-large,
+.lui.buttons.x-large {
+	font-size: @lui_sizes-x-large;
+}
+
+/**
+ * Button styles
+ * --------------------------------------------------------------------------- */
+
+ // Flat style
+ // =====
+.lui.button.flat {
+	background-color: transparent;
+	color: @lui_link-link_color;
+	text-decoration: underline;
+	border-color: transparent;
+
+	&:hover {
+		background-color: rgba(50, 50, 50, .05);
+		border-color: rgba(50, 50, 50, .05);
+		.lui_no_shadows();
+	}
+
+	&:active {
+		background-color: rgba(50, 50, 50, 0.1);
+		border-color: rgba(50, 50, 50, .1);
+		.lui_no_shadows;
+	}
+
+	&:before, &:after {
+		text-decoration: none;
+	}
+}
+
+// Fill style
+// =====
+.lui_button_fill(@bg, @txt) {
+	background: @bg;
+	color: @txt;
+	border-color: @bg;
+}
+
+// Inverted
+// =====
+.lui_button_default_inverted() {
+	background: transparent;
+	border-color: rgba(255, 255, 255, 0.35);
+	color: rgba(255, 255, 255, 0.5);
+	&:hover, &:active, &.active {
+		color: #FFF;
+		border-color: #FFF;
+		&.fill {
+			color: rgba(0, 0, 0, 0.75);
+		}
+		.inner-shadow(0, 0, 0, 1px, #FFF);
+	}
+}
+
+// Wired style
+// =====
+.lui_button_wired(@color) {
+	background: transparent;
+	.inner-shadow(0, 0, 0, 1px, @color);
+	border-color: @color;
+	color: @color;
+}
+
+
+// Fake button style
+// Only applies button sizing properties to given object
+// =====
+.lui.fake-button {
+	.lui_button_sizing();
+}
+
+
+/**
+ * Button color
+ * --------------------------------------------------------------------------- */
+
+// Default coloring scheme
+// =====
+.lui_button_default_color_scheme() {
+	// Default style is white
+	background: #FFF;
+	border: 1px solid @lui_colors-grey_light;
+	color: @lui_link-link_color;
+
+	&:hover, &:active, &.active {
+		color: @lui_link-link_color_hover;
+	}
+}
+.lui.button {
+	.lui_button_default_color_scheme();
+
+	&.wired {
+		background: transparent;
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_link-link_color_hover);
+		}
+	}
+
+	&.fill {
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-grey_light, @lui_colors-grey);
+		}
+	}
+
+	&.inverted {
+		.lui_button_default_inverted();
+	}
+}
+
+// Primary color
+// =====
+.lui.button.primary {
+	.lui_button_fill(@lui_colors-primary, @lui_colors-over_primary);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-primary);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-primary, @lui_colors-over_primary);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-primary);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-primary, @lui_colors-over_primary);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-primary);
+			}
+		}
+	}
+}
+
+// Secondary color
+// =====
+.lui.button.secondary {
+	.lui_button_fill(@lui_colors-secondary, @lui_colors-over_secondary);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-secondary);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-secondary, @lui_colors-over_secondary);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-secondary);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-primary, @lui_colors-over_secondary);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-secondary);
+			}
+		}
+	}
+}
+
+// Yellow color
+// =====
+.lui.button.yellow {
+	.lui_button_fill(@lui_colors-yellow, @lui_colors-over_yellow);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-yellow);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-yellow, @lui_colors-over_yellow);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-yellow);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-yellow, @lui_colors-over_yellow);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-yellow);
+			}
+		}
+	}
+}
+
+// Grey color
+// =====
+.lui.button.grey {
+	.lui_button_fill(lighten(@lui_colors-grey, 25), darken(@lui_colors-grey, 10));
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(lighten(@lui_colors-grey, 15));
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(lighten(@lui_colors-grey, 25), darken(@lui_colors-grey, 10));
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(lighten(@lui_colors-grey, 25));
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(lighten(@lui_colors-grey, 25), darken(@lui_colors-grey, 10));
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-grey);
+			}
+		}
+	}
+}
+
+// Light color
+// =====
+.lui.button.light {
+	.lui_button_fill(@lui_colors-grey_light, @lui_colors-grey);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-grey_light);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-grey_light, @lui_colors-grey);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-grey_light);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-grey_light, @lui_colors-grey);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-grey_light);
+			}
+		}
+	}
+}
+
+// Error color
+// =====
+.lui.button.error {
+	.lui_button_fill(@lui_colors-error, #FFF);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-error);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-error, #FFF);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-error);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-error, #FFF);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-error);
+			}
+		}
+	}
+}
+
+// Warning color
+// =====
+.lui.button.warning {
+	.lui_button_fill(@lui_colors-warning, #FFF);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-warning);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-warning, #FFF);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-warning);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-warning, #FFF);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-warning);
+			}
+		}
+	}
+}
+
+// Success color
+// =====
+.lui.button.success {
+	.lui_button_fill(@lui_colors-success, #FFF);
+
+	&.wired {
+		.lui_button_default_color_scheme();
+		background: transparent;
+
+		&:hover, &:active, &.active {
+			.lui_button_wired(@lui_colors-success);
+		}
+	}
+
+	&.fill {
+		.lui_button_default_color_scheme();
+		&:hover, &:active, &.active {
+			.lui_button_fill(@lui_colors-success, #FFF);
+		}
+	}
+
+	&.inverted {
+		&.fill {
+			.lui_button_wired(@lui_colors-success);
+
+			&:hover, &:active, &.active {
+				.lui_button_fill(@lui_colors-success, #FFF);
+			}
+		}
+
+		&.wired {
+			.lui_button_wired(#FFF);
+			&:hover, &:active, &.active {
+				.lui_button_wired(@lui_colors-success);
+			}
+		}
+	}
+}
+
+
+/**
+ * Bootstrap overrides
+ * --------------------------------------------------------------------------- */
+ .lui.btn-primary {
+ 	&, &:active, &.active, &:focus, &:hover {
+ 		background-color: @color-primary;
+ 		border-color: @color-primary;
+ 	}
+ }
+ .lui.btn-secondary {
+ 	&, &:active, &.active, &:focus, &:hover {
+ 		background-color: @color-secondary;
+ 		border-color: @color-secondary;
+ 	}
+ }
+
+ /**
+  * Button groups
+  * --------------------------------------------------------------------------- */
+
+.lui.buttons {
+	display: inline-block;
+	vertical-align: middle;
+	margin: @default-button-margin-y 0;
+
+	& + .lui.buttons {
+		margin-left: 1em;
+	}
+
+	> .lui.button {
+		float: left;
+		margin-left: -1px; margin-right: 0;
+		&.wired:hover {
+			position: relative;
+			z-index: 2;
+		}
+		.lui_border_radius(0);
+		&:first-child {
+			.lui_border_radius(@lui_button-border_radius, 0, 0, @lui_button-border_radius);
+		}
+		&:last-child {
+			.lui_border_radius(0, @lui_button-border_radius, @lui_button-border_radius, 0);
+		}
+	}
+
+	// Modern browsers: flex-box model
+	display: inline-flex;
+}
+
+// Fitted buttons
+// =====
+.lui.buttons.fit {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+
+	> .lui.button {
+		display: table-cell;
+		text-align: center;
+		float: none;
+	}
+
+	// Modern browsers: flex-box model
+	display: flex;
+
+	> .lui.button {
+		float: none;
+		flex: 1;
+	}
+}

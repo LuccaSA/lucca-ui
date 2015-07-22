@@ -17,8 +17,8 @@
 		</ul>
 	</aside>
 
-<section id="main-content" class="container">
 
+<section id="main-content" class="container">
 	<h1>Lucca UI</h1>
 	<p class="sub-heading">DOCUMENTATION - Getting up and running with the framework</p>
 
@@ -31,237 +31,327 @@
 		</p>
 	</div>
 
+	<article id="lui-button">
+		<h4>Button styles:</h4>
+		<button class="lui button"><i class="lui icon edit"></i>Default</button>
+		<button class="lui button flat">Flat</button>
+		<button class="lui button wired">Wired</button>
+		<button class="lui button fill">Fill</button>
+		<div class="dark inline">
+			<button class="lui button inverted">Inverted</button>
+		</div>
 
-	<article id="component-icons" class="component">
+		<p>
+			Flat style is cook in a paragraph, <button class="lui button flat">just like this</button>
+		</p>
+
+		<h4>Icon support</h4>
+		<p>
+			Only icon: <button class="lui button icon add-user"></button>
+			Icon (left) + text: <button class="lui button"><i class="lui icon add-user"></i>Add user</button>
+			Icon (right) + text: <button class="lui button">Add user<i class="lui icon right add-user"></i></button>
+		</p>
+		<b>With different styles:</b>
+		<button class="lui button flat"><i class="lui icon analytics"></i>Flat</button>
+		<button class="lui button primary"><i class="lui icon lock"></i>Unlock me!</button>
+		<button class="lui button wired secondary">Take a picture<i class="lui icon camera right"></i></button>
+		<button class="lui button error disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
+
+		<h4>Button colors:</h4>
+		<button class="lui button primary">Primary</button>
+		<button class="lui button secondary">Secondary</button>
+		<button class="lui button yellow">Yellow (Lucca's color)</button>
+		<button class="lui button grey">Grey</button>
+		<button class="lui button light">Light</button>
+		<button class="lui button error">Error</button>
+		<button class="lui button warning">Warning</button>
+		<button class="lui button success">Success</button>
+
+		<h4>Various examples:</h4>
+		<button class="lui button wired success">Wired - Secondary</button>
+		<button class="lui button fill success">Fill - Success</button>
+
+		<div class="dark">
+			<button class="lui button inverted">Inverted - Default</button>
+			<button class="lui button inverted fill success">Inverted - Fill - Success</button>
+			<button class="lui button wired inverted light">Inverted - Wired - Light</button>
+		</div>
+
+		<p>
+			<i class="lui icon">e</i>
+		</p>
+
+		<h4>Button sizes</h4>
+		<button class="lui button small">Small</button>
+		<button class="lui button">Default</button>
+		<button class="lui button large">Large</button>
+		<button class="lui button x-large">X-large</button>
+
+		<h4>Button groups</h4>
+		<nav class="lui buttons">
+			<button class="lui button icon add-user"></button>
+			<button class="lui button icon comment"></button>
+			<button class="lui button">Help ?</button>
+			<button class="lui button icon refresh"></button>
+		</nav>
+
+		<nav class="lui buttons">
+			<button class="lui button fill primary">01</button>
+			<button class="lui button fill secondary">02</button>
+			<button class="lui button fill grey">03</button>
+			<button class="lui button fill success">04</button>
+		</nav>
+
+		<nav class="lui buttons dark">
+			<button class="lui button wired primary inverted">01</button>
+			<button class="lui button wired primary inverted">02</button>
+			<button class="lui button wired primary inverted">03</button>
+			<button class="lui button wired primary inverted">04</button>
+		</nav>
+
+		<nav class="lui buttons dark">
+			<button class="lui button fill primary inverted">01</button>
+			<button class="lui button fill primary inverted">02</button>
+			<button class="lui button fill primary inverted">03</button>
+			<button class="lui button fill primary inverted">04</button>
+		</nav>
+
+		<p>
+			When using fitted buttons, make sure to use anchor tags rather than buttons.
+		</p>
+		<nav class="lui buttons fit large">
+			<a class="lui button fill primary">01</a>
+			<a class="lui button fill primary">02</a>
+			<a class="lui button fill primary">03</a>
+			<a class="lui button fill primary">04</a>
+		</nav>
+	</article>
+
+	<article id="lui-icon">
 		<h2>Icons</h2>
 		<p>
-			Just add the <code>class="lucca-icon"</code>, then define which one with <code>class="lucca-icon lucca-icon-{name}"</code>.
-			You can also just add the <code>data-lucca-icon="{letter}"</code> attribute.
-			Example here : <span data-lucca-icon="h"></span>
+			Just append/prepend a <code><\i class="lui icon {icon-name}"><\/i></code> element or add the <code>lui icon {icon-name}</code> classes to your element.
+			You can also just add the <code>data-lui-icon="{letter}"</code> attribute.
+			Example here : <i lui-icon="h"></i>
 		</p>
 		<p>
-			Oh, by the way :
-			<button class="lucca-button white lucca-icon lucca-icon-chevron-w">You can add an icon to the left</button>
-			<code>class="lucca-icon ..."</code>
-			<button class="lucca-button white lucca-icon-right lucca-icon-chevron-e">Or on the right</button>
-			<code>class="lucca-icon-right ..."</code>
+			Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
 		</p>
-
 		<h5>List of all available icons</h5>
 		<ul class="icon-list lucca-input-group">
-			<li>
-				<div class="lucca-icon lucca-icon-plus"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-plus">
-				<input type="text" readonly="readonly" value="a">
-			</li><li>
-				<div class="lucca-icon lucca-icon-add-user"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-add-user">
-				<input type="text" readonly="readonly" value="b">
-			</li><li>
-				<div class="lucca-icon lucca-icon-analytics"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-analytics">
-				<input type="text" readonly="readonly" value="c">
-			</li><li>
-				<div class="lucca-icon lucca-icon-chevron-e"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-chevron-e">
-				<input type="text" readonly="readonly" value="d">
-			</li><li>
-				<div class="lucca-icon lucca-icon-chevron-n"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-chevron-n">
-				<input type="text" readonly="readonly" value="e">
-			</li><li>
-				<div class="lucca-icon lucca-icon-chevron-s"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-chevron-s">
-				<input type="text" readonly="readonly" value="f">
-			</li><li>
-				<div class="lucca-icon lucca-icon-chevron-w"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-chevron-w">
-				<input type="text" readonly="readonly" value="g">
-			</li><li>
-				<div class="lucca-icon lucca-icon-attachment"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-attachment">
-				<input type="text" readonly="readonly" value="h">
-			</li><li>
-				<div class="lucca-icon lucca-icon-blocks"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-blocks">
-				<input type="text" readonly="readonly" value="i">
-			</li><li>
-				<div class="lucca-icon lucca-icon-branch"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-branch">
-				<input type="text" readonly="readonly" value="j">
-			</li><li>
-				<div class="lucca-icon lucca-icon-breaktime"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-breaktime">
-				<input type="text" readonly="readonly" value="k">
-			</li><li>
-				<div class="lucca-icon lucca-icon-check"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-check">
-				<input type="text" readonly="readonly" value="l">
-			</li><li>
-				<div class="lucca-icon lucca-icon-checkbox"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-checkbox">
-				<input type="text" readonly="readonly" value="m">
-			</li><li>
-				<div class="lucca-icon lucca-icon-checkbox checked"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-checkbox checked">
-				<input type="text" readonly="readonly" value="n">
-			</li><li>
-				<div class="lucca-icon lucca-icon-clock"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-clock">
-				<input type="text" readonly="readonly" value="o">
-			</li><li>
-				<div class="lucca-icon lucca-icon-close"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-close">
-				<input type="text" readonly="readonly" value="p">
-			</li><li>
-				<div class="lucca-icon lucca-icon-datepicker"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-datepicker">
-				<input type="text" readonly="readonly" value="q">
-			</li><li>
-				<div class="lucca-icon lucca-icon-download"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-download">
-				<input type="text" readonly="readonly" value="r">
-			</li><li>
-				<div class="lucca-icon lucca-icon-edit"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-edit">
-				<input type="text" readonly="readonly" value="s">
-			</li><li>
-				<div class="lucca-icon lucca-icon-edit-frame"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-edit-frame">
-				<input type="text" readonly="readonly" value="t">
-			</li><li>
-				<div class="lucca-icon lucca-icon-edit-mini"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-edit-mini">
-				<input type="text" readonly="readonly" value="u">
-			</li><li>
-				<div class="lucca-icon lucca-icon-ellipsis"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-ellipsis">
-				<input type="text" readonly="readonly" value="v">
-			</li><li>
-				<div class="lucca-icon lucca-icon-error"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-error">
-				<input type="text" readonly="readonly" value="w">
-			</li><li>
-				<div class="lucca-icon lucca-icon-files"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-files">
-				<input type="text" readonly="readonly" value="x">
-			</li><li>
-				<div class="lucca-icon lucca-icon-filter"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-filter">
-				<input type="text" readonly="readonly" value="y">
-			</li><li>
-				<div class="lucca-icon lucca-icon-email"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-email">
-				<input type="text" readonly="readonly" value="z">
-			</li><li>
-				<div class="lucca-icon lucca-icon-pin"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-pin">
-				<input type="text" readonly="readonly" value="A">
-			</li><li>
-				<div class="lucca-icon lucca-icon-help"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-help">
-				<input type="text" readonly="readonly" value="B">
-			</li><li>
-				<div class="lucca-icon lucca-icon-list"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-list">
-				<input type="text" readonly="readonly" value="C">
-			</li><li>
-				<div class="lucca-icon lucca-icon-lock"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-lock">
-				<input type="text" readonly="readonly" value="E">
-			</li><li>
-				<div class="lucca-icon lucca-icon-forbidden"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-forbidden">
-				<input type="text" readonly="readonly" value="F">
-			</li><li>
-				<div class="lucca-icon lucca-icon-minimize"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-minimize">
-				<input type="text" readonly="readonly" value="G">
-			</li><li>
-				<div class="lucca-icon lucca-icon-move"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-move">
-				<input type="text" readonly="readonly" value="H">
-			</li><li>
-				<div class="lucca-icon lucca-icon-move-h"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-move-h">
-				<input type="text" readonly="readonly" value="I">
-			</li><li>
-				<div class="lucca-icon lucca-icon-move-v"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-move-v">
-				<input type="text" readonly="readonly" value="J">
-			</li><li>
-				<div class="lucca-icon lucca-icon-notification"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-notification">
-				<input type="text" readonly="readonly" value="K">
-			</li><li>
-				<div class="lucca-icon lucca-icon-outside"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-outside">
-				<input type="text" readonly="readonly" value="L">
-			</li><li>
-				<div class="lucca-icon lucca-icon-camera"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-camera">
-				<input type="text" readonly="readonly" value="M">
-			</li><li>
-				<div class="lucca-icon lucca-icon-print"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-print">
-				<input type="text" readonly="readonly" value="N">
-			</li><li>
-				<div class="lucca-icon lucca-icon-refresh"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-refresh">
-				<input type="text" readonly="readonly" value="O">
-			</li><li>
-				<div class="lucca-icon lucca-icon-remove-user"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-remove-user">
-				<input type="text" readonly="readonly" value="P">
-			</li><li>
-				<div class="lucca-icon lucca-icon-drag"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-drag">
-				<input type="text" readonly="readonly" value="Q">
-			</li><li>
-				<div class="lucca-icon lucca-icon-search"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-search">
-				<input type="text" readonly="readonly" value="R">
-			</li><li>
-				<div class="lucca-icon lucca-icon-send"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-send">
-				<input type="text" readonly="readonly" value="S">
-			</li><li>
-				<div class="lucca-icon lucca-icon-send-to-user"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-send-to-user">
-				<input type="text" readonly="readonly" value="T">
-			</li><li>
-				<div class="lucca-icon lucca-icon-settings"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-settings">
-				<input type="text" readonly="readonly" value="U">
-			</li><li>
-				<div class="lucca-icon lucca-icon-comment"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-comment">
-				<input type="text" readonly="readonly" value="V">
-			</li><li>
-				<div class="lucca-icon lucca-icon-timer"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-timer">
-				<input type="text" readonly="readonly" value="W">
-			</li><li>
-				<div class="lucca-icon lucca-icon-trash"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-trash">
-				<input type="text" readonly="readonly" value="X">
-			</li><li>
-				<div class="lucca-icon lucca-icon-unlock"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-unlock">
-				<input type="text" readonly="readonly" value="Y">
-			</li><li>
-				<div class="lucca-icon lucca-icon-upload"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-upload">
-				<input type="text" readonly="readonly" value="Z">
-			</li><li>
-				<div class="lucca-icon lucca-icon-user"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-user">
-				<input type="text" readonly="readonly" value="0">
-			</li><li>
-				<div class="lucca-icon lucca-icon-warning"></div>
-				<input type="text" readonly="readonly" value="lucca-icon-warning">
-				<input type="text" readonly="readonly" value="1">
-			</li>
+		    <li>
+		        <i class="lui icon plus"></i>
+		        <input type="text" readonly="readonly" value="plus">
+		        <input type="text" readonly="readonly" value="a">
+		    </li><li>
+		        <i class="lui icon add-user"></i>
+		        <input type="text" readonly="readonly" value="add-user">
+		        <input type="text" readonly="readonly" value="b">
+		    </li><li>
+		        <i class="lui icon analytics"></i>
+		        <input type="text" readonly="readonly" value="analytics">
+		        <input type="text" readonly="readonly" value="c">
+		    </li><li>
+		        <i class="lui icon chevron-e"></i>
+		        <input type="text" readonly="readonly" value="chevron-e">
+		        <input type="text" readonly="readonly" value="d">
+		    </li><li>
+		        <i class="lui icon chevron-n"></i>
+		        <input type="text" readonly="readonly" value="chevron-n">
+		        <input type="text" readonly="readonly" value="e">
+		    </li><li>
+		        <i class="lui icon chevron-s"></i>
+		        <input type="text" readonly="readonly" value="chevron-s">
+		        <input type="text" readonly="readonly" value="f">
+		    </li><li>
+		        <i class="lui icon chevron-w"></i>
+		        <input type="text" readonly="readonly" value="chevron-w">
+		        <input type="text" readonly="readonly" value="g">
+		    </li><li>
+		        <i class="lui icon attachment"></i>
+		        <input type="text" readonly="readonly" value="attachment">
+		        <input type="text" readonly="readonly" value="h">
+		    </li><li>
+		        <i class="lui icon blocks"></i>
+		        <input type="text" readonly="readonly" value="blocks">
+		        <input type="text" readonly="readonly" value="i">
+		    </li><li>
+		        <i class="lui icon branch"></i>
+		        <input type="text" readonly="readonly" value="branch">
+		        <input type="text" readonly="readonly" value="j">
+		    </li><li>
+		        <i class="lui icon breaktime"></i>
+		        <input type="text" readonly="readonly" value="breaktime">
+		        <input type="text" readonly="readonly" value="k">
+		    </li><li>
+		        <i class="lui icon check"></i>
+		        <input type="text" readonly="readonly" value="check">
+		        <input type="text" readonly="readonly" value="l">
+		    </li><li>
+		        <i class="lui icon checkbox"></i>
+		        <input type="text" readonly="readonly" value="checkbox">
+		        <input type="text" readonly="readonly" value="m">
+		    </li><li>
+		        <i class="lui icon checkbox checked"></i>
+		        <input type="text" readonly="readonly" value="checkbox checked">
+		        <input type="text" readonly="readonly" value="n">
+		    </li><li>
+		        <i class="lui icon clock"></i>
+		        <input type="text" readonly="readonly" value="clock">
+		        <input type="text" readonly="readonly" value="o">
+		    </li><li>
+		        <i class="lui icon close"></i>
+		        <input type="text" readonly="readonly" value="close">
+		        <input type="text" readonly="readonly" value="p">
+		    </li><li>
+		        <i class="lui icon datepicker"></i>
+		        <input type="text" readonly="readonly" value="datepicker">
+		        <input type="text" readonly="readonly" value="q">
+		    </li><li>
+		        <i class="lui icon download"></i>
+		        <input type="text" readonly="readonly" value="download">
+		        <input type="text" readonly="readonly" value="r">
+		    </li><li>
+		        <i class="lui icon edit"></i>
+		        <input type="text" readonly="readonly" value="edit">
+		        <input type="text" readonly="readonly" value="s">
+		    </li><li>
+		        <i class="lui icon edit-frame"></i>
+		        <input type="text" readonly="readonly" value="edit-frame">
+		        <input type="text" readonly="readonly" value="t">
+		    </li><li>
+		        <i class="lui icon edit-mini"></i>
+		        <input type="text" readonly="readonly" value="edit-mini">
+		        <input type="text" readonly="readonly" value="u">
+		    </li><li>
+		        <i class="lui icon ellipsis"></i>
+		        <input type="text" readonly="readonly" value="ellipsis">
+		        <input type="text" readonly="readonly" value="v">
+		    </li><li>
+		        <i class="lui icon error"></i>
+		        <input type="text" readonly="readonly" value="error">
+		        <input type="text" readonly="readonly" value="w">
+		    </li><li>
+		        <i class="lui icon files"></i>
+		        <input type="text" readonly="readonly" value="files">
+		        <input type="text" readonly="readonly" value="x">
+		    </li><li>
+		        <i class="lui icon filter"></i>
+		        <input type="text" readonly="readonly" value="filter">
+		        <input type="text" readonly="readonly" value="y">
+		    </li><li>
+		        <i class="lui icon email"></i>
+		        <input type="text" readonly="readonly" value="email">
+		        <input type="text" readonly="readonly" value="z">
+		    </li><li>
+		        <i class="lui icon pin"></i>
+		        <input type="text" readonly="readonly" value="pin">
+		        <input type="text" readonly="readonly" value="A">
+		    </li><li>
+		        <i class="lui icon help"></i>
+		        <input type="text" readonly="readonly" value="help">
+		        <input type="text" readonly="readonly" value="B">
+		    </li><li>
+		        <i class="lui icon list"></i>
+		        <input type="text" readonly="readonly" value="list">
+		        <input type="text" readonly="readonly" value="C">
+		    </li><li>
+		        <i class="lui icon lock"></i>
+		        <input type="text" readonly="readonly" value="lock">
+		        <input type="text" readonly="readonly" value="E">
+		    </li><li>
+		        <i class="lui icon forbidden"></i>
+		        <input type="text" readonly="readonly" value="forbidden">
+		        <input type="text" readonly="readonly" value="F">
+		    </li><li>
+		        <i class="lui icon minimize"></i>
+		        <input type="text" readonly="readonly" value="minimize">
+		        <input type="text" readonly="readonly" value="G">
+		    </li><li>
+		        <i class="lui icon move"></i>
+		        <input type="text" readonly="readonly" value="move">
+		        <input type="text" readonly="readonly" value="H">
+		    </li><li>
+		        <i class="lui icon move-h"></i>
+		        <input type="text" readonly="readonly" value="move-h">
+		        <input type="text" readonly="readonly" value="I">
+		    </li><li>
+		        <i class="lui icon move-v"></i>
+		        <input type="text" readonly="readonly" value="move-v">
+		        <input type="text" readonly="readonly" value="J">
+		    </li><li>
+		        <i class="lui icon notification"></i>
+		        <input type="text" readonly="readonly" value="notification">
+		        <input type="text" readonly="readonly" value="K">
+		    </li><li>
+		        <i class="lui icon outside"></i>
+		        <input type="text" readonly="readonly" value="outside">
+		        <input type="text" readonly="readonly" value="L">
+		    </li><li>
+		        <i class="lui icon camera"></i>
+		        <input type="text" readonly="readonly" value="camera">
+		        <input type="text" readonly="readonly" value="M">
+		    </li><li>
+		        <i class="lui icon print"></i>
+		        <input type="text" readonly="readonly" value="print">
+		        <input type="text" readonly="readonly" value="N">
+		    </li><li>
+		        <i class="lui icon refresh"></i>
+		        <input type="text" readonly="readonly" value="refresh">
+		        <input type="text" readonly="readonly" value="O">
+		    </li><li>
+		        <i class="lui icon remove-user"></i>
+		        <input type="text" readonly="readonly" value="remove-user">
+		        <input type="text" readonly="readonly" value="P">
+		    </li><li>
+		        <i class="lui icon drag"></i>
+		        <input type="text" readonly="readonly" value="drag">
+		        <input type="text" readonly="readonly" value="Q">
+		    </li><li>
+		        <i class="lui icon search"></i>
+		        <input type="text" readonly="readonly" value="search">
+		        <input type="text" readonly="readonly" value="R">
+		    </li><li>
+		        <i class="lui icon send"></i>
+		        <input type="text" readonly="readonly" value="send">
+		        <input type="text" readonly="readonly" value="S">
+		    </li><li>
+		        <i class="lui icon send-to-user"></i>
+		        <input type="text" readonly="readonly" value="send-to-user">
+		        <input type="text" readonly="readonly" value="T">
+		    </li><li>
+		        <i class="lui icon settings"></i>
+		        <input type="text" readonly="readonly" value="settings">
+		        <input type="text" readonly="readonly" value="U">
+		    </li><li>
+		        <i class="lui icon comment"></i>
+		        <input type="text" readonly="readonly" value="comment">
+		        <input type="text" readonly="readonly" value="V">
+		    </li><li>
+		        <i class="lui icon timer"></i>
+		        <input type="text" readonly="readonly" value="timer">
+		        <input type="text" readonly="readonly" value="W">
+		    </li><li>
+		        <i class="lui icon trash"></i>
+		        <input type="text" readonly="readonly" value="trash">
+		        <input type="text" readonly="readonly" value="X">
+		    </li><li>
+		        <i class="lui icon unlock"></i>
+		        <input type="text" readonly="readonly" value="unlock">
+		        <input type="text" readonly="readonly" value="Y">
+		    </li><li>
+		        <i class="lui icon upload"></i>
+		        <input type="text" readonly="readonly" value="upload">
+		        <input type="text" readonly="readonly" value="Z">
+		    </li><li>
+		        <i class="lui icon user"></i>
+		        <input type="text" readonly="readonly" value="user">
+		        <input type="text" readonly="readonly" value="0">
+		    </li><li>
+		        <i class="lui icon warning"></i>
+		        <input type="text" readonly="readonly" value="warning">
+		        <input type="text" readonly="readonly" value="1">
+		    </li>
 		</ul>
 	</article>
 

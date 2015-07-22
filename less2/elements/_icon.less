@@ -1,0 +1,347 @@
+
+/**
+ * Load icon font
+ * --------------------------------------------------------------------------- */
+@font-face {
+  font-family: "lucca-icons";
+  src:  url("@{lui_icon-font_path}/@{lui_icon-font_name}.eot");
+  src:  url("@{lui_icon-font_path}/@{lui_icon-font_name}.eot?#iefix") format("embedded-opentype"),
+        url("@{lui_icon-font_path}/@{lui_icon-font_name}.woff") format("woff"),
+        url("@{lui_icon-font_path}/@{lui_icon-font_name}.ttf") format("truetype"),
+        url("@{lui_icon-font_path}/@{lui_icon-font_name}.svg#lucca-icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**
+ * Icons
+ * --------------------------------------------------------------------------- */
+
+.lui.icon {
+    font-family: "lucca-icons";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: center;
+
+    speak: none;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    backface-visibility: hidden;
+    // Font characters are poorly croped
+    &:before {
+        display: block;
+        margin-top: -1px;
+    }
+}
+
+i.lui.icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+[lui-icon] {
+    .lui.icon;
+    display: inline-block;
+    &:before {
+        content: attr(lui-icon);
+    }
+}
+
+// Awesome icon factory
+// =====
+@lui_icons-icon_plus: "a";
+@lui_icons-icon_add-user: "b";
+@lui_icons-icon_analytics: "c";
+@lui_icons-icon_chevron-e: "d";
+@lui_icons-icon_chevron-n: "e";
+@lui_icons-icon_chevron-s: "f";
+@lui_icons-icon_chevron-w: "g";
+@lui_icons-icon_attachment: "h";
+@lui_icons-icon_blocks: "i";
+@lui_icons-icon_branch: "j";
+@lui_icons-icon_breaktime: "k";
+@lui_icons-icon_check: "l";
+@lui_icons-icon_checkbox: "m";
+@lui_icons-icon_checkbox-checked: "n";
+@lui_icons-icon_clock: "o";
+@lui_icons-icon_close: "p";
+@lui_icons-icon_datepicker: "q";
+@lui_icons-icon_download: "r";
+@lui_icons-icon_edit: "s";
+@lui_icons-icon_edit-frame: "t";
+@lui_icons-icon_edit-mini: "u";
+@lui_icons-icon_ellipsis: "v";
+@lui_icons-icon_error: "w";
+@lui_icons-icon_files: "x";
+@lui_icons-icon_filter: "y";
+@lui_icons-icon_email: "Z";
+@lui_icons-icon_pin: "A";
+@lui_icons-icon_help: "B";
+@lui_icons-icon_list: "D";
+@lui_icons-icon_lock: "E";
+@lui_icons-icon_forbidden: "F";
+@lui_icons-icon_minimize: "G";
+@lui_icons-icon_move: "H";
+@lui_icons-icon_move-h: "I";
+@lui_icons-icon_move-v: "J";
+@lui_icons-icon_notification: "K";
+@lui_icons-icon_outside: "L";
+@lui_icons-icon_camera: "M";
+@lui_icons-icon_print: "N";
+@lui_icons-icon_refresh: "O";
+@lui_icons-icon_remove-user: "P";
+@lui_icons-icon_drag: "Q";
+@lui_icons-icon_search: "R";
+@lui_icons-icon_send: "S";
+@lui_icons-icon_send-to-user: "T";
+@lui_icons-icon_settings: "U";
+@lui_icons-icon_comment: "V";
+@lui_icons-icon_timer: "W";
+@lui_icons-icon_trash: "X";
+@lui_icons-icon_unlock: "Y";
+@lui_icons-icon_upload: "Z";
+@lui_icons-icon_user: "0";
+@lui_icons-icon_warning: "1";
+
+.lui-icon_maker_base(@letter) {
+   font-family: "lucca-icons";
+   display: inline-block;
+   vertical-align: middle;
+   content: @letter;
+}
+.lui_icon_maker(@iconName, @position: left) when (@position = left) {
+   @letter: "lui_icons-icon_@{iconName}";
+   &:before {
+       .lui-icon_maker_base(@@letter);
+       margin-right: 0.5em;
+   }
+}
+.lui_icon_maker(@iconName, @position: left) when (@position = right) {
+   @letter: "lui_icons-icon_@{iconName}";
+   &:after {
+       .lui-icon_maker_base(@@letter);
+       margin-left: 0.5em;
+   }
+}
+
+// Icon classes
+// =====
+
+.lui.icon.plus:before {
+  content: "a";
+}
+// Add User
+.lui.icon.add-user:before {
+  content: "b";
+}
+// Analytics
+.lui.icon.analytics:before {
+  content: "c";
+}
+// Chevron East
+.lui.icon.chevron-e:before {
+  content: "d";
+}
+// Chevron North
+.lui.icon.chevron-n:before {
+  content: "e";
+}
+// Chevron South
+.lui.icon.chevron-s:before {
+  content: "f";
+}
+// Chevron West
+.lui.icon.chevron-w:before {
+  content: "g";
+}
+// Attachment
+.lui.icon.attachment:before {
+  content: "h";
+}
+// Blocks
+.lui.icon.blocks:before {
+  content: "i";
+}
+// Branch
+.lui.icon.branch:before {
+  content: "j";
+}
+// Breaktime
+.lui.icon.breaktime:before {
+  content: "k";
+}
+// Check
+.lui.icon.check:before {
+  content: "l";
+}
+// Checkbox (unchecked)
+.lui.icon.checkbox:before,
+.lui.icon.checkbox.unchecked:before{
+  content: "m";
+  cursor: pointer;
+}
+// Checkbox (checked)
+.lui.icon.checkbox.checked:before {
+  content: "n";
+}
+// Clock
+.lui.icon.clock:before {
+  content: "o";
+}
+// Close
+.lui.icon.close:before {
+  content: "p";
+}
+// Datepicker
+.lui.icon.datepicker:before {
+  content: "q";
+}
+// Download
+.lui.icon.download:before {
+  content: "r";
+}
+// Edit
+.lui.icon.edit:before {
+  content: "s";
+}
+// Edit Frame
+.lui.icon.edit-frame:before {
+  content: "t";
+}
+// Edit Mini
+.lui.icon.edit-mini:before {
+    content: "u";
+    font-size: 0.5em;
+}
+// Ellipsis
+.lui.icon.ellipsis:before {
+    content: "v";
+}
+// Error
+.lui.icon.error:before {
+    content: "w";
+}
+// Files
+.lui.icon.files:before {
+    content: "x";
+}
+// Filter
+.lui.icon.filter:before {
+    content: "y";
+}
+// Email
+.lui.icon.email:before {
+    content: "Z";
+}
+// Pin
+.lui.icon.pin:before {
+    content: "A";
+}
+// Help
+.lui.icon.help:before {
+    content: "B";
+}
+// List
+.lui.icon.list:before {
+    content: "D";
+}
+// Lock
+.lui.icon.lock:before {
+    content: "E";
+}
+// Forbidden
+.lui.icon.forbidden:before {
+  content: "F";
+}
+// Minimize
+.lui.icon.minimize:before {
+  content: "G";
+}
+// Move
+.lui.icon.move:before {
+  content: "H";
+}
+// Move (horizontal)
+.lui.icon.move-h:before {
+  content: "I";
+}
+// Move (vertical)
+.lui.icon.move-v:before {
+  content: "J";
+}
+// Notification
+.lui.icon.notification:before {
+  content: "K";
+}
+// Outside
+.lui.icon.outside:before {
+  content: "L";
+}
+// Camera
+.lui.icon.camera:before {
+  content: "M";
+}
+// Print
+.lui.icon.print:before {
+  content: "N";
+}
+// Refresh
+.lui.icon.refresh:before {
+  content: "O";
+}
+// Remove user
+.lui.icon.remove-user:before {
+  content: "P";
+}
+// Drag
+.lui.icon.drag:before {
+  content: "Q";
+}
+// Search
+.lui.icon.search:before {
+  content: "R";
+}
+// Send
+.lui.icon.send:before {
+  content: "S";
+}
+// Send to User
+.lui.icon.send-to-user:before {
+  content: "T";
+}
+// Settings
+.lui.icon.settings:before {
+  content: "U";
+}
+// Comment
+.lui.icon.comment:before {
+  content: "V";
+}
+// Timer
+.lui.icon.timer:before {
+  content: "W";
+}
+// Trash
+.lui.icon.trash:before {
+  content: "X";
+}
+// Unlock
+.lui.icon.unlock:before {
+  content: "Y";
+}
+// Upload
+.lui.icon.upload:before {
+  content: "Z";
+}
+// User
+.lui.icon.user:before {
+  content: "0";
+}
+// Warning
+.lui.icon.warning:before {
+  content: "1";
+}

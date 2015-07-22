@@ -10,6 +10,7 @@
   -o-transition: @prop @time @ease;
   -ms-transition: @prop @time @ease;
   transition: @prop @time @ease;
+  will-change: @prop;
 }
 .transition-properties(...) {
   @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
@@ -17,10 +18,19 @@
   -moz-transition-property: @props;
   -o-transition-property: @props;
   transition-property: @props;
+  will-change: @props;
+  .transition-duration();
+  .transition-easing();
 }
 .transition-duration(@duration: @default-transition-duration) {
   -moz-transition-duration: @duration;
   -webkit-transition-duration: @duration;
   -o-transition-duration: @duration;
   transition-duration: @duration;
+}
+.transition-easing(@easing: @default-transition-easing) {
+    -moz-transition-easing: @easing;
+    -webkit-transition-easing: @easing;
+    -o-transition-easing: @easing;
+    transition-easing: @easing;
 }

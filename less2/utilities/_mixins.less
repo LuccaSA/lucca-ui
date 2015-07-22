@@ -1,0 +1,30 @@
+/**
+ * Shadows
+ * --------------------------------------------------------------------------- */
+
+.lui_no_shadows() {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.lui_drop_shadow(@x-axis: @lui_defaults-shadow-width, @y-axis: @lui_defaults-shadow-height, @blur: @lui_defaults-shadow-blur, @spread: @lui_defaults-shadow-spread, @color: @lui_defaults-shadow-color) {
+  -webkit-box-shadow: @x-axis @y-axis @blur @spread @color;
+  -moz-box-shadow: @x-axis @y-axis @blur @spread @color;
+  box-shadow: @x-axis @y-axis @blur @spread @color;
+}
+.lui_inner_shadow(@horizontal: @lui_defaults-shadow-width, @vertical: @lui_defaults-shadow-height, @blur: @lui_defaults-shadow-blur, @spread: @lui_defaults-shadow-spread, @color: @lui_defaults-shadow-color) {
+  -webkit-box-shadow: inset @horizontal @vertical @blur @spread @color;
+  -moz-box-shadow: inset @horizontal @vertical @blur @spread @color;
+  box-shadow: inset @horizontal @vertical @blur @spread @color;
+}
+
+/**
+ * Border radius
+ * --------------------------------------------------------------------------- */
+ .lui_rounded() {
+     .lui_border_radius();
+ }
+.lui_border_radius(@topleft: @lui_defaults-border_radius, @topright: @topleft, @bottomright: @topleft, @bottomleft: @topleft) {
+  border-radius: @topleft @topright @bottomright @bottomleft;
+  background-clip: padding-box;
+}

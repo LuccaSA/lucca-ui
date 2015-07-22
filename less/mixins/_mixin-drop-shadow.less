@@ -5,6 +5,7 @@
 @default-drop-shadow-y: 3px;
 @default-drop-shadow-blur: 5px;
 @default-drop-shadow-color: rgba(0, 0, 0, 0.1);
+@default-drop-shadow-spread: 0;
 
 .no-shadow {
   -webkit-box-shadow: none;
@@ -16,8 +17,8 @@
   -moz-box-shadow: @x-axis @y-axis @blur @color;
   box-shadow: @x-axis @y-axis @blur @color;
 }
-.inner-shadow(@horizontal: @default-drop-shadow-x, @vertical: @default-drop-shadow-y, @blur: @default-drop-shadow-blur, @color: @default-drop-shadow-color) {
-  -webkit-box-shadow: inset @horizontal @vertical @blur @color;
-  -moz-box-shadow: inset @horizontal @vertical @blur @color;
-  box-shadow: inset @horizontal @vertical @blur @color;
+.inner-shadow(@horizontal: @default-drop-shadow-x, @vertical: @default-drop-shadow-y, @blur: @default-drop-shadow-blur, @spread: @default-drop-shadow-spread, @color: @default-drop-shadow-color) {
+  -webkit-box-shadow: @horizontal @vertical @blur @spread @color inset;
+  -moz-box-shadow: inset @horizontal @vertical @blur @spread @color inset;
+  box-shadow: inset @horizontal @vertical @blur @spread @color inset;
 }
