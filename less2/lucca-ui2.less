@@ -1,14 +1,100 @@
 @import "_variables.defaults.less";
 
-/**
- * Utilities
- * --------------------------------------------------------------------------- */
+/** ---------------------------------------------------------------------------
+ * ------ UTILITIES
+ * ---------------------------------------------------------------------------- */
 @import "utilities/_mixins";
+@import "utilities/_icon-maker";
+
+
+
+/** ---------------------------------------------------------------------------
+ * ------ DEFINITIONS
+ * ---------------------------------------------------------------------------- */
 
  /**
-  * Elements
+  * Typography
   * --------------------------------------------------------------------------- */
-@import "elements/_icon";
+
+& {
+    @heading-font: @lui_defaults-body_font;
+    @heading-line-height: 1.25em;
+    @heading-v-margin: 1em;
+    @heading-font-weight: normal;
+
+    @size-h1: 2em;
+    @size-h2: 1.75em;
+    @size-h3: 1.5em;
+    @size-h4: 1.25em;
+    @size-h5: 1.1em;
+    @size-h6: 1em;
+
+    @import "definitions/_typography.less";
+}
+
+
+
+/** ---------------------------------------------------------------------------
+ * ------ ELEMENTS
+ * ---------------------------------------------------------------------------- */
+ // These are the elements
+
+ /**
+  * Icon
+  * --------------------------------------------------------------------------- */
+ & {
+     @font_path: "/d/sites/lucca-ui.git/dist/fonts/LuccaIcons";
+     @font_name: "lucca-icons";
+
+     @import "elements/_icon";
+ }
 @import "elements/_link";
-@import "elements/_button";
-@import "elements/_callout";
+
+/**
+ * Button
+ * --------------------------------------------------------------------------- */
+& {
+    @text-transform: normal;
+    @min-height: 1em;
+    @min-width: 3em;
+    @v-padding: @lui_sizes-v_padding;
+    @h-padding: @lui_sizes-h_padding;
+    @v-margin: 0.25em;
+    @h-margin: 0.25em;
+    @text-shadow: none;
+    @border-radius: @lui_defaults-border_radius;
+    @small: @lui_sizes-small;
+    @regular: @lui_sizes-regular;
+    @large: @lui_sizes-large;
+    @x-large: @lui_sizes-x-large;
+
+    @import "elements/_button";
+}
+
+/**
+ * Callout
+ * --------------------------------------------------------------------------- */
+
+& {
+    @border-color: @lui_colors-grey_light;
+    @import "elements/_divider";
+}
+
+
+ /**
+  * Callout
+  * --------------------------------------------------------------------------- */
+& {
+    @background: #FFF;
+    @border-color: @lui_colors-grey_light;
+    @border-width: 5px;
+
+    @v-padding: @lui_sizes-v_padding;
+    @h-padding: @lui_sizes-h_padding;
+    @v-margin: 1em;
+    @h-margin: 0;
+
+    @icon-size: 1.5em;
+
+    @import "elements/_callout";
+}

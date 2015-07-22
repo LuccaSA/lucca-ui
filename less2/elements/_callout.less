@@ -1,3 +1,165 @@
-.lui.callout {
 
+/**
+ * Callout
+ * --------------------------------------------------------------------------- */
+
+.lui.callout {
+    display: block;
+    overflow: hidden;
+    // Default style
+    .lui.side-border;
+    .lui_icon_maker(help);
+    .raised();
+    margin: @v-margin @h-margin;
+    border: 1px solid @lui_colors-grey_light;
+    background: @background;
+    padding: @v-padding @h-padding @v-padding (@icon-size + (3 * @h-padding));
+    &:before {
+        position: absolute;
+        top: 50%; left: @h-padding;
+        .lui_transform(translate(0, -50%));
+        font-size: @icon-size;
+
+        // Default style
+        color: @lui_colors-grey;
+    }
+}
+
+// Colors
+// =====
+.lui.callout.success {
+    .lui_icon_maker(check);
+    &:before {
+        color: @lui_colors-success;
+    }
+}
+.lui.callout.warning {
+    .lui_icon_maker(warning);
+    &:before {
+        color: @lui_colors-warning;
+    }
+}
+.lui.callout.error {
+    .lui_icon_maker(error);
+    &:before {
+        color: @lui_colors-error;
+    }
+}
+
+
+/**
+ * Filled style
+ * --------------------------------------------------------------------------- */
+
+ .lui_callout_filled(@bg, @txt) {
+     background-color: @bg;
+     border-color: darken(@bg, 5);
+     color: @txt;
+ }
+
+.lui.callout.fill {
+    .lui_callout_filled(@lui_colors-grey, #FFF);
+    &, &:before, a, button, button:hover {
+        color: #FFF;
+    }
+
+    &.success {
+        .lui_callout_filled(@lui_colors-success, @lui_colors-over_success);
+        &, &:before, a, button {
+            color: @lui_colors-over_success;
+        }
+    }
+    &.warning {
+        .lui_callout_filled(@lui_colors-warning, @lui_colors-over_warning);
+        &, &:before, a, button {
+            color: @lui_colors-over_warning;
+        }
+    }
+    &.error {
+        .lui_callout_filled(@lui_colors-error, @lui_colors-over_error);
+        &, &:before, a, button {
+            color: @lui_colors-over_error;
+        }
+    }
+}
+
+
+/**
+ * Callouts
+ * --------------------------------------------------------------------------- */
+.lui.callouts {
+    > .lui.callout {
+        margin: 0;
+    }
+}
+
+/**
+ * Sideborder
+ * --------------------------------------------------------------------------- */
+
+.lui.side-border {
+    position: relative;
+    box-sizing: border-box;
+    &:after {
+        position: absolute;
+        display: block;
+        content: "";
+    }
+
+    // Position - defaults to left
+    // =====
+    &:after {
+        top: 0; left: 0;
+        width: @border-width;
+        height: 100%;
+    }
+
+    &.top:after {
+        top: 0; left: 0;
+        width: 100%;
+        height: @border-width;
+    }
+    &.right:after {
+        top: 0; left: auto; right: 0;
+        width: @border-width;
+        height: 100%;
+    }
+    &.left:after {
+        top: 0; left: 0;
+        width: @border-width;
+        height: 100%;
+    }
+    &.bottom:after {
+        top: 0; left: 0;
+        width: 100%;
+        height: @border-width;
+    }
+
+    // Colors
+    // =====
+    &:after {
+        background: @lui_colors-grey; // Default is "grey"
+    }
+
+    &.primary:after {
+        background: @lui_colors-primary;
+    }
+    &.secondary:after {
+        background: @lui_colors-secondary;
+    }
+    &.yellow:after {
+        background: @lui_colors-yellow;
+    }
+    &.light:after {
+        background: @lui_colors-grey_light;
+    }
+    &.success:after {
+        background: @lui_colors-success;
+    }
+    &.warning:after {
+        background: @lui_colors-warning;
+    }
+    &.error:after {
+        background: @lui_colors-error;
+    }
 }

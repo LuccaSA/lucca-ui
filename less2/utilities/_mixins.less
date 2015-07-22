@@ -1,4 +1,92 @@
 /**
+ * User select
+ * --------------------------------------------------------------------------- */
+.user_select_none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/**
+ * Transition
+ * --------------------------------------------------------------------------- */
+
+@lui_defaults-transition_duration: 0.2s;
+@lui_defaults-transition_easing: ease-out;
+
+.lui_transition(@prop: all, @time: @lui_defaults-transition_duration, @ease: @lui_defaults-transition_easing) {
+  -webkit-transition: @prop @time @ease;
+  -moz-transition: @prop @time @ease;
+  -o-transition: @prop @time @ease;
+  -ms-transition: @prop @time @ease;
+  transition: @prop @time @ease;
+  will-change: @prop;
+}
+.lui_transition_properties(...) {
+  @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
+  -webkit-transition-property: @props;
+  -moz-transition-property: @props;
+  -o-transition-property: @props;
+  transition-property: @props;
+  will-change: @props;
+  .lui_transition_duration();
+  .lui_transition_easing();
+}
+.lui_transition_duration(@duration: @lui_defaults-transition_duration) {
+  -moz-transition-duration: @duration;
+  -webkit-transition-duration: @duration;
+  -o-transition-duration: @duration;
+  transition-duration: @duration;
+}
+.lui_transition_easing(@easing: @lui_defaults-transition_easing) {
+    -moz-transition-easing: @easing;
+    -webkit-transition-easing: @easing;
+    -o-transition-easing: @easing;
+    transition-easing: @easing;
+}
+
+/**
+ * Opacity
+ * --------------------------------------------------------------------------- */
+
+.lui_opacity(@opacity) {
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  -webkit-opacity: @opacity;
+  opacity: @opacity;
+  @opperc: @opacity * 100;
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+  filter: ~"alpha(opacity=@{opperc})";
+}
+
+
+ /**
+  * Floats
+  * --------------------------------------------------------------------------- */
+
+.lui.pull-left {
+    float: left;
+}
+.lui.pull-right {
+    float: right;
+}
+.lui.clear {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+
+    &:before,
+    &:after {
+        content:"";
+        display:table;
+    }
+    &:after {
+      clear:both;
+    }
+}
+
+/**
  * Shadows
  * --------------------------------------------------------------------------- */
 
@@ -7,15 +95,28 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.lui_drop_shadow(@x-axis: @lui_defaults-shadow-width, @y-axis: @lui_defaults-shadow-height, @blur: @lui_defaults-shadow-blur, @spread: @lui_defaults-shadow-spread, @color: @lui_defaults-shadow-color) {
-  -webkit-box-shadow: @x-axis @y-axis @blur @spread @color;
-  -moz-box-shadow: @x-axis @y-axis @blur @spread @color;
-  box-shadow: @x-axis @y-axis @blur @spread @color;
+.lui_drop_shadow(
+    @x-axis: @lui_defaults-shadow-width,
+    @y-axis: @lui_defaults-shadow-height,
+    @blur: @lui_defaults-shadow-blur,
+    @spread: @lui_defaults-shadow-spread,
+    @color: @lui_defaults-shadow-color) {
+    -webkit-box-shadow: @x-axis @y-axis @blur @spread @color;
+    -moz-box-shadow: @x-axis @y-axis @blur @spread @color;
+    box-shadow: @x-axis @y-axis @blur @spread @color;
 }
-.lui_inner_shadow(@horizontal: @lui_defaults-shadow-width, @vertical: @lui_defaults-shadow-height, @blur: @lui_defaults-shadow-blur, @spread: @lui_defaults-shadow-spread, @color: @lui_defaults-shadow-color) {
-  -webkit-box-shadow: inset @horizontal @vertical @blur @spread @color;
-  -moz-box-shadow: inset @horizontal @vertical @blur @spread @color;
-  box-shadow: inset @horizontal @vertical @blur @spread @color;
+.lui_inner_shadow(
+    @x-axis: @lui_defaults-shadow-width,
+    @y-axis: @lui_defaults-shadow-height,
+    @blur: @lui_defaults-shadow-blur,
+    @spread: @lui_defaults-shadow-spread,
+    @color: @lui_defaults-shadow-color) {
+    -webkit-box-shadow: @x-axis @y-axis @blur @spread @color inset;
+    -moz-box-shadow: @x-axis @y-axis @blur @spread @color inset;
+    box-shadow: @x-axis @y-axis @blur @spread @color inset;
+}
+.raised {
+    .lui_drop_shadow();
 }
 
 /**
@@ -27,4 +128,23 @@
 .lui_border_radius(@topleft: @lui_defaults-border_radius, @topright: @topleft, @bottomright: @topleft, @bottomleft: @topleft) {
   border-radius: @topleft @topright @bottomright @bottomleft;
   background-clip: padding-box;
+}
+
+
+/**
+ * Transform
+ * --------------------------------------------------------------------------- */
+
+.lui_transform(...) {
+    -webkit-transform: @arguments;
+    -moz-transform: @arguments;
+    -o-transform: @arguments;
+    -ms-transform: @arguments;
+    transform: @arguments;
+}
+.lui_rotate(@angle){
+    .transform(rotate(@angle));
+}
+.lui_scale(@ratio){
+    .transform(scale(@ratio));
 }

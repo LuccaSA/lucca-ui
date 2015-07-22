@@ -23,6 +23,7 @@ module.exports = function(grunt) {
                 files: [
                     {
                         "dist/lucca-ui.min.css": "less/lucca-ui.less",
+                        "less2/lucca-ui2.min.css": "less2/lucca-ui2.less",
                         "demo/demo.min.css": "demo/less/demo.less"
                     }
                 ]

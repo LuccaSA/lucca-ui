@@ -1,0 +1,76 @@
+
+/**
+ * Default divider
+ * --------------------------------------------------------------------------- */
+
+.lui.divider {
+    height: 0;
+    letter-spacing: 0.05em;
+
+    .user_select_none;
+}
+.lui.divider:not(.vertical):not(.horizontal):not(h1):not(h2):not(h3):not(h4) {
+    margin: 1rem 0;
+    border-top: 1px solid @border-color;
+}
+
+
+/**
+ * Heading divider
+ * --------------------------------------------------------------------------- */
+
+h1.lui.divider.below,
+h2.lui.divider.below,
+h3.lui.divider.below,
+h4.lui.divider.below,
+h5.lui.divider.below,
+h6.lui.divider.below {
+    height: auto;
+    border-top-width: 0;
+    display: table;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 1em;
+    text-align: center;
+    padding-bottom: 0.2em;
+
+    &:before, &:after {
+        content: "";
+        display: table-cell;
+        width: 50%;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGhlaWdodD0iMSIgd2lkdGg9IjEwMCUiPg0KICA8bGluZSB4MT0iMCIgeTE9IjAiIHgyPSIxMDAlIiB5Mj0iMCIgc3R5bGU9InN0cm9rZTpyZ2JhKDUwLDUwLDUwLC41KTtzdHJva2Utd2lkdGg6MSIgLz4NCjwvc3ZnPg0K);
+        background-repeat: no-repeat;
+    }
+    &:before {
+        margin-right: 0.5em;
+        background-position: right 1em top 50%;
+    }
+    &:after {
+        margin-left: 0.5em;
+        background-position: left 1em top 50%;
+    }
+
+    .lui.icon {
+        margin: 0.5em;
+    }
+}
+h1.lui.divider:not(.below),
+h2.lui.divider:not(.below),
+h3.lui.divider:not(.below),
+h4.lui.divider:not(.below),
+h5.lui.divider:not(.below),
+h6.lui.divider:not(.below) {
+    height: auto;
+    border-top-width: 0;
+
+    border-bottom: 1px solid @lui_colors-grey_light;
+    padding-bottom: 0.5em;
+}
+
+ /**
+  * Horizontal divider
+  * --------------------------------------------------------------------------- */
+
+.lui.horizontal.divider {
+
+}

@@ -1,0 +1,76 @@
+// Awesome icon factory
+// =====
+@lui_icons-icon_plus: "a";
+@lui_icons-icon_add-user: "b";
+@lui_icons-icon_analytics: "c";
+@lui_icons-icon_chevron-e: "d";
+@lui_icons-icon_chevron-n: "e";
+@lui_icons-icon_chevron-s: "f";
+@lui_icons-icon_chevron-w: "g";
+@lui_icons-icon_attachment: "h";
+@lui_icons-icon_blocks: "i";
+@lui_icons-icon_branch: "j";
+@lui_icons-icon_breaktime: "k";
+@lui_icons-icon_check: "l";
+@lui_icons-icon_checkbox: "m";
+@lui_icons-icon_checkbox-checked: "n";
+@lui_icons-icon_clock: "o";
+@lui_icons-icon_close: "p";
+@lui_icons-icon_datepicker: "q";
+@lui_icons-icon_download: "r";
+@lui_icons-icon_edit: "s";
+@lui_icons-icon_edit-frame: "t";
+@lui_icons-icon_edit-mini: "u";
+@lui_icons-icon_ellipsis: "v";
+@lui_icons-icon_error: "w";
+@lui_icons-icon_files: "x";
+@lui_icons-icon_filter: "y";
+@lui_icons-icon_email: "Z";
+@lui_icons-icon_pin: "A";
+@lui_icons-icon_help: "B";
+@lui_icons-icon_list: "D";
+@lui_icons-icon_lock: "E";
+@lui_icons-icon_forbidden: "F";
+@lui_icons-icon_minimize: "G";
+@lui_icons-icon_move: "H";
+@lui_icons-icon_move-h: "I";
+@lui_icons-icon_move-v: "J";
+@lui_icons-icon_notification: "K";
+@lui_icons-icon_outside: "L";
+@lui_icons-icon_camera: "M";
+@lui_icons-icon_print: "N";
+@lui_icons-icon_refresh: "O";
+@lui_icons-icon_remove-user: "P";
+@lui_icons-icon_drag: "Q";
+@lui_icons-icon_search: "R";
+@lui_icons-icon_send: "S";
+@lui_icons-icon_send-to-user: "T";
+@lui_icons-icon_settings: "U";
+@lui_icons-icon_comment: "V";
+@lui_icons-icon_timer: "W";
+@lui_icons-icon_trash: "X";
+@lui_icons-icon_unlock: "Y";
+@lui_icons-icon_upload: "Z";
+@lui_icons-icon_user: "0";
+@lui_icons-icon_warning: "1";
+
+.lui_icon_maker_base(@letter) {
+   font-family: "lucca-icons";
+   display: inline-block;
+   vertical-align: middle;
+   content: @letter;
+}
+.lui_icon_maker(@iconName, @position: left) when (@position = left) {
+   @letter: "lui_icons-icon_@{iconName}";
+   &:before {
+       .lui_icon_maker_base(@@letter);
+       margin-right: 0.5em;
+   }
+}
+.lui_icon_maker(@iconName, @position: left) when (@position = right) {
+   @letter: "lui_icons-icon_@{iconName}";
+   &:after {
+       .lui_icon_maker_base(@@letter);
+       margin-left: 0.5em;
+   }
+}
