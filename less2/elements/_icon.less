@@ -17,7 +17,7 @@
  * Icons
  * --------------------------------------------------------------------------- */
 
-.lui.icon {
+.lui_icon_base() {
     font-family: "lucca-icons";
     font-style: normal;
     font-weight: normal;
@@ -39,17 +39,25 @@
 }
 
 i.lui.icon {
+    .lui_icon_base();
     display: inline-block;
     vertical-align: middle;
 }
 
 [lui-icon] {
-    .lui.icon;
+    .lui_icon_base();
     display: inline-block;
     &:before {
         content: attr(lui-icon);
     }
 }
+
+// Button with only an icon
+// =====
+.lui.button.icon {
+    .lui_icon_base();
+}
+
 
 // Icon classes
 // =====

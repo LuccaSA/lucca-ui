@@ -8,7 +8,7 @@
 	<!--
 	<link rel="stylesheet" href="../dist/lucca-ui.min.css"/>
 	!-->
-
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
 </head>
 <body>
@@ -21,7 +21,7 @@
 
 <section id="main-content" class="container">
 	<h1>Lucca UI</h1>
-	<p class="sub-heading">DOCUMENTATION - Getting up and running with the framework</p>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
 	<div class="lui callout warning">
 		<p>
@@ -31,9 +31,39 @@
 		</p>
 	</div>
 
+	<article id="typography">
+		<h4 class="lui divider">Lucca's less framework <span class="lui sub heading">Introduction</span></h4>
+		<p>
+			Semantics (from Ancient Greek: σημαντικός sēmantikós, "significant")[1][2] is the study of meaning. It focuses on the relation between signifiers, like words, phrases, signs, and symbols, and what they stand for; their denotation. Linguistic semantics is the study of meaning that is used for understanding human expression through language. Other forms of semantics include the semantics of programming languages, formal logics, and semiotics. In international scientific vocabulary semantics is also called semasiology.
+		</p>
+		<h5>Semiasology, sounds complicated</h5>
+		<p>
+			The word <a href="#">semantics</a> itself denotes a range of ideas—from the popular to the highly technical. It is often used in ordinary language for denoting a problem of understanding that comes down to word selection or connotation. This problem of understanding has been the subject of many formal enquiries, over a long period of time, especially in the field of formal semantics. In linguistics, it is the study of the interpretation of signs or symbols used in agents or communities within particular circumstances and contexts.[3] Within this view, sounds, facial expressions, body language, and proxemics have semantic (meaningful) content, and each comprises several branches of study. In written language, things like paragraph structure and punctuation bear semantic content; other forms of language bear other semantic content.[3]
+		</p>
+		<p>
+			The formal study of semantics intersects with many other fields of inquiry, including lexicology, syntax, pragmatics, etymology and others. Independently, semantics is also a well-defined field in its own right, often with synthetic properties.[4] In the philosophy of language, semantics and reference are closely connected. Further related fields include philology, communication, and semiotics. The formal study of semantics can therefore be manifold and complex.
+		</p>
+		<p>
+			Semantics contrasts with syntax, the study of the combinatorics of units of a language (without reference to their meaning), and pragmatics, the study of the relationships between the symbols of a language, their meaning, and the users of the language.[5] Semantics as a field of study also has significant ties to various representational theories of meaning including truth theories of meaning, coherence theories of meaning, and correspondence theories of meaning. Each of these is related to the general philosophical study of reality and the representation of meaning.
+		</p>
+
+		<div class="lui block raised round">
+			<header class="header">
+				<h4>This is a building block</h4>
+			</header>
+			<img src="" alt="" />
+			<footer class="footer">
+				<small>I'm so cute!</small>
+			</footer>
+		</div>
+	</article>
+
 	<article id="lui-button">
 		<h2 class="lui divider below">Buttons</h2>
-		<h4 class="lui divider">Button styles:</h4>
+
+		<div class="lui divider">
+			<h4 class="lui underline">4 button styles</h4>
+		</div>
 		<button class="lui button"><i class="lui icon edit"></i>Default</button>
 		<button class="lui button flat">Flat</button>
 		<button class="lui button wired">Wired</button>
@@ -42,11 +72,10 @@
 			<button class="lui button inverted">Inverted</button>
 		</div>
 
-		<p>
-			Flat style is cook in a paragraph, <button class="lui button flat">just like this</button>
-		</p>
 
-		<h4>Icon support</h4>
+		<div class="lui divider">
+			<h4 class="lui underline">Icon support</h4>
+		</div>
 		<p>
 			Only icon: <button class="lui button icon add-user"></button>
 			Icon (left) + text: <button class="lui button"><i class="lui icon add-user"></i>Add user</button>
@@ -63,7 +92,9 @@
 		<button class="lui button wired secondary">Take a picture<i class="lui icon camera right"></i></button>
 		<button class="lui button error disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
 
-		<h4>Button colors:</h4>
+		<div class="lui divider">
+			<h4 class="lui underline">Button colors</h4>
+		</div>
 		<button class="lui button primary">Primary</button>
 		<button class="lui button secondary">Secondary</button>
 		<button class="lui button yellow">Yellow (Lucca's color)</button>
@@ -73,7 +104,9 @@
 		<button class="lui button warning">Warning</button>
 		<button class="lui button success">Success</button>
 
-		<h4>Various examples:</h4>
+		<div class="lui divider">
+			<h4 class="lui underline">Various button examples</h4>
+		</div>
 		<button class="lui button wired success">Wired - Secondary</button>
 		<button class="lui button fill success">Fill - Success</button>
 
@@ -83,13 +116,17 @@
 			<button class="lui button wired inverted light">Inverted - Wired - Light</button>
 		</div>
 
-		<h4>Button sizes</h4>
+		<div class="lui divider">
+			<h4 class="lui underline">Button sizes</h4>
+		</div>
 		<button class="lui button small">Small</button>
 		<button class="lui button">Default</button>
 		<button class="lui button large">Large</button>
 		<button class="lui button x-large">X-large</button>
 
-		<h4>Button groups</h4>
+		<div class="lui divider">
+			<h4 class="lui underline">Buttons - button groups!</h4>
+		</div>
 		<nav class="lui buttons">
 			<button class="lui button icon add-user"></button>
 			<button class="lui button icon comment"></button>
@@ -357,6 +394,27 @@
 		</ul>
 	</article>
 
+	<article id="lui-input">
+		<h2 class="lui divider below">Inputs</h2>
+
+		<div class="lui input icon">
+			<i class="lui icon user"></i><!--
+		!--><input type="text" placeholder="First name" class="lui input">
+		</div>
+		<div class="lui input has addon">
+			<i class="lui addon icon user"></i><!--
+		!--><input type="text" placeholder="Surname" class="lui input">
+		</div>
+		<div class="lui input has addon right">
+			<input type="text" placeholder="Last name" class="lui input"><!--
+		!--><i class="lui addon icon user"></i>
+		</div>
+		<div class="lui input has addons">
+			<span class="lui addon">https://</span><!--
+		!--><input type="text" placeholder="your-domain" class="lui input"><!--
+		!--><span class="lui addon">.com</span>
+		</div>
+	</article>
 	<article id="lui-callout">
 		<h2 class="lui divider below">Callouts</h2>
 		<div class="lui callout">

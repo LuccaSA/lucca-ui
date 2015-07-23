@@ -1,5 +1,19 @@
 
 /**
+ * General
+ * --------------------------------------------------------------------------- */
+body {
+    font-family: @font-family;
+    color: @color;
+    line-height: @line-height;
+    font-size: @font-size;
+}
+
+small {
+    font-size: @lui_sizes-small;
+}
+
+/**
  * Headings
  * --------------------------------------------------------------------------- */
 
@@ -12,29 +26,50 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: @size-h1;
+    font-size: @h1-size;
+    font-weight: @h1-weight;
 }
 h2 {
-    font-size: @size-h2;
+    font-size: @h2-size;
+    font-weight: @h2-weight;
 }
 h3 {
-    font-size: @size-h3;
+    font-size: @h3-size;
+    font-weight: @h3-weight;
 }
 h4 {
-    font-size: @size-h4;
+    font-size: @h4-size;
+    font-weight: @h4-weight;
 }
 h5 {
-    font-size: @size-h5;
+    font-size: @h5-size;
+    font-weight: @h5-weight;
 }
 h6 {
-    font-size: @size-h6;
+    font-size: @h6-size;
+    font-weight: @h6-weight;
+}
+
+.lui.sub.heading {
+    letter-spacing: normal;
+    color: lighten(@color, 15);
 }
 
 h1, h2, h3, h4, h5, h6 {
+    // Sub heading
+    // =====
+    .lui.sub.heading {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 0.9rem;
+    }
+
+    // Icon support
+    // =====
     .lui.icon {
         margin-right: 1em;
         vertical-align: top;
-        font-size: @lui_sizes-small;
+        font-size: @icon-size;
 
         &.right {
             margin-left: 1em;
@@ -44,9 +79,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+
 /**
  * Body copy
  * --------------------------------------------------------------------------- */
+
+.lui.uppercase {
+    text-transform: uppercase;
+}
+.lui.capitalize {
+    text-transform: capitalize;
+}
+.lui.capitalize.first.word {
+    text-transform: none;
+    &:first-letter {
+        text-transform: capitalize;
+    }
+}
+
 
 .lui.body-copy {
     h1:first-child,

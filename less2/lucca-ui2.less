@@ -13,21 +13,47 @@
  * ---------------------------------------------------------------------------- */
 
  /**
+  * Block - your basic everyday building block
+  * --------------------------------------------------------------------------- */
+
+& {
+    @raised-shadow: @lui_defaults-raised_shadow;
+    @border: @lui_defaults-border;
+    @border-inverted: @lui_defaults-border-inverted;
+    @border-radius: @lui_defaults-border_radius;
+
+    @import "elements/_block";
+}
+
+ /**
   * Typography
   * --------------------------------------------------------------------------- */
 
 & {
-    @heading-font: @lui_defaults-body_font;
+    @font-size: 14px;
+    @font-family: @lui_defaults-body_font;
+    @color: @lui_defaults-text_color;
+    @line-height: 1.4em;
+
+    @heading-font: @font-family;
     @heading-line-height: 1.25em;
-    @heading-v-margin: 1em;
+    @heading-v-margin: 0;
     @heading-font-weight: normal;
 
-    @size-h1: 2em;
-    @size-h2: 1.75em;
-    @size-h3: 1.5em;
-    @size-h4: 1.25em;
-    @size-h5: 1.1em;
-    @size-h6: 1em;
+    @h1-size: 3em;
+    @h1-weight: 300;
+    @h2-size: 1.75em;
+    @h2-weight: 300;
+    @h3-size: 1.5em;
+    @h3-weight: 400;
+    @h4-size: 1.25em;
+    @h4-weight: 400;
+    @h5-size: 1.1em;
+    @h5-weight: 600;
+    @h6-size: 1em;
+    @h6-weight: 600;
+
+    @icon-size: @lui_sizes-small;
 
     @import "definitions/_typography.less";
 }
@@ -71,12 +97,31 @@
     @import "elements/_button";
 }
 
+
+/**
+ * Input
+ * --------------------------------------------------------------------------- */
+
+& {
+    @border-radius: @lui_defaults-border_radius;
+    @border-color: @lui_colors-grey_light;
+    @color: @lui_colors-grey;
+    @v-padding: @lui_sizes-v_padding;
+    @h-padding: @lui_sizes-h_padding;
+    @placeholder-color: rgba(0, 0, 0, 0.5);
+    @placeholder-style: italic;
+
+    @import "elements/_input";
+}
+
+
 /**
  * Callout
  * --------------------------------------------------------------------------- */
 
 & {
     @border-color: @lui_colors-grey_light;
+    @divider-weight: 1px;
     @import "elements/_divider";
 }
 

@@ -1,0 +1,126 @@
+
+/**
+ * Inputs
+ * --------------------------------------------------------------------------- */
+
+.lui.input {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    display: inline-flex; // modern browsers
+}
+.lui.input > input {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: @border-radius;
+    border: 1px solid @border-color;
+    background: #fff;
+    color: @color;
+    padding: @v-padding @h-padding;
+
+    &:focus, &:active {
+        outline: none;
+        border-color: darken(@border-color, 10);
+    }
+}
+
+// Placeholders
+// =====
+.lui.input input::-webkit-input-placeholder {
+    line-height: 1em;
+    color: @placeholder-color;
+    font-style: @placeholder-style;
+}
+.lui.input input::-moz-placeholder {
+    line-height: 1em;
+    color: @placeholder-color;
+    font-style: @placeholder-style;
+}
+.lui.input input::-ms-input-placeholder {
+    line-height: 1em;
+    color: @placeholder-color;
+    font-style: @placeholder-style;
+}
+
+// Icon support
+// =====
+.lui.input.icon {
+    > input {
+        padding-left: 2.5em;
+    }
+    .lui.icon {
+        position: absolute;
+        z-index: 2;
+        top: 0; bottom: 0;
+        height: 100%;
+        left: 0;
+        width: 2.5em;
+        margin-right: 0.5em;
+        &:before {
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+        }
+    }
+    &.left {
+        > input {
+            padding-left: 0;
+            padding-right: 2.5em;
+        }
+        .lui.icon {
+            left: auto; right: 0;
+            margin-right: 0;
+            margin-left: 0.5em;
+        }
+    }
+}
+
+// Addons
+// =====
+.lui.input.has.addon,
+.lui.input.has.addons {
+    > .lui.addon {
+        display: inline-block;
+        vertical-align: middle;
+        border: 1px solid @border-color;
+        padding: @v-padding @h-padding;
+        background: @border-color;
+    }
+
+    &:not(.right) .lui.addon,
+    &.addons .lui.addon:first-child {
+        border-radius: @border-radius 0 0 @border-radius;
+    }
+
+    &:not(.right) > input {
+        border-radius: 0 @border-radius @border-radius 0;
+    }
+
+    &.right .lui.addon,
+    &.addons .lui.addon:last-child {
+        border-radius: 0 @border-radius @border-radius 0;
+    }
+    &.right > input {
+        border-radius: @border-radius 0 0 @border-radius;
+    }
+
+    &.addons > input {
+        border-radius: 0;
+    }
+}
+
+// Sizes support
+// =====
+.lui.input.small {
+    font-size: @lui_sizes-small;
+}
+.lui.input.regular {
+    font-size: @lui_sizes-regular;
+}
+.lui.input.large {
+    font-size: @lui_sizes-large;
+}
+.lui.input.x-large {
+    font-size: @lui_sizes-x-large;
+}

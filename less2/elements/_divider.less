@@ -4,14 +4,11 @@
  * --------------------------------------------------------------------------- */
 
 .lui.divider {
-    height: 0;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.025em;
+    border: none; // reset
 
-    .user_select_none;
-}
-.lui.divider:not(.vertical):not(.horizontal):not(h1):not(h2):not(h3):not(h4) {
     margin: 1rem 0;
-    border-top: 1px solid @border-color;
+    border-bottom: @divider-weight solid @border-color;
 }
 
 
@@ -19,12 +16,20 @@
  * Heading divider
  * --------------------------------------------------------------------------- */
 
-h1.lui.divider.below,
-h2.lui.divider.below,
-h3.lui.divider.below,
-h4.lui.divider.below,
-h5.lui.divider.below,
-h6.lui.divider.below {
+ h1.lui.divider,
+ h2.lui.divider,
+ h3.lui.divider,
+ h4.lui.divider,
+ h5.lui.divider,
+ h6.lui.divider {
+     margin: 1em 0;
+ }
+ h1.lui.divider.below,
+ h2.lui.divider.below,
+ h3.lui.divider.below,
+ h4.lui.divider.below,
+ h5.lui.divider.below,
+ h6.lui.divider.below {
     height: auto;
     border-top-width: 0;
     display: table;
@@ -33,6 +38,7 @@ h6.lui.divider.below {
     line-height: 1em;
     text-align: center;
     padding-bottom: 0.2em;
+    border: none;
 
     &:before, &:after {
         content: "";
@@ -54,6 +60,7 @@ h6.lui.divider.below {
         margin: 0.5em;
     }
 }
+
 h1.lui.divider:not(.below),
 h2.lui.divider:not(.below),
 h3.lui.divider:not(.below),
@@ -63,9 +70,25 @@ h6.lui.divider:not(.below) {
     height: auto;
     border-top-width: 0;
 
-    border-bottom: 1px solid @lui_colors-grey_light;
+    border-bottom: @divider-weight solid @lui_colors-grey_light;
     padding-bottom: 0.5em;
 }
+
+// Underline
+// =====
+.lui.divider h1.underline,
+.lui.divider h2.underline,
+.lui.divider h3.underline,
+.lui.divider h4.underline,
+.lui.divider h5.underline,
+.lui.divider h6.underline {
+    display: inline-block;
+
+    border-bottom: @lui_defaults-larger_border solid @lui_colors-grey;
+    padding-bottom: 0.5em;
+    margin-bottom: -@divider-weight;
+}
+
 
  /**
   * Horizontal divider
