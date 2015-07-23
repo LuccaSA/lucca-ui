@@ -23,7 +23,6 @@
   -o-transition: @prop @time @ease;
   -ms-transition: @prop @time @ease;
   transition: @prop @time @ease;
-  will-change: @prop;
 }
 .lui_transition_properties(...) {
   @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
@@ -31,7 +30,6 @@
   -moz-transition-property: @props;
   -o-transition-property: @props;
   transition-property: @props;
-  will-change: @props;
   .lui_transition_duration();
   .lui_transition_easing();
 }
