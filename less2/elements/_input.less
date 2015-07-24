@@ -8,6 +8,11 @@
     display: inline-block;
     vertical-align: middle;
     display: inline-flex; // modern browsers
+
+    > .addon, > input {
+        display: inline-block;
+        flex: auto;
+    }
 }
 .lui.input > input {
     display: inline-block;
@@ -175,11 +180,10 @@
 
         &:before {
             color: #FFF;
-            //text-shadow: 0 0 2px @border-color;
-            //box-shadow: 0 0 0 1px @border-color;
         }
 
         &:after {
+            font-size: 0.8em;
             z-index: 3;
             color: @lui_colors-primary;
             opacity: 0;

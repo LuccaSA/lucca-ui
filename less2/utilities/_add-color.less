@@ -6,6 +6,10 @@
     .lui.callout.@{name} {
         .lui_callout_coloring_handler(@color, @txt-over);
     }
+
+    .lui.menu.@{name} {
+        .lui_callout_coloring_handler(@color);
+    }
 }
 
 
@@ -79,6 +83,19 @@
     // ====
     &.status.ok:after, &.status.failure:after {
         color: @txt-over;
+    }
+}
+
+
+/**
+ * Menu
+ * --------------------------------------------------------------------------- */
+.lui_callout_coloring_handler(@color) {
+    > ul > li > a {
+        &:active:after, &.active:after,
+        &:active:before, &.active:before {
+            background-color: @color;
+        }
     }
 }
 

@@ -124,6 +124,9 @@
 		<div class="lui divider">
 			<h4 class="lui underline">Button status</h4>
 		</div>
+		<p>
+
+		</p>
 		<button class="lui button large status loading">Loading</button>
 		<button class="lui button large has addon status loading"><i class="lui addon icon send"></i>Loading</button>
 		<button class="lui button large status ok">OK</button>
@@ -426,9 +429,19 @@
 		!--><span class="lui addon">.com</span>
 		</div>
 
+		<div class="lui divider">
+			<h4 class="lui underline">Fancy checkbox</h4>
+		</div>
 		<div class="lui input checkbox">
 			<input type="checkbox" checked />
 			<label></label>
+		</div>
+		<div class="lui input has addon">
+			<div class="lui addon input checkbox">
+				<input type="checkbox" checked />
+				<label></label>
+			</div><!--
+		!--><input type="text" placeholder="Surname" class="lui input">
 		</div>
 
 		<div class="lui divider">
@@ -470,7 +483,7 @@
 	<article id="lui-menu">
 		<h2 class="lui divider below">Menus</h2>
 
-		<nav class="lui menu">
+		<nav class="lui menu align center">
 			<ul>
 				<li>
 					<a href="#" class="active">I am</a>
@@ -483,7 +496,7 @@
 				</li>
 			</ul>
 		</nav>
-		<nav class="lui menu vertical" style="width: 250px;">
+		<nav class="lui menu vertical success" style="width: 250px;float:left;">
 			<ul>
 				<li>
 					<a href="#" class="active">And I am</a>
@@ -496,7 +509,21 @@
 				</li>
 			</ul>
 		</nav>
-		<nav class="lui menu justified">
+		<nav class="lui menu vertical right warning" style="width: 250px;float:right;">
+			<ul>
+				<li>
+					<a href="#" class="active">And I am</a>
+				</li>
+				<li>
+					<a href="#">vertical</a>
+				</li>
+				<li>
+					<a href="#">Sike!</a>
+				</li>
+			</ul>
+		</nav>
+		<br style="clear:both">
+		<nav class="lui menu justified bottom">
 			<ul>
 				<li>
 					<a href="#" class="active"><span>Justification</span></a>

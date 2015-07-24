@@ -12,9 +12,12 @@
 
     a {
         .lui_unstyled_links();
+    }
+
+    > ul > li > a {
         display: block;
         padding: 1em;
-        &:after {
+        &:after, &:before {
             display: block;
             content: "";
         }
@@ -22,35 +25,55 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        &:hover:after {
+        &:hover:after, &:hover:before {
             background-color: @divider-color;
         }
-        &:active:after, &.active:after {
+        &:active:after, &.active:after,
+        &:active:before, &.active:before {
             background-color: @active-border-color;
         }
     }
 }
 
 .lui.menu:not(.vertical), .lui.menu.horizontal {
-    border-bottom: @divider-width solid @divider-color;
 
     > ul > li {
         display: inline-block;
-        > a {
+    }
+
+    &:not(.bottom) > ul > li > a:after,
+    &.bottom > ul > li > a:before {
+        height: @active-border-width;
+        width: 0;
+        .lui_transition_properties(background-color, width);
+    }
+    &:not(.bottom) > ul > li > a:hover:after,
+    &:not(.bottom) > ul > li > a:active:after,
+    &:not(.bottom) > ul > li > a.active:after,
+    &.bottom > ul > li > a:hover:before,
+    &.bottom > ul > li > a:active:before,
+    &.bottom > ul > li > a.active:before {
+        width: 100%;
+    }
+
+    &:not(.bottom) {
+        border-bottom: @divider-width solid @divider-color;
+
+        > ul > li > a {
             padding-bottom: 0;
-
             &:after {
-                height: @active-border-width;
-                width: 0;
                 margin: 1em auto -@divider-width auto;
-                .lui_transition_properties(background-color, width);
             }
+        }
+    }
 
-            &:hover:after {
-                width: 100%;
-            }
-            &:active:after, &.active:after {
-                width: 100%;
+    &.bottom {
+        border-top: @divider-width solid @divider-color;
+
+        > ul > li > a {
+            padding-top: 0;
+            &:before {
+                margin: -@divider-width auto 1em auto;
             }
         }
     }
