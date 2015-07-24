@@ -72,7 +72,6 @@
 			<button class="lui button inverted">Inverted</button>
 		</div>
 
-
 		<div class="lui divider">
 			<h4 class="lui underline">Icon support</h4>
 		</div>
@@ -84,6 +83,7 @@
 		<p>
 			<b>Icon addon:</b> <button class="lui button has addon"><i class="lui addon icon send"></i>Send message</button>
 			<button class="lui button wired primary has addon"><i class="lui addon icon send"></i>Send message</button>
+			<button class="lui button fill secondary has addon right">Add user<i class="lui addon icon add-user"></i></button>
 		</p>
 
 		<b>With different styles:</b>
@@ -123,6 +123,16 @@
 		<button class="lui button">Default</button>
 		<button class="lui button large">Large</button>
 		<button class="lui button x-large">X-large</button>
+
+		<div class="lui divider">
+			<h4 class="lui underline">Button status</h4>
+		</div>
+		<button class="lui button large status loading">Loading</button>
+		<button class="lui button large has addon status loading"><i class="lui addon icon send"></i>Loading</button>
+		<button class="lui button large status ok">OK</button>
+		<button class="lui button large has addon status ok"><i class="lui addon icon send"></i>OK</button>
+		<button class="lui button large status failure">Argh!</button>
+		<button class="lui button large has addon status failure"><i class="lui addon icon send"></i>Argh!</button>
 
 		<div class="lui divider">
 			<h4 class="lui underline">Buttons - button groups!</h4>
@@ -178,7 +188,11 @@
 		</p>
 		<h5>List of all available icons</h5>
 		<ul class="icon-list lucca-input-group">
-		    <li>
+			<li>
+		        <i class="lui icon loader"></i>
+		        <input type="text" readonly="readonly" value="loader">
+		    </li><li>
+			<li>
 		        <i class="lui icon plus"></i>
 		        <input type="text" readonly="readonly" value="plus">
 		        <input type="text" readonly="readonly" value="a">
@@ -419,7 +433,7 @@
 		<h2 class="lui divider below">Callouts</h2>
 		<div class="lui callout">
 			<p>
-				<b>Default</b> - This is just a regular callout. <a href="#" class="dismiss">Learn more</a>
+				<b>Default</b> - This is just a regular callout. <a href="#" class="lui button flat">Learn more</a>
 			</p>
 		</div>
 		<div class="lui callout fill error">
@@ -433,11 +447,55 @@
 		</p>
 
 		<p class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
-			<span class="lui callout fill error">Error!<button class="dismiss">Dismiss</button></span>
-			<span class="lui callout fill success">Success<button class="dismiss">Dismiss</button></span>
-			<span class="lui callout fill warning">Achtung!<button class="dismiss">Dismiss</button></span>
-			<span class="lui callout fill">Fair enough...<button class="dismiss">Dismiss</button></span>
+			<span class="lui callout fill error">Error!<button class="lui button flat">Dismiss</button></span>
+			<span class="lui callout fill success">Success<button class="lui button flat">Dismiss</button></span>
+			<span class="lui callout fill warning">Achtung!<button class="lui button flat">Dismiss</button></span>
+			<span class="lui callout fill grey">Fair enough...<button class="lui button flat">Dismiss</button></span>
 		</p>
+	</article>
+
+	<article id="lui-menu">
+		<h2 class="lui divider below">Menus</h2>
+
+		<nav class="lui menu">
+			<ul>
+				<li>
+					<a href="#" class="active">I am</a>
+				</li>
+				<li>
+					<a href="#">horizontal</a>
+				</li>
+				<li>
+					<a href="#">mate!</a>
+				</li>
+			</ul>
+		</nav>
+		<nav class="lui menu vertical" style="width: 250px;">
+			<ul>
+				<li>
+					<a href="#" class="active">And I am</a>
+				</li>
+				<li>
+					<a href="#">vertical</a>
+				</li>
+				<li>
+					<a href="#">Sike!</a>
+				</li>
+			</ul>
+		</nav>
+		<nav class="lui menu justified">
+			<ul>
+				<li>
+					<a href="#" class="active"><span>Justification</span></a>
+				</li>
+				<li>
+					<a href="#"><span>requires flex support</span></a>
+				</li>
+				<li>
+					<a href="#"><span>unfortunately :(</span></a>
+				</li>
+			</ul>
+		</nav>
 	</article>
 
 	<article id="component-labels" class="component">
@@ -569,66 +627,6 @@
 			</tr>
 			</tbody>
 		</table>
-	</article>
-
-	<article id="component-tabs" class="component">
-		<h2>Tabs</h2>
-		<p><code>class="lucca-tabs"</code></p>
-		<nav class="lucca-tabs">
-			<ul>
-				<li>
-					<a href="#" class="active">Tab 01</a>
-				</li>
-				<li>
-					<a href="#">Tab 02</a>
-				</li>
-				<li>
-					<a href="#">Tab 03</a>
-				</li>
-			</ul>
-		</nav>
-		<p><code>class="lucca-tabs centered"</code></p>
-		<nav class="lucca-tabs centered">
-			<ul>
-				<li>
-					<a href="#" class="active">Tab 01</a>
-				</li>
-				<li>
-					<a href="#">Tab 02</a>
-				</li>
-				<li>
-					<a href="#">Tab 03</a>
-				</li>
-			</ul>
-		</nav>
-		<p><code>class="lucca-tabs right"</code></p>
-		<nav class="lucca-tabs right">
-			<ul>
-				<li>
-					<a href="#" class="active">Tab 01</a>
-				</li>
-				<li>
-					<a href="#">Tab 02</a>
-				</li>
-				<li>
-					<a href="#">Tab 03</a>
-				</li>
-			</ul>
-		</nav>
-		<p><code>class="lucc-tabs justified"</code></p>
-		<nav class="lucca-tabs justified">
-			<ul>
-				<li>
-					<a href="#" class="active"><span>Tab 01</span></a>
-				</li>
-				<li>
-					<a href="#"><span>Tab 02</span></a>
-				</li>
-				<li>
-					<a href="#"><span>Tab 03</span></a>
-				</li>
-			</ul>
-		</nav>
 	</article>
 
 	<article id="component-vertical-menu" class="component">

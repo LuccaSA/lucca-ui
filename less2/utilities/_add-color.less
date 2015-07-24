@@ -1,0 +1,97 @@
+.lui_add_color(@name, @color, @txt-over) {
+    .lui.button.@{name} {
+        .lui_button_coloring_handler(@color, @txt-over);
+    }
+
+    .lui.callout.@{name} {
+        .lui_callout_coloring_handler(@color, @txt-over);
+    }
+}
+
+
+/**
+ * Button color
+ * --------------------------------------------------------------------------- */
+
+.lui_button_coloring_handler(@color, @txt-over) {
+    // Regular style
+    // =====
+    &:not(.fill):not(.wired):not(.inverted):not(.flat) {
+        background: @color;
+        color: @txt-over;
+        &:hover {
+            background: lighten(@color, 3);
+        }
+        &:active, &.active {
+            background: darken(@color, 3);
+        }
+    }
+
+    // Fill(ed) style
+    // =====
+    &.fill {
+        &:hover {
+            background: @color;
+            color: @txt-over;
+        }
+        &:active, &.active {
+            background: darken(@color, 5);
+        }
+    }
+    // Wired style
+    // Wired + Inverted is not supported
+    // =====
+    &.wired:not(.inverted) {
+        // Regular
+        &:hover,
+        &:active,
+        &.active, {
+            box-shadow: 0 0 0 2px @color inset;
+            color: @color;
+
+            &.has.addon > .addon {
+                border-color: @color;
+            }
+        }
+    }
+    // Inverted style
+    // ====
+    &.inverted {
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        color: #FFF;
+
+        &:hover {
+            box-shadow: 0 0 0 2px @color inset;
+            color:@color;
+        }
+
+        &.fill:hover {
+            color: @txt-over;
+        }
+    }
+}
+
+
+/**
+ * Callout color
+ * --------------------------------------------------------------------------- */
+
+.lui_callout_coloring_handler(@color, @txt-over) {
+    // Regular style
+    // =====
+    &:not(.fill) {
+        &:before {
+            color: @color;
+        }
+    }
+
+    // Fill(ed) style
+    // =====
+    &.fill {
+        background-color: @color;
+        border-color: darken(@color, 5);
+        &, &:before, a, button {
+            color: @txt-over;
+        }
+    }
+}

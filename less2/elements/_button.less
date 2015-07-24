@@ -19,15 +19,15 @@
 
 .lui.button.has.addon {
 	position: relative;
-	padding-left: 3.5em;
-	.lui.addon {
+	> .addon {
 		position: absolute;
 		z-index: 1;
-		left: 0; top: 0; right: 0; bottom: 0;
+		top: 0; bottom: 0;
 		width: 2.5em;
+		height: 100%;
+		margin: 0;
 
 		background: rgba(0, 0, 0, 0.1);
-		border-right: 1px solid rgba(0, 0, 0, 0.2);
 
 		&.icon:before {
 			position: absolute;
@@ -36,7 +36,83 @@
 		}
 		.lui_transition(border);
 	}
+
+	&:not(.right) {
+		padding-left: 3.5em;
+		> .addon {
+			left: 0;
+			border-right: 1px solid rgba(0, 0, 0, 0.2);
+		}
+	}
+
+	&.right {
+		padding-right: 3.5em;
+		> .addon {
+			right: 0;
+			border-left: 1px solid rgba(0, 0, 0, 0.2);
+		}
+	}
 }
+
+
+/**
+ * Loading support
+ * Status support
+ * --------------------------------------------------------------------------- */
+
+// Has addon > update the addon icon
+// ====
+.lui.button.status.has.addon {
+	&.loading > .addon:before {
+		content:"";
+		.lui_loader();
+	}
+
+	&.ok > .addon:before {
+		content: "l";
+	}
+
+	&.failure > .addon:before {
+		content: "F";
+	}
+}
+
+// Else
+// ====
+.lui.button.status:not(.has):not(.addon) {
+	&:after {
+		display: inline-block;
+		vertical-align: middle;
+		content: "";
+
+		opacity: 0;
+		transform: scale(0);
+		.lui_transition_properties(opacity, transform, margin);
+	}
+
+	&.loading:after, &.ok:after, &.failure:after {
+		margin-left: 0.5em;
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	&.loading:after {
+		display: inline-block;
+		vertical-align: middle;
+		content: "";
+
+		.lui_loader();
+	}
+
+	&.ok {
+		.lui_icon_maker(check, right);
+	}
+
+	&.failure {
+		.lui_icon_maker(forbidden, right);
+	}
+}
+
 
 /**
  * Button
@@ -119,6 +195,9 @@
 
  .lui.button {
  	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+
+	// Default coloring
+	.lui_button_coloring_handler(@default-background, @default-color);
  }
 
  .lui.button:not(.wired) {
@@ -130,35 +209,6 @@
  	}
  }
 
- // Flat style
- // =====
-.lui.button.flat {
-	background-color: transparent;
-	color: rgba(50, 50, 50, 0.8);
-	text-decoration: underline;
-	box-shadow: none;
-
-	&:hover, &:active, &.active {
-		background: rgba(0, 0, 0, 0.1);
-		box-shadow: 0 0 0 1px rgba(50, 50, 50, .1);
-	}
-
-	&:hover {
-		background-color: rgba(50, 50, 50, .05);
-	}
-
-	&:active {
-		background-color: rgba(50, 50, 50, 0.1);
-	}
-
-	&:before, &:after {
-		text-decoration: none;
-	}
-
-	&:inverted {
-		color: #FFF;
-	}
-}
 
 // Fill style
 // =====
@@ -201,134 +251,34 @@
 	.lui_button_sizing();
 }
 
-
-/**
- * Button color
- * --------------------------------------------------------------------------- */
-
- .lui.button {
- 	.lui_button_add_color(#FFF, @lui_colors-grey);
- }
-
-.lui_button_add_color(@color, @txt-over) {
-	// Regular style
-	// =====
-	&:not(.fill):not(.wired):not(.inverted):not(.flat) {
-		background: @color;
-		color: @txt-over;
-		&:hover {
-			background: lighten(@color, 3);
-		}
-		&:active, &.active {
-			background: darken(@color, 3);
-		}
-	}
-
-	// Fill(ed) style
-	// =====
-	&.fill {
-		&:hover {
-			background: @color;
-			color: @txt-over;
-		}
-		&:active, &.active {
-			background: darken(@color, 5);
-		}
-	}
-	// Wired style
-	// Wired + Inverted is not supported
-	// =====
-	&.wired:not(.inverted) {
-		// Regular
-		&:hover,
-		&:active,
-		&.active, {
-			box-shadow: 0 0 0 2px @color inset;
-			color: @color;
-
-			&.has.addon > .addon {
-				border-color: @color;
-			}
-		}
-	}
-	// Inverted style
-	// ====
-	&.inverted {
-		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-		color: #FFF;
-
-		&:hover {
-			box-shadow: 0 0 0 2px @color inset;
-			color:@color;
-		}
-
-		&.fill:hover {
-			color: @txt-over;
-		}
-	}
-}
-
-// Default coloring scheme
+// Flat style
 // =====
-.lui_button_default_color_scheme() {
-	// Default style is white
-	background: #FFF;
-	.lui_inner_shadow(0, 0, 0, 1px, @lui_colors-grey_light);
+.lui.button.flat {
+   background-color: transparent;
+   color: rgba(50, 50, 50, 0.8);
+   text-decoration: underline;
+   box-shadow: none;
 
-	color: @lui_link-link_color;
+   &:hover, &:active, &.active {
+	   background: rgba(0, 0, 0, 0.1);
+	   box-shadow: 0 0 0 1px rgba(50, 50, 50, .1);
+   }
 
-	&:hover, &:active, &.active {
-		color: @lui_link-link_color_hover;
-	}
+   &:hover {
+	   background-color: rgba(50, 50, 50, .05);
+   }
 
-}
+   &:active {
+	   background-color: rgba(50, 50, 50, 0.1);
+   }
 
-// Primary color
-// =====
-.lui.button.primary {
-	.lui_button_add_color(@lui_colors-primary, @lui_colors-over_primary);
-}
+   &:before, &:after {
+	   text-decoration: none;
+   }
 
-// Secondary color
-// =====
-.lui.button.secondary {
-	.lui_button_add_color(@lui_colors-secondary, @lui_colors-over_secondary);
-}
-
-// Yellow color
-// =====
-.lui.button.yellow {
-	.lui_button_add_color(@lui_colors-yellow, @lui_colors-over_yellow);
-}
-
-// Grey color
-// =====
-.lui.button.grey {
-	.lui_button_add_color(@lui_colors-grey, #FFF);
-}
-
-// Light color
-// =====
-.lui.button.light {
-	.lui_button_add_color(@lui_colors-grey_light, @lui_colors-grey);
-}
-
-// Error color
-// =====
-.lui.button.error {
-	.lui_button_add_color(@lui_colors-error, @lui_colors-over_error);
-}
-
-// Warning color
-// =====
-.lui.button.warning {
-	.lui_button_add_color(@lui_colors-warning, @lui_colors-over_warning);
-}
-
-// Success color
-// =====
-.lui.button.success {
-	.lui_button_add_color(@lui_colors-success, @lui_colors-over_success);
+   &:inverted {
+	   color: #FFF;
+   }
 }
 
 
@@ -403,13 +353,3 @@
  		border-color: @lui_colors-secondary;
  	}
  }
-
-
-/**
- * Callout - dismiss button
- * --------------------------------------------------------------------------- */
-.lui.callout .dismiss {
-	.lui.button;
-	.lui.button.flat;
-	vertical-align: baseline;
-}

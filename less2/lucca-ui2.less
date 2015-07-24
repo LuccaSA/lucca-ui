@@ -3,9 +3,11 @@
 /** ---------------------------------------------------------------------------
  * ------ UTILITIES
  * ---------------------------------------------------------------------------- */
+@import "utilities/_resets";
 @import "utilities/_mixins";
+@import "utilities/_add-color";
+@import "utilities/_loader";
 @import "utilities/_icon-maker";
-
 
 
 /** ---------------------------------------------------------------------------
@@ -24,6 +26,12 @@
 
     @import "elements/_block";
 }
+/**
+  * Colors
+  * --------------------------------------------------------------------------- */
+
+@import "definitions/_colors.less";
+
 
  /**
   * Typography
@@ -74,7 +82,11 @@
 
      @import "elements/_icon";
  }
+
+
 @import "elements/_link";
+
+
 
 /**
  * Button
@@ -93,6 +105,8 @@
     @regular: @lui_sizes-regular;
     @large: @lui_sizes-large;
     @x-large: @lui_sizes-x-large;
+    @default-background: #FFF;
+    @default-color: @lui_colors-grey;
 
     @import "elements/_button";
 }
@@ -116,15 +130,27 @@
 
 
 /**
- * Callout
+ * Divider
  * --------------------------------------------------------------------------- */
 
 & {
     @border-color: @lui_colors-grey_light;
     @divider-weight: 1px;
+
     @import "elements/_divider";
 }
 
+/**
+ * Menu
+ * --------------------------------------------------------------------------- */
+& {
+    @divider-width: 1px;
+    @divider-color: @lui_colors-grey_light;
+    @active-border-width: 5px;
+    @active-border-color: @lui_colors-primary;
+
+    @import "elements/_menu";
+}
 
  /**
   * Callout
@@ -140,6 +166,11 @@
     @h-margin: 0;
 
     @icon-size: 1.5em;
+
+    @background: #FFF;
+    @color: #FFF;
+    @fill-bg: @lui_colors-grey_light;
+    @fill-txt: @lui_colors-grey;
 
     @import "elements/_callout";
 }

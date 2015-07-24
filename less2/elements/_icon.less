@@ -52,10 +52,33 @@ i.lui.icon {
     }
 }
 
+/**
+ * Loading support
+ * --------------------------------------------------------------------------- */
+
 // Button with only an icon
 // =====
 .lui.button.icon {
     .lui_icon_base();
+}
+.lui.icon.spinner,
+.lui.icon.loader {
+    .lui_loader();
+
+    // Sizes
+    // ====
+    &.small {
+        font-size: @lui_sizes-small;
+    }
+    &.regular {
+        font-size: @lui_sizes-regular;
+    }
+    &.large {
+        font-size: @lui_sizes-large;
+    }
+    &.x-large {
+        font-size: @lui_sizes-x-large;
+    }
 }
 
 
@@ -146,7 +169,7 @@ i.lui.icon {
 // Edit Mini
 .lui.icon.edit-mini:before {
     content: "u";
-    font-size: 0.5em;
+    font-size: @lui_sizes-small;
 }
 // Ellipsis
 .lui.icon.ellipsis:before {
