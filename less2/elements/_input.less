@@ -132,6 +132,36 @@
 
 
 /**
+ * Search input
+ * --------------------------------------------------------------------------- */
+
+.lui.input.search {
+    .lui_icon_maker(search);
+
+    > input {
+        padding-left: 3em;
+    }
+
+    &.searching {
+    	.lui_loader();
+        &:after {
+            margin-left: 0;
+            left: 1em;
+        }
+    }
+
+    &:before, &:after {
+        display: inline-block;
+        position: absolute;
+        top: 50%; left: 1em;
+        -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        .user_select_none();
+    }
+}
+
+
+/**
  * Checkbox
  * --------------------------------------------------------------------------- */
 

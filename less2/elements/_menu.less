@@ -5,6 +5,9 @@
 
 .lui.menu {
     display: block;
+    border-color: @divider-color;
+    border-style: solid;
+    border-width: 0;
 
     ul {
         .lui_unstyled_list();
@@ -35,6 +38,8 @@
     }
 }
 
+// horizontal
+// ====
 .lui.menu:not(.vertical), .lui.menu.horizontal {
 
     > ul > li {
@@ -57,7 +62,7 @@
     }
 
     &:not(.bottom) {
-        border-bottom: @divider-width solid @divider-color;
+        border-bottom-width: @divider-width;
 
         > ul > li > a {
             padding-bottom: 0;
@@ -68,7 +73,7 @@
     }
 
     &.bottom {
-        border-top: @divider-width solid @divider-color;
+        border-top-width: @divider-width;
 
         > ul > li > a {
             padding-top: 0;
@@ -99,6 +104,8 @@
     }
 }
 
+// vertical
+// ====
 .lui.menu.vertical {
     > ul > li > a {
         position: relative;
@@ -139,4 +146,10 @@
             }
         }
     }
+}
+
+// borderless
+// ====
+.lui.menu.borderless {
+    border-color: transparent;
 }
