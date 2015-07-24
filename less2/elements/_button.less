@@ -1,120 +1,5 @@
 
 /**
- * Icon support
- * --------------------------------------------------------------------------- */
-.lui.button .lui.icon {
-	margin-right: 0.5em;
-	&.right {
-		margin-left: 0.5em; margin-right: 0;
-	}
-}
-.lui.button.icon:before {
-	margin: 0.07em 0;
-}
-
-
-/**
- * Icon addon
- * --------------------------------------------------------------------------- */
-
-.lui.button.has.addon {
-	position: relative;
-	> .addon {
-		position: absolute;
-		z-index: 1;
-		top: 0; bottom: 0;
-		width: 2.5em;
-		height: 100%;
-		margin: 0;
-
-		background: rgba(0, 0, 0, 0.1);
-
-		&.icon:before {
-			position: absolute;
-			top: 50%; left: 50%;
-			margin-top: -0.5em; margin-left: -0.5em;
-		}
-		.lui_transition(border);
-	}
-
-	&:not(.right) {
-		padding-left: 3.5em;
-		> .addon {
-			left: 0;
-			border-right: 1px solid rgba(0, 0, 0, 0.2);
-		}
-	}
-
-	&.right {
-		padding-right: 3.5em;
-		> .addon {
-			right: 0;
-			border-left: 1px solid rgba(0, 0, 0, 0.2);
-		}
-	}
-}
-
-
-/**
- * Loading support
- * Status support
- * --------------------------------------------------------------------------- */
-
-// Has addon > update the addon icon
-// ====
-.lui.button.status.has.addon {
-	&.loading > .addon:before {
-		content:"";
-		.lui_loader();
-	}
-
-	&.ok > .addon:before {
-		content: "l";
-	}
-
-	&.failure > .addon:before {
-		content: "F";
-	}
-}
-
-// Else
-// ====
-.lui.button.status:not(.has):not(.addon) {
-	&:after {
-		display: inline-block;
-		vertical-align: middle;
-		content: "";
-
-		opacity: 0;
-		transform: scale(0);
-		.lui_transition_properties(opacity, transform, margin);
-	}
-
-	&.loading:after, &.ok:after, &.failure:after {
-		margin-left: 0.5em;
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	&.loading:after {
-		display: inline-block;
-		vertical-align: middle;
-		content: "";
-
-		.lui_loader();
-	}
-
-	&.ok {
-		.lui_icon_maker(check, right);
-	}
-
-	&.failure {
-		.lui_icon_maker(forbidden, right);
-	}
-}
-
-
-/**
  * Button
  * --------------------------------------------------------------------------- */
 
@@ -193,21 +78,21 @@
  * Button styles
  * --------------------------------------------------------------------------- */
 
- .lui.button {
- 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+.lui.button {
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
 
 	// Default coloring
 	.lui_button_coloring_handler(@default-background, @default-color);
- }
+}
 
- .lui.button:not(.wired) {
- 	&:hover {
- 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
- 	}
- 	&:active, &.active {
- 		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
- 	}
- }
+.lui.button:not(.wired) {
+	&:hover {
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	}
+	&:active, &.active {
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+	}
+}
 
 
 // Fill style
@@ -282,9 +167,9 @@
 }
 
 
- /**
-  * Button groups
-  * --------------------------------------------------------------------------- */
+/**
+ * Button groups
+ * --------------------------------------------------------------------------- */
 
 .lui.buttons {
 	display: inline-block;
@@ -312,6 +197,8 @@
 	}
 
 	// Modern browsers: flex-box model
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
 	display: inline-flex;
 }
 
@@ -329,11 +216,146 @@
 	}
 
 	// Modern browsers: flex-box model
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 
 	> .button {
 		float: none;
-		flex: 1;
+		-webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+	}
+}
+
+
+/**
+ * Icon support
+ * --------------------------------------------------------------------------- */
+.lui.button .lui.icon {
+	margin-right: 0.5em;
+	&.right {
+		margin-left: 0.5em; margin-right: 0;
+	}
+}
+.lui.button.icon:before {
+	margin: 0.07em 0;
+}
+
+
+/**
+ * Icon addon
+ * --------------------------------------------------------------------------- */
+
+.lui.button.has.addon {
+	position: relative;
+	> .addon {
+		position: absolute;
+		z-index: 1;
+		top: 0; bottom: 0;
+		width: 2.5em;
+		height: 100%;
+		margin: 0;
+
+		background: rgba(0, 0, 0, 0.1);
+
+		&.icon:before {
+			position: absolute;
+			top: 50%; left: 50%;
+			margin-top: -0.5em; margin-left: -0.5em;
+		}
+		.lui_transition(border);
+	}
+
+	&:not(.right) {
+		padding-left: 3.5em;
+		> .addon {
+			left: 0;
+			border-right: 1px solid rgba(0, 0, 0, 0.2);
+		}
+	}
+
+	&.right {
+		padding-right: 3.5em;
+		> .addon {
+			right: 0;
+			border-left: 1px solid rgba(0, 0, 0, 0.2);
+		}
+	}
+}
+
+
+/**
+ * Loading support
+ * Status support
+ * --------------------------------------------------------------------------- */
+
+.lui.button.status {
+	position: relative;
+}
+
+// Has addon > update the addon icon
+// ====
+.lui.button.status.has.addon {
+	&.loading > .addon {
+		.lui_loader();
+		position: absolute;
+	}
+
+	&.ok > .addon:before {
+		content: "l";
+	}
+
+	&.failure > .addon:before {
+		content: "F";
+	}
+}
+
+// Else
+// ====
+.lui.button.status:not(.has):not(.addon) {
+	color: transparent;
+
+	&.loading {
+		.lui_loader();
+	}
+
+	&.ok {
+		&:after {
+			color: @lui_colors-success;
+		}
+		.lui_icon_maker(check, right);
+	}
+
+	&.failure {
+		&:after {
+			color: @lui_colors-error;
+		}
+		.lui_icon_maker(forbidden, right);
+	}
+
+	&:before, &:after {
+		position: absolute;
+		top: 50%; left: 50%;
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		margin-left: 0;
+	}
+
+	// Status
+	// ====
+	&.status.loading, &.status.ok, &.status.failure {
+		color: transparent !important;
+	}
+	&.status.ok {
+		color: @lui_colors-success;
+	}
+	&.status.failure {
+		color: @lui_colors-error;
 	}
 }
 

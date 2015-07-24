@@ -1,8 +1,109 @@
-.lui_loader() {
-    width: 1em;
-    height: 1em;
 
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9Im5vbmUiPjwvcmVjdD4gICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIHN0cm9rZT0icmdiYSgwLCAwLCAwLCAwLjE1KSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48L2NpcmNsZT4gICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIHN0cm9rZT0icmdiYSgwLCAwLCAwLCAwLjc1KSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiPiAgICAgICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMS41cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGZyb209IjAiIHRvPSI1MDIiPjwvYW5pbWF0ZT4gICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNoYXJyYXkiIGR1cj0iMS41cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHZhbHVlcz0iMTUwLjYgMTAwLjQ7MSAyNTA7MTUwLjYgMTAwLjQiPjwvYW5pbWF0ZT4gICAgPC9jaXJjbGU+PC9zdmc+);
-    background-position: center center;
-    background-size: contain;
+/**
+ * Loader
+ * --------------------------------------------------------------------------- */
+
+@-o-keyframes spin {
+    from {-o-transform: rotate(0deg);}
+    to {-o-transform: rotate(360deg);}
+}
+@-moz-keyframes spin {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(360deg);}
+}
+@-ms-keyframes spin {
+    from {-ms-transform: rotate(0deg);}
+    to {-ms-transform: rotate(360deg);}
+}
+@-webkit-keyframes spin {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+@keyframes spin {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.lui.loader {
+    .lui_loader();
+
+    &.small {
+        font-size: @lui_sizes-small;
+    }
+    &.regular {
+        font-size: @lui_sizes-regular;
+    }
+    &.large {
+        font-size: @lui_sizes-large;
+    }
+    &.x-large {
+        font-size: @lui_sizes-x-large;
+    }
+}
+
+.lui_loader(@inverted: false, @size: 1em, @thickness: 2px, @speed: 0.5s) {
+    display: inline-block;
+    position: relative;
+
+    &:before, &:after {
+        box-sizing: border-box;
+        display: block;
+        content: "";
+        width: @size;
+        height: @size;
+        border-radius: 50%;
+        border-width: @thickness;
+        border-style: solid;
+    }
+
+    &:after {
+        display: block; content: "";
+        position: absolute;
+        top: 50%; margin-top: -@size/2; left: 50%; margin-left: -@size/2;
+
+        -webkit-animation-duration: @speed;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-name: spin;
+        -webkit-animation-iteration-count: infinite;
+
+        -moz-animation-duration: @speed;
+        -moz-animation-timing-function: linear;
+        -moz-animation-name: spin;
+        -moz-animation-iteration-count: infinite;
+
+        -ms-animation-duration: @speed;
+        -ms-animation-timing-function: linear;
+        -ms-animation-name: spin;
+        -ms-animation-iteration-count: infinite;
+
+        -o-animation-duration: @speed;
+        -o-animation-timing-function: linear;
+        -o-animation-name: spin;
+        -o-animation-iteration-count: infinite;
+
+        animation-duration: @speed;
+        animation-timing-function: linear;
+        animation-name: spin;
+        animation-iteration-count: infinite;
+    }
+
+    .lui_loader_handle_color(@inverted);
+}
+
+.lui_loader_handle_color(@inverted) when (@inverted = true) {
+    &:before {
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+    &:after {
+        border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
+    }
+}
+
+.lui_loader_handle_color(@inverted) when (@inverted = false) {
+    &:before {
+        border-color: rgba(0, 0, 0, 0.25);
+    }
+    &:after {
+        border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+    }
 }
