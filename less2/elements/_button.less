@@ -320,30 +320,35 @@
 .lui.button.status:not(.has):not(.addon) {
 	color: transparent;
 
-	&.loading {
-		.lui_loader();
-	}
-
-	&.ok {
-		&:after {
-			color: @lui_colors-success;
-		}
-		.lui_icon_maker(check, right);
-	}
-
-	&.failure {
-		&:after {
-			color: @lui_colors-error;
-		}
-		.lui_icon_maker(forbidden, right);
-	}
-
 	&:before, &:after {
 		position: absolute;
 		top: 50%; left: 50%;
+		-ms-transform: translate(-50%, -150%);
+		transform: translate(-50%, -150%);
+		.lui_transition_properties(transform);
+	}
+
+	// loading
+	// ====
+	&.loading {
+		.lui_loader();
+	}
+	// Status: OK
+	// ====
+	&.ok {
+		.lui_icon_maker(check, right);
+	}
+	// Status: failure
+	// ====
+	&.failure {
+		.lui_icon_maker(forbidden, right);
+	}
+	// Transition
+	// ====
+	&.loading:after, &.loading:before,
+	&.ok:after, &.failure:after {
 		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
-		margin-left: 0;
 	}
 
 	// Status
@@ -351,11 +356,8 @@
 	&.status.loading, &.status.ok, &.status.failure {
 		color: transparent !important;
 	}
-	&.status.ok {
-		color: @lui_colors-success;
-	}
-	&.status.failure {
-		color: @lui_colors-error;
+	&.status.ok:after, &.status.failure:after {
+		margin: 0;
 	}
 }
 
