@@ -7,44 +7,73 @@
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    display: inline-flex; // modern browsers
+    .display-flex(true);
 
     > .addon, > input {
         display: inline-block;
-        flex: auto;
+        .flex();
     }
-}
-.lui.input > input {
-    display: inline-block;
-    vertical-align: middle;
-    border-radius: @border-radius;
-    border: 1px solid @border-color;
-    background: #fff;
-    color: @color;
-    padding: @v-padding @h-padding;
 
-    &:focus, &:active {
-        outline: none;
-        border-color: darken(@border-color, 10);
-    }
-}
+    // Inputs styling
+    // =====
+    > input, > select {
+        width: 100%;
+       display: inline-block;
+       vertical-align: middle;
 
-// Placeholders
-// =====
-.lui.input input::-webkit-input-placeholder {
-    line-height: 1em;
-    color: @placeholder-color;
-    font-style: @placeholder-style;
-}
-.lui.input input::-moz-placeholder {
-    line-height: 1em;
-    color: @placeholder-color;
-    font-style: @placeholder-style;
-}
-.lui.input input::-ms-input-placeholder {
-    line-height: 1em;
-    color: @placeholder-color;
-    font-style: @placeholder-style;
+       border-radius: @border-radius;
+       border: 1px solid @border-color;
+       background: #fff;
+       color: @color;
+       padding: @v-padding @h-padding;
+
+       &:focus, &:active {
+           outline: none;
+           border-color: darken(@border-color, 10);
+       }
+
+       // Placeholders
+       // =====
+       &::-webkit-input-placeholder {
+           line-height: 1em;
+           color: @placeholder-color;
+           font-style: @placeholder-style;
+       }
+       &::-moz-placeholder {
+           line-height: 1em;
+           color: @placeholder-color;
+           font-style: @placeholder-style;
+       }
+       &::-ms-input-placeholder {
+           line-height: 1em;
+           color: @placeholder-color;
+           font-style: @placeholder-style;
+       }
+   }
+
+   &.fit {
+       width: 100%;
+   }
+
+   // Validation
+   // =====
+   &.ng.ng-invalid, // angular support
+   &.invalid {
+       color: @lui_colors-error;
+       > input {
+           color: @lui_colors-error;
+           border-color: @lui_colors-error;
+           &::-webkit-input-placeholder {
+               color: lighten(@lui_colors-error, 15);
+           }
+           &::-moz-placeholder {
+               color: lighten(@lui_colors-error, 15);
+           }
+           &::-ms-input-placeholder {
+               color: lighten(@lui_colors-error, 15);
+           }
+       }
+   }
 }
 
 // Icon support
@@ -80,6 +109,7 @@
         }
     }
 }
+
 
 // Addons
 // =====
@@ -121,13 +151,56 @@
     font-size: @lui_sizes-small;
 }
 .lui.input.regular {
-    font-size: @lui_sizes-regular;
+    font-size: 1rem;
 }
 .lui.input.large {
     font-size: @lui_sizes-large;
 }
 .lui.input.x-large {
     font-size: @lui_sizes-x-large;
+}
+
+.lui.input.short {
+    width: 8em;
+}
+.lui.input.medium {
+    width: 15em;
+}
+.lui.input.long {
+    width: 20em;
+}
+.lui.input.x-long {
+    width: 25em;
+}
+
+
+
+/**
+ * Form & field elements
+ * --------------------------------------------------------------------------- */
+
+.lui.form {
+
+    .lui.field { // Automatic inputs styling
+        .lui.input;
+        .flex-direction(column);
+
+        label {
+            margin-top: 1em;
+            font-weight: 600;
+            display: block;
+        }
+
+        & + .lui.field {
+            padding-left: 1em;
+        }
+
+        // Angular support
+        // =====
+        &.ng.ng-invalid {
+            .lui.input.ng.ng-invalid;
+        }
+    }
 }
 
 
