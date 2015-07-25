@@ -5,6 +5,7 @@
  * ---------------------------------------------------------------------------- */
 @import "utilities/_resets";
 @import "utilities/_mixins";
+@import "utilities/_flex";
 @import "utilities/_add-color";
 @import "utilities/_loader";
 @import "utilities/_icon-maker";
@@ -14,9 +15,18 @@
  * ------ DEFINITIONS
  * ---------------------------------------------------------------------------- */
 
- /**
-  * Block - your basic everyday building block
-  * --------------------------------------------------------------------------- */
+/**
+ * Grid
+ * --------------------------------------------------------------------------- */
+
+& {
+    @import "definitions/_grid";
+}
+
+
+/**
+ * Block - your basic everyday building block
+ * --------------------------------------------------------------------------- */
 
 & {
     @raised-shadow: @lui_defaults-raised_shadow;
@@ -26,6 +36,9 @@
 
     @import "elements/_block";
 }
+
+
+
 /**
   * Colors
   * --------------------------------------------------------------------------- */
@@ -38,7 +51,7 @@
   * --------------------------------------------------------------------------- */
 
 & {
-    @font-size: 14px;
+    @font-size: 15px;
     @font-family: @lui_defaults-body_font;
     @color: @lui_defaults-text_color;
     @line-height: 1.4em;
@@ -77,7 +90,7 @@
   * Icon
   * --------------------------------------------------------------------------- */
  & {
-     @font_path: "/sites/lucca-ui/dist/fonts/LuccaIcons";
+     @font_path: "/dist/fonts/LuccaIcons";
      @font_name: "lucca-icons";
 
      @import "elements/_icon";
@@ -152,8 +165,8 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @border-color: @lui_colors-grey_light;
-    @divider-weight: 1px;
+    @border-color: @lui_defaults-border-color;
+    @divider-weight: @lui_defaults-border-width;
 
     @import "elements/_divider";
 }
@@ -162,9 +175,8 @@
  * Menu
  * --------------------------------------------------------------------------- */
 & {
-    @divider-width: 1px;
-    @divider-color: @lui_colors-grey_light;
-    @active-border-width: 5px;
+    @divider-width: @lui_defaults-border-width;
+    @active-border-width: @lui_defaults-larger_border;
     @active-border-color: @lui_colors-primary;
 
     @import "elements/_menu";
@@ -176,7 +188,7 @@
 & {
     @background: #FFF;
     @border-color: @lui_colors-grey_light;
-    @border-width: 5px;
+    @border-width: @lui_defaults-larger_border;
 
     @v-padding: @lui_sizes-v_padding;
     @h-padding: @lui_sizes-h_padding;

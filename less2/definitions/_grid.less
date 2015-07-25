@@ -1,0 +1,83 @@
+/**
+ * Grid
+ * --------------------------------------------------------------------------- */
+
+@columns: 12;
+@container-space-around: 2em;
+@gutter: 40px;
+
+@column: 100%/@columns;
+
+// Break-points
+// =====
+@tablet: @lui_breakpoints-tablet;
+@desktop: @lui_breakpoints-desktop;
+@large: @lui_breakpoints-large;
+
+
+// Basic elements
+// =====
+.lui.container {
+    margin: 0  @container-space-around;
+    padding: 0;
+    width: auto;
+
+    .lui.column {
+        float: left;
+        box-sizing: border-box;
+        width: 100%;
+    }
+}
+
+// Add gutter
+// =====
+.lui.container.spaced .lui.column,
+.lui.container .lui.column.spaced {
+    padding: 0 @gutter;
+}
+
+.define_grid(@class, @count) when (@count > 0) {
+	.lui.container .lui.column.@{class}-@{count} {
+		width: @column * @count;
+	}
+
+    .lui.container .lui.column.@{class}-offset-@{count} {
+        margin-left: @column * @count;
+    }
+
+	.define_grid(@class, @count - 1);
+}
+
+.define_grid(mobile, @columns);
+
+
+@media (min-width: @tablet) {
+    .define_grid(tablet, @columns);
+}
+@media (min-width: @desktop) {
+    .define_grid(desktop, @columns);
+}
+@media (min-width: @large) {
+    .define_grid(large, @columns);
+}
+
+
+/**
+ * Floats and clear
+ * --------------------------------------------------------------------------- */
+ .pull-left {
+     float: left;
+ }
+ .pull-right {
+     float: right;
+ }
+.clear {
+	zoom: 1;
+	&:after {
+    	display: block;
+		visibility: hidden;
+    	height: 0;
+    	clear: both;
+    	content: "";
+	}
+}
