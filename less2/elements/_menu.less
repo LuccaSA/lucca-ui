@@ -5,7 +5,7 @@
 
 .lui.menu {
     display: block;
-    border-color: @divider-color;
+    border-color: rgba(50, 50, 50, 0.25);
     border-style: solid;
     border-width: 0;
 
@@ -19,20 +19,37 @@
 
     > ul > li > a {
         display: block;
-        padding: 1em;
-        &:after, &:before {
+        padding: 1em 0;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        &:after {
             display: block;
             content: "";
         }
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
 
-        &:hover:after, &:hover:before {
-            background-color: @divider-color;
+        &:hover:after {
+            background-color: rgba(50, 50, 50, 0.25);
         }
-        &:active:after, &.active:after,
-        &:active:before, &.active:before {
+    }
+
+    // Inverted support
+    // =====
+    &.inverted {
+        border-color: rgba(255, 255, 255, 0.25);
+        > ul > li > a:after {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+    }
+
+    > ul > li > a {
+        &.active {
+            font-weight: 600;
+        }
+        &:active:after, &.active:after {
             background-color: @active-border-color;
         }
     }
@@ -43,45 +60,48 @@
 .lui.menu:not(.vertical), .lui.menu.horizontal {
 
     > ul > li {
+        margin: 0 1em;
+        position: relative;
         display: inline-block;
     }
 
-    &:not(.bottom) > ul > li > a:after,
-    &.bottom > ul > li > a:before {
-        height: @active-border-width;
-        width: 0;
-        .lui_transition_properties(background-color, width);
-    }
-    &:not(.bottom) > ul > li > a:hover:after,
-    &:not(.bottom) > ul > li > a:active:after,
-    &:not(.bottom) > ul > li > a.active:after,
-    &.bottom > ul > li > a:hover:before,
-    &.bottom > ul > li > a:active:before,
-    &.bottom > ul > li > a.active:before {
-        width: 100%;
+    > ul > li > a {
+        &:after {
+            position: absolute;
+            left: 0; right: 0;
+            margin-left:auto; margin-right:auto;
+            height: @active-border-width;
+            width: 0;
+            .lui_transition_properties(background-color, width);
+        }
+        &:hover:after,
+        &:active:after,
+        &.active:after {
+            width: 100%;
+        }
     }
 
     &:not(.bottom) {
         border-bottom-width: @divider-width;
-
-        > ul > li > a {
-            padding-bottom: 0;
-            &:after {
-                margin: 1em auto -@divider-width auto;
-            }
+        > ul > li > a:after {
+            bottom: -@divider-width;
         }
     }
 
     &.bottom {
         border-top-width: @divider-width;
 
-        > ul > li > a {
-            padding-top: 0;
-            &:before {
-                margin: -@divider-width auto 1em auto;
-            }
+        > ul > li > a:after {
+            top: -@divider-width;
         }
     }
+
+    // Slim
+    // =====
+    &.slim:not > ul > li > a:after {
+        height: @divider-width;
+    }
+
 
     // Alignments
     // =====
@@ -98,8 +118,8 @@
     &.justified {
         text-align: center;
         > ul {
-            display: flex;
-            justify-content: space-around;
+            .display-flex();
+            .flex-justify-content(space-around);
         }
     }
 }
@@ -107,8 +127,12 @@
 // vertical
 // ====
 .lui.menu.vertical {
+    > ul > li {
+        display: block;
+    }
     > ul > li > a {
         position: relative;
+        padding: 1em;
         &:after {
             position: absolute;
             top: 0;
@@ -125,7 +149,8 @@
     // Left side
     // =====
     &:not(.right) {
-        border-right: @divider-width solid @divider-color;
+        border-right-width: @divider-width;
+        border-right-style: solid;
 
         > ul > li > a {
             &:after {
@@ -138,7 +163,8 @@
     // Right side
     // =====
     &.right {
-        border-left: @divider-width solid @divider-color;
+        border-left-width: @divider-width;
+        border-left-style: solid;
         > ul > li > a {
             &:after {
                 right: 0;
@@ -146,10 +172,104 @@
             }
         }
     }
+
+}
+
+// Slim
+// =====
+.lui.menu.slim > ul > li > a:after {
+    width: @divider-width;
+}
+
+
+// Compact
+// =====
+.lui.menu.compact {
+    > ul > li > a {
+        padding: 0.5em 1em;
+    }
+}
+
+// Icon support
+// ====
+.lui.menu > ul > li a > .lui.icon {
+    margin-right: 0.5em;
 }
 
 // borderless
 // ====
 .lui.menu.borderless {
     border-color: transparent;
+}
+
+// fixed position
+// ====
+.lui.menu.fixed {
+    position: fixed;
+    overflow: auto;
+
+    &.top {
+        top: 0; left: 0; right: 0;
+    }
+
+    &.left {
+        top: 0; bpttom: 0; left: 0;
+    }
+    &.right {
+        top: 0; bottom: 0; right: 0;
+    }
+    &.bottom {
+        bottom: 0; left: 0; right: 0;
+    }
+}
+
+// Divider support
+// =====
+.lui.menu.vertical > ul > li.divider {
+    padding-left: 1em;
+    color: rgba(50, 50, 50, 0.5);
+}
+
+
+/**
+ * Menus
+ * --------------------------------------------------------------------------- */
+.lui.menus.vertical {
+    border-bottom: 1px solid @lui_defaults-border-color;
+
+    > .lui.menu {
+        .lui.menu.vertical;
+        .lui.menu.borderless;
+        .lui.menu.compact;
+
+        > ul {
+            padding: 1em 0;
+            border-top: 1px solid @lui_defaults-border-color;
+            > li {
+                margin: 0;
+            }
+        }
+    }
+
+    > h4 {
+        margin: 0;
+        padding: 0.5em 1em;
+        border-top: 1px solid @lui_defaults-border-color;
+
+        &.active + .lui.menu {
+            display: block;
+        }
+    }
+
+    @media (max-width: @lui_breakpoints-tablet) {
+        > .lui.menu {
+            max-height: 0;
+            overflow: hidden;
+            .lui_transition();
+        }
+
+        > h4.active + .lui.menu {
+            max-height: 1000px;
+        }
+    }
 }
