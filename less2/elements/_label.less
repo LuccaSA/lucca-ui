@@ -1,0 +1,82 @@
+
+/**
+ * Label
+ * --------------------------------------------------------------------------- */
+.lui.label {
+    display: inline-block;
+    font-size: 1em;
+    padding: @v-padding @h-padding;
+    margin: 0 0.5em;
+    font-weight: normal;
+    line-height: 1em;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: @border-radius;
+
+    // Icon support
+    // ====
+    .lui.icon, > i.icon {
+        margin-right: 0.25em;
+        &.right {
+            margin-right: 0; margin-left: 0.25em;
+        }
+    }
+
+    // Default styling
+    // ====
+    .lui_label_coloring_handler(@default-background, @default-color, false);
+}
+
+
+/**
+ * Addons
+ * --------------------------------------------------------------------------- */
+
+.lui.label.has.addon,
+.lui.label.has.addons {
+    > .addon {
+        display: inline-block;
+        vertical-align: top;
+        background: rgba(0, 0, 0, 0.2);
+        height: 1em + 2 * @v-padding;
+        padding: @v-padding @h-padding;
+        margin: -@v-padding @h-padding -@v-padding -@h-padding;
+        &.right {
+            margin-right: -@h-padding;
+            margin-left: @h-padding;
+        }
+    }
+}
+
+/**
+ * Sizes
+ * --------------------------------------------------------------------------- */
+.lui.label.regular {
+ 	font-size: @regular;
+ }
+.lui.label.small {
+	font-size: @small;
+}
+.lui.label.large {
+	font-size: @large;
+}
+.lui.label.x-large {
+	font-size: @x-large;
+}
+
+
+.lui.label.pointing {
+    &.up {
+
+    }
+    &.down {
+
+    }
+    &.left {
+
+    }
+    &.right {
+
+    }
+}

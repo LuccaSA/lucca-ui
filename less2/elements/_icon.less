@@ -56,11 +56,6 @@ i.lui.icon {
  * Loading support
  * --------------------------------------------------------------------------- */
 
-// Button with only an icon
-// =====
-.lui.button.icon {
-    .lui_icon_base();
-}
 .lui.icon.spinner,
 .lui.icon.loader {
     .lui_loader();
@@ -81,6 +76,17 @@ i.lui.icon {
     }
 }
 
+
+// Elements support
+// =====
+// Button with only an icon
+.lui.button.icon {
+    .lui_icon_base();
+}
+// Menu item with only an icon
+.lui.menu > ul > li > a.icon {
+    .lui_icon_base();
+}
 
 // Icon classes
 // =====

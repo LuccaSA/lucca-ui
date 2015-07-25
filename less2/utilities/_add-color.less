@@ -3,6 +3,10 @@
         .lui_button_coloring_handler(@color, @txt-over, @lightOnDark);
     }
 
+    .lui.label.@{name} {
+        .lui_button_coloring_handler(@color, @txt-over, @lightOnDark);
+    }
+
     .lui.callout.@{name} {
         .lui_callout_coloring_handler(@color, @txt-over);
     }
@@ -86,14 +90,22 @@
     }
 }
 
+/**
+ * Label
+ * --------------------------------------------------------------------------- */
+.lui_label_coloring_handler(@color, @txt-over, @lightOnDark) {
+    background: @color;
+    box-shadow: 0 0 0 1px darken(@color, 10);
+    color: @txt-over;
+}
+
 
 /**
  * Menu
  * --------------------------------------------------------------------------- */
 .lui_callout_coloring_handler(@color) {
     > ul > li > a {
-        &:active:after, &.active:after,
-        &:active:before, &.active:before {
+        &:active:after, &.active:after {
             background-color: @color;
         }
     }

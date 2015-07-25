@@ -164,6 +164,10 @@
    &:inverted {
 	   color: #FFF;
    }
+
+   &.icon {
+	   text-decoration: none;
+   }
 }
 
 
@@ -182,6 +186,7 @@
 
 	> .button {
 		float: left;
+		margin-top: 0; margin-bottom: 0;
 		margin-left: -1px; margin-right: 0;
 		&.wired:hover {
 			position: relative;
@@ -197,9 +202,7 @@
 	}
 
 	// Modern browsers: flex-box model
-	display: -webkit-inline-flex;
-	display: -ms-inline-flexbox;
-	display: inline-flex;
+	.display-flex(true);
 }
 
 // Fitted buttons
@@ -216,19 +219,11 @@
 	}
 
 	// Modern browsers: flex-box model
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
+	.display-flex();
 
 	> .button {
 		float: none;
-		-webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+		.flex(1);
 	}
 }
 
@@ -241,9 +236,6 @@
 	&.right {
 		margin-left: 0.5em; margin-right: 0;
 	}
-}
-.lui.button.icon:before {
-	margin: 0.07em 0;
 }
 
 
@@ -320,7 +312,7 @@
 .lui.button.status:not(.has):not(.addon) {
 	color: transparent;
 
-	&:before, &:after {
+	&:not(.icon):before, &:after {
 		position: absolute;
 		top: 50%; left: 50%;
 		-ms-transform: translate(-50%, -150%);
@@ -345,7 +337,7 @@
 	}
 	// Transition
 	// ====
-	&.loading:after, &.loading:before,
+	&.loading:after, &.loading:not(.icon):before,
 	&.ok:after, &.failure:after {
 		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
@@ -359,6 +351,17 @@
 	&.status.ok:after, &.status.failure:after {
 		margin: 0;
 	}
+}
+
+// Buttons inside a heading
+// =====
+h1 .lui.button,
+h2 .lui.button,
+h3 .lui.button,
+h4 .lui.button,
+h5 .lui.button,
+h6 .lui.button {
+	vertical-align: middle;
 }
 
 
