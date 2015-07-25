@@ -9,6 +9,13 @@
 
     margin: 1rem 0;
     border-bottom: @divider-weight solid @border-color;
+
+    &.dashed {
+        border-bottom-style: dashed;
+    }
+    &.dotted {
+        border-bottom-style: dotted;
+    }
 }
 
 
@@ -22,8 +29,15 @@
  h4.lui.divider,
  h5.lui.divider,
  h6.lui.divider {
-     margin: 1em 0;
+      .lui.divider.heading;
  }
+ .lui.divider.heading {
+     margin: 1em 0;
+     &.spaced {
+         padding: inherit 1em;
+     }
+ }
+
  h1.lui.divider.below,
  h2.lui.divider.below,
  h3.lui.divider.below,
@@ -70,7 +84,6 @@ h6.lui.divider:not(.below) {
     height: auto;
     border-top-width: 0;
 
-    border-bottom: @divider-weight solid @lui_colors-grey_light;
     padding-bottom: 0.5em;
 }
 
@@ -87,6 +100,19 @@ h6.lui.divider:not(.below) {
     border-bottom: @lui_defaults-larger_border solid @lui_colors-grey;
     padding-bottom: 0.5em;
     margin-bottom: -@divider-weight;
+}
+
+
+/**
+ * List divider
+ * --------------------------------------------------------------------------- */
+ul li.lui.divider,
+ol li.lui.divider {
+    margin: 0.5em 0;
+    padding: 0.5em 0;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 
