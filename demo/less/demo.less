@@ -31,6 +31,20 @@ html, body {
     padding: 2em;
 }
 
+#lui-grid .column {
+    p {
+        height: 2em;
+        margin: 0.5em 0;
+        border-radius: 2em;
+    }
+    &:nth-child(2n) p {
+        background: grey;
+    }
+    &:nth-child(2n+1) p {
+        background: black;
+    }
+}
+
 
 code {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -45,19 +59,22 @@ code {
     margin: 0;
     list-style: none;
     li {
-        margin: 0 30px 20px 0;
+        margin: 0 2em 3em 2em;
         padding: 0;
         display: inline-block;
         text-align: center;
         i {
             color: #162a36;
             font-size: 24px;
+            margin-bottom: 1em;
         }
-        input {
+        .lui.input {
             display: block;
-            padding: 5px;
-            font-size: 12px;
-            text-align: center;
+            input {
+                display: block;
+                text-align: center;
+                margin-bottom: 0.5em;
+            }
         }
     }
 }
