@@ -2,11 +2,13 @@
 /**
  * General
  * --------------------------------------------------------------------------- */
+html {
+    font-size: @font-size;
+}
 body {
     font-family: @font-family;
     color: @color;
     line-height: @line-height;
-    font-size: @font-size;
 }
 
 small {
@@ -76,6 +78,23 @@ h1, h2, h3, h4, h5, h6 {
             margin-right: 0;
         }
     }
+
+    // Alignment
+    // =====
+    &.align {
+        &.center {
+            text-align: center;
+        }
+        &.left {
+            text-align: left;
+        }
+        &.right {
+            text-align: right;
+        }
+        &.justify {
+            text-align: justify;
+        }
+    }
 }
 
 
@@ -92,7 +111,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .lui.capitalize.first.word {
     text-transform: none;
-    &:first-letter {
+    &::first-letter {
         text-transform: capitalize;
     }
 }
