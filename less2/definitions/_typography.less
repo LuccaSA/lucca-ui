@@ -9,6 +9,9 @@ body {
     font-family: @font-family;
     color: @color;
     line-height: @line-height;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 small {
@@ -68,13 +71,13 @@ h1, h2, h3, h4, h5, h6 {
 
     // Icon support
     // =====
-    .lui.icon {
-        margin-right: 1em;
+    .lui.icon:not(.button) {
+        margin-right: .5em;
         vertical-align: top;
         font-size: @icon-size;
 
         &.right {
-            margin-left: 1em;
+            margin-left: .5em;
             margin-right: 0;
         }
     }
@@ -115,6 +118,12 @@ h1, h2, h3, h4, h5, h6 {
         text-transform: capitalize;
     }
 }
+.lui.italic {
+    font-style: italic;
+}
+.lui.bold {
+    font-style: 600;
+}
 
 
 .lui.body-copy {
@@ -135,4 +144,10 @@ h1, h2, h3, h4, h5, h6 {
     h6:last-child {
         margin-bottom: 0em;
     }
+}
+
+// Menus
+// ====
+.lui.menu .item.divider:not(.header) {
+    color: lighten(@color, 25);
 }

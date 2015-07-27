@@ -1,12 +1,15 @@
+
 /**
  * Links
  * --------------------------------------------------------------------------- */
 
-.lui.link {
+a {
     color: @lui_link-link_color;
-	text-decoration: underline;
+    &:hover, &:active {
+        color: @lui_link-link_color_hover;
+    }
 
-	&:hover, &:active,&.active {
-		color: @lui_link-link_color_hover;
-	}
+    &[ui-sref] {
+        cursor: pointer;
+    }
 }
