@@ -1,21 +1,3 @@
-@lui_defaults-border-color: rgba(50, 50, 50, 0.2);
-@lui_defaults-border-width: 1px;
-@lui_defaults-border: 1px solid @lui_defaults-border-color;
-@lui_defaults-larger_border: 3px;
-
-@lui_defaults-border-inverted: 1px solid rgba(255, 255, 255, 0.2);
-@lui_defaults-border_radius: 3px;
-
-@lui_defaults-shadow-width: 0;
-@lui_defaults-shadow-height: 1px;
-@lui_defaults-shadow-blur: 2px;
-@lui_defaults-shadow-spread: 0;
-@lui_defaults-shadow-color: rgba(0, 0, 0, 0.2);
-
-@lui_defaults-raised_shadow: @lui_defaults-shadow-width @lui_defaults-shadow-height @lui_defaults-shadow-blur @lui_defaults-shadow-spread @lui_defaults-shadow-color;
-
-@lui_defaults-text_color: @lui_colors-grey;
-@lui_defaults-body_font: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
 
 /**
  * Grid
@@ -38,8 +20,6 @@
 @lui_sizes-h_padding: 1em;
 
 
-
-
 /**
  * Colors
  * --------------------------------------------------------------------------- */
@@ -49,19 +29,35 @@
 
 @lui_colors-primary: @lui_colors-yellow;
 @lui_colors-over_primary: @lui_colors-over_yellow;
+@lui_colors-primary_lightondark: false;
 
 @lui_colors-secondary: #f60;
 @lui_colors-over_secondary: #FFF;
+@lui_colors-secondary_lightondark: true;
 
-@lui_colors-error: #f60;
-@lui_colors-over_error: #FFF;
-@lui_colors-warning: #f90;
-@lui_colors-over_warning: #FFF;
-@lui_colors-success: #5cb85c;
-@lui_colors-over_success: #FFF;
+@lui_colors-red: #f60;
+@lui_colors-over_red: #FFF;
+@lui_colors-red_lightondark: true;
 
-@lui_colors-yellow: #FBB900;
+@lui_colors-orange: #f90;
+@lui_colors-over_orange: #FFF;
+@lui_colors-orange_lightondark: true;
+
+@lui_colors-green: #5cb85c;
+@lui_colors-over_green: #FFF;
+@lui_colors-green_lightondark: true;
+
+@lui_colors-yellow: #FFC900;
 @lui_colors-over_yellow: #666;
+@lui_colors-yellow_lightondark: false;
+
+
+/**
+ * Typography
+ * --------------------------------------------------------------------------- */
+
+@lui_defaults-text_color: @lui_colors-grey;
+@lui_defaults-body_font: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
 
 
 /**
@@ -70,8 +66,36 @@
 
  // Links
  // =====
-@lui_link-link_color: #999;
+@lui_link-link_color: #666;
 @lui_link-link_color_hover: #444;
 
-// Buttons
-// =====
+
+/**
+ * Borders
+ * --------------------------------------------------------------------------- */
+
+// Default border
+// ====
+@lui_defaults-border-color: rgba(50, 50, 50, 0.2);
+@lui_defaults-border-width: 1px;
+@lui_defaults-border: 1px solid @lui_defaults-border-color;
+
+@lui_defaults-larger_border: 3px;
+
+// Default inverted border
+// ====
+@lui_defaults-border-color-inverted: rgba(255, 255, 255, 0.2);
+@lui_defaults-border_radius: 3px;
+
+
+/**
+ * Shadows
+ * --------------------------------------------------------------------------- */
+
+@lui_defaults-shadow-width: 0;
+@lui_defaults-shadow-height: 1px;
+@lui_defaults-shadow-blur: 2px;
+@lui_defaults-shadow-spread: 0;
+@lui_defaults-shadow-color: rgba(0, 0, 0, 0.2);
+
+@lui_defaults-raised_shadow: @lui_defaults-shadow-width @lui_defaults-shadow-height @lui_defaults-shadow-blur @lui_defaults-shadow-spread @lui_defaults-shadow-color;
