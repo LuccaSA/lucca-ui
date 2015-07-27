@@ -4,15 +4,19 @@
     }
 
     .lui.label.@{name} {
-        .lui_button_coloring_handler(@color, @txt-over, @lightOnDark);
+        .lui_label_coloring_handler(@color, @txt-over, @lightOnDark);
+    }
+
+    .lui.side-border.@{name} {
+        .lui_side_border_coloring_handler(@color);
     }
 
     .lui.callout.@{name} {
-        .lui_callout_coloring_handler(@color, @txt-over);
+        .lui_callout_coloring_handler(@color, @txt-over, @lightOnDark);
     }
 
     .lui.menu.@{name} {
-        .lui_callout_coloring_handler(@color);
+        .lui_menu_coloring_handler(@color);
     }
 }
 
@@ -24,7 +28,7 @@
 .lui_button_coloring_handler(@color, @txt-over, @lightOnDark: false) {
     // Regular style
     // =====
-    &:not(.fill):not(.wired):not(.inverted):not(.flat) {
+    &:not(.filling):not(.wired):not(.inverted):not(.flat) {
         background: @color;
         color: @txt-over;
         &:hover {
@@ -39,19 +43,26 @@
                 .lui_loader_handle_color(@lightOnDark);
             }
         }
+        & when (@lightOnDark = true) {
+            text-shadow: 0 1px 1px darken(@color, 5);
+        }
     }
 
-    // Fill(ed) style
+    // filling style
     // =====
-    &.fill {
+    &.filling {
         &:hover {
             background: @color;
             color: @txt-over;
+            & when (@lightOnDark = true) {
+                text-shadow: 0 1px 1px darken(@color, 15);
+            }
         }
         &:active, &.active {
             background: darken(@color, 5);
         }
     }
+
     // Wired style
     // Wired + Inverted is not supported
     // =====
@@ -68,6 +79,7 @@
             }
         }
     }
+
     // Inverted style
     // ====
     &.inverted {
@@ -79,10 +91,11 @@
             color:@color;
         }
 
-        &.fill:hover {
+        &.filling:hover {
             color: @txt-over;
         }
     }
+
     // Status icon
     // ====
     &.status.ok:after, &.status.failure:after {
@@ -95,43 +108,67 @@
  * --------------------------------------------------------------------------- */
 .lui_label_coloring_handler(@color, @txt-over, @lightOnDark) {
     background: @color;
-    box-shadow: 0 0 0 1px darken(@color, 10);
+
     color: @txt-over;
+    & when (@lightOnDark = true) {
+        text-shadow: 1px 0 1px darken(@color, 5);
+    }
 }
 
 
 /**
  * Menu
  * --------------------------------------------------------------------------- */
-.lui_callout_coloring_handler(@color) {
-    > ul > li > a {
-        &:active:after, &.active:after {
-            background-color: @color;
-        }
+.lui_menu_coloring_handler(@color) {
+    &.dividing a.item:before, &.dividing a.item:after {
+        background-color: @color;
     }
 }
+
+
+/**
+ * Side border coloring
+ * --------------------------------------------------------------------------- */
+ .lui_side_border_coloring_handler(@color) {
+     &:after {
+         background: @color;
+     }
+ }
 
 
 /**
  * Callout color
  * --------------------------------------------------------------------------- */
 
-.lui_callout_coloring_handler(@color, @txt-over) {
+.lui_callout_coloring_handler(@color, @txt-over, @lightOnDark: false) {
     // Regular style
     // =====
-    &:not(.fill) {
-        &:before {
-            color: @color;
+    &:not(.filled) {
+        &:after {
+            background: @color;
         }
     }
 
-    // Fill(ed) style
+    // Filled style
     // =====
-    &.fill {
+    &.filled {
         background-color: @color;
         border-color: darken(@color, 5);
         &, &:before, a, button {
             color: @txt-over;
         }
+
+        & when (@lightOnDark = true) {
+            text-shadow: 0 1px 1px darken(@color, 15);
+        }
+
+        > .footer {
+            background-color: darken(@color, 3);
+        }
+    }
+}
+.lui_side_border_coloring_handler(@color) {
+    &:after {
+        background: @color;
     }
 }
