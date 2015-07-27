@@ -1,4 +1,25 @@
 /**
+ * Floats and clear
+ * --------------------------------------------------------------------------- */
+ .pull-left {
+     float: left;
+ }
+ .pull-right {
+     float: right;
+ }
+.clear {
+	zoom: 1;
+	&:after {
+    	display: block;
+		visibility: hidden;
+    	height: 0;
+    	clear: both;
+    	content: "";
+	}
+}
+
+
+/**
  * User select
  * --------------------------------------------------------------------------- */
 .user_select_none {
@@ -76,8 +97,8 @@
 
     &:before,
     &:after {
-        content:"";
-        display:table;
+        content: "";
+        display: table;
     }
     &:after {
       clear:both;
