@@ -2,18 +2,9 @@
  * Grid
  * --------------------------------------------------------------------------- */
 
-@columns: 12;
-@container-space-around: 2em;
-@gutter: 40px;
-
-@column: 100%/@columns;
-
-// Break-points
-// =====
-@tablet: @lui_breakpoints-tablet;
-@desktop: @lui_breakpoints-desktop;
-@large: @lui_breakpoints-large;
-
+body, html {
+    width: 100%; height: 100%;
+}
 
 // Basic elements
 // =====
@@ -27,6 +18,11 @@
         box-sizing: border-box;
         width: 100%;
     }
+
+    @media (max-width: @tablet) {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
 }
 
 // Add gutter
@@ -35,14 +31,39 @@
 .lui.container .lui.column.spaced {
     padding: 0 @gutter;
 }
+.lui.container.spaced .columns {
+    margin: 0 -@gutter;
+    .clear();
+}
 
-.define_grid(@class, @count) when (@count > 0) {
+// Grid maker
+// =====
+.define_grid(@class, @count) when (@count > -1) {
 	.lui.container .lui.column.@{class}-@{count} {
 		width: @column * @count;
+        &.absolute {
+            width: ~"calc((@{column} * @{count}) - @{container-space-around}/2)";
+        }
 	}
 
+    // Offset
+    // =====
     .lui.container .lui.column.@{class}-offset-@{count} {
         margin-left: @column * @count;
+    }
+
+    // Reordering: Pulling
+    // =====
+    .lui.container .lui.column.@{class}-pull-@{count} {
+        position: relative;
+        left: -@column * @count;
+    }
+
+    // Reordering: Pushing
+    // =====
+    .lui.container .lui.column.@{class}-push-@{count} {
+        position: relative;
+        left: @column * @count;
     }
 
 	.define_grid(@class, @count - 1);
@@ -62,22 +83,18 @@
 }
 
 
-/**
- * Floats and clear
- * --------------------------------------------------------------------------- */
- .pull-left {
-     float: left;
- }
- .pull-right {
-     float: right;
- }
-.clear {
-	zoom: 1;
-	&:after {
-    	display: block;
-		visibility: hidden;
-    	height: 0;
-    	clear: both;
-    	content: "";
-	}
+// Menu Support
+// ====
+.lui.menu.container {
+    padding-left: @container-space-around;
+    padding-right: @container-space-around;
+
+    > .item:first-child {
+        padding-left: 0;
+        margin-left: 0;
+    }
+    > .item:last-child {
+        padding-right: 0;
+        margin-right: 0;
+    }
 }
