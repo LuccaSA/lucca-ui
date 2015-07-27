@@ -95,9 +95,9 @@
 }
 
 
-// Fill style
+// Filling style
 // =====
-.lui.button.fill {
+.lui.button.filling {
 	&:not(.inverted) {
 		background: #FFF;
 	}
@@ -203,11 +203,24 @@
 
 	// Modern browsers: flex-box model
 	.display-flex(true);
+
+	// Alignment
+	// ====
+	&.aligned.right {
+		text-align: right;
+	}
+	&.aligned.justify {
+		text-align: justify;
+	}
+	&.aligned.left {
+		text-align: left;
+	}
 }
+
 
 // Fitted buttons
 // =====
-.lui.buttons.fit {
+.lui.buttons.justify {
 	width: 100%;
 	display: table;
 	table-layout: fixed;
