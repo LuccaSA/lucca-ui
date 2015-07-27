@@ -8,36 +8,61 @@
     overflow: hidden;
     // Default style
     .lui.side-border;
-    .lui_icon_maker(help);
     .lui_raised();
     margin: @v-margin @h-margin;
     border: 1px solid @lui_colors-grey_light;
     background: @background;
-    padding: @v-padding @h-padding @v-padding (@icon-size + (3 * @h-padding));
+    padding: @v-padding @h-padding;
 
-    &:before {
-        position: absolute;
-        top: 50%; left: @h-padding;
-        .lui_transform(translate(0, -50%));
-        font-size: @icon-size;
-    }
-}
-
-// Colors
-// =====
-// Default coloring
-// Default coloring
-.lui.callout {
+    // Default coloring
+    // =====
     .lui_callout_coloring_handler(@fill-bg, @fill-txt);
-}
-.lui.callout.success {
-    .lui_icon_maker(check);
-}
-.lui.callout.warning {
-    .lui_icon_maker(warning);
-}
-.lui.callout.error {
-    .lui_icon_maker(error);
+
+    // Content paragraphs
+    // =====
+    p:first-child {
+        margin-top: 0;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    // Header
+    // =====
+    > .header {
+        font-size: 1.25rem;
+        padding: 0 @h-padding 0.5em @h-padding;
+        margin: 0 -@h-padding 0.5em -@h-padding;
+    }
+
+
+    // Footer
+    // =====
+    > .footer {
+        text-align: right;
+        margin: @v-padding -@h-padding -@v-padding -@h-padding;
+        padding: @v-padding @h-padding;
+        background: #F6F6F6;
+    }
+
+    // Hacking side border position
+    // ====
+    &:not(.filled) {
+        border-left: none;
+
+        &.up {
+            border-top-width: 0;
+            border-left: 1px solid @lui_colors-grey_light;
+        }
+        &.down {
+            border-bottom-width: 0;
+            border-left: 1px solid @lui_colors-grey_light;
+        }
+        &.right {
+            border-right-width: 0;
+            border-left: 1px solid @lui_colors-grey_light;
+        }
+    }
 }
 
 
@@ -45,7 +70,10 @@
  * Filled style
  * --------------------------------------------------------------------------- */
 
-.lui.callout.fill {
+.lui.callout.filled {
+    &:after {
+        display: none;
+    }
 }
 
 
@@ -66,7 +94,9 @@
     position: relative;
     box-sizing: border-box;
     &:after {
+        visibility: visible !important; // neutralise possible clearfix
         position: absolute;
+        z-index: 2;
         display: block;
         content: "";
     }
@@ -76,55 +106,31 @@
     &:after {
         top: 0; left: 0;
         width: @border-width;
-        height: 100%;
+        min-height: 100%;
     }
 
-    &.top:after {
+    &.up:after {
         top: 0; left: 0;
         width: 100%;
-        height: @border-width;
+        min-height: @border-width;
     }
     &.right:after {
         top: 0; left: auto; right: 0;
         width: @border-width;
-        height: 100%;
+        min-height: 100%;
     }
     &.left:after {
         top: 0; left: 0;
         width: @border-width;
-        height: 100%;
+        min-height: 100%;
     }
-    &.bottom:after {
-        top: 0; left: 0;
+    &.down:after {
+        top: auto; bottom: 0; left: 0;
         width: 100%;
-        height: @border-width;
+        min-height: @border-width;
     }
 
-    // Colors
+    // Default coloring
     // =====
-    &:after {
-        background: @lui_colors-grey; // Default is "grey"
-    }
-
-    &.primary:after {
-        background: @lui_colors-primary;
-    }
-    &.secondary:after {
-        background: @lui_colors-secondary;
-    }
-    &.yellow:after {
-        background: @lui_colors-yellow;
-    }
-    &.light:after {
-        background: @lui_colors-grey_light;
-    }
-    &.success:after {
-        background: @lui_colors-success;
-    }
-    &.warning:after {
-        background: @lui_colors-warning;
-    }
-    &.error:after {
-        background: @lui_colors-error;
-    }
+    .lui_side_border_coloring_handler(@lui_colors-grey); // Default is "grey"
 }
