@@ -1,8 +1,14 @@
+/** ---------------------------------------------------------------------------
+ * ------ GLOBAL VARIABLES
+ * ---------------------------------------------------------------------------- */
+
 @import "_variables.defaults.less";
+
 
 /** ---------------------------------------------------------------------------
  * ------ UTILITIES
  * ---------------------------------------------------------------------------- */
+
 @import "utilities/_resets";
 @import "utilities/_mixins";
 @import "utilities/_flex";
@@ -20,30 +26,29 @@
  * --------------------------------------------------------------------------- */
 
 & {
+    @columns: 12;
+    @container-space-around: 3em;
+    @gutter: 1em;
+
+    @column: 100%/@columns;
+
+    // Break-points
+    // =====
+    @tablet: @lui_breakpoints-tablet;
+    @desktop: @lui_breakpoints-desktop;
+    @large: @lui_breakpoints-large;
+
     @import "definitions/_grid";
 }
-
-
-/**
- * Block - your basic everyday building block
- * --------------------------------------------------------------------------- */
-
-& {
-    @raised-shadow: @lui_defaults-raised_shadow;
-    @border: @lui_defaults-border;
-    @border-inverted: @lui_defaults-border-inverted;
-    @border-radius: @lui_defaults-border_radius;
-
-    @import "elements/_block";
-}
-
 
 
 /**
   * Colors
   * --------------------------------------------------------------------------- */
 
-@import "definitions/_colors.less";
+& {
+    @import "definitions/_colors.less";
+}
 
 
  /**
@@ -61,10 +66,10 @@
     @heading-v-margin: 0;
     @heading-font-weight: normal;
 
-    @h1-size: 3em;
+    @h1-size: 2.5em;
     @h1-weight: 300;
     @h2-size: 1.75em;
-    @h2-weight: 300;
+    @h2-weight: 400;
     @h3-size: 1.5em;
     @h3-weight: 400;
     @h4-size: 1.25em;
@@ -79,6 +84,14 @@
     @import "definitions/_typography.less";
 }
 
+
+/**
+ * Link
+ * --------------------------------------------------------------------------- */
+
+& {
+    @import "definitions/_link";
+}
 
 
 /** ---------------------------------------------------------------------------
@@ -95,10 +108,6 @@
 
      @import "elements/_icon";
  }
-
-
-@import "elements/_link";
-
 
 
 /**
@@ -126,6 +135,57 @@
 
 
 /**
+ * Menu
+ * --------------------------------------------------------------------------- */
+& {
+    @v-margin: 0;
+    @h-margin: 0;
+    @v-padding: 0;
+    @h-padding: 0;
+
+    @border-color: @lui_defaults-border-color;
+    @border-color-inverted: @lui_defaults-border-color-inverted;
+
+    @border-width: 1px;
+
+    @divider-color: @lui_defaults-border-color;
+    @divider-width: @lui_defaults-larger_border;
+    @divider-active-color: @lui_colors-primary;
+
+    @vertical-item-y-padding: 1rem;
+    @vertical-item-x-padding: 1rem;
+    @vertical-item-y-margin: 0;
+    @vertical-item-x-margin: 0;
+
+    @horizontal-item-y-padding: 0.5rem;
+    @horizontal-item-x-padding: 1rem;
+    @horizontal-item-y-margin: 0;
+    @horizontal-item-x-margin: 0;
+
+    @header-weight: inherit;
+    @header-size: '';
+
+    @pills-radius: @lui_defaults-border_radius;
+
+    @import "elements/_menu";
+}
+
+
+/**
+ * Block - your basic everyday building block
+ * --------------------------------------------------------------------------- */
+
+& {
+    @raised-shadow: @lui_defaults-raised_shadow;
+    @border: @lui_defaults-border;
+    @border-inverted: @lui_defaults-border-color-inverted;
+    @border-radius: @lui_defaults-border_radius;
+
+    @import "elements/_block";
+}
+
+
+/**
  * Input
  * --------------------------------------------------------------------------- */
 
@@ -141,16 +201,17 @@
     @import "elements/_input";
 }
 
+
 /**
  * Label
  * --------------------------------------------------------------------------- */
 
 & {
-    @default-background: #FFF;
+    @default-background: rgba(50, 50, 50, 0.15);
     @default-color: @lui_colors-grey;
     @border-radius: @lui_defaults-border_radius;
-    @v-padding: @lui_sizes-v_padding;
-    @h-padding: @lui_sizes-h_padding;
+    @v-padding: 0.5em;
+    @h-padding: 0.5em;
 
     @small: @lui_sizes-small;
     @regular: @lui_sizes-regular;
@@ -159,6 +220,7 @@
 
     @import "elements/_label";
 }
+
 
 /**
  * Divider
@@ -171,15 +233,13 @@
     @import "elements/_divider";
 }
 
-/**
- * Menu
- * --------------------------------------------------------------------------- */
-& {
-    @divider-width: @lui_defaults-border-width;
-    @active-border-width: @lui_defaults-larger_border;
-    @active-border-color: @lui_colors-primary;
 
-    @import "elements/_menu";
+/**
+ * Grid
+ * --------------------------------------------------------------------------- */
+
+& {
+    @import "elements/_breadcrumbs";
 }
 
  /**
@@ -190,12 +250,10 @@
     @border-color: @lui_colors-grey_light;
     @border-width: @lui_defaults-larger_border;
 
-    @v-padding: @lui_sizes-v_padding;
-    @h-padding: @lui_sizes-h_padding;
+    @v-padding: 1em;
+    @h-padding: 2em;
     @v-margin: 1em;
     @h-margin: 0;
-
-    @icon-size: 1.5em;
 
     @background: #FFF;
     @color: #FFF;

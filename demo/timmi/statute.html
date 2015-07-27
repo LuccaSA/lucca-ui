@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+    	<meta charset="UTF-8">
+    	<title>Timmi statutes</title>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+
+    	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+    	<link rel="stylesheet" href="timmi-styles.min.css"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <nav id="main-navigation" role="navigation" class="lui primary inverted dividing vertical menu">
+            <a class="item has updates" ui-sref=""><i class="lui clock icon"></i></a>
+            <a class="item" ui-sref=""><i class="lui check icon"></i></a>
+            <a class="item" ui-sref=""><i class="lui outside icon"></i></a>
+            <a class="active item" ui-sref=""><i class="lui settings icon"></i></a>
+        </nav>
+
+        <main id="main-content">
+            <header id="main-header">
+                <div class="lui container">
+                    <h1>Réglementaires <span class="lui regular secondary label">12</span></h1>
+
+                    <button class="lui large yellow button">Nouveau</button>
+                </div>
+            </header>
+
+            <section id="main-view" class="fit-screen">
+                <div id="statutes-view" class="lui container">
+                    <aside id="statutes" class="lui absolute column mobile-12 tablet-4 large-3">
+                        <nav class="lui primary vertical dividing menu">
+                            <h4 class="lui double dashed divider header item">Salariés <button class="lui light flat regular button help icon"></button></h4>
+
+                            <a class="item active" href="#">Définir les salariés concernés <span class="lui small label has addon"><i class="lui user icon"></i>128</span></a>
+                            <a class="item" href="#">Modalités de déclaration <i class="lui small orange circular label warning icon"></i></a>
+                        </nav>
+
+                        <nav class="lui primary vertical dividing menu">
+                            <h4 class="lui double dashed divider header item">Législation<button class="lui light flat regular button help icon"></button></h4>
+
+                            <a class="item" href="#">Restrictions absolues</a>
+                            <a class="item" href="#">Circuit de validation</a>
+                            <span class="lui divider dashed item">Contrôles <button class="lui light flat regular button help icon"></button></span>
+                            <a class="item" href="#">Horaires d'ouverture / fermeture</a>
+                            <a class="item" href="#">Jours chômés</a>
+                            <a class="item" href="#">Durée du temps de travail</a>
+                            <a class="item" href="#">Seuil d'heures supplémentaires</a>
+                            <a class="item" href="#">Durée de la pause</a>
+                            <a class="item" href="#">Durée du repos quotidien</a>
+                            </ul>
+                        </nav>
+
+                        <nav class="lui primary vertical dividing menu">
+                            <h4 class="lui double dashed divider header item">Comptabilisation <button class="lui light flat regular button help icon"></button></h4>
+                            <a class="item" href="#">Compteurs</a>
+                            <a class="item" href="#">Choix du compteur par le salarié</a>
+                            <span class="lui divider dashed item">Règles de décompte <button class="lui light flat regular button help icon"></button></span>
+                            <a class="item" href="#">Heures supplémentaires</a>
+                            <a class="item" href="#">Jours chômés travaillés</a>
+                            <a class="item" href="#">Effet de seuil</a>
+                            </ul>
+                        </nav>
+
+                    </aside>
+                    <section id="statute" class="lui column mobile-12 tablet-8 tablet-offset-4 large-9 large-offset-3">
+                        <header class="lui container dashed divider menu">
+                            <h2 class="header item">Cadres au forfait - 48h<button class="lui regular flat button edit icon"></button></h2>
+
+                            <div class="right item">
+                                <div class="lui large buttons">
+                                    <button class="lui files icon button" title="Dupliquer"></button>
+                                    <button class="lui trash icon button" title="Supprimer"></button>
+                                </div>
+                                <button class="lui large yellow button has right addon">Save<i class="lui check icon addon"></i></button>
+                            </div>
+                        </header>
+
+                        <div class="lui container">
+                            <div class="lui orange filled callout">
+                                <h4 class="lui header"><i class="lui large warning icon"></i> Il n'y a aucun salarié dans ce réglementaire !</h4>
+                                <p>Rattachez un cycle de travail au réglementaire afin d'ajouter tous les salariés porteurs de ce cycle de travail.</p>
+                            </div>
+                            <h4>Tralala</h4>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,149 @@
+
+@import "../../less2/lucca-ui2.less";
+
+@primary-color: #6ca;
+@primary-color-over: #FFF;
+
+
+@lui_colors-primary: @primary-color;
+@lui_colors-over_primary: @primary-color-over;
+@lui_colors-primary_lightondark: true;
+
+@lui_colors-secondary: teal;
+@lui_colors-over_secondary: #FFF;
+@lui_colors-secondary_lightondark: true;
+
+// Main Navigation variables
+// ====
+@navigation-bg: #344f5d;
+@navigation-width: 3.5rem;
+
+// Main Header variables
+// ====
+@header-height: 5rem;
+@header-bottom-margin: 2rem;
+
+body {
+    background-color: #eee;
+}
+
+/**
+ * Main navigation - stuck left
+ * --------------------------------------------------------------------------- */
+
+#main-navigation {
+    background: @navigation-bg;
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    width: @navigation-width;
+    font-size: 1.25em;
+    a {
+        color: lighten(@navigation-bg, 25);
+
+        .lui_transition_properties(color);
+
+        // Hover and active states
+        // ====
+        &:hover, &.active {
+            background: darken(@navigation-bg, 1);
+            color: #FFF;
+        }
+
+        // Updates / Todo styling
+        // ====
+        &.has.updates {
+            > i:after {
+                display: block;
+                position: absolute;
+                left: 2.25em; top: 50%; margin-top: -2px;
+                content: "";
+                border-radius: 50%;
+                background: @lui_colors-yellow;
+                width: 5px; height: 5px;
+            }
+
+            &.due {
+                > i:after {
+                    background: @lui_colors-red;
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ * Main Content
+ * --------------------------------------------------------------------------- */
+
+main#main-content {
+    margin-left: @navigation-width;
+
+    position: relative;
+    min-height: 100%;
+}
+
+
+/**
+ * Main Header
+ * --------------------------------------------------------------------------- */
+
+main#main-content #main-header {
+    margin-bottom: @header-bottom-margin;
+    height: @header-height;
+
+    background-color: @primary-color;
+    color: @primary-color-over;
+}
+
+
+/**
+ * Main View
+ * --------------------------------------------------------------------------- */
+
+main#main-content #main-view {
+}
+
+main#main-content #main-view.fit-screen {
+    position: absolute;
+    top: @header-height + @header-bottom-margin;
+    bottom: @header-bottom-margin; left: 0; right: 0;
+}
+
+
+/**
+ * View: Statutes
+ * --------------------------------------------------------------------------- */
+
+main#main-content #main-view #statutes-view {
+    height: 100%;
+    background: #FFF;
+    border: 1px solid @lui_defaults-border-color;
+    border-left: none;
+    .lui_raised();
+
+    #statutes {
+        position: absolute;
+        top: 1px; bottom: 0;
+        overflow: auto;
+        border-right: 1px solid @lui_defaults-border-color;
+
+        > .lui.menu:first-child .item.header {
+            border-top: none;
+        }
+
+        .item:not(.header) {
+            background-color: #FAFAFA;
+        }
+        .icon.help {
+            color: #AAA;
+        }
+    }
+
+    #statute {
+        > header {
+            padding-top: 1em;
+            padding-bottom: 1em;
+        }
+    }
+}

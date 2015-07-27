@@ -14,7 +14,7 @@
 		<ul>
 			<li><a href="#"><b>LUCCA UI</b></a></li>
 			<li><a href="#lui-grid"><i class="lui icon blocks"></i>The grid</a></li>
-			<li><a href="#typography"><i class="lui icon list"></i>Typography</a></li>
+			<li><a href="#lui-typography"><i class="lui icon list"></i>Typography</a></li>
 			<li><a href="#lui-button"><i class="lui icon blocks"></i>Button</a></li>
 			<li><a href="#lui-icon"><i class="lui icon check"></i>Icons</a></li>
 			<li><a href="#lui-label"><i class="lui icon check"></i>Labels</a></li>
@@ -37,7 +37,67 @@
 		</p>
 	</div>
 
-	<article id="typography">
+	<article id="lui-grid">
+
+		<h2 class="lui divider below">The grid</h2>
+
+		<p>
+			By default, the grid is 12 columns based, but that can be overriden.
+		</p>
+		<p>
+			Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
+		</p>
+		<p>
+			To define the size of a grid element for mobiles, give it the <code>lui column mobile-x</code> classes where x is the number of columns.
+			For tablets, use <code>lui column tablet-x</code>, for desktop, <code>lui column desktop-x</code> and finally, for large screens,
+			<code>lui column large-x</code>.
+		</p>
+
+		<p>
+			You can offset a specific grid child with the <code>{device}-offset-x</code> class.
+		</p>
+		<p>
+			You can reorder children elements with the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes.
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Example #1: Without gutter space</h4>
+		</div>
+
+		<div class="lui container">
+			<div class="lui column tablet-6 desktop-10"><p>&nbsp;</p></div>
+			<div class="lui column tablet-3 desktop-2"><p>&nbsp;</p></div>
+			<div class="lui column tablet-3"><p>&nbsp;</p></div>
+
+			<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
+			<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
+			<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
+		</div>
+
+		<div class="lui divider">
+			<h4 class="lui underline">Example #2: With gutter space</h4>
+		</div>
+		<p>
+			Adding the <code>spaced</code> class to a column will give it a gutter. Adding it to the <code>.lui.container</code> parent element will give gutters to all <code>.lui.column</code> children.
+		</p>
+		<p>
+			To neutralise gutter space around the container, wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element (plural).
+		</p>
+		<div class="lui container spaced">
+			<div class="lui columns">
+				<div class="lui column mobile-push-6 mobile-6 tablet-push-0 tablet-6 desktop-10"><p>&nbsp;</p></div>
+				<div class="lui column mobile-pull-6 mobile-6 tablet-push-0 tablet-3 desktop-2"><p>&nbsp;</p></div>
+				<div class="lui column tablet-3"><p>&nbsp;</p></div>
+
+				<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
+				<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
+				<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
+			</div>
+		</div>
+	</article>
+
+	<article id="lui-typography">
+		<h2 class="lui divider below">Typography</h2>
+
 		<h4 class="lui divider">Lucca's less framework <span class="lui sub heading">Introduction</span></h4>
 		<p>
 			Semantics (from Ancient Greek: σημαντικός sēmantikós, "significant")[1][2] is the study of meaning. It focuses on the relation between signifiers, like words, phrases, signs, and symbols, and what they stand for; their denotation. Linguistic semantics is the study of meaning that is used for understanding human expression through language. Other forms of semantics include the semantics of programming languages, formal logics, and semiotics. In international scientific vocabulary semantics is also called semasiology.
@@ -68,25 +128,6 @@
 		</div>
 	</article>
 
-	<article id="lui-grid">
-
-		<h2 class="lui divider below">The grid</h2>
-
-		<p>
-			Adding the <code>spaced</code> class to a column will give it a gutter. Adding it to the <code>.lui.container</code> parent element will give gutters to all <code>.column</code> children.
-		</p>
-
-		<div class="lui container">
-			<div class="lui column tablet-6 desktop-10"><p>&nbsp;</p></div>
-			<div class="lui column tablet-3 desktop-2"><p>&nbsp;</p></div>
-			<div class="lui column tablet-3"><p>&nbsp;</p></div>
-
-			<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
-			<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
-			<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
-		</div>
-	</article>
-
 	<article id="lui-button">
 		<h2 class="lui divider below">Buttons</h2>
 
@@ -96,7 +137,7 @@
 		<button class="lui button"><i class="lui icon edit"></i>Default</button>
 		<button class="lui button flat">Flat</button>
 		<button class="lui button wired primary">Wired</button>
-		<button class="lui button fill primary">Fill</button>
+		<button class="lui button filling primary">Filling</button>
 		<div class="dark inline">
 			<button class="lui button inverted">Inverted</button>
 		</div>
@@ -112,14 +153,14 @@
 		<p>
 			<b>Icon addon:</b> <button class="lui button has addon"><i class="lui addon icon send"></i>Send message</button>
 			<button class="lui button wired primary has addon"><i class="lui addon icon send"></i>Send message</button>
-			<button class="lui button fill secondary has addon right">Add user<i class="lui addon icon add-user"></i></button>
+			<button class="lui button filling secondary has addon right">Add user<i class="lui addon icon add-user"></i></button>
 		</p>
 
 		<b>With different styles:</b>
 		<button class="lui button flat"><i class="lui icon analytics"></i>Flat</button>
 		<button class="lui button primary"><i class="lui icon lock"></i>Unlock me!</button>
 		<button class="lui button wired secondary">Take a picture<i class="lui icon camera right"></i></button>
-		<button class="lui button error disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
+		<button class="lui button red disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
 
 		<div class="lui divider">
 			<h4 class="lui underline">Button colors</h4>
@@ -129,19 +170,19 @@
 		<button class="lui button yellow">Yellow (Lucca's color)</button>
 		<button class="lui button grey">Grey</button>
 		<button class="lui button light">Light</button>
-		<button class="lui button error">Error</button>
-		<button class="lui button warning">Warning</button>
-		<button class="lui button success">Success</button>
+		<button class="lui button red">Red</button>
+		<button class="lui button orange">Orange</button>
+		<button class="lui button green">Green</button>
 
 		<div class="lui divider">
 			<h4 class="lui underline">Various button examples</h4>
 		</div>
-		<button class="lui button wired success">Wired - Secondary</button>
-		<button class="lui button fill success">Fill - Success</button>
+		<button class="lui button wired green">Wired - Green</button>
+		<button class="lui button filling green">Filling - green</button>
 
 		<div class="dark">
 			<button class="lui button inverted">Inverted - Default</button>
-			<button class="lui button inverted fill success">Inverted - Fill - Success</button>
+			<button class="lui button inverted filling green">Inverted - Filling - Green</button>
 			<button class="lui button wired inverted light">Inverted - Wired - Light</button>
 		</div>
 
@@ -178,10 +219,10 @@
 		</nav>
 
 		<nav class="lui buttons">
-			<button class="lui button fill primary">01</button>
-			<button class="lui button fill secondary">02</button>
-			<button class="lui button fill grey">03</button>
-			<button class="lui button fill success">04</button>
+			<button class="lui button filling primary">01</button>
+			<button class="lui button filling secondary">02</button>
+			<button class="lui button filling grey">03</button>
+			<button class="lui button filling green">04</button>
 		</nav>
 
 		<nav class="lui buttons dark">
@@ -192,20 +233,17 @@
 		</nav>
 
 		<nav class="lui buttons dark">
-			<button class="lui button fill primary inverted">01</button>
-			<button class="lui button fill primary inverted">02</button>
-			<button class="lui button fill primary inverted">03</button>
-			<button class="lui button fill primary inverted">04</button>
+			<button class="lui button filling primary inverted">01</button>
+			<button class="lui button filling primary inverted">02</button>
+			<button class="lui button filling primary inverted">03</button>
+			<button class="lui button filling primary inverted">04</button>
 		</nav>
 
-		<p>
-			When using fitted buttons, make sure to use anchor tags rather than buttons.
-		</p>
-		<nav class="lui buttons fit large">
-			<a class="lui button fill primary">01</a>
-			<a class="lui button fill primary">02</a>
-			<a class="lui button fill primary">03</a>
-			<a class="lui button fill primary">04</a>
+		<nav class="lui buttons justify large">
+			<a class="lui button filling primary">01</a>
+			<a class="lui button filling primary">02</a>
+			<a class="lui button filling primary">03</a>
+			<a class="lui button filling primary">04</a>
 		</nav>
 	</article>
 
@@ -449,7 +487,7 @@
 		<span class="lui label primary">Primary</span></h3>
 		<span class="lui label secondary">Secondary</span></h3>
 		<span class="lui label"><i class="lui icon edit"></i>With icon</span></h3>
-		<span class="lui label has addons success">
+		<span class="lui label has addons green">
 			<span class="lui addon">Users:</span> 128 <i class="lui addon icon user right"></i>
 		</span>
 	</article>
@@ -551,9 +589,9 @@
 				<b>Default</b> - This is just a regular callout. <a href="#" class="lui button flat">Learn more</a>
 			</p>
 		</div>
-		<div class="lui callout fill error">
+		<div class="lui callout filled red">
 			<p>
-				<b>Filled</b> - This is a 'fill' style callout
+				<b>Filled</b> - This is a 'filled' style callout
 			</p>
 		</div>
 
@@ -561,12 +599,20 @@
 			Callouts can be listed in a `.lui.callouts` parent element:
 		</p>
 
-		<p class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
-			<span class="lui callout fill error">Error!<button class="lui button flat">Dismiss</button></span>
-			<span class="lui callout fill success">Success<button class="lui button flat">Dismiss</button></span>
-			<span class="lui callout fill warning">Achtung!<button class="lui button flat">Dismiss</button></span>
-			<span class="lui callout fill grey">Fair enough...<button class="lui button flat">Dismiss</button></span>
-		</p>
+		<div class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
+			<div class="lui filled red callout">
+				<h4 class="header">Error!</h4>
+				<p>
+					Something went terribly wrong
+				</p>
+				<div class="footer actions">
+					<button class="lui button flat">Dismiss</button>
+				</div>
+			</div>
+			<span class="lui filled green callout">Success<button class="lui button flat">Dismiss</button></span>
+			<span class="lui filled orange callout">Achtung!<button class="lui button flat">Dismiss</button></span>
+			<span class="lui filled callout">Fair enough...<button class="lui button flat">Dismiss</button></span>
+		</div>
 	</article>
 
 	<article id="lui-menu" class="clear">
@@ -585,7 +631,7 @@
 				</li>
 			</ul>
 		</nav>
-		<nav class="lui menu vertical success" style="width: 250px;float:left;">
+		<nav class="lui menu vertical green" style="width: 250px;float:left;">
 			<ul>
 				<li>
 					<a href="#" class="active">And I am</a>
@@ -636,7 +682,7 @@
 
 		<div class="lui menus vertical column tablet-6">
 			<h4 class="active">Group 01</h4>
-			<nav class="lui menu">
+			<nav class="lui menu vertical compact borderless">
 				<ul>
 					<li>
 						<a href="#" class="active">Item 01</a>
@@ -650,7 +696,7 @@
 				</ul>
 			</nav>
 			<h4>Group 02</h4>
-			<nav class="lui menu">
+			<nav class="lui menu vertical compact borderless">
 				<ul>
 					<li>
 						<a href="#">Item 01</a>
@@ -900,6 +946,105 @@
 			<li>Legal entity 6</li>
 		</ul>
 	</article>
+
+
+	<h2 class="lui divider below">Menu</h2>
+
+	<p>
+		The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
+		Giving it the <code>vertical</code> class will change this.
+	</p>
+
+	<div class="lui bordered menu">
+		<a href="#" class="item">Item 1</a>
+		<a href="#" class="item">Item 2</a>
+		<a href="#" class="item">Item 3</a>
+	</div>
+
+	<div class="lui divider">
+		<h4 class="lui underline">Right / Left sections</h4>
+	</div>
+
+	<div class="lui raised bordered menu">
+		<div class="lui menu left">
+			<a href="#" class="item">I have</a>
+			<a href="#" class="item">items here</a>
+			<a href="#" class="item">on the left</a>
+		</div>
+
+		<div class="lui item right">
+			<div class="lui buttons">
+				<button class="lui button icon edit"></button>
+				<button class="lui button icon files"></button>
+				<button class="lui button icon trash"></button>
+			</div>
+
+			<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
+		</div>
+	</div>
+
+	<div class="lui divider">
+		<h4 class="lui underline">Dividing style</h4>
+	</div>
+	<p>
+		Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
+		The color of the active border can be changed by adding a color class.
+	</p>
+	<div class="lui menu green dividing center aligned">
+		<div class="item header">Dividing style</div>
+		<a class="item active" href="#">I am dividing</a>
+		<a class="item" href="#">as well as</a>
+		<a class="item" href="#">center aligned</a>
+
+		<div class="lui item right">
+			<div class="lui input search fit">
+				<input type="search" name="name" placeholder="Search..." value="">
+			</div>
+		</div>
+	</div>
+
+	<div class="lui vertical menu primary dividing right" style="float:left;">
+		<div class="item header">Vertical right</div>
+		<a class="item active" href="#">Item 01</a>
+		<a class="item" href="#">Item 02</a>
+		<a class="item" href="#">Item 03</a>
+	</div>
+	<div class="lui vertical menu dividing" style="float:right;">
+		<div class="item header">Vertical (left)</div>
+		<a class="item active" href="#">Item 01 <span class="lui label">2</span></a>
+		<a class="item" href="#">Item 02</a>
+		<a class="item" href="#">Item 03</a>
+	</div>
+	<div class="clear"></div>
+	<div class="lui menu dividing justify up">
+		<div class="menu left">
+			<div class="item header">Justified</div>
+
+			<a class="item active" href="#">I am</a>
+			<a class="item" href="#">justified</a>
+			<a class="item" href="#">(with flex)</a>
+		</div>
+
+		<div class="lui menu right">
+			<div class="lui buttons">
+				<button class="lui button icon edit"></button>
+				<button class="lui button icon files"></button>
+				<button class="lui button icon trash"></button>
+			</div>
+
+			<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
+		</div>
+	</div>
+
+	<div class="lui divider">
+		<h4 class="lui underline">Pills style</h4>
+	</div>
+	<div class="lui menu pills justify">
+		<div class="item header">Pills style</div>
+		<a class="item active" href="#">Item 01</a>
+		<a class="item" href="#">Item 02</a>
+		<a class="item" href="#">Item 03</a>
+	</div>
 </section>
 </body>
 </html>
