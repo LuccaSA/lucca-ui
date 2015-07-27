@@ -4,14 +4,14 @@
  * --------------------------------------------------------------------------- */
 .lui.label {
     display: inline-block;
-    font-size: 1em;
+    vertical-align: middle;
+    font-size: 0.85em;
     padding: @v-padding @h-padding;
     margin: 0 0.5em;
     font-weight: normal;
     line-height: 1em;
     text-align: center;
     white-space: nowrap;
-    vertical-align: baseline;
     border-radius: @border-radius;
 
     // Icon support
@@ -20,6 +20,16 @@
         margin-right: 0.25em;
         &.right {
             margin-right: 0; margin-left: 0.25em;
+        }
+    }
+
+    // Circular
+    // =====
+    &.circular {
+        display: inline-block;
+        border-radius: 1em;
+        &.icon:after {
+            font-size: .5em;
         }
     }
 
@@ -35,6 +45,7 @@
 
 .lui.label.has.addon,
 .lui.label.has.addons {
+    .display-flex(true);
     > .addon {
         display: inline-block;
         vertical-align: top;
@@ -65,6 +76,15 @@
 	font-size: @x-large;
 }
 
+/**
+ * Headings
+ * --------------------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+    .lui.label {
+        margin-top: -.15em;
+    }
+}
 
 .lui.label.pointing {
     &.up {
