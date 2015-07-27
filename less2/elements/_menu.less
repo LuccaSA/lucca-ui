@@ -1,275 +1,401 @@
 
 /**
- * Button color
+ * Menu
  * --------------------------------------------------------------------------- */
 
 .lui.menu {
-    display: block;
-    border-color: rgba(50, 50, 50, 0.25);
-    border-style: solid;
-    border-width: 0;
+    .display-flex();
+    .flex-wrap(wrap);
 
-    ul {
-        .lui_unstyled_list();
-    }
+    margin: @v-margin @h-margin;
+    padding: @v-padding @h-padding;
 
-    a {
-        .lui_unstyled_links();
-    }
+    &:first-child { margin-top: 0; }
+    &:last-child { margin-bottom: 0; }
 
-    > ul > li > a {
-        display: block;
-        padding: 1em 0;
-        &:first-child {
-            margin-left: 0;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-        &:after {
-            display: block;
-            content: "";
-        }
+    // resets
+    .clear();
+    ul { .lui_unstyled_list(); }
+    a { .lui_unstyled_links(); }
+}
 
-        &:hover:after {
-            background-color: rgba(50, 50, 50, 0.25);
-        }
-    }
+// Default coloring
+// ====
+.lui_menu_coloring_handler(@lui_colors-grey);
 
-    // Inverted support
-    // =====
+// Borders
+// ====
+.lui.menu.bordered {
+    border: @border-width solid @border-color;
     &.inverted {
-        border-color: rgba(255, 255, 255, 0.25);
-        > ul > li > a:after {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
+        border: @border-width solid @border-color-inverted;
     }
-
-    > ul > li > a {
-        &.active {
-            font-weight: 600;
-        }
-        &:active:after, &.active:after {
-            background-color: @active-border-color;
-        }
+}
+.lui.menu.bordered {
+    .item {
+        border-right: @border-width solid @border-color;
+    }
+    &.inverted .item {
+        border-right: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        right: -@border-width;
+    }
+}
+.lui.menu.vertical.bordered {
+    .item {
+        border-bottom: @border-width solid @border-color;
+    }
+    &.inverted .item {
+        border-bottom: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        border-bottom: none;
     }
 }
 
-// horizontal
+// Sub menu
 // ====
-.lui.menu:not(.vertical), .lui.menu.horizontal {
-
-    > ul > li {
-        margin: 0 1em;
-        position: relative;
-        display: inline-block;
-    }
-
-    > ul > li > a {
-        &:after {
-            position: absolute;
-            left: 0; right: 0;
-            margin-left:auto; margin-right:auto;
-            height: @active-border-width;
-            width: 0;
-            .lui_transition_properties(background-color, width);
-        }
-        &:hover:after,
-        &:active:after,
-        &.active:after {
-            width: 100%;
-        }
-    }
-
-    &:not(.bottom) {
-        border-bottom-width: @divider-width;
-        > ul > li > a:after {
-            bottom: -@divider-width;
-        }
-    }
-
-    &.bottom {
-        border-top-width: @divider-width;
-
-        > ul > li > a:after {
-            top: -@divider-width;
-        }
-    }
-
-    // Slim
-    // =====
-    &.slim:not > ul > li > a:after {
-        height: @divider-width;
-    }
-
-
-    // Alignments
-    // =====
-    &.align.right {
-        text-align: right;
-    }
-
-    &.align.center {
-        text-align: center;
-    }
-
-    // Justified
-    // =====
-    &.justified {
-        text-align: center;
-        > ul {
-            .display-flex();
-            .flex-justify-content(space-around);
-        }
-    }
+.lui.menu .menu {
+    border-width: 0;
+    margin: 0;
 }
-
-// vertical
-// ====
-.lui.menu.vertical {
-    > ul > li {
-        display: block;
-    }
-    > ul > li > a {
-        position: relative;
-        padding: 1em;
-        &:after {
-            position: absolute;
-            top: 0;
-            width: @active-border-width;
-            height: 100%;
-            transform: scale(1, 0);
-            .lui_transition_properties(background-color, transform);
-        }
-        &:hover:after, &:active:after, &.active:after {
-            transform: scale(1, 1);
-        }
-    }
-
-    // Left side
-    // =====
-    &:not(.right) {
-        border-right-width: @divider-width;
-        border-right-style: solid;
-
-        > ul > li > a {
-            &:after {
-                left: 0;
-                margin: 0 1em 0 -@divider-width;
-            }
-        }
-    }
-
-    // Right side
-    // =====
-    &.right {
-        border-left-width: @divider-width;
-        border-left-style: solid;
-        > ul > li > a {
-            &:after {
-                right: 0;
-                margin: 0 -@divider-width 0 1em;
-            }
-        }
-    }
-
-}
-
-// Slim
-// =====
-.lui.menu.slim > ul > li > a:after {
-    width: @divider-width;
-}
-
-
-// Compact
-// =====
-.lui.menu.compact {
-    > ul > li > a {
-        padding: 0.5em 1em;
-    }
-}
-
-// Icon support
-// ====
-.lui.menu > ul > li a > .lui.icon {
-    margin-right: 0.5em;
-}
-
-// borderless
-// ====
-.lui.menu.borderless {
-    border-color: transparent;
-}
-
-// fixed position
-// ====
-.lui.menu.fixed {
-    position: fixed;
-    overflow: auto;
-
-    &.top {
-        top: 0; left: 0; right: 0;
-    }
-
-    &.left {
-        top: 0; bpttom: 0; left: 0;
-    }
-    &.right {
-        top: 0; bottom: 0; right: 0;
-    }
-    &.bottom {
-        bottom: 0; left: 0; right: 0;
-    }
-}
-
-// Divider support
-// =====
-.lui.menu.vertical > ul > li.divider {
-    padding-left: 1em;
-    color: rgba(50, 50, 50, 0.5);
+.lui.menu:not(.vertical) > .menu {
+    .display-flex();
 }
 
 
 /**
- * Menus
+ * Menu item
  * --------------------------------------------------------------------------- */
-.lui.menus.vertical {
-    border-bottom: 1px solid @lui_defaults-border-color;
 
-    > .lui.menu {
-        .lui.menu.vertical;
-        .lui.menu.borderless;
-        .lui.menu.compact;
+// Common
+// ====
+.lui.menu .item {
+    // Resets
+    position: relative;
+    line-height: 1;
+    .clear();
 
-        > ul {
-            padding: 1em 0;
-            border-top: 1px solid @lui_defaults-border-color;
-            > li {
-                margin: 0;
-            }
+    // Label support
+    // ====
+    > .label {
+        float: right;
+        margin-right: 0;
+        margin-top: -0.15em;
+    }
+}
+
+// Active item
+// ====
+.lui.menu .item.active {
+    font-weight: 600;
+}
+
+// Divider item
+// ====
+.lui.menu.vertical .item.divider:not(.header) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+// Header item
+// ====
+.lui.menu .item.header {
+    font-size: @header-size;
+    font-weight: @header-weight;
+}
+
+ // Horizontal menu item
+ // ====
+ .lui.menu:not(.vertical) .item {
+     // Old browsers
+     display: inline-block;
+     vertical-align: middle;
+
+     .display-flex();
+     .flex-align-items(center);
+
+     padding: @horizontal-item-y-padding @horizontal-item-x-padding;
+     margin: @horizontal-item-y-margin @horizontal-item-x-margin;
+ }
+
+// Vertical menu item
+// ====
+.lui.menu.vertical .item {
+    display: block;
+
+     padding: @vertical-item-y-padding @vertical-item-x-padding;
+     margin: @vertical-item-y-margin @vertical-item-x-margin;
+}
+
+// Element support
+// ====
+.lui.item .button,
+.lui.item.button,
+.lui.item .buttons,
+.lui.item.buttons,
+.lui.item .input,
+.lui.item.input {
+    .flex-align-self(center);
+}
+
+
+/**
+ * Items - groups (horizontal menus only)
+ * --------------------------------------------------------------------------- */
+
+// Horizontal left floated
+// ====
+.lui.menu:not(.vertical) .left.item,
+.lui.menu:not(.vertical) .left.menu {
+    float: left; // old browsers...
+    .display-flex();
+    .flex-wrap(wrap);
+    margin-right: auto;
+}
+// Horizontal right floated
+// ====
+.lui.menu:not(.vertical) .right.item,
+.lui.menu:not(.vertical) .right.menu {
+    float: right; // old browsers...
+    .display-flex();
+    .flex-wrap(wrap);
+    margin-left: auto;
+}
+// vertical
+// ====
+.lui.menu.vertical .menu,
+.lui.menu.vertical .item {
+    .flex-direction(column);
+}
+// Borders
+// ====
+.lui.menu.bordered,
+.lui.menu.bordered {
+    &.inverted:not(.vertical) {
+        .left.item, .left.menu {
+            border-right: @border-width solid @border-color-inverted;
+        }
+        .right.item, .right.menu {
+            border-left: @border-width solid @border-color-inverted;
         }
     }
+    &:not(.inverted):not(.vertical) {
+        .left.item, .left.menu {
+            border-right: @border-width solid @border-color;
+        }
+        .right.item, .right.menu {
+            border-left: @border-width solid @border-color;
+        }
+    }
+}
+.lui.menu.vertical .left + .right {
+    border-top: none;
+}
 
-    > h4 {
+
+/**
+ * Menu orientation
+ * --------------------------------------------------------------------------- */
+
+// Menu orientation - Horizontal (default)
+// ====
+.lui.menu:not(.vertical) {
+    .flex-direction(row);
+
+}
+
+// Menu orientation - Vertical
+// ====
+.lui.menu.vertical {
+    .flex-direction(column);
+
+    .menu .item {
+        border-right: none;
+    }
+}
+
+
+// Raised support
+// ====
+.lui.menu.raised {
+    .lui_drop_shadow();
+}
+
+
+
+
+/**
+ * Menu styles
+ * --------------------------------------------------------------------------- */
+
+ // Dividing - Common
+ // ====
+.lui.menu.dividing {
+    border-color: @divider-color;
+
+    .item {
+        padding: @horizontal-item-y-padding 0;
+        margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
+    }
+
+    .item.right, .menu.right {
+        border-left: none !important;
+    }
+    .item.left, .menu.left {
+        border-right: none !important;
+    }
+
+    a.item:before, a.item:after {
+        visibility: visible;
+        position: absolute;
+        display: block; content: "";
+        .lui_transition_properties(width, height);
+    }
+}
+// Dividing - Horizontal
+// ====
+.lui.menu.dividing:not(.vertical) {
+    a.item:after,
+    a.item:before {
+        left: 0; right: 0;
+        margin: 0 auto;
+        width: 0; height: @divider-width;
+    }
+
+    // Dividing is down
+    // ====
+    &:not(.up), &.down {
+        border-bottom-width: @divider-width;
+        border-bottom-style: solid;
+        a.item:after {
+            margin-bottom: -@divider-width;
+            bottom: -(@horizontal-item-y-margin + @v-padding);
+        }
+        a.item:hover:after, a.item:active:after, a.item.active:after {
+            width: 100%;
+        }
+    }
+    // Dividing is up
+    // ====
+    &.up {
+        border-top-width: @divider-width;
+        border-top-style: solid;
+        a.item:before {
+            margin-top: -@divider-width;
+            top: -(@horizontal-item-y-margin + @v-padding);
+        }
+        a.item:hover:before, a.item:active:before, a.item.active:before {
+            width: 100%;
+        }
+    }
+}
+// Dividing - Vertical
+// ====
+.lui.menu.dividing.vertical {
+    .item {
+        margin: @vertical-item-y-margin @vertical-item-x-margin;
+        padding: @vertical-item-y-padding @vertical-item-x-padding;
+    }
+    a.item:after,
+    a.item:before {
+        top: 50%; bottom: 0;
+        -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        width: @divider-width; height: 0;
+    }
+
+    // Divider is down
+    // ====
+    &:not(.right), &.left {
+        border-left-width: @divider-width;
+        border-left-style: solid;
+        a.item:before {
+            margin-left: -@divider-width;
+            left: -(@vertical-item-x-margin + @h-padding);
+        }
+        a.item:hover:before, a.item:active:before, a.item.active:before {
+            height: 100%;
+        }
+    }
+    // Divider is up
+    // ====
+    &.right {
+        border-right-width: @divider-width;
+        border-right-style: solid;
+        a.item:after {
+            margin-right: -@divider-width;
+            right: -(@vertical-item-x-margin + @h-padding);
+        }
+        a.item:hover:after, a.item:active:after, a.item.active:after {
+            height: 100%;
+        }
+    }
+}
+
+
+// Pills
+// ====
+.lui.menu.pills {
+    border: none;
+
+    .item {
+        border-right: none !important;
+    }
+
+    a.item {
+        border-radius: @pills-radius;
         margin: 0;
-        padding: 0.5em 1em;
-        border-top: 1px solid @lui_defaults-border-color;
+        .lui_transition_properties(background);
 
-        &.active + .lui.menu {
-            display: block;
+        &:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        &:active, &.active {
+            // @TODO
+            background: red;
         }
     }
+}
+.lui.menu.pills:not(.vertical) a.item {
+    padding: (@horizontal-item-y-padding + @horizontal-item-y-margin) (@horizontal-item-x-padding + @horizontal-item-x-margin);
+}
+.lui.menu.pills.vertical a.item {
+    padding: (@vertical-item-y-padding + @vertical-item-y-margin) (@vertical-item-x-padding + @vertical-item-x-margin);
+}
 
-    @media (max-width: @lui_breakpoints-tablet) {
-        > .lui.menu {
-            max-height: 0;
-            overflow: hidden;
-            .lui_transition();
-        }
-
-        > h4.active + .lui.menu {
-            max-height: 1000px;
-        }
+// Alignments
+// ====
+.lui.menu.justify:not(.vertical) {
+    .flex-justify-content(space-between);
+    &:after {
+        display: none;
     }
+}
+.lui.menu.aligned-right {
+    text-align: right;
+}
+.lui.menu.aligned-center {
+    text-align: center;
+}
+
+
+/**
+ * Other elements support
+ * --------------------------------------------------------------------------- */
+
+ // Dividing style + .item.side-border
+ // ====
+.lui.menu.vertical.dividing:not(.right) .item.side-border:after {
+     left: -@divider-width;
+}
+.lui.menu.vertical.dividing.right .item.side-border.right:after {
+     right: -@divider-width;
+}
+.lui.menu:not(.vertical).dividing:not(.up) .item.side-border.up:after {
+     top: -@divider-width;
+}
+.lui.menu.vertical.dividing.up .item.side-border.down:after {
+     bottom: -@divider-width;
 }
