@@ -111,3 +111,16 @@
     -ms-flex: @grow @shrink @basis;
     flex: @grow @shrink @basis;
 }
+
+/**
+ * Align self - flex-start | flex-end | center | baseline | stretch
+ * --------------------------------------------------------------------------- */
+
+.flex-align-self(@direction: flex-start) { // flex-start | flex-end | center | baseline | stretch
+   // Internet Explorer
+   -ms-flex-item-align: @direction;
+   & when (@direction = flex-start) { -ms-flex-item-align: start; }
+   & when (@direction = flex-end) { -ms-flex-item-align: end; }
+
+   align-self: @direction;
+}
