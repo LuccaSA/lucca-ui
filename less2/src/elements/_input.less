@@ -59,18 +59,18 @@
    // =====
    &.ng.ng-invalid, // angular support
    &.invalid {
-       color: @lui_colors-red;
+       color: @invalid-color;
        > input {
-           color: @lui_colors-red;
-           border-color: @lui_colors-red;
+           color: @invalid-color;
+           border-color: @invalid-color;
            &::-webkit-input-placeholder {
-               color: lighten(@lui_colors-red, 15);
+               color: lighten(@invalid-color, 15);
            }
            &::-moz-placeholder {
-               color: lighten(@lui_colors-red, 15);
+               color: lighten(@invalid-color, 15);
            }
            &::-ms-input-placeholder {
-               color: lighten(@lui_colors-red, 15);
+               color: lighten(@invalid-color, 15);
            }
        }
    }
@@ -143,21 +143,6 @@
     &.addons > input {
         border-radius: 0;
     }
-}
-
-// Sizes support
-// =====
-.lui.input.small {
-    font-size: @lui_sizes-small;
-}
-.lui.input.regular {
-    font-size: 1rem;
-}
-.lui.input.large {
-    font-size: @lui_sizes-large;
-}
-.lui.input.x-large {
-    font-size: @lui_sizes-x-large;
 }
 
 .lui.input.short {
@@ -288,7 +273,7 @@
         &:after {
             font-size: 0.8em;
             z-index: 3;
-            color: @lui_colors-primary;
+            color: @checkbox-color;
             opacity: 0;
             .lui_transition();
         }
@@ -335,8 +320,8 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-		background: @lui_colors-grey;
-		color: darken(@lui_colors-grey, 15);
+		background: @switch-bg;
+		color: @switch-color;
 		.lui_transition();
 		.lui_icon_maker(check, left);
 		.lui_icon_maker(close, right);
@@ -380,8 +365,8 @@
 				display: block;
 				height: 50%;
 				width: 0.1em;
-				background: @lui_colors-grey_light;
-				box-shadow: -0.2em 0 0 0 @lui_colors-grey_light, 0.2em 0 0 0 @lui_colors-grey_light;
+				background: @switch-grab-lines-color;
+				box-shadow: -0.2em 0 0 0 @switch-grab-lines-color, 0.2em 0 0 0 @switch-grab-lines-color;
 				margin: auto;
 				.lui_transition();
 			}
@@ -389,8 +374,8 @@
 	}
 
 	input:checked ~ label {
-		background: @lui_colors-primary;
-		color: darken(@lui_colors-primary, 15);
+		background: @switch-bg-active;
+		color: @switch-color-active;
 	}
 
 	input:checked ~ label span {

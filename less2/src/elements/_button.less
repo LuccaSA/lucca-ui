@@ -48,29 +48,9 @@
 	.lui_no_shadows();
 }
 .lui.button.disabled {
-	.lui_opacity(0.5);
+	opacity: 0.5;
 	cursor: normal;
 	pointer-events: none;
-}
-
-/**
- * Button sizes
- * --------------------------------------------------------------------------- */
-.lui.button.regular,
-.lui.buttons.regular {
- 	font-size: @regular;
- }
-.lui.button.small,
-.lui.buttons.small {
-	font-size: @small;
-}
-.lui.button.large,
-.lui.buttons.large {
-	font-size: @large;
-}
-.lui.button.x-large,
-.lui.buttons.x-large {
-	font-size: @x-large;
 }
 
 
@@ -376,20 +356,3 @@ h5 .lui.button,
 h6 .lui.button {
 	vertical-align: middle;
 }
-
-
-/**
- * Bootstrap overrides
- * --------------------------------------------------------------------------- */
- .lui.btn-primary {
- 	&, &:active, &.active, &:focus, &:hover {
- 		background-color: @lui_colors-primary;
- 		border-color: @lui_colors-primary;
- 	}
- }
- .lui.btn-secondary {
- 	&, &:active, &.active, &:focus, &:hover {
- 		background-color: @lui_colors-secondary;
- 		border-color: @lui_colors-secondary;
- 	}
- }

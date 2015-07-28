@@ -1,17 +1,20 @@
 
-@import "../../less2/lucca-ui2.less";
+@import "../../less2/lucca-ui.less";
+
+@theme: "luccaUI-overrides";
+@themeDir: "../demo/timmi/";
+
+
 
 @primary-color: #6ca;
 @primary-color-over: #FFF;
+@secondary-color: teal;
+@secondary-color-over: #FFF;
+@yellow: #FFC900;
+@red: #f60;
 
+@border-color: rgba(50, 50, 50, 0.2);
 
-@lui_colors-primary: @primary-color;
-@lui_colors-over_primary: @primary-color-over;
-@lui_colors-primary_lightondark: true;
-
-@lui_colors-secondary: teal;
-@lui_colors-over_secondary: #FFF;
-@lui_colors-secondary_lightondark: true;
 
 // Main Navigation variables
 // ====
@@ -58,13 +61,13 @@ body {
                 left: 2.25em; top: 50%; margin-top: -2px;
                 content: "";
                 border-radius: 50%;
-                background: @lui_colors-yellow;
+                background: @yellow;
                 width: 5px; height: 5px;
             }
 
             &.due {
                 > i:after {
-                    background: @lui_colors-red;
+                    background: @red;
                 }
             }
         }
@@ -118,15 +121,14 @@ main#main-content #main-view.fit-screen {
 main#main-content #main-view #statutes-view {
     height: 100%;
     background: #FFF;
-    border: 1px solid @lui_defaults-border-color;
+    border: 1px solid @border-color;
     border-left: none;
-    .lui_raised();
 
     #statutes {
         position: absolute;
         top: 1px; bottom: 0;
         overflow: auto;
-        border-right: 1px solid @lui_defaults-border-color;
+        border-right: 1px solid @border-color;
 
         > .lui.menu:first-child .item.header {
             border-top: none;

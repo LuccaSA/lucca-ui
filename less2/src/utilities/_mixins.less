@@ -67,20 +67,6 @@
     transition-easing: @easing;
 }
 
-/**
- * Opacity
- * --------------------------------------------------------------------------- */
-
-.lui_opacity(@opacity) {
-  -moz-opacity: @opacity;
-  -khtml-opacity: @opacity;
-  -webkit-opacity: @opacity;
-  opacity: @opacity;
-  @opperc: @opacity * 100;
-  -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
-  filter: ~"alpha(opacity=@{opperc})";
-}
-
 
  /**
   * Floats
@@ -114,28 +100,15 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.lui_drop_shadow(
-    @x-axis: @lui_defaults-shadow-width,
-    @y-axis: @lui_defaults-shadow-height,
-    @blur: @lui_defaults-shadow-blur,
-    @spread: @lui_defaults-shadow-spread,
-    @color: @lui_defaults-shadow-color) {
+.lui_drop_shadow(@x-axis, @y-axis, @blur, @spread, @color) {
     -webkit-box-shadow: @x-axis @y-axis @blur @spread @color;
     -moz-box-shadow: @x-axis @y-axis @blur @spread @color;
     box-shadow: @x-axis @y-axis @blur @spread @color;
 }
-.lui_inner_shadow(
-    @x-axis: @lui_defaults-shadow-width,
-    @y-axis: @lui_defaults-shadow-height,
-    @blur: @lui_defaults-shadow-blur,
-    @spread: @lui_defaults-shadow-spread,
-    @color: @lui_defaults-shadow-color) {
+.lui_inner_shadow(@x-axis, @y-axis, @blur, @spread, @color) {
     -webkit-box-shadow: @x-axis @y-axis @blur @spread @color inset;
     -moz-box-shadow: @x-axis @y-axis @blur @spread @color inset;
     box-shadow: @x-axis @y-axis @blur @spread @color inset;
-}
-.lui_raised() {
-    .lui_drop_shadow();
 }
 
 /**

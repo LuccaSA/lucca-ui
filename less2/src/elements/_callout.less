@@ -8,9 +8,8 @@
     overflow: hidden;
     // Default style
     .lui.side-border;
-    .lui_raised();
     margin: @v-margin @h-margin;
-    border: 1px solid @lui_colors-grey_light;
+    border: 1px solid @border-color;
     background: @background;
     padding: @v-padding @h-padding;
 
@@ -52,15 +51,15 @@
 
         &.up {
             border-top-width: 0;
-            border-left: 1px solid @lui_colors-grey_light;
+            border-left: 1px solid @border-color;
         }
         &.down {
             border-bottom-width: 0;
-            border-left: 1px solid @lui_colors-grey_light;
+            border-left: 1px solid @border-color;
         }
         &.right {
             border-right-width: 0;
-            border-left: 1px solid @lui_colors-grey_light;
+            border-left: 1px solid @border-color;
         }
     }
 }
@@ -132,5 +131,5 @@
 
     // Default coloring
     // =====
-    .lui_side_border_coloring_handler(@lui_colors-grey); // Default is "grey"
+    .lui_side_border_coloring_handler(@default-coloring); // Default is "grey"
 }

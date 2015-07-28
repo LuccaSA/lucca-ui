@@ -42,19 +42,6 @@ i.lui.icon {
     .lui_icon_base();
     display: inline-block;
     vertical-align: middle;
-
-    &.small {
-        font-size: @lui_sizes-small;
-    }
-    &.regular {
-        font-size: @lui_sizes-regular;
-    }
-    &.large {
-        font-size: @lui_sizes-large;
-    }
-    &.x-large {
-        font-size: @lui_sizes-x-large;
-    }
 }
 
 [lui-icon] {
@@ -62,30 +49,6 @@ i.lui.icon {
     display: inline-block;
     &:before {
         content: attr(lui-icon);
-    }
-}
-
-/**
- * Loading support
- * --------------------------------------------------------------------------- */
-
-.lui.icon.spinner,
-.lui.icon.loader {
-    .lui_loader();
-
-    // Sizes
-    // ====
-    &.small {
-        font-size: @lui_sizes-small;
-    }
-    &.regular {
-        font-size: @lui_sizes-regular;
-    }
-    &.large {
-        font-size: @lui_sizes-large;
-    }
-    &.x-large {
-        font-size: @lui_sizes-x-large;
     }
 }
 
@@ -99,6 +62,11 @@ i.lui.icon {
 // Menu item with only an icon
 .lui.menu > ul > li > a.icon {
     .lui_icon_base();
+}
+// Loader support
+.lui.icon.spinner,
+.lui.icon.loader {
+    .lui_loader();
 }
 
 // Icon classes
@@ -188,7 +156,6 @@ i.lui.icon {
 // Edit Mini
 .lui.icon.edit-mini:before {
     content: "u";
-    font-size: @lui_sizes-small;
 }
 // Ellipsis
 .lui.icon.ellipsis:before {

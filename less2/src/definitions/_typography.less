@@ -15,7 +15,7 @@ body {
 }
 
 small {
-    font-size: @lui_sizes-small;
+    font-size: @small-size;
 }
 
 /**
@@ -100,6 +100,20 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/**
+ * Links
+ * --------------------------------------------------------------------------- */
+
+a {
+    color: @link-color;
+    &:hover, &:active {
+        color: @link-color-over;
+    }
+
+    &[ui-sref] {
+        cursor: pointer;
+    }
+}
 
 
 /**

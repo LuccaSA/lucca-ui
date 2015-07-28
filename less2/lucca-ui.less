@@ -1,0 +1,405 @@
+
+/** ---------------------------------------------------------------------------
+ * ------ UTILITIES
+ * ---------------------------------------------------------------------------- */
+// These are globals
+@import "src/utilities/_resets";
+@import "src/utilities/_mixins";
+@import "src/utilities/_flex";
+@import "src/utilities/_add-color";
+@import "src/utilities/_loader";
+@import "src/utilities/_icon-maker";
+
+
+/** ---------------------------------------------------------------------------
+ * ------ DEFINITIONS
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Sizes
+ * ----------------------------------------------------------------------------- */
+
+& {
+    @small: 0.8em;
+    @regular: 1rem;
+    @large: 1.25em;
+    @x-large: 1.5em;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_sizes";
+    }
+}
+
+
+ /**
+   * Colors
+   * --------------------------------------------------------------------------- */
+
+ & {
+     @grey: #666;
+     @grey-over: #fff;
+     @light-grey: #CCC;
+
+     @primary: #FFC900;
+     @primary-over: #666;
+     @primary-lightondark: false;
+
+     @secondary: #f60;
+     @secondary-over: #FFF;
+     @secondary-lightondark: true;
+
+     @red: #f60;
+     @red-over: #FFF;
+     @red-lightondark: true;
+
+     @orange: #f90;
+     @orange-over: #FFF;
+     @orange-lightondark: true;
+
+     @green: #5cb85c;
+     @green-over: #FFF;
+     @green-lightondark: true;
+
+     @yellow: #FFC900;
+     @yellow-over: #666;
+     @yellow-lightondark: false;
+
+     @enabled: true;
+     @import "@{themeDir}@{theme}/definitions/colors.overrides.less";
+
+     & when (@enabled = true) {
+         @import "src/definitions/_colors.less";
+     }
+ }
+
+
+/**
+ * Grid
+ * --------------------------------------------------------------------------- */
+
+& {
+    @columns: 12;
+    @container-space-around: 3em;
+    @gutter: 1em;
+
+    @column: 100%/@columns;
+
+    // Break-points
+    // =====
+    @tablet: 768px;
+    @desktop: 992px;
+    @large: 1200px;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_grid";
+    }
+}
+
+
+ /**
+  * Typography
+  * --------------------------------------------------------------------------- */
+
+& {
+    @font-size: 15px;
+    @font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
+    @color: #666;
+    @line-height: 1.4em;
+
+    @heading-font: @font-family;
+    @heading-line-height: 1.25em;
+    @heading-v-margin: 0;
+    @heading-font-weight: normal;
+
+    @h1-size: 2.5em;
+    @h1-weight: 300;
+    @h2-size: 1.75em;
+    @h2-weight: 400;
+    @h3-size: 1.5em;
+    @h3-weight: 400;
+    @h4-size: 1.25em;
+    @h4-weight: 400;
+    @h5-size: 1.1em;
+    @h5-weight: 600;
+    @h6-size: 1em;
+    @h6-weight: 600;
+
+    @link-color: #666;
+    @link-color-over: #444;
+
+    @small-size: 0.8em;
+
+    @icon-size: 0.8em;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_typography.less";
+    }
+}
+
+
+/**
+ * Raised
+ * --------------------------------------------------------------------------- */
+
+& {
+    @x: 0;
+    @y: 1px;
+    @blur: 2px;
+    @spread: 0;
+    @color: rgba(0, 0, 0, 0.2);
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/definitions/rqised.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_raised.less";
+    }
+}
+
+
+/** ---------------------------------------------------------------------------
+ * ------ ELEMENTS
+ * ---------------------------------------------------------------------------- */
+ // These are the elements
+
+ /**
+  * Icon
+  * --------------------------------------------------------------------------- */
+ & {
+     @font_path: "/dist/fonts/LuccaIcons";
+     @font_name: "lucca-icons";
+
+     @enabled: true;
+     @import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
+
+     & when (@enabled = true) {
+         @import "src/elements/_icon";
+     }
+ }
+
+
+/**
+ * Button
+ * --------------------------------------------------------------------------- */
+& {
+    @text-transform: normal;
+    @min-height: 1em;
+    @min-width: 3em;
+    @v-padding: 0.5em;
+    @h-padding: 1em;
+    @v-margin: 0.25em;
+    @h-margin: 0.25em;
+    @text-shadow: none;
+    @border-radius: 3px;
+    @default-background: #FFF;
+    @default-color: #666;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/button.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_button";
+    }
+}
+
+
+/**
+ * Menu
+ * --------------------------------------------------------------------------- */
+& {
+    @default-coloring: #666;
+
+    @v-margin: 0;
+    @h-margin: 0;
+    @v-padding: 0;
+    @h-padding: 0;
+
+    @border-color: rgba(50, 50, 50, 0.2);
+    @border-color-inverted: rgba(255, 255, 255, 0.2);
+
+    @border-width: 1px;
+
+    @divider-color: rgba(50, 50, 50, 0.2);
+    @divider-width: 3px;
+    @divider-active-color: #FFC900;
+
+    @vertical-item-y-padding: 1rem;
+    @vertical-item-x-padding: 1rem;
+    @vertical-item-y-margin: 0;
+    @vertical-item-x-margin: 0;
+
+    @horizontal-item-y-padding: 0.5rem;
+    @horizontal-item-x-padding: 1rem;
+    @horizontal-item-y-margin: 0;
+    @horizontal-item-x-margin: 0;
+
+    @header-weight: inherit;
+    @header-size: '';
+
+    @pills-radius: 3px;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/menu.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_menu";
+    }
+}
+
+
+/**
+ * Block - your basic everyday building block
+ * --------------------------------------------------------------------------- */
+
+& {
+    @border: 1px solid rgba(50, 50, 50, 0.2);
+    @border-inverted: rgba(255, 255, 255, 0.2);
+    @border-radius: 3px;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/block.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_block";
+    }
+}
+
+
+/**
+ * Input
+ * --------------------------------------------------------------------------- */
+
+& {
+    @border-radius: 3px;
+    @border-color: #CCC;
+    @color: #666;
+    @v-padding: 0.5em;
+    @h-padding: 1em;
+    @placeholder-color: rgba(0, 0, 0, 0.5);
+    @placeholder-style: italic;
+    @invalid-color: #f60;
+
+    @checkbox-color: #FFC900;
+
+    @switch-bg: #666;
+    @switch-color: darken(@switch-bg, 15);
+
+    @switch-bg-active: #FFC900;
+    @switch-color-active: darken(@switch-bg-active, 15);
+    @switch-grab-lines-color: #CCC;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_input";
+    }
+}
+
+
+/**
+ * Label
+ * --------------------------------------------------------------------------- */
+
+& {
+    @default-background: rgba(50, 50, 50, 0.15);
+    @default-color: #666;
+    @border-radius: 3px;
+    @v-padding: 0.5em;
+    @h-padding: 0.5em;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/label.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_label";
+    }
+}
+
+
+/**
+ * Divider
+ * --------------------------------------------------------------------------- */
+
+& {
+    @border-color: rgba(50, 50, 50, 0.2);
+    @divider-weight: 1px;
+    @larger-weight: 3px;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/divider.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_divider";
+    }
+}
+
+
+/**
+ * Breadcrumbs
+ * --------------------------------------------------------------------------- */
+
+& {
+    @dividers-color:rgba(50, 50, 50, 0.2);
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/breadcrumbs.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_breadcrumbs";
+    }
+}
+
+ /**
+  * Callout
+  * --------------------------------------------------------------------------- */
+& {
+    @background: #FFF;
+    @border-color: #CCC;
+    @border-width: 3px;
+
+    @default-coloring: #CCC;
+
+    @v-padding: 1em;
+    @h-padding: 2em;
+    @v-margin: 1em;
+    @h-margin: 0;
+
+    @background: #FFF;
+    @color: #FFF;
+    @fill-bg: #CCC;
+    @fill-txt: #222;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/callout.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_callout";
+    }
+}
+
+
+/**
+ * Bootstrap Overrides...
+ * --------------------------------------------------------------------------- */
+
+& {
+    @primary-color: #FFC900;
+    @secondary-color: #f60;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/bs-overrides.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_bs-overrides.less";
+    }
+}
