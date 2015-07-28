@@ -11,7 +11,7 @@ body, html {
 .lui.container {
     margin: 0  @container-space-around;
     padding: 0;
-    width: auto;
+    width: @container-width;
 
     .lui.column {
         float: left;
@@ -23,6 +23,11 @@ body, html {
         margin-left: 1em;
         margin-right: 1em;
     }
+}
+
+// A fitted container will have no outer margin
+.lui.container.fitted {
+    margin: 0;
 }
 
 // Add gutter
