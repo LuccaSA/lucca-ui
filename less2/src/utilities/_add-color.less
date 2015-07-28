@@ -91,8 +91,13 @@
             color:@color;
         }
 
-        &.filling:hover {
-            color: @txt-over;
+        &.filling {
+            box-shadow: 0 0 0 1px @color inset;
+            color: @color;
+
+            &:hover {
+                color: @txt-over;
+            }
         }
     }
 

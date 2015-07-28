@@ -68,7 +68,7 @@
      @yellow-lightondark: false;
 
      @enabled: true;
-     @import "@{themeDir}@{theme}/definitions/colors.overrides.less";
+     @import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
 
      & when (@enabled = true) {
          @import "src/definitions/_colors.less";
