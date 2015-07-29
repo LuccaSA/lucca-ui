@@ -390,3 +390,27 @@
 .lui.menu.vertical.dividing.up .item.side-border.down:after {
      bottom: -@divider-width;
 }
+
+
+/**
+ * Stuck: fixed positionning
+ * --------------------------------------------------------------------------- */
+
+.lui.menu.stuck-top,
+.lui.menu.stuck-left,
+.lui.menu.stuck-right,
+.lui.menu.stuck-bottom {
+    position: fixed;
+}
+.lui.menu.stuck-top {
+    top: 0; left: 0; right: 0;
+}
+.lui.menu.stuck-right {
+    top: 0; bottom: 0; right: 0;
+}
+.lui.menu.stuck-bottom {
+    bottom: 0; left: 0; right: 0;
+}
+.lui.menu.stuck-left {
+    top: 0; bottom: 0; left: 0;
+}

@@ -159,10 +159,27 @@
     @color: rgba(0, 0, 0, 0.2);
 
     @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/rqised.overrides.less";
+    @import (optional) "@{themeDir}@{theme}/definitions/raised.overrides.less";
 
     & when (@enabled = true) {
         @import "src/definitions/_raised.less";
+    }
+}
+
+
+/**
+ * Pointing (directional triangular arrow)
+ * --------------------------------------------------------------------------- */
+
+& {
+    @triangle-color: #CCC;
+    @triangle-width: 1em;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/definitions/pointing.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/definitions/_pointing.less";
     }
 }
 
