@@ -1,0 +1,132 @@
+/**
+ * Main navigation - stuck left
+ * --------------------------------------------------------------------------- */
+
+#main-navigation {
+    background: @navigation-bg;
+    width: @navigation-width;
+
+    .lui_transition_properties(width);
+
+    a {
+        color: lighten(@navigation-bg, 25);
+        text-align: center;
+
+        .lui_transition_properties(color, height);
+
+        // Hover and active states
+        // ====
+        &:hover, &:active {
+            background: darken(@navigation-bg, 1);
+            color: #FFF;
+        }
+        &:hover, &.active {
+            background: darken(@navigation-bg, 5);
+            color: #FFF;
+        }
+    }
+    // Item icon
+    // ====
+    a > i.icon {
+        font-size: @navigation-icon-size;
+    }
+
+    // Item title
+    // ====
+    a > span {
+        display: block;
+        padding-top: 0.5em;
+
+        font-size: @navigation-font-size;
+        font-weight: @navigation-font-weight;
+
+        opacity: 1;
+        transform: translateY(0);
+        .lui_transition_properties(opacity, transform, height);
+    }
+
+    // Updates / Todo styling
+    // ====
+    a.has.updates {
+        > i:after {
+            display: block;
+            position: absolute;
+            left: 2.25em; top: 50%; margin-top: -2px;
+            content: "";
+            border-radius: 50%;
+            background: @yellow;
+            width: @updates-bullet-size; height: @updates-bullet-size;
+        }
+
+        &.due > i:after {
+            background: @red;
+        }
+    }
+
+    // Compact behaviour
+    // ====
+    &.compact {
+        width: @navigation-width-compact;
+
+        a {
+            height: @navigation-compact-item-height;
+
+            i {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            > span {
+               transform: translateY(2em);
+               opacity: 0;
+               height: 0;
+            }
+        }
+
+        & + #main-content {
+            margin-left: @navigation-width-compact;
+        }
+    }
+}
+
+
+/**
+ * Main Content
+ * --------------------------------------------------------------------------- */
+
+main#main-content {
+    margin-left: @navigation-width;
+
+    position: relative;
+    min-height: 100%;
+
+    .lui_transition_properties(margin-left);
+}
+
+
+/**
+ * Main Header
+ * --------------------------------------------------------------------------- */
+
+main#main-content #main-header {
+    margin-bottom: @header-bottom-margin;
+    height: @header-height;
+
+    background-color: @primary-color;
+    color: @primary-color-over;
+}
+
+
+/**
+ * Main View
+ * --------------------------------------------------------------------------- */
+
+main#main-content #main-view {
+}
+
+main#main-content #main-view.fit-screen {
+    position: absolute;
+    top: @header-height + @header-bottom-margin;
+    bottom: @header-bottom-margin; left: 0; right: 0;
+}

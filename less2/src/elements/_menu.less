@@ -21,7 +21,7 @@
 
 // Default coloring
 // ====
-.lui_menu_coloring_handler(@default-coloring);
+.lui_menu_coloring_handler(@default-coloring-bg, @default-coloring-txt);
 
 // Borders
 // ====
@@ -169,6 +169,12 @@
 .lui.menu.vertical .item {
     .flex-direction(column);
 }
+// Vertical bottom "floated"
+// ====
+.lui.menu.vertical .bottom.item,
+.lui.menu.vertical .bottom.menu {
+    margin-top: auto !important;
+}
 // Borders
 // ====
 .lui.menu.bordered,
@@ -203,7 +209,6 @@
 // ====
 .lui.menu:not(.vertical) {
     .flex-direction(row);
-
 }
 
 // Menu orientation - Vertical
@@ -339,14 +344,6 @@
         border-radius: @pills-radius;
         margin: 0;
         .lui_transition_properties(background);
-
-        &:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        &:active, &.active {
-            // @TODO
-            background: red;
-        }
     }
 }
 .lui.menu.pills:not(.vertical) a.item {
@@ -396,21 +393,20 @@
  * Stuck: fixed positionning
  * --------------------------------------------------------------------------- */
 
-.lui.menu.stuck-top,
-.lui.menu.stuck-left,
-.lui.menu.stuck-right,
-.lui.menu.stuck-bottom {
-    position: fixed;
-}
-.lui.menu.stuck-top {
-    top: 0; left: 0; right: 0;
-}
-.lui.menu.stuck-right {
-    top: 0; bottom: 0; right: 0;
-}
-.lui.menu.stuck-bottom {
-    bottom: 0; left: 0; right: 0;
-}
-.lui.menu.stuck-left {
-    top: 0; bottom: 0; left: 0;
+.lui.menu.stuck {
+    &-top, &-left, &-right, &-bottom {
+        position: fixed;
+    }
+    &-top {
+        top: 0; left: 0; right: 0;
+    }
+    &-right {
+        top: 0; bottom: 0; right: 0;
+    }
+    &-bottom {
+        bottom: 0; left: 0; right: 0;
+    }
+    &-left {
+        top: 0; bottom: 0; left: 0;
+    }
 }

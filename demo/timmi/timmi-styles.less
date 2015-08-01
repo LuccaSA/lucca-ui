@@ -1,117 +1,17 @@
+@import "less/_variables";
 
 @import "../../less2/lucca-ui.less";
-
 @theme: "luccaUI-overrides";
 @themeDir: "../demo/timmi/";
 
 
 
-@primary-color: #6ca;
-@primary-color-over: #FFF;
-@secondary-color: teal;
-@secondary-color-over: #FFF;
-@yellow: #FFC900;
-@red: #f60;
-
-@border-color: rgba(50, 50, 50, 0.2);
-
-
-// Main Navigation variables
-// ====
-@navigation-bg: #344f5d;
-@navigation-width: 3.5rem;
-
-// Main Header variables
-// ====
-@header-height: 5rem;
-@header-bottom-margin: 2rem;
 
 body {
     background-color: #eee;
 }
 
-/**
- * Main navigation - stuck left
- * --------------------------------------------------------------------------- */
-
-#main-navigation {
-    background: @navigation-bg;
-    width: @navigation-width;
-    font-size: 1.25em;
-
-    a {
-        color: lighten(@navigation-bg, 25);
-
-        .lui_transition_properties(color);
-
-        // Hover and active states
-        // ====
-        &:hover, &.active {
-            background: darken(@navigation-bg, 1);
-            color: #FFF;
-        }
-
-        // Updates / Todo styling
-        // ====
-        &.has.updates {
-            > i:after {
-                display: block;
-                position: absolute;
-                left: 2.25em; top: 50%; margin-top: -2px;
-                content: "";
-                border-radius: 50%;
-                background: @yellow;
-                width: 5px; height: 5px;
-            }
-
-            &.due {
-                > i:after {
-                    background: @red;
-                }
-            }
-        }
-    }
-}
-
-
-/**
- * Main Content
- * --------------------------------------------------------------------------- */
-
-main#main-content {
-    margin-left: @navigation-width;
-
-    position: relative;
-    min-height: 100%;
-}
-
-
-/**
- * Main Header
- * --------------------------------------------------------------------------- */
-
-main#main-content #main-header {
-    margin-bottom: @header-bottom-margin;
-    height: @header-height;
-
-    background-color: @primary-color;
-    color: @primary-color-over;
-}
-
-
-/**
- * Main View
- * --------------------------------------------------------------------------- */
-
-main#main-content #main-view {
-}
-
-main#main-content #main-view.fit-screen {
-    position: absolute;
-    top: @header-height + @header-bottom-margin;
-    bottom: @header-bottom-margin; left: 0; right: 0;
-}
-
+@import "less/_layout";
 
 /**
  * View: Statutes

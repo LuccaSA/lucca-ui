@@ -16,7 +16,7 @@
     }
 
     .lui.menu.@{name} {
-        .lui_menu_coloring_handler(@color);
+        .lui_menu_coloring_handler(@color, @txt-over);
     }
 }
 
@@ -124,9 +124,17 @@
 /**
  * Menu
  * --------------------------------------------------------------------------- */
-.lui_menu_coloring_handler(@color) {
+.lui_menu_coloring_handler(@color, @txt-over) {
     &.dividing a.item:before, &.dividing a.item:after {
         background-color: @color;
+    }
+    &.pills .item:active, &.pills .item.active {
+        background-color: @color;
+        color: @txt-over;
+    }
+    &.pills .item:hover {
+        background-color: hsla(hue(@color), saturation(@color), lightness(@color), 0.5);
+        color: @txt-over;
     }
 }
 

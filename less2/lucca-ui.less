@@ -234,7 +234,8 @@
  * Menu
  * --------------------------------------------------------------------------- */
 & {
-    @default-coloring: #666;
+    @default-coloring-bg: #666;
+    @default-coloring-txt: #FFF;
 
     @v-margin: 0;
     @h-margin: 0;
@@ -332,7 +333,7 @@
     @default-background: rgba(50, 50, 50, 0.15);
     @default-color: #666;
     @border-radius: 3px;
-    @v-padding: 0.5em;
+    @v-padding: 0.25em;
     @h-padding: 0.5em;
 
     @enabled: true;
@@ -402,22 +403,5 @@
 
     & when (@enabled = true) {
         @import "src/elements/_callout";
-    }
-}
-
-
-/**
- * Bootstrap Overrides...
- * --------------------------------------------------------------------------- */
-
-& {
-    @primary-color: #FFC900;
-    @secondary-color: #f60;
-
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/bs-overrides.overrides.less";
-
-    & when (@enabled = true) {
-        @import "src/definitions/_bs-overrides.less";
     }
 }
