@@ -1,0 +1,23 @@
+
+/**
+ * Main Header
+ * --------------------------------------------------------------------------- */
+
+#view #main-header {
+    margin-bottom: @header-bottom-margin;
+    height: @header-height;
+
+    background-color: @header-bg;
+}
+#view #main-header {
+	.lui_screens_lower_than(@tablet, {
+		height: auto;
+		padding: 1em 0;
+
+		.flex-justify-content(center);
+
+		.item, .menu {
+			margin: auto;
+		}
+	});
+}
