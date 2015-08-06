@@ -18,6 +18,17 @@
     .lui.menu.@{name} {
         .lui_menu_coloring_handler(@color, @txt-over);
     }
+
+    .lui.popover.@{name} {
+        .lui_popover_coloring_handler(@color, @txt-over, @lightOnDark);
+    }
+
+    .lui.table .tr.@{name} .th:first-child,
+    .lui.table .tr.@{name} .td:first-child,
+    .lui.table tr.@{name} th:first-child,
+    .lui.table tr.@{name} td:first-child {
+        .lui_table_coloring_handler(@color, @txt-over, @lightOnDark);
+    }
 }
 
 
@@ -183,5 +194,46 @@
 .lui_side_border_coloring_handler(@color) {
     &:after {
         background: @color;
+    }
+}
+
+
+/**
+ * Popover color
+ * --------------------------------------------------------------------------- */
+
+.lui_popover_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+    background-color: @color;
+    color: @txt-over;
+    border: none;
+    &.bottom:before {
+        border-bottom-color: @color;
+    }
+    &.top:before {
+        border-top-color: @color;
+    }
+    &.left:before {
+        border-left-color: @color;
+    }
+    &.right:before {
+        border-right-color: @color;
+    }
+}
+
+
+.lui_table_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+    display: table-cell;
+    position: relative;
+    box-sizing: border-box;
+    &:after {
+        visibility: visible !important; // neutralise possible clearfix
+        position: absolute;
+        z-index: 2;
+        display: block;
+        content: "";
+        top: 0; left: -1px;
+        width: 5px;
+        background: @color;
+        min-height: 100%;
     }
 }
