@@ -10,18 +10,16 @@
 	<link rel="stylesheet" href="demo.min.css"/>
 </head>
 <body>
-	<nav id="toc" class="lui menu vertical secondary inverted">
-		<ul>
-			<li><a href="#"><b>LUCCA UI</b></a></li>
-			<li><a href="#lui-grid"><i class="lui icon blocks"></i>The grid</a></li>
-			<li><a href="#lui-typography"><i class="lui icon list"></i>Typography</a></li>
-			<li><a href="#lui-button"><i class="lui icon blocks"></i>Button</a></li>
-			<li><a href="#lui-icon"><i class="lui icon check"></i>Icons</a></li>
-			<li><a href="#lui-label"><i class="lui icon check"></i>Labels</a></li>
-			<li><a href="#lui-input"><i class="lui icon edit"></i>Input</a></li>
-			<li><a href="#lui-callout"><i class="lui icon comment"></i>Callout</a></li>
-			<li><a href="#lui-menu"><i class="lui icon drag"></i>Menu</a></li>
-		</ul>
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="#lui-grid">The grid</a>
+		<a class="item" href="#lui-typography">Typography</a>
+		<a class="item" href="#lui-button">Button</a>
+		<a class="item" href="#lui-icon">Icons</a>
+		<a class="item" href="#lui-label">Labels</a>
+		<a class="item" href="#lui-input">Input</a>
+		<a class="item" href="#lui-callout">Callout</a>
+		<a class="item" href="#lui-menu">Menu</a>
 	</nav>
 
 
@@ -615,146 +613,10 @@
 		</div>
 	</article>
 
-	<article id="lui-menu" class="clear">
-		<h2 class="lui divider below">Menus</h2>
-
-		<nav class="lui menu align center">
-			<ul>
-				<li>
-					<a href="#" class="active">I am</a>
-				</li>
-				<li>
-					<a href="#">horizontal</a>
-				</li>
-				<li>
-					<a href="#">mate!</a>
-				</li>
-			</ul>
-		</nav>
-		<nav class="lui menu vertical green" style="width: 250px;float:left;">
-			<ul>
-				<li>
-					<a href="#" class="active">And I am</a>
-				</li>
-				<li>
-					<a href="#">vertical</a>
-				</li>
-				<li>
-					<a href="#">Sike!</a>
-				</li>
-			</ul>
-		</nav>
-		<nav class="lui menu vertical slim right grey" style="width: 250px;float:right;">
-			<ul>
-				<li>
-					<a href="#" class="active">And I am</a>
-				</li>
-				<li>
-					<a href="#">slim</a>
-				</li>
-				<li>
-					<a href="#">yo!</a>
-				</li>
-			</ul>
-		</nav>
-		<br style="clear:both">
-		<nav class="lui menu justified bottom">
-			<ul>
-				<li>
-					<a href="#" class="active">Justification</a>
-				</li>
-				<li>
-					<a href="#">requires flex support</a>
-				</li>
-				<li>
-					<a href="#">unfortunately :(</a>
-				</li>
-			</ul>
-		</nav>
-
-		<div class="lui divider">
-			<h4 class="lui underline">Menus</h4>
-		</div>
-
-		<p>
-			You can group up menus in a <code>.menus</code> parent element like this:
-		</p>
-
-		<div class="lui menus vertical column tablet-6">
-			<h4 class="active">Group 01</h4>
-			<nav class="lui menu vertical compact borderless">
-				<ul>
-					<li>
-						<a href="#" class="active">Item 01</a>
-					</li>
-					<li>
-						<a href="#">Item 02</a>
-					</li>
-					<li>
-						<a href="#">Item 03</a>
-					</li>
-				</ul>
-			</nav>
-			<h4>Group 02</h4>
-			<nav class="lui menu vertical compact borderless">
-				<ul>
-					<li>
-						<a href="#">Item 01</a>
-					</li>
-					<li>
-						<a href="#">Item 02</a>
-					</li>
-					<li>
-						<a href="#">Item 03</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</article>
-
-	<article id="lui-modal">
-		<div class="lui modal">
-			<header class="header">
-
-			</header>
-
-			<footer class="footer actions">
-				<button class="lui button primary">Ok</button>
-				<button class="lui button flat">Cancel</button>
-			</footer>
-		</div>
-	</article>
-
-
-	<article id="component-labels" class="component">
-		<h2>Labels</h2>
-		<p>
-			<code>class="lucca-label"</code>
-		</p>
-		<p>
-			Welcome John D. <span class="lucca-label">New messages!</span><span class="lucca-label primary round">99</span><span class="lucca-label light">So great!</span>
-		</p>
-
-		<h5>Users <span class="lucca-label white">New !</span></h5>
-	</article>
-
-
-	<article id="component-headings" class="component">
-		<h2>Headings</h2>
-		<div>
-			<h1>h1 heading</h1>
-			<h2>h2 heading</h2>
-			<h3>h3 heading</h3>
-			<h4>h4 heading</h4>
-			<h5>h5 heading</h5>
-			<h6>h6 heading</h6>
-		</div>
-	</article>
-
 	<article id="component-table" class="component">
 		<h2>Tables</h2>
 
-		<table class="lucca-table v-center">
+		<table class="lui table v-aligned">
 			<thead>
 			<tr>
 				<th class="small">#</th>
@@ -762,45 +624,45 @@
 				<th>Last Name</th>
 				<th>
 					<div class="lucca-button-group">
-						<button class="lucca-button white">Do something</button>
-						<button class="lucca-button white">Do something else</button>
+						<button class="lui button">Do something</button>
+						<button class="lui button">Do something else</button>
 					</div>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
-				<tr class="warning">
-					<th scope="row" class="small">1</th>
+				<tr class="orange">
+					<td scope="row" class="small">1</th>
 					<td>Mark</td>
 					<td>Otto</td>
 					<td>@mdo</td>
 				</tr>
 				<tr>
-					<th scope="row" class="small">2</th>
+					<td scope="row" class="small">2</th>
 					<td>Mark</td>
 					<td>Otto</td>
 					<td>@mdo</td>
 				</tr>
-				<tr class="error">
-					<th scope="row" class="small">3</th>
+				<tr class="red">
+					<td scope="row" class="small">3</th>
 					<td>Jacob</td>
 					<td>Thornton</td>
 					<td>@fat</td>
 				</tr>
 				<tr>
-					<th scope="row" class="small">4</th>
+					<td scope="row" class="small">4</th>
 					<td>Jacob</td>
 					<td>Thornton</td>
 					<td>@fat</td>
 				</tr>
 				<tr>
-					<th scope="row" class="small">5</th>
+					<td scope="row" class="small">5</th>
 					<td>Jacob</td>
 					<td>Thornton</td>
 					<td>@fat</td>
 				</tr>
-				<tr class="success">
-					<th scope="row" class="small">6</th>
+				<tr class="green">
+					<td scope="row" class="small">6</th>
 					<td>Larry</td>
 					<td>the Bird</td>
 					<td>@twitter</td>
@@ -808,54 +670,36 @@
 			</tbody>
 		</table>
 
-		<table class="lucca-table zebra">
-			<thead class="large">
-			<tr>
-				<th>#</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>USername</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr class="warning">
-				<th scope="row">1</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr class="error">
-				<th scope="row">3</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">4</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">5</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr class="success">
-				<th scope="row">6</th>
-				<td>Larry</td>
-				<td>the Bird</td>
-				<td>@twitter</td>
-			</tr>
-			</tbody>
-		</table>
+		<div class="lui table zebra">
+			<div class="thead large">
+				<div class="tr">
+					<div class="th">#</div>
+					<div class="th">First name</div>
+					<div class="th">Last name</div>
+					<div class="th">Username</div>
+				</div>
+			</div>
+			<div class="tbody">
+				<div class="tr orange">
+					<div class="td">1</div>
+					<div class="td">Mark</div>
+					<div class="td">Otto</div>
+					<div class="td">@mdo</div>
+				</div>
+				<div class="tr red">
+					<div class="td">2</div>
+					<div class="td">Mark</div>
+					<div class="td">Otto</div>
+					<div class="td">@mdo</div>
+				</div>
+				<div class="tr green">
+					<div class="td">3</div>
+					<div class="td">Mark</div>
+					<div class="td">Otto</div>
+					<div class="td">@mdo</div>
+				</div>
+			<div>
+		</div>
 	</article>
 
 	<article id="component-vertical-menu" class="component">
@@ -947,104 +791,105 @@
 		</ul>
 	</article>
 
+	<article id="lui-menu" class="component">
+		<h2 class="lui divider below">Menu</h2>
 
-	<h2 class="lui divider below">Menu</h2>
+		<p>
+			The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
+			Giving it the <code>vertical</code> class will change this.
+		</p>
 
-	<p>
-		The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
-		Giving it the <code>vertical</code> class will change this.
-	</p>
-
-	<div class="lui bordered menu">
-		<a href="#" class="item">Item 1</a>
-		<a href="#" class="item">Item 2</a>
-		<a href="#" class="item">Item 3</a>
-	</div>
-
-	<div class="lui divider">
-		<h4 class="lui underline">Right / Left sections</h4>
-	</div>
-
-	<div class="lui raised bordered menu">
-		<div class="lui menu left">
-			<a href="#" class="item">I have</a>
-			<a href="#" class="item">items here</a>
-			<a href="#" class="item">on the left</a>
+		<div class="lui bordered menu">
+			<a href="#" class="item">Item 1</a>
+			<a href="#" class="item">Item 2</a>
+			<a href="#" class="item">Item 3</a>
 		</div>
 
-		<div class="lui item right">
-			<div class="lui buttons">
-				<button class="lui button icon edit"></button>
-				<button class="lui button icon files"></button>
-				<button class="lui button icon trash"></button>
+		<div class="lui divider">
+			<h4 class="lui underline">Right / Left sections</h4>
+		</div>
+
+		<div class="lui raised bordered menu">
+			<div class="lui menu left">
+				<a href="#" class="item">I have</a>
+				<a href="#" class="item">items here</a>
+				<a href="#" class="item">on the left</a>
 			</div>
 
-			<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
-		</div>
-	</div>
+			<div class="lui item right">
+				<div class="lui buttons">
+					<button class="lui button icon edit"></button>
+					<button class="lui button icon files"></button>
+					<button class="lui button icon trash"></button>
+				</div>
 
-	<div class="lui divider">
-		<h4 class="lui underline">Dividing style</h4>
-	</div>
-	<p>
-		Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
-		The color of the active border can be changed by adding a color class.
-	</p>
-	<div class="lui menu green dividing center aligned">
-		<div class="item header">Dividing style</div>
-		<a class="item active" href="#">I am dividing</a>
-		<a class="item" href="#">as well as</a>
-		<a class="item" href="#">center aligned</a>
-
-		<div class="lui item right">
-			<div class="lui input search fit">
-				<input type="search" name="name" placeholder="Search..." value="">
+				<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
 			</div>
 		</div>
-	</div>
 
-	<div class="lui vertical menu primary dividing right" style="float:left;">
-		<div class="item header">Vertical right</div>
-		<a class="item active" href="#">Item 01</a>
-		<a class="item" href="#">Item 02</a>
-		<a class="item" href="#">Item 03</a>
-	</div>
-	<div class="lui vertical menu dividing" style="float:right;">
-		<div class="item header">Vertical (left)</div>
-		<a class="item active" href="#">Item 01 <span class="lui label">2</span></a>
-		<a class="item" href="#">Item 02</a>
-		<a class="item" href="#">Item 03</a>
-	</div>
-	<div class="clear"></div>
-	<div class="lui menu dividing justify up">
-		<div class="menu left">
-			<div class="item header">Justified</div>
+		<div class="lui divider">
+			<h4 class="lui underline">Dividing style</h4>
+		</div>
+		<p>
+			Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
+			The color of the active border can be changed by adding a color class.
+		</p>
+		<div class="lui menu green dividing center aligned">
+			<div class="item header">Dividing style</div>
+			<a class="item active" href="#">I am dividing</a>
+			<a class="item" href="#">as well as</a>
+			<a class="item" href="#">center aligned</a>
 
-			<a class="item active" href="#">I am</a>
-			<a class="item" href="#">justified</a>
-			<a class="item" href="#">(with flex)</a>
+			<div class="lui item right">
+				<div class="lui input search fit">
+					<input type="search" name="name" placeholder="Search..." value="">
+				</div>
+			</div>
 		</div>
 
-		<div class="lui menu right">
-			<div class="lui buttons">
-				<button class="lui button icon edit"></button>
-				<button class="lui button icon files"></button>
-				<button class="lui button icon trash"></button>
+		<div class="lui vertical menu primary dividing right" style="float:left;">
+			<div class="item header">Vertical right</div>
+			<a class="item active" href="#">Item 01</a>
+			<a class="item" href="#">Item 02</a>
+			<a class="item" href="#">Item 03</a>
+		</div>
+		<div class="lui vertical menu dividing" style="float:right;">
+			<div class="item header">Vertical (left)</div>
+			<a class="item active" href="#">Item 01 <span class="lui label">2</span></a>
+			<a class="item" href="#">Item 02</a>
+			<a class="item" href="#">Item 03</a>
+		</div>
+		<div class="clear"></div>
+		<div class="lui menu dividing justify up">
+			<div class="menu left">
+				<div class="item header">Justified</div>
+
+				<a class="item active" href="#">I am</a>
+				<a class="item" href="#">justified</a>
+				<a class="item" href="#">(with flex)</a>
 			</div>
 
-			<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
-		</div>
-	</div>
+			<div class="lui menu right">
+				<div class="lui buttons">
+					<button class="lui button icon edit"></button>
+					<button class="lui button icon files"></button>
+					<button class="lui button icon trash"></button>
+				</div>
 
-	<div class="lui divider">
-		<h4 class="lui underline">Pills style</h4>
-	</div>
-	<div class="lui menu pills justify">
-		<div class="item header">Pills style</div>
-		<a class="item active" href="#">Item 01</a>
-		<a class="item" href="#">Item 02</a>
-		<a class="item" href="#">Item 03</a>
-	</div>
+				<button class="lui button primary has addon right">Save<i class="lui addon icon check"></i></button>
+			</div>
+		</div>
+
+		<div class="lui divider">
+			<h4 class="lui underline">Pills style</h4>
+		</div>
+		<div class="lui menu pills justify">
+			<div class="item header">Pills style</div>
+			<a class="item active" href="#">Item 01</a>
+			<a class="item" href="#">Item 02</a>
+			<a class="item" href="#">Item 03</a>
+		</div>
+	</article>
 </section>
 </body>
 </html>
