@@ -89,19 +89,19 @@
     border-right: (@size/2) solid transparent;
     border-bottom: @size solid @color;
  }
-.triangle(@direction, @color, @size) when (@direction = down) {
+.lui_triangle_maker(@direction, @color, @size) when (@direction = down) {
     .lui_triangle_base();
     border-left: (@size/2) solid transparent;
     border-right: (@size/2) solid transparent;
     border-top: @size solid @color;
 }
-.triangle(@direction, @color, @size) when (@direction = left) {
+.lui_triangle_maker(@direction, @color, @size) when (@direction = left) {
     .lui_triangle_base();
     border-top: (@size/2) solid transparent;
     border-bottom: (@size/2) solid transparent;
     border-right: @size solid @color;
 }
-.triangle(@direction, @color, @size) when (@direction = right) {
+.lui_triangle_maker(@direction, @color, @size) when (@direction = right) {
     .lui_triangle_base();
     border-top: (@size/2) solid transparent;
     border-bottom: (@size/2) solid transparent;
@@ -132,6 +132,7 @@
     }
 }
 
+
 /**
  * Shadows
  * --------------------------------------------------------------------------- */
@@ -152,15 +153,40 @@
     box-shadow: @x-axis @y-axis @blur @spread @color inset;
 }
 
+
 /**
  * Border radius
  * --------------------------------------------------------------------------- */
+
  .lui_rounded() {
      .lui_border_radius();
  }
 .lui_border_radius(@topleft: @lui_defaults-border_radius, @topright: @topleft, @bottomright: @topleft, @bottomleft: @topleft) {
   border-radius: @topleft @topright @bottomright @bottomleft;
   background-clip: padding-box;
+}
+
+
+/**
+ * PLaceholder
+ * --------------------------------------------------------------------------- */
+
+.lui_placeholder(@properties) {
+  &::-webkit-input-placeholder {
+    @properties();
+  }
+
+  &:-moz-placeholder {
+    @properties();
+  }
+
+  &::-moz-placeholder {
+    @properties();
+  }
+
+  &:-ms-input-placeholder {
+    @properties();
+  }
 }
 
 
