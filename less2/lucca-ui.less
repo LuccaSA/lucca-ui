@@ -1,10 +1,16 @@
 
 /** ---------------------------------------------------------------------------
- * ------ UTILITIES
+ * ------ GLOBAL VARIABLES
  * ---------------------------------------------------------------------------- */
+ @import "_globals";
+
+ /** ---------------------------------------------------------------------------
+  * ------ UTILITIES
+  * ---------------------------------------------------------------------------- */
 // These are globals
 @import "src/utilities/_resets";
 @import "src/utilities/_mixins";
+@import "src/utilities/_responsive";
 @import "src/utilities/_flex";
 @import "src/utilities/_add-color";
 @import "src/utilities/_loader";
@@ -42,6 +48,7 @@
      @grey: #666;
      @grey-over: #fff;
      @light-grey: #CCC;
+     @light-grey-over: #666;
 
      @primary: #FFC900;
      @primary-over: #666;
@@ -83,16 +90,13 @@
 & {
     @columns: 12;
     @container-width: auto;
-    @container-space-around: 3em;
+    @container-space-around: 1em;
+    @container-space-around-tablet: 2em;
+    @container-space-around-desktop: 3em;
+    @container-space-around-large: 5em;
     @gutter: 1em;
 
     @column: 100%/@columns;
-
-    // Break-points
-    // =====
-    @tablet: 768px;
-    @desktop: 992px;
-    @large: 1200px;
 
     @enabled: true;
     @import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
@@ -187,7 +191,6 @@
 /** ---------------------------------------------------------------------------
  * ------ ELEMENTS
  * ---------------------------------------------------------------------------- */
- // These are the elements
 
  /**
   * Icon
@@ -351,6 +354,7 @@
 
 & {
     @border-color: rgba(50, 50, 50, 0.2);
+    @border-color-inverted: rgba(255, 255, 255, 0.2);
     @divider-weight: 1px;
     @larger-weight: 3px;
 
@@ -403,5 +407,76 @@
 
     & when (@enabled = true) {
         @import "src/elements/_callout";
+    }
+}
+
+
+/** ---------------------------------------------------------------------------
+ * ------ PLUGINS
+ * ---------------------------------------------------------------------------- */
+
+ /**
+  * Angular UI Bootstrap Reskin Plugin
+  * --------------------------------------------------------------------------- */
+& {
+    @color: #666;
+
+    @color-primary: #FFC900;
+    @color-primary-over: #666;
+
+    // UI select
+    @ui-select-border-radius: 3px;
+    @ui-select-min-width: 15em;
+    @ui-select-txt-size: 1.25em;
+    @arrow-size: 0.75em;
+    @ui-select-border-color: #CCC;
+    @ui-select-padding: 0.5em 1em;
+
+    // Datepicker
+    @datepicker-border-radius: 3px;
+    @datepicker-color: @color-primary;
+    @calendar-icon-color: #CCC;
+    @calendar-icon-size: 1em;
+
+
+    @enabled: false;
+    @import (optional) "@{themeDir}@{theme}/plugins/angular-ui-bootstrap-reskin.overrides.less";
+
+    & when (@enabled = true) {
+        @import "plugins/angular-ui-bootstrap-reskin/plugin.less";
+    }
+}
+
+
+/**
+ * Lucca App layout Plugin
+ * --------------------------------------------------------------------------- */
+& {
+    @color-primary: #FFC900;
+    @color-primary-over: #666;
+
+    // #App variables
+    @body-bg-color: #eee;
+
+    // Main Navigation variables
+    @navigation-bg: #344f5d;
+    @navigation-icon-size: 1.25em;
+    @navigation-width: 7rem;
+    @navigation-compact-item-height: 3.25rem;
+    @navigation-font-size: 0.9rem;
+    @navigation-font-weight: 600;
+    @updates-bullet-size: 5px;
+
+    // Main Header variables
+    @header-height: 5rem;
+    @header-bottom-margin: 2rem;
+    @header-bg: #FFF;
+
+
+    @enabled: false;
+    @import (optional) "@{themeDir}@{theme}/plugins/lucca-app-layout.overrides.less";
+
+    & when (@enabled = true) {
+        @import "plugins/lucca-app-layout/plugin.less";
     }
 }
