@@ -22,7 +22,7 @@ module.exports = function(grunt) {
                 },
                 files: [
                     {
-                        "dist/lucca-ui.min.css": "less2/lucca-ui.dist.less",
+                        "dist/lucca-ui.min.css": "src/lucca-ui.dist.less",
                         "demo/demo.min.css": "demo/less/demo.less",
                         "demo/timmi/timmi-styles.min.css": "demo/timmi/timmi-styles.less"
                     }

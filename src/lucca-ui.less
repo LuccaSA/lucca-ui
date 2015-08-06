@@ -2,19 +2,19 @@
 /** ---------------------------------------------------------------------------
  * ------ GLOBAL VARIABLES
  * ---------------------------------------------------------------------------- */
- @import "_globals";
+ @import "core/_globals";
 
  /** ---------------------------------------------------------------------------
   * ------ UTILITIES
   * ---------------------------------------------------------------------------- */
 // These are globals
-@import "src/utilities/_resets";
-@import "src/utilities/_mixins";
-@import "src/utilities/_responsive";
-@import "src/utilities/_flex";
-@import "src/utilities/_add-color";
-@import "src/utilities/_loader";
-@import "src/utilities/_icon-maker";
+@import "core/utilities/_resets";
+@import "core/utilities/_mixins";
+@import "core/utilities/_responsive";
+@import "core/utilities/_flex";
+@import "core/utilities/_add-color";
+@import "core/utilities/_loader";
+@import "core/utilities/_icon-maker";
 
 
 /** ---------------------------------------------------------------------------
@@ -35,7 +35,7 @@
     @import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/definitions/_sizes";
+        @import "core/definitions/_sizes";
     }
 }
 
@@ -78,7 +78,7 @@
      @import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
 
      & when (@enabled = true) {
-         @import "src/definitions/_colors.less";
+         @import "core/definitions/_colors.less";
      }
  }
 
@@ -102,7 +102,7 @@
     @import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/definitions/_grid";
+        @import "core/definitions/_grid";
     }
 }
 
@@ -146,7 +146,7 @@
     @import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/definitions/_typography.less";
+        @import "core/definitions/_typography.less";
     }
 }
 
@@ -166,7 +166,7 @@
     @import (optional) "@{themeDir}@{theme}/definitions/raised.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/definitions/_raised.less";
+        @import "core/definitions/_raised.less";
     }
 }
 
@@ -183,7 +183,7 @@
     @import (optional) "@{themeDir}@{theme}/definitions/pointing.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/definitions/_pointing.less";
+        @import "core/definitions/_pointing.less";
     }
 }
 
@@ -203,7 +203,7 @@
      @import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
      & when (@enabled = true) {
-         @import "src/elements/_icon";
+         @import "core/elements/_icon";
      }
  }
 
@@ -228,7 +228,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/button.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_button";
+        @import "core/elements/_button";
     }
 }
 
@@ -273,7 +273,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/menu.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_menu";
+        @import "core/elements/_menu";
     }
 }
 
@@ -291,7 +291,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/block.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_block";
+        @import "core/elements/_block";
     }
 }
 
@@ -323,7 +323,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_input";
+        @import "core/elements/_input";
     }
 }
 
@@ -343,7 +343,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/label.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_label";
+        @import "core/elements/_label";
     }
 }
 
@@ -362,7 +362,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/divider.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_divider";
+        @import "core/elements/_divider";
     }
 }
 
@@ -378,7 +378,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/breadcrumbs.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_breadcrumbs";
+        @import "core/elements/_breadcrumbs";
     }
 }
 
@@ -406,7 +406,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/callout.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_callout";
+        @import "core/elements/_callout";
     }
 }
 
@@ -425,7 +425,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/popover.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_popover";
+        @import "core/elements/_popover";
     }
 }
 
@@ -442,7 +442,7 @@
     @import (optional) "@{themeDir}@{theme}/elements/table.overrides.less";
 
     & when (@enabled = true) {
-        @import "src/elements/_table";
+        @import "core/elements/_table";
     }
 }
 
