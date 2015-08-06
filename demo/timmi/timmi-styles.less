@@ -1,17 +1,30 @@
-@import "less/_variables";
-
 @import "../../less2/lucca-ui.less";
+
+// Lucca UI overrides
+// ====
 @theme: "luccaUI-overrides";
 @themeDir: "../demo/timmi/";
 
+@import "less/_variables";
 
 
 
-body {
-    background-color: #eee;
+/**
+ * Layout plugin
+ * --------------------------------------------------------------------------- */
+
+// Brings the iLucca banner in fixed top position over all content
+#ilucca-banner{
+	position: fixed;
+	width: 100%;
+	z-index: 9000;
 }
-
-@import "less/_layout";
+#iLuccaAccount {
+	width: 100%;
+	z-index: 9001; // It's over 9000 !
+	position: absolute;
+	background-color: #FFF;
+}
 
 /**
  * View: Statutes
