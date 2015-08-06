@@ -1,0 +1,76 @@
+
+/**
+ * Angular UI - UI select reskin
+ * ----------------------------------------------------------------------------- */
+
+.lui.ui-select {
+    box-shadow: none;
+    margin: 0;
+    min-width: @ui-select-min-width;
+
+    .ui-select-match .btn,
+    input.form-control.ui-select-search {
+        font-size: @ui-select-txt-size;
+        height: auto;
+        padding: @ui-select-padding;
+        overflow: visible;
+
+        color: @color;
+        .lui_border_radius(@ui-select-border-radius);
+
+        &, &:active, &:focus, &:visited, &:hover {
+            border: 1px solid @ui-select-border-color;
+            outline: none;
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+
+    .dropdown-header {
+        color: @color;
+        text-transform: uppercase;
+        padding: 0 0 0.75em 1em;
+    }
+
+    .ui-select-match {
+        outline: none;
+        box-shadow: none;
+        background-color: transparent;
+        .btn {
+            &[disabled] {
+                opacity: 1;
+                border: none;
+                .caret {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .ui-select-choices {
+        width: 100%;
+        margin-top: @arrow-size;
+        padding: 0;
+        background-color: #FFF;
+        border: 1px solid @ui-select-border-color;
+        .lui_border_radius(@ui-select-border-radius);
+
+        .ui-select-choices-row {
+            > a {
+                color: @color;
+                padding: 0.5em 1em;
+            }
+            &.active > a {
+                background-color: @color-primary;
+                color: @color-primary-over;
+            }
+        }
+    }
+
+    &.open:after {
+        position: absolute;
+        top: 100%; right: 1em;
+        margin-left: -@arrow-size/2;
+        .lui_triangle_maker(up, @ui-select-border-color, @arrow-size);
+    }
+}

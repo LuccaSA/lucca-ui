@@ -1,4 +1,7 @@
 
+/**
+ * Angular UI Datepicker reskin
+ * ----------------------------------------------------------------------------- */
 
 .lui.datepicker {
 	position: relative;
@@ -23,17 +26,12 @@
 	}
 
 	> input {
-		.lucca-input;
 		padding-left: 2.5em;
 	}
 	// Icon should be hidden for inline datepickers
 	&.inline {
 		&:before {
 			display: none;
-		}
-
-		> input {
-			.lucca-input;
 		}
 	}
 
@@ -48,7 +46,7 @@
 		button {
 			border: none;
 			background-color: transparent;
-			.border-radius(0);
+			.lui_border_radius(0);
 
 			&:active,
 			&:focus {
@@ -59,20 +57,20 @@
 		thead tr {
 			// Month & year
 			&:first-child {
-				background-color: @primary-color;
+				background-color: @color-primary;
 				border: none;
 				margin: 0;
 
 				th {
 					button {
-						color: @primary-color-over;
+						color: @color-primary-over;
 						padding-top: 1em;
 						padding-bottom: 1em;
-						.border-radius(0);
+						.lui_border_radius(0);
 						font-size: 1.1em;
 
 						&:hover, &:active, &:focus {
-							background-color: lighten(@primary-color, 10);
+							background-color: lighten(@color-primary, 10);
 						}
 					}
 				}
@@ -81,7 +79,7 @@
 
 		tbody {
 			button {
-				color: @link-color;
+				color: @color;
 
 				&:hover {
 					background-color: #fafafa;
@@ -89,9 +87,9 @@
 
 				&.active {
 					font-weight: 600;
-					color: @link-color-over;
-					.no-shadow();
-					background-color: lighten(@primary-color, 30);
+					color: darken(@color, 10);
+					box-shadow: none;
+					background-color: lighten(@color-primary, 30);
 				}
 			}
 		}
@@ -105,7 +103,7 @@
 
 		> li {
 			.text-muted {
-				color: lighten(@link-color, 15);
+				color: lighten(@color, 15);
 			}
 		}
 	}
