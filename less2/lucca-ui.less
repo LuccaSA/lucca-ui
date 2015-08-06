@@ -410,6 +410,42 @@
     }
 }
 
+/**
+ * Popover
+ * --------------------------------------------------------------------------- */
+& {
+    @min-width: 15em;
+    @border-color: #CCC;
+    @arrow-size: 1rem;
+    @border-radius: 3px;
+    @bg: #FFF;
+    @color: #666;
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/popover.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_popover";
+    }
+}
+
+/**
+ * Table
+ * --------------------------------------------------------------------------- */
+& {
+    @bg: #fff;
+    @border: 1px solid #d6d6d6;
+    @padding: 0.5em 1em;
+    @zebra-bg: rgba(200, 200, 200,0.25);
+
+    @enabled: true;
+    @import (optional) "@{themeDir}@{theme}/elements/table.overrides.less";
+
+    & when (@enabled = true) {
+        @import "src/elements/_table";
+    }
+}
+
 
 /** ---------------------------------------------------------------------------
  * ------ PLUGINS
@@ -459,6 +495,7 @@
     @body-bg-color: #eee;
 
     // Main Navigation variables
+    @logo-font-size: 1.75em;
     @navigation-bg: #344f5d;
     @navigation-icon-size: 1.25em;
     @navigation-width: 7rem;
