@@ -18,42 +18,32 @@
     // =====
     > input, > select {
         width: 100%;
-       display: inline-block;
-       vertical-align: middle;
+        display: inline-block;
+        vertical-align: middle;
 
-       border-radius: @border-radius;
-       border: 1px solid @border-color;
-       background: #fff;
-       color: @color;
-       padding: @v-padding @h-padding;
+        border-radius: @border-radius;
+        border: 1px solid @border-color;
+        background: #fff;
+        color: @color;
+        padding: @v-padding @h-padding;
 
-       &:focus, &:active {
-           outline: none;
-           border-color: darken(@border-color, 10);
-       }
+        &:focus, &:active {
+            outline: none;
+            border-color: darken(@border-color, 10);
+        }
 
        // Placeholders
        // =====
-       &::-webkit-input-placeholder {
-           line-height: 1em;
-           color: @placeholder-color;
-           font-style: @placeholder-style;
-       }
-       &::-moz-placeholder {
-           line-height: 1em;
-           color: @placeholder-color;
-           font-style: @placeholder-style;
-       }
-       &::-ms-input-placeholder {
-           line-height: 1em;
-           color: @placeholder-color;
-           font-style: @placeholder-style;
-       }
-   }
+        .lui_placeholder({
+            line-height: 1em;
+            color: @placeholder-color;
+            font-style: @placeholder-style;
+        });
+    }
 
-   &.fit {
-       width: 100%;
-   }
+    &.fit {
+        width: 100%;
+    }
 
    // Validation
    // =====
