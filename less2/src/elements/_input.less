@@ -1,6 +1,6 @@
 
 /**
- * Inputs
+ * Input
  * --------------------------------------------------------------------------- */
 
 .lui.input {
@@ -370,5 +370,66 @@
 
 	input:checked ~ label span {
 		left: 2.5em;
+	}
+}
+
+timespan-picker, .timespan-picker {
+	.lui.input;
+	width: 3.1em;
+}
+
+
+/**
+ * Momentpicker
+ * --------------------------------------------------------------------------- */
+
+moment-picker, .moment-picker{
+    .lui.input;
+    position: relative;
+    display: inline-block;
+    width: 3.1em;
+
+    &:active, &:focus {
+    	box-shadow: none;
+    }
+
+    &.ng-invalid{
+    	.mp-button {
+    		background-color: @invalid-color;
+    	}
+    }
+
+	// styling the inputs inside the directive
+	input, .input{
+		&:focus, &:active {
+			outline: none;
+			box-shadow: none;
+		}
+
+		background-color: transparent;
+		border: none;
+		width: 1.3em;
+		&:nth-child(1) {
+			text-align: right;
+		}
+	}
+	// buttons + -
+	.mp-button {
+		user-select: none;
+		font-size: 75%;
+		position: absolute;
+		z-index: 999;
+		cursor: pointer;
+		left:-1px;
+		right:-1px;
+		text-align: center;
+		color: #FFF;
+		background-color: @border-color;
+
+        // Positions
+		&.top { bottom: 100%; }
+		&.bottom { top: 100%; }
+		&.left { right: 50%; }
+		&.right { left: 50%; }
 	}
 }
