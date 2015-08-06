@@ -74,25 +74,50 @@ body, html {
 	.define_grid(@class, @count - 1);
 }
 
+// Mobile grid: mobile first
+// ====
 .define_grid(mobile, @columns);
+.mobile-hide { display: none !important; }
+.mobile-show { display: block; }
 
-
+// Tablet grid
+// ====
 @media (min-width: @tablet) {
-    .define_grid(tablet, @columns);
-}
-@media (min-width: @desktop) {
-    .define_grid(desktop, @columns);
-}
-@media (min-width: @large) {
-    .define_grid(large, @columns);
-}
+    .lui.container { margin: 0  @container-space-around-tablet; }
 
+    .define_grid(tablet, @columns);
+
+    .tablet-hide { display: none !important; }
+    .tablet-show { display: block !important; }
+}
+// Desktop grid
+// ====
+@media (min-width: @desktop) {
+    .lui.container { margin: 0  @container-space-around-desktop; }
+
+    .define_grid(desktop, @columns);
+
+    .tablet-desktop { display: none !important; }
+    .tablet-desktop { display: block !important; }
+}
+// Large grid
+// ====
+@media (min-width: @large) {
+    .lui.container { margin: 0  @container-space-around-large; }
+
+    .define_grid(large, @columns);
+
+    .tablet-large { display: none !important; }
+    .tablet-large { display: block !important; }
+}
 
 // Menu Support
 // ====
 .lui.menu.container {
-    padding-left: @container-space-around;
-    padding-right: @container-space-around;
+    padding-left: @container-space-around; padding-right: @container-space-around;
+    @media (min-width: @tablet) { padding-left: @container-space-around-tablet; padding-right: @container-space-around-tablet; }
+    @media (min-width: @desktop) { padding-left: @container-space-around-desktop; padding-right: @container-space-around-desktop; }
+    @media (min-width: @large) { padding-left: @container-space-around-large; padding-right: @container-space-around-large; }
 
     > .item:first-child {
         padding-left: 0;
