@@ -9,6 +9,7 @@
 	padding: .5em;
 	background-color: @bg;
 	z-index: 100;
+	font-family: inherit; // Bootstrap bleeding...
 	.lui_border_radius(@border-radius);
 
 	// This is for the arrow
@@ -29,7 +30,7 @@
 		margin-right: @arrow-size;
 		&:before {
 			left: 100%;
-			.lui_triangle_maker(right, @arrow-size, @bg);
+			.lui_triangle_maker(right, @bg, @arrow-size);
 		}
 	}
 	&.right {
@@ -37,7 +38,7 @@
 		margin-left: @arrow-size;
 		&:before {
 			right: 100%;
-            .lui_triangle_maker(left, @arrow-size, @bg);
+            .lui_triangle_maker(left, @bg, @arrow-size);
 		}
 	}
 
@@ -54,7 +55,7 @@
 		margin-bottom: @arrow-size;
 		&:before {
 			top: 100%;
-            .lui_triangle_maker(down, @arrow-size, @bg);
+            .lui_triangle_maker(down, @bg, @arrow-size);
 		}
 	}
 	&.bottom {
@@ -62,7 +63,7 @@
 		margin-top: @arrow-size;
 		&:before {
 			bottom: 100%;
-            .lui_triangle_maker(up, @arrow-size, @bg);
+            .lui_triangle_maker(up, @bg, @arrow-size);
 		}
 	}
 
@@ -77,4 +78,8 @@
     // Default coloring
     // ====
     .lui_popover_coloring_handler(@bg, @color);
+}
+
+.lui.popover:not(.ng-hide) {
+	display: block !important;
 }
