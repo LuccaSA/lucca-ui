@@ -82,6 +82,10 @@
 .lui.callouts {
     > .lui.callout {
         margin: 0;
+
+        &:not(.filled):not(:first-child) {
+            border-top: none;
+        }
     }
 }
 
