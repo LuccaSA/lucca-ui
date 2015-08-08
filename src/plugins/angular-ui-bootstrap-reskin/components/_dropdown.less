@@ -1,0 +1,31 @@
+
+.lui.nguibs-dropdown {
+
+    .dropdown-menu {
+        font-size: 1em;
+
+        left: 50%; transform: translateX(-50%);
+        margin-top: @arrow-size;
+
+        border: 1px solid @dropdown-border-color;
+        .lui_border_radius(@dropdown-border-radius);
+
+        &:before {
+            position: absolute;
+            bottom: 100%; left: 50%; transform: translateX(-50%);
+            .lui_triangle_maker(up, @dropdown-border-color, @arrow-size);
+        }
+
+        li {
+            &:first-child a {
+                .lui_border_radius(@dropdown-border-radius, @dropdown-border-radius, 0, 0);
+            }
+            a {
+                padding: @dropdown-padding;
+            }
+            &.active > a {
+                background-color: @color-primary;
+            }
+        }
+    }
+}

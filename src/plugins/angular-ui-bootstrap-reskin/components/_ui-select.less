@@ -3,13 +3,15 @@
  * Angular UI - UI select reskin
  * ----------------------------------------------------------------------------- */
 
-.lui.ui-select {
+.lui.nguibs-ui-select {
     box-shadow: none;
+    line-height: 1;
     margin: 0;
     min-width: @ui-select-min-width;
 
     .ui-select-match .btn,
     input.form-control.ui-select-search {
+        line-height: 1;
         font-size: @ui-select-txt-size;
         height: auto;
         padding: @ui-select-padding;
@@ -48,6 +50,7 @@
     }
 
     .ui-select-choices {
+        font-size: 1em;
         width: 100%;
         margin-top: @arrow-size;
         padding: 0;
@@ -70,7 +73,6 @@
     &.open:after {
         position: absolute;
         top: 100%; right: 1em;
-        margin-left: -@arrow-size/2;
         .lui_triangle_maker(up, @ui-select-border-color, @arrow-size);
     }
 }
