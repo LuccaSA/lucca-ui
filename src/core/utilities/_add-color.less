@@ -29,6 +29,10 @@
     .lui.table tr.@{name} td:first-child {
         .lui_table_coloring_handler(@color, @txt-over, @lightOnDark);
     }
+
+    .lui.nguibs-tooltip.@{name} {
+        .lui_nguibs_tooltip_coloring_handler(@color, @txt-over, @lightOnDark);
+    }
 }
 
 
@@ -85,7 +89,7 @@
             box-shadow: 0 0 0 2px @color inset;
             color: @color;
 
-            &.has.addon > .addon {
+            &.has-addon > .addon {
                 border-color: @color;
             }
         }
@@ -108,6 +112,13 @@
 
             &:hover {
                 color: @txt-over;
+            }
+
+            &.has-addon > .addon {
+                background: transparent;
+            }
+            &.has-addon:not(:hover):not(.active) > .addon {
+                border-color: @color;
             }
         }
     }
@@ -220,7 +231,6 @@
     }
 }
 
-
 .lui_table_coloring_handler(@color, @txt-over, @lightOnDark: false) {
     display: table-cell;
     position: relative;
@@ -236,4 +246,18 @@
         background: @color;
         min-height: 100%;
     }
+}
+
+.lui_nguibs_tooltip_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+    .tooltip-inner {
+        background-color: @color;
+        color: @txt-over;
+        & when (@lightOnDark = true) {
+            text-shadow: 1px 0 1px darken(@color, 5);
+        }
+    }
+    &.left .tooltip-arrow { border-left-color: @color; }
+    &.top .tooltip-arrow { border-top-color: @color; }
+    &.right .tooltip-arrow { border-right-color: @color; }
+    &.bottom .tooltip-arrow { border-bottom-color: @color; }
 }
