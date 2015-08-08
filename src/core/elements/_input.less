@@ -66,6 +66,12 @@
    }
 }
 
+// Textareas
+// ====
+textarea.lui.input {
+    border: 1px solid @border-color;
+}
+
 // Icon support
 // =====
 .lui.input.icon {
@@ -314,7 +320,7 @@
 		color: @switch-color;
 		.lui_transition();
 		.lui_icon_maker(check, left);
-		.lui_icon_maker(close, right);
+		.lui_icon_maker(cross, right);
 
 		&:before, &:after {
 			display: block;
