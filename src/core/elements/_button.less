@@ -36,6 +36,10 @@
 	.lui_transition_properties(background, box-shadow, color);
 }
 
+.lui.button.bold {
+	font-weight: 600;
+}
+
 
 /**
  * Button states
@@ -48,7 +52,7 @@
 	.lui_no_shadows();
 }
 .lui.button.disabled {
-	opacity: 0.5;
+	opacity: 0.75;
 	cursor: normal;
 	pointer-events: none;
 }
@@ -59,7 +63,7 @@
  * --------------------------------------------------------------------------- */
 
 .lui.button {
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+	box-shadow: @default-border;
 
 	// Default coloring
 	.lui_button_coloring_handler(@default-background, @default-color);
@@ -67,10 +71,10 @@
 
 .lui.button:not(.wired) {
 	&:hover {
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+		box-shadow: @default-border, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
 	}
 	&:active, &.active {
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+		box-shadow: @default-border;
 	}
 }
 
@@ -99,7 +103,7 @@
 // =====
 .lui.button.wired {
 	background: transparent;
-	&.has.addon {
+	&.has-addon {
 		> .addon {
 			background-color: transparent;
 		}
@@ -120,7 +124,7 @@
 // =====
 .lui.button.flat {
    background-color: transparent;
-   color: rgba(50, 50, 50, 0.8);
+   color: @default-color;
    text-decoration: underline;
    box-shadow: none;
 
@@ -181,26 +185,39 @@
 		}
 	}
 
+	// Buttons inception support
+	// ====
+	> .buttons {
+		margin: 0;
+	}
+
 	// Modern browsers: flex-box model
 	.display-flex(true);
 
 	// Alignment
 	// ====
-	&.aligned.right {
+	&.right-aligned {
 		text-align: right;
 	}
-	&.aligned.justify {
+	&.justify-aligned {
 		text-align: justify;
 	}
-	&.aligned.left {
+	&.left-aligned {
 		text-align: left;
 	}
+}
+
+// No border-radius
+// ====
+.lui.button.squared,
+.lui.buttons.squared > .button {
+	.lui_border_radius(0);
 }
 
 
 // Fitted buttons
 // =====
-.lui.buttons.justify {
+.lui.buttons.justified {
 	width: 100%;
 	display: table;
 	table-layout: fixed;
@@ -224,6 +241,10 @@
 /**
  * Icon support
  * --------------------------------------------------------------------------- */
+ .lui.button.icon:before {
+	 display: inline-block;
+	 vertical-align: middle;
+ }
 .lui.button .lui.icon {
 	margin-right: 0.5em;
 	&.right {
@@ -236,7 +257,7 @@
  * Icon addon
  * --------------------------------------------------------------------------- */
 
-.lui.button.has.addon {
+.lui.button.has-addon {
 	position: relative;
 	> .addon {
 		position: absolute;
@@ -285,24 +306,24 @@
 
 // Has addon > update the addon icon
 // ====
-.lui.button.status.has.addon {
+.lui.button.status.has-addon {
 	&.loading > .addon {
 		.lui_loader();
 		position: absolute;
 	}
 
 	&.ok > .addon:before {
-		content: "l";
+		content: "\e00b";
 	}
 
 	&.failure > .addon:before {
-		content: "F";
+		content: "\e01e";
 	}
 }
 
 // Else
 // ====
-.lui.button.status:not(.has):not(.addon) {
+.lui.button.status:not(.has-addon) {
 	color: transparent;
 
 	&:not(.icon):before, &:after {
