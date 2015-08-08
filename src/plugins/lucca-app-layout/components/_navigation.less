@@ -58,7 +58,7 @@
 
 		position: absolute;
 		top: @navigation-icon-size + 0.15em;
-		left: @navigation-width - 3em;
+		right: 1em;
 	}
 	&.has-updates span.item-updates {
 		display: block;
@@ -68,6 +68,9 @@
 // Application logo
 // ====
 #main-navigation #app-logo {
+    box-sizing: content-box;
+    padding-top: @top-offset;
+
 	display: block;
 	overflow: hidden;
 	height: @header-height;
