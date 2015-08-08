@@ -46,9 +46,6 @@ body, html {
 .define_grid(@class, @count) when (@count > -1) {
 	.lui.container .lui.column.@{class}-@{count} {
 		width: @column * @count;
-        &.absolute {
-            width: ~"calc((@{column} * @{count}) - @{container-space-around}/2)";
-        }
 	}
 
     // Offset
@@ -109,6 +106,13 @@ body, html {
 
     .tablet-large { display: none !important; }
     .tablet-large { display: block !important; }
+}
+
+// Fitting container : no outer space
+// ====
+.lui.fitting.container {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 // Menu Support
