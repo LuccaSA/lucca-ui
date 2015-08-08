@@ -40,6 +40,17 @@
 }
 
 
+/**
+ * Sizes
+ * ----------------------------------------------------------------------------- */
+
+& {
+    @enabled: true;
+
+    & when (@enabled = true) {
+        @import "core/definitions/_definition-list";
+    }
+}
  /**
    * Colors
    * --------------------------------------------------------------------------- */
@@ -223,6 +234,7 @@
     @border-radius: 3px;
     @default-background: #FFF;
     @default-color: #666;
+    @default-border: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
 
     @enabled: true;
     @import (optional) "@{themeDir}@{theme}/elements/button.overrides.less";
@@ -388,7 +400,7 @@
 & {
     @background: #FFF;
     @border-color: #CCC;
-    @border-width: 3px;
+    @border-width: 5px;
 
     @default-coloring: #CCC;
 
@@ -460,13 +472,24 @@
     @color-primary: #FFC900;
     @color-primary-over: #666;
 
+    // Tooltip
+    @tooltip-border-radius: 3px;
+    @tooltip-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
+    @tooltip-bg: #FFF;
+    @tooltip-color: #666;
+
     // UI select
     @ui-select-border-radius: 3px;
     @ui-select-min-width: 15em;
-    @ui-select-txt-size: 1.25em;
+    @ui-select-txt-size: 1em;
     @arrow-size: 0.75em;
     @ui-select-border-color: #CCC;
     @ui-select-padding: 0.5em 1em;
+
+    // Dropdown
+    @dropdown-border-radius: @ui-select-border-radius;
+    @dropdown-border-color: @ui-select-border-color;
+    @dropdown-padding: @ui-select-padding;
 
     // Datepicker
     @datepicker-border-radius: 3px;
@@ -492,6 +515,7 @@
     @color-primary-over: #666;
 
     // #App variables
+    @top-offset: 0;
     @body-bg-color: #eee;
 
     // Main Navigation variables
