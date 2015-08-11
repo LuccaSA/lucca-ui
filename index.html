@@ -142,7 +142,7 @@
 			<div class="lui divider">
 				<h4 class="lui underline">4 button styles</h4>
 			</div>
-			<button class="lui button"><i class="lui icon edit"></i>Default</button>
+			<button class="lui button">Default</button>
 			<button class="lui button flat">Flat</button>
 			<button class="lui button wired primary">Wired</button>
 			<button class="lui button filling primary">Filling</button>
@@ -258,8 +258,8 @@
 				<h4 class="lui underline">Try it</h4>
 			</div>
 			<p ng-class="{dark:inverted}">
-				<button class="lui button" ng-class="[color, style, size, {inverted:inverted}, status]">custom button</button>
-				<code>class="lui {{size}} {{color}} {{style}} {{status}} button"</code>
+				<button class="lui button" ng-class="[color, style, size, status, {inverted:inverted}, {disabled:disabled}]">custom button</button>
+				<code>class="lui {{size}} {{color}} {{style}} {{status}} {{inverted?'inverted':''}} {{disabled?'disabled':''}} button"</code>
 			</p>
 			<p>
 				color :
@@ -300,6 +300,10 @@
 			<p>
 				inverted :
 				<span class="lui button" ng-model="inverted" btn-checkbox>inverted</span>
+			</p>
+			<p>
+				disabled :
+				<span class="lui button" ng-model="disabled" btn-checkbox>disabled</span>
 			</p>
 
 		</section>
