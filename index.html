@@ -30,8 +30,11 @@
 
 
 <section id="main-content" class="lui container">
-	<h1>Lucca UI</h1>
-	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+	<h1 class="lui column desktop-8">Lucca UI</h1>
+	<div class="lui column desktop-4">
+		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</div>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.0</span></p>
 
 	<div class="lui callout warning">
 		<p>
@@ -256,7 +259,7 @@
 			</div>
 			<p ng-class="{dark:inverted}">
 				<button class="lui button" ng-class="[color, style, size, {inverted:inverted}, status]">custom button</button>
-				<pre>class="lui {{size}} {{color}} {{style}} button {{status}}"</pre>
+				<code>class="lui {{size}} {{color}} {{style}} {{status}} button"</code>
 			</p>
 			<p>
 				color :
