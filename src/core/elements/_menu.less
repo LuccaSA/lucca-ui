@@ -4,6 +4,7 @@
  * --------------------------------------------------------------------------- */
 
 .lui.menu {
+    position: relative;
     .display-flex();
     .flex-wrap(wrap);
 
@@ -97,6 +98,10 @@
 
 // Divider item
 // ====
+.lui.menu:not(.vertical) .item.divider:not(.header) {
+    border: none; padding-right: 0; margin-right: @horizontal-item-x-padding + @horizontal-item-x-margin;
+    border-right: 1px solid @divider-color;
+}
 .lui.menu.vertical .item.divider:not(.header) {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -164,6 +169,7 @@
     float: right; // old browsers...
     .display-flex();
     .flex-wrap(wrap);
+    .flex-justify-content(flex-end);
     margin-left: auto;
 }
 // vertical
@@ -372,13 +378,6 @@
         display: none;
     }
 }
-.lui.menu.aligned-right {
-    text-align: right;
-}
-.lui.menu.aligned-center {
-    text-align: center;
-}
-
 
 /**
  * Other elements support
