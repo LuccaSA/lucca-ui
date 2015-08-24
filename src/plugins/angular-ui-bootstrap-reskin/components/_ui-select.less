@@ -9,7 +9,7 @@
     margin: 0;
     min-width: @ui-select-min-width;
 
-    .ui-select-match .btn,
+    .ui-select-match > .btn,
     input.form-control.ui-select-search {
         line-height: 1;
         font-size: @ui-select-txt-size;
@@ -23,7 +23,6 @@
         &, &:active, &:focus, &:visited, &:hover {
             border: 1px solid @ui-select-border-color;
             outline: none;
-            background-color: transparent;
             box-shadow: none;
         }
     }
@@ -74,5 +73,17 @@
         position: absolute;
         top: 100%; right: 1em;
         .lui_triangle_maker(up, @ui-select-border-color, @arrow-size);
+    }
+
+    // Clear cross
+    // ====
+    .ui-select-match > .btn > .btn {
+        position: absolute; right: 1em; top: 50%; transform: translateY(-50%);
+        font-size: 0.75rem;
+        color: @color;
+        border-radius: @ui-select-border-radius;
+        &:hover {
+            background: @ui-select-border-color;
+        }
     }
 }
