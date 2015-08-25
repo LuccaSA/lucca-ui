@@ -2,6 +2,9 @@
 Framework Less &amp; Angular by Lucca
 [luccaSA.github.io/lucca-ui](http://luccaSA.github.io/lucca-ui)
 
+
+# Version 0.9
+[luccaSA.github.io/lucca-ui/0_9](http://luccaSA.github.io/lucca-ui/0_9)
 ## How to install
 ```
 bower install lucca-ui

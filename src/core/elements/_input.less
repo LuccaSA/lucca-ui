@@ -1,0 +1,441 @@
+
+/**
+ * Input
+ * --------------------------------------------------------------------------- */
+
+.lui.input {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    .display-flex(true);
+
+    > .addon, > input {
+        display: inline-block;
+        .flex();
+    }
+
+    // Inputs styling
+    // =====
+    > input, > select {
+        width: 100%;
+        display: inline-block;
+        vertical-align: middle;
+
+        border-radius: @border-radius;
+        border: 1px solid @border-color;
+        background: #fff;
+        color: @color;
+        padding: @v-padding @h-padding;
+
+        &:focus, &:active {
+            outline: none;
+            border-color: darken(@border-color, 10);
+        }
+
+       // Placeholders
+       // =====
+        .lui_placeholder({
+            line-height: 1em;
+            color: @placeholder-color;
+            font-style: @placeholder-style;
+        });
+    }
+
+    &.fit {
+        width: 100%;
+    }
+
+   // Validation
+   // =====
+   &.ng.ng-invalid, // angular support
+   &.invalid {
+       color: @invalid-color;
+       > input {
+           color: @invalid-color;
+           border-color: @invalid-color;
+           &::-webkit-input-placeholder {
+               color: lighten(@invalid-color, 15);
+           }
+           &::-moz-placeholder {
+               color: lighten(@invalid-color, 15);
+           }
+           &::-ms-input-placeholder {
+               color: lighten(@invalid-color, 15);
+           }
+       }
+   }
+}
+
+// Textareas
+// ====
+textarea.lui.input {
+    border: 1px solid @border-color;
+}
+
+// Icon support
+// =====
+.lui.input.icon {
+    > input {
+        padding-left: 2.5em;
+    }
+    .lui.icon {
+        position: absolute;
+        z-index: 2;
+        top: 0; bottom: 0;
+        height: 100%;
+        left: 0;
+        width: 2.5em;
+        margin-right: 0.5em;
+        &:before {
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+        }
+    }
+    &.left {
+        > input {
+            padding-left: 0;
+            padding-right: 2.5em;
+        }
+        .lui.icon {
+            left: auto; right: 0;
+            margin-right: 0;
+            margin-left: 0.5em;
+        }
+    }
+}
+
+
+// Addons
+// =====
+.lui.input.has.addon,
+.lui.input.has.addons {
+    > .lui.addon {
+        display: inline-block;
+        vertical-align: middle;
+        border: 1px solid @border-color;
+        padding: @v-padding @h-padding;
+        background: @border-color;
+    }
+
+    &:not(.right) .lui.addon,
+    &.addons .lui.addon:first-child {
+        border-radius: @border-radius 0 0 @border-radius;
+    }
+
+    &:not(.right) > input {
+        border-radius: 0 @border-radius @border-radius 0;
+    }
+
+    &.right .lui.addon,
+    &.addons .lui.addon:last-child {
+        border-radius: 0 @border-radius @border-radius 0;
+    }
+    &.right > input {
+        border-radius: @border-radius 0 0 @border-radius;
+    }
+
+    &.addons > input {
+        border-radius: 0;
+    }
+}
+
+.lui.input.short {
+    width: 8em;
+}
+.lui.input.medium {
+    width: 15em;
+}
+.lui.input.long {
+    width: 20em;
+}
+.lui.input.x-long {
+    width: 25em;
+}
+
+
+
+/**
+ * Form & field elements
+ * --------------------------------------------------------------------------- */
+
+.lui.form {
+
+    .lui.field { // Automatic inputs styling
+        .lui.input;
+        .flex-direction(column);
+
+        label {
+            margin-top: 1em;
+            font-weight: 600;
+            display: block;
+        }
+
+        & + .lui.field {
+            padding-left: 1em;
+        }
+
+        // Angular support
+        // =====
+        &.ng.ng-invalid {
+            .lui.input.ng.ng-invalid;
+        }
+    }
+}
+
+
+/**
+ * Search input
+ * --------------------------------------------------------------------------- */
+
+.lui.input.search {
+    .lui_icon_maker(search);
+
+    > input {
+        padding-left: 3em;
+    }
+
+    &.searching {
+    	.lui_loader();
+        &:after {
+            margin-left: 0;
+            left: 1em;
+        }
+    }
+
+    &:before, &:after {
+        display: inline-block;
+        position: absolute;
+        top: 50%; left: 1em;
+        -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        .user_select_none();
+    }
+}
+
+
+/**
+ * Checkbox
+ * --------------------------------------------------------------------------- */
+
+.lui.input.checkbox {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	height: 1.25em;
+	width: 1.25em;
+    border: 1px solid @border-color;
+    overflow: hidden;
+
+	input, label {
+		margin: 0;
+	}
+
+	input {
+		position: absolute;
+		left: 0; top: 0;
+		z-index: 4;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		opacity: 0;
+	}
+
+	label {
+		display: block;
+        box-sizing: border-box;
+		position: relative;
+        width: 100%;
+        height: 100%;
+
+		.lui_icon_maker(checkbox, left); // Before is unchecked
+		.lui_icon_maker(check, right); // After is checked
+
+        &:before, &:after {
+			position: absolute;
+			top: 50%; left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+			z-index: 2;
+			font-size: 1.25em;
+			margin: 0;
+		}
+
+        &:before {
+            color: #FFF;
+        }
+
+        &:after {
+            font-size: 0.8em;
+            z-index: 3;
+            color: @checkbox-color;
+            opacity: 0;
+            .lui_transition();
+        }
+	}
+
+	input:checked ~ label {
+        &:after {
+            opacity: 1;
+        }
+	}
+
+	&:hover label:after {
+		opacity: 0.5;
+	}
+}
+
+
+/**
+ * Toggle
+ * --------------------------------------------------------------------------- */
+
+.lui.input.switch {
+    @width: 4.5em;
+    @height: 2.25em;
+
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	height: @height;
+	width: @width;
+
+	input {
+		position: absolute;
+		z-index: 3;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		opacity: 0;
+		margin: 0;
+	}
+
+	label {
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		background: @switch-bg;
+		color: @switch-color;
+		.lui_transition();
+		.lui_icon_maker(check, left);
+		.lui_icon_maker(cross, right);
+
+		&:before, &:after {
+			display: block;
+			position: absolute;
+			top: 0.5em;
+			z-index: 1;
+		}
+
+		&:before {
+			left: 0.5em;
+		}
+
+		&:after {
+			right: 0.5em;
+		}
+
+		span {
+			background: #fff;
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0.5em;
+			right: 0;
+			height: 1.5em;
+			width: 1.5em;
+			margin: auto 0;
+			z-index: 2;
+			.lui_transition();
+
+			&:before {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				content: '';
+				display: block;
+				height: 50%;
+				width: 0.1em;
+				background: @switch-grab-lines-color;
+				box-shadow: -0.2em 0 0 0 @switch-grab-lines-color, 0.2em 0 0 0 @switch-grab-lines-color;
+				margin: auto;
+				.lui_transition();
+			}
+		}
+	}
+
+	input:checked ~ label {
+		background: @switch-bg-active;
+		color: @switch-color-active;
+	}
+
+	input:checked ~ label span {
+		left: 2.5em;
+	}
+}
+
+timespan-picker, .timespan-picker {
+	.lui.input;
+	width: 3.1em;
+}
+
+
+/**
+ * Momentpicker
+ * --------------------------------------------------------------------------- */
+
+moment-picker, .moment-picker{
+    .lui.input;
+    position: relative;
+    display: inline-block;
+    width: 3.1em;
+
+    &:active, &:focus {
+    	box-shadow: none;
+    }
+
+    &.ng-invalid{
+    	.mp-button {
+    		background-color: @invalid-color;
+    	}
+    }
+
+	// styling the inputs inside the directive
+	input, .input{
+		&:focus, &:active {
+			outline: none;
+			box-shadow: none;
+		}
+
+		background-color: transparent;
+		border: none;
+		width: 1.3em;
+		&:nth-child(1) {
+			text-align: right;
+		}
+	}
+	// buttons + -
+	.mp-button {
+		user-select: none;
+		font-size: 75%;
+		position: absolute;
+		z-index: 999;
+		cursor: pointer;
+		left:-1px;
+		right:-1px;
+		text-align: center;
+		color: #FFF;
+		background-color: @border-color;
+
+        // Positions
+		&.top { bottom: 100%; }
+		&.bottom { top: 100%; }
+		&.left { right: 50%; }
+		&.right { left: 50%; }
+	}
+}

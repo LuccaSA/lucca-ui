@@ -1,0 +1,422 @@
+
+/**
+ * Menu
+ * --------------------------------------------------------------------------- */
+
+.lui.menu {
+    position: relative;
+    .display-flex();
+    .flex-wrap(wrap);
+
+    margin: @v-margin @h-margin;
+    padding: @v-padding @h-padding;
+
+    &:first-child { margin-top: 0; }
+    &:last-child { margin-bottom: 0; }
+
+    // resets
+    .clear();
+    ul { .lui_unstyled_list(); }
+    a { .lui_unstyled_links(); }
+}
+
+// Default coloring
+// ====
+.lui_menu_coloring_handler(@default-coloring-bg, @default-coloring-txt);
+
+// Borders
+// ====
+.lui.menu.bordered {
+    border: @border-width solid @border-color;
+    &.inverted {
+        border: @border-width solid @border-color-inverted;
+    }
+}
+.lui.menu.bordered:not(.vertical) {
+    > .item {
+        border-right: @border-width solid @border-color;
+        .flex-align-self(stretch);
+    }
+    &.inverted .item {
+        border-right: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        border-right: none;
+    }
+}
+.lui.menu.vertical.bordered {
+    .item {
+        border-bottom: @border-width solid @border-color;
+    }
+    &.inverted .item {
+        border-bottom: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        border-bottom: none;
+    }
+}
+
+// Sub menu
+// ====
+.lui.menu:not(.dividing) .menu {
+    border-width: 0;
+    margin: 0;
+    padding: @horizontal-item-y-padding @horizontal-item-x-padding;
+    margin: @horizontal-item-y-margin @horizontal-item-x-margin;
+}
+.lui.menu:not(.vertical) > .menu {
+    .display-flex();
+}
+
+
+/**
+ * Menu item
+ * --------------------------------------------------------------------------- */
+
+// Common
+// ====
+.lui.menu .item {
+    // Resets
+    position: relative;
+    line-height: 1;
+    .clear();
+
+    // Label support
+    // ====
+    > .label {
+        float: right;
+        margin-right: 0;
+        margin-top: -0.15em;
+    }
+}
+
+// Active item
+// ====
+.lui.menu .item.active {
+    font-weight: 600;
+}
+
+// Divider item
+// ====
+.lui.menu:not(.vertical) .item.divider:not(.header) {
+    border: none; padding-right: 0; margin-right: @horizontal-item-x-padding + @horizontal-item-x-margin;
+    border-right: 1px solid @divider-color;
+}
+.lui.menu.vertical .item.divider:not(.header) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+// Header item
+// ====
+.lui.menu .item.header {
+    font-size: @header-size;
+    font-weight: @header-weight;
+}
+
+ // Horizontal menu item
+ // ====
+ .lui.menu:not(.vertical) .item {
+     // Old browsers
+     display: inline-block;
+     vertical-align: middle;
+
+     .display-flex();
+     .flex-align-items(center);
+
+     padding: @horizontal-item-y-padding @horizontal-item-x-padding;
+     margin: @horizontal-item-y-margin @horizontal-item-x-margin;
+ }
+
+// Vertical menu item
+// ====
+.lui.menu.vertical .item {
+    display: block;
+
+     padding: @vertical-item-y-padding @vertical-item-x-padding;
+     margin: @vertical-item-y-margin @vertical-item-x-margin;
+}
+
+// Element support
+// ====
+.lui.item .button,
+.lui.item.button,
+.lui.item .buttons,
+.lui.item.buttons,
+.lui.item .input,
+.lui.item.input {
+    .flex-align-self(center);
+}
+
+
+/**
+ * Items - groups (horizontal menus only)
+ * --------------------------------------------------------------------------- */
+
+// Horizontal left floated
+// ====
+.lui.menu:not(.vertical) .left.item,
+.lui.menu:not(.vertical) .left.menu {
+    float: left; // old browsers...
+    .display-flex();
+    .flex-wrap(wrap);
+    margin-right: auto;
+}
+// Horizontal right floated
+// ====
+.lui.menu:not(.vertical) .right.item,
+.lui.menu:not(.vertical) .right.menu {
+    float: right; // old browsers...
+    .display-flex();
+    .flex-wrap(wrap);
+    .flex-justify-content(flex-end);
+    margin-left: auto;
+}
+// vertical
+// ====
+.lui.menu.vertical .menu,
+.lui.menu.vertical .item {
+    .flex-direction(column);
+}
+// Vertical bottom "floated"
+// ====
+.lui.menu.vertical .bottom.item,
+.lui.menu.vertical .bottom.menu {
+    margin-top: auto !important;
+}
+// Borders
+// ====
+.lui.menu.bordered,
+.lui.menu.bordered {
+    &.inverted:not(.vertical) {
+        .left.item, .left.menu {
+            border-right: @border-width solid @border-color-inverted;
+        }
+        .right.item, .right.menu {
+            border-left: @border-width solid @border-color-inverted;
+        }
+    }
+    &:not(.inverted):not(.vertical) {
+        .left.item, .left.menu {
+            border-right: @border-width solid @border-color;
+        }
+        .right.item, .right.menu {
+            border-left: @border-width solid @border-color;
+        }
+    }
+}
+.lui.menu.vertical .left + .right {
+    border-top: none;
+}
+
+
+/**
+ * Menu orientation
+ * --------------------------------------------------------------------------- */
+
+// Menu orientation - Horizontal (default)
+// ====
+.lui.menu:not(.vertical) {
+    .flex-direction(row);
+}
+.lui.menu.v-aligned {
+    .flex-align-items(center);
+}
+
+// Menu orientation - Vertical
+// ====
+.lui.menu.vertical {
+    .flex-direction(column);
+
+    .menu .item {
+        border-right: none;
+    }
+}
+
+
+/**
+ * Menu styles
+ * --------------------------------------------------------------------------- */
+
+ // Dividing - Common
+ // ====
+.lui.menu.dividing {
+    border-color: @divider-color;
+
+    .item {
+        padding: @horizontal-item-y-padding 0;
+        margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
+    }
+
+    .item.right, .menu.right {
+        border-left: none !important;
+    }
+    .item.left, .menu.left {
+        border-right: none !important;
+    }
+
+    a.item:before, a.item:after {
+        visibility: visible;
+        position: absolute;
+        display: block; content: "";
+        .lui_transition_properties(width, height);
+    }
+}
+// Dividing - Horizontal
+// ====
+.lui.menu.dividing:not(.vertical) {
+    a.item:after,
+    a.item:before {
+        left: 0; right: 0;
+        margin: 0 auto;
+        width: 0; height: @divider-width;
+    }
+
+    // Dividing is down
+    // ====
+    &:not(.up), &.down {
+        border-bottom-width: @divider-width;
+        border-bottom-style: solid;
+        a.item:after {
+            margin-bottom: -@divider-width;
+            bottom: -(@horizontal-item-y-margin + @v-padding);
+        }
+        a.item:hover:after, a.item:active:after, a.item.active:after {
+            width: 100%;
+        }
+    }
+    // Dividing is up
+    // ====
+    &.up {
+        border-top-width: @divider-width;
+        border-top-style: solid;
+        a.item:before {
+            margin-top: -@divider-width;
+            top: -(@horizontal-item-y-margin + @v-padding);
+        }
+        a.item:hover:before, a.item:active:before, a.item.active:before {
+            width: 100%;
+        }
+    }
+}
+// Dividing - Vertical
+// ====
+.lui.menu.dividing.vertical {
+    .item {
+        margin: @vertical-item-y-margin @vertical-item-x-margin;
+        padding: @vertical-item-y-padding @vertical-item-x-padding;
+    }
+    a.item:after,
+    a.item:before {
+        top: 50%; bottom: 0;
+        -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        width: @divider-width; height: 0;
+    }
+
+    // Divider is down
+    // ====
+    &:not(.right), &.left {
+        border-left-width: @divider-width;
+        border-left-style: solid;
+        a.item:before {
+            margin-left: -@divider-width;
+            left: -(@vertical-item-x-margin + @h-padding);
+        }
+        a.item:hover:before, a.item:active:before, a.item.active:before {
+            height: 100%;
+        }
+    }
+    // Divider is up
+    // ====
+    &.right {
+        border-right-width: @divider-width;
+        border-right-style: solid;
+        a.item:after {
+            margin-right: -@divider-width;
+            right: -(@vertical-item-x-margin + @h-padding);
+        }
+        a.item:hover:after, a.item:active:after, a.item.active:after {
+            height: 100%;
+        }
+    }
+}
+
+
+// Pills
+// ====
+.lui.menu.pills {
+    border: none;
+
+    .item {
+        border-right: none !important;
+    }
+
+    a.item {
+        border-radius: @pills-radius;
+        margin: 0;
+        .lui_transition_properties(background);
+    }
+}
+.lui.menu.pills:not(.vertical) a.item {
+    padding: (@horizontal-item-y-padding + @horizontal-item-y-margin) (@horizontal-item-x-padding + @horizontal-item-x-margin);
+}
+.lui.menu.pills.vertical a.item {
+    padding: (@vertical-item-y-padding + @vertical-item-y-margin) (@vertical-item-x-padding + @vertical-item-x-margin);
+}
+
+// Alignments
+// ====
+.lui.menu.justified:not(.vertical) {
+    .flex-justify-content(space-between);
+    .item {
+        .flex(1);
+        text-align: center;
+        margin: 0;
+    }
+    &:after {
+        display: none;
+    }
+}
+
+/**
+ * Other elements support
+ * --------------------------------------------------------------------------- */
+
+ // Dividing style + .item.side-border
+ // ====
+.lui.menu.vertical.dividing:not(.right) .item.side-border:after {
+     left: -@divider-width;
+}
+.lui.menu.vertical.dividing.right .item.side-border.right:after {
+     right: -@divider-width;
+}
+.lui.menu:not(.vertical).dividing:not(.up) .item.side-border.up:after {
+     top: -@divider-width;
+}
+.lui.menu.vertical.dividing.up .item.side-border.down:after {
+     bottom: -@divider-width;
+}
+
+
+/**
+ * Stuck: fixed positionning
+ * --------------------------------------------------------------------------- */
+
+.lui.menu.stuck {
+    &-top, &-left, &-right, &-bottom {
+        position: fixed;
+    }
+    &-top {
+        top: 0; left: 0; right: 0;
+    }
+    &-right {
+        top: 0; bottom: 0; right: 0;
+    }
+    &-bottom {
+        bottom: 0; left: 0; right: 0;
+    }
+    &-left {
+        top: 0; bottom: 0; left: 0;
+    }
+}

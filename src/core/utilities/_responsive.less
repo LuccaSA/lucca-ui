@@ -1,0 +1,15 @@
+
+/**
+ * Media query mixin
+ * --------------------------------------------------------------------------- */
+
+.lui_screens_lower_than(@size; @rules) {
+    @media only screen and (max-width: @size) {
+        @rules();
+    }
+}
+.lui_screens_larger_than(@size; @rules) {
+    @media only screen and (min-width: @size) {
+        @rules();
+    }
+}

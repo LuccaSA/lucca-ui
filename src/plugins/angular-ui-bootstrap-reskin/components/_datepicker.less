@@ -1,0 +1,110 @@
+
+/**
+ * Angular UI Datepicker reskin
+ * ----------------------------------------------------------------------------- */
+
+.lui.nguibs-datepicker {
+	position: relative;
+	display: inline-block;
+
+	.lui_icon_maker(calendar);
+
+	// Style reset
+	button {
+		outline: none;
+	}
+	// Displays a calendar icon
+	&:before {
+		position: absolute;
+		z-index: 1;
+		top: 50%;
+		left: 0.3em;
+		margin-top: -.5em;
+		z-index: 2;
+		color: @calendar-icon-color;
+		font-size: @calendar-icon-size;
+	}
+
+	> input {
+		padding-left: 2.5em;
+	}
+	// Icon should be hidden for inline datepickers
+	&.inline {
+		&:before {
+			display: none;
+		}
+	}
+
+	table {
+		width: 100%;
+		margin-bottom: 0.5em;
+
+		&, &:active, &:focus {
+			outline: 0;
+		}
+
+		button {
+			border: none;
+			background-color: transparent;
+			.lui_border_radius(0);
+
+			&:active,
+			&:focus {
+				outline: none;
+			}
+		}
+
+		thead tr {
+			// Month & year
+			&:first-child {
+				background-color: @color-primary;
+				border: none;
+				margin: 0;
+
+				th {
+					button {
+						color: @color-primary-over;
+						padding-top: 1em;
+						padding-bottom: 1em;
+						.lui_border_radius(0);
+						font-size: 1.1em;
+
+						&:hover, &:active, &:focus {
+							background-color: lighten(@color-primary, 10);
+						}
+					}
+				}
+			}
+		}
+
+		tbody {
+			button {
+				color: @color;
+
+				&:hover {
+					background-color: #fafafa;
+				}
+
+				&.active {
+					font-weight: 600;
+					color: darken(@color, 10);
+					box-shadow: none;
+					background-color: lighten(@color-primary, 30);
+				}
+			}
+		}
+	}
+
+	.dropdown-menu {
+		width: 100%;
+		min-width: 300px;
+		padding: 0;
+		border-radius: @datepicker-border-radius;
+
+		> li {
+			.text-muted {
+				color: lighten(@color, 15);
+			}
+		}
+	}
+}

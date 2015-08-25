@@ -1,0 +1,89 @@
+
+/**
+ * Angular UI - UI select reskin
+ * ----------------------------------------------------------------------------- */
+
+.lui.nguibs-ui-select {
+    box-shadow: none;
+    line-height: 1;
+    margin: 0;
+    min-width: @ui-select-min-width;
+
+    .ui-select-match > .btn,
+    input.form-control.ui-select-search {
+        line-height: 1;
+        font-size: @ui-select-txt-size;
+        height: auto;
+        padding: @ui-select-padding;
+        overflow: visible;
+
+        color: @color;
+        .lui_border_radius(@ui-select-border-radius);
+
+        &, &:active, &:focus, &:visited, &:hover {
+            border: 1px solid @ui-select-border-color;
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .dropdown-header {
+        color: @color;
+        text-transform: uppercase;
+        padding: 0 0 0.75em 1em;
+    }
+
+    .ui-select-match {
+        outline: none;
+        box-shadow: none;
+        background-color: transparent;
+        .btn {
+            &[disabled] {
+                opacity: 1;
+                border: none;
+                .caret {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .ui-select-choices {
+        font-size: 1em;
+        width: 100%;
+        margin-top: @arrow-size;
+        padding: 0;
+        background-color: #FFF;
+        border: 1px solid @ui-select-border-color;
+        .lui_border_radius(@ui-select-border-radius);
+
+        .ui-select-choices-row {
+            > a {
+                color: @color;
+                padding: 0.5em 1em;
+            }
+            &.active > a {
+                background-color: @color-primary;
+                color: @color-primary-over;
+            }
+        }
+    }
+
+    &.open:after {
+        position: absolute;
+        top: 100%; right: 1em;
+        .lui_triangle_maker(up, @ui-select-border-color, @arrow-size);
+    }
+
+    // Clear cross
+    // ====
+    .ui-select-match > .btn > .btn {
+        position: absolute; right: 1em; top: 50%; transform: translateY(-50%);
+        font-size: 0.75rem;
+        color: @color;
+        border-radius: @ui-select-border-radius;
+        &:hover {
+            background: @ui-select-border-color;
+        }
+    }
+}
