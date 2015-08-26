@@ -105,6 +105,20 @@
 			.text-muted {
 				color: lighten(@color, 15);
 			}
+
+			&[ng-if="showButtonBar"] {
+				.clear;
+				margin-bottom: 0.5em;
+
+				border-top: 1px solid #CCC;
+
+				.btn {
+					border: 1px solid #CCC;
+					background-color: #FFF;
+					color: #333;
+					outline: none;
+				}
+			}
 		}
 	}
 }
