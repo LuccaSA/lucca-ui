@@ -4,6 +4,8 @@
  * --------------------------------------------------------------------------- */
 
 .lui.menu {
+    .clear; // Old browsers
+    
     position: relative;
     .display-flex();
     .flex-wrap(wrap);
@@ -121,8 +123,7 @@
  // ====
  .lui.menu:not(.vertical) .item {
      // Old browsers
-     display: inline-block;
-     vertical-align: middle;
+     float: left;
 
      .display-flex();
      .flex-align-items(center);
@@ -173,11 +174,11 @@
     .display-flex();
     .flex-wrap(wrap);
     .flex-justify-content(flex-end);
-    margin-left: auto;
+    margin-left: auto !important;
 }
 // vertical
 // ====
-.lui.menu.vertical .menu,
+.lui.menu.vertical .menu:not(.horizontal),
 .lui.menu.vertical .item {
     .flex-direction(column);
 }
