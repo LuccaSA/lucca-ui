@@ -1,37 +1,26 @@
-.lui_add_color(@name, @color, @txt-over, @lightOnDark: false) {
-    .lui.button.@{name} {
-        .lui_button_coloring_handler(@color, @txt-over, @lightOnDark);
-    }
+.lui_add_color(@name, @color, @text, @lightOnDark: false) {
 
     .lui.label.@{name} {
-        .lui_label_coloring_handler(@color, @txt-over, @lightOnDark);
-    }
-
-    .lui.side-border.@{name} {
-        .lui_side_border_coloring_handler(@color);
-    }
-
-    .lui.callout.@{name} {
-        .lui_callout_coloring_handler(@color, @txt-over, @lightOnDark);
+        .lui_label_coloring_handler(@color, @text, @lightOnDark);
     }
 
     .lui.menu.@{name} {
-        .lui_menu_coloring_handler(@color, @txt-over);
+        .lui_menu_coloring_handler(@color, @text);
     }
 
     .lui.popover.@{name} {
-        .lui_popover_coloring_handler(@color, @txt-over, @lightOnDark);
+        .lui_popover_coloring_handler(@color, @text, @lightOnDark);
     }
 
     .lui.table .tr.@{name} .th:first-child,
     .lui.table .tr.@{name} .td:first-child,
     .lui.table tr.@{name} th:first-child,
     .lui.table tr.@{name} td:first-child {
-        .lui_table_coloring_handler(@color, @txt-over, @lightOnDark);
+        .lui_table_coloring_handler(@color, @text, @lightOnDark);
     }
 
     .lui.nguibs-tooltip.@{name} {
-        .lui_nguibs_tooltip_coloring_handler(@color, @txt-over, @lightOnDark);
+        .lui_nguibs_tooltip_coloring_handler(@color, @text, @lightOnDark);
     }
 }
 
@@ -40,12 +29,12 @@
  * Button color
  * --------------------------------------------------------------------------- */
 
-.lui_button_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+.lui_button_coloring_handler(@color, @text, @lightOnDark: false) {
     // Regular style
     // =====
     &:not(.filling):not(.wired):not(.inverted):not(.flat) {
         background: @color;
-        color: @txt-over;
+        color: @text;
         &:hover {
             background: lighten(@color, 3);
         }
@@ -68,7 +57,7 @@
     &.filling {
         &:hover {
             background: @color;
-            color: @txt-over;
+            color: @text;
             & when (@lightOnDark = true) {
                 text-shadow: 0 1px 1px darken(@color, 15);
             }
@@ -111,7 +100,7 @@
             color: @color;
 
             &:hover {
-                color: @txt-over;
+                color: @text;
             }
 
             &.has-addon > .addon {
@@ -126,17 +115,17 @@
     // Status icon
     // ====
     &.status.ok:after, &.status.failure:after {
-        color: @txt-over;
+        color: @text;
     }
 }
 
 /**
  * Label
  * --------------------------------------------------------------------------- */
-.lui_label_coloring_handler(@color, @txt-over, @lightOnDark) {
+.lui_label_coloring_handler(@color, @text, @lightOnDark) {
     background: @color;
 
-    color: @txt-over;
+    color: @text;
     & when (@lightOnDark = true) {
         text-shadow: 1px 0 1px darken(@color, 5);
     }
@@ -146,17 +135,17 @@
 /**
  * Menu
  * --------------------------------------------------------------------------- */
-.lui_menu_coloring_handler(@color, @txt-over) {
+.lui_menu_coloring_handler(@color, @text) {
     &.dividing a.item:before, &.dividing a.item:after {
         background-color: @color;
     }
     &.pills .item:active, &.pills .item.active {
         background-color: @color;
-        color: @txt-over;
+        color: @text;
     }
     &.pills .item:hover {
         background-color: hsla(hue(@color), saturation(@color), lightness(@color), 0.5);
-        color: @txt-over;
+        color: @text;
     }
 }
 
@@ -175,7 +164,7 @@
  * Callout color
  * --------------------------------------------------------------------------- */
 
-.lui_callout_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+.lui_callout_coloring_handler(@color, @text, @lightOnDark: false) {
     // Regular style
     // =====
     &:not(.filled) {
@@ -190,7 +179,7 @@
         background-color: @color;
         border-color: darken(@color, 5);
         &, &:before, a, button {
-            color: @txt-over;
+            color: @text;
         }
 
         & when (@lightOnDark = true) {
@@ -213,9 +202,9 @@
  * Popover color
  * --------------------------------------------------------------------------- */
 
-.lui_popover_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+.lui_popover_coloring_handler(@color, @text, @lightOnDark: false) {
     background-color: @color;
-    color: @txt-over;
+    color: @text;
     border: none;
     &.bottom:before {
         border-bottom-color: @color;
@@ -231,7 +220,7 @@
     }
 }
 
-.lui_table_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+.lui_table_coloring_handler(@color, @text, @lightOnDark: false) {
     display: table-cell;
     position: relative;
     box-sizing: border-box;
@@ -248,10 +237,10 @@
     }
 }
 
-.lui_nguibs_tooltip_coloring_handler(@color, @txt-over, @lightOnDark: false) {
+.lui_nguibs_tooltip_coloring_handler(@color, @text, @lightOnDark: false) {
     .tooltip-inner {
         background-color: @color;
-        color: @txt-over;
+        color: @text;
         & when (@lightOnDark = true) {
             text-shadow: 1px 0 1px darken(@color, 5);
         }

@@ -31,6 +31,8 @@
 	text-shadow: @text-shadow;
 	text-align: center;
 
+	box-shadow: @default-border;
+
 	.lui_border_radius(@border-radius);
 
 	.lui_transition_properties(background, box-shadow, color);
@@ -61,13 +63,6 @@
 /**
  * Button styles
  * --------------------------------------------------------------------------- */
-
-.lui.button {
-	box-shadow: @default-border;
-
-	// Default coloring
-	.lui_button_coloring_handler(@default-background, @default-color);
-}
 
 .lui.button:not(.wired) {
 	&:hover {
@@ -152,6 +147,120 @@
    &.icon {
 	   text-decoration: none;
    }
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+// Coloring ruleset
+// ====
+@coloring-ruleset: {
+	// Regular style
+	// =====
+	&:not(.filling):not(.wired):not(.inverted):not(.flat) {
+		background: @color;
+		color: @text;
+		&:hover {
+			background: lighten(@color, 3);
+		}
+		&:active, &.active {
+			background: darken(@color, 3);
+		}
+		& when (@lightOnDark = true) {
+			&.status.loading:not(.has):not(.addon),
+			&.status.loading.has.addon > .addon {
+				.lui_loader_handle_color(@lightOnDark);
+			}
+		}
+		& when (@lightOnDark = true) {
+			text-shadow: 0 1px 1px darken(@color, 5);
+		}
+	}
+
+	// filling style
+	// =====
+	&.filling {
+		&:hover {
+			background: @color;
+			color: @text;
+			& when (@lightOnDark = true) {
+				text-shadow: 0 1px 1px darken(@color, 15);
+			}
+		}
+		&:active, &.active {
+			background: darken(@color, 5);
+		}
+	}
+
+	// Wired style
+	// Wired + Inverted is not supported
+	// =====
+	&.wired:not(.inverted) {
+		// Regular
+		&:hover,
+		&:active,
+		&.active, {
+			box-shadow: 0 0 0 2px @color inset;
+			color: @color;
+
+			&.has-addon > .addon {
+				border-color: @color;
+			}
+		}
+	}
+
+	// Inverted style
+	// ====
+	&.inverted {
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+		color: #FFF;
+
+		&:hover {
+			box-shadow: 0 0 0 2px @color inset;
+			color:@color;
+		}
+
+		&.filling {
+			box-shadow: 0 0 0 1px @color inset;
+			color: @color;
+
+			&:hover {
+				color: @text;
+			}
+
+			&.has-addon > .addon {
+				background: transparent;
+			}
+			&.has-addon:not(:hover):not(.active) > .addon {
+				border-color: @color;
+			}
+		}
+	}
+
+	// Status icon
+	// ====
+	&.status.ok:after, &.status.failure:after {
+		color: @text;
+	}
+};
+
+// Default coloring
+// ====
+.lui.button {
+    @color: @default-background;
+    @text: @default-color;
+	@lightOnDark: false;
+
+    @coloring-ruleset();
+}
+
+// Custom colors support
+// ====
+.lui.button {
+    // Define ruleset to be used
+    .lui_supports_coloring(@coloring-ruleset);
 }
 
 
@@ -365,6 +474,17 @@
 		margin: 0;
 	}
 }
+
+/**
+ * Sizing support
+ * --------------------------------------------------------------------------- */
+
+.lui.button {
+    .lui_supports_sizing({
+        font-size: @sizeEms;
+    });
+}
+
 
 // Buttons inside a heading
 // =====

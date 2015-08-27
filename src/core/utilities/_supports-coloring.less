@@ -1,0 +1,19 @@
+
+.lui_supports_coloring(@ruleset) {
+
+    .loop_colors(@index) when (@index > 0) {
+        // Retrieve color scheme
+        @name: extract(extract(@lui_colors, @index), 1);
+        @color: extract(extract(@lui_colors, @index), 2);
+        @text: extract(extract(@lui_colors, @index), 3);
+        @lightOnDark: extract(extract(@lui_colors, @index), 4);
+
+        // Import element's ruleset
+        &.@{name} { @ruleset(); }
+
+        // Loop
+        .loop_colors((@index - 1));
+    }
+
+    .loop_colors(length(@lui_colors));
+}

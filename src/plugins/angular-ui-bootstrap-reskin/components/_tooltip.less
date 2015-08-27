@@ -8,6 +8,41 @@
         .lui_border_radius(@tooltip-border-radius);
         box-shadow: @tooltip-shadow;
     }
+}
 
-    .lui_nguibs_tooltip_coloring_handler(@tooltip-bg, @tooltip-color);
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+// Coloring ruleset
+// ====
+@coloring-ruleset: {
+    .tooltip-inner {
+        background-color: @color;
+        color: @text;
+        & when (@lightOnDark = true) {
+            text-shadow: 1px 0 1px darken(@color, 5);
+        }
+    }
+    &.left .tooltip-arrow { border-left-color: @color; }
+    &.top .tooltip-arrow { border-top-color: @color; }
+    &.right .tooltip-arrow { border-right-color: @color; }
+    &.bottom .tooltip-arrow { border-bottom-color: @color; }
+};
+
+// Default coloring
+// ====
+.lui.nguibs-tooltip {
+    @color: @tooltip-bg;
+    @text: @tooltip-color;
+    @lightOnDark: false;
+
+    @coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.nguibs-tooltip {
+    .lui_supports_coloring(@coloring-ruleset);
 }

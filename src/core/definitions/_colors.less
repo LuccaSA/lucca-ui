@@ -1,13 +1,10 @@
-.lui_add_color(primary, @primary, @primary-over, @primary-lightondark);
-.lui_add_color(secondary, @secondary, @secondary-over, @secondary-lightondark);
-
-.lui_add_color(success, @success, @success-over, @success-lightondark);
-.lui_add_color(warning, @warning, @warning-over, @warning-lightondark);
-.lui_add_color(error, @error, @error-over, @error-lightondark);
-
-.lui_add_color(yellow, @yellow, @yellow-over, @yellow-lightondark);
-.lui_add_color(grey, @grey, @grey-over, true);
-.lui_add_color(light, @light-grey, @light-grey-over, false);
-.lui_add_color(green, @green, @green-over, @green-lightondark);
-.lui_add_color(orange, @orange, @orange-over, @orange-lightondark);
-.lui_add_color(red, @red, @red-over, @red-lightondark);
+@lui_colors:
+    // colorName color textOverColor isLightTextOverDarkBackground
+    grey #666 #fff true,
+    light #ccc #666 false,
+    primary #FFC900 #666 false,
+    secondary #f60 #fff true,
+    red #f60 #fff true,
+    orange #f90 #fff true,
+    green #5cb85c #fff true,
+    yellow #FFC900 #666 true;

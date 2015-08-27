@@ -13,10 +13,6 @@
     background: @background;
     padding: @v-padding @h-padding;
 
-    // Default coloring
-    // =====
-    .lui_callout_coloring_handler(@fill-bg, @fill-txt);
-
     // Content paragraphs
     // =====
     p:first-child {
@@ -62,6 +58,59 @@
             border-left: 1px solid @border-color;
         }
     }
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+// Coloring ruleset
+// ====
+@callout-coloring-ruleset: {
+    // Regular style
+    // =====
+    &:not(.filled) {
+        &:after {
+            background: @color;
+        }
+    }
+
+    // Filled style
+    // =====
+    &.filled {
+        background-color: @color;
+        border-color: darken(@color, 5);
+        &, &:before, a, button {
+            color: @text;
+        }
+
+        & when (@lightOnDark = true) {
+            text-shadow: 0 1px 1px darken(@color, 15);
+        }
+
+        > .footer {
+            background-color: darken(@color, 3);
+        }
+    }
+};
+
+// Default coloring
+// =====
+.lui.callout {
+    // Default
+    @color: @fill-bg;
+    @text: @fill-txt;
+    @lightOnDark: false;
+
+    @callout-coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.callout {
+    // Define ruleset to be used
+    .lui_supports_coloring(@callout-coloring-ruleset);
 }
 
 
@@ -132,8 +181,33 @@
         width: 100%;
         min-height: @border-width;
     }
+}
 
-    // Default coloring
-    // =====
-    .lui_side_border_coloring_handler(@default-coloring); // Default is "grey"
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+ // Coloring ruleset
+ // ====
+ @sideborder-coloring-ruleset: {
+    &:after {
+        background: @color;
+    }
+ };
+
+// Default coloring
+// ====
+.lui.side-border {
+    @color: @default-coloring;
+    @text: inherit;
+    @lightOnDark: false;
+
+    @sideborder-coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.side-border {
+    .lui_supports_coloring(@sideborder-coloring-ruleset);
 }

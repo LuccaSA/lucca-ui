@@ -32,10 +32,17 @@
             font-size: .5em;
         }
     }
+}
 
-    // Default styling
-    // ====
-    .lui_label_coloring_handler(@default-background, @default-color, false);
+
+/**
+ * Sizing support
+ * --------------------------------------------------------------------------- */
+
+.lui.label {
+    .lui_supports_sizing({
+        font-size: @sizeEms;
+    });
 }
 
 
@@ -84,4 +91,36 @@ h1, h2, h3, h4, h5, h6 {
     &.right {
 
     }
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+ // Coloring ruleset
+ // ====
+ @coloring-ruleset: {
+    background: @color;
+
+    color: @text;
+    & when (@lightOnDark = true) {
+        text-shadow: 1px 0 1px darken(@color, 5);
+    }
+ };
+
+// Default coloring
+// ====
+.lui.label {
+    @color: @default-background;
+    @text: @default-color;
+    @lightOnDark: false;
+
+    @coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.label {
+    .lui_supports_coloring(@coloring-ruleset);
 }

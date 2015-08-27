@@ -87,3 +87,40 @@
 		}
 	}
 }
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+// Coloring ruleset
+// ====
+@coloring-ruleset: {
+	> .th:first-child,
+	> .td:first-child,
+	> th:first-child,
+	> td:first-child {
+		display: table-cell;
+	    position: relative;
+	    box-sizing: border-box;
+	    &:after {
+	        visibility: visible !important; // Neutralises possible clearfix
+	        position: absolute;
+	        z-index: 2;
+	        display: block;
+	        content: "";
+	        top: 0; left: -1px;
+	        width: 5px;
+	        background: @color;
+	        min-height: 100%;
+	    }
+	}
+};
+
+// Coloring
+// =====
+.lui.table tr,
+.lui.table .tr {
+	// Define ruleset to be used
+	.lui_supports_coloring(@coloring-ruleset);
+}

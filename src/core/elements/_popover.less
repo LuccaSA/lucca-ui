@@ -74,12 +74,49 @@
 	input, .ui-select-container {
 		width: 100%;
 	}
-
-    // Default coloring
-    // ====
-    .lui_popover_coloring_handler(@bg, @color);
 }
 
 .lui.popover:not(.ng-hide) {
 	display: block !important;
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+ // Coloring ruleset
+ // ====
+ @coloring-ruleset: {
+	background-color: @color;
+    color: @text;
+    border: none;
+    &.bottom:before {
+        border-bottom-color: @color;
+    }
+    &.top:before {
+        border-top-color: @color;
+    }
+    &.left:before {
+        border-left-color: @color;
+    }
+    &.right:before {
+        border-right-color: @color;
+    }
+ };
+
+// Default coloring
+// ====
+.lui.popover {
+    @color: @bg;
+    @text: @color;
+    @lightOnDark: false;
+
+    @coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.popover {
+    .lui_supports_coloring(@coloring-ruleset);
 }

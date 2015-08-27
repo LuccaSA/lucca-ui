@@ -12,36 +12,37 @@
 @import "core/utilities/_mixins";
 @import "core/utilities/_responsive";
 @import "core/utilities/_flex";
-@import "core/utilities/_add-color";
 @import "core/utilities/_loader";
 @import "core/utilities/_icon-maker";
+
+
+/**
+ * Coloring handler
+ * ----------------------------------------------------------------------------- */
+
+@import "core/definitions/_colors";
+@import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
+
+@import "core/utilities/_supports-coloring";
+
+
+/**
+ * Sizing handler
+ * ----------------------------------------------------------------------------- */
+
+@import "core/definitions/_sizes";
+@import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
+
+@import "core/utilities/_supports-sizing";
 
 
 /** ---------------------------------------------------------------------------
  * ------ DEFINITIONS
  * ---------------------------------------------------------------------------- */
 
-/**
- * Sizes
- * ----------------------------------------------------------------------------- */
-
-& {
-    @small: 0.8em;
-    @regular: 1rem;
-    @large: 1.25em;
-    @x-large: 1.5em;
-
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
-
-    & when (@enabled = true) {
-        @import "core/definitions/_sizes";
-    }
-}
-
 
 /**
- * Sizes
+ * Definition lists
  * ----------------------------------------------------------------------------- */
 
 & {
@@ -51,59 +52,6 @@
         @import "core/definitions/_definition-list";
     }
 }
- /**
-   * Colors
-   * --------------------------------------------------------------------------- */
-
- & {
-     @grey: #666;
-     @grey-over: #fff;
-     @light-grey: #CCC;
-     @light-grey-over: #666;
-
-     @primary: #FFC900;
-     @primary-over: #666;
-     @primary-lightondark: false;
-
-     @secondary: #f60;
-     @secondary-over: #FFF;
-     @secondary-lightondark: true;
-
-     @red: #f60;
-     @red-over: #FFF;
-     @red-lightondark: true;
-
-     @orange: #f90;
-     @orange-over: #FFF;
-     @orange-lightondark: true;
-
-     @green: #5cb85c;
-     @green-over: #FFF;
-     @green-lightondark: true;
-
-     @yellow: #FFC900;
-     @yellow-over: #666;
-     @yellow-lightondark: false;
-
-     @error: @red;
-     @error-over: @red-over;
-     @error-lightondark: @red-lightondark;
-
-     @warning: @orange;
-     @warning-over: @orange-over;
-     @warning-lightondark: @orange-lightondark;
-
-     @success: @green;
-     @success-over: @green-over;
-     @success-lightondark: @green-lightondark;
-
-     @enabled: true;
-     @import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
-
-     & when (@enabled = true) {
-         @import "core/definitions/_colors.less";
-     }
- }
 
 
 /**

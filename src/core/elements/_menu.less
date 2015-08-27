@@ -5,7 +5,7 @@
 
 .lui.menu {
     .clear; // Old browsers
-    
+
     position: relative;
     .display-flex();
     .flex-wrap(wrap);
@@ -21,10 +21,6 @@
     ul { .lui_unstyled_list(); }
     a { .lui_unstyled_links(); }
 }
-
-// Default coloring
-// ====
-.lui_menu_coloring_handler(@default-coloring-bg, @default-coloring-txt);
 
 // Borders
 // ====
@@ -423,4 +419,41 @@
     &-left {
         top: 0; bottom: 0; left: 0;
     }
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+ // Coloring ruleset
+ // ====
+ @coloring-ruleset: {
+    &.dividing a.item:before, &.dividing a.item:after {
+        background-color: @color;
+    }
+    &.pills .item:active, &.pills .item.active {
+        background-color: @color;
+        color: @text;
+    }
+    &.pills .item:hover {
+        background-color: hsla(hue(@color), saturation(@color), lightness(@color), 0.5);
+        color: @text;
+    }
+ };
+
+// Default coloring
+// ====
+.lui.menu {
+    @color: @default-coloring-bg;
+    @text: @default-coloring-txt;
+    @lightOnDark: false;
+
+    @coloring-ruleset();
+}
+
+// Custom coloring support
+// ====
+.lui.menu {
+    .lui_supports_coloring(@coloring-ruleset);
 }
