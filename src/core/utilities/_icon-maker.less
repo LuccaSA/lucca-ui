@@ -1,113 +1,29 @@
-// Awesome icon factory
-// =====
-@lui_icons-icon_pin: "\e000";
-@lui_icons-icon_plus: "\e001";
-@lui_icons-icon_analytics: "\e002";
-@lui_icons-icon_chevron-east: "\e003";
-@lui_icons-icon_chevron-north: "\e004";
-@lui_icons-icon_chevron-south: "\e005";
-@lui_icons-icon_chevron-west: "\e006";
-@lui_icons-icon_attachment: "\e007";
-@lui_icons-icon_blocks: "\e008";
-@lui_icons-icon_branch: "\e009";
-@lui_icons-icon_coffee: "\e00a";
-@lui_icons-icon_check: "\e00b";
-@lui_icons-icon_checkbox: "\e00c";
-@lui_icons-icon_checkbox-checked: "\e00d";
-@lui_icons-icon_clock: "\e00e";
-@lui_icons-icon_cross: "\e00f";
-@lui_icons-icon_calendar: "\e010";
-@lui_icons-icon_download: "\e011";
-@lui_icons-icon_edit: "\e012";
-@lui_icons-icon_edit-frame: "\e013";
-@lui_icons-icon_edit-mini: "\e014";
-@lui_icons-icon_ellipsis: "\e015";
-@lui_icons-icon_error: "\e016";
-@lui_icons-icon_files: "\e017";
-@lui_icons-icon_filter: "\e018";
-@lui_icons-icon_email: "\e019";
-@lui_icons-icon_add-user: "\e01a";
-@lui_icons-icon_help: "\e01b";
-@lui_icons-icon_list: "\e01c";
-@lui_icons-icon_lock: "\e01d";
-@lui_icons-icon_forbidden: "\e01e";
-@lui_icons-icon_minus: "\e01f";
-@lui_icons-icon_move: "\e020";
-@lui_icons-icon_move-horizontal: "\e021";
-@lui_icons-icon_move-vertical: "\e022";
-@lui_icons-icon_notification: "\e023";
-@lui_icons-icon_outside: "\e024";
-@lui_icons-icon_camera: "\e025";
-@lui_icons-icon_printer: "\e026";
-@lui_icons-icon_refresh: "\e027";
-@lui_icons-icon_remove-user: "\e028";
-@lui_icons-icon_drag: "\e029";
-@lui_icons-icon_search: "\e02a";
-@lui_icons-icon_send: "\e02b";
-@lui_icons-icon_to-user: "\e02c";
-@lui_icons-icon_settings: "\e02d";
-@lui_icons-icon_comment: "\e02e";
-@lui_icons-icon_timer: "\e02f";
-@lui_icons-icon_trash: "\e030";
-@lui_icons-icon_unlock: "\e031";
-@lui_icons-icon_upload: "\e032";
-@lui_icons-icon_user: "\e033";
-@lui_icons-icon_warning: "\e034";
-@lui_icons-icon_bank-card: "\e035";
-@lui_icons-icon_bookmark: "\e036";
-@lui_icons-icon_coins: "\e037";
-@lui_icons-icon_milestone: "\e038";
-@lui_icons-icon_quantity: "\e039";
-@lui_icons-icon_luggage: "\e03a";
-@lui_icons-icon_train: "\e03b";
-@lui_icons-icon_tools: "\e03c";
-@lui_icons-icon_toll-dollar: "\e03d";
-@lui_icons-icon_toll-euro: "\e03e";
-@lui_icons-icon_taxi: "\e03f";
-@lui_icons-icon_clean-car: "\e040";
-@lui_icons-icon_car: "\e041";
-@lui_icons-icon_postage: "\e042";
-@lui_icons-icon_iron: "\e043";
-@lui_icons-icon_plane: "\e044";
-@lui_icons-icon_piggy-bank: "\e045";
-@lui_icons-icon_phone: "\e046";
-@lui_icons-icon_parking: "\e047";
-@lui_icons-icon_computer-mouse: "\e048";
-@lui_icons-icon_subway: "\e049";
-@lui_icons-icon_meal: "\e04a";
-@lui_icons-icon_lunch: "\e04b";
-@lui_icons-icon_mileage: "\e04c";
-@lui_icons-icon_hotel: "\e04d";
-@lui_icons-icon_gasoline: "\e04e";
-@lui_icons-icon_euro: "\e04f";
-@lui_icons-icon_drink: "\e050";
-@lui_icons-icon_diner: "\e051";
-@lui_icons-icon_dollar: "\e052";
-@lui_icons-icon_computer: "\e053";
-@lui_icons-icon_bus: "\e054";
-@lui_icons-icon_breakfast: "\e055";
-@lui_icons-icon_arrow-west: "\e056";
-@lui_icons-icon_arrow-east: "\e057";
-@lui_icons-icon_arrow-north: "\e058";
-@lui_icons-icon_arrow-south: "\e059";
 
-.lui_icon_maker_base(@letter) {
-   font-family: "lucca-icons";
-   display: inline-block;
-   vertical-align: middle;
-   content: @letter;
-}
-.lui_icon_maker(@iconName, @position: left) when (@position = left) {
-   @letter: "lui_icons-icon_@{iconName}";
-   &:before {
-       .lui_icon_maker_base(@@letter);
-       margin-right: 0.5em;
-   }
-}
-.lui_icon_maker(@iconName, @position: left) when (@position = right) {
-   @letter: "lui_icons-icon_@{iconName}";
-   &:after {
-       .lui_icon_maker_base(@@letter);
-       margin-left: 0.5em;
-   }
+@lui-make-icon-base: {
+    font-family: @iconFontName;
+    display: inline-block;
+    vertical-align: middle;
+};
+
+.lui_make_icon(@iconName, @iconPosition: left) {
+    @import (multiple) "../definitions/_icons";
+
+    .loop_icons(@index) when (@index > 0) {
+        @currentIconName: e(extract(extract(@icons, @index), 1));
+        @currentIconChar: extract(extract(@icons, @index), 2);
+
+        & when (@currentIconName = @iconName) and (@iconPosition = left) {
+            &:before { @lui-make-icon-base(); content: @currentIconChar; }
+        }
+        & when (@currentIconName = @iconName) and (@iconPosition = right) {
+            &:after { @lui-make-icon-base(); content: @currentIconChar; }
+        }
+
+
+        & when not(@currentIconName = @iconName) {
+            .loop_icons((@index - 1));
+        }
+    }
+
+    .loop_icons(length(@icons));
 }

@@ -200,7 +200,7 @@ textarea.lui.input {
  * --------------------------------------------------------------------------- */
 
 .lui.input.search {
-    .lui_icon_maker(search);
+    .lui_make_icon(search);
 
     > input {
         padding-left: 3em;
@@ -261,8 +261,8 @@ textarea.lui.input {
         height: 100%; width: 100%;
         min-height: 0; // Bootstrap override
 
-		.lui_icon_maker(checkbox, left); // Before is unchecked
-		.lui_icon_maker(check, right); // After is checked
+		.lui_make_icon(checkbox, left); // Before is unchecked
+		.lui_make_icon(check, right); // After is checked
 
         &:before, &:after {
 			position: absolute;
@@ -331,8 +331,8 @@ textarea.lui.input {
 		background: @switch-bg;
 		color: @switch-color;
 		.lui_transition();
-		.lui_icon_maker(check, left);
-		.lui_icon_maker(cross, right);
+		.lui_make_icon(check, left);
+		.lui_make_icon(cross, right);
 
 		&:before, &:after {
 			display: block;

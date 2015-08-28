@@ -167,13 +167,15 @@
   * Icon
   * --------------------------------------------------------------------------- */
  & {
-     @font_path: "../../../dist/fonts/LuccaIcons";
-     @font_name: "lucca-icons";
-
      @enabled: true;
      @import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
      & when (@enabled = true) {
+         // Import icons definitions...
+         @import (multiple) "core/definitions/_icons.less";
+         @import (optional) "@{themeDir}@{theme}/definitions/icons.overrides.less";
+
+         // Import the element
          @import "core/elements/_icon";
      }
  }

@@ -3,12 +3,12 @@
  * Load icon font
  * --------------------------------------------------------------------------- */
 @font-face {
-  font-family: "lucca-icons";
-  src:  url("@{font_path}/@{font_name}.eot");
-  src:  url("@{font_path}/@{font_name}.eot?#iefix") format("embedded-opentype"),
-        url("@{font_path}/@{font_name}.woff") format("woff"),
-        url("@{font_path}/@{font_name}.ttf") format("truetype"),
-        url("@{font_path}/@{font_name}.svg#lucca-icons") format("svg");
+  font-family: "@{iconFontName}";
+  src:  url("@{iconFontPath}/@{iconFontName}.eot");
+  src:  url("@{iconFontPath}/@{iconFontName}.eot?#iefix") format("embedded-opentype"),
+        url("@{iconFontPath}/@{iconFontName}.woff") format("woff"),
+        url("@{iconFontPath}/@{iconFontName}.ttf") format("truetype"),
+        url("@{iconFontPath}/@{iconFontName}.svg#iconFontName") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -29,7 +29,7 @@
  * --------------------------------------------------------------------------- */
 
 .lui_icon_base() {
-    font-family: "lucca-icons";
+    font-family: @iconFontName;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -41,6 +41,10 @@
     font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+
+    display: inline-block;
+    vertical-align: middle;
+
     // Font characters are poorly cropped...
     &:before {
         display: block;
@@ -48,306 +52,33 @@
     }
 }
 
-i.lui.icon {
-    .lui_icon_base();
-    display: inline-block;
-    vertical-align: middle;
-}
-
-[lui-icon] {
-    .lui_icon_base();
-    display: inline-block;
-    &:before {
-        content: attr(lui-icon);
-    }
-}
-
-
-// Elements support
-// =====
+i.lui.icon, [lui-icon],
 // Button with only an icon
-.lui.button.icon {
-    .lui_icon_base();
-}
+.lui.button.icon,
 // Menu item with only an icon
 .lui.menu > ul > li > a.icon {
     .lui_icon_base();
 }
+
+[lui-icon]:before {
+    content: attr(lui-icon);
+}
+
 // Loader support
 .lui.icon.spinner,
 .lui.icon.loader {
     .lui_loader();
 }
 
-// Icon classes
+// Defines icon classes
 // =====
-.lui.icon.pin:before {
-  content: "\e000";
-}
-.lui.icon.plus:before {
-  content: "\e001";
-}
-.lui.icon.analytics:before {
-  content: "\e002";
-}
-.lui.icon.chevron.east:before {
-  content: "\e003";
-}
-.lui.icon.chevron.north:before {
-  content: "\e004";
-}
-.lui.icon.chevron.south:before {
-  content: "\e005";
-}
-.lui.icon.chevron.west:before {
-  content: "\e006";
-}
-.lui.icon.attachment:before {
-  content: "\e007";
-}
-.lui.icon.blocks:before {
-  content: "\e008";
-}
-.lui.icon.branch:before {
-  content: "\e009";
-}
-.lui.icon.coffee:before {
-  content: "\e00a";
-}
-.lui.icon.check:before {
-  content: "\e00b";
-}
-.lui.icon.checkbox:before {
-  content: "\e00c";
-}
-.lui.icon.checkbox.checked:before {
-  content: "\e00d";
-}
-.lui.icon.clock:before {
-  content: "\e00e";
-}
-.lui.icon.cross:before {
-  content: "\e00f";
-}
-.lui.icon.calendar:before {
-  content: "\e010";
-}
-.lui.icon.download:before {
-  content: "\e011";
-}
-.lui.icon.edit:before {
-  content: "\e012";
-}
-.lui.icon.edit.frame:before {
-  content: "\e013";
-}
-.lui.icon.edit.mini:before {
-  content: "\e014";
-}
-.lui.icon.ellipsis:before {
-  content: "\e015";
-}
-.lui.icon.error:before {
-  content: "\e016";
-}
-.lui.icon.files:before {
-  content: "\e017";
-}
-.lui.icon.filter:before {
-  content: "\e018";
-}
-.lui.icon.email:before {
-  content: "\e019";
-}
-.lui.icon.add.user:before {
-  content: "\e01a";
-}
-.lui.icon.help:before {
-  content: "\e01b";
-}
-.lui.icon.list:before {
-  content: "\e01c";
-}
-.lui.icon.lock:before {
-  content: "\e01d";
-}
-.lui.icon.forbidden:before {
-  content: "\e01e";
-}
-.lui.icon.minus:before {
-  content: "\e01f";
-}
-.lui.icon.move:before {
-  content: "\e020";
-}
-.lui.icon.move.horizontal:before {
-  content: "\e021";
-}
-.lui.icon.move.vertical:before {
-  content: "\e022";
-}
-.lui.icon.notification:before {
-  content: "\e023";
-}
-.lui.icon.outside:before {
-  content: "\e024";
-}
-.lui.icon.camera:before {
-  content: "\e025";
-}
-.lui.icon.printer:before {
-  content: "\e026";
-}
-.lui.icon.refresh:before {
-  content: "\e027";
-}
-.lui.icon.remove.user:before {
-  content: "\e028";
-}
-.lui.icon.drag:before {
-  content: "\e029";
-}
-.lui.icon.search:before {
-  content: "\e02a";
-}
-.lui.icon.send:before {
-  content: "\e02b";
-}
-.lui.icon.to.user:before {
-  content: "\e02c";
-}
-.lui.icon.settings:before {
-  content: "\e02d";
-}
-.lui.icon.comment:before {
-  content: "\e02e";
-}
-.lui.icon.timer:before {
-  content: "\e02f";
-}
-.lui.icon.trash:before {
-  content: "\e030";
-}
-.lui.icon.unlock:before {
-  content: "\e031";
-}
-.lui.icon.upload:before {
-  content: "\e032";
-}
-.lui.icon.user:before {
-  content: "\e033";
-}
-.lui.icon.warning:before {
-  content: "\e034";
-}
-.lui.icon.bank.card:before {
-  content: "\e035";
-}
-.lui.icon.bookmark:before {
-  content: "\e036";
-}
-.lui.icon.coins:before {
-  content: "\e037";
-}
-.lui.icon.milestone:before {
-  content: "\e038";
-}
-.lui.icon.quantity:before {
-  content: "\e039";
-}
-.lui.icon.luggage:before {
-  content: "\e03a";
-}
-.lui.icon.train:before {
-  content: "\e03b";
-}
-.lui.icon.tools:before {
-  content: "\e03c";
-}
-.lui.icon.toll.dollar:before {
-  content: "\e03d";
-}
-.lui.icon.toll.euro:before {
-  content: "\e03e";
-}
-.lui.icon.taxi:before {
-  content: "\e03f";
-}
-.lui.icon.clean.car:before {
-  content: "\e040";
-}
-.lui.icon.car:before {
-  content: "\e041";
-}
-.lui.icon.postage:before {
-  content: "\e042";
-}
-.lui.icon.iron:before {
-  content: "\e043";
-}
-.lui.icon.plane:before {
-  content: "\e044";
-}
-.lui.icon.piggy.bank:before {
-  content: "\e045";
-}
-.lui.icon.phone:before {
-  content: "\e046";
-}
-.lui.icon.parking:before {
-  content: "\e047";
-}
-.lui.icon.computer.mouse:before {
-  content: "\e048";
-}
-.lui.icon.subway:before {
-  content: "\e049";
-}
-.lui.icon.meal:before {
-  content: "\e04a";
-}
-.lui.icon.lunch:before {
-  content: "\e04b";
-}
-.lui.icon.mileage:before {
-  content: "\e04c";
-}
-.lui.icon.hotel:before {
-  content: "\e04d";
-}
-.lui.icon.gasoline:before {
-  content: "\e04e";
-}
-.lui.icon.euro:before {
-  content: "\e04f";
-}
-.lui.icon.drink:before {
-  content: "\e050";
-}
-.lui.icon.diner:before {
-  content: "\e051";
-}
-.lui.icon.dollar:before {
-  content: "\e052";
-}
-.lui.icon.computer:before {
-  content: "\e053";
-}
-.lui.icon.bus:before {
-  content: "\e054";
-}
-.lui.icon.breakfast:before {
-  content: "\e055";
-}
-.lui.icon.arrow.west:before {
-  content: "\e056";
-}
-.lui.icon.arrow.east:before {
-  content: "\e057";
-}
-.lui.icon.arrow.north:before {
-  content: "\e058";
-}
-.lui.icon.arrow.south:before {
-  content: "\e059";
-}
+.lui_define_icons(@index) when (@index > 0) {
+
+    @iconClass: replace(e(extract(extract(@icons, @index), 1)), " ", ".");
+    @iconChar: extract(extract(@icons, @index), 2);
+
+    .lui.icon.@{iconClass}:before { content: @iconChar; }
+
+    .lui_define_icons((@index - 1));
+}
+.lui_define_icons(length(@icons));
