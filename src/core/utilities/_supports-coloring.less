@@ -1,7 +1,7 @@
 
 .lui_supports_coloring(@ruleset) {
 
-    .loop_colors(@index) when (@index > 0) {
+    .loop_colors(@index) when (@index > 0) and (isruleset(@ruleset)) {
         // Retrieve color scheme
         @name: extract(extract(@lui_colors, @index), 1);
         @color: extract(extract(@lui_colors, @index), 2);

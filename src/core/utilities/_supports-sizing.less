@@ -1,7 +1,7 @@
 
 .lui_supports_sizing(@ruleset) {
 
-    .loop_sizes(@index) when (@index > 0) {
+    .loop_sizes(@index) when (@index > 0) and (isruleset(@ruleset)) {
         // Retrieve size properties
         @sizeName: extract(extract(@lui_sizes, @index), 1);
         @sizeEms: extract(extract(@lui_sizes, @index), 2);
