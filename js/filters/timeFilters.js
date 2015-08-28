@@ -97,5 +97,5 @@
 			if (pastEvent) { d = moment.duration(-d.asMilliseconds()); }
 			return d.humanize(suffix);
 		};
-	})
+	});
 })();

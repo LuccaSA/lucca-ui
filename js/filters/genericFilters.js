@@ -6,7 +6,7 @@
 			return !!_input ? _input : _placeholder;
 		};
 	})
-			.filter('luifDefaultCode', function () {
+	.filter('luifDefaultCode', function () {
 		// uppercased and with '_' instead of ' '
 		return function (input) {
 			return replaceAll(input, ' ', '_').toUpperCase();
@@ -17,6 +17,6 @@
 		return function (input, start) {
 			start = +start; //parse to int
 			return input.slice(start);
-		}
+		};
 	});
 })();
