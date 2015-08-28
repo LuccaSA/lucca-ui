@@ -169,12 +169,6 @@
 			background: darken(@color, 3);
 		}
 		& when (@lightOnDark = true) {
-			&.status.loading:not(.has):not(.addon),
-			&.status.loading.has.addon > .addon {
-				.lui_loader_handle_color(@lightOnDark);
-			}
-		}
-		& when (@lightOnDark = true) {
 			text-shadow: 0 1px 1px darken(@color, 5);
 		}
 	}
@@ -241,8 +235,25 @@
 
 	// Status icon
 	// ====
-	&.status.ok:after, &.status.failure:after {
-		color: @text;
+	// Regular button style
+	&.status:not(.filling):not(.wired):not(.inverted):not(.flat),
+	&.status.filling:hover {
+		// Transparent text if icon is shown over button text
+		&:not(.has-addon) { color: transparent; }
+		// Colored icons
+		&.ok:after, &.failure:after { color: @text; }
+		// Loader color depends on @lightOnDark
+		&.loading:not(.has-addon),
+		&.loading.has-addon > .addon {
+			& when (@lightOnDark = true) {
+				&:before { border-color: rgba(255, 255, 255, 0.25); }
+				&:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
+			}
+			& when (@lightOnDark = false) {
+				&:before { border-color: rgba(0, 0, 0, 0.25); }
+				&:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
+			}
+		}
 	}
 };
 

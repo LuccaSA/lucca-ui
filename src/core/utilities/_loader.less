@@ -3,6 +3,7 @@
  * Loader
  * --------------------------------------------------------------------------- */
 
+// Animation frames for infinite rotation
 @-o-keyframes spin {
     from {-o-transform: rotate(0deg);}
     to {-o-transform: rotate(360deg);}
@@ -73,23 +74,12 @@
         animation-iteration-count: infinite;
     }
 
-    .lui_loader_handle_color(@inverted);
-}
-
-.lui_loader_handle_color(@inverted) when (@inverted = true) {
-    &:before {
-        border-color: rgba(255, 255, 255, 0.25);
+    & when (@inverted = true) {
+        &:before { border-color: rgba(255, 255, 255, 0.25); }
+        &:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
     }
-    &:after {
-        border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
-    }
-}
-
-.lui_loader_handle_color(@inverted) when (@inverted = false) {
-    &:before {
-        border-color: rgba(0, 0, 0, 0.25);
-    }
-    &:after {
-        border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+    & when (@inverted = false) {
+        &:before { border-color: rgba(0, 0, 0, 0.25); }
+        &:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
     }
 }
