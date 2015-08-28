@@ -1,16 +1,11 @@
 
-/** ---------------------------------------------------------------------------
- * ------ GLOBAL VARIABLES
- * ---------------------------------------------------------------------------- */
- @import "core/_globals";
 
- /** ---------------------------------------------------------------------------
-  * ------ UTILITIES
-  * ---------------------------------------------------------------------------- */
-// These are globals
+/** ---------------------------------------------------------------------------
+ * ------ UTILITIES
+ * ---------------------------------------------------------------------------- */
+
 @import "core/utilities/_resets";
 @import "core/utilities/_mixins";
-@import "core/utilities/_responsive";
 @import "core/utilities/_flex";
 @import "core/utilities/_loader";
 @import "core/utilities/_icon-maker";
@@ -36,10 +31,24 @@
 @import "core/utilities/_supports-sizing";
 
 
+/**
+ * Breakpoints handler
+ * ----------------------------------------------------------------------------- */
+
+// Responsive mixins - based on breakpoints
+@import "core/utilities/_responsive";
+
+// Breakpoints definitions
+@import "core/definitions/_breakpoints";
+@import (optional) "@{themeDir}@{theme}/definitions/breakpoints.overrides.less";
+
+@import "core/utilities/_supports-breakpoints.less";
+
+
+
 /** ---------------------------------------------------------------------------
  * ------ DEFINITIONS
  * ---------------------------------------------------------------------------- */
-
 
 /**
  * Definition lists
@@ -59,15 +68,12 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @columns: 12;
-    @container-width: auto;
-    @container-space-around: 1em;
-    @container-space-around-tablet: 2em;
-    @container-space-around-desktop: 3em;
-    @container-space-around-large: 5em;
     @gutter: 1em;
 
+    @columns: 12;
     @column: 100%/@columns;
+    @container-width: auto;
+
 
     @enabled: true;
     @import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";

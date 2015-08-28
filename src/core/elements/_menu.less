@@ -457,3 +457,28 @@
 .lui.menu {
     .lui_supports_coloring(@coloring-ruleset);
 }
+
+
+/**
+ * Breakpoints support
+ * --------------------------------------------------------------------------- */
+
+ // Breakpoints ruleset
+ // ====
+ @breakpoints-ruleset: {
+     padding-left: @breakpoint-spacing;
+     padding-right: @breakpoint-spacing;
+ };
+
+.lui.menu.container {
+    .lui_supports_breakpoints(@breakpoints-ruleset);
+
+    > .item:first-child {
+        padding-left: 0;
+        margin-left: 0;
+    }
+    > .item:last-child {
+        padding-right: 0;
+        margin-right: 0;
+    }
+}

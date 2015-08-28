@@ -3,13 +3,30 @@
  * Media query mixin
  * --------------------------------------------------------------------------- */
 
-.lui_screens_lower_than(@size; @rules) {
-    @media only screen and (max-width: @size) {
-        @rules();
-    }
+.lui_screens_smaller_than(@breakpoint; @rules) {
+    .lui_find_breakpoint_break(@breakpoint; max; @rules; length(@lui_breakpoints));
+ }
+.lui_screens_larger_than(@breakpoint; @rules) {
+    .lui_find_breakpoint_break(@breakpoint; min; @rules; length(@lui_breakpoints));
 }
-.lui_screens_larger_than(@size; @rules) {
-    @media only screen and (min-width: @size) {
-        @rules();
+
+.lui_find_breakpoint_break(@breakpoint; @minmax; @rules; @i) when (@i > 0) {
+    @currentBreakpointName: extract(extract(@lui_breakpoints, @i), 1);
+
+    // Found it, apply ruleset
+    & when (@currentBreakpointName = @breakpoint) {
+        & when (@minmax = max) {
+            @breakAt: extract(extract(@lui_breakpoints, @i), 2);
+
+            @media only screen and (max-width: @breakAt) { @rules(); }
+        }
+        & when (@minmax = min) {
+            @breakAt: extract(extract(@lui_breakpoints, (@i - 1)), 2);
+
+            @media only screen and (min-width: @breakAt) { @rules(); }
+        }
     }
+
+    // Continue looping if not found yet
+    & when not(@currentBreakpointName = @breakpoint) { .lui_find_breakpoint_break(@breakpoint; @minmax; @rules; (@i - 1)); }
 }
