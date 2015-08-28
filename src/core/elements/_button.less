@@ -160,16 +160,16 @@
 	// Regular style
 	// =====
 	&:not(.filling):not(.wired):not(.inverted):not(.flat) {
-		background: @color;
-		color: @text;
+		background: @coloring-color;
+		color: @coloring-text;
 		&:hover {
-			background: lighten(@color, 3);
+			background: lighten(@coloring-color, 3);
 		}
 		&:active, &.active {
-			background: darken(@color, 3);
+			background: darken(@coloring-color, 3);
 		}
-		& when (@lightOnDark = true) {
-			text-shadow: 0 1px 1px darken(@color, 5);
+		& when (@coloring-lightOnDark = true) {
+			text-shadow: 0 1px 1px darken(@coloring-color, 5);
 		}
 	}
 
@@ -177,14 +177,14 @@
 	// =====
 	&.filling {
 		&:hover {
-			background: @color;
-			color: @text;
-			& when (@lightOnDark = true) {
-				text-shadow: 0 1px 1px darken(@color, 15);
+			background: @coloring-color;
+			color: @coloring-text;
+			& when (@coloring-lightOnDark = true) {
+				text-shadow: 0 1px 1px darken(@coloring-color, 15);
 			}
 		}
 		&:active, &.active {
-			background: darken(@color, 5);
+			background: darken(@coloring-color, 5);
 		}
 	}
 
@@ -196,11 +196,11 @@
 		&:hover,
 		&:active,
 		&.active, {
-			box-shadow: 0 0 0 2px @color inset;
-			color: @color;
+			box-shadow: 0 0 0 2px @coloring-color inset;
+			color: @coloring-color;
 
 			&.has-addon > .addon {
-				border-color: @color;
+				border-color: @coloring-color;
 			}
 		}
 	}
@@ -212,23 +212,23 @@
 		color: #FFF;
 
 		&:hover {
-			box-shadow: 0 0 0 2px @color inset;
-			color:@color;
+			box-shadow: 0 0 0 2px @coloring-color inset;
+			color:@coloring-color;
 		}
 
 		&.filling {
-			box-shadow: 0 0 0 1px @color inset;
-			color: @color;
+			box-shadow: 0 0 0 1px @coloring-color inset;
+			color: @coloring-color;
 
 			&:hover {
-				color: @text;
+				color: @coloring-text;
 			}
 
 			&.has-addon > .addon {
 				background: transparent;
 			}
 			&.has-addon:not(:hover):not(.active) > .addon {
-				border-color: @color;
+				border-color: @coloring-color;
 			}
 		}
 	}
@@ -241,15 +241,15 @@
 		// Transparent text if icon is shown over button text
 		&:not(.has-addon) { color: transparent; }
 		// Colored icons
-		&.ok:after, &.failure:after { color: @text; }
+		&.ok:after, &.failure:after { color: @coloring-text; }
 		// Loader color depends on @lightOnDark
 		&.loading:not(.has-addon),
 		&.loading.has-addon > .addon {
-			& when (@lightOnDark = true) {
+			& when (@coloring-lightOnDark = true) {
 				&:before { border-color: rgba(255, 255, 255, 0.25); }
 				&:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
 			}
-			& when (@lightOnDark = false) {
+			& when (@coloring-lightOnDark = false) {
 				&:before { border-color: rgba(0, 0, 0, 0.25); }
 				&:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
 			}
@@ -260,9 +260,9 @@
 // Default coloring
 // ====
 .lui.button {
-    @color: @default-background;
-    @text: @default-color;
-	@lightOnDark: false;
+    @coloring-color: @default-background;
+    @coloring-text: @default-color;
+	@coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }

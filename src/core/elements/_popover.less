@@ -88,29 +88,29 @@
  // Coloring ruleset
  // ====
  @coloring-ruleset: {
-	background-color: @color;
-    color: @text;
+	background-color: @coloring-color;
+    color: @coloring-text;
     border: none;
     &.bottom:before {
-        border-bottom-color: @color;
+        border-bottom-color: @coloring-color;
     }
     &.top:before {
-        border-top-color: @color;
+        border-top-color: @coloring-color;
     }
     &.left:before {
-        border-left-color: @color;
+        border-left-color: @coloring-color;
     }
     &.right:before {
-        border-right-color: @color;
+        border-right-color: @coloring-color;
     }
  };
 
 // Default coloring
 // ====
 .lui.popover {
-    @color: @bg;
-    @text: @color;
-    @lightOnDark: false;
+    @coloring-color: @bg;
+    @coloring-text: @color;
+    @coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }

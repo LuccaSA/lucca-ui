@@ -65,6 +65,11 @@
    }
 }
 
+.lui.input input[type="text"],
+.lui.input input[type="password"],
+.lui.input input[type="search"],
+.lui.input textarea { cursor: text; }
+
 // Textareas
 // ====
 textarea.lui.input {
@@ -119,7 +124,7 @@ textarea.lui.input {
     }
 
     &:not(.right) .lui.addon,
-    &.addons .lui.addon:first-child {
+    &.has-addons .lui.addon:first-child {
         border-radius: @border-radius 0 0 @border-radius;
     }
 
@@ -128,30 +133,37 @@ textarea.lui.input {
     }
 
     &.right .lui.addon,
-    &.addons .lui.addon:last-child {
+    &.has-addons .lui.addon:last-child {
         border-radius: 0 @border-radius @border-radius 0;
     }
     &.right > input {
         border-radius: @border-radius 0 0 @border-radius;
     }
 
-    &.addons > input {
+    &.has-addons > input {
         border-radius: 0;
     }
 }
 
-.lui.input.short {
-    width: 8em;
+// Addons support coloring
+// =====
+@coloring-ruleset: {
+    background-color: @coloring-color;
+    border-color: @coloring-color;
+    color: @coloring-text;
+    & when (@coloring-lightOnDark = true) { text-shadow: 0 1px 1px darken(@coloring-color, 15); }
+};
+.lui.input.has-addon > .addon,
+.lui.input.has-addons > .addon {
+    .lui_supports_coloring(@coloring-ruleset);
 }
-.lui.input.medium {
-    width: 15em;
-}
-.lui.input.long {
-    width: 20em;
-}
-.lui.input.x-long {
-    width: 25em;
-}
+
+// Inputs length (horizontal sizing)
+// =====
+.lui.input.short { width: 8em; }
+.lui.input.medium { width: 15em; }
+.lui.input.long { width: 20em; }
+.lui.input.x-long { width: 25em; }
 
 
 

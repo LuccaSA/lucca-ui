@@ -110,25 +110,25 @@
     // =====
     &:not(.filled) {
         &:after {
-            background: @color;
+            background: @coloring-color;
         }
     }
 
     // Filled style
     // =====
     &.filled {
-        background-color: @color;
-        border-color: darken(@color, 5);
+        background-color: @coloring-color;
+        border-color: darken(@coloring-color, 5);
         &, &:before, a, button {
-            color: @text;
+            color: @coloring-text;
         }
 
-        & when (@lightOnDark = true) {
-            text-shadow: 0 1px 1px darken(@color, 15);
+        & when (@coloring-lightOnDark = true) {
+            text-shadow: 0 1px 1px darken(@coloring-color, 15);
         }
 
         > .footer {
-            background-color: darken(@color, 3);
+            background-color: darken(@coloring-color, 3);
         }
     }
 };
@@ -137,9 +137,9 @@
 // =====
 .lui.callout {
     // Default
-    @color: @default-coloring-color;
-    @text: @default-coloring-text;
-    @lightOnDark: false;
+    @coloring-color: @default-coloring-color;
+    @coloring-text: @default-coloring-text;
+    @coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }

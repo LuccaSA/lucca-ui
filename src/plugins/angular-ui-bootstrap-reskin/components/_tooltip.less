@@ -19,24 +19,24 @@
 // ====
 @coloring-ruleset: {
     .tooltip-inner {
-        background-color: @color;
-        color: @text;
-        & when (@lightOnDark = true) {
-            text-shadow: 1px 0 1px darken(@color, 5);
+        background-color: @coloring-color;
+        color: @coloring-text;
+        & when (@coloring-lightOnDark = true) {
+            text-shadow: 1px 0 1px darken(@coloring-color, 5);
         }
     }
-    &.left .tooltip-arrow { border-left-color: @color; }
-    &.top .tooltip-arrow { border-top-color: @color; }
-    &.right .tooltip-arrow { border-right-color: @color; }
-    &.bottom .tooltip-arrow { border-bottom-color: @color; }
+    &.left .tooltip-arrow { border-left-color: @coloring-color; }
+    &.top .tooltip-arrow { border-top-color: @coloring-color; }
+    &.right .tooltip-arrow { border-right-color: @coloring-color; }
+    &.bottom .tooltip-arrow { border-bottom-color: @coloring-color; }
 };
 
 // Default coloring
 // ====
 .lui.nguibs-tooltip {
-    @color: @tooltip-bg;
-    @text: @tooltip-color;
-    @lightOnDark: false;
+    @coloring-color: @tooltip-bg;
+    @coloring-text: @tooltip-color;
+    @coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }

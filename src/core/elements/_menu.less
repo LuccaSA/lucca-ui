@@ -430,24 +430,24 @@
  // ====
  @coloring-ruleset: {
     &.dividing a.item:before, &.dividing a.item:after {
-        background-color: @color;
+        background-color: @coloring-color;
     }
     &.pills .item:active, &.pills .item.active {
-        background-color: @color;
-        color: @text;
+        background-color: @coloring-color;
+        color: @coloring-text;
     }
     &.pills .item:hover {
-        background-color: hsla(hue(@color), saturation(@color), lightness(@color), 0.5);
-        color: @text;
+        background-color: hsla(hue(@coloring-color), saturation(@coloring-color), lightness(@coloring-color), 0.5);
+        color: @coloring-text;
     }
  };
 
 // Default coloring
 // ====
 .lui.menu {
-    @color: @default-coloring-bg;
-    @text: @default-coloring-txt;
-    @lightOnDark: false;
+    @coloring-color: @default-coloring-bg;
+    @coloring-text: @default-coloring-txt;
+    @coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }

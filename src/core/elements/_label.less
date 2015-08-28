@@ -101,20 +101,20 @@ h1, h2, h3, h4, h5, h6 {
  // Coloring ruleset
  // ====
  @coloring-ruleset: {
-    background: @color;
+    background: @coloring-color;
 
-    color: @text;
-    & when (@lightOnDark = true) {
-        text-shadow: 1px 0 1px darken(@color, 5);
+    color: @coloring-text;
+    & when (@coloring-lightOnDark = true) {
+        text-shadow: 1px 0 1px darken(@coloring-color, 5);
     }
  };
 
 // Default coloring
 // ====
 .lui.label {
-    @color: @default-background;
-    @text: @default-color;
-    @lightOnDark: false;
+    @coloring-color: @default-background;
+    @coloring-text: @default-color;
+    @coloring-lightOnDark: false;
 
     @coloring-ruleset();
 }
