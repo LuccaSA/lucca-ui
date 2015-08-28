@@ -1,6 +1,18 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        jshint: {
+            files: ['js/**/*.js'],
+            options: {
+                // options here to override JSHint defaults
+                globals: {
+                    jQuery: true,
+                    console: true,
+                    module: true,
+                    document: true
+                }
+            }
+        },
         watch: {
             less: {
                 files: ['src/**/*.less'],
@@ -11,7 +23,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['js/**/*.js'],
-                tasks: ['minifyjs'],
+                tasks: ['minifyjs','jshint'], // minify is put before jshint because if jshint finds an error, it will not launch any tasks after that so the minification was not done
                 options: {
                     nospawn: true
                 }
@@ -72,6 +84,7 @@ module.exports = function(grunt) {
             dev: ['watch']
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-jshint'); 
     grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
