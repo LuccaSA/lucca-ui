@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 	angular.module('lui.services')
-	.service('luiNotify', ['$log', 'notify', function($log, notify){
+	.service('luisNotify', ['$log', 'notify', function($log, notify){
 		var template = 
 			"<div class=\"lui callout filled\" ng-click=\"$close()\" " + 
 			"style=\"width:25em;z-index:999\"" + 
