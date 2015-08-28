@@ -6,8 +6,9 @@
 .lui.callout {
     display: block;
     overflow: hidden;
-    // Default style
-    .lui.side-border;
+    box-sizing: border-box;
+    position: relative;
+
     margin: @v-margin @h-margin;
     border: 1px solid @border-color;
     background: @background;
@@ -58,6 +59,42 @@
             border-left: 1px solid @border-color;
         }
     }
+
+    // Handle border
+    // ====
+    &:after {
+        visibility: visible !important; // neutralise possible clearfix
+        position: absolute;
+        z-index: 2;
+        display: block;
+        content: "";
+    }
+    // Position - defaults to left
+    &:after {
+        top: 0; left: 0;
+        width: @border-width;
+        min-height: 100%;
+    }
+    &.up:after {
+        top: 0; left: 0;
+        width: 100%;
+        min-height: @border-width;
+    }
+    &.right:after {
+        top: 0; left: auto; right: 0;
+        width: @border-width;
+        min-height: 100%;
+    }
+    &.left:after {
+        top: 0; left: 0;
+        width: @border-width;
+        min-height: 100%;
+    }
+    &.down:after {
+        top: auto; bottom: 0; left: 0;
+        width: 100%;
+        min-height: @border-width;
+    }
 }
 
 
@@ -67,7 +104,8 @@
 
 // Coloring ruleset
 // ====
-@callout-coloring-ruleset: {
+@coloring-ruleset: {
+
     // Regular style
     // =====
     &:not(.filled) {
@@ -99,18 +137,18 @@
 // =====
 .lui.callout {
     // Default
-    @color: @fill-bg;
-    @text: @fill-txt;
+    @color: @default-coloring-color;
+    @text: @default-coloring-text;
     @lightOnDark: false;
 
-    @callout-coloring-ruleset();
+    @coloring-ruleset();
 }
 
 // Custom coloring support
 // ====
 .lui.callout {
     // Define ruleset to be used
-    .lui_supports_coloring(@callout-coloring-ruleset);
+    .lui_supports_coloring(@coloring-ruleset);
 }
 
 
@@ -136,78 +174,4 @@
             border-top: none;
         }
     }
-}
-
-/**
- * Sideborder
- * --------------------------------------------------------------------------- */
-
-.lui.side-border {
-    position: relative;
-    box-sizing: border-box;
-    &:after {
-        visibility: visible !important; // neutralise possible clearfix
-        position: absolute;
-        z-index: 2;
-        display: block;
-        content: "";
-    }
-
-    // Position - defaults to left
-    // =====
-    &:after {
-        top: 0; left: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-
-    &.up:after {
-        top: 0; left: 0;
-        width: 100%;
-        min-height: @border-width;
-    }
-    &.right:after {
-        top: 0; left: auto; right: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-    &.left:after {
-        top: 0; left: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-    &.down:after {
-        top: auto; bottom: 0; left: 0;
-        width: 100%;
-        min-height: @border-width;
-    }
-}
-
-
-/**
- * Coloring support
- * --------------------------------------------------------------------------- */
-
- // Coloring ruleset
- // ====
- @sideborder-coloring-ruleset: {
-    &:after {
-        background: @color;
-    }
- };
-
-// Default coloring
-// ====
-.lui.side-border {
-    @color: @default-coloring;
-    @text: inherit;
-    @lightOnDark: false;
-
-    @sideborder-coloring-ruleset();
-}
-
-// Custom coloring support
-// ====
-.lui.side-border {
-    .lui_supports_coloring(@sideborder-coloring-ruleset);
 }
