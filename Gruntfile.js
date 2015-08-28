@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                     'js/directives/user-select.js',
                     'js/directives/moment-picker.js',
                     'js/directives/timespan-picker.js',
+                    'js/services/notifyService.js',
                 ],
                 // the location of the resulting JS file
                 dest: 'dist/lucca-ui.js'
