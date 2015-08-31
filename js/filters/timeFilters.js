@@ -35,6 +35,7 @@
 			}
 		};
 		return function (_block, _excludeEnd) {
+			if(!_block){ return; }
 			var trads = traductions[moment.locale()] || traductions.en;
 			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
 			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
