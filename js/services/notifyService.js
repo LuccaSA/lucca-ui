@@ -1,8 +1,8 @@
 (function(){
 	'use strict';
 	angular.module('lui.services')
-	.service('luiNotify', ['$log', 'notify', function($log, notify){
-		var template = 
+	.service('luisNotify', ['$log', 'notify', function($log, notify){
+		var errorTemplate = 
 			"<div class=\"lui callout filled\" ng-click=\"$close()\" " + 
 			"style=\"width:25em;z-index:999\"" + 
 			"ng-class=\"[$classes, " + 
@@ -10,7 +10,7 @@
 			"$position === 'left' ? 'cg-notify-message-left' : '', " + 
 			"$position === 'right' ? 'cg-notify-message-right' : '']\" " +
 			"ng-style=\"{'margin-left': $centerMargin}\"> " + 
-			"	<h5>{{$classes[0] | uppercase | translate}}</h5>" + 
+			"	<h5>{{\"ERROR\" | translate}}</h5>" + 
 			"	<div ng-show=\"!$messageTemplate\">" + 
 			"	{{$message|translate}}" +
 			"	</div>" + 
@@ -22,12 +22,12 @@
 			notify({
 				startTop: 40, // to not get above the banner
 				duration: 20000,
-				template: template,
+				template: errorTemplate,
 				position: position || 'center',
 				message:'ERR_' + error.cause,
-				classes:['error']
+				classes:['red']
 			});
-		}
+		};
 
 		return service;
 	}]);
