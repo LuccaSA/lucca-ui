@@ -14,7 +14,9 @@ module.exports = function(config) {
 
 		'bower_components/angular/angular.js',
 		'bower_components/angular-notify/dist/angular-notify.js',
-		'bower_components/moment/min/moment-with-locale.js',
+		'bower_components/moment/min/moment-with-locales.js',
+
+		'bower_components/angular-mocks/angular-mocks.js',
 
 		'dist/lucca-ui.js',
 

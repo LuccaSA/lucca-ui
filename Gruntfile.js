@@ -19,12 +19,19 @@ module.exports = function(grunt) {
             },
             dev: {
             },
+            continuous: {
+                singleRun: true,
+                autoWatch: false,
+                browsers: ['PhantomJS'],
+                reporters: ['junit']
+            },
             coverage: {
                 singleRun: true,
                 autoWatch: false,
                 browsers: ['PhantomJS'],
                 reporters: ['coverage'],
                 preprocessors: {
+                    'test/**/*.js': ['coverage'],
                 }
             }
         },
