@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "angular-notify": "~2.5.0",
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "angular-bootstrap": "0.13.x"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.5"
