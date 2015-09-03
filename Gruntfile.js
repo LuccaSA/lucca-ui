@@ -13,6 +13,21 @@ module.exports = function(grunt) {
                 }
             }
         },
+        karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
+            dev: {
+            },
+            coverage: {
+                singleRun: true,
+                autoWatch: false,
+                browsers: ['PhantomJS'],
+                reporters: ['coverage'],
+                preprocessors: {
+                }
+            }
+        },
         watch: {
             less: {
                 files: ['src/**/*.less'],
@@ -82,10 +97,11 @@ module.exports = function(grunt) {
             options: {
                 logConcurrentOutput: true
             },
-            dev: ['watch']
+            dev: ['watch','karma']
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint'); 
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
