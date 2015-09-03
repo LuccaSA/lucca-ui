@@ -51,13 +51,14 @@
 			'en': {
 				sameDay: 'start(MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do)',
-				sameYear: 'start(MMMM Do) - end(MMMM Do)'
+				sameYear: 'start(MMMM Do) - end(MMMM Do)',
+				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
-				sameDay: 'le start(MMMM Do)',
+				sameDay: 'le start(Do MMMM)',
 				sameMonth: 'du start(Do) au end(Do MMMM)',
 				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
-				other: 'du start(Do MMMM) au end(Do MMMM)'
+				other: 'du start(LL) au end(LL)'
 			}
 		};
 		return function (_block, _excludeEnd) {
@@ -68,8 +69,8 @@
 				end.add(-1,'d');
 			}
 			var trads = traductions[moment.locale()] || traductions.en;
-			if(moment().year === start.year() && moment().year() === end.year()){
-				trads = currentYearTraductions;
+			if(moment().year() === start.year() && moment().year() === end.year()){
+				trads = currentYearTraductions[moment.locale()] || currentYearTraductions.en;
 			}
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
 			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
@@ -97,7 +98,7 @@
 	.filter('luifDuration', function () {
 		return function (_duration, _format, _sign) {  //expects a duration, returns the duration in the given format or a sensible one
 			var d = moment.duration(_duration);
-			var hours = d.hours() + d.days() * 24; // does not support durations over 30 days yet
+			var hours = Math.floor(d.asHours()); 
 			var minutes = d.minutes();
 			var prefix = '';
 			if (_sign) {
