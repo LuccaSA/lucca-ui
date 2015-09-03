@@ -23,8 +23,8 @@
 		var traductions = {
 			'en': {
 				sameDay: 'start(LL)',
-				sameMonth: 'start(MMMM D) - end(D\, YYYY)',
-				sameYear: 'start(MMMM D) - end(LL)',
+				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
+				sameYear: 'start(MMMM Do) - end(LL)',
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
@@ -34,13 +34,29 @@
 				other: 'du start(LL) au end(LL)'
 			}
 		};
+		var currentYearTraductions = {
+			'en': {
+				sameDay: 'start(MMMM Do)',
+				sameMonth: 'start(MMMM Do) - end(Do)',
+				sameYear: 'start(MMMM Do) - end(MMMM Do)'
+			},
+			'fr': {
+				sameDay: 'le start(MMMM Do)',
+				sameMonth: 'du start(Do) au end(Do MMMM)',
+				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
+				other: 'du start(Do MMMM) au end(Do MMMM)'
+			}
+		};
 		return function (_block, _excludeEnd) {
 			if(!_block){ return; }
-			var trads = traductions[moment.locale()] || traductions.en;
 			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
 			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
 			if(_excludeEnd){
 				end.add(-1,'d');
+			}
+			var trads = traductions[moment.locale()] || traductions.en;
+			if(moment().year === start.year() && moment().year() === end.year()){
+				trads = currentYearTraductions;
 			}
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
 			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
