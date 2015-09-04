@@ -2,7 +2,7 @@ describe('luidTimespan', function(){
 	beforeEach(module('moment'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.filters'));
+	beforeEach(module('lui.directives'));
 
 	var moment, $scope, isolateScope, $compile, elt, input;
 	beforeEach(inject(function (_moment_, _$rootScope_, _$compile_) {
