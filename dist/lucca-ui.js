@@ -256,6 +256,16 @@
 		var specialSteps = [5,10,15,20,30];
 		var mpCtrl = this;
 
+		// private utility methods
+		// we dont want a reference to _ that is used just for a _.contains once so we just recode it with an angular.forEach
+		var contains = function(array, value){
+			var b = false;
+			angular.forEach(array,function(v){
+				b = b || v === value;
+			});
+			return b;
+		};
+
 		// private methods for update
 		var incr = function (step) {
 			if ($scope.disabled) { return; }
@@ -264,8 +274,8 @@
 
 			var curr = moment(currentValue());
 			if(!curr){curr = getRefDate().startOf('day');}
-			if(_.contains(specialSteps, Math.abs(step)) && curr.minutes()%step!==0){
-				step = step<0?-curr.minutes()%step:curr.minutes()%step!==0;
+			if(contains(specialSteps, Math.abs(step)) && curr.minutes()%step!==0){
+				step = step<0? -(curr.minutes()%step) : -curr.minutes()%step + step;
 			}
 			var newValue = curr.add(step,'m');
 			// check if it before min or after max
