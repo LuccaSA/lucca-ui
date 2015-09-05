@@ -22,37 +22,6 @@
     a { .lui_unstyled_links(); }
 }
 
-// Borders
-// ====
-.lui.menu.bordered {
-    border: @border-width solid @border-color;
-    &.inverted {
-        border: @border-width solid @border-color-inverted;
-    }
-}
-.lui.menu.bordered:not(.vertical) {
-    > .item {
-        border-right: @border-width solid @border-color;
-        .flex-align-self(stretch);
-    }
-    &.inverted .item {
-        border-right: @border-width solid @border-color-inverted;
-    }
-    .item:last-child {
-        border-right: none;
-    }
-}
-.lui.menu.vertical.bordered {
-    .item {
-        border-bottom: @border-width solid @border-color;
-    }
-    &.inverted .item {
-        border-bottom: @border-width solid @border-color-inverted;
-    }
-    .item:last-child {
-        border-bottom: none;
-    }
-}
 
 // Sub menu
 // ====
@@ -146,6 +115,38 @@
 .lui.item .input,
 .lui.item.input {
     .flex-align-self(center);
+}
+
+// Bordered style
+// ====
+.lui.menu.bordered {
+    border: @border-width solid @border-color;
+    &.inverted {
+        border: @border-width solid @border-color-inverted;
+    }
+}
+.lui.menu.bordered:not(.vertical) {
+    > .item {
+        border-right: @border-width solid @border-color;
+        .flex-align-self(stretch);
+    }
+    &.inverted .item {
+        border-right: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        border-right: none;
+    }
+}
+.lui.menu.vertical.bordered {
+    .item {
+        border-bottom: @border-width solid @border-color;
+    }
+    &.inverted .item {
+        border-bottom: @border-width solid @border-color-inverted;
+    }
+    .item:last-child {
+        border-bottom: none;
+    }
 }
 
 
@@ -244,9 +245,10 @@
     border-color: @divider-color;
 
     .item {
-        padding: @horizontal-item-y-padding 0;
-        margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
+        padding: @horizontal-item-y-padding (@horizontal-item-x-margin + @horizontal-item-x-padding);
+        margin: @horizontal-item-y-margin 0;
     }
+    &.bordered .item { padding-right: (@horizontal-item-x-margin + @horizontal-item-x-padding); }
 
     .item.right, .menu.right {
         border-left: none !important;
@@ -396,29 +398,6 @@
 }
 .lui.menu.vertical.dividing.up .item.side-border.down:after {
      bottom: -@divider-width;
-}
-
-
-/**
- * Stuck: fixed positionning
- * --------------------------------------------------------------------------- */
-
-.lui.menu.stuck {
-    &-top, &-left, &-right, &-bottom {
-        position: fixed;
-    }
-    &-top {
-        top: 0; left: 0; right: 0;
-    }
-    &-right {
-        top: 0; bottom: 0; right: 0;
-    }
-    &-bottom {
-        bottom: 0; left: 0; right: 0;
-    }
-    &-left {
-        top: 0; bottom: 0; left: 0;
-    }
 }
 
 
