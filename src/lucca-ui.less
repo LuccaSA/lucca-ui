@@ -51,14 +51,29 @@
  * ---------------------------------------------------------------------------- */
 
 /**
+ * Stuck
+ * ----------------------------------------------------------------------------- */
+
+& {
+    @enabled: true;
+
+    @import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
+    & when (@enabled = true) {
+        @import "core/definitions/_definition-list.less";
+    }
+}
+
+
+/**
  * Definition lists
  * ----------------------------------------------------------------------------- */
 
 & {
     @enabled: true;
 
+    @import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
     & when (@enabled = true) {
-        @import "core/definitions/_definition-list";
+        @import "core/definitions/_definition-list.less";
     }
 }
 
@@ -69,7 +84,6 @@
 
 & {
     @gutter: 1em;
-
     @columns: 12;
     @column: 100%/@columns;
     @container-width: auto;
@@ -93,12 +107,12 @@
     @font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
     @color: #666;
     @line-height: 1.4em;
-
+    @small-size: 0.8em;
+    // Headings
     @heading-font: @font-family;
     @heading-line-height: 1.25em;
     @heading-v-margin: 0;
     @heading-font-weight: normal;
-
     @h1-size: 2.5em;
     @h1-weight: 300;
     @h2-size: 1.75em;
@@ -111,17 +125,14 @@
     @h5-weight: 600;
     @h6-size: 1em;
     @h6-weight: 600;
-
+    @icon-in-heading-size: 0.8em;
+    // Links
     @link-color: #666;
     @link-color-over: #444;
-
-    @small-size: 0.8em;
-
-    @icon-size: 0.8em;
-
-    @enabled: true;
+    
+	@enabled: true;
     @import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
-
+    
     & when (@enabled = true) {
         @import "core/definitions/_typography.less";
     }
@@ -173,6 +184,11 @@
   * Icon
   * --------------------------------------------------------------------------- */
  & {
+     // Circular style variables
+     @circular-width: 2em;
+     @circular-height: 2em;
+     @circular-padding: 0.5em;
+
      @enabled: true;
      @import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 

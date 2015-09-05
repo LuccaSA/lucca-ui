@@ -3,15 +3,41 @@
  * Load icon font
  * --------------------------------------------------------------------------- */
 @font-face {
-  font-family: "@{iconFontName}";
-  src:  url("@{iconFontPath}/@{iconFontName}.eot");
-  src:  url("@{iconFontPath}/@{iconFontName}.eot?#iefix") format("embedded-opentype"),
-        url("@{iconFontPath}/@{iconFontName}.woff") format("woff"),
-        url("@{iconFontPath}/@{iconFontName}.ttf") format("truetype"),
-        url("@{iconFontPath}/@{iconFontName}.svg#iconFontName") format("svg");
+  font-family: "@{lui_icon-font-name}";
+  src:  url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot");
+  src:  url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot?#iefix") format("embedded-opentype"),
+        url("@{lui_icon-font-path}/@{lui_icon-font-name}.woff") format("woff"),
+        url("@{lui_icon-font-path}/@{lui_icon-font-name}.ttf") format("truetype"),
+        url("@{lui_icon-font-path}/@{lui_icon-font-name}.svg#@{lui_icon-font-name}") format("svg");
   font-weight: normal;
   font-style: normal;
 }
+
+/**
+ * Styles
+ * --------------------------------------------------------------------------- */
+
+// Circular
+// ====
+i.lui.circular.icon {
+    width: @circular-width; height: @circular-height;
+    padding: @circular-padding;
+
+    border-radius: 50%;
+}
+
+// Flipped
+// ====
+i.lui.flipped.icon,
+i.lui.horizontally.flipped.icon { transform: scale(-1, 1); }
+i.lui.vertically.flipped.icon { transform: scale(1, -1); }
+
+// Rotated
+// ====
+i.lui.rotated.icon,
+i.lui.clockwise.rotated.icon { transform: rotate(90deg); }
+i.lui.counterclockwise.rotated.icon { transform: rotate(-90deg); }
+
 
 /**
  * Sizing support
@@ -25,11 +51,11 @@
 
 
 /**
- * Icons
+ * Defines all icon classes
  * --------------------------------------------------------------------------- */
 
-.lui_icon_base() {
-    font-family: @iconFontName;
+@icon-base-ruleset: {
+    font-family: @lui_icon-font-name;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -50,35 +76,31 @@
         display: block;
         margin-top: -1px;
     }
+};
+
+i.lui.icon,
+[lui-icon],
+.lui.button.icon, // Button with only an icon
+.lui.menu > ul > li > a.icon // Menu item with only an icon
+{
+    @icon-base-ruleset();
 }
 
-i.lui.icon, [lui-icon],
-// Button with only an icon
-.lui.button.icon,
-// Menu item with only an icon
-.lui.menu > ul > li > a.icon {
-    .lui_icon_base();
-}
-
-[lui-icon]:before {
-    content: attr(lui-icon);
-}
+[lui-icon]:before { content: attr(lui-icon); }
 
 // Loader support
 .lui.icon.spinner,
-.lui.icon.loader {
-    .lui_loader();
-}
+.lui.icon.loader { .lui_loader(); }
 
 // Defines icon classes
 // =====
 .lui_define_icons(@index) when (@index > 0) {
 
-    @iconClass: replace(e(extract(extract(@icons, @index), 1)), " ", ".");
-    @iconChar: extract(extract(@icons, @index), 2);
+    @icon-class: replace(e(extract(extract(@lui_icons, @index), 1)), " ", ".");
+    @icon-char: extract(extract(@lui_icons, @index), 2);
 
-    .lui.icon.@{iconClass}:before { content: @iconChar; }
+    .lui.icon.@{icon-class}:before { content: @icon-char; }
 
     .lui_define_icons((@index - 1));
 }
-.lui_define_icons(length(@icons));
+.lui_define_icons(length(@lui_icons));

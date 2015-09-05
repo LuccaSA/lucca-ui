@@ -4,7 +4,7 @@
  * --------------------------------------------------------------------------- */
 
 @lui-make-icon-base: {
-    font-family: @iconFontName;
+    font-family: @lui_icon-font-name;
     display: inline-block;
     vertical-align: middle;
 };
@@ -20,8 +20,8 @@
 
     // Loop icons variable to find the one given
     .loop_icons(@index) when (@index > 0) {
-        @currentIconName: e(extract(extract(@icons, @index), 1));
-        @currentIconChar: extract(extract(@icons, @index), 2);
+        @currentIconName: e(extract(extract(@lui_icons, @index), 1));
+        @currentIconChar: extract(extract(@lui_icons, @index), 2);
 
         // Found it!
         & when (@currentIconName = @iconName) and (@iconPosition = left) {
@@ -37,5 +37,5 @@
         }
     }
 
-    .loop_icons(length(@icons));
+    .loop_icons(length(@lui_icons));
 }
