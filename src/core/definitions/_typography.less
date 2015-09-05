@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     .lui.icon:not(.button) {
         margin-right: .5em;
         vertical-align: top;
-        font-size: @icon-size;
+        font-size: @icon-in-heading-size;
 
         &.right {
             margin-left: .5em;
@@ -83,10 +83,16 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.center-aligned { text-align: center; }
-.left-aligned { text-align: left; }
-.right-aligned { text-align: right; }
-.justify-aligned { text-align: justify; }
+
+/**
+ * Text alignments
+ * --------------------------------------------------------------------------- */
+
+.lui[class*="center aligned"] { text-align: center; }
+.lui[class*="left aligned"] { text-align: left; }
+.lui[class*="right aligned"] { text-align: right; }
+.lui[class*="justify aligned"] { text-align: justify; }
+
 
 /**
  * Links
