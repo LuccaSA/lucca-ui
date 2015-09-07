@@ -90,6 +90,8 @@
 .lui.menu a.item {
     cursor: pointer;
 }
+.lui.menu .item.disabled,
+.lui.menu .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
 
 // Active item
 // ====
@@ -287,7 +289,7 @@
             margin-bottom: -@divider-width;
             bottom: -(@horizontal-item-y-margin + @v-padding);
         }
-        a.item:hover:after, a.item:active:after, a.item.active:after {
+        a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
             width: 100%;
         }
     }
@@ -300,7 +302,7 @@
             margin-top: -@divider-width;
             top: -(@horizontal-item-y-margin + @v-padding);
         }
-        a.item:hover:before, a.item:active:before, a.item.active:before {
+        a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
             width: 100%;
         }
     }
@@ -330,7 +332,7 @@
             margin-left: -@divider-width;
             left: -(@vertical-item-x-margin + @h-padding);
         }
-        a.item:hover:before, a.item:active:before, a.item.active:before {
+        a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
             height: 100%;
         }
     }
@@ -343,7 +345,7 @@
             margin-right: -@divider-width;
             right: -(@vertical-item-x-margin + @h-padding);
         }
-        a.item:hover:after, a.item:active:after, a.item.active:after {
+        a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
             height: 100%;
         }
     }
