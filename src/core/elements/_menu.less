@@ -269,12 +269,13 @@
     a.item:before {
         left: 0; right: 0;
         margin: 0 auto;
-        width: 0; height: @divider-width;
+        width: 0; height: @divider-active-border-width;
     }
 
     // Dividing is down
     // ====
-    &:not(.up), &.down {
+    &:not([class*="top dividing"]),
+    &[class*="bottom dividing"] {
         border-bottom-width: @divider-width;
         border-bottom-style: solid;
         a.item:after {
@@ -287,7 +288,7 @@
     }
     // Dividing is up
     // ====
-    &.up {
+    &[class*="top dividing"] {
         border-top-width: @divider-width;
         border-top-style: solid;
         a.item:before {
@@ -311,12 +312,13 @@
         top: 50%; bottom: 0;
         -ms-transform: translate(0, -50%);
         transform: translate(0, -50%);
-        width: @divider-width; height: 0;
+        width: @divider-active-border-width; height: 0;
     }
 
     // Divider is down
     // ====
-    &:not(.right), &.left {
+    &:not([class*="right dividing"]),
+    &[class*="left dividing"] {
         border-left-width: @divider-width;
         border-left-style: solid;
         a.item:before {
@@ -385,16 +387,16 @@
 
  // Dividing style + .item.side-border
  // ====
-.lui.menu.vertical.dividing:not(.right) .item.side-border:after {
+ .lui.menu.vertical:not([class*="right dividing"]) .item.side-border:after {
      left: -@divider-width;
 }
-.lui.menu.vertical.dividing.right .item.side-border.right:after {
+.lui.menu.vertical[class*="right dividing"] .item.side-border.right:after {
      right: -@divider-width;
 }
-.lui.menu:not(.vertical).dividing:not(.up) .item.side-border.up:after {
+.lui.menu:not(.vertical):not[class*="top dividing"] .item.side-border.up:after {
      top: -@divider-width;
 }
-.lui.menu.vertical.dividing.up .item.side-border.down:after {
+.lui.menu.vertical[class*="top dividing"] .item.side-border.down:after {
      bottom: -@divider-width;
 }
 
