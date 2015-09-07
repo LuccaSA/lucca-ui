@@ -35,11 +35,12 @@
  * Breakpoints handler
  * ----------------------------------------------------------------------------- */
 
+ // Breakpoints definitions
+ @import "core/definitions/_breakpoints";
+
 // Responsive mixins - based on breakpoints
 @import "core/utilities/_responsive";
 
-// Breakpoints definitions
-@import "core/definitions/_breakpoints";
 @import (optional) "@{themeDir}@{theme}/definitions/breakpoints.overrides.less";
 
 @import "core/utilities/_supports-breakpoints.less";
@@ -481,7 +482,7 @@
     @calendar-icon-size: 1em;
 
 
-    @enabled: false;
+    @enabled: true;
     @import (optional) "@{themeDir}@{theme}/plugins/angular-ui-bootstrap-reskin.overrides.less";
 
     & when (@enabled = true) {
@@ -517,7 +518,7 @@
     @header-bg: #FFF;
 
 
-    @enabled: false;
+    @enabled: true;
     @import (optional) "@{themeDir}@{theme}/plugins/lucca-app-layout.overrides.less";
 
     & when (@enabled = true) {
