@@ -119,5 +119,18 @@ describe('luidMoment', function(){
 			isolateScope.decrMins();
 			expect($scope.test.value.minutes()).toEqual(58);
 		});
+		it('should be invalid.min if test.value < test.min', function(){
+			$scope.test.min = moment().startOf('day').add(9,'hours');
+			$scope.test.value = moment().startOf('day').add(8,'hours');
+			$scope.$digest();
+			expect(isolateScope.ngModelCtrl.$error.min).toBe(true);
+		});
+		it('should go to test.min if trying to decr from test.value when test.valiue < test.min', function(){
+			$scope.test.min = moment().startOf('day').add(9,'hours');
+			$scope.test.value = moment().startOf('day').add(8,'hours');
+			$scope.$digest();
+			isolateScope.decrMins();
+			expect($scope.test.value).toEqual($scope.test.min);
+		});
 	});
 });
