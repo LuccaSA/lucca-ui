@@ -350,11 +350,27 @@
 }
 
 
+// Tabbed
+// ====
+.lui.menu.tabbed {
+    background: @tabbed-bg;
+    padding: @tabbed-padding;
+
+    &.bordered .item, .item { border: 1px solid transparent; }
+
+    .item.active {
+        position: relative;
+        background: @tabbed-active-bg;
+        bottom: -1px;
+        border-top-color: rgba(50, 50, 50, 0.2);
+        border-left-color: rgba(50, 50, 50, 0.2);
+        border-right-color: rgba(50, 50, 50, 0.2);
+    }
+}
+
 // Pills
 // ====
 .lui.menu.pills {
-    border: none;
-
     .item {
         border-right: none !important;
     }
