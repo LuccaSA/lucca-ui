@@ -3,20 +3,20 @@
  * Stuck: fixed positioning
  * --------------------------------------------------------------------------- */
 
-.lui.stuck { position: fixed; }
+.lui.stuck { position: fixed !important; }
 
 
 .lui[class*="top stuck"] { top: 0; left: 0; right: 0; }
 .lui[class*="bottom stuck"] { bottom: 0; left: 0; right: 0; }
 
-.lui[class*="middle stuck"] { left: 50%; top: 50%; transform: translate(-50%, -50%); }
-.lui[class*="left stuck"] { left: 0; }
-.lui[class*="right stuck"] { right: 0; }
+.lui[class*="middle stuck"] { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.lui[class*="left stuck"] { top: 0; bottom: 0; left: 0; }
+.lui[class*="right stuck"] { top: 0; bottom: 0; right: 0; }
 
 .lui[class*="top middle stuck"],
 .lui[class*="top left stuck"],
-.lui[class*="top right stuck"] { top: 0; }
+.lui[class*="top right stuck"] { top: 0; bottom: auto; }
 
 .lui[class*="bottom middle stuck"],
 .lui[class*="bottom left stuck"],
-.lui[class*="bottom right stuck"] { bottom: 0; }
+.lui[class*="bottom right stuck"] { top: auto; bottom: 0; }
