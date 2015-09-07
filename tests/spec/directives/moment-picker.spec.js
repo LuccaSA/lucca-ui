@@ -58,6 +58,51 @@ describe('luidMoment', function(){
 			expect($scope.test.value.hours()).toEqual(2);
 		});
 	});
+	describe('most basic use but with attr format', function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-moment ng-model="test.value" format="\'HH:mm\'"></luid-moment>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update hours and minutes when test.value changes', function(){
+			$scope.test.value = "00:00";
+			$scope.$digest();
+			expect(isolateScope.mins).toEqual('00');
+			expect(isolateScope.hours).toEqual('00');
+
+			$scope.test.value = "01:00";
+			$scope.$digest();
+			expect(isolateScope.mins).toEqual('00');
+			expect(isolateScope.hours).toEqual('01');
+
+			$scope.test.value = "00:15";
+			$scope.$digest();
+			expect(isolateScope.mins).toEqual('15');
+			expect(isolateScope.hours).toEqual('00');
+		});
+		it('should update test.value when hours or mins changes', function(){
+			isolateScope.hours = '01';
+			isolateScope.changeHours();
+			expect($scope.test.value.hours()).toEqual(1);
+			isolateScope.mins = '15';
+			isolateScope.changeMins();
+			expect($scope.test.value.minutes()).toEqual(15);
+		});
+		it('should update test.value when incr/decr hours or mins changes', function(){
+			$scope.test.value = "03:00";
+			$scope.$digest();
+			isolateScope.incrHours();
+			expect($scope.test.value).toEqual("04:00");
+			isolateScope.decrHours();
+			expect($scope.test.value).toEqual("03:00");
+			isolateScope.incrMins();
+			expect($scope.test.value).toEqual("03:05");
+			isolateScope.decrMins();
+			isolateScope.decrMins();
+			expect($scope.test.value).toEqual("02:55");
+		});
+	});
 	describe('with a custom incr step', function(){
 		beforeEach(function(){
 			var tpl = angular.element('<luid-moment ng-model="test.value" step="15"></luid-moment>');
