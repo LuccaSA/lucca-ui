@@ -183,10 +183,6 @@ textarea.lui.input {
             display: block;
         }
 
-        & + .lui.field {
-            padding-left: 1em;
-        }
-
         // Angular support
         // =====
         &.ng.ng-invalid {
@@ -405,7 +401,8 @@ textarea.lui.input {
 
 luid-timespan, .luid-timespan {
 	.lui.input;
-	width: 3.1em;
+
+    > input { width: 5em; }
 }
 
 
