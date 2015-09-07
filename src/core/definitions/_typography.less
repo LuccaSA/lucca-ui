@@ -114,18 +114,10 @@ a {
  * Body copy
  * --------------------------------------------------------------------------- */
 
-.lui.uppercase {
-    text-transform: uppercase;
-}
-.lui.capitalize {
-    text-transform: capitalize;
-}
-.lui.capitalize.first.word {
-    text-transform: none;
-    &::first-letter {
-        text-transform: capitalize;
-    }
-}
+.lui.capitalize.sentence::first-letter { text-transform: capitalize; }
+.lui.capitalize:not(.sentence) { text-transform: capitalize; }
+.lui.uppercase { text-transform: uppercase; }
+
 .lui.italic {
     font-style: italic;
 }
