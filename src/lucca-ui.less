@@ -57,9 +57,9 @@
 & {
     @enabled: true;
 
-    @import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
+    @import (optional) "@{themeDir}@{theme}/definitions/stuck.overrides.less";
     & when (@enabled = true) {
-        @import "core/definitions/_definition-list.less";
+        @import "core/definitions/_stuck.less";
     }
 }
 
@@ -129,10 +129,10 @@
     // Links
     @link-color: #666;
     @link-color-over: #444;
-    
+
 	@enabled: true;
     @import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
-    
+
     & when (@enabled = true) {
         @import "core/definitions/_typography.less";
     }
@@ -247,7 +247,8 @@
     @border-width: 1px;
 
     @divider-color: rgba(50, 50, 50, 0.2);
-    @divider-width: 3px;
+    @divider-width: 1px;
+    @divider-active-border-width: 3px;
     @divider-active-color: #FFC900;
 
     @vertical-item-y-padding: 1rem;
