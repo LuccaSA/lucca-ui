@@ -261,6 +261,11 @@
         display: block; content: "";
         .lui_transition_properties(width, height);
     }
+
+    &.bordered .item {
+        padding: @horizontal-item-y-padding (@horizontal-item-x-margin + @horizontal-item-x-padding);
+        margin: 0;
+    }
 }
 // Dividing - Horizontal
 // ====
