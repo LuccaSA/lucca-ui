@@ -84,10 +84,10 @@ describe('luidMoment', function(){
 		it('should update test.value when hours or mins changes', function(){
 			isolateScope.hours = '01';
 			isolateScope.changeHours();
-			expect($scope.test.value.hours()).toEqual(1);
+			expect($scope.test.value).toEqual("01:00");
 			isolateScope.mins = '15';
 			isolateScope.changeMins();
-			expect($scope.test.value.minutes()).toEqual(15);
+			expect($scope.test.value).toEqual("01:15");
 		});
 		it('should update test.value when incr/decr hours or mins changes', function(){
 			$scope.test.value = "03:00";
@@ -299,6 +299,59 @@ describe('luidMoment', function(){
 			$scope.$digest();
 			isolateScope.incrMins();
 			expect($scope.test.value.format('LLL')).toEqual(moment().add(1,'day').startOf('day').format('LLL'));
+		});
+	});
+	describe('with a min=test.min and max=00:00', function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-moment ng-model="test.value" min="test.min" max="\'00:00\'"></luid-moment>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should limit to min.add(1,day).startOf(day)', function(){
+			$scope.test.value = moment().startOf('day').add(18,'hours').add(40,'minutes');
+			$scope.test.min = moment().startOf('day');
+			$scope.$digest();
+			isolateScope.incrHours();
+			isolateScope.incrHours();
+			isolateScope.incrHours();
+			isolateScope.incrHours();
+			isolateScope.incrHours();
+			isolateScope.incrHours();
+			expect($scope.test.value.format('LLL')).toEqual(moment($scope.test.min).add(1,'day').startOf('day').format('LLL'));
+		});
+		it('should be invalid.max if test.value.date < min.date', function(){
+			$scope.test.min = moment().add(-1,'day').startOf('day');
+			$scope.test.value = moment().add(1,'day');
+			$scope.$digest();
+			expect(isolateScope.ngModelCtrl.$error.max).toBe(true);
+		});
+	});
+	describe('with a max=test.max and min=00:00', function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-moment ng-model="test.value" min="\'00:00\'" max="test.max"></luid-moment>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should limit to max.startOf(day)', function(){
+			$scope.test.value = moment().startOf('day').add(3,'hours').add(40,'minutes');
+			$scope.test.max = moment().startOf('day').add(18,'hours');
+			$scope.$digest();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			isolateScope.decrHours();
+			expect($scope.test.value.format('LLL')).toEqual(moment($scope.test.max).startOf('day').format('LLL'));
+		});
+		it('should be invalid.max if test.value.date < min.date', function(){
+			$scope.test.max = moment().startOf('day').add(36,'hours');
+			$scope.test.value = moment();
+			$scope.$digest();
+			expect(isolateScope.ngModelCtrl.$error.min).toBe(true);
 		});
 	});
 });
