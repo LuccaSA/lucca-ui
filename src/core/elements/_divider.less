@@ -8,7 +8,13 @@
     border-width: 0; // reset
 
     margin: 1rem 0;
-    border-bottom: @divider-weight solid @border-color;
+
+    &:not([class*="top divider"]) {
+        border-bottom: @divider-weight solid @border-color;
+    }
+    &[class*="top divider"] {
+        border-top: @divider-weight solid @border-color;
+    }
 
     &.double {
         border-top: @divider-weight solid @border-color;
