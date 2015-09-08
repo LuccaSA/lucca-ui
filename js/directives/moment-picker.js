@@ -399,11 +399,11 @@
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours'   ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxlength=2>:" +
 			// This indentation issue is normal and needed
 			"	<input type='text' ng-model='mins'  ng-change='changeMins()'  luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()'  ng-blur='blurMins()'  ng-disabled='disabled' maxlength=2>" +
-			"	<span ng-if='hasButtons' ng-click='incrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='mp-button top left lucca-icon lucca-icon-plus'         ng-class='{disabled:maxed}'></span>" + 
-			"	<span ng-if='hasButtons' ng-click='decrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='mp-button bottom left lucca-icon lucca-icon-minimize'  ng-class='{disabled:mined}'></span>" + 
-			"	<span ng-if='hasButtons' ng-click='incrMins()'  ng-show='showButtons||hoursFocused||minsFocused' class='mp-button top right lucca-icon lucca-icon-plus'        ng-class='{disabled:maxed}'></span>" + 
-			"	<span ng-if='hasButtons' ng-click='decrMins()'  ng-show='showButtons||hoursFocused||minsFocused' class='mp-button bottom right lucca-icon lucca-icon-minimize' ng-class='{disabled:mined}'></span>" + 
-			"</div>" + 
+			"	<i ng-if='hasButtons' ng-click='incrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button top left plus icon'      ng-class='{disabled:maxed}'></i>" +
+			"	<i ng-if='hasButtons' ng-click='decrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button bottom left minus icon'  ng-class='{disabled:mined}'></i>" +
+			"	<i ng-if='hasButtons' ng-click='incrMins()'  ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button top right plus icon'     ng-class='{disabled:maxed}'></i>" +
+			"	<i ng-if='hasButtons' ng-click='decrMins()'  ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button bottom right minus icon' ng-class='{disabled:mined}'></i>" +
+			"</div>" +
 			"");
 	}]);
 	angular.module('lui.directives')
