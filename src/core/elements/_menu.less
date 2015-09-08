@@ -357,16 +357,31 @@
 .lui.menu.tabbed {
     background: @tabbed-bg;
     padding: @tabbed-padding;
+    border: 1px solid @tabbed-border-color;
+    border-bottom: none;
 
-    &.bordered .item, .item { border: 1px solid transparent; }
-
-    .item.active {
-        position: relative;
-        background: @tabbed-active-bg;
+    &.bordered .item, .item {
+        position: relative; z-index: 2;
+        border: 1px solid transparent;
+        margin-top: 0;
         bottom: -1px;
-        border-top-color: rgba(50, 50, 50, 0.2);
-        border-left-color: rgba(50, 50, 50, 0.2);
-        border-right-color: rgba(50, 50, 50, 0.2);
+    }
+
+    a.item.active, a.item:hover {
+        background: @tabbed-active-bg;
+        padding-top: 2*@horizontal-item-y-padding; margin-top: -@horizontal-item-y-padding;
+
+        border-top-color: @tabbed-border-color;
+        border-left-color: @tabbed-border-color;
+        border-right-color: @tabbed-border-color;
+    }
+
+    &:after {
+        visibility: visible;
+        position: absolute; top: 100%; left: -1px; right: -1px;
+        display: block; content: "";
+        height: 5px;
+        border: 1px solid @tabbed-border-color;
     }
 }
 
