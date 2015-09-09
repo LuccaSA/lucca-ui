@@ -13,7 +13,6 @@ module.exports = function(config) {
 	files: [
 
 		'bower_components/angular/angular.js',
-		'bower_components/angular-notify/dist/angular-notify.js',
 		'bower_components/moment/min/moment-with-locales.js',
 
 		'bower_components/angular-mocks/angular-mocks.js',
