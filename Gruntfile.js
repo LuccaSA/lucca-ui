@@ -60,11 +60,8 @@ module.exports = function(grunt) {
                 // we dont use the **/*.js synthax cuz it's still a WIP in the transition and all the js files are not meant to be distributed
                 src: [
                     'js/lui.js',
-                    'js/filters/timeFilters.js',
-                    'js/filters/genericFilters.js',
-                    'js/directives/user-select.js',
-                    'js/directives/moment-picker.js',
-                    'js/directives/timespan-picker.js',
+                    'js/directives/*.js',
+                    'js/filters/*.js',
                 ],
                 // the location of the resulting JS file
                 dest: 'dist/lucca-ui.js'
