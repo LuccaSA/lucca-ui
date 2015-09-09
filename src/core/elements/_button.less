@@ -118,35 +118,35 @@
 // Flat style
 // =====
 .lui.button.flat {
-   background-color: transparent;
-   color: @default-color;
-   text-decoration: underline;
-   box-shadow: none;
+	background-color: transparent;
+	color: @default-color;
+	text-decoration: underline;
+	box-shadow: none;
 
-   &:hover, &:active, &.active {
-	   background: rgba(0, 0, 0, 0.1);
-	   box-shadow: 0 0 0 1px rgba(50, 50, 50, .1);
-   }
+	&:hover, &:active, &.active {
+		background: rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 0 1px rgba(50, 50, 50, .1);
+	}
 
-   &:hover {
-	   background-color: rgba(50, 50, 50, .05);
-   }
+	&:hover {
+		background-color: rgba(50, 50, 50, .05);
+	}
 
-   &:active {
-	   background-color: rgba(50, 50, 50, 0.1);
-   }
+	&:active {
+		background-color: rgba(50, 50, 50, 0.1);
+	}
 
-   &:before, &:after {
-	   text-decoration: none;
-   }
+	&:before, &:after {
+		text-decoration: none;
+	}
 
-   &:inverted {
-	   color: #FFF;
-   }
+	&:inverted {
+		color: #FFF;
+	}
 
-   &.icon {
-	   text-decoration: none;
-   }
+	&.icon {
+		text-decoration: none;
+	}
 }
 
 
@@ -261,18 +261,18 @@
 // Default coloring
 // ====
 .lui.button {
-    @coloring-color: @default-background;
-    @coloring-text: @default-color;
+	 @coloring-color: @default-background;
+	 @coloring-text: @default-color;
 	@coloring-lightOnDark: false;
 
-    @coloring-ruleset();
+	 @coloring-ruleset();
 }
 
 // Custom colors support
 // ====
 .lui.button {
-    // Define ruleset to be used
-    .lui_supports_coloring(@coloring-ruleset);
+	 // Define ruleset to be used
+	 .lui_supports_coloring(@coloring-ruleset);
 }
 
 
@@ -492,9 +492,9 @@
  * --------------------------------------------------------------------------- */
 
 .lui.button {
-    .lui_supports_sizing({
-        font-size: @sizeEms;
-    });
+	 .lui_supports_sizing({
+		 font-size: @sizeEms;
+	 });
 }
 .lui.buttons {
 	.lui_supports_sizing({

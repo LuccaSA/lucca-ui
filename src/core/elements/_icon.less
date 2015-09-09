@@ -3,14 +3,14 @@
  * Load icon font
  * --------------------------------------------------------------------------- */
 @font-face {
-  font-family: "@{lui_icon-font-name}";
-  src:  url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot");
-  src:  url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot?#iefix") format("embedded-opentype"),
-        url("@{lui_icon-font-path}/@{lui_icon-font-name}.woff") format("woff"),
-        url("@{lui_icon-font-path}/@{lui_icon-font-name}.ttf") format("truetype"),
-        url("@{lui_icon-font-path}/@{lui_icon-font-name}.svg#@{lui_icon-font-name}") format("svg");
-  font-weight: normal;
-  font-style: normal;
+	font-family: "@{lui_icon-font-name}";
+	src: url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot");
+	src: url("@{lui_icon-font-path}/@{lui_icon-font-name}.eot?#iefix") format("embedded-opentype"),
+		 url("@{lui_icon-font-path}/@{lui_icon-font-name}.woff") format("woff"),
+		 url("@{lui_icon-font-path}/@{lui_icon-font-name}.ttf") format("truetype"),
+		 url("@{lui_icon-font-path}/@{lui_icon-font-name}.svg#@{lui_icon-font-name}") format("svg");
+	font-weight: normal;
+	font-style: normal;
 }
 
 /**
@@ -20,10 +20,10 @@
 // Circular
 // ====
 i.lui.circular.icon {
-    width: @circular-width; height: @circular-height;
-    padding: @circular-padding;
+	width: @circular-width; height: @circular-height;
+	padding: @circular-padding;
 
-    border-radius: 50%;
+	border-radius: 50%;
 }
 
 // Flipped
@@ -44,9 +44,9 @@ i.lui.counterclockwise.rotated.icon { transform: rotate(-90deg); }
  * --------------------------------------------------------------------------- */
 
 .lui.icon {
-    .lui_supports_sizing({
-        font-size: @sizeEms;
-    });
+	.lui_supports_sizing({
+		font-size: @sizeEms;
+	});
 }
 
 
@@ -55,27 +55,27 @@ i.lui.counterclockwise.rotated.icon { transform: rotate(-90deg); }
  * --------------------------------------------------------------------------- */
 
 @icon-base-ruleset: {
-    font-family: @lui_icon-font-name;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-decoration: none;
-    text-transform: none;
-    text-align: center;
+	font-family: @lui_icon-font-name;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-align: center;
 
-    speak: none;
-    font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
+	speak: none;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 
-    display: inline-block;
-    vertical-align: middle;
+	display: inline-block;
+	vertical-align: middle;
 
-    // Font characters are poorly cropped...
-    &:before {
-        display: block;
-        margin-top: -1px;
-    }
+	// Font characters are poorly cropped...
+	&:before {
+		display: block;
+		margin-top: -1px;
+	}
 };
 
 i.lui.icon,
@@ -83,7 +83,7 @@ i.lui.icon,
 .lui.button.icon, // Button with only an icon
 .lui.menu > ul > li > a.icon // Menu item with only an icon
 {
-    @icon-base-ruleset();
+	@icon-base-ruleset();
 }
 
 [lui-icon]:before { content: attr(lui-icon); }
@@ -96,11 +96,11 @@ i.lui.icon,
 // =====
 .lui_define_icons(@index) when (@index > 0) {
 
-    @icon-class: replace(e(extract(extract(@lui_icons, @index), 1)), " ", ".");
-    @icon-char: extract(extract(@lui_icons, @index), 2);
+	@icon-class: replace(e(extract(extract(@lui_icons, @index), 1)), " ", ".");
+	@icon-char: extract(extract(@lui_icons, @index), 2);
 
-    .lui.icon.@{icon-class}:before { content: @icon-char; }
+	.lui.icon.@{icon-class}:before { content: @icon-char; }
 
-    .lui_define_icons((@index - 1));
+	.lui_define_icons((@index - 1));
 }
 .lui_define_icons(length(@lui_icons));

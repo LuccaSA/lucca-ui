@@ -4,9 +4,9 @@
  * --------------------------------------------------------------------------- */
 
 @lui-make-icon-base: {
-    font-family: @lui_icon-font-name;
-    display: inline-block;
-    vertical-align: middle;
+	font-family: @lui_icon-font-name;
+	display: inline-block;
+	vertical-align: middle;
 };
 
 /**
@@ -16,26 +16,26 @@
  * --------------------------------------------------------------------------- */
 
 .lui_make_icon(@iconName, @iconPosition: left) {
-    @import (multiple) "../definitions/_icons";
+	@import (multiple) "../definitions/_icons";
 
-    // Loop icons variable to find the one given
-    .loop_icons(@index) when (@index > 0) {
-        @currentIconName: e(extract(extract(@lui_icons, @index), 1));
-        @currentIconChar: extract(extract(@lui_icons, @index), 2);
+	// Loop icons variable to find the one given
+	.loop_icons(@index) when (@index > 0) {
+		@currentIconName: e(extract(extract(@lui_icons, @index), 1));
+		@currentIconChar: extract(extract(@lui_icons, @index), 2);
 
-        // Found it!
-        & when (@currentIconName = @iconName) and (@iconPosition = left) {
-            &:before { @lui-make-icon-base(); content: @currentIconChar; }
-        }
-        & when (@currentIconName = @iconName) and (@iconPosition = right) {
-            &:after { @lui-make-icon-base(); content: @currentIconChar; }
-        }
+		// Found it!
+		& when (@currentIconName = @iconName) and (@iconPosition = left) {
+			&:before { @lui-make-icon-base(); content: @currentIconChar; }
+		}
+		& when (@currentIconName = @iconName) and (@iconPosition = right) {
+			&:after { @lui-make-icon-base(); content: @currentIconChar; }
+		}
 
-        // Still not found, continue the loop
-        & when not(@currentIconName = @iconName) {
-            .loop_icons((@index - 1));
-        }
-    }
+		// Still not found, continue the loop
+		& when not(@currentIconName = @iconName) {
+			.loop_icons((@index - 1));
+		}
+	}
 
-    .loop_icons(length(@lui_icons));
+	.loop_icons(length(@lui_icons));
 }

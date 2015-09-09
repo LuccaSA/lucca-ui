@@ -4,66 +4,66 @@
  * --------------------------------------------------------------------------- */
 
 .lui.menu {
-    .clear; // Old browsers
+	.clear; // Old browsers
 
-    position: relative;
-    .display-flex();
-    .flex-wrap(wrap);
+	position: relative;
+	.display-flex();
+	.flex-wrap(wrap);
 
-    margin: @v-margin @h-margin;
-    padding: @v-padding @h-padding;
+	margin: @v-margin @h-margin;
+	padding: @v-padding @h-padding;
 
-    &:first-child { margin-top: 0; }
-    &:last-child { margin-bottom: 0; }
+	&:first-child { margin-top: 0; }
+	&:last-child { margin-bottom: 0; }
 
-    // resets
-    .clear();
-    ul { .lui_unstyled_list(); }
-    a { .lui_unstyled_links(); }
+	// resets
+	.clear();
+	ul { .lui_unstyled_list(); }
+	a { .lui_unstyled_links(); }
 }
 
 // Borders
 // ====
 .lui.menu.bordered {
-    border: @border-width solid @border-color;
-    &.inverted {
-        border: @border-width solid @border-color-inverted;
-    }
+	border: @border-width solid @border-color;
+	&.inverted {
+		border: @border-width solid @border-color-inverted;
+	}
 }
 .lui.menu.bordered:not(.vertical) {
-    > .item {
-        border-right: @border-width solid @border-color;
-        .flex-align-self(stretch);
-    }
-    &.inverted .item {
-        border-right: @border-width solid @border-color-inverted;
-    }
-    .item:last-child {
-        border-right: none;
-    }
+	> .item {
+		border-right: @border-width solid @border-color;
+		.flex-align-self(stretch);
+	}
+	&.inverted .item {
+		border-right: @border-width solid @border-color-inverted;
+	}
+	.item:last-child {
+		border-right: none;
+	}
 }
 .lui.menu.vertical.bordered {
-    .item {
-        border-bottom: @border-width solid @border-color;
-    }
-    &.inverted .item {
-        border-bottom: @border-width solid @border-color-inverted;
-    }
-    .item:last-child {
-        border-bottom: none;
-    }
+	.item {
+		border-bottom: @border-width solid @border-color;
+	}
+	&.inverted .item {
+		border-bottom: @border-width solid @border-color-inverted;
+	}
+	.item:last-child {
+		border-bottom: none;
+	}
 }
 
 // Sub menu
 // ====
 .lui.menu:not(.dividing) .menu {
-    border-width: 0;
-    margin: 0;
-    padding: @horizontal-item-y-padding @horizontal-item-x-padding;
-    margin: @horizontal-item-y-margin @horizontal-item-x-margin;
+	border-width: 0;
+	margin: 0;
+	padding: @horizontal-item-y-padding @horizontal-item-x-padding;
+	margin: @horizontal-item-y-margin @horizontal-item-x-margin;
 }
 .lui.menu:not(.vertical) > .menu {
-    .display-flex();
+	.display-flex();
 }
 
 
@@ -74,21 +74,21 @@
 // Common
 // ====
 .lui.menu .item {
-    // Resets
-    position: relative;
-    line-height: 1;
-    .clear();
+	// Resets
+	position: relative;
+	line-height: 1;
+	.clear();
 
-    // Label support
-    // ====
-    > .label {
-        float: right;
-        margin-right: 0;
-        margin-top: -0.15em;
-    }
+	// Label support
+	// ====
+	> .label {
+		float: right;
+		margin-right: 0;
+		margin-top: -0.15em;
+	}
 }
 .lui.menu a.item {
-    cursor: pointer;
+	cursor: pointer;
 }
 .lui.menu .item.disabled,
 .lui.menu .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
@@ -96,47 +96,47 @@
 // Active item
 // ====
 .lui.menu .item.active {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 // Divider item
 // ====
 .lui.menu:not(.vertical) .item.divider:not(.header) {
-    border: none; padding-right: 0; margin-right: @horizontal-item-x-padding + @horizontal-item-x-margin;
-    border-right: 1px solid @divider-color;
+	border: none; padding-right: 0; margin-right: @horizontal-item-x-padding + @horizontal-item-x-margin;
+	border-right: 1px solid @divider-color;
 }
 .lui.menu.vertical .item.divider:not(.header) {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
 
 // Header item
 // ====
 .lui.menu .item.header {
-    font-size: @header-size;
-    font-weight: @header-weight;
+	font-size: @header-size;
+	font-weight: @header-weight;
 }
 
- // Horizontal menu item
- // ====
- .lui.menu:not(.vertical) .item {
-     // Old browsers
-     float: left;
+// Horizontal menu item
+// ====
+.lui.menu:not(.vertical) .item {
+	// Old browsers
+	float: left;
 
-     .display-flex();
-     .flex-align-items(center);
+	.display-flex();
+	.flex-align-items(center);
 
-     padding: @horizontal-item-y-padding @horizontal-item-x-padding;
-     margin: @horizontal-item-y-margin @horizontal-item-x-margin;
- }
+	padding: @horizontal-item-y-padding @horizontal-item-x-padding;
+	margin: @horizontal-item-y-margin @horizontal-item-x-margin;
+}
 
 // Vertical menu item
 // ====
 .lui.menu.vertical .item {
-    display: block;
+	display: block;
 
-     padding: @vertical-item-y-padding @vertical-item-x-padding;
-     margin: @vertical-item-y-margin @vertical-item-x-margin;
+	 padding: @vertical-item-y-padding @vertical-item-x-padding;
+	 margin: @vertical-item-y-margin @vertical-item-x-margin;
 }
 
 // Element support
@@ -147,7 +147,7 @@
 .lui.item.buttons,
 .lui.item .input,
 .lui.item.input {
-    .flex-align-self(center);
+	.flex-align-self(center);
 }
 
 
@@ -159,56 +159,56 @@
 // ====
 .lui.menu:not(.vertical) .left.item,
 .lui.menu:not(.vertical) .left.menu {
-    float: left; // old browsers...
-    .display-flex();
-    .flex-wrap(wrap);
-    margin-right: auto;
+	float: left; // old browsers...
+	.display-flex();
+	.flex-wrap(wrap);
+	margin-right: auto;
 }
 // Horizontal right floated
 // ====
 .lui.menu:not(.vertical) .right.item,
 .lui.menu:not(.vertical) .right.menu {
-    float: right; // old browsers...
-    .display-flex();
-    .flex-wrap(wrap);
-    .flex-justify-content(flex-end);
-    margin-left: auto !important;
+	float: right; // old browsers...
+	.display-flex();
+	.flex-wrap(wrap);
+	.flex-justify-content(flex-end);
+	margin-left: auto !important;
 }
 // vertical
 // ====
 .lui.menu.vertical .menu:not(.horizontal),
 .lui.menu.vertical .item {
-    .flex-direction(column);
+	.flex-direction(column);
 }
 // Vertical bottom "floated"
 // ====
 .lui.menu.vertical .bottom.item,
 .lui.menu.vertical .bottom.menu {
-    margin-top: auto !important;
+	margin-top: auto !important;
 }
 // Borders
 // ====
 .lui.menu.bordered,
 .lui.menu.bordered {
-    &.inverted:not(.vertical) {
-        .left.item, .left.menu {
-            border-right: @border-width solid @border-color-inverted;
-        }
-        .right.item, .right.menu {
-            border-left: @border-width solid @border-color-inverted;
-        }
-    }
-    &:not(.inverted):not(.vertical) {
-        .left.item, .left.menu {
-            border-right: @border-width solid @border-color;
-        }
-        .right.item, .right.menu {
-            border-left: @border-width solid @border-color;
-        }
-    }
+	&.inverted:not(.vertical) {
+		.left.item, .left.menu {
+			border-right: @border-width solid @border-color-inverted;
+		}
+		.right.item, .right.menu {
+			border-left: @border-width solid @border-color-inverted;
+		}
+	}
+	&:not(.inverted):not(.vertical) {
+		.left.item, .left.menu {
+			border-right: @border-width solid @border-color;
+		}
+		.right.item, .right.menu {
+			border-left: @border-width solid @border-color;
+		}
+	}
 }
 .lui.menu.vertical .left + .right {
-    border-top: none;
+	border-top: none;
 }
 
 
@@ -219,20 +219,20 @@
 // Menu orientation - Horizontal (default)
 // ====
 .lui.menu:not(.vertical) {
-    .flex-direction(row);
+	.flex-direction(row);
 }
 .lui.menu.v-aligned {
-    .flex-align-items(center);
+	.flex-align-items(center);
 }
 
 // Menu orientation - Vertical
 // ====
 .lui.menu.vertical {
-    .flex-direction(column);
+	.flex-direction(column);
 
-    .menu .item {
-        border-right: none;
-    }
+	.menu .item {
+		border-right: none;
+	}
 }
 
 
@@ -243,200 +243,204 @@
  // Dividing - Common
  // ====
 .lui.menu.dividing {
-    border-color: @divider-color;
+	border-color: @divider-color;
 
-    .item {
-        padding: @horizontal-item-y-padding 0;
-        margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
-    }
+	.item {
+		padding: @horizontal-item-y-padding 0;
+		margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
+	}
 
-    .item.right, .menu.right {
-        border-left: none !important;
-    }
-    .item.left, .menu.left {
-        border-right: none !important;
-    }
+	.item.right, .menu.right {
+		border-left: none !important;
+	}
+	.item.left, .menu.left {
+		border-right: none !important;
+	}
 
-    a.item:before, a.item:after {
-        visibility: visible;
-        position: absolute;
-        display: block; content: "";
-        .lui_transition_properties(width, height);
-    }
+	a.item:before, a.item:after {
+		visibility: visible;
+		position: absolute;
+		display: block; content: "";
+		.lui_transition_properties(width, height);
+	}
 
-    &.bordered .item {
-        padding: @horizontal-item-y-padding (@horizontal-item-x-margin + @horizontal-item-x-padding);
-        margin: 0;
-    }
+	&.bordered .item {
+		padding: @horizontal-item-y-padding (@horizontal-item-x-margin + @horizontal-item-x-padding);
+		margin: 0;
+	}
 }
 // Dividing - Horizontal
 // ====
 .lui.menu.dividing:not(.vertical) {
-    a.item:after,
-    a.item:before {
-        left: 0; right: 0;
-        margin: 0 auto;
-        width: 0; height: @divider-active-border-width;
-    }
+	a.item:after,
+	a.item:before {
+		left: 0; right: 0;
+		margin: 0 auto;
+		width: 0; height: @divider-active-border-width;
+	}
 
-    // Dividing is down
-    // ====
-    &:not([class*="top dividing"]),
-    &[class*="bottom dividing"] {
-        border-bottom-width: @divider-width;
-        border-bottom-style: solid;
-        a.item:after {
-            margin-bottom: -@divider-width;
-            bottom: -(@horizontal-item-y-margin + @v-padding);
-        }
-        a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
-            width: 100%;
-        }
-    }
-    // Dividing is up
-    // ====
-    &[class*="top dividing"] {
-        border-top-width: @divider-width;
-        border-top-style: solid;
-        a.item:before {
-            margin-top: -@divider-width;
-            top: -(@horizontal-item-y-margin + @v-padding);
-        }
-        a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
-            width: 100%;
-        }
-    }
+	// Dividing is down
+	// ====
+	&:not([class*="top dividing"]),
+	&[class*="bottom dividing"] {
+		border-bottom-width: @divider-width;
+		border-bottom-style: solid;
+		a.item:after {
+			margin-bottom: -@divider-width;
+			bottom: -(@horizontal-item-y-margin + @v-padding);
+		}
+		a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
+			width: 100%;
+		}
+	}
+	// Dividing is up
+	// ====
+	&[class*="top dividing"] {
+		border-top-width: @divider-width;
+		border-top-style: solid;
+		a.item:before {
+			margin-top: -@divider-width;
+			top: -(@horizontal-item-y-margin + @v-padding);
+		}
+		a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
+			width: 100%;
+		}
+	}
 }
 // Dividing - Vertical
 // ====
 .lui.menu.dividing.vertical {
-    .item {
-        margin: @vertical-item-y-margin @vertical-item-x-margin;
-        padding: @vertical-item-y-padding @vertical-item-x-padding;
-    }
-    a.item:after,
-    a.item:before {
-        top: 50%; bottom: 0;
-        -ms-transform: translate(0, -50%);
-        transform: translate(0, -50%);
-        width: @divider-active-border-width; height: 0;
-    }
+	.item {
+		margin: @vertical-item-y-margin @vertical-item-x-margin;
+		padding: @vertical-item-y-padding @vertical-item-x-padding;
+	}
+	a.item:after,
+	a.item:before {
+		top: 50%; bottom: 0;
+		-ms-transform: translate(0, -50%);
+		transform: translate(0, -50%);
+		width: @divider-active-border-width; height: 0;
+	}
 
-    // Divider is down
-    // ====
-    &:not([class*="right dividing"]),
-    &[class*="left dividing"] {
-        border-left-width: @divider-width;
-        border-left-style: solid;
-        a.item:before {
-            margin-left: -@divider-width;
-            left: -(@vertical-item-x-margin + @h-padding);
-        }
-        a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
-            height: 100%;
-        }
-    }
-    // Divider is up
-    // ====
-    &.right {
-        border-right-width: @divider-width;
-        border-right-style: solid;
-        a.item:after {
-            margin-right: -@divider-width;
-            right: -(@vertical-item-x-margin + @h-padding);
-        }
-        a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
-            height: 100%;
-        }
-    }
+	// Divider is down
+	// ====
+	&:not([class*="right dividing"]),
+	&[class*="left dividing"] {
+		border-left-width: @divider-width;
+		border-left-style: solid;
+		a.item:before {
+			margin-left: -@divider-width;
+			left: -(@vertical-item-x-margin + @h-padding);
+		}
+		a.item:not(.disabled):hover:before, a.item:active:before, a.item.active:before {
+			height: 100%;
+		}
+	}
+	// Divider is up
+	// ====
+	&.right {
+		border-right-width: @divider-width;
+		border-right-style: solid;
+		a.item:after {
+			margin-right: -@divider-width;
+			right: -(@vertical-item-x-margin + @h-padding);
+		}
+		a.item:not(.disabled):hover:after, a.item:active:after, a.item.active:after {
+			height: 100%;
+		}
+	}
 }
 
 
 // Tabbed
 // ====
 .lui.menu.tabbed {
-    background: @tabbed-bg;
-    padding: @tabbed-padding;
-    border: 1px solid @tabbed-border-color;
-    border-bottom: none;
+	background: @tabbed-bg;
+	padding: @tabbed-padding;
+	border: 1px solid @tabbed-border-color;
+	border-bottom: none;
 
-    &.bordered .item, .item {
-        position: relative; z-index: 2;
-        border: 1px solid transparent;
-        margin-top: 0;
-        bottom: -1px;
-    }
+	&.bordered .item, .item {
+		position: relative; z-index: 2;
+		border: 1px solid transparent;
+		margin-top: 0;
+		bottom: -1px;
+	}
 
-    a.item.active, a.item:hover {
-        background: @tabbed-active-bg;
-        padding-top: 2*@horizontal-item-y-padding; margin-top: -@horizontal-item-y-padding;
+	a.item.active, a.item:hover {
+		background: @tabbed-active-bg;
+		padding-top: 2*@horizontal-item-y-padding; margin-top: -@horizontal-item-y-padding;
 
-        border-top-color: @tabbed-border-color;
-        border-left-color: @tabbed-border-color;
-        border-right-color: @tabbed-border-color;
-    }
+		border-top-color: @tabbed-border-color;
+		border-left-color: @tabbed-border-color;
+		border-right-color: @tabbed-border-color;
+	}
 
-    &:after {
-        visibility: visible;
-        position: absolute; top: 100%; left: -1px; right: -1px;
-        display: block; content: "";
-        height: 5px;
-        border: 1px solid @tabbed-border-color;
-    }
+	a.item.active {
+		border-top-width: @tabbed-active-border-width;
+	}
+
+	&:after {
+		visibility: visible;
+		position: absolute; top: 100%; left: -1px; right: -1px;
+		display: block; content: "";
+		height: 5px;
+		border: 1px solid @tabbed-border-color;
+	}
 }
 
 // Pills
 // ====
 .lui.menu.pills {
-    .item {
-        border-right: none !important;
-    }
+	.item {
+		border-right: none !important;
+	}
 
-    a.item {
-        border-radius: @pills-radius;
-        margin: 0;
-        .lui_transition_properties(background);
-    }
+	a.item {
+		border-radius: @pills-radius;
+		margin: 0;
+		.lui_transition_properties(background);
+	}
 }
 .lui.menu.pills:not(.vertical) a.item {
-    padding: (@horizontal-item-y-padding + @horizontal-item-y-margin) (@horizontal-item-x-padding + @horizontal-item-x-margin);
+	padding: (@horizontal-item-y-padding + @horizontal-item-y-margin) (@horizontal-item-x-padding + @horizontal-item-x-margin);
 }
 .lui.menu.pills.vertical a.item {
-    padding: (@vertical-item-y-padding + @vertical-item-y-margin) (@vertical-item-x-padding + @vertical-item-x-margin);
+	padding: (@vertical-item-y-padding + @vertical-item-y-margin) (@vertical-item-x-padding + @vertical-item-x-margin);
 }
 
 // Alignments
 // ====
 .lui.menu.justified:not(.vertical) {
-    .flex-justify-content(space-between);
-    .item {
-        .flex(1);
-        text-align: center;
-        margin: 0;
-        .flex-justify-content(center);
-    }
-    &:after {
-        display: none;
-    }
+	.flex-justify-content(space-between);
+	.item {
+		.flex(1);
+		text-align: center;
+		margin: 0;
+		.flex-justify-content(center);
+	}
+	&:after {
+		display: none;
+	}
 }
 
 /**
  * Other elements support
  * --------------------------------------------------------------------------- */
 
- // Dividing style + .item.side-border
- // ====
- .lui.menu.vertical:not([class*="right dividing"]) .item.side-border:after {
-     left: -@divider-width;
+// Dividing style + .item.side-border
+// ====
+.lui.menu.vertical:not([class*="right dividing"]) .item.side-border:after {
+	left: -@divider-width;
 }
 .lui.menu.vertical[class*="right dividing"] .item.side-border.right:after {
-     right: -@divider-width;
+	right: -@divider-width;
 }
 .lui.menu:not(.vertical):not[class*="top dividing"] .item.side-border.up:after {
-     top: -@divider-width;
+	top: -@divider-width;
 }
 .lui.menu.vertical[class*="top dividing"] .item.side-border.down:after {
-     bottom: -@divider-width;
+	bottom: -@divider-width;
 }
 
 
@@ -447,33 +451,36 @@
  // Coloring ruleset
  // ====
  @coloring-ruleset: {
-    &.dividing a.item:before, &.dividing a.item:after {
-        background-color: @coloring-color;
-    }
-    &.pills .item:active, &.pills .item.active {
-        background-color: @coloring-color;
-        color: @coloring-text;
-    }
-    &.pills .item:hover {
-        background-color: hsla(hue(@coloring-color), saturation(@coloring-color), lightness(@coloring-color), 0.5);
-        color: @coloring-text;
-    }
+	&.dividing a.item:before, &.dividing a.item:after {
+		background-color: @coloring-color;
+	}
+	&.pills .item:active, &.pills .item.active {
+		background-color: @coloring-color;
+		color: @coloring-text;
+	}
+	&.pills .item:hover {
+		background-color: hsla(hue(@coloring-color), saturation(@coloring-color), lightness(@coloring-color), 0.5);
+		color: @coloring-text;
+	}
+	&.tabbed .item.active {
+		border-top-color: @coloring-color;
+	}
  };
 
 // Default coloring
 // ====
 .lui.menu {
-    @coloring-color: @default-coloring-bg;
-    @coloring-text: @default-coloring-txt;
-    @coloring-lightOnDark: false;
+	@coloring-color: @default-coloring-bg;
+	@coloring-text: @default-coloring-txt;
+	@coloring-lightOnDark: false;
 
-    @coloring-ruleset();
+	@coloring-ruleset();
 }
 
 // Custom coloring support
 // ====
 .lui.menu {
-    .lui_supports_coloring(@coloring-ruleset);
+	.lui_supports_coloring(@coloring-ruleset);
 }
 
 
@@ -483,20 +490,20 @@
 
  // Breakpoints ruleset
  // ====
- @breakpoints-ruleset: {
-     padding-left: @breakpoint-spacing;
-     padding-right: @breakpoint-spacing;
- };
+@breakpoints-ruleset: {
+	padding-left: @breakpoint-spacing;
+	padding-right: @breakpoint-spacing;
+};
 
 .lui.menu.container {
-    .lui_supports_breakpoints(@breakpoints-ruleset);
+	.lui_supports_breakpoints(@breakpoints-ruleset);
 
-    > .item:first-child {
-        padding-left: 0;
-        margin-left: 0;
-    }
-    > .item:last-child {
-        padding-right: 0;
-        margin-right: 0;
-    }
+	> .item:first-child {
+		padding-left: 0;
+		margin-left: 0;
+	}
+	> .item:last-child {
+		padding-right: 0;
+		margin-right: 0;
+	}
 }

@@ -4,65 +4,59 @@
  * --------------------------------------------------------------------------- */
 
 .lui.input {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    .display-flex(true);
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	.display-flex(true);
 
-    > .addon, > input {
-        display: inline-block;
-        .flex();
-    }
+	> .addon, > input {
+		display: inline-block;
+		.flex();
+	}
 
-    // Inputs styling
-    // =====
-    > input, > select {
-        width: 100%;
-        display: inline-block;
-        vertical-align: middle;
+	// Inputs styling
+	// =====
+	> input, > select {
+		width: 100%;
+		display: inline-block;
+		vertical-align: middle;
 
-        border-radius: @border-radius;
-        border: 1px solid @border-color;
-        background: #fff;
-        color: @color;
-        padding: @v-padding @h-padding;
+		border-radius: @border-radius;
+		border: 1px solid @border-color;
+		background: #fff;
+		color: @color;
+		padding: @v-padding @h-padding;
 
-        &:focus, &:active {
-            outline: none;
-            border-color: darken(@border-color, 10);
-        }
+		&:focus, &:active {
+			outline: none;
+			border-color: darken(@border-color, 10);
+		}
 
-       // Placeholders
-       // =====
-        .lui_placeholder({
-            color: @placeholder-color;
-            font-style: @placeholder-style;
-        });
-    }
+	   // Placeholders
+	   // =====
+		.lui_placeholder({
+			color: @placeholder-color;
+			font-style: @placeholder-style;
+		});
+	}
 
-    &.fit {
-        width: 100%;
-    }
+	&.fit {
+		width: 100%;
+	}
 
-   // Validation
-   // =====
-   &.ng.ng-invalid, // angular support
-   &.invalid {
-       color: @invalid-color;
-       > input {
-           color: @invalid-color;
-           border-color: @invalid-color;
-           &::-webkit-input-placeholder {
-               color: lighten(@invalid-color, 15);
-           }
-           &::-moz-placeholder {
-               color: lighten(@invalid-color, 15);
-           }
-           &::-ms-input-placeholder {
-               color: lighten(@invalid-color, 15);
-           }
-       }
-   }
+	// Validation
+	// =====
+	&.ng.ng-invalid, // angular support
+	&.invalid {
+		color: @invalid-color;
+		> input {
+			color: @invalid-color;
+			border-color: @invalid-color;
+			.lui_placeholder({
+				color: lighten(@invalid-color, 15);
+			});
+		}
+	}
 }
 
 .lui.input input[type="text"],
@@ -73,41 +67,41 @@
 // Textareas
 // ====
 textarea.lui.input {
-    border: 1px solid @border-color;
+	border: 1px solid @border-color;
 }
 
 // Icon support
 // =====
 .lui.input.icon {
-    > input {
-        padding-left: 2.5em;
-    }
-    .lui.icon {
-        position: absolute;
-        z-index: 2;
-        top: 0; bottom: 0;
-        height: 100%;
-        left: 0;
-        width: 2.5em;
-        margin-right: 0.5em;
-        &:before {
-            position: absolute;
-            top: 50%; left: 0; right: 0;
-            -ms-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-        }
-    }
-    &.left {
-        > input {
-            padding-left: 0;
-            padding-right: 2.5em;
-        }
-        .lui.icon {
-            left: auto; right: 0;
-            margin-right: 0;
-            margin-left: 0.5em;
-        }
-    }
+	> input {
+		padding-left: 2.5em;
+	}
+	.lui.icon {
+		position: absolute;
+		z-index: 2;
+		top: 0; bottom: 0;
+		height: 100%;
+		left: 0;
+		width: 2.5em;
+		margin-right: 0.5em;
+		&:before {
+			position: absolute;
+			top: 50%; left: 0; right: 0;
+			-ms-transform: translate(0, -50%);
+			transform: translate(0, -50%);
+		}
+	}
+	&.left {
+		> input {
+			padding-left: 0;
+			padding-right: 2.5em;
+		}
+		.lui.icon {
+			left: auto; right: 0;
+			margin-right: 0;
+			margin-left: 0.5em;
+		}
+	}
 }
 
 
@@ -115,47 +109,47 @@ textarea.lui.input {
 // =====
 .lui.input.has-addon,
 .lui.input.has-addons {
-    > .lui.addon {
-        display: inline-block;
-        vertical-align: middle;
-        border: 1px solid @border-color;
-        padding: @v-padding @h-padding;
-        background: @border-color;
-    }
+	> .lui.addon {
+		display: inline-block;
+		vertical-align: middle;
+		border: 1px solid @border-color;
+		padding: @v-padding @h-padding;
+		background: @border-color;
+	}
 
-    &:not(.right) .lui.addon,
-    &.has-addons .lui.addon:first-child {
-        border-radius: @border-radius 0 0 @border-radius;
-    }
+	&:not(.right) .lui.addon,
+	&.has-addons .lui.addon:first-child {
+		border-radius: @border-radius 0 0 @border-radius;
+	}
 
-    &:not(.right) > input {
-        border-radius: 0 @border-radius @border-radius 0;
-    }
+	&:not(.right) > input {
+		border-radius: 0 @border-radius @border-radius 0;
+	}
 
-    &.right .lui.addon,
-    &.has-addons .lui.addon:last-child {
-        border-radius: 0 @border-radius @border-radius 0;
-    }
-    &.right > input {
-        border-radius: @border-radius 0 0 @border-radius;
-    }
+	&.right .lui.addon,
+	&.has-addons .lui.addon:last-child {
+		border-radius: 0 @border-radius @border-radius 0;
+	}
+	&.right > input {
+		border-radius: @border-radius 0 0 @border-radius;
+	}
 
-    &.has-addons > input {
-        border-radius: 0;
-    }
+	&.has-addons > input {
+		border-radius: 0;
+	}
 }
 
 // Addons support coloring
 // =====
 @coloring-ruleset: {
-    background-color: @coloring-color;
-    border-color: @coloring-color;
-    color: @coloring-text;
-    & when (@coloring-lightOnDark = true) { text-shadow: 0 1px 1px darken(@coloring-color, 15); }
+	background-color: @coloring-color;
+	border-color: @coloring-color;
+	color: @coloring-text;
+	& when (@coloring-lightOnDark = true) { text-shadow: 0 1px 1px darken(@coloring-color, 15); }
 };
 .lui.input.has-addon > .addon,
 .lui.input.has-addons > .addon {
-    .lui_supports_coloring(@coloring-ruleset);
+	.lui_supports_coloring(@coloring-ruleset);
 }
 
 // Inputs length (horizontal sizing)
@@ -173,22 +167,22 @@ textarea.lui.input {
 
 .lui.form {
 
-    .lui.field { // Automatic inputs styling
-        .lui.input;
-        .flex-direction(column);
+	.lui.field { // Automatic inputs styling
+		.lui.input;
+		.flex-direction(column);
 
-        label {
-            margin-top: 1em;
-            font-weight: 600;
-            display: block;
-        }
+		label {
+			margin-top: 1em;
+			font-weight: 600;
+			display: block;
+		}
 
-        // Angular support
-        // =====
-        &.ng.ng-invalid {
-            .lui.input.ng.ng-invalid;
-        }
-    }
+		// Angular support
+		// =====
+		&.ng.ng-invalid {
+			.lui.input.ng.ng-invalid;
+		}
+	}
 }
 
 
@@ -197,9 +191,9 @@ textarea.lui.input {
  * --------------------------------------------------------------------------- */
 
 .lui.input {
-    .lui_supports_sizing({
-        font-size: @sizeEms;
-    });
+	.lui_supports_sizing({
+		font-size: @sizeEms;
+	});
 }
 
 
@@ -208,29 +202,29 @@ textarea.lui.input {
  * --------------------------------------------------------------------------- */
 
 .lui.input.search {
-    .lui_make_icon(search);
+	.lui_make_icon(search);
 
-    > input {
-        padding-left: 3em;
-    }
+	> input {
+		padding-left: 3em;
+	}
 
-    &.searching {
-    	.lui_loader();
-        &:after {
-            margin-left: 0;
-            left: 1em;
-        }
-    }
+	&.searching {
+		.lui_loader();
+		&:after {
+			margin-left: 0;
+			left: 1em;
+		}
+	}
 
-    &:before, &:after {
-        cursor: text;
-        display: inline-block;
-        position: absolute;
-        top: 50%; left: 1em;
-        -ms-transform: translate(0, -50%);
-        transform: translate(0, -50%);
-        .user_select_none();
-    }
+	&:before, &:after {
+		cursor: text;
+		display: inline-block;
+		position: absolute;
+		top: 50%; left: 1em;
+		-ms-transform: translate(0, -50%);
+		transform: translate(0, -50%);
+		.user_select_none();
+	}
 }
 
 
@@ -244,8 +238,8 @@ textarea.lui.input {
 	position: relative;
 	height: 1.25em;
 	width: 1.25em;
-    border: 1px solid @border-color;
-    overflow: hidden;
+	border: 1px solid @border-color;
+	overflow: hidden;
 
 	input, label {
 		margin: 0;
@@ -263,43 +257,43 @@ textarea.lui.input {
 
 	label {
 		display: block;
-        box-sizing: border-box;
+		box-sizing: border-box;
 		position: relative;
-        top: 0; bottom: 0; left: 0; right: 0;
-        padding: 0;
-        height: 100%; width: 100%;
-        min-height: 0; // Bootstrap override
+		top: 0; bottom: 0; left: 0; right: 0;
+		padding: 0;
+		height: 100%; width: 100%;
+		min-height: 0; // Bootstrap override
 
 		.lui_make_icon(checkbox, left); // Before is unchecked
 		.lui_make_icon(check, right); // After is checked
 
-        &:before, &:after {
+		&:before, &:after {
 			position: absolute;
 			top: 50%; left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
 			z-index: 2;
 			font-size: 1.25em;
 			margin: 0;
 		}
 
-        &:before {
-            color: #FFF;
-        }
+		&:before {
+			color: #FFF;
+		}
 
-        &:after {
-            font-size: 0.8em;
-            z-index: 3;
-            color: @checkbox-color;
-            opacity: 0;
-            .lui_transition();
-        }
+		&:after {
+			font-size: 0.8em;
+			z-index: 3;
+			color: @checkbox-color;
+			opacity: 0;
+			.lui_transition();
+		}
 	}
 
 	input:checked ~ label {
-        &:after {
-            opacity: 1;
-        }
+		&:after {
+			opacity: 1;
+		}
 	}
 
 	&:hover label:after {
@@ -313,8 +307,8 @@ textarea.lui.input {
  * --------------------------------------------------------------------------- */
 
 .lui.input.switch {
-    @width: 4.5em;
-    @height: 2.25em;
+	@width: 4.5em;
+	@height: 2.25em;
 
 	display: inline-block;
 	vertical-align: middle;
@@ -403,7 +397,7 @@ textarea.lui.input {
 luid-timespan, .luid-timespan {
 	.lui.input;
 
-    > input { width: 5em; }
+	> input { width: 5em; }
 }
 
 
@@ -412,20 +406,20 @@ luid-timespan, .luid-timespan {
  * --------------------------------------------------------------------------- */
 
 luid-moment, .luid-moment{
-    .lui.input;
-    position: relative;
-    display: inline-block;
-    width: 3.1em;
+	.lui.input;
+	position: relative;
+	display: inline-block;
+	width: 3.1em;
 
-    &:active, &:focus {
-    	box-shadow: none;
-    }
+	&:active, &:focus {
+		box-shadow: none;
+	}
 
-    &.ng-invalid{
-    	.mp-button {
-    		background-color: @invalid-color;
-    	}
-    }
+	&.ng-invalid{
+		.mp-button {
+			background-color: @invalid-color;
+		}
+	}
 
 	// styling the inputs inside the directive
 	input, .input{
@@ -454,7 +448,7 @@ luid-moment, .luid-moment{
 		color: #FFF;
 		background-color: @border-color;
 
-        // Positions
+		// Positions
 		&.top { bottom: 100%; }
 		&.bottom { top: 100%; }
 		&.left { right: 50%; }

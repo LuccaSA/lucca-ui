@@ -4,10 +4,10 @@
  * ----------------------------------------------------------------------------- */
 
 .lui.nguibs-tooltip {
-    .tooltip-inner {
-        .lui_border_radius(@tooltip-border-radius);
-        box-shadow: @tooltip-shadow;
-    }
+	.tooltip-inner {
+		.lui_border_radius(@tooltip-border-radius);
+		box-shadow: @tooltip-shadow;
+	}
 }
 
 
@@ -18,31 +18,31 @@
 // Coloring ruleset
 // ====
 @coloring-ruleset: {
-    .tooltip-inner {
-        background-color: @coloring-color;
-        color: @coloring-text;
-        & when (@coloring-lightOnDark = true) {
-            text-shadow: 1px 0 1px darken(@coloring-color, 5);
-        }
-    }
-    &.left .tooltip-arrow { border-left-color: @coloring-color; }
-    &.top .tooltip-arrow { border-top-color: @coloring-color; }
-    &.right .tooltip-arrow { border-right-color: @coloring-color; }
-    &.bottom .tooltip-arrow { border-bottom-color: @coloring-color; }
+	.tooltip-inner {
+		background-color: @coloring-color;
+		color: @coloring-text;
+		& when (@coloring-lightOnDark = true) {
+			text-shadow: 1px 0 1px darken(@coloring-color, 5);
+		}
+	}
+	&.left .tooltip-arrow { border-left-color: @coloring-color; }
+	&.top .tooltip-arrow { border-top-color: @coloring-color; }
+	&.right .tooltip-arrow { border-right-color: @coloring-color; }
+	&.bottom .tooltip-arrow { border-bottom-color: @coloring-color; }
 };
 
 // Default coloring
 // ====
 .lui.nguibs-tooltip {
-    @coloring-color: @tooltip-bg;
-    @coloring-text: @tooltip-color;
-    @coloring-lightOnDark: false;
+	@coloring-color: @tooltip-bg;
+	@coloring-text: @tooltip-color;
+	@coloring-lightOnDark: false;
 
-    @coloring-ruleset();
+	@coloring-ruleset();
 }
 
 // Custom coloring support
 // ====
 .lui.nguibs-tooltip {
-    .lui_supports_coloring(@coloring-ruleset);
+	.lui_supports_coloring(@coloring-ruleset);
 }

@@ -56,12 +56,12 @@
  * ----------------------------------------------------------------------------- */
 
 & {
-    @enabled: true;
+	@enabled: true;
 
-    @import (optional) "@{themeDir}@{theme}/definitions/stuck.overrides.less";
-    & when (@enabled = true) {
-        @import "core/definitions/_stuck.less";
-    }
+	@import (optional) "@{themeDir}@{theme}/definitions/stuck.overrides.less";
+	& when (@enabled = true) {
+		@import "core/definitions/_stuck.less";
+	}
 }
 
 
@@ -70,12 +70,12 @@
  * ----------------------------------------------------------------------------- */
 
 & {
-    @enabled: true;
+	@enabled: true;
 
-    @import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
-    & when (@enabled = true) {
-        @import "core/definitions/_definition-list.less";
-    }
+	@import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
+	& when (@enabled = true) {
+		@import "core/definitions/_definition-list.less";
+	}
 }
 
 
@@ -84,59 +84,59 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @gutter: 1em;
-    @columns: 12;
-    @column: 100%/@columns;
-    @container-width: auto;
+	@gutter: 1em;
+	@columns: 12;
+	@column: 100%/@columns;
+	@container-width: auto;
 
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/definitions/_grid";
-    }
+	& when (@enabled = true) {
+		@import "core/definitions/_grid";
+	}
 }
 
 
- /**
-  * Typography
-  * --------------------------------------------------------------------------- */
+/**
+ * Typography
+ * --------------------------------------------------------------------------- */
 
 & {
-    @font-size: 15px;
-    @font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
-    @color: #666;
-    @line-height: 1.4em;
-    @small-size: 0.8em;
-    // Headings
-    @heading-font: @font-family;
-    @heading-line-height: 1.25em;
-    @heading-v-margin: 0;
-    @heading-font-weight: normal;
-    @h1-size: 2.5em;
-    @h1-weight: 300;
-    @h2-size: 1.75em;
-    @h2-weight: 400;
-    @h3-size: 1.5em;
-    @h3-weight: 400;
-    @h4-size: 1.25em;
-    @h4-weight: 400;
-    @h5-size: 1.1em;
-    @h5-weight: 600;
-    @h6-size: 1em;
-    @h6-weight: 600;
-    @icon-in-heading-size: 0.8em;
-    // Links
-    @link-color: #666;
-    @link-color-over: #444;
+	@font-size: 15px;
+	@font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
+	@color: #666;
+	@line-height: 1.4em;
+	@small-size: 0.8em;
+	// Headings
+	@heading-font: @font-family;
+	@heading-line-height: 1.25em;
+	@heading-v-margin: 0;
+	@heading-font-weight: normal;
+	@h1-size: 2.5em;
+	@h1-weight: 300;
+	@h2-size: 1.75em;
+	@h2-weight: 400;
+	@h3-size: 1.5em;
+	@h3-weight: 400;
+	@h4-size: 1.25em;
+	@h4-weight: 400;
+	@h5-size: 1.1em;
+	@h5-weight: 600;
+	@h6-size: 1em;
+	@h6-weight: 600;
+	@icon-in-heading-size: 0.8em;
+	// Links
+	@link-color: #666;
+	@link-color-over: #444;
 
 	@enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
+	@import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/definitions/_typography.less";
-    }
+	& when (@enabled = true) {
+		@import "core/definitions/_typography.less";
+	}
 }
 
 
@@ -145,18 +145,18 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @x: 0;
-    @y: 1px;
-    @blur: 2px;
-    @spread: 0;
-    @color: rgba(0, 0, 0, 0.2);
+	@x: 0;
+	@y: 1px;
+	@blur: 2px;
+	@spread: 0;
+	@color: rgba(0, 0, 0, 0.2);
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/raised.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/definitions/raised.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/definitions/_raised.less";
-    }
+	& when (@enabled = true) {
+		@import "core/definitions/_raised.less";
+	}
 }
 
 
@@ -165,15 +165,15 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @triangle-color: #CCC;
-    @triangle-width: 1em;
+	@triangle-color: #CCC;
+	@triangle-width: 1em;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/definitions/pointing.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/definitions/pointing.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/definitions/_pointing.less";
-    }
+	& when (@enabled = true) {
+		@import "core/definitions/_pointing.less";
+	}
 }
 
 
@@ -181,26 +181,26 @@
  * ------ ELEMENTS
  * ---------------------------------------------------------------------------- */
 
- /**
-  * Icon
-  * --------------------------------------------------------------------------- */
- & {
-     // Circular style variables
-     @circular-width: 2em;
-     @circular-height: 2em;
-     @circular-padding: 0.5em;
+/**
+ * Icon
+ * --------------------------------------------------------------------------- */
+& {
+	// Circular style variables
+	@circular-width: 2em;
+	@circular-height: 2em;
+	@circular-padding: 0.5em;
 
-     @enabled: true;
-     @import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
-     & when (@enabled = true) {
-         // Import icons definitions...
-         @import (multiple) "core/definitions/_icons.less";
-         @import (optional) "@{themeDir}@{theme}/definitions/icons.overrides.less";
+	& when (@enabled = true) {
+		// Import icons definitions...
+		@import (multiple) "core/definitions/_icons.less";
+		@import (optional) "@{themeDir}@{theme}/definitions/icons.overrides.less";
 
-         // Import the element
-         @import "core/elements/_icon";
-     }
+		// Import the element
+		@import "core/elements/_icon";
+	 }
  }
 
 
@@ -208,25 +208,25 @@
  * Button
  * --------------------------------------------------------------------------- */
 & {
-    @text-transform: normal;
-    @min-height: 1em;
-    @min-width: 3em;
-    @v-padding: 0.5em;
-    @h-padding: 1em;
-    @v-margin: 0.25em;
-    @h-margin: 0.25em;
-    @text-shadow: none;
-    @border-radius: 3px;
-    @default-background: #FFF;
-    @default-color: #666;
-    @default-border: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+	@text-transform: normal;
+	@min-height: 1em;
+	@min-width: 3em;
+	@v-padding: 0.5em;
+	@h-padding: 1em;
+	@v-margin: 0.25em;
+	@h-margin: 0.25em;
+	@text-shadow: none;
+	@border-radius: 3px;
+	@default-background: #FFF;
+	@default-color: #666;
+	@default-border: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/button.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/button.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_button";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_button";
+	}
 }
 
 
@@ -234,50 +234,51 @@
  * Menu
  * --------------------------------------------------------------------------- */
 & {
-    @default-coloring-bg: #666;
-    @default-coloring-txt: #FFF;
+	@default-coloring-bg: #666;
+	@default-coloring-txt: #FFF;
 
-    @v-margin: 0;
-    @h-margin: 0;
-    @v-padding: 0;
-    @h-padding: 0;
+	@v-margin: 0;
+	@h-margin: 0;
+	@v-padding: 0;
+	@h-padding: 0;
 
-    @border-color: rgba(50, 50, 50, 0.2);
-    @border-color-inverted: rgba(255, 255, 255, 0.2);
+	@border-color: rgba(50, 50, 50, 0.2);
+	@border-color-inverted: rgba(255, 255, 255, 0.2);
 
-    @border-width: 1px;
+	@border-width: 1px;
 
-    @divider-color: rgba(50, 50, 50, 0.2);
-    @divider-width: 1px;
-    @divider-active-border-width: 3px;
-    @divider-active-color: #FFC900;
+	@divider-color: rgba(50, 50, 50, 0.2);
+	@divider-width: 1px;
+	@divider-active-border-width: 3px;
+	@divider-active-color: #FFC900;
 
-    @vertical-item-y-padding: 1rem;
-    @vertical-item-x-padding: 1rem;
-    @vertical-item-y-margin: 0;
-    @vertical-item-x-margin: 0;
+	@vertical-item-y-padding: 1rem;
+	@vertical-item-x-padding: 1rem;
+	@vertical-item-y-margin: 0;
+	@vertical-item-x-margin: 0;
 
-    @horizontal-item-y-padding: 0.5rem;
-    @horizontal-item-x-padding: 1rem;
-    @horizontal-item-y-margin: 0;
-    @horizontal-item-x-margin: 0;
+	@horizontal-item-y-padding: 0.5rem;
+	@horizontal-item-x-padding: 1rem;
+	@horizontal-item-y-margin: 0;
+	@horizontal-item-x-margin: 0;
 
-    @tabbed-padding: 0 1em;
-    @tabbed-bg: #FAFAFA;
-    @tabbed-active-bg: #FFF;
-    @tabbed-border-color: rgba(50, 50, 50, 0.2);
+	@tabbed-padding: 0 1em;
+	@tabbed-bg: #FAFAFA;
+	@tabbed-active-bg: #FFF;
+	@tabbed-border-color: rgba(50, 50, 50, 0.2);
+	@tabbed-active-border-width: 3px;
 
-    @header-weight: inherit;
-    @header-size: '';
+	@header-weight: inherit;
+	@header-size: '';
 
-    @pills-radius: 3px;
+	@pills-radius: 3px;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/menu.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/menu.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_menu";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_menu";
+	}
 }
 
 
@@ -286,16 +287,16 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @border: 1px solid rgba(50, 50, 50, 0.2);
-    @border-inverted: rgba(255, 255, 255, 0.2);
-    @border-radius: 3px;
+	@border: 1px solid rgba(50, 50, 50, 0.2);
+	@border-inverted: rgba(255, 255, 255, 0.2);
+	@border-radius: 3px;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/block.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/block.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_block";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_block";
+	}
 }
 
 
@@ -304,30 +305,30 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @border-radius: 3px;
-    @border-color: #CCC;
-    @color: #666;
-    @v-padding: 0.5em;
-    @h-padding: 1em;
-    @placeholder-color: rgba(0, 0, 0, 0.5);
-    @placeholder-style: italic;
-    @invalid-color: #f60;
+	@border-radius: 3px;
+	@border-color: #CCC;
+	@color: #666;
+	@v-padding: 0.5em;
+	@h-padding: 1em;
+	@placeholder-color: rgba(0, 0, 0, 0.5);
+	@placeholder-style: italic;
+	@invalid-color: #f60;
 
-    @checkbox-color: #FFC900;
+	@checkbox-color: #FFC900;
 
-    @switch-bg: #666;
-    @switch-color: darken(@switch-bg, 15);
+	@switch-bg: #666;
+	@switch-color: darken(@switch-bg, 15);
 
-    @switch-bg-active: #FFC900;
-    @switch-color-active: darken(@switch-bg-active, 15);
-    @switch-grab-lines-color: #CCC;
+	@switch-bg-active: #FFC900;
+	@switch-color-active: darken(@switch-bg-active, 15);
+	@switch-grab-lines-color: #CCC;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_input";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_input";
+	}
 }
 
 
@@ -336,18 +337,18 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @default-background: rgba(50, 50, 50, 0.15);
-    @default-color: #666;
-    @border-radius: 3px;
-    @v-padding: 0.25em;
-    @h-padding: 0.5em;
+	@default-background: rgba(50, 50, 50, 0.15);
+	@default-color: #666;
+	@border-radius: 3px;
+	@v-padding: 0.25em;
+	@h-padding: 0.5em;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/label.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/label.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_label";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_label";
+	}
 }
 
 
@@ -356,17 +357,17 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @border-color: rgba(50, 50, 50, 0.2);
-    @border-color-inverted: rgba(255, 255, 255, 0.2);
-    @divider-weight: 1px;
-    @larger-weight: 3px;
+	@border-color: rgba(50, 50, 50, 0.2);
+	@border-color-inverted: rgba(255, 255, 255, 0.2);
+	@divider-weight: 1px;
+	@larger-weight: 3px;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/divider.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/divider.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_divider";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_divider";
+	}
 }
 
 
@@ -375,76 +376,57 @@
  * --------------------------------------------------------------------------- */
 
 & {
-    @dividers-color:rgba(50, 50, 50, 0.2);
+	@dividers-color:rgba(50, 50, 50, 0.2);
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/breadcrumbs.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/breadcrumbs.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_breadcrumbs";
-    }
-}
-
- /**
-  * Callout
-  * --------------------------------------------------------------------------- */
-& {
-    @background: #FFF;
-    @border-color: #CCC;
-    @border-width: 5px;
-
-    @default-coloring: #CCC;
-
-    @v-padding: 1em;
-    @h-padding: 2em;
-    @v-margin: 1em;
-    @h-margin: 0;
-
-    @default-coloring-color: #CCC;
-    @default-coloring-text: #222;
-
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/callout.overrides.less";
-
-    & when (@enabled = true) {
-        @import "core/elements/_callout";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_breadcrumbs";
+	}
 }
 
 /**
- * Popover
+ * Callout
  * --------------------------------------------------------------------------- */
 & {
-    @min-width: 15em;
-    @border-color: #CCC;
-    @arrow-size: 1rem;
-    @border-radius: 3px;
-    @bg: #FFF;
-    @color: #666;
+	@background: #FFF;
+	@border-color: #CCC;
+	@border-width: 5px;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/popover.overrides.less";
+	@default-coloring: #CCC;
 
-    & when (@enabled = true) {
-        @import "core/elements/_popover";
-    }
+	@v-padding: 1em;
+	@h-padding: 2em;
+	@v-margin: 1em;
+	@h-margin: 0;
+
+	@default-coloring-color: #CCC;
+	@default-coloring-text: #222;
+
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/callout.overrides.less";
+
+	& when (@enabled = true) {
+		@import "core/elements/_callout";
+	}
 }
 
 /**
  * Table
  * --------------------------------------------------------------------------- */
 & {
-    @bg: #fff;
-    @border: 1px solid #d6d6d6;
-    @padding: 0.5em 1em;
-    @zebra-bg: rgba(200, 200, 200,0.25);
+	@bg: #fff;
+	@border: 1px solid #d6d6d6;
+	@padding: 0.5em 1em;
+	@zebra-bg: rgba(200, 200, 200,0.25);
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/elements/table.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/table.overrides.less";
 
-    & when (@enabled = true) {
-        @import "core/elements/_table";
-    }
+	& when (@enabled = true) {
+		@import "core/elements/_table";
+	}
 }
 
 
@@ -452,47 +434,55 @@
  * ------ PLUGINS
  * ---------------------------------------------------------------------------- */
 
- /**
-  * Angular UI Bootstrap Reskin Plugin
-  * --------------------------------------------------------------------------- */
+/**
+ * Angular UI Bootstrap Reskin Plugin
+ * --------------------------------------------------------------------------- */
 & {
-    @color: #666;
+	@color: #666;
 
-    @color-primary: #FFC900;
-    @color-primary-over: #666;
+	@color-primary: #FFC900;
+	@color-primary-over: #666;
 
-    // Tooltip
-    @tooltip-border-radius: 3px;
-    @tooltip-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
-    @tooltip-bg: #FFF;
-    @tooltip-color: #666;
+	// Tooltip
+	@tooltip-border-radius: 3px;
+	@tooltip-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
+	@tooltip-bg: #FFF;
+	@tooltip-color: @color;
 
-    // UI select
-    @ui-select-border-radius: 3px;
-    @ui-select-min-width: 15em;
-    @ui-select-txt-size: 1em;
-    @arrow-size: 0.75em;
-    @ui-select-border-color: #CCC;
-    @ui-select-padding: 0.5em 1em;
+	// UI select
+	@ui-select-border-radius: 3px;
+	@ui-select-min-width: 15em;
+	@ui-select-txt-size: 1em;
+	@arrow-size: 0.75em;
+	@ui-select-border-color: #CCC;
+	@ui-select-padding: 0.5em 1em;
 
-    // Dropdown
-    @dropdown-border-radius: @ui-select-border-radius;
-    @dropdown-border-color: @ui-select-border-color;
-    @dropdown-padding: @ui-select-padding;
+	// Dropdown
+	@dropdown-border-radius: @ui-select-border-radius;
+	@dropdown-border-color: @ui-select-border-color;
+	@dropdown-padding: @ui-select-padding;
 
-    // Datepicker
-    @datepicker-border-radius: 3px;
-    @datepicker-color: @color-primary;
-    @calendar-icon-color: #CCC;
-    @calendar-icon-size: 1em;
+	// Datepicker
+	@datepicker-border-radius: 3px;
+	@datepicker-color: @color-primary;
+	@calendar-icon-color: #CCC;
+	@calendar-icon-size: 1em;
 
+	// Popover
+	@popover-min-width: 15em;
+	@popover-border-radius: 3px;
+	@popover-default-bg: #FFF;
+	@popover-default-color: @color;
+	@popover-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
+	@popover-border-color: rgba(0, 0, 0, 0.25);
+	@popover-padding: 1em;
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/plugins/angular-ui-bootstrap-reskin.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/plugins/angular-ui-bootstrap-reskin.overrides.less";
 
-    & when (@enabled = true) {
-        @import "plugins/angular-ui-bootstrap-reskin/plugin.less";
-    }
+	& when (@enabled = true) {
+		@import "plugins/angular-ui-bootstrap-reskin/plugin.less";
+	}
 }
 
 
@@ -500,33 +490,33 @@
  * Lucca App layout Plugin
  * --------------------------------------------------------------------------- */
 & {
-    @color-primary: #FFC900;
-    @color-primary-over: #666;
+	@color-primary: #FFC900;
+	@color-primary-over: #666;
 
-    // #App variables
-    @top-offset: 0;
-    @body-bg-color: #eee;
+	// #App variables
+	@top-offset: 0;
+	@body-bg-color: #eee;
 
-    // Main Navigation variables
-    @logo-font-size: 1.75em;
-    @navigation-bg: #344f5d;
-    @navigation-icon-size: 1.25em;
-    @navigation-width: 7rem;
-    @navigation-compact-item-height: 3.25rem;
-    @navigation-font-size: 0.9rem;
-    @navigation-font-weight: 600;
-    @updates-bullet-size: 5px;
+	// Main Navigation variables
+	@logo-font-size: 1.75em;
+	@navigation-bg: #344f5d;
+	@navigation-icon-size: 1.25em;
+	@navigation-width: 7rem;
+	@navigation-compact-item-height: 3.25rem;
+	@navigation-font-size: 0.9rem;
+	@navigation-font-weight: 600;
+	@updates-bullet-size: 5px;
 
-    // Main Header variables
-    @header-height: 5rem;
-    @header-bottom-margin: 2rem;
-    @header-bg: #FFF;
+	// Main Header variables
+	@header-height: 5rem;
+	@header-bottom-margin: 2rem;
+	@header-bg: #FFF;
 
 
-    @enabled: true;
-    @import (optional) "@{themeDir}@{theme}/plugins/lucca-app-layout.overrides.less";
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/plugins/lucca-app-layout.overrides.less";
 
-    & when (@enabled = true) {
-        @import "plugins/lucca-app-layout/plugin.less";
-    }
+	& when (@enabled = true) {
+		@import "plugins/lucca-app-layout/plugin.less";
+	}
 }

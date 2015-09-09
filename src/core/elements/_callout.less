@@ -4,96 +4,96 @@
  * --------------------------------------------------------------------------- */
 
 .lui.callout {
-    display: block;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
+	display: block;
+	overflow: hidden;
+	box-sizing: border-box;
+	position: relative;
 
-    margin: @v-margin @h-margin;
-    border: 1px solid @border-color;
-    background: @background;
-    padding: @v-padding @h-padding;
+	margin: @v-margin @h-margin;
+	border: 1px solid @border-color;
+	background: @background;
+	padding: @v-padding @h-padding;
 
-    // Content paragraphs
-    // =====
-    p:first-child {
-        margin-top: 0;
-    }
-    p:last-child {
-        margin-bottom: 0;
-    }
+	// Content paragraphs
+	// =====
+	p:first-child {
+		margin-top: 0;
+	}
+	p:last-child {
+		margin-bottom: 0;
+	}
 
-    // Header
-    // =====
-    > .header {
-        padding: 0 @h-padding 0.5em @h-padding;
-        margin: -@v-padding -@h-padding 0.5em -@h-padding;
-    }
+	// Header
+	// =====
+	> .header {
+		padding: 0 @h-padding 0.5em @h-padding;
+		margin: -@v-padding -@h-padding 0.5em -@h-padding;
+	}
 
 
-    // Footer
-    // =====
-    > .footer {
-        text-align: right;
-        margin: @v-padding -@h-padding -@v-padding -@h-padding;
-        padding: @v-padding @h-padding;
-        background: #F6F6F6;
-    }
+	// Footer
+	// =====
+	> .footer {
+		text-align: right;
+		margin: @v-padding -@h-padding -@v-padding -@h-padding;
+		padding: @v-padding @h-padding;
+		background: #F6F6F6;
+	}
 
-    // Hacking side border position
-    // ====
-    &:not(.filled) {
-        border-left: none;
+	// Hacking side border position
+	// ====
+	&:not(.filled) {
+		border-left: none;
 
-        &.up {
-            border-top-width: 0;
-            border-left: 1px solid @border-color;
-        }
-        &.down {
-            border-bottom-width: 0;
-            border-left: 1px solid @border-color;
-        }
-        &.right {
-            border-right-width: 0;
-            border-left: 1px solid @border-color;
-        }
-    }
+		&.up {
+			border-top-width: 0;
+			border-left: 1px solid @border-color;
+		}
+		&.down {
+			border-bottom-width: 0;
+			border-left: 1px solid @border-color;
+		}
+		&.right {
+			border-right-width: 0;
+			border-left: 1px solid @border-color;
+		}
+	}
 
-    // Handle border
-    // ====
-    &:after {
-        visibility: visible !important; // neutralise possible clearfix
-        position: absolute;
-        z-index: 2;
-        display: block;
-        content: "";
-    }
-    // Position - defaults to left
-    &:after {
-        top: 0; left: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-    &.up:after {
-        top: 0; left: 0;
-        width: 100%;
-        min-height: @border-width;
-    }
-    &.right:after {
-        top: 0; left: auto; right: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-    &.left:after {
-        top: 0; left: 0;
-        width: @border-width;
-        min-height: 100%;
-    }
-    &.down:after {
-        top: auto; bottom: 0; left: 0;
-        width: 100%;
-        min-height: @border-width;
-    }
+	// Handle border
+	// ====
+	&:after {
+		visibility: visible !important; // neutralise possible clearfix
+		position: absolute;
+		z-index: 2;
+		display: block;
+		content: "";
+	}
+	// Position - defaults to left
+	&:after {
+		top: 0; left: 0;
+		width: @border-width;
+		min-height: 100%;
+	}
+	&.up:after {
+		top: 0; left: 0;
+		width: 100%;
+		min-height: @border-width;
+	}
+	&.right:after {
+		top: 0; left: auto; right: 0;
+		width: @border-width;
+		min-height: 100%;
+	}
+	&.left:after {
+		top: 0; left: 0;
+		width: @border-width;
+		min-height: 100%;
+	}
+	&.down:after {
+		top: auto; bottom: 0; left: 0;
+		width: 100%;
+		min-height: @border-width;
+	}
 }
 
 /**
@@ -104,49 +104,49 @@
 // ====
 @coloring-ruleset: {
 
-    // Regular style
-    // =====
-    &:not(.filled) {
-        &:after {
-            background: @coloring-color;
-        }
-    }
+	// Regular style
+	// =====
+	&:not(.filled) {
+		&:after {
+			background: @coloring-color;
+		}
+	}
 
-    // Filled style
-    // =====
-    &.filled {
-        background-color: @coloring-color;
-        border-color: darken(@coloring-color, 5);
-        &, &:before, a, button {
-            color: @coloring-text;
-        }
+	// Filled style
+	// =====
+	&.filled {
+		background-color: @coloring-color;
+		border-color: darken(@coloring-color, 5);
+		&, &:before, a, button {
+			color: @coloring-text;
+		}
 
-        & when (@coloring-lightOnDark = true) {
-            text-shadow: 0 1px 1px darken(@coloring-color, 15);
-        }
+		& when (@coloring-lightOnDark = true) {
+			text-shadow: 0 1px 1px darken(@coloring-color, 15);
+		}
 
-        > .footer {
-            background-color: darken(@coloring-color, 3);
-        }
-    }
+		> .footer {
+			background-color: darken(@coloring-color, 3);
+		}
+	}
 };
 
 // Default coloring
 // =====
 .lui.callout {
-    // Default
-    @coloring-color: @default-coloring-color;
-    @coloring-text: @default-coloring-text;
-    @coloring-lightOnDark: false;
+	// Default
+	@coloring-color: @default-coloring-color;
+	@coloring-text: @default-coloring-text;
+	@coloring-lightOnDark: false;
 
-    @coloring-ruleset();
+	@coloring-ruleset();
 }
 
 // Custom coloring support
 // ====
 .lui.callout {
-    // Define ruleset to be used
-    .lui_supports_coloring(@coloring-ruleset);
+	// Define ruleset to be used
+	.lui_supports_coloring(@coloring-ruleset);
 }
 
 
@@ -155,9 +155,9 @@
  * --------------------------------------------------------------------------- */
 
 .lui.callout.filled {
-    &:after {
-        display: none;
-    }
+	&:after {
+		display: none;
+	}
 }
 
 
@@ -165,11 +165,11 @@
  * Callouts
  * --------------------------------------------------------------------------- */
 .lui.callouts {
-    > .lui.callout {
-        margin: 0;
+	> .lui.callout {
+		margin: 0;
 
-        &:not(.filled):not(:first-child) {
-            border-top: none;
-        }
-    }
+		&:not(.filled):not(:first-child) {
+			border-top: none;
+		}
+	}
 }

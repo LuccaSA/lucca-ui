@@ -7,46 +7,46 @@
 // Basic behavior
 // =====
 .lui.block {
-    border: @border;
-    padding: 1em;
+	border: @border;
+	padding: 1em;
 
-    > .header, .lui.header, > .footer, .lui.footer {
-        padding: 1em;
-    }
+	> .header, .lui.header, > .footer, .lui.footer {
+		padding: 1em;
+	}
 
-    > .header, .lui.header {
-        margin: -1em -1em 0 -1em;
-        border-bottom: @border;
-    }
-    > .footer, .lui.footer {
-        margin: 0 -1em -1em -1em;
-        border-top: @border;
-    }
+	> .header, .lui.header {
+		margin: -1em -1em 0 -1em;
+		border-bottom: @border;
+	}
+	> .footer, .lui.footer {
+		margin: 0 -1em -1em -1em;
+		border-top: @border;
+	}
 
-    // Alignments
-    // =====
-    &.align.right {
-        text-align: right;
-    }
-    &.align.center {
-        text-align: center;
-    }
+	// Alignments
+	// =====
+	&.align.right {
+		text-align: right;
+	}
+	&.align.center {
+		text-align: center;
+	}
 }
 
 .lui.block.inverted {
-    border-color: @border-inverted;
+	border-color: @border-inverted;
 
-    > .header, .lui.header, > .footer, .lui.footer {
-        border-color: @border-inverted;
-    }
+	> .header, .lui.header, > .footer, .lui.footer {
+		border-color: @border-inverted;
+	}
 }
 
 .lui.block.round {
-    border-radius: @border-radius;
-    > .header, .lui.header {
-        border-radius: @border-radius @border-radius 0 0;
-    }
-    > .footer, .lui.footer {
-        border-radius: 0 0 @border-radius @border-radius;
-    }
+	border-radius: @border-radius;
+	> .header, .lui.header {
+		border-radius: @border-radius @border-radius 0 0;
+	}
+	> .footer, .lui.footer {
+		border-radius: 0 0 @border-radius @border-radius;
+	}
 }

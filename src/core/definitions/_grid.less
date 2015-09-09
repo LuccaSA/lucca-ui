@@ -3,7 +3,7 @@
  * --------------------------------------------------------------------------- */
 
 body, html {
-    width: 100%; height: 100%;
+	width: 100%; height: 100%;
 }
 
 /**
@@ -11,14 +11,14 @@ body, html {
  * --------------------------------------------------------------------------- */
 
 .lui.container {
-    padding: 0;
-    width: @container-width;
+	padding: 0;
+	width: @container-width;
 
 }
 .lui.container .lui.column, {
-    float: left;
-    box-sizing: border-box;
-    width: 100%;
+	float: left;
+	box-sizing: border-box;
+	width: 100%;
 }
 
 // Bootstrap '.row' equivalent
@@ -48,33 +48,33 @@ body, html {
  * --------------------------------------------------------------------------- */
 
 .loop_breakpoints(@i) when (@i > 0) {
-    @breakpoint: extract(extract(@lui_breakpoints, @i), 1);
-    @breakAt: extract(extract(@lui_breakpoints, @i), 2);
-    @spacing: extract(extract(@lui_breakpoints, @i), 3);
+	@breakpoint: extract(extract(@lui_breakpoints, @i), 1);
+	@breakAt: extract(extract(@lui_breakpoints, @i), 2);
+	@spacing: extract(extract(@lui_breakpoints, @i), 3);
 
-    & when (@i = length(@lui_breakpoints)) {
-        // Container
-        .lui.container { margin: 0  @spacing; }
-        // Hide / Show
-        .@{breakpoint}-hide { display: none !important; }
-        .@{breakpoint}-show { display: block !important; }
+	& when (@i = length(@lui_breakpoints)) {
+		// Container
+		.lui.container { margin: 0  @spacing; }
+		// Hide / Show
+		.@{breakpoint}-hide { display: none !important; }
+		.@{breakpoint}-show { display: block !important; }
 
-        // This is the lowest value > mobile/smaller first
-        .lui_loop_columns(@columns, @breakpoint, @spacing);
-    }
-    & when not(@i = @lui_breakpoints) {
-        @media (min-width: @breakAt) {
-            // Container
-            .lui.container { margin: 0  @spacing; }
-            // Hide / Show
-            .@{breakpoint}-hide { display: none !important; }
-            .@{breakpoint}-show { display: block !important; }
+		// This is the lowest value > mobile/smaller first
+		.lui_loop_columns(@columns, @breakpoint, @spacing);
+	}
+	& when not(@i = @lui_breakpoints) {
+		@media (min-width: @breakAt) {
+			// Container
+			.lui.container { margin: 0  @spacing; }
+			// Hide / Show
+			.@{breakpoint}-hide { display: none !important; }
+			.@{breakpoint}-show { display: block !important; }
 
-            .lui_loop_columns(@columns, @breakpoint, @spacing);
-        }
-    }
+			.lui_loop_columns(@columns, @breakpoint, @spacing);
+		}
+	}
 
-    .loop_breakpoints((@i - 1));
+	.loop_breakpoints((@i - 1));
 }
 .loop_breakpoints(length(@lui_breakpoints));
 
@@ -84,15 +84,15 @@ body, html {
  * --------------------------------------------------------------------------- */
 
 .lui_loop_columns(@j, @breakpoint, @spacing) when (@j > -1) {
-    // Column
-    .lui.container .lui.column.@{breakpoint}-@{j} { width: @column * @j; }
-    // Offset
-    .lui.container .lui.column.@{breakpoint}-offset-@{j} { margin-left: @column * @j; }
-    // Reordering: Pulling
-    .lui.container .lui.column.@{breakpoint}-pull-@{j} { position: relative; left: -@column * @j; }
-    // Reordering: Pushing
-    .lui.container .lui.column.@{breakpoint}-push-@{j} { position: relative; left: @column * @j; }
+	// Column
+	.lui.container .lui.column.@{breakpoint}-@{j} { width: @column * @j; }
+	// Offset
+	.lui.container .lui.column.@{breakpoint}-offset-@{j} { margin-left: @column * @j; }
+	// Reordering: Pulling
+	.lui.container .lui.column.@{breakpoint}-pull-@{j} { position: relative; left: -@column * @j; }
+	// Reordering: Pushing
+	.lui.container .lui.column.@{breakpoint}-push-@{j} { position: relative; left: @column * @j; }
 
 
-    .lui_loop_columns((@j - 1), @breakpoint, @spacing);
+	.lui_loop_columns((@j - 1), @breakpoint, @spacing);
 }

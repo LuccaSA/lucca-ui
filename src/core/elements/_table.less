@@ -8,40 +8,40 @@
 	margin: 1em 0;
 	background-color: @bg;
 
-    > .thead .tr, > .tbody .tr,
-    > thead tr, > tbody tr {
-        display: table;
-        table-layout: fixed;
-        width: 100%;
-    }
+	> .thead .tr, > .tbody .tr,
+	> thead tr, > tbody tr {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
 
-    > .thead > .tr > .th, > .tbody > .tr > .td,
-    > thead > tr > th, > tbody > tr > td {
-        display: table-cell;
-        float: none;
-        text-align: left;
-        vertical-align: top;
-        padding: @padding;
-        border-top: @border;
-    }
+	> .thead > .tr > .th, > .tbody > .tr > .td,
+	> thead > tr > th, > tbody > tr > td {
+		display: table-cell;
+		float: none;
+		text-align: left;
+		vertical-align: top;
+		padding: @padding;
+		border-top: @border;
+	}
 
-    // thead
-    // ====
+	// thead
+	// ====
 	> .thead, > thead {
 		display: table-header-group;
 		padding: @padding;
 		border: @border;
 		border-bottom: none;
-    }
-    > .thead > .tr > .th, > thead > tr > th {
-        font-weight: 600;
-        padding-top: 1em;
-        padding-bottom: 1em;
-        vertical-align: middle;
-    }
+	}
+	> .thead > .tr > .th, > thead > tr > th {
+		font-weight: 600;
+		padding-top: 1em;
+		padding-bottom: 1em;
+		vertical-align: middle;
+	}
 
-    // tbody
-    // ====
+	// tbody
+	// ====
 	> .tbody, > tbody {
 		display: table-row-group;
 		border: @border;
@@ -49,8 +49,8 @@
 		background-color: @bg;
 	}
 
-    // Zebra table
-    // ====
+	// Zebra table
+	// ====
 	&.zebra {
 		> tbody > tr, .tbody > .tr {
 			border: none;
@@ -60,15 +60,15 @@
 		}
 	}
 
-    // Verticaly aligned
-    // ====
+	// Verticaly aligned
+	// ====
 	&.v-aligned {
 		vertical-align: middle;
 
 		> tbody > tr > td,
-        > .tbody > .tr > .td,
-        > thead > tr > th,
-        > .thead > .tr > .th {
+		> .tbody > .tr > .td,
+		> thead > tr > th,
+		> .thead > .tr > .th {
 			vertical-align: middle;
 			float: none;
 		}
@@ -88,19 +88,19 @@
 	> th:first-child,
 	> td:first-child {
 		display: table-cell;
-	    position: relative;
-	    box-sizing: border-box;
-	    &:after {
-	        visibility: visible !important; // Neutralises possible clearfix
-	        position: absolute;
-	        z-index: 2;
-	        display: block;
-	        content: "";
-	        top: 0px; bottom: -1px; left: -1px;
-	        width: 5px;
-	        background: @coloring-color;
-	        min-height: 100%;
-	    }
+		position: relative;
+		box-sizing: border-box;
+		&:after {
+			visibility: visible !important; // Neutralises possible clearfix
+			position: absolute;
+			z-index: 2;
+			display: block;
+			content: "";
+			top: 0px; bottom: -1px; left: -1px;
+			width: 5px;
+			background: @coloring-color;
+			min-height: 100%;
+		}
 	}
 };
 
