@@ -4,7 +4,7 @@
 	
 	angular.module('lui.directives', []);
 	angular.module('lui.filters', ['moment']);
-	angular.module('lui.services', ['cgNotify']);
+	angular.module('lui.services', []);
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference moment-picker.js
 	angular.module('lui.templates', ['lui.templates.momentpicker']);
@@ -195,11 +195,11 @@
 						scope.mins = momentValue.format('mm');
 					}
 				};
-				ngModelCtrl.setValue = function(newMomentValue){
+				ngModelCtrl.setValue = function(newMomentValue){ 
 					if(!newMomentValue){
 						ngModelCtrl.$setViewValue(undefined);
 					}else{
-						ngModelCtrl.$setViewValue(newMomentValue.format(format));
+						ngModelCtrl.$setViewValue(newMomentValue.format(format)); 
 					}
 				};
 			}else{
@@ -243,7 +243,7 @@
 				format:'=', // alows ng-model to be a string with the right format
 
 				// hacks
-				minOffset:'=', // to avoid having to say min=val1+val2 because it causes an other digest cycle, we give the offset and the
+				minOffset:'=', // to avoid having to say min=val1+val2 because it causes an other digest cycle, we give the offset and the 
 				maxOffset:'='
 			},
 			templateUrl:"lui/directives/luidMoment.html",
@@ -288,7 +288,7 @@
 			}
 
 			newValue.seconds(0);
-			// update
+			// update 
 			update(newValue);
 		};
 		var update = function(newValue){
@@ -313,10 +313,10 @@
 		// string value changed
 		$scope.changeHours = function(){
 			// if hours does not satisfy the pattern [0-9]{0,2}
-			if($scope.hours === undefined){
+			if($scope.hours === undefined){ 
 				$scope.ngModelCtrl.$setValidity('pattern', false);
 				return update(undefined);
-			}
+			} 
 			$scope.ngModelCtrl.$setValidity('pattern', true);
 
 			if($scope.hours === ""){
@@ -333,10 +333,10 @@
 			updateWithoutRender(getInputedTime());
 		};
 		$scope.changeMins = function(){
-			if($scope.mins === undefined){
+			if($scope.mins === undefined){ 
 				$scope.ngModelCtrl.$setValidity('pattern', false);
 				return update(undefined);
-			}
+			} 
 			$scope.ngModelCtrl.$setValidity('pattern', true);
 
 			updateWithoutRender(getInputedTime());
@@ -455,7 +455,7 @@
 			if(!$scope.min){ return undefined; } // min attr not specified
 			if(!!$scope.min.isValid && !!$scope.min.isValid()){ // check if min is a valid moment
 				min = moment($scope.min);
-			}else if(moment($scope.min,'YYYY-MM-DD HH:mm').isValid()){ // check if min is parsable by moment
+			}else if(moment($scope.min,'YYYY-MM-DD HH:mm').isValid()){ // check if min is parsable by moment 
 				min = moment($scope.min,'YYYY-MM-DD HH:mm');
 			}else if(moment($scope.min, 'HH:mm').isValid()){ // check if min is leke '23:15'
 				var refDate = getRefDate();
@@ -471,7 +471,7 @@
 			if(!$scope.max){ return undefined; } // max attr not specified
 			if(!!$scope.max.isValid && !!$scope.max.isValid()){ // check if max is a valid moment
 				max = moment($scope.max);
-			}else if(moment($scope.max,'YYYY-MM-DD HH:mm').isValid()){ // check if max is parsable by moment
+			}else if(moment($scope.max,'YYYY-MM-DD HH:mm').isValid()){ // check if max is parsable by moment 
 				max = moment($scope.max,'YYYY-MM-DD HH:mm');
 			}else if(moment($scope.max, 'HH:mm').isValid()){ // check if max is leke '23:15'
 				var refDate = getRefDate();
@@ -572,7 +572,7 @@
 	}]);
 	angular.module("lui.templates.momentpicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
-			"<div class='luid-moment' ng-class='{disabled:disabled}'>" +
+			"<div class='luid-moment' ng-class='{disabled:disabled}'>" + 
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours'   ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxlength=2>:" +
 			// This indentation issue is normal and needed
 			"	<input type='text' ng-model='mins'  ng-change='changeMins()'  luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()'  ng-blur='blurMins()'  ng-disabled='disabled' maxlength=2>" +
@@ -810,39 +810,5 @@
 				}
 			});
 		};
-	}]);
-})();
-;(function(){
-	'use strict';
-	angular.module('lui.services')
-	.service('luisNotify', ['$log', 'notify', function($log, notify){
-		var errorTemplate = 
-			"<div class=\"lui callout filled\" ng-click=\"$close()\" " + 
-			"style=\"width:25em;z-index:999\"" + 
-			"ng-class=\"[$classes, " + 
-			"$position === 'center' ? 'cg-notify-message-center' : '', " +
-			"$position === 'left' ? 'cg-notify-message-left' : '', " + 
-			"$position === 'right' ? 'cg-notify-message-right' : '']\" " +
-			"ng-style=\"{'margin-left': $centerMargin}\"> " + 
-			"	<h5>{{\"ERROR\" | translate}}</h5>" + 
-			"	<div ng-show=\"!$messageTemplate\">" + 
-			"	{{$message|translate}}" +
-			"	</div>" + 
-			"</div>";
-
-		var service = {};
-		service.error = function(error, position){
-			$log.error(error);
-			notify({
-				startTop: 40, // to not get above the banner
-				duration: 20000,
-				template: errorTemplate,
-				position: position || 'center',
-				message:'ERR_' + error.cause,
-				classes:['red']
-			});
-		};
-
-		return service;
 	}]);
 })();
