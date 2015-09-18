@@ -31,11 +31,11 @@
 	}
 }
 .lui.menu.bordered:not(.vertical) {
-	> .item {
+	> .item, > .menu {
 		border-right: @border-width solid @border-color;
 		.flex-align-self(stretch);
 	}
-	&.inverted .item {
+	&.inverted > .item, &.inverted > .menu {
 		border-right: @border-width solid @border-color-inverted;
 	}
 	.item:last-child {
@@ -43,10 +43,10 @@
 	}
 }
 .lui.menu.vertical.bordered {
-	.item {
+	> .item, > .menu {
 		border-bottom: @border-width solid @border-color;
 	}
-	&.inverted .item {
+	&.inverted > .item, &.inverted > .menu {
 		border-bottom: @border-width solid @border-color-inverted;
 	}
 	.item:last-child {
@@ -138,6 +138,14 @@
 	 padding: @vertical-item-y-padding @vertical-item-x-padding;
 	 margin: @vertical-item-y-margin @vertical-item-x-margin;
 }
+
+// Centered item
+.lui.menu > .centered.item,
+.lui.menu > .centered.menu {
+	margin-left: auto; margin-right: auto;
+	text-align: center;
+}
+
 
 // Element support
 // ====
