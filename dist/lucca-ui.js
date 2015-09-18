@@ -11,169 +11,30 @@
 
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates']);
 })();
-;(function () {
-	'use strict';
-
-	var formatMoment = function (_moment, _format) { //expects a moment
-		var m = moment(_moment);
-		if (m.isValid()) {
-			return m.format(_format);
-		} else {
-			return _moment;
-		}
-	};
-
-	angular.module('lui.filters')
-	.filter('luifFriendlyRange', function () {
-		var traductions = {
-			'en': {
-				sameDay: 'start(LL)',
-				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
-				sameYear: 'start(MMMM Do) - end(LL)',
-				other: 'start(LL) - end(LL)'
-			},
-			'fr': {
-				sameDay: 'le start(LL)',
-				sameMonth: 'du start(Do) au end(LL)',
-				sameYear: 'du start(Do MMMM) au end(LL)',
-				other: 'du start(LL) au end(LL)'
-			}
-		};
-		var currentYearTraductions = {
-			'en': {
-				sameDay: 'start(MMMM Do)',
-				sameMonth: 'start(MMMM Do) - end(Do)',
-				sameYear: 'start(MMMM Do) - end(MMMM Do)',
-				other: 'start(LL) - end(LL)'
-			},
-			'fr': {
-				sameDay: 'le start(Do MMMM)',
-				sameMonth: 'du start(Do) au end(Do MMMM)',
-				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
-				other: 'du start(LL) au end(LL)'
-			}
-		};
-		return function (_block, _excludeEnd) {
-			if(!_block){ return; }
-			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
-			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
-			if(_excludeEnd){
-				end.add(-1,'d');
-			}
-			var trads = traductions[moment.locale()] || traductions.en;
-			if(moment().year() === start.year() && moment().year() === end.year()){
-				trads = currentYearTraductions[moment.locale()] || currentYearTraductions.en;
-			}
-			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
-			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
-		};
-	})
-	.filter('luifMoment', function () {
-		return function (_moment, _format) {
-			if (!_format) { _format = 'LLL'; } // default format
-			return formatMoment(_moment, _format);
-		};
-	})
-	.filter('luifCalendar', function () {
-		return function (_moment, _refDate) {
-			var m = moment(_moment);
-			var refDate = (_refDate && moment(_refDate).isValid()) ? moment(_refDate) : moment();
-
-			if (m.isValid()) {
-				return m.calendar(_refDate);
-			} else {
-				return _moment;
-			}
-		};
-	})
-	.filter('luifDuration', function () {
-		return function (_duration, _format, _sign) {  //expects a duration, returns the duration in the given format or a sensible one
-			var d = moment.duration(_duration);
-			var hours = Math.floor(d.asHours()); 
-			var minutes = d.minutes();
-			var prefix = '';
-			if (_sign) {
-				if (d.asMilliseconds() > 0) {
-					prefix = '+';
-				} else if (d.asMilliseconds() < 0) {
-					prefix = '-';
-				}
-			}
-			if (!_format) { // if no format is provided, it will try to display "30min" or "3h" or "3h30"
-				if (hours && minutes) {
-					return prefix + Math.abs(hours) + 'h' + formatMoment(moment(minutes, 'm'), 'mm');
-				} else if (minutes) {
-					return prefix + Math.abs(minutes) + 'm';
-				} else if (hours) {
-					return prefix + Math.abs(hours) + 'h';
-				} else { return ''; } // 00:00 -> should not be displayed
-			}
-			return prefix + formatMoment(moment(hours + ':' + minutes + ':00', 'H:mm:ss'), _format);
-		};
-	})
-	.filter('luifHumanize', function () {
-		return function (_duration, suffix, pastEvent) {
-			suffix = !!suffix;
-			pastEvent = !!pastEvent;
-			var d = moment.duration(_duration);
-			if (pastEvent) { d = moment.duration(-d.asMilliseconds()); }
-			return d.humanize(suffix);
-		};
-	});
-})();
 ;(function(){
 	'use strict';
-	function replaceAll(string, find, replace) {
-		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
-		// lets not reinvent the wheel
-		if(!string){ return ''; }
-		function escapeRegExp(string) {
-			return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-		}
-		return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-	}
-	angular.module('lui.filters')
-	.filter('luifPlaceholder', function () {
-		return function (_input, _placeholder) {
-			return !!_input ? _input : _placeholder;
-		};
-	})
-	.filter('luifDefaultCode', function () {
-		// uppercased and with '_' instead of ' '
-		return function (input) {
-			return replaceAll(input, ' ', '_').toUpperCase();
-		};
-	})
-	.filter('luifStartFrom', function () {
-		//pagination filter
-		return function (input, start) {
-			start = +start; //parse to int
-			return input.slice(start);
+	angular.module('lui.directives')
+	.directive('luidSelectOnClick', function () {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					this.select();
+				});
+				element.on('focus', function () {
+					this.select();
+				});
+			}
 		};
 	});
-})();;(function () {
-	'use strict';
-
-	angular.module('lui.directives').directive('luidUserSelect', [function () {
-		return {
-			require: '^ngModel',
-			scope: {
-				users: '=', // users must have at least those fields : id, displayname
-				placeholder: '@',
-				onSelect:'&',
-				onRemove:'&'
-			},
-			restrict: 'E',
-			template:
-			'<ui-select theme="bootstrap" on-select="onSelect()" on-remove="onRemove()">' + 
-			'	<ui-select-match placeholder="{{placeholder}}">{{$select.selected.displayName}}</ui-select-match>' + 
-			'	<ui-select-choices repeat="user in users | filter: $select.search">' + 
-			'		<div ng-bind-html="user.displayName"></div>' + 
-			'	</ui-select-choices>' + 
-			'</ui-select>'
+	angular.module('lui.directives')
+	.directive('luidFocusOn', function() {
+		return function(scope, elem, attr) {
+			scope.$on(attr.luidFocusOn, function(e) {
+				elem[0].focus();
+			});
 		};
-	}]);
+	});
 })();
 ;(function(){
 	'use strict';
@@ -789,4 +650,168 @@
 			});
 		};
 	}]);
+})();
+;(function () {
+	'use strict';
+
+	angular.module('lui.directives').directive('luidUserSelect', [function () {
+		return {
+			require: '^ngModel',
+			scope: {
+				users: '=', // users must have at least those fields : id, displayname
+				placeholder: '@',
+				onSelect:'&',
+				onRemove:'&'
+			},
+			restrict: 'E',
+			template:
+			'<ui-select theme="bootstrap" on-select="onSelect()" on-remove="onRemove()">' + 
+			'	<ui-select-match placeholder="{{placeholder}}">{{$select.selected.displayName}}</ui-select-match>' + 
+			'	<ui-select-choices repeat="user in users | filter: $select.search">' + 
+			'		<div ng-bind-html="user.displayName"></div>' + 
+			'	</ui-select-choices>' + 
+			'</ui-select>'
+		};
+	}]);
+})();
+;(function(){
+	'use strict';
+	function replaceAll(string, find, replace) {
+		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+		// lets not reinvent the wheel
+		if(!string){ return ''; }
+		function escapeRegExp(string) {
+			return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+		}
+		return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+	}
+	angular.module('lui.filters')
+	.filter('luifPlaceholder', function () {
+		return function (_input, _placeholder) {
+			return !!_input ? _input : _placeholder;
+		};
+	})
+	.filter('luifDefaultCode', function () {
+		// uppercased and with '_' instead of ' '
+		return function (input) {
+			return replaceAll(input, ' ', '_').toUpperCase();
+		};
+	})
+	.filter('luifStartFrom', function () {
+		//pagination filter
+		return function (input, start) {
+			start = +start; //parse to int
+			return input.slice(start);
+		};
+	});
+})();;(function () {
+	'use strict';
+
+	var formatMoment = function (_moment, _format) { //expects a moment
+		var m = moment(_moment);
+		if (m.isValid()) {
+			return m.format(_format);
+		} else {
+			return _moment;
+		}
+	};
+
+	angular.module('lui.filters')
+	.filter('luifFriendlyRange', function () {
+		var traductions = {
+			'en': {
+				sameDay: 'start(LL)',
+				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
+				sameYear: 'start(MMMM Do) - end(LL)',
+				other: 'start(LL) - end(LL)'
+			},
+			'fr': {
+				sameDay: 'le start(LL)',
+				sameMonth: 'du start(Do) au end(LL)',
+				sameYear: 'du start(Do MMMM) au end(LL)',
+				other: 'du start(LL) au end(LL)'
+			}
+		};
+		var currentYearTraductions = {
+			'en': {
+				sameDay: 'start(MMMM Do)',
+				sameMonth: 'start(MMMM Do) - end(Do)',
+				sameYear: 'start(MMMM Do) - end(MMMM Do)',
+				other: 'start(LL) - end(LL)'
+			},
+			'fr': {
+				sameDay: 'le start(Do MMMM)',
+				sameMonth: 'du start(Do) au end(Do MMMM)',
+				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
+				other: 'du start(LL) au end(LL)'
+			}
+		};
+		return function (_block, _excludeEnd) {
+			if(!_block){ return; }
+			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
+			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
+			if(_excludeEnd){
+				end.add(-1,'d');
+			}
+			var trads = traductions[moment.locale()] || traductions.en;
+			if(moment().year() === start.year() && moment().year() === end.year()){
+				trads = currentYearTraductions[moment.locale()] || currentYearTraductions.en;
+			}
+			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
+			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
+			return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+		};
+	})
+	.filter('luifMoment', function () {
+		return function (_moment, _format) {
+			if (!_format) { _format = 'LLL'; } // default format
+			return formatMoment(_moment, _format);
+		};
+	})
+	.filter('luifCalendar', function () {
+		return function (_moment, _refDate) {
+			var m = moment(_moment);
+			var refDate = (_refDate && moment(_refDate).isValid()) ? moment(_refDate) : moment();
+
+			if (m.isValid()) {
+				return m.calendar(_refDate);
+			} else {
+				return _moment;
+			}
+		};
+	})
+	.filter('luifDuration', function () {
+		return function (_duration, _format, _sign) {  //expects a duration, returns the duration in the given format or a sensible one
+			var d = moment.duration(_duration);
+			var hours = Math.floor(d.asHours()); 
+			var minutes = d.minutes();
+			var prefix = '';
+			if (_sign) {
+				if (d.asMilliseconds() > 0) {
+					prefix = '+';
+				} else if (d.asMilliseconds() < 0) {
+					prefix = '-';
+				}
+			}
+			if (!_format) { // if no format is provided, it will try to display "30min" or "3h" or "3h30"
+				if (hours && minutes) {
+					return prefix + Math.abs(hours) + 'h' + formatMoment(moment(minutes, 'm'), 'mm');
+				} else if (minutes) {
+					return prefix + Math.abs(minutes) + 'm';
+				} else if (hours) {
+					return prefix + Math.abs(hours) + 'h';
+				} else { return ''; } // 00:00 -> should not be displayed
+			}
+			return prefix + formatMoment(moment(hours + ':' + minutes + ':00', 'H:mm:ss'), _format);
+		};
+	})
+	.filter('luifHumanize', function () {
+		return function (_duration, suffix, pastEvent) {
+			suffix = !!suffix;
+			pastEvent = !!pastEvent;
+			var d = moment.duration(_duration);
+			if (pastEvent) { d = moment.duration(-d.asMilliseconds()); }
+			return d.humanize(suffix);
+		};
+	});
 })();
