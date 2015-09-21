@@ -17,7 +17,7 @@
 	angular.module('lui.directives')
 	.directive('luidFocusOn', function() {
 		return function(scope, elem, attr) {
-			scope.$on(attr.focusOn, function(e) {
+			scope.$on(attr.luidFocusOn, function(e) {
 				elem[0].focus();
 			});
 		};
