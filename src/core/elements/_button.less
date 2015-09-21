@@ -147,6 +147,12 @@
 	&.icon {
 		text-decoration: none;
 	}
+
+	&.has-addon,
+	&.has-addons {
+		> .addon { border-right: none !important; background-color: transparent; }
+		&:not(.right) { padding-left: 2.5em; }
+	}
 }
 
 
