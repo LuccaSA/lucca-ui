@@ -53,7 +53,6 @@
 		return{
 			require:['luidMoment','^ngModel'],
 			controller:'luidMomentController',
-			replace:true,
 			scope: {
 				min:'=', // a moment or a str to specify the min for this input
 				max:'=', // idem for max
