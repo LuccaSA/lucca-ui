@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="../dist/lucca-ui.min.js"></script>
+	<script src="js/filters.js"></script>
+</head>
+<body ng-app="filterApp">
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="./">less framework</a>
+		<a class="item active" href="./">lui filters</a>
+		<a class="item" href="./">lui directives</a>
+		<div class="lui vertical dashed divider"></div>
+		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
+		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
+		<a class="item" href="#luifStartFrom">luifStartFrom</a>
+		<a class="item" href="#luifMoment">luifMoment</a>
+
+	</nav>
+
+
+<section id="main-content" class="lui container">
+	<h1 class="lui column desktop-8">Lucca UI</h1>
+	<div class="lui column desktop-4">
+		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</div>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+
+	<div class="lui callout warning">
+		<p>
+			<b>Important:</b>
+			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
+		</p>
+		<p>
+			The exact list of dependencies which can be found in the bower.json file is:
+			<ul class="lui unstyled">
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span></li>
+			</ul>
+		</p>
+		<p>
+			None of the filters displayed here use angular-bootstrap
+		</p>
+	</div>
+
+	<article id="luifPlaceholder">
+		<h2 class="lui divider below">luifPlaceholder</h2>
+
+		<p>
+			A basic filter that display a placeholder if the value is <code>undefined</code> or <code>""</code>
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifPlaceholder:"a fixed placeholder" }}
+{{ myValue | luifPlaceholder: aVarInScope }}</pre>
+		</p>
+		<div ng-controller="placeholderCtrl" class="lui block round">
+			<p>
+				myValue: 
+				<div class="lui input has-addon right">
+					<input type="text" ng-model="myValue">
+					<i class="lui cross icon addon" ng-click="myValue='';"></i>
+				</div>
+			</p>
+			<p>
+				dynamic placeholder: 
+				<div class="lui input">
+					<input type="text" ng-model="myPlaceholder">
+				</div>
+			</p>
+			<p>
+				myValue: <code>{{myValue}}</code>
+			</p>
+			<p>
+				with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
+			</p>
+			<p>
+				with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
+			</p>
+		</div>
+	</article>
+
+	<article id="luifDefaultCode">
+		<h2 class="lui divider below">luifDefaultCode</h2>
+
+		<p>
+			A basic filter that capitalizes and replace spaces by _
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifDefalutCode }}</pre>
+		</p>
+		<div ng-controller="defaultcodeCtrl" class="lui block round">
+			<p>
+				value: 
+				<div class="lui long input">
+					<input type="text" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				myValue: <code>{{myValue}}</code>
+			</p>
+			<p>
+				with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
+			</p>
+		</div>
+	</article>
+
+	<article id="luifStartFrom">
+		<h2 class="lui divider below">luifStartFrom</h2>
+
+		<p>
+			A filter for ng-repeat if you want to start from a certain index and don't wat to use <code>ng-if="$index >= myIndex"</code>
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
+&lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;</pre>
+		</p>
+		<div ng-controller="startfromCtrl" class="lui block round">
+			<p>
+				myIndex: 
+				<div class="lui input">
+					<input type="number" ng-model="myIndex">
+				</div>
+			</p>
+			<p>
+				all the values <code>ng-repeat="val in values"</code>
+				<ul class="lui unstyled">
+					<li ng-repeat="val in values">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+				</ul>
+			</p>
+			<p>
+				all the values starting from <code>myIndex</code> <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
+				<ul class="lui unstyled">
+					<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+				</ul>
+			</p>
+		</div>
+	</article>
+
+	<article id="luifMoment">
+		<h2 class="lui divider below">luifMoment</h2>
+
+		<p>
+			A filter to display a date, a moment or a string using the formats provided by <a href="http://momentjs.com/docs/#/displaying/format/">momentjs</a>
+		</p>
+		<p>
+			Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+		</p>
+		<p>
+			if none is provided, will use the format <code>LLL</code>
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
+{{myValue | luifMoment : myFormat }}</pre>
+		</p>
+		<div ng-controller="momentCtrl" class="lui block round">
+			<p>
+				myValue: (enter '2015-01-01' or such like, or try something that is not parsable by moment)
+				<div class="lui long input">
+					<input type="text" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				set myValue to 
+				<div class="lui button" ng-click="setToDate()">new Date()</div>
+				<div class="lui button" ng-click="setToMoment()">moment().startOf('week')</div>
+			</p>
+			<p>
+				myFormat: 
+				<div class="lui long input">
+					<input type="text" ng-model="myFormat">
+				</div>
+			</p>
+			<p>
+				myValue formatted: {{ myValue | luifMoment : myFormat }}
+			</p>
+
+		</div>
+	</article>
+
+</section>
+</body>
+</html>
