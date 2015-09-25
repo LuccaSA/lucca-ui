@@ -12,12 +12,16 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
 
-	<script type="text/javascript" src="demo.js"></script>
+	<script type="text/javascript" src="js/demo.js"></script>
 
 </head>
 <body ng-app="demoApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item active" href="./index.html">less framework</a>
+		<a class="item" href="./filters.html">lui filters</a>
+		<!-- <a class="item" href="./directives.html">lui directives</a> -->
+		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#lui-grid">The grid</a>
 		<a class="item" href="#lui-typography">Typography</a>
 		<a class="item" href="#lui-button">Button</a>
@@ -327,720 +331,365 @@
 		</div>
 		<ul class="icon-list lucca-input-group">
 			<li>
-	          <i class="lui icon pin"></i>
-	          <input type="text" readonly="readonly" value="pin">
-	        </li>
-	        <li>
-	          <i class="lui icon plus"></i>
-	          <input type="text" readonly="readonly" value="plus">
-	        </li>
-	        <li>
-	          <i class="lui icon analytics"></i>
-	          <input type="text" readonly="readonly" value="analytics">
-	        </li>
-	        <li>
-	          <i class="lui icon chevron east"></i>
-	          <input type="text" readonly="readonly" value="chevron east">
-	        </li>
-	        <li>
-	          <i class="lui icon chevron north"></i>
-	          <input type="text" readonly="readonly" value="chevron north">
-	        </li>
-	        <li>
-	          <i class="lui icon chevron south"></i>
-	          <input type="text" readonly="readonly" value="chevron south">
-	        </li>
-	        <li>
-	          <i class="lui icon chevron west"></i>
-	          <input type="text" readonly="readonly" value="chevron west">
-	        </li>
-	        <li>
-	          <i class="lui icon attachment"></i>
-	          <input type="text" readonly="readonly" value="attachment">
-	        </li>
-	        <li>
-	          <i class="lui icon blocks"></i>
-	          <input type="text" readonly="readonly" value="blocks">
-	        </li>
-	        <li>
-	          <i class="lui icon branch"></i>
-	          <input type="text" readonly="readonly" value="branch">
-	        </li>
-	        <li>
-	          <i class="lui icon coffee"></i>
-	          <input type="text" readonly="readonly" value="coffee">
-	        </li>
-	        <li>
-	          <i class="lui icon check"></i>
-	          <input type="text" readonly="readonly" value="check">
-	        </li>
-	        <li>
-	          <i class="lui icon checkbox"></i>
-	          <input type="text" readonly="readonly" value="checkbox">
-	        </li>
-	        <li>
-	          <i class="lui icon checkbox checked"></i>
-	          <input type="text" readonly="readonly" value="checkbox checked">
-	        </li>
-	        <li>
-	          <i class="lui icon clock"></i>
-	          <input type="text" readonly="readonly" value="clock">
-	        </li>
-	        <li>
-	          <i class="lui icon cross"></i>
-	          <input type="text" readonly="readonly" value="cross">
-	        </li>
-	        <li>
-	          <i class="lui icon calendar"></i>
-	          <input type="text" readonly="readonly" value="calendar">
-	        </li>
-	        <li>
-	          <i class="lui icon download"></i>
-	          <input type="text" readonly="readonly" value="download">
-	        </li>
-	        <li>
-	          <i class="lui icon edit"></i>
-	          <input type="text" readonly="readonly" value="edit">
-	        </li>
-	        <li>
-	          <i class="lui icon edit frame"></i>
-	          <input type="text" readonly="readonly" value="edit frame">
-	        </li>
-	        <li>
-	          <i class="lui icon edit mini"></i>
-	          <input type="text" readonly="readonly" value="edit mini">
-	        </li>
-	        <li>
-	          <i class="lui icon ellipsis"></i>
-	          <input type="text" readonly="readonly" value="ellipsis">
-	        </li>
-	        <li>
-	          <i class="lui icon error"></i>
-	          <input type="text" readonly="readonly" value="error">
-	        </li>
-	        <li>
-	          <i class="lui icon files"></i>
-	          <input type="text" readonly="readonly" value="files">
-	        </li>
-	        <li>
-	          <i class="lui icon filter"></i>
-	          <input type="text" readonly="readonly" value="filter">
-	        </li>
-	        <li>
-	          <i class="lui icon email"></i>
-	          <input type="text" readonly="readonly" value="email">
-	        </li>
-	        <li>
-	          <i class="lui icon add user"></i>
-	          <input type="text" readonly="readonly" value="add user">
-	        </li>
-	        <li>
-	          <i class="lui icon help"></i>
-	          <input type="text" readonly="readonly" value="help">
-	        </li>
-	        <li>
-	          <i class="lui icon list"></i>
-	          <input type="text" readonly="readonly" value="list">
-	        </li>
-	        <li>
-	          <i class="lui icon lock"></i>
-	          <input type="text" readonly="readonly" value="lock">
-	        </li>
-	        <li>
-	          <i class="lui icon forbidden"></i>
-	          <input type="text" readonly="readonly" value="forbidden">
-	        </li>
-	        <li>
-	          <i class="lui icon minus"></i>
-	          <input type="text" readonly="readonly" value="minus">
-	        </li>
-	        <li>
-	          <i class="lui icon move"></i>
-	          <input type="text" readonly="readonly" value="move">
-	        </li>
-	        <li>
-	          <i class="lui icon move h"></i>
-	          <input type="text" readonly="readonly" value="move h">
-	        </li>
-	        <li>
-	          <i class="lui icon move v"></i>
-	          <input type="text" readonly="readonly" value="move v">
-	        </li>
-	        <li>
-	          <i class="lui icon notification"></i>
-	          <input type="text" readonly="readonly" value="notification">
-	        </li>
-	        <li>
-	          <i class="lui icon outside"></i>
-	          <input type="text" readonly="readonly" value="outside">
-	        </li>
-	        <li>
-	          <i class="lui icon camera"></i>
-	          <input type="text" readonly="readonly" value="camera">
-	        </li>
-	        <li>
-	          <i class="lui icon printer"></i>
-	          <input type="text" readonly="readonly" value="printer">
-	        </li>
-	        <li>
-	          <i class="lui icon refresh"></i>
-	          <input type="text" readonly="readonly" value="refresh">
-	        </li>
-	        <li>
-	          <i class="lui icon remove user"></i>
-	          <input type="text" readonly="readonly" value="remove user">
-	        </li>
-	        <li>
-	          <i class="lui icon drag"></i>
-	          <input type="text" readonly="readonly" value="drag">
-	        </li>
-	        <li>
-	          <i class="lui icon search"></i>
-	          <input type="text" readonly="readonly" value="search">
-	        </li>
-	        <li>
-	          <i class="lui icon send"></i>
-	          <input type="text" readonly="readonly" value="send">
-	        </li>
-	        <li>
-	          <i class="lui icon to user"></i>
-	          <input type="text" readonly="readonly" value="send to user">
-	        </li>
-	        <li>
-	          <i class="lui icon settings"></i>
-	          <input type="text" readonly="readonly" value="settings">
-	        </li>
-	        <li>
-	          <i class="lui icon comment"></i>
-	          <input type="text" readonly="readonly" value="comment">
-	        </li>
-	        <li>
-	          <i class="lui icon timer"></i>
-	          <input type="text" readonly="readonly" value="timer">
-	        </li>
-	        <li>
-	          <i class="lui icon trash"></i>
-	          <input type="text" readonly="readonly" value="trash">
-	        </li>
-	        <li>
-	          <i class="lui icon unlock"></i>
-	          <input type="text" readonly="readonly" value="unlock">
-	        </li>
-	        <li>
-	          <i class="lui icon upload"></i>
-	          <input type="text" readonly="readonly" value="upload">
-	        </li>
-	        <li>
-	          <i class="lui icon user"></i>
-	          <input type="text" readonly="readonly" value="user">
-	        </li>
-	        <li>
-	          <i class="lui icon warning"></i>
-	          <input type="text" readonly="readonly" value="warning">
-	        </li>
-	        <li>
-	          <i class="lui icon bank card"></i>
-	          <input type="text" readonly="readonly" value="bank card">
-	        </li>
-	        <li>
-	          <i class="lui icon bookmark"></i>
-	          <input type="text" readonly="readonly" value="bookmark">
-	        </li>
-	        <li>
-	          <i class="lui icon coins"></i>
-	          <input type="text" readonly="readonly" value="coins">
-	        </li>
-	        <li>
-	          <i class="lui icon milestone"></i>
-	          <input type="text" readonly="readonly" value="milestone">
-	        </li>
-	        <li>
-	          <i class="lui icon quantity"></i>
-	          <input type="text" readonly="readonly" value="quantity">
-	        </li>
-	        <li>
-	          <i class="lui icon luggage"></i>
-	          <input type="text" readonly="readonly" value="luggage">
-	        </li>
-	        <li>
-	          <i class="lui icon train"></i>
-	          <input type="text" readonly="readonly" value="train">
-	        </li>
-	        <li>
-	          <i class="lui icon tools"></i>
-	          <input type="text" readonly="readonly" value="tools">
-	        </li>
-	        <li>
-	          <i class="lui icon toll dollar"></i>
-	          <input type="text" readonly="readonly" value="toll dollar">
-	        </li>
-	        <li>
-	          <i class="lui icon toll euro"></i>
-	          <input type="text" readonly="readonly" value="toll euro">
-	        </li>
-	        <li>
-	          <i class="lui icon taxi"></i>
-	          <input type="text" readonly="readonly" value="taxi">
-	        </li>
-	        <li>
-	          <i class="lui icon clean car"></i>
-	          <input type="text" readonly="readonly" value="clean car">
-	        </li>
-	        <li>
-	          <i class="lui icon car"></i>
-	          <input type="text" readonly="readonly" value="car">
-	        </li>
-	        <li>
-	          <i class="lui icon postage"></i>
-	          <input type="text" readonly="readonly" value="postage">
-	        </li>
-	        <li>
-	          <i class="lui icon iron"></i>
-	          <input type="text" readonly="readonly" value="iron">
-	        </li>
-	        <li>
-	          <i class="lui icon plane"></i>
-	          <input type="text" readonly="readonly" value="plane">
-	        </li>
-	        <li>
-	          <i class="lui icon piggy bank"></i>
-	          <input type="text" readonly="readonly" value="piggy bank">
-	        </li>
-	        <li>
-	          <i class="lui icon phone"></i>
-	          <input type="text" readonly="readonly" value="phone">
-	        </li>
-	        <li>
-	          <i class="lui icon parking"></i>
-	          <input type="text" readonly="readonly" value="parking">
-	        </li>
-	        <li>
-	          <i class="lui computer mouse icon"></i>
-	          <input type="text" readonly="readonly" value="computer mouse">
-	        </li>
-	        <li>
-	          <i class="lui icon subway"></i>
-	          <input type="text" readonly="readonly" value="subway">
-	        </li>
-	        <li>
-	          <i class="lui icon meal"></i>
-	          <input type="text" readonly="readonly" value="meal">
-	        </li>
-	        <li>
-	          <i class="lui icon lunch"></i>
-	          <input type="text" readonly="readonly" value="lunch">
-	        </li>
-	        <li>
-	          <i class="lui icon mileage"></i>
-	          <input type="text" readonly="readonly" value="mileage">
-	        </li>
-	        <li>
-	          <i class="lui icon hotel"></i>
-	          <input type="text" readonly="readonly" value="hotel">
-	        </li>
-	        <li>
-	          <i class="lui icon gasoline"></i>
-	          <input type="text" readonly="readonly" value="gasoline">
-	        </li>
-	        <li>
-	          <i class="lui icon euro"></i>
-	          <input type="text" readonly="readonly" value="euro">
-	        </li>
-	        <li>
-	          <i class="lui icon drink"></i>
-	          <input type="text" readonly="readonly" value="drink">
-	        </li>
-	        <li>
-	          <i class="lui icon diner"></i>
-	          <input type="text" readonly="readonly" value="diner">
-	        </li>
-	        <li>
-	          <i class="lui icon dollar"></i>
-	          <input type="text" readonly="readonly" value="dollar">
-	        </li>
-	        <li>
-	          <i class="lui icon computer"></i>
-	          <input type="text" readonly="readonly" value="computer">
-	        </li>
-	        <li>
-	          <i class="lui icon bus"></i>
-	          <input type="text" readonly="readonly" value="bus">
-	        </li>
-	        <li>
-	          <i class="lui icon breakfast"></i>
-	          <input type="text" readonly="readonly" value="breakfast">
-	        </li>
+				<i class="lui icon pin"></i>
+				<input type="text" readonly="readonly" value="pin">
+			</li>
 			<li>
-	          <i class="lui icon arrow west"></i>
-	          <input type="text" readonly="readonly" value="arrow west">
-	        </li>
-	        <li>
-	          <i class="lui icon arrow east"></i>
-	          <input type="text" readonly="readonly" value="arrow east">
-	        </li>
+				<i class="lui icon plus"></i>
+				<input type="text" readonly="readonly" value="plus">
+			</li>
 			<li>
-	          <i class="lui icon arrow north"></i>
-	          <input type="text" readonly="readonly" value="arrow north">
-	        </li>
-	        <li>
-	          <i class="lui icon arrow south"></i>
-	          <input type="text" readonly="readonly" value="arrow south">
-	        </li>
-	      </ul>
-	      <h2>Character mapping</h2>
-	      <ul class="glyphs character mapping">
-	        <li>
-	          <i data icon="&#xe000;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe000;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe001;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe001;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe002;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe002;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe003;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe003;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe004;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe004;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe005;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe005;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe006;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe006;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe007;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe007;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe008;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe008;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe009;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe009;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00a;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00a;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00b;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00b;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00c;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00c;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00d;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00d;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00e;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00e;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe00f;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe00f;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe010;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe010;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe011;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe011;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe012;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe012;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe013;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe013;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe014;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe014;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe015;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe015;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe016;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe016;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe017;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe017;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe018;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe018;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe019;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe019;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01a;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01a;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01b;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01b;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01c;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01c;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01d;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01d;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01e;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01e;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe01f;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe01f;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe020;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe020;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe021;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe021;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe022;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe022;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe023;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe023;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe024;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe024;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe025;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe025;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe026;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe026;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe027;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe027;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe028;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe028;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe029;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe029;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02a;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02a;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02b;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02b;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02c;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02c;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02d;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02d;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02e;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02e;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe02f;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe02f;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe030;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe030;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe031;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe031;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe032;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe032;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe033;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe033;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe034;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe034;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe035;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe035;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe036;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe036;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe037;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe037;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe038;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe038;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe039;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe039;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03a;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03a;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03b;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03b;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03c;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03c;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03d;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03d;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03e;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03e;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe03f;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe03f;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe040;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe040;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe041;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe041;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe042;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe042;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe043;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe043;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe044;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe044;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe045;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe045;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe046;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe046;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe047;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe047;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe048;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe048;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe049;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe049;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04a;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04a;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04b;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04b;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04c;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04c;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04d;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04d;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04e;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04e;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe04f;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe04f;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe050;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe050;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe051;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe051;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe052;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe052;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe053;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe053;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe054;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe054;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe055;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe055;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe056;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe056;">
-	        </li>
-	        <li>
-	          <i data icon="&#xe057;" class="lui icon"></i>
-	          <input type="text" readonly="readonly" value="&amp;#xe057;">
-	        </li>
+				<i class="lui icon analytics"></i>
+				<input type="text" readonly="readonly" value="analytics">
+			</li>
+			<li>
+				<i class="lui icon chevron east"></i>
+				<input type="text" readonly="readonly" value="chevron east">
+			</li>
+			<li>
+				<i class="lui icon chevron north"></i>
+				<input type="text" readonly="readonly" value="chevron north">
+			</li>
+			<li>
+				<i class="lui icon chevron south"></i>
+				<input type="text" readonly="readonly" value="chevron south">
+			</li>
+			<li>
+				<i class="lui icon chevron west"></i>
+				<input type="text" readonly="readonly" value="chevron west">
+			</li>
+			<li>
+				<i class="lui icon attachment"></i>
+				<input type="text" readonly="readonly" value="attachment">
+			</li>
+			<li>
+				<i class="lui icon blocks"></i>
+				<input type="text" readonly="readonly" value="blocks">
+			</li>
+			<li>
+				<i class="lui icon branch"></i>
+				<input type="text" readonly="readonly" value="branch">
+			</li>
+			<li>
+				<i class="lui icon coffee"></i>
+				<input type="text" readonly="readonly" value="coffee">
+			</li>
+			<li>
+				<i class="lui icon check"></i>
+				<input type="text" readonly="readonly" value="check">
+			</li>
+			<li>
+				<i class="lui icon checkbox"></i>
+				<input type="text" readonly="readonly" value="checkbox">
+			</li>
+			<li>
+				<i class="lui icon checkbox checked"></i>
+				<input type="text" readonly="readonly" value="checkbox checked">
+			</li>
+			<li>
+				<i class="lui icon clock"></i>
+				<input type="text" readonly="readonly" value="clock">
+			</li>
+			<li>
+				<i class="lui icon cross"></i>
+				<input type="text" readonly="readonly" value="cross">
+			</li>
+			<li>
+				<i class="lui icon calendar"></i>
+				<input type="text" readonly="readonly" value="calendar">
+			</li>
+			<li>
+				<i class="lui icon download"></i>
+				<input type="text" readonly="readonly" value="download">
+			</li>
+			<li>
+				<i class="lui icon edit"></i>
+				<input type="text" readonly="readonly" value="edit">
+			</li>
+			<li>
+				<i class="lui icon edit frame"></i>
+				<input type="text" readonly="readonly" value="edit frame">
+			</li>
+			<li>
+				<i class="lui icon edit mini"></i>
+				<input type="text" readonly="readonly" value="edit mini">
+			</li>
+			<li>
+				<i class="lui icon ellipsis"></i>
+				<input type="text" readonly="readonly" value="ellipsis">
+			</li>
+			<li>
+				<i class="lui icon error"></i>
+				<input type="text" readonly="readonly" value="error">
+			</li>
+			<li>
+				<i class="lui icon files"></i>
+				<input type="text" readonly="readonly" value="files">
+			</li>
+			<li>
+				<i class="lui icon filter"></i>
+				<input type="text" readonly="readonly" value="filter">
+			</li>
+			<li>
+				<i class="lui icon email"></i>
+				<input type="text" readonly="readonly" value="email">
+			</li>
+			<li>
+				<i class="lui icon add user"></i>
+				<input type="text" readonly="readonly" value="add user">
+			</li>
+			<li>
+				<i class="lui icon help"></i>
+				<input type="text" readonly="readonly" value="help">
+			</li>
+			<li>
+				<i class="lui icon list"></i>
+				<input type="text" readonly="readonly" value="list">
+			</li>
+			<li>
+				<i class="lui icon lock"></i>
+				<input type="text" readonly="readonly" value="lock">
+			</li>
+			<li>
+				<i class="lui icon forbidden"></i>
+				<input type="text" readonly="readonly" value="forbidden">
+			</li>
+			<li>
+				<i class="lui icon minus"></i>
+				<input type="text" readonly="readonly" value="minus">
+			</li>
+			<li>
+				<i class="lui icon move"></i>
+				<input type="text" readonly="readonly" value="move">
+			</li>
+			<li>
+				<i class="lui icon move h"></i>
+				<input type="text" readonly="readonly" value="move h">
+			</li>
+			<li>
+				<i class="lui icon move v"></i>
+				<input type="text" readonly="readonly" value="move v">
+			</li>
+			<li>
+				<i class="lui icon notification"></i>
+				<input type="text" readonly="readonly" value="notification">
+			</li>
+			<li>
+				<i class="lui icon outside"></i>
+				<input type="text" readonly="readonly" value="outside">
+			</li>
+			<li>
+				<i class="lui icon camera"></i>
+				<input type="text" readonly="readonly" value="camera">
+			</li>
+			<li>
+				<i class="lui icon printer"></i>
+				<input type="text" readonly="readonly" value="printer">
+			</li>
+			<li>
+				<i class="lui icon refresh"></i>
+				<input type="text" readonly="readonly" value="refresh">
+			</li>
+			<li>
+				<i class="lui icon remove user"></i>
+				<input type="text" readonly="readonly" value="remove user">
+			</li>
+			<li>
+				<i class="lui icon drag"></i>
+				<input type="text" readonly="readonly" value="drag">
+			</li>
+			<li>
+				<i class="lui icon search"></i>
+				<input type="text" readonly="readonly" value="search">
+			</li>
+			<li>
+				<i class="lui icon send"></i>
+				<input type="text" readonly="readonly" value="send">
+			</li>
+			<li>
+				<i class="lui icon to user"></i>
+				<input type="text" readonly="readonly" value="send to user">
+			</li>
+			<li>
+				<i class="lui icon settings"></i>
+				<input type="text" readonly="readonly" value="settings">
+			</li>
+			<li>
+				<i class="lui icon comment"></i>
+				<input type="text" readonly="readonly" value="comment">
+			</li>
+			<li>
+				<i class="lui icon timer"></i>
+				<input type="text" readonly="readonly" value="timer">
+			</li>
+			<li>
+				<i class="lui icon trash"></i>
+				<input type="text" readonly="readonly" value="trash">
+			</li>
+			<li>
+				<i class="lui icon unlock"></i>
+				<input type="text" readonly="readonly" value="unlock">
+			</li>
+			<li>
+				<i class="lui icon upload"></i>
+				<input type="text" readonly="readonly" value="upload">
+			</li>
+			<li>
+				<i class="lui icon user"></i>
+				<input type="text" readonly="readonly" value="user">
+			</li>
+			<li>
+				<i class="lui icon warning"></i>
+				<input type="text" readonly="readonly" value="warning">
+			</li>
+			<li>
+				<i class="lui icon bank card"></i>
+				<input type="text" readonly="readonly" value="bank card">
+			</li>
+			<li>
+				<i class="lui icon bookmark"></i>
+				<input type="text" readonly="readonly" value="bookmark">
+			</li>
+			<li>
+				<i class="lui icon coins"></i>
+				<input type="text" readonly="readonly" value="coins">
+			</li>
+			<li>
+				<i class="lui icon milestone"></i>
+				<input type="text" readonly="readonly" value="milestone">
+			</li>
+			<li>
+				<i class="lui icon quantity"></i>
+				<input type="text" readonly="readonly" value="quantity">
+			</li>
+			<li>
+				<i class="lui icon luggage"></i>
+				<input type="text" readonly="readonly" value="luggage">
+			</li>
+			<li>
+				<i class="lui icon train"></i>
+				<input type="text" readonly="readonly" value="train">
+			</li>
+			<li>
+				<i class="lui icon tools"></i>
+				<input type="text" readonly="readonly" value="tools">
+			</li>
+			<li>
+				<i class="lui icon toll dollar"></i>
+				<input type="text" readonly="readonly" value="toll dollar">
+			</li>
+			<li>
+				<i class="lui icon toll euro"></i>
+				<input type="text" readonly="readonly" value="toll euro">
+			</li>
+			<li>
+				<i class="lui icon taxi"></i>
+				<input type="text" readonly="readonly" value="taxi">
+			</li>
+			<li>
+				<i class="lui icon clean car"></i>
+				<input type="text" readonly="readonly" value="clean car">
+			</li>
+			<li>
+				<i class="lui icon car"></i>
+				<input type="text" readonly="readonly" value="car">
+			</li>
+			<li>
+				<i class="lui icon postage"></i>
+				<input type="text" readonly="readonly" value="postage">
+			</li>
+			<li>
+				<i class="lui icon iron"></i>
+				<input type="text" readonly="readonly" value="iron">
+			</li>
+			<li>
+				<i class="lui icon plane"></i>
+				<input type="text" readonly="readonly" value="plane">
+			</li>
+			<li>
+				<i class="lui icon piggy bank"></i>
+				<input type="text" readonly="readonly" value="piggy bank">
+			</li>
+			<li>
+				<i class="lui icon phone"></i>
+				<input type="text" readonly="readonly" value="phone">
+			</li>
+			<li>
+				<i class="lui icon parking"></i>
+				<input type="text" readonly="readonly" value="parking">
+			</li>
+			<li>
+				<i class="lui computer mouse icon"></i>
+				<input type="text" readonly="readonly" value="computer mouse">
+			</li>
+			<li>
+				<i class="lui icon subway"></i>
+				<input type="text" readonly="readonly" value="subway">
+			</li>
+			<li>
+				<i class="lui icon meal"></i>
+				<input type="text" readonly="readonly" value="meal">
+			</li>
+			<li>
+				<i class="lui icon lunch"></i>
+				<input type="text" readonly="readonly" value="lunch">
+			</li>
+			<li>
+				<i class="lui icon mileage"></i>
+				<input type="text" readonly="readonly" value="mileage">
+			</li>
+			<li>
+				<i class="lui icon hotel"></i>
+				<input type="text" readonly="readonly" value="hotel">
+			</li>
+			<li>
+				<i class="lui icon gasoline"></i>
+				<input type="text" readonly="readonly" value="gasoline">
+			</li>
+			<li>
+				<i class="lui icon euro"></i>
+				<input type="text" readonly="readonly" value="euro">
+			</li>
+			<li>
+				<i class="lui icon drink"></i>
+				<input type="text" readonly="readonly" value="drink">
+			</li>
+			<li>
+				<i class="lui icon diner"></i>
+				<input type="text" readonly="readonly" value="diner">
+			</li>
+			<li>
+				<i class="lui icon dollar"></i>
+				<input type="text" readonly="readonly" value="dollar">
+			</li>
+			<li>
+				<i class="lui icon computer"></i>
+				<input type="text" readonly="readonly" value="computer">
+			</li>
+			<li>
+				<i class="lui icon bus"></i>
+				<input type="text" readonly="readonly" value="bus">
+			</li>
+			<li>
+				<i class="lui icon breakfast"></i>
+				<input type="text" readonly="readonly" value="breakfast">
+			</li>
+			<li>
+				<i class="lui icon arrow west"></i>
+				<input type="text" readonly="readonly" value="arrow west">
+			</li>
+			<li>
+				<i class="lui icon arrow east"></i>
+				<input type="text" readonly="readonly" value="arrow east">
+			</li>
+			<li>
+				<i class="lui icon arrow north"></i>
+				<input type="text" readonly="readonly" value="arrow north">
+			</li>
+			<li>
+				<i class="lui icon arrow south"></i>
+				<input type="text" readonly="readonly" value="arrow south">
+			</li>
 		</ul>
 	</article>
 
@@ -1268,95 +917,6 @@
 		</div>
 	</article>
 
-	<article id="component-vertical-menu" class="component">
-		<h2>Vertical menu</h2>
-
-		<nav class="vertical-menu">
-			<ul>
-				<li><a href="#">Population</a></li>
-				<li><a href="#">Contrôles</a></li>
-				<li class="active">
-					<a href="#">Règles</a>
-					<ul>
-						<li class="active"><a href="#">Heures supp.</a></li>
-						<li><a href="#">Jours cjhômés</a></li>
-						<li><a href="#">Seuils</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Paramètres</a></li>
-			</ul>
-		</nav>
-	</article>
-
-	<!-- <article id="component-forms" class="component">
-		<h2>Forms</h2>
-		<h4>Search input</h4>
-		<p><code><\div class="lucca-search"><\input placeholder="Rechercher" type="search" /><\ />div></code></p>
-		<div class="lucca-search">
-			<input placeholder="Rechercher" type="search" />
-			<button class="clear-input"></button>
-		</div>
-		<p><code>class="lucca-search searching"</code></p>
-		<div class="lucca-search searching">
-			<input placeholder="Rechercher" type="search" />
-			<button class="clear-input"></button>
-		</div>
-
-		<h4>Clear input</h4>
-		<p><code>class="clear-input"</code> inside an input group, next to a ".lucca-input" element or inside a ".lucca-search" element</p>
-		<div class="lucca-input-group">
-			<input type="text" value="Value" />
-			<button class="clear-input"></button>
-		</div>
-
-		<h4>Input addon</h4>
-		<div class="lucca-input-group">
-			<input class="lucca-input" value="100" type="number" /><span class="lucca-group-addon">%</span>
-		</div>
-		<div class="lucca-input-group">
-			<span class="lucca-group-addon">#</span><input class="lucca-input" value="321" type="number" readonly /><span class="lucca-group-addon lucca-icon lucca-icon-user"></span>
-		</div>
-		<div class="lucca-input-group">
-			<span class="lucca-group-addon">
-				<input type="checkbox" />
-			</span><input class="lucca-input" value="Do this ?" type="text" />
-		</div>
-
-		<h4>Toggle input</h4>
-		<div class="lucca-toggle">
-			<input type="checkbox" checked>
-			<label>
-				<span></span>
-			</label>
-		</div>
-
-		<h4>Custom checkbox</h4>
-		<div class="lucca-checkbox">
-			<input type="checkbox" checked />
-			<label></label>
-		</div>
-
-		<h4>Form validation</h4>
-		<div class="lucca-input-group valid">
-			<input class="lucca-input" value="100" type="number" /><span class="lucca-group-addon">%</span>
-		</div>
-		<div class="lucca-input-group invalid">
-			<span class="lucca-group-addon">#</span><input class="lucca-input" value="321" type="number" /><span class="lucca-group-addon lucca-icon lucca-icon-user"></span>
-		</div>
-	</article>
-
-	<article id="component-tags" class="component">
-		<h2>Tags</h2>
-		<ul class="lucca-tags">
-			<li>Legal entity 1</li>
-			<li>Legal entity 2</li>
-			<li>Legal entity 3</li>
-			<li>Legal entity 4</li>
-			<li>Legal entity 5</li>
-			<li>Legal entity 6</li>
-		</ul>
-	</article> -->
-
 	<article id="lui-menu" class="component">
 		<h2 class="lui divider below">Menu</h2>
 
@@ -1413,7 +973,7 @@
 			</div>
 		</div>
 
-		<div class="lui vertical menu primary dividing right" style="float:left;">
+		<div class="lui vertical primary dividing right menu" style="float:left;">
 			<div class="item header">Vertical right</div>
 			<a class="item active" href="#">Item 01</a>
 			<a class="item" href="#">Item 02</a>
