@@ -25,6 +25,10 @@
 		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
 		<a class="item" href="#luifStartFrom">luifStartFrom</a>
 		<a class="item" href="#luifMoment">luifMoment</a>
+		<a class="item" href="#luifCalendar">luifCalendar</a>
+		<a class="item" href="#luifFriendlyRange">luifFriendlyRange</a>
+		<a class="item" href="#luifDuration">luifDuration</a>
+		<a class="item" href="#luifHumanize">luifHumanize</a>
 
 	</nav>
 
@@ -166,7 +170,7 @@
 		<p>
 			usage:
 			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
-{{myValue | luifMoment : myFormat }}</pre>
+{{ myValue | luifMoment : myFormat }}</pre>
 		</p>
 		<div ng-controller="momentCtrl" class="lui block round">
 			<p>
@@ -190,6 +194,191 @@
 				myValue formatted: {{ myValue | luifMoment : myFormat }}
 			</p>
 
+		</div>
+	</article>
+
+	<article id="luifCalendar">
+		<h2 class="lui divider below">luifCalendar</h2>
+
+		<p>
+			A filter to display a date, a moment or a string using the function <a href="http://momentjs.com/docs/#/displaying/calendar-time/">moment().calendar()</a>
+		</p>
+		<p>
+			Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+		</p>
+		<p>
+			You can pass a reference date as an argument to the filter. If none is provided or moment cannot parse it, it will use today
+		</p>
+		<p>
+			Does not support the formats arguments available from momentjs version 2.10.5 onwards
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifCalendar }}
+{{ myValue | luifCalendar : myRefDate }}</pre>
+		</p>
+		<div ng-controller="calendarCtrl" class="lui block round">
+			<p>
+				myValue: 
+				<div class="lui long input">
+					<input type="text" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				set myValue to 
+				<div class="lui button" ng-click="setToThisWeek()">start of week</div>
+				<div class="lui button" ng-click="setToLastWeek()">last week</div>
+			</p>
+			<p>
+				myRefDate: 
+				<div class="lui long input">
+					<input type="text" ng-model="myRefDate">
+				</div>
+			</p>
+			<p>
+				myValue relative to today: {{ myValue | luifCalendar }}
+			</p>
+			<p>
+				myValue relative to myRefDate: {{ myValue | luifCalendar : myRefDate }}
+			</p>
+
+		</div>
+	</article>
+
+	<article id="luifFriendlyRange">
+		<h2 class="lui divider below">luifFriendlyRange</h2>
+
+		<p>
+			A filter to display a block having a start and an end, the start and end may be the same day/year/month and you dont want to repeat the same information
+			so you can't just use <code>start.format('LL') - end.format('LL')</code>
+		</p>
+		<p>
+			Will try to find property <code>start</code>, <code>startsOn</code>, <code>startsAt</code>, <code>end</code>, <code>endsOn</code>, <code>endsAt</code>
+		</p>
+		<p>
+			If both start's and end's year is the current year, it will not be displayed because saying "September 25th - October 2nd" implies "September 25th - October 2nd, this year" 
+		</p>
+		<p>
+			It has the parameter <code>excludeEnd</code> for when you are dealing with block going from start included to end excluded.
+			Example : september is from September 1st included to October 1st excluded or from Septembre 1st included to September 30th included
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myBlock | luifFriendlyRange }}
+{{ myBlock | luifFriendlyRange : true }}</pre>
+		</p>
+		<div ng-controller="friendlyrangeCtrl" class="lui block round">
+			<p>
+				myBlock.start: 
+				<div class="lui long input">
+					<input type="text" ng-model="myBlock.start">
+				</div>
+			</p>
+			<p>
+				myBlock.end: 
+				<div class="lui long input">
+					<input type="text" ng-model="myBlock.end">
+				</div>
+			</p>
+			<p>
+				myBlock: {{ myBlock | luifFriendlyRange }}
+			</p>
+			<p>
+				myBlock with end excluded: {{ myBlock | luifFriendlyRange : true }}
+			</p>
+
+		</div>
+	</article>
+
+
+	<article id="luifDuration">
+		<h2 class="lui divider below">luifDuration</h2>
+
+		<p>
+			A filter to display a timespan or a moment.duration 
+		</p>
+		<p>
+			Will try to transform the input to a moment.duration, if the resulting duration is not valid, it will return nothing
+		</p>
+		<p>
+			You can provide a format (see below) but if none is provided it will try to display 
+		</p>
+		<p>
+			<strong>Important:</strong> the argument format does not work for durations over 24 hours because moment.duration does not support <code>.format()</code>. 
+			It will likely disappear in an incoming version in favor of an argument "mainUnit" with the logic being 35h is
+			<ul class="lui unstyled">
+				<li>1d 11h for 'day' as main unit</li>
+				<li>35h for 'hour' as main unit</li>
+				<li>2100m for 'minute' as main unit</li>
+			</ul>
+			Associated <a href="https://github.com/LuccaSA/lucca-ui/issues/25">issue</a>
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifDuration }}
+{{ myValue | luifDuration : myFormat : showSign }}</pre>
+		</p>
+		<div ng-controller="durationCtrl" class="lui block round">
+			<p>
+				myValue: (enter '1.11:30:00' or 'PT35H30m' or such like)
+				<div class="lui long input">
+					<input type="text" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				set myValue to 
+				<div class="lui button" ng-click="myValue='PT35H'">35h</div>
+				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
+			</p>
+			<p>
+				myValue: {{ myValue | luifDuration }}
+			</p>
+			<p>
+				myValue with format = HH: {{ myValue | luifDuration : 'HH' }} - try entering a duration over 24h to see it doesn't work
+			</p>
+			<p>
+				myValue with a sign: {{ myValue | luifDuration : '' : true }}
+			</p>
+
+		</div>
+	</article>
+
+	<article id="luifHumanize">
+		<h2 class="lui divider below">luifHumanize</h2>
+
+		<p>
+			A filter to cast the input to a <a href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a href="http://momentjs.com/docs/#/durations/humanize/">humanize on it</a>
+		</p>
+		<p>
+			the first argument is to use the suffix in the humanize function
+			<ul class="lui unstyled">
+				<li><code>moment.duration(3,'m').humanize()</code>: 3 minutes</li>
+				<li><code>moment.duration(3,'m').humanize(true)</code>: in 3 minutes</li>
+			</ul>
+		</p>
+		<p>
+			usage:
+			<pre ng-non-bindable>{{ myValue | luifHumanize }}
+{{ myValue | luifHumanize : usePrefix : invertDuration }}</pre>
+		</p>
+		<div ng-controller="humanizeCtrl" class="lui block round">
+			<p>
+				myValue: (enter '1.11:30:00' or 'PT35H30M' or such like)
+				<div class="lui long input">
+					<input type="text" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				set myValue to 
+				<div class="lui button" ng-click="myValue='PT1H'">1h</div>
+				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
+			</p>
+			<p>
+				myValue humanized: {{ myValue | luifHumanize }}
+			</p>
+			<p>
+				myValue humanized with a suffix: {{ myValue | luifHumanize : true }}
+			</p>
 		</div>
 	</article>
 
