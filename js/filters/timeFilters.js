@@ -78,6 +78,9 @@
 		return function (_duration, _format, _sign) {  //expects a duration, returns the duration in the given format or a sensible one
 			var d = moment.duration(_duration);
 			var hours = Math.floor(d.asHours()); 
+			if(hours < 0){ // we dont want to approxximate -0.33h as -1h20
+				hours = Math.ceil(d.asHours());
+			}
 			var minutes = d.minutes();
 			var prefix = '';
 			if (_sign) {
@@ -100,11 +103,9 @@
 		};
 	})
 	.filter('luifHumanize', function () {
-		return function (_duration, suffix, pastEvent) {
+		return function (_duration, suffix) {
 			suffix = !!suffix;
-			pastEvent = !!pastEvent;
 			var d = moment.duration(_duration);
-			if (pastEvent) { d = moment.duration(-d.asMilliseconds()); }
 			return d.humanize(suffix);
 		};
 	});

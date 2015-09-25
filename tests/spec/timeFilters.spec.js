@@ -139,6 +139,7 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(36000000)).toEqual('10h');
 			expect(luifDuration(360000000)).toEqual('100h');
 			expect(luifDuration(-36000000, '', true)).toEqual('-10h');
+			expect(luifDuration(-37200000, '', true)).toEqual('-10h20');
 			expect(luifDuration(360000000, '', true)).toEqual('+100h');
 		});
 	});
@@ -153,8 +154,8 @@ describe('luif.timefilters', function(){
 				expect(luifHumanize(d)).toEqual(moment.duration(d).humanize());
 				expect(luifHumanize(d, true)).toEqual(moment.duration(d).humanize(true));
 				expect(luifHumanize(d, false)).toEqual(moment.duration(d).humanize(false));
-				expect(luifHumanize(d, true, true)).toEqual(moment.duration(-d).humanize(true));
-				expect(luifHumanize(d, false, true)).toEqual(moment.duration(-d).humanize(false));
+				expect(luifHumanize(-d, true)).toEqual(moment.duration(-d).humanize(true));
+				expect(luifHumanize(-d, false)).toEqual(moment.duration(-d).humanize(false));
 			});
 		});
 	});
