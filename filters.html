@@ -17,9 +17,9 @@
 <body ng-app="filterApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item" href="./">less framework</a>
+		<a class="item" href="./index.html">less framework</a>
 		<a class="item active" href="./">lui filters</a>
-		<a class="item" href="./">lui directives</a>
+		<!-- <a class="item" href="./directives.html">lui directives</a> -->
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
 		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
@@ -29,7 +29,6 @@
 		<a class="item" href="#luifFriendlyRange">luifFriendlyRange</a>
 		<a class="item" href="#luifDuration">luifDuration</a>
 		<a class="item" href="#luifHumanize">luifHumanize</a>
-
 	</nav>
 
 
@@ -65,11 +64,16 @@
 		<p>
 			A basic filter that display a placeholder if the value is <code>undefined</code> or <code>""</code>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifPlaceholder:"a fixed placeholder" }}
 {{ myValue | luifPlaceholder: aVarInScope }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="placeholderCtrl" class="lui block round">
 			<p>
 				myValue: 
@@ -102,10 +106,15 @@
 		<p>
 			A basic filter that capitalizes and replace spaces by _
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifDefalutCode }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="defaultcodeCtrl" class="lui block round">
 			<p>
 				value: 
@@ -128,11 +137,16 @@
 		<p>
 			A filter for ng-repeat if you want to start from a certain index and don't wat to use <code>ng-if="$index >= myIndex"</code>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="startfromCtrl" class="lui block round">
 			<p>
 				myIndex: 
@@ -167,11 +181,16 @@
 		<p>
 			if none is provided, will use the format <code>LLL</code>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
 {{ myValue | luifMoment : myFormat }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="momentCtrl" class="lui block round">
 			<p>
 				myValue: (enter '2015-01-01' or such like, or try something that is not parsable by moment)
@@ -212,11 +231,16 @@
 		<p>
 			Does not support the formats arguments available from momentjs version 2.10.5 onwards
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifCalendar }}
 {{ myValue | luifCalendar : myRefDate }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="calendarCtrl" class="lui block round">
 			<p>
 				myValue: 
@@ -262,11 +286,16 @@
 			It has the parameter <code>excludeEnd</code> for when you are dealing with block going from start included to end excluded.
 			Example : september is from September 1st included to October 1st excluded or from Septembre 1st included to September 30th included
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myBlock | luifFriendlyRange }}
 {{ myBlock | luifFriendlyRange : true }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="friendlyrangeCtrl" class="lui block round">
 			<p>
 				myBlock.start: 
@@ -313,11 +342,16 @@
 			</ul>
 			Associated <a href="https://github.com/LuccaSA/lucca-ui/issues/25">issue</a>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifDuration }}
 {{ myValue | luifDuration : myFormat : showSign }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="durationCtrl" class="lui block round">
 			<p>
 				myValue: (enter '1.11:30:00' or 'PT35H30m' or such like)
@@ -356,11 +390,16 @@
 				<li><code>moment.duration(3,'m').humanize(true)</code>: in 3 minutes</li>
 			</ul>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
 		<p>
-			usage:
 			<pre ng-non-bindable>{{ myValue | luifHumanize }}
-{{ myValue | luifHumanize : usePrefix : invertDuration }}</pre>
+{{ myValue | luifHumanize : usePrefix }}</pre>
 		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
 		<div ng-controller="humanizeCtrl" class="lui block round">
 			<p>
 				myValue: (enter '1.11:30:00' or 'PT35H30M' or such like)
