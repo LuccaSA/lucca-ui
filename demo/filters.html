@@ -210,7 +210,7 @@
 				</div>
 			</p>
 			<p>
-				myValue formatted: {{ myValue | luifMoment : myFormat }}
+				myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
 			</p>
 
 		</div>
@@ -260,10 +260,10 @@
 				</div>
 			</p>
 			<p>
-				myValue relative to today: {{ myValue | luifCalendar }}
+				myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
 			</p>
 			<p>
-				myValue relative to myRefDate: {{ myValue | luifCalendar : myRefDate }}
+				myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
 			</p>
 
 		</div>
@@ -310,10 +310,10 @@
 				</div>
 			</p>
 			<p>
-				myBlock: {{ myBlock | luifFriendlyRange }}
+				myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
 			</p>
 			<p>
-				myBlock with end excluded: {{ myBlock | luifFriendlyRange : true }}
+				myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
 			</p>
 
 		</div>
@@ -365,13 +365,13 @@
 				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
 			</p>
 			<p>
-				myValue: {{ myValue | luifDuration }}
+				myValue: <code>{{ myValue | luifDuration }}</code>
 			</p>
 			<p>
-				myValue with format = HH: {{ myValue | luifDuration : 'HH' }} - try entering a duration over 24h to see it doesn't work
+				myValue with format = HH: <code>{{ myValue | luifDuration : 'HH' }}</code> - try entering a duration over 24h to see it doesn't work
 			</p>
 			<p>
-				myValue with a sign: {{ myValue | luifDuration : '' : true }}
+				myValue with a sign: <code>{{ myValue | luifDuration : '' : true }}</code>
 			</p>
 
 		</div>
@@ -413,10 +413,10 @@
 				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
 			</p>
 			<p>
-				myValue humanized: {{ myValue | luifHumanize }}
+				myValue humanized: <code>{{ myValue | luifHumanize }}</code>
 			</p>
 			<p>
-				myValue humanized with a suffix: {{ myValue | luifHumanize : true }}
+				myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
 			</p>
 		</div>
 	</article>
