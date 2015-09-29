@@ -137,12 +137,19 @@
 		<p>
 			A filter for ng-repeat if you want to start from a certain index and don't wat to use <code>ng-if="$index >= myIndex"</code>
 		</p>
+		<p>
+			Angular provides a version of this filter but for the end, see <a href="https://docs.angularjs.org/api/ng/filter/limitTo">https://docs.angularjs.org/api/ng/filter/limitTo</a>
+		</p>
+		<p>
+			A typical usage is in the case of paginating a list <code>ng-repeat="item in list | luifStartFrom : myIndex | limitTo : 20"</code>
+		</p>
 		<div class="lui divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
-&lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;</pre>
+&lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;
+&lt;ANY ng-repeat="val in values | luifStartFrom : myIndex | limitTo : cnt"&gt;...&lt;/ANY&gt;</pre>
 		</p>
 		<div class="lui divider">
 			<h4 class="lui underline">Demo:</h4>
@@ -161,9 +168,15 @@
 				</ul>
 			</p>
 			<p>
-				all the values starting from <code>myIndex</code> <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
+				all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
 				<ul class="lui unstyled">
 					<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+				</ul>
+			</p>
+			<p>
+				all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
+				<ul class="lui unstyled">
+					<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
 				</ul>
 			</p>
 		</div>
