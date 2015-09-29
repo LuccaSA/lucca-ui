@@ -15,6 +15,11 @@
 	}]);
 
 	angular.module('filterApp')
+	.controller('numberCtrl', ['$scope', function($scope){
+		$scope.myValue = 12.5;
+	}]);
+
+	angular.module('filterApp')
 	.controller('startfromCtrl', ['$scope', function($scope){
 		$scope.values = ["zero","one","two","three", "four", "five", "six", "seven","eight", "nine"];
 		$scope.myIndex = 2;

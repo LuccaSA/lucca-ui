@@ -9,7 +9,9 @@
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
 
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.4.6/angular-locale_fr-fr.js"></script>
+
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script src="../dist/lucca-ui.min.js"></script>
 	<script src="js/filters.js"></script>
@@ -23,6 +25,7 @@
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
 		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
+		<a class="item" href="#luifNumber">luifNumber</a>
 		<a class="item" href="#luifStartFrom">luifStartFrom</a>
 		<a class="item" href="#luifMoment">luifMoment</a>
 		<a class="item" href="#luifCalendar">luifCalendar</a>
@@ -131,11 +134,93 @@
 		</div>
 	</article>
 
+		<article id="luifNumber">
+		<h2 class="lui divider below">luifNumber</h2>
+
+		<p>
+			A filter useful when displaying numbers aligned to the right in a table and some of them have non integer part but some don't and nothing is aligned and it's horrible
+		</p>
+		<p>
+			It is a slight modification of the <a href="https://docs.angularjs.org/api/ng/filter/number">filter number</a> provided by angular but it puts the non integral part in an invisible span if this part is zero, allowing it to be correctly aligned in a table of values with text-align: right
+		</p>
+		<p>
+			Also, this page uses the locale <code>FR-fr</code> for no other reason than to show that the luifNumber supports the same locale as <a href="https://docs.angularjs.org/guide/i18n">angular i18n</a>
+		</p>
+		<p>
+			<div class="lui spaced container">
+					<div class="lui column mobile-2 center aligned">Value</div>
+					<div class="lui column mobile-2 center aligned">With filter number</div>
+					<div class="lui column mobile-2 center aligned">With luifNumber</div>
+					<div class="lui column mobile-6">&nbsp;</div>
+
+					<div class="lui column mobile-2 right aligned">0,5</div>
+					<div class="lui column mobile-2 right aligned">{{0.5 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="0.5 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">10,5</div>
+					<div class="lui column mobile-2 right aligned">{{10.5 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="10.5 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">10</div>
+					<div class="lui column mobile-2 right aligned">{{10 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="10 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">0,05</div>
+					<div class="lui column mobile-2 right aligned">{{0.05 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="0.05 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">10000</div>
+					<div class="lui column mobile-2 right aligned">{{10000 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="10000 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">1000.54368</div>
+					<div class="lui column mobile-2 right aligned">{{1000.54368 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="1000.54368 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">0.0001</div>
+					<div class="lui column mobile-2 right aligned">{{0.0001 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="0.0001 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+					<div class="lui column mobile-2 right aligned">3.141592</div>
+					<div class="lui column mobile-2 right aligned">{{3.141592 | number : 2}}</div>
+					<div class="lui column mobile-2 right aligned"ng-bind-html="3.141592 | luifNumber : 2 : ','"></div>
+					<div class="lui column mobile-6">&nbsp;</div>
+
+			</div>
+		</p>
+		<p>
+			<strong>Important:</strong> May require <a href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;,00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2 : ','"&gt;&lt;/ANY&gt;</pre>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="numberCtrl" class="lui block round">
+			<p>
+				value: 
+				<div class="lui long input">
+					<input type="number" ng-model="myValue">
+				</div>
+			</p>
+			<p>
+				myValue: <code>{{myValue}}</code>
+			</p>
+			<p>
+				with luifNumber: <code ng-bind-html="myValue | luifNumber : 2 : ','"></code>
+			</p>
+		</div>
+	</article>
+
 	<article id="luifStartFrom">
 		<h2 class="lui divider below">luifStartFrom</h2>
 
 		<p>
-			A filter for ng-repeat if you want to start from a certain index and don't wat to use <code>ng-if="$index >= myIndex"</code>
+			A filter for ng-repeat if you want to start from a certain index and don't want to use <code>ng-if="$index >= myIndex"</code>
 		</p>
 		<p>
 			Angular provides a version of this filter but for the end, see <a href="https://docs.angularjs.org/api/ng/filter/limitTo">https://docs.angularjs.org/api/ng/filter/limitTo</a>
