@@ -16,7 +16,7 @@
 
 	angular.module('filterApp')
 	.controller('startfromCtrl', ['$scope', function($scope){
-		$scope.values = ["zero","one","two","three"];
+		$scope.values = ["zero","one","two","three", "four", "five", "six", "seven","eight", "nine"];
 		$scope.myIndex = 2;
 	}]);
 
