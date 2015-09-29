@@ -721,17 +721,31 @@
 	})
 	.filter('luifDefaultCode', function () {
 		// uppercased and with '_' instead of ' '
-		return function (input) {
-			return replaceAll(input, ' ', '_').toUpperCase();
+		return function (_input) {
+			return replaceAll(_input, ' ', '_').toUpperCase();
 		};
 	})
 	.filter('luifStartFrom', function () {
 		//pagination filter
-		return function (input, start) {
+		return function (_input, start) {
 			start = +start; //parse to int
-			return input.slice(start);
+			return _input.slice(start);
 		};
-	});
+	})
+	.filter('luifNumber', ['$sce', '$filter', function($sce, $filter) {
+		return function(_input, _precision) {
+			var separator = $filter("number")(1.1,1)[1];
+			var precision = _precision || 2;
+
+			var text = $filter("number")(_input, precision);
+
+			var details = text.split(separator);
+			if ( parseInt(details[1]) === 0) {
+				return $sce.trustAsHtml(details[0] + "<span style=\"opacity:0\">" + separator + details[1] + "</span>");
+			}
+			return $sce.trustAsHtml(details[0] + separator + details[1]);
+		};
+	}]);
 })();;(function () {
 	'use strict';
 
