@@ -195,7 +195,7 @@
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
-			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2 : ','"&gt;&lt;/ANY&gt;</pre>
+			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;</pre>
 		</p>
 		<div class="lui divider">
 			<h4 class="lui underline">Demo:</h4>
@@ -211,7 +211,10 @@
 				myValue: <code>{{myValue}}</code>
 			</p>
 			<p>
-				with luifNumber: <code ng-bind-html="myValue | luifNumber : 2 : ','"></code>
+				with filter number: <code>{{myValue | number : 2}}</code>
+			</p>
+			<p>
+				with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
 			</p>
 		</div>
 	</article>
