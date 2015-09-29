@@ -121,15 +121,15 @@ ul.lui.unstyled, ol.lui.unstyled {
  * Body copy
  * --------------------------------------------------------------------------- */
 
-.lui.capitalized.sentence::first-letter { text-transform: capitalize; }
-.lui.capitalized:not(.sentence) { text-transform: capitalize; }
+.lui[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
+.lui.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
 .lui.uppercase { text-transform: uppercase; }
 
 .lui.italic {
-    font-style: italic;
+	font-style: italic;
 }
 .lui.bold {
-    font-style: 600;
+	font-style: 600;
 }
 
 
