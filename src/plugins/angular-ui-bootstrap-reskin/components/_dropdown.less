@@ -1,31 +1,48 @@
 
 .lui.nguibs-dropdown {
-
+	line-height: 1;
+	margin: 0;
+	.dropdown-toggle {
+		margin: 0;
+	}
 	.dropdown-menu {
+		margin-top: -1px;
 		font-size: 1em;
-
-		left: 50%; transform: translateX(-50%);
-		margin-top: @arrow-size;
+		width: 100%;
+		border-top: none;
+		box-shadow: @shadow;
 
 		border: 1px solid @dropdown-border-color;
 		.lui_border_radius(@dropdown-border-radius);
 
-		&:before {
-			position: absolute;
-			bottom: 100%; left: 50%; transform: translateX(-50%);
-			.lui_triangle_maker(up, @dropdown-border-color, @arrow-size);
-		}
+		> li {
+			border-top: 1px solid #EEE;
 
-		li {
-			&:first-child a {
-				.lui_border_radius(@dropdown-border-radius, @dropdown-border-radius, 0, 0);
-			}
 			a {
 				padding: @dropdown-padding;
+				&:hover { cursor: pointer; }
 			}
 			&.active > a {
 				background-color: @color-primary;
 			}
+		}
+
+		.divider + li {
+			border-top: none;
+		}
+		.divider { border-width: 2px; }
+	}
+
+	&.open {
+		.dropdown-toggle {
+			position: relative;
+			z-index: 1001;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		.dropdown-menu {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
 		}
 	}
 }
