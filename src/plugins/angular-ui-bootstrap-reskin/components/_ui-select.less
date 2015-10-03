@@ -88,13 +88,18 @@
 		color: @color;
 		border-color: #AAA;
 	}
-	.btn-xs { font-size: 0.9rem; }
+	.btn-xs { font-size: 1em; }
 	&.ui-select-multiple.ui-select-bootstrap .ui-select-match .close { line-height: 1em; }
 
 	&.open {
 		box-shadow: @shadow;
-		input.ui-select-search { border-bottom: none !important; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+		&:not(.ui-select-multiple) input.ui-select-search { border-bottom: none !important; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 		.ui-select-choices { border-top: none; box-shadow: @shadow; }
+		&.ui-select-multiple {
+			border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+			border: 1px solid darken(@ui-select-border-color, 10);
+			.ui-select-choices { width: auto; left: -1px; right: -1px; }
+		}
 	}
 
 	// Clear cross
