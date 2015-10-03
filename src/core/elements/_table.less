@@ -81,11 +81,12 @@
 
 // Coloring ruleset
 // ====
-@coloring-ruleset: {
-	> .th:first-child,
-	> .td:first-child,
-	> th:first-child,
-	> td:first-child {
+.lui.table {
+	.tr > .th:first-child,
+	.tr > .td:first-child,
+	tr > th:first-child,
+	tr > td:first-child {
+
 		display: table-cell;
 		position: relative;
 		box-sizing: border-box;
@@ -97,10 +98,15 @@
 			content: "";
 			top: 0px; bottom: -1px; left: -1px;
 			width: 5px;
-			background: @coloring-color;
 			min-height: 100%;
 		}
 	}
+}
+@coloring-ruleset: {
+	> .th:first-child:after,
+	> .td:first-child:after,
+	> th:first-child:after,
+	> td:first-child:after { background: @coloring-color; }
 };
 
 // Coloring

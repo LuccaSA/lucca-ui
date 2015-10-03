@@ -3,7 +3,7 @@
  * Button
  * --------------------------------------------------------------------------- */
 
-.lui_button_sizing() {
+.lui_button_sizing {
 	display: inline-block;
 	vertical-align: middle;
 	box-sizing: border-box;
@@ -23,7 +23,7 @@
 	line-height: 1em;
 	.user_select_none;
 
-	.lui_button_sizing();
+	&:extend(.lui_button_sizing);
 
 	white-space: nowrap;
 	font-weight: normal;
@@ -33,7 +33,7 @@
 
 	box-shadow: @default-border;
 
-	.lui_border_radius(@border-radius);
+	border-radius: @border-radius;
 
 	.lui_transition_properties(background, box-shadow, color);
 }
@@ -48,10 +48,10 @@
  * --------------------------------------------------------------------------- */
 
 .lui.button:hover {
-	.lui_drop_shadow(0px, 1px, 2px, 0, rgba(50, 50, 50, 0.25));
+	box-shadow: 0px 1px 2px 0 rgba(50, 50, 50, 0.25);
 }
 .lui.button:active, .lui.button.active {
-	.lui_no_shadows();
+	box-shadow: none;
 }
 .lui.button.disabled, .lui.button[disabled] {
 	opacity: 0.75;
@@ -112,7 +112,7 @@
 // Only applies button sizing properties to given object
 // =====
 .lui.fake-button {
-	.lui_button_sizing();
+	&:extend(.lui_button_sizing);
 }
 
 // Flat style
@@ -296,8 +296,7 @@
 
 	> .button {
 		float: left;
-		margin-top: 0; margin-bottom: 0;
-		margin-left: -1px; margin-right: 0;
+		margin: 0; margin-left: -1px;
 		&.wired:hover {
 			position: relative;
 			z-index: 2;

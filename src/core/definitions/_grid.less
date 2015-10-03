@@ -20,9 +20,11 @@ body, html {
 	box-sizing: border-box;
 	width: 100%;
 }
+.lui.container .lui.column[class*="-pull-"],
+.lui.container .lui.column[class*="-push-"] { position: relative; }
 
 // Bootstrap '.row' equivalent
-.lui.container .lui.columns { .clear(); }
+.lui.container .lui.columns { &:extend(.clear); }
 
 
 /**
@@ -62,7 +64,7 @@ body, html {
 		// This is the lowest value > mobile/smaller first
 		.lui_loop_columns(@columns, @breakpoint, @spacing);
 	}
-	& when not(@i = @lui_breakpoints) {
+	& when not(@i = length(@lui_breakpoints)) {
 		@media (min-width: @breakAt) {
 			// Container
 			.lui.container { margin: 0  @spacing; }
@@ -84,15 +86,16 @@ body, html {
  * --------------------------------------------------------------------------- */
 
 .lui_loop_columns(@j, @breakpoint, @spacing) when (@j > -1) {
-	// Column
-	.lui.container .lui.column.@{breakpoint}-@{j} { width: @column * @j; }
+	& when not(@j = 0) {
+		// Column
+		.lui.container .lui.column.@{breakpoint}-@{j} { width: @column * @j; }
+	}
 	// Offset
 	.lui.container .lui.column.@{breakpoint}-offset-@{j} { margin-left: @column * @j; }
 	// Reordering: Pulling
-	.lui.container .lui.column.@{breakpoint}-pull-@{j} { position: relative; left: -@column * @j; }
+	.lui.container .lui.column.@{breakpoint}-pull-@{j} { left: -@column * @j; }
 	// Reordering: Pushing
-	.lui.container .lui.column.@{breakpoint}-push-@{j} { position: relative; left: @column * @j; }
-
+	.lui.container .lui.column.@{breakpoint}-push-@{j} { left: @column * @j; }
 
 	.lui_loop_columns((@j - 1), @breakpoint, @spacing);
 }

@@ -23,9 +23,6 @@
  * User select
  * --------------------------------------------------------------------------- */
 .user_select_none {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
@@ -39,31 +36,19 @@
 @lui_defaults-transition_easing: ease-out;
 
 .lui_transition(@prop: all, @time: @lui_defaults-transition_duration, @ease: @lui_defaults-transition_easing) {
-	-webkit-transition: @prop @time @ease;
-	-moz-transition: @prop @time @ease;
-	-o-transition: @prop @time @ease;
 	-ms-transition: @prop @time @ease;
 	transition: @prop @time @ease;
 }
 .lui_transition_properties(...) {
 	@props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
-	-webkit-transition-property: @props;
-	-moz-transition-property: @props;
-	-o-transition-property: @props;
 	transition-property: @props;
 	.lui_transition_duration();
 	.lui_transition_easing();
 }
 .lui_transition_duration(@duration: @lui_defaults-transition_duration) {
-	-moz-transition-duration: @duration;
-	-webkit-transition-duration: @duration;
-	-o-transition-duration: @duration;
 	transition-duration: @duration;
 }
 .lui_transition_easing(@easing: @lui_defaults-transition_easing) {
-	-moz-transition-easing: @easing;
-	-webkit-transition-easing: @easing;
-	-o-transition-easing: @easing;
 	transition-easing: @easing;
 }
 
@@ -127,18 +112,12 @@
  * --------------------------------------------------------------------------- */
 
 .lui_no_shadows() {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
 	box-shadow: none;
 }
 .lui_drop_shadow(@x-axis, @y-axis, @blur, @spread, @color) {
-	-webkit-box-shadow: @x-axis @y-axis @blur @spread @color;
-	-moz-box-shadow: @x-axis @y-axis @blur @spread @color;
 	box-shadow: @x-axis @y-axis @blur @spread @color;
 }
 .lui_inner_shadow(@x-axis, @y-axis, @blur, @spread, @color) {
-	-webkit-box-shadow: @x-axis @y-axis @blur @spread @color inset;
-	-moz-box-shadow: @x-axis @y-axis @blur @spread @color inset;
 	box-shadow: @x-axis @y-axis @blur @spread @color inset;
 }
 
@@ -161,12 +140,9 @@
  * --------------------------------------------------------------------------- */
 
 .lui_placeholder(@properties) {
-	&::-webkit-input-placeholder { @properties(); }
-
-	&:-moz-placeholder { @properties(); }
-
-	&::-moz-placeholder { @properties(); }
-
+	&::-webkit-input-placeholder,
+	&:-moz-placeholder,
+	&::-moz-placeholder,
 	&:-ms-input-placeholder { @properties(); }
 }
 
