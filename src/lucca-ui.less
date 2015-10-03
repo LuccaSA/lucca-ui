@@ -57,8 +57,11 @@
 	@enabled: true;
 
 	@animation-duration: 0.5s;
+	@animation-easing: ease-out;
 	@fade-translation-distance: 3em;
 	@scale-animation-ratio: 25; // Percentage
+
+	@bounce-distance: 2em;
 
 	@import (optional) "@{themeDir}@{theme}/definitions/animated.overrides.less";
 	& when (@enabled = true) {
@@ -444,6 +447,8 @@
 & {
 	@color: #666;
 	@shadow: 0 2px 2px 0 rgba(50, 50, 50, 0.2);
+	@animation-duration: 0.3s;
+	@animation-easing: ease-out;
 
 	@color-primary: #FFC900;
 	@color-primary-over: #666;
