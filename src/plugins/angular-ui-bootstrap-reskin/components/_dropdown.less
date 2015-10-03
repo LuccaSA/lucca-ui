@@ -1,12 +1,12 @@
 
 .lui.nguibs-dropdown {
+	height: auto;
 	line-height: 1;
 	margin: 0;
-	.dropdown-toggle {
-		margin: 0;
-	}
+	.dropdown-toggle { margin: 0; }
 	.dropdown-menu {
 		margin-top: -1px;
+		padding: 0;
 		font-size: 1em;
 		width: 100%;
 		border-top: none;
@@ -19,6 +19,7 @@
 			border-top: 1px solid #EEE;
 
 			a {
+				line-height: 1em;
 				padding: @dropdown-padding;
 				&:hover { cursor: pointer; }
 			}
@@ -41,6 +42,12 @@
 			border-bottom-right-radius: 0;
 		}
 		.dropdown-menu {
+			transform-origin: center top;
+			animation-easing: @animation-easing;
+			animation-duration: @animation-duration;
+			animation-fill-mode: both;
+			animation-name: dropdown;
+
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}

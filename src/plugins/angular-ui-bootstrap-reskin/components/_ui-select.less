@@ -2,6 +2,10 @@
 /**
  * Angular UI - UI select reskin
  * ----------------------------------------------------------------------------- */
+@keyframes dropdown {
+	from { transform: scale(1, 0); }
+	to { transform: scale(1, 1); }
+}
 
 .lui.nguibs-ui-select {
 	box-shadow: none;
@@ -9,6 +13,7 @@
 	margin: 0;
 	&, .ui-select-match {
 		min-width: @ui-select-min-width;
+		height: auto;
 	}
 
 	&.fitting {
@@ -17,6 +22,7 @@
 
 	.ui-select-match > .btn,
 	input.form-control.ui-select-search {
+		height: 1em + 2*extract(@ui-select-padding, 1);
 		line-height: 1;
 		font-size: @ui-select-txt-size;
 		padding: @ui-select-padding;
@@ -33,6 +39,9 @@
 			background: #FFF;
 			border: 1px solid darken(@ui-select-border-color, 10);
 		}
+	}
+
+	input {
 	}
 
 	.divider { height: 2px; }
@@ -73,6 +82,7 @@
 			> a {
 				color: @color;
 				padding: 0.5em 1em;
+				line-height: 1em;
 			}
 			&.active > a {
 				background-color: #EEE;
@@ -93,8 +103,18 @@
 
 	&.open {
 		box-shadow: @shadow;
+
 		&:not(.ui-select-multiple) input.ui-select-search { border-bottom: none !important; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-		.ui-select-choices { border-top: none; box-shadow: @shadow; }
+		.ui-select-choices {
+			transform-origin: center top;
+			animation-easing: @animation-easing;
+			animation-duration: @animation-duration;
+			animation-fill-mode: both;
+			animation-name: dropdown;
+
+			border-top: none;
+			box-shadow: @shadow;
+		}
 		&.ui-select-multiple {
 			border-bottom-left-radius: 0; border-bottom-right-radius: 0;
 			border: 1px solid darken(@ui-select-border-color, 10);
