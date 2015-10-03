@@ -41,6 +41,9 @@
 	> .item:last-child {
 		border-right: none;
 	}
+
+	> .menu[class*="top dividing"] { margin-top: -1px; }
+	> .menu:not([class*="top dividing"]) { margin-bottom: -1px; }
 }
 .lui.menu.vertical.bordered {
 	> .item, > .menu {
@@ -52,6 +55,9 @@
 	> .item:last-child {
 		border-bottom: none;
 	}
+
+	> .menu[class*="right dividing"] { margin-right: -1px; }
+	> .menu:not([class*="right dividing"]) { margin-left: -1px; }
 }
 
 // Sub menu

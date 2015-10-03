@@ -208,6 +208,11 @@
 
 // We define a mixin alias here for better support
 .lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
+.lui.icon {
+	.lui_supports_sizing({
+		font-size: @sizeEms;
+	});
+};
 
 
 /**
