@@ -20,7 +20,8 @@
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
 		<a class="item" href="./index.html">less framework</a>
-		<a class="item active" href="./">lui filters</a>
+		<a class="item active" href="./filters.html">lui filters</a>
+		<a class="item" href="./nguibs.html">lui nguibs</a>
 		<!-- <a class="item" href="./directives.html">lui directives</a> -->
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
@@ -45,7 +46,7 @@
 	<div class="lui callout warning">
 		<p>
 			<b>Important:</b>
-			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
 			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
 		</p>
 		<p>
@@ -79,14 +80,14 @@
 		</div>
 		<div ng-controller="placeholderCtrl" class="lui block round">
 			<p>
-				myValue: 
+				myValue:
 				<div class="lui input has-addon right">
 					<input type="text" ng-model="myValue">
 					<i class="lui cross icon addon" ng-click="myValue='';"></i>
 				</div>
 			</p>
 			<p>
-				dynamic placeholder: 
+				dynamic placeholder:
 				<div class="lui input">
 					<input type="text" ng-model="myPlaceholder">
 				</div>
@@ -120,7 +121,7 @@
 		</div>
 		<div ng-controller="defaultcodeCtrl" class="lui block round">
 			<p>
-				value: 
+				value:
 				<div class="lui long input">
 					<input type="text" ng-model="myValue">
 				</div>
@@ -202,7 +203,7 @@
 		</div>
 		<div ng-controller="numberCtrl" class="lui block round">
 			<p>
-				value: 
+				value:
 				<div class="lui long input">
 					<input type="number" ng-model="myValue">
 				</div>
@@ -244,7 +245,7 @@
 		</div>
 		<div ng-controller="startfromCtrl" class="lui block round">
 			<p>
-				myIndex: 
+				myIndex:
 				<div class="lui input">
 					<input type="number" ng-model="myIndex">
 				</div>
@@ -300,12 +301,12 @@
 				</div>
 			</p>
 			<p>
-				set myValue to 
+				set myValue to
 				<div class="lui button" ng-click="setToDate()">new Date()</div>
 				<div class="lui button" ng-click="setToMoment()">moment().startOf('week')</div>
 			</p>
 			<p>
-				myFormat: 
+				myFormat:
 				<div class="lui long input">
 					<input type="text" ng-model="myFormat">
 				</div>
@@ -344,18 +345,18 @@
 		</div>
 		<div ng-controller="calendarCtrl" class="lui block round">
 			<p>
-				myValue: 
+				myValue:
 				<div class="lui long input">
 					<input type="text" ng-model="myValue">
 				</div>
 			</p>
 			<p>
-				set myValue to 
+				set myValue to
 				<div class="lui button" ng-click="setToThisWeek()">start of week</div>
 				<div class="lui button" ng-click="setToLastWeek()">last week</div>
 			</p>
 			<p>
-				myRefDate: 
+				myRefDate:
 				<div class="lui long input">
 					<input type="text" ng-model="myRefDate">
 				</div>
@@ -381,7 +382,7 @@
 			Will try to find property <code>start</code>, <code>startsOn</code>, <code>startsAt</code>, <code>end</code>, <code>endsOn</code>, <code>endsAt</code>
 		</p>
 		<p>
-			If both start's and end's year is the current year, it will not be displayed because saying "September 25th - October 2nd" implies "September 25th - October 2nd, this year" 
+			If both start's and end's year is the current year, it will not be displayed because saying "September 25th - October 2nd" implies "September 25th - October 2nd, this year"
 		</p>
 		<p>
 			It has the parameter <code>excludeEnd</code> for when you are dealing with block going from start included to end excluded.
@@ -399,13 +400,13 @@
 		</div>
 		<div ng-controller="friendlyrangeCtrl" class="lui block round">
 			<p>
-				myBlock.start: 
+				myBlock.start:
 				<div class="lui long input">
 					<input type="text" ng-model="myBlock.start">
 				</div>
 			</p>
 			<p>
-				myBlock.end: 
+				myBlock.end:
 				<div class="lui long input">
 					<input type="text" ng-model="myBlock.end">
 				</div>
@@ -425,16 +426,16 @@
 		<h2 class="lui divider below">luifDuration</h2>
 
 		<p>
-			A filter to display a timespan or a moment.duration 
+			A filter to display a timespan or a moment.duration
 		</p>
 		<p>
 			Will try to transform the input to a moment.duration, if the resulting duration is not valid, it will return nothing
 		</p>
 		<p>
-			You can provide a format (see below) but if none is provided it will try to display 
+			You can provide a format (see below) but if none is provided it will try to display
 		</p>
 		<p>
-			<strong>Important:</strong> the argument format does not work for durations over 24 hours because moment.duration does not support <code>.format()</code>. 
+			<strong>Important:</strong> the argument format does not work for durations over 24 hours because moment.duration does not support <code>.format()</code>.
 			It will likely disappear in an incoming version in favor of an argument "mainUnit" with the logic being 35h is
 			<ul class="lui unstyled">
 				<li>1d 11h for 'day' as main unit</li>
@@ -461,7 +462,7 @@
 				</div>
 			</p>
 			<p>
-				set myValue to 
+				set myValue to
 				<div class="lui button" ng-click="myValue='PT35H'">35h</div>
 				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
 			</p>
@@ -509,7 +510,7 @@
 				</div>
 			</p>
 			<p>
-				set myValue to 
+				set myValue to
 				<div class="lui button" ng-click="myValue='PT1H'">1h</div>
 				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
 			</p>
