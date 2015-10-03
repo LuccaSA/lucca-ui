@@ -1,5 +1,4 @@
 
-
 /** ---------------------------------------------------------------------------
  * ------ UTILITIES
  * ---------------------------------------------------------------------------- */
@@ -8,7 +7,6 @@
 @import "core/utilities/_mixins";
 @import "core/utilities/_flex";
 @import "core/utilities/_loader";
-@import "core/utilities/_icon-maker";
 
 
 /**
@@ -50,6 +48,24 @@
 /** ---------------------------------------------------------------------------
  * ------ DEFINITIONS
  * ---------------------------------------------------------------------------- */
+
+/**
+ * Animated
+ * ----------------------------------------------------------------------------- */
+
+& {
+	@enabled: true;
+
+	@animation-duration: 0.5s;
+	@fade-translation-distance: 3em;
+	@scale-animation-ratio: 25; // Percentage
+
+	@import (optional) "@{themeDir}@{theme}/definitions/animated.overrides.less";
+	& when (@enabled = true) {
+		@import "core/definitions/_animated.less";
+	}
+}
+
 
 /**
  * Stuck
@@ -182,26 +198,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Icon
+ * Icon - Comes from the Lucca-icons bower component
  * --------------------------------------------------------------------------- */
-& {
-	// Circular style variables
-	@circular-width: 2em;
-	@circular-height: 2em;
-	@circular-padding: 0.5em;
+@import "@{bowerDir}/lucca-icons/src/lucca-icons";
+@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
-	@enabled: true;
-	@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
-
-	& when (@enabled = true) {
-		// Import icons definitions...
-		@import (multiple) "core/definitions/_icons.less";
-		@import (optional) "@{themeDir}@{theme}/definitions/icons.overrides.less";
-
-		// Import the element
-		@import "core/elements/_icon";
-	 }
- }
+// We define a mixin alias here for better support
+.lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
 
 
 /**
