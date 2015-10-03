@@ -47,7 +47,7 @@
 	</div>
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
-	<div class="lui animated up scale in left callout warning">
+	<div class="lui animated bounce left callout warning">
 		<p>
 			<b>Important:</b>
 			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
@@ -67,7 +67,7 @@
 	</div>
 
 	<article id="ui-select" ng-controller="uiselectCtrl">
-		<h2 class="lui divider below">UI-select</h2>
+		<h2 class="lui divider below">UI-select & dropdown</h2>
 
 		<div class="lui divider">
 			<h4 class="lui underline">Simple select</h4>
@@ -85,6 +85,16 @@
 				<span ng-bind-html="person.name | highlight: $select.search"></span>
 			</ui-select-choices>
 		</ui-select>
+
+		<div class="lui primary regular nguibs-dropdown input" dropdown>
+			<button class="lui button with addon right" dropdown-toggle>
+				I'm a dropdown menu
+				<i class="lui x-small south arrow icon addon"></i>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="color in availableColors"><a>{{ color }}</a></li>
+			</ul>
+		</div>
 
 		<div class="lui divider">
 			<h4 class="lui underline">Multi-select</h4>
