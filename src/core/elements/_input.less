@@ -79,7 +79,7 @@ textarea.lui.input {
 			transform: translate(0, -50%);
 		}
 	}
-	&.left {
+	&[class*="left icon"] {
 		> input {
 			padding-left: 0;
 			padding-right: 2.5em;
@@ -95,8 +95,8 @@ textarea.lui.input {
 
 // Addons
 // =====
-.lui.input.has-addon,
-.lui.input.has-addons {
+.lui.input[class*="with addon"],
+.lui.input[class*="with addons"] {
 	> .lui.addon {
 		display: inline-block;
 		vertical-align: middle;
@@ -105,25 +105,20 @@ textarea.lui.input {
 		background: @border-color;
 	}
 
-	&:not(.right) .lui.addon,
-	&.has-addons .lui.addon:first-child {
+	> .lui.addon:not([class*="right addon"]),
+	&[class*="with addons"] > .lui.addon:first-child {
 		border-radius: @border-radius 0 0 @border-radius;
+		+ input { border-radius: 0 @border-radius @border-radius 0; }
 	}
 
-	&:not(.right) > input {
+	> .lui[class*="right addon"],
+	&[class*="with addons"] .lui.addon:last-child {
 		border-radius: 0 @border-radius @border-radius 0;
+		margin-left: -@border-radius;
 	}
 
-	&.right .lui.addon,
-	&.has-addons .lui.addon:last-child {
-		border-radius: 0 @border-radius @border-radius 0;
-	}
-	&.right > input {
-		border-radius: @border-radius 0 0 @border-radius;
-	}
-
-	&.has-addons > input {
-		border-radius: 0;
+	&[class*="with addons"] > input {
+		border-radius: 0 !important;
 	}
 }
 
@@ -135,8 +130,8 @@ textarea.lui.input {
 	color: @coloring-text;
 	& when (@coloring-lightOnDark = true) { text-shadow: 0 1px 1px darken(@coloring-color, 15); }
 };
-.lui.input.has-addon > .addon,
-.lui.input.has-addons > .addon {
+.lui.input[class*="with addon"] > .addon,
+.lui.input[class*="with addons"] > .addon {
 	.lui_supports_coloring(@coloring-ruleset);
 }
 

@@ -165,8 +165,8 @@
 
 // Horizontal left floated
 // ====
-.lui.menu:not(.vertical) > .left.item,
-.lui.menu:not(.vertical) > .left.menu {
+.lui.menu:not(.vertical) > [class*="left item"],
+.lui.menu:not(.vertical) > [class*="left menu"] {
 	float: left; // old browsers...
 	.display-flex();
 	.flex-wrap(wrap);
@@ -174,8 +174,8 @@
 }
 // Horizontal right floated
 // ====
-.lui.menu:not(.vertical) > .right.item,
-.lui.menu:not(.vertical) > .right.menu {
+.lui.menu:not(.vertical) > [class*="right item"],
+.lui.menu:not(.vertical) > [class*="right menu"] {
 	float: right; // old browsers...
 	.display-flex();
 	.flex-wrap(wrap);
@@ -199,23 +199,23 @@
 .lui.menu.bordered,
 .lui.menu.bordered {
 	&.inverted:not(.vertical) {
-		> .left.item, > .left.menu {
+		> [class*="left item"], > [class*="left menu"] {
 			border-right: @border-width solid @border-color-inverted;
 		}
-		> .right.item, > .right.menu {
+		> [class*="right item"], > [class*="right menu"] {
 			border-left: @border-width solid @border-color-inverted;
 		}
 	}
 	&:not(.inverted):not(.vertical) {
-		> .left.item, > .left.menu {
+		> [class*="left item"], > [class*="left menu"] {
 			border-right: @border-width solid @border-color;
 		}
-		> .right.item, > .right.menu {
+		> [class*="right item"], > [class*="right menu"] {
 			border-left: @border-width solid @border-color;
 		}
 	}
 }
-.lui.menu.vertical > .left.item + .right.item {
+.lui.menu.vertical > [class*="left item"] + [class*="right item"] {
 	border-top: none;
 }
 
@@ -258,10 +258,10 @@
 		margin: @horizontal-item-y-margin (@horizontal-item-x-margin + @horizontal-item-x-padding);
 	}
 
-	> .item.right, > .menu.right {
+	> [class*="right item"], > [class*="right menu"] {
 		border-left: none !important;
 	}
-	> .item.left, > .menu.left {
+	> [class*="left item"], > [class*="left menu"] {
 		border-right: none !important;
 	}
 
@@ -435,25 +435,6 @@
 	&:after {
 		display: none;
 	}
-}
-
-/**
- * Other elements support
- * --------------------------------------------------------------------------- */
-
-// Dividing style + .item.side-border
-// ====
-.lui.menu.vertical:not([class*="right dividing"]) > .item.side-border:after {
-	left: -@divider-width;
-}
-.lui.menu.vertical[class*="right dividing"] > .item.side-border.right:after {
-	right: -@divider-width;
-}
-.lui.menu:not(.vertical):not[class*="top dividing"] > .item.side-border.up:after {
-	top: -@divider-width;
-}
-.lui.menu.vertical[class*="top dividing"] > .item.side-border.down:after {
-	bottom: -@divider-width;
 }
 
 

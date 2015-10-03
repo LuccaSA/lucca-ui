@@ -44,15 +44,15 @@
 	&:not(.filled) {
 		border-left: none;
 
-		&.up {
+		&[class*="up callout"] {
 			border-top-width: 0;
 			border-left: 1px solid @border-color;
 		}
-		&.down {
+		&[class*="down callout"] {
 			border-bottom-width: 0;
 			border-left: 1px solid @border-color;
 		}
-		&.right {
+		&[class*="right callout"] {
 			border-right-width: 0;
 			border-left: 1px solid @border-color;
 		}
@@ -73,22 +73,22 @@
 		width: @border-width;
 		min-height: 100%;
 	}
-	&.up:after {
+	&[class*="up callout"]:after {
 		top: 0; left: 0;
 		width: 100%;
 		min-height: @border-width;
 	}
-	&.right:after {
+	&[class*="right callout"]:after {
 		top: 0; left: auto; right: 0;
 		width: @border-width;
 		min-height: 100%;
 	}
-	&.left:after {
+	&[class*="left callout"]:after {
 		top: 0; left: 0;
 		width: @border-width;
 		min-height: 100%;
 	}
-	&.down:after {
+	&[class*="down callout"]:after {
 		top: auto; bottom: 0; left: 0;
 		width: 100%;
 		min-height: @border-width;

@@ -98,7 +98,7 @@
 // =====
 .lui.button.wired {
 	background: transparent;
-	&.has-addon {
+	&[class*="with addon"] {
 		> .addon {
 			background-color: transparent;
 		}
@@ -148,10 +148,9 @@
 		text-decoration: none;
 	}
 
-	&.has-addon,
-	&.has-addons {
+	&[class*="with addon"],
+	&[class*="with addons"] {
 		> .addon { border-right: none !important; background-color: transparent; }
-		&:not(.right) { padding-left: 2.5em; }
 	}
 }
 
@@ -206,7 +205,7 @@
 			box-shadow: 0 0 0 2px @coloring-color inset;
 			color: @coloring-color;
 
-			&.has-addon > .addon {
+			&[class*="with addon"] > .addon {
 				border-color: @coloring-color;
 			}
 		}
@@ -231,10 +230,10 @@
 				color: @coloring-text;
 			}
 
-			&.has-addon > .addon {
+			&[class*="with addon"] > .addon {
 				background: transparent;
 			}
-			&.has-addon:not(:hover):not(.active) > .addon {
+			&[class*="with addon"]:not(:hover):not(.active) > .addon {
 				border-color: @coloring-color;
 			}
 		}
@@ -246,12 +245,12 @@
 	&.status:not(.filling):not(.wired):not(.inverted):not(.flat),
 	&.status.filling:hover {
 		// Transparent text if icon is shown over button text
-		&:not(.has-addon) { color: transparent; }
+		&:not([class*="with addon"]) { color: transparent; }
 		// Colored icons
 		&.ok:after, &.failure:after { color: @coloring-text; }
 		// Loader color depends on @lightOnDark
-		&.loading:not(.has-addon),
-		&.loading.has-addon > .addon {
+		&.loading:not([class*="with addon"]),
+		&.loading[class*="with addon"] > .addon {
 			& when (@coloring-lightOnDark = true) {
 				&:before { border-color: rgba(255, 255, 255, 0.25); }
 				&:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
@@ -320,18 +319,6 @@
 
 	// Modern browsers: flex-box model
 	.display-flex(true);
-
-	// Alignment
-	// ====
-	&.right-aligned {
-		text-align: right;
-	}
-	&.justify-aligned {
-		text-align: justify;
-	}
-	&.left-aligned {
-		text-align: left;
-	}
 }
 
 // No border-radius
@@ -369,11 +356,12 @@
  * Icon support
  * --------------------------------------------------------------------------- */
  .lui.button.icon:before {
-	 display: inline-block;
+	@luccaIcons_factory-base();
+	display: inline-block;
  }
 .lui.button .lui.icon {
 	margin-right: 0.5em;
-	&.right {
+	&[class*="right icon"] {
 		margin-left: 0.5em; margin-right: 0;
 	}
 }
@@ -383,7 +371,7 @@
  * Icon addon
  * --------------------------------------------------------------------------- */
 
-.lui.button.has-addon {
+.lui.button[class*="with addon"] {
 	position: relative;
 	> .addon {
 		position: absolute;
@@ -432,7 +420,7 @@
 
 // Has addon > update the addon icon
 // ====
-.lui.button.status.has-addon {
+.lui.button.status[class*="with addon"] {
 	&.loading > .addon {
 		.lui_loader();
 		position: absolute;
@@ -449,7 +437,7 @@
 
 // Else
 // ====
-.lui.button.status:not(.has-addon) {
+.lui.button.status:not([class*="with addon"]) {
 	color: transparent;
 
 	&:not(.icon):before, &:after {
