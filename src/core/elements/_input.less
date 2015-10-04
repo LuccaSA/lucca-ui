@@ -8,7 +8,7 @@
 	display: inline-block;
 	vertical-align: middle;
 	.display-flex(true);
-	line-height: 1;
+	line-height: (1em + 2 * @v-padding);
 
 	> .addon, > input {
 		display: inline-block;
@@ -27,7 +27,7 @@
 		border: 1px solid @border-color;
 		background: #fff;
 		color: @color;
-		padding: @v-padding @h-padding;
+		padding: 0 @h-padding;
 
 		&:focus, &:active {
 			outline: none;
@@ -410,7 +410,7 @@ textarea.lui.input {
 luid-timespan, .luid-timespan {
 	.lui.input;
 
-	> input { width: 5em; line-height: 1; }
+	> input { width: 5em; line-height: (1em + 2 * @v-padding); }
 }
 
 
