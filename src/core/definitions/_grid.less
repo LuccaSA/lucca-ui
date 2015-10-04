@@ -24,7 +24,7 @@ body, html {
 .lui.container .lui.column[class*="-push-"] { position: relative; }
 
 // Bootstrap '.row' equivalent
-.lui.container .lui.columns { &:extend(.clear); }
+.lui.container .lui.columns { &:extend(.clear); &:after { &:extend(.clear:after); } }
 
 
 /**

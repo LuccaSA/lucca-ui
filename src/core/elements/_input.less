@@ -34,8 +34,8 @@
 			border-color: darken(@border-color, 10);
 		}
 
-	   // Placeholders
-	   // =====
+		// Placeholders
+		// =====
 		.lui_placeholder({
 			color: @placeholder-color;
 			font-style: @placeholder-style;
@@ -410,7 +410,7 @@ textarea.lui.input {
 luid-timespan, .luid-timespan {
 	.lui.input;
 
-	> input { width: 5em; }
+	> input { width: 5em; line-height: 1; }
 }
 
 
@@ -437,6 +437,7 @@ luid-moment, .luid-moment{
 		background-color: transparent;
 		border: none;
 		width: 1.3em;
+		line-height: 1;
 		&:nth-child(1) {
 			text-align: right;
 		}

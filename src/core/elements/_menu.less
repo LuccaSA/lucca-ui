@@ -148,7 +148,7 @@
 // Centered item
 .lui.menu > .centered.item,
 .lui.menu > .centered.menu {
-	margin-left: auto; margin-right: auto;
+	margin-left: auto !important; margin-right: auto !important;
 	text-align: center;
 }
 
@@ -362,7 +362,7 @@
 
 // Dividing menus inception
 .lui[class*="top dividing"].menu:not(.vertical) > .lui[class*="top dividing"].menu:not(.vertical) { border-top: none; }
-.lui[class*="bottom dividing"].menu:not(.vertical) > .lui[class*="bottom dividing"].menu:not(.vertical) { border-bottom: none; }
+.lui.dividing.menu:not([class*="top dividing"]):not(.vertical) > .lui.dividing.menu:not([class*="top dividing"]):not(.vertical) { border-bottom: none; }
 .lui[class*="left dividing"].menu.vertical > .lui[class*="left dividing"].menu.vertical { border-left: none; }
 .lui[class*="right dividing"].menu.vertical > .lui[class*="right dividing"].menu.vertical { border-right: none; }
 
