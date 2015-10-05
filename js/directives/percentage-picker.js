@@ -10,7 +10,7 @@
 			if (!attrs.format) {
 				scope.format = "0.XX";
 			}else if(attrs.format !== "0.XX" && attrs.format !== "1.XX" && attrs.format !== "XX"){
-				ngModelCtrl.$render = function () { scope.intPct = "unsupported format" };
+				ngModelCtrl.$render = function () { scope.intPct = "unsupported format"; };
 				return;
 			}
 
@@ -67,13 +67,10 @@
 			switch($scope.format){
 				case "XX":
 					return pct;
-					break;
 				case "0.XX":
 					return pct/100;
-					break;
 				case "1.XX":
 					return pct/100 + 1;
-					break;
 			}
 			return 0;
 		};
@@ -83,13 +80,10 @@
 			switch($scope.format){
 				case "XX":
 					return intInput;
-					break;
 				case "0.XX":
 					return Math.round(10000 * intInput) / 100;
-					break;
 				case "1.XX":
 					return Math.round((intInput-1) * 10000) / 100;
-					break;
 			}
 			return 0;
 		};
