@@ -3,33 +3,27 @@
  * Input
  * --------------------------------------------------------------------------- */
 
-.lui.input {
+.lui.input,
+.lui.field,
+luid-timespan, .luid-timespan {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
+
 	.display-flex(true);
-	line-height: (1em + 2 * @v-padding);
 
-	> .addon, > input {
-		display: inline-block;
-		.flex();
-	}
-
-	// Inputs styling
-	// =====
-	> input, > select,
-	>luid-moment, >.luid-moment {
+	> input, > select, > textarea, > luid-moment {
 		width: 100%;
-		display: inline-block;
-		vertical-align: middle;
-		line-height: (1em + 2 * @v-padding);
 
+		// Basic styling
+		// =====
 		border-radius: @border-radius;
 		border: 1px solid @border-color;
 		background: #fff;
 		color: @color;
-		padding: 0 @h-padding;
 
+		// Focus styling
+		// =====
 		&:focus, &:active {
 			outline: none;
 			border-color: darken(@border-color, 10);
@@ -43,29 +37,36 @@
 		});
 	}
 
-	&.fitting {
-		width: 100%;
+	// Regular input sizing
+	// =====
+	> .addon, > input {
+		padding: 0 @h-padding;
+		line-height: (1em + 2 * @v-padding);
+		display: inline-block;
+		.flex();
 	}
+
+	> select, > textarea { padding: @v-padding @h-padding; }
 }
 
-.lui.input input[type="text"],
-.lui.input input[type="password"],
-.lui.input input[type="search"],
-.lui.input textarea { cursor: text; }
+.lui.input, .lui.field { > input, > textarea { cursor: text; } }
 
-// Textareas
-// ====
-textarea.lui.input {
-	border: 1px solid @border-color;
-	&:focus, &:active { outline: none; }
-}
+// Fitting size
+// =====
+.lui.fitting.input { width: 100%; }
+
+// Inputs length (horizontal sizing)
+// =====
+.lui.input.short, .lui.field.short > input { min-width: 0; width: 8em !important; }
+.lui.input.medium, .lui.field.medium > input { min-width: 0; width: 15em !important; }
+.lui.input.long, .lui.field.long > input { min-width: 0; width: 20em !important; }
+.lui.input.x-long, .lui.field.x-long > input { min-width: 0; width: 25em !important; }
 
 // Icon support
 // =====
 .lui.input.icon {
-	> input {
-		padding-left: 2.5em;
-	}
+	> input { padding-left: 2.5em; }
+
 	.lui.icon {
 		position: absolute;
 		z-index: 2;
@@ -99,16 +100,17 @@ textarea.lui.input {
 // =====
 .lui.input[class*="with addon"],
 .lui.input[class*="with addons"] {
-	> .lui.addon {
-		display: inline-block;
+	> .addon {
+		position: relative; z-index: 2;
 		vertical-align: middle;
 		border: 1px solid @border-color;
-		padding: @v-padding @h-padding;
-		background: @border-color;
+		padding: 0 @h-padding;
+		background: @bg;
 	}
 
 	> .lui.addon:not([class*="right addon"]),
 	&[class*="with addons"] > .lui.addon:first-child {
+		margin-right: -1px;
 		border-radius: @border-radius 0 0 @border-radius;
 		+ input { border-radius: 0 @border-radius @border-radius 0; }
 	}
@@ -137,14 +139,6 @@ textarea.lui.input {
 	.lui_supports_coloring(@coloring-ruleset);
 }
 
-// Inputs length (horizontal sizing)
-// =====
-.lui.input.short, .lui.field.short > input { min-width: 0; width: 8em !important; }
-.lui.input.medium, .lui.field.medium > input { min-width: 0; width: 15em !important; }
-.lui.input.long, .lui.field.long > input { min-width: 0; width: 20em !important; }
-.lui.input.x-long, .lui.field.x-long > input { min-width: 0; width: 25em !important; }
-
-
 
 /**
  * Form & field elements
@@ -153,29 +147,17 @@ textarea.lui.input {
 .lui.form {
 
 	.lui.field { // Automatic inputs styling
-		padding-top: 1em;
-
-		.lui.input;
+		margin: @field-v-margin 0;
 		&:not(.inline) {
 			.flex-direction(column);
 
-			label {
-				display: block;
-			}
+			> label, > input { display: block; }
 		}
 
-		input[type="checkbox"] { width: auto; }
+		> input[type="checkbox"] { width: auto; }
 		input[type="checkbox"] + label { margin-left: 0.5em; }
 
-		label {
-			font-weight: 600;
-		}
-
-		// Angular support
-		// =====
-		&.ng-invalid {
-			.lui.input.invalid;
-		}
+		> label { font-weight: @field-label-font-weight; }
 	}
 }
 
@@ -198,9 +180,7 @@ textarea.lui.input {
 .lui.input.search {
 	.lui_make_icon(search);
 
-	> input {
-		padding-left: 3em;
-	}
+	> input { padding-left: 2.5em; }
 
 	&.searching {
 		.lui_loader();
@@ -221,7 +201,8 @@ textarea.lui.input {
 	}
 
 	i.empty {
-		.lui_make_icon(cross); font-style: normal;
+		.lui_make_icon(cross);
+		font-style: normal;
 		cursor: pointer;
 
 		font-size: 0.5rem;
@@ -382,10 +363,7 @@ textarea.lui.input {
 
 			&:before {
 				position: absolute;
-				top: 0;
-				bottom: 0;
-				left: 0;
-				right: 0;
+				top: 0; bottom: 0; left: 0; right: 0;
 				content: '';
 				display: block;
 				height: 50%;
@@ -408,10 +386,13 @@ textarea.lui.input {
 	}
 }
 
-luid-timespan, .luid-timespan {
-	.lui.input;
 
-	> input { width: 5em; line-height: (1em + 2 * @v-padding); }
+/**
+ * Timespan
+ * --------------------------------------------------------------------------- */
+
+luid-timespan, .luid-timespan {
+	> input { width: @timespan-width; }
 }
 
 
@@ -419,17 +400,24 @@ luid-timespan, .luid-timespan {
  * Momentpicker
  * --------------------------------------------------------------------------- */
 
-luid-moment, .luid-moment{
+luid-moment {
 	max-width: 5.25em;
 	position: relative;
 	display: inline-block;
+	padding: 0;
+
 
 	&:active, &:focus {
 		box-shadow: none;
 	}
 
 	// styling the inputs inside the directive
-	input, .input{
+	input {
+		&:first-child { padding-left: @h-padding; }
+		&:last-child { padding-right: @h-padding; }
+		line-height: (1em + 2 * @v-padding);
+		display: inline-block;
+
 		&:focus, &:active {
 			outline: none;
 			box-shadow: none;
@@ -437,11 +425,8 @@ luid-moment, .luid-moment{
 
 		background-color: transparent;
 		border: none;
-		width: 1.3em;
-		line-height: 1;
-		&:nth-child(1) {
-			text-align: right;
-		}
+		width: 2.2em;
+		&:nth-child(1) { text-align: right; }
 	}
 	// buttons + -
 	.mp-button {
@@ -464,11 +449,9 @@ luid-moment, .luid-moment{
 	}
 
 	&.ng-invalid {
-		.lui.input.invalid !important;
+		.lui.invalid.input !important;
 		border-color: @invalid-color !important;
-		.mp-button {
-			background-color: @invalid-color !important;
-		}
+		.mp-button { background-color: @invalid-color !important; }
 	}
 }
 
@@ -478,13 +461,13 @@ luid-moment, .luid-moment{
  * Validation
  * --------------------------------------------------------------------------- */
 
-.lui.input.invalid {
+.lui.invalid.input,
+.lui.invalid.field,
+.lui.ng-invalid.field {
 	color: @invalid-color;
 	> input {
 		color: @invalid-color;
 		border-color: @invalid-color;
-		.lui_placeholder({
-			color: lighten(@invalid-color, 15);
-		});
+		.lui_placeholder({ color: lighten(@invalid-color, 15); });
 	}
 }

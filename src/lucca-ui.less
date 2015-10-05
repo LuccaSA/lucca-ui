@@ -317,6 +317,7 @@
  * --------------------------------------------------------------------------- */
 
 & {
+	@bg: #FFF;
 	@border-radius: 3px;
 	@border-color: #CCC;
 	@color: #666;
@@ -326,6 +327,9 @@
 	@placeholder-style: italic;
 	@invalid-color: #f60;
 
+	@field-v-margin: 0.5em;
+	@field-label-font-weight: 600;
+
 	@checkbox-color: #FFC900;
 
 	@switch-bg: #666;
@@ -334,6 +338,8 @@
 	@switch-bg-active: #FFC900;
 	@switch-color-active: darken(@switch-bg-active, 15);
 	@switch-grab-lines-color: #CCC;
+
+	@timespan-width: 5em;
 
 	@enabled: true;
 	@import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
