@@ -3,48 +3,51 @@
  * Input
  * --------------------------------------------------------------------------- */
 
-.lui.input,
-.lui.field,
-luid-timespan, .luid-timespan {
+.lui_input_holder_ruleset {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-
 	.display-flex(true);
+}
+.lui_base_input_ruleset {
+	width: 100%;
 
-	> input, > select, > textarea, > luid-moment {
-		width: 100%;
-
-		// Basic styling
-		// =====
-		border-radius: @border-radius;
-		border: 1px solid @border-color;
-		background: #fff;
-		color: @color;
-
-		// Focus styling
-		// =====
-		&:focus, &:active {
-			outline: none;
-			border-color: darken(@border-color, 10);
-		}
-
-		// Placeholders
-		// =====
-		.lui_placeholder({
-			color: @placeholder-color;
-			font-style: @placeholder-style;
-		});
-	}
-
-	// Regular input sizing
+	// Basic styling
 	// =====
-	> .addon, > input {
-		padding: 0 @h-padding;
-		line-height: (1em + 2 * @v-padding);
-		display: inline-block;
-		.flex();
+	border-radius: @border-radius;
+	border: 1px solid @border-color;
+	background: #fff;
+	color: @color;
+
+	// Focus styling
+	// =====
+	&:focus, &:active {
+		outline: none;
+		border-color: darken(@border-color, 10);
 	}
+
+	// Placeholders
+	// =====
+	.lui_placeholder({
+		color: @placeholder-color;
+		font-style: @placeholder-style;
+	});
+}
+
+.lui_text_input_ruleset {
+	padding: 0 @h-padding;
+	line-height: (1em + 2 * @v-padding);
+	display: inline-block;
+	.flex();
+}
+
+.lui.input,
+.lui.field {
+	&:extend(.lui_input_holder_ruleset);
+
+	> input, > select, > textarea { &:extend(.lui_base_input_ruleset); &:extend(.lui_input_ruleset); }
+
+	> .addon, > input { &:extend(.lui_text_input_ruleset); }
 
 	> select, > textarea { padding: @v-padding @h-padding; }
 }
@@ -391,8 +394,14 @@ luid-timespan, .luid-timespan {
  * Timespan
  * --------------------------------------------------------------------------- */
 
-luid-timespan, .luid-timespan {
-	> input { width: @timespan-width; }
+luid-timespan {
+	&:extend(.lui_input_holder_ruleset);
+
+	> input {
+		&:extend(.lui_base_input_ruleset);
+		&:extend(.lui_text_input_ruleset);
+		width: @timespan-width;
+	}
 }
 
 
@@ -402,10 +411,14 @@ luid-timespan, .luid-timespan {
 
 luid-moment {
 	max-width: 5.25em;
-	position: relative;
-	display: inline-block;
-	padding: 0;
 
+	&:extend(.lui_input_holder_ruleset);
+
+	> .luid-moment {
+		&:extend(.lui_base_input_ruleset);
+		&:extend(.lui_text_input_ruleset);
+		padding: 0;
+	}
 
 	&:active, &:focus {
 		box-shadow: none;
@@ -430,13 +443,13 @@ luid-moment {
 	}
 	// buttons + -
 	.mp-button {
+		line-height: 1.5em;
 		user-select: none;
 		font-size: 75%;
 		position: absolute;
 		z-index: 999;
 		cursor: pointer;
-		left:-1px;
-		right:-1px;
+		width: 50%;
 		text-align: center;
 		color: #FFF;
 		background-color: @border-color;
@@ -444,8 +457,8 @@ luid-moment {
 		// Positions
 		&.top { bottom: 100%; }
 		&.bottom { top: 100%; }
-		&.left { right: 50%; }
-		&.right { left: 50%; }
+		&.left { left: 0; }
+		&.right { right: 0; }
 	}
 
 	&.ng-invalid {
