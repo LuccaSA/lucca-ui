@@ -26,17 +26,11 @@
 		<a class="item" href="./index.html">less framework</a>
 		<a class="item" href="./filters.html">lui filters</a>
 		<a class="item active" href="./nguibs.html">lui nguibs</a>
-		<!-- <a class="item" href="./directives.html">lui directives</a> -->
+		<a class="item" href="./directives.html">lui directives</a>
 		<div class="lui vertical dashed divider"></div>
-		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
-		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
-		<a class="item" href="#luifNumber">luifNumber</a>
-		<a class="item" href="#luifStartFrom">luifStartFrom</a>
-		<a class="item" href="#luifMoment">luifMoment</a>
-		<a class="item" href="#luifCalendar">luifCalendar</a>
-		<a class="item" href="#luifFriendlyRange">luifFriendlyRange</a>
-		<a class="item" href="#luifDuration">luifDuration</a>
-		<a class="item" href="#luifHumanize">luifHumanize</a>
+		<a class="item" href="#ui-select">ui-select</a>
+		<a class="item" href="#tooltip">tooltip</a>
+
 	</nav>
 
 
@@ -50,20 +44,18 @@
 	<div class="lui animated bounce left callout warning">
 		<p>
 			<b>Important:</b>
-			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
-			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
+			The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be 
 		</p>
 		<p>
-			The exact list of dependencies which can be found in the bower.json file is:
+			The exact list of dependencies, which can be found in the bower.json file, is:
 			<ul class="lui unstyled">
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.0.3</span></li>
 				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
 				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
 				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span></li>
 			</ul>
 		</p>
-		<p>
-			None of the filters displayed here use angular-bootstrap
-		</p>
+
 	</div>
 
 	<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
