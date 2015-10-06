@@ -1,4 +1,5 @@
 (function(){
+	'use strict';
 
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 	angular.module('filterApp',['lui']);

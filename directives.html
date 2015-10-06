@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="../dist/lucca-ui.js"></script>
+	<script src="js/directives.js"></script>
+</head>
+<body ng-app="filterApp">
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="./index.html">less framework</a>
+		<a class="item" href="./nguibs.html">lui nguibs</a>
+		<a class="item" href="./filters.html">lui filters</a>
+		<a class="item active" href="#">lui directives</a>
+		<div class="lui vertical dashed divider"></div>
+		<a class="item" href="#luid-timespan">luid-timespan</a>
+		<a class="item" href="#luid-percentage">luid-percentage</a>
+	</nav>
+
+
+<section id="main-content" class="lui container">
+	<h1 class="lui column desktop-8">Lucca UI</h1>
+	<div class="lui column desktop-4">
+		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</div>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+
+	<div class="lui callout warning">
+		<p>
+			<b>Important:</b>
+			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
+		</p>
+		<p>
+			The exact list of dependencies which can be found in the bower.json file is:
+			<ul class="lui unstyled">
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.0.3</span></li>
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span></li>
+			</ul>
+		</p>
+	</div>
+
+	<article id="luid-timespan">
+		<h2 class="lui divider below">luid-timespan</h2>
+
+		<p>
+			An input that display and edit a timespan in a user friendly manner but has a model value more easily usable by the js code.
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Features:</h4>
+		</div>
+		<p>
+			It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of duration. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-timespan to be compatible with <code>required</code> and <code>ng-required</code>.
+		</p>
+		<p>
+			Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>140</code> and press enter, the text will change to <code>02h20</code>
+		</p>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value the value.
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Supported arguments:</h4>
+		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
+				<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
+				<li><code>placeholder</code>: placeholder to display when the input is empty</li>
+			</ul>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-timespan ng-model="myValue"&gt;&lt;/luid-timespan&gt;</pre>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="timespanCtrl" class="lui block round">
+			<form name="myForm">
+				<p>
+					myValue in luid-timespan (required): 
+					<luid-timespan name="myTimespan" ng-model="myValue" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
+					<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
+				</p>
+				<p>
+					myValue as it is in $scope: 
+					<span class="lui input">
+						<input name="myTextInput" type="text" ng-model="myValue">
+					</span>
+				</p>
+				<p>
+					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
+				</p>
+			</form>
+		</div>
+	</article>
+
+	<article id="luid-percentage">
+		<h2 class="lui divider below">luid-percentage</h2>
+
+		<p>
+			An input that display and edit a percentage in a user friendly manner but has a model value more easily usable by the js code and support differnet formats.
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Features:</h4>
+		</div>
+		<p>
+			It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of float. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-percentage to be compatible with <code>required</code> and <code>ng-required</code>.
+		</p>
+		<p>
+			Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>10.00</code> and press enter, the text will change to <code>10</code>
+		</p>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value the value.
+		</p>
+		<p>
+			Supports 3 formats : 
+			<ul class="lui unstyled">
+				<li><code>0.XX</code> default format. 10% in the input will be translated to 0.1 in the scope</li>
+				<li><code>XX</code> 10% in the input will be translated to 10 in the scope</li>
+				<li><code>1.XX</code> 10% in the input will be translated to 1.1 in the scope, use this format if you want to directly use the value as multiplicative coefficient</li>
+			</ul>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Supported arguments:</h4>
+		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>format</code>: "0.XX", "XX" or "1.XX". the default is "0.XX", see above</li>
+				<li><code>step</code>: when scrolling or pressing the up/down key, how many percents you want to be added. The default is 5</li>
+				<li><code>placeholder</code>: placeholder to display when the input is empty</li>
+			</ul>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-percentage ng-model="myValue"&gt;&lt;/luid-percentage&gt;
+&lt;luid-percentage ng-model="myValue" format="XX" step=25&gt;&lt;/luid-percentage&gt;</pre>
+		</p>
+		<div class="lui divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="percentageCtrl" class="lui block round">
+			<form name="myForm">
+				<p>
+					myValue in luid-percentage using format="1.XX": 
+					<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
+				</p>
+				<p>
+					myValue as it is in $scope: 
+					<span class="lui input">
+						<input name="myTextInput" type="text" ng-model="myValue">
+					</span>
+				</p>
+				<p>
+					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
+				</p>
+				<p>
+					myPrice: 
+					<span class="lui input">
+						<input type="number" ng-model="myPrice">
+					</span>
+					increased by <luid-percentage name="myTimespan" ng-model="myCoeff" format="1.XX" step=10></luid-percentage>: 
+					<code>{{ myCoeff * myPrice | currency}}</code>, made using format="1.XX"
+				</p>
+			</form>
+		</div>
+	</article>
+</section>
+</body>
+</html>

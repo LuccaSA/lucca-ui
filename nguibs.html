@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
+	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.css" media="screen" title="no title" charset="utf-8">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-sanitize.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="../dist/lucca-ui.min.js"></script>
+	<script src="js/nguibs.js"></script>
+</head>
+<body ng-app="nguibsApp">
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="./index.html">less framework</a>
+		<a class="item" href="./filters.html">lui filters</a>
+		<a class="item active" href="./nguibs.html">lui nguibs</a>
+		<a class="item" href="./directives.html">lui directives</a>
+		<div class="lui vertical dashed divider"></div>
+		<a class="item" href="#ui-select">ui-select</a>
+		<a class="item" href="#tooltip">tooltip</a>
+
+	</nav>
+
+
+<section id="main-content" class="lui container">
+	<h1 class="lui column desktop-8">Lucca UI</h1>
+	<div class="lui column desktop-4">
+		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</div>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+
+	<div class="lui animated bounce left callout warning">
+		<p>
+			<b>Important:</b>
+			The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be 
+		</p>
+		<p>
+			The exact list of dependencies, which can be found in the bower.json file, is:
+			<ul class="lui unstyled">
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.0.3</span></li>
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span></li>
+			</ul>
+		</p>
+
+	</div>
+
+	<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
+		<h2 class="lui divider below">UI-select & dropdown</h2>
+
+		<div class="lui divider">
+			<h4 class="lui underline">Simple select</h4>
+		</div>
+		<ui-select ng-model="person.selected" theme="bootstrap" ng-disabled="disabled" class="lui regular nguibs-ui-select input">
+			<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+			<ui-select-choices repeat="person in people | filter: $select.search">
+				<span ng-bind-html="person.name | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+
+		<ui-select ng-model="person.selected" theme="bootstrap" ng-disabled="disabled" class="lui primary regular nguibs-ui-select input">
+			<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+			<ui-select-choices repeat="person in people | filter: $select.search">
+				<span ng-bind-html="person.name | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+
+		<div class="lui primary regular nguibs-dropdown input" dropdown>
+			<button class="lui button with addon right" dropdown-toggle>
+				I'm a dropdown menu
+				<i class="lui x-small south arrow icon addon"></i>
+			</button>
+			<ul class="dropdown-menu">
+				<li ng-repeat="color in availableColors"><a>{{ color }}</a></li>
+			</ul>
+		</div>
+
+		<div class="lui input">
+			<input type="text" name="name" value="">
+		</div>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline">Multi-select</h4>
+		</div>
+		<ui-select multiple ng-model="colors" theme="bootstrap" ng-disabled="disabled" class="lui regular nguibs-ui-select input">
+			<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+			<ui-select-choices repeat="color in availableColors | filter:$select.search">
+				{{color}}
+			</ui-select-choices>
+		</ui-select>
+
+	</article>
+
+	<article id="tooltip" ng-controller="tooltipCtrl">
+		<h2 class="lui divider below">Tooltip</h2>
+		<button tooltip="Hello there!" tooltip-class="lui primary nguibs-tooltip" tooltip-trigger="click" tooltip-placement="left" class="lui flat button">Hover me!</button>
+	</article>
+</section>
+</body>
+</html>
