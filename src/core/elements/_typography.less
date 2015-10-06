@@ -2,9 +2,12 @@
 /**
  * General
  * --------------------------------------------------------------------------- */
-.lui.body {
-	font-size: @font-size;
 
+ // Only bleeding thing!
+ // But must be done in order to be able to use REM units
+ html { font-size: @font-size; }
+
+.lui.body {
 	font-family: @font-family;
 	color: @color;
 	line-height: @line-height;
@@ -12,9 +15,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	small {
-		font-size: @small-size;
-	}
+	small { font-size: @small-size; }
 
 	/**
 	 * Headings
