@@ -529,7 +529,7 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: "<div class='lui short input with addon right'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui addon'>%</i></div>"
+			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
 		};
 	}])
 	.controller('luidPercentageController', ['$scope', 'moment', function ($scope, moment) {
