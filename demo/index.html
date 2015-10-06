@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Lucca UI - Demo</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8"> -->
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
 
@@ -15,12 +15,12 @@
 	<script type="text/javascript" src="js/demo.js"></script>
 
 </head>
-<body ng-app="demoApp">
+<body class="lui body" ng-app="demoApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
 		<a class="item active" href="./index.html">less framework</a>
-		<a class="item" href="./filters.html">lui filters</a>
 		<a class="item" href="./nguibs.html">lui nguibs</a>
+		<a class="item" href="./filters.html">lui filters</a>
 		<a class="item" href="./directives.html">lui directives</a>
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#lui-grid">The grid</a>
@@ -37,7 +37,7 @@
 <div id="main-content" class="lui container">
 	<h1 class="lui column desktop-8">Lucca UI</h1>
 	<div class="lui column desktop-4">
-		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+		<a class="lui large right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 	</div>
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.1</span></p>
 
@@ -104,39 +104,6 @@
 				<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
 				<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
 			</div>
-		</div>
-	</article>
-
-	<article id="lui-typography">
-		<h2 class="lui divider below">Typography</h2>
-
-		<h4 class="lui divider">Lucca's less framework <span class="lui sub heading">Introduction</span></h4>
-		<p>
-			Semantics (from Ancient Greek: σημαντικός sēmantikós, "significant")[1][2] is the study of meaning. It focuses on the relation between signifiers, like words, phrases, signs, and symbols, and what they stand for; their denotation. Linguistic semantics is the study of meaning that is used for understanding human expression through language. Other forms of semantics include the semantics of programming languages, formal logics, and semiotics. In international scientific vocabulary semantics is also called semasiology.
-		</p>
-		<h5>Semiasology, sounds complicated</h5>
-		<p>
-			The word <a href="#">semantics</a> itself denotes a range of ideas—from the popular to the highly technical. It is often used in ordinary language for denoting a problem of understanding that comes down to word selection or connotation. This problem of understanding has been the subject of many formal enquiries, over a long period of time, especially in the field of formal semantics. In linguistics, it is the study of the interpretation of signs or symbols used in agents or communities within particular circumstances and contexts.[3] Within this view, sounds, facial expressions, body language, and proxemics have semantic (meaningful) content, and each comprises several branches of study. In written language, things like paragraph structure and punctuation bear semantic content; other forms of language bear other semantic content.[3]
-		</p>
-		<p>
-			The formal study of semantics intersects with many other fields of inquiry, including lexicology, syntax, pragmatics, etymology and others. Independently, semantics is also a well-defined field in its own right, often with synthetic properties.[4] In the philosophy of language, semantics and reference are closely connected. Further related fields include philology, communication, and semiotics. The formal study of semantics can therefore be manifold and complex.
-		</p>
-		<p>
-			Semantics contrasts with syntax, the study of the combinatorics of units of a language (without reference to their meaning), and pragmatics, the study of the relationships between the symbols of a language, their meaning, and the users of the language.[5] Semantics as a field of study also has significant ties to various representational theories of meaning including truth theories of meaning, coherence theories of meaning, and correspondence theories of meaning. Each of these is related to the general philosophical study of reality and the representation of meaning.
-		</p>
-
-		<div class="lui block raised round">
-			<header class="header">
-				<h4>This is a building block</h4>
-			</header>
-			<div class="">
-				<p>
-					tralala
-				</p>
-			</div>
-			<footer class="footer">
-				<small>I'm so cute!</small>
-			</footer>
 		</div>
 	</article>
 
@@ -309,9 +276,6 @@
 			</p>
 
 		</section>
-
-
-
 	</article>
 
 	<article id="lui-icon">
@@ -324,371 +288,6 @@
 		<p>
 			Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
 		</p>
-		<div class="lui divider">
-			<h4 class="lui underline">List of all available icons</h4>
-		</div>
-		<ul class="icon-list lucca-input-group">
-			<li>
-				<i class="lui icon pin"></i>
-				<input type="text" readonly="readonly" value="pin">
-			</li>
-			<li>
-				<i class="lui icon plus"></i>
-				<input type="text" readonly="readonly" value="plus">
-			</li>
-			<li>
-				<i class="lui icon analytics"></i>
-				<input type="text" readonly="readonly" value="analytics">
-			</li>
-			<li>
-				<i class="lui icon chevron east"></i>
-				<input type="text" readonly="readonly" value="chevron east">
-			</li>
-			<li>
-				<i class="lui icon chevron north"></i>
-				<input type="text" readonly="readonly" value="chevron north">
-			</li>
-			<li>
-				<i class="lui icon chevron south"></i>
-				<input type="text" readonly="readonly" value="chevron south">
-			</li>
-			<li>
-				<i class="lui icon chevron west"></i>
-				<input type="text" readonly="readonly" value="chevron west">
-			</li>
-			<li>
-				<i class="lui icon attachment"></i>
-				<input type="text" readonly="readonly" value="attachment">
-			</li>
-			<li>
-				<i class="lui icon blocks"></i>
-				<input type="text" readonly="readonly" value="blocks">
-			</li>
-			<li>
-				<i class="lui icon branch"></i>
-				<input type="text" readonly="readonly" value="branch">
-			</li>
-			<li>
-				<i class="lui icon coffee"></i>
-				<input type="text" readonly="readonly" value="coffee">
-			</li>
-			<li>
-				<i class="lui icon check"></i>
-				<input type="text" readonly="readonly" value="check">
-			</li>
-			<li>
-				<i class="lui icon checkbox"></i>
-				<input type="text" readonly="readonly" value="checkbox">
-			</li>
-			<li>
-				<i class="lui icon checkbox checked"></i>
-				<input type="text" readonly="readonly" value="checkbox checked">
-			</li>
-			<li>
-				<i class="lui icon clock"></i>
-				<input type="text" readonly="readonly" value="clock">
-			</li>
-			<li>
-				<i class="lui icon cross"></i>
-				<input type="text" readonly="readonly" value="cross">
-			</li>
-			<li>
-				<i class="lui icon calendar"></i>
-				<input type="text" readonly="readonly" value="calendar">
-			</li>
-			<li>
-				<i class="lui icon download"></i>
-				<input type="text" readonly="readonly" value="download">
-			</li>
-			<li>
-				<i class="lui icon edit"></i>
-				<input type="text" readonly="readonly" value="edit">
-			</li>
-			<li>
-				<i class="lui icon edit frame"></i>
-				<input type="text" readonly="readonly" value="edit frame">
-			</li>
-			<li>
-				<i class="lui icon edit mini"></i>
-				<input type="text" readonly="readonly" value="edit mini">
-			</li>
-			<li>
-				<i class="lui icon ellipsis"></i>
-				<input type="text" readonly="readonly" value="ellipsis">
-			</li>
-			<li>
-				<i class="lui icon error"></i>
-				<input type="text" readonly="readonly" value="error">
-			</li>
-			<li>
-				<i class="lui icon files"></i>
-				<input type="text" readonly="readonly" value="files">
-			</li>
-			<li>
-				<i class="lui icon filter"></i>
-				<input type="text" readonly="readonly" value="filter">
-			</li>
-			<li>
-				<i class="lui icon email"></i>
-				<input type="text" readonly="readonly" value="email">
-			</li>
-			<li>
-				<i class="lui icon add user"></i>
-				<input type="text" readonly="readonly" value="add user">
-			</li>
-			<li>
-				<i class="lui icon help"></i>
-				<input type="text" readonly="readonly" value="help">
-			</li>
-			<li>
-				<i class="lui icon list"></i>
-				<input type="text" readonly="readonly" value="list">
-			</li>
-			<li>
-				<i class="lui icon lock"></i>
-				<input type="text" readonly="readonly" value="lock">
-			</li>
-			<li>
-				<i class="lui icon forbidden"></i>
-				<input type="text" readonly="readonly" value="forbidden">
-			</li>
-			<li>
-				<i class="lui icon minus"></i>
-				<input type="text" readonly="readonly" value="minus">
-			</li>
-			<li>
-				<i class="lui icon move"></i>
-				<input type="text" readonly="readonly" value="move">
-			</li>
-			<li>
-				<i class="lui icon move h"></i>
-				<input type="text" readonly="readonly" value="move h">
-			</li>
-			<li>
-				<i class="lui icon move v"></i>
-				<input type="text" readonly="readonly" value="move v">
-			</li>
-			<li>
-				<i class="lui icon notification"></i>
-				<input type="text" readonly="readonly" value="notification">
-			</li>
-			<li>
-				<i class="lui icon outside"></i>
-				<input type="text" readonly="readonly" value="outside">
-			</li>
-			<li>
-				<i class="lui icon camera"></i>
-				<input type="text" readonly="readonly" value="camera">
-			</li>
-			<li>
-				<i class="lui icon printer"></i>
-				<input type="text" readonly="readonly" value="printer">
-			</li>
-			<li>
-				<i class="lui icon refresh"></i>
-				<input type="text" readonly="readonly" value="refresh">
-			</li>
-			<li>
-				<i class="lui icon remove user"></i>
-				<input type="text" readonly="readonly" value="remove user">
-			</li>
-			<li>
-				<i class="lui icon drag"></i>
-				<input type="text" readonly="readonly" value="drag">
-			</li>
-			<li>
-				<i class="lui icon search"></i>
-				<input type="text" readonly="readonly" value="search">
-			</li>
-			<li>
-				<i class="lui icon send"></i>
-				<input type="text" readonly="readonly" value="send">
-			</li>
-			<li>
-				<i class="lui icon to user"></i>
-				<input type="text" readonly="readonly" value="send to user">
-			</li>
-			<li>
-				<i class="lui icon settings"></i>
-				<input type="text" readonly="readonly" value="settings">
-			</li>
-			<li>
-				<i class="lui icon comment"></i>
-				<input type="text" readonly="readonly" value="comment">
-			</li>
-			<li>
-				<i class="lui icon timer"></i>
-				<input type="text" readonly="readonly" value="timer">
-			</li>
-			<li>
-				<i class="lui icon trash"></i>
-				<input type="text" readonly="readonly" value="trash">
-			</li>
-			<li>
-				<i class="lui icon unlock"></i>
-				<input type="text" readonly="readonly" value="unlock">
-			</li>
-			<li>
-				<i class="lui icon upload"></i>
-				<input type="text" readonly="readonly" value="upload">
-			</li>
-			<li>
-				<i class="lui icon user"></i>
-				<input type="text" readonly="readonly" value="user">
-			</li>
-			<li>
-				<i class="lui icon warning"></i>
-				<input type="text" readonly="readonly" value="warning">
-			</li>
-			<li>
-				<i class="lui icon bank card"></i>
-				<input type="text" readonly="readonly" value="bank card">
-			</li>
-			<li>
-				<i class="lui icon bookmark"></i>
-				<input type="text" readonly="readonly" value="bookmark">
-			</li>
-			<li>
-				<i class="lui icon coins"></i>
-				<input type="text" readonly="readonly" value="coins">
-			</li>
-			<li>
-				<i class="lui icon milestone"></i>
-				<input type="text" readonly="readonly" value="milestone">
-			</li>
-			<li>
-				<i class="lui icon quantity"></i>
-				<input type="text" readonly="readonly" value="quantity">
-			</li>
-			<li>
-				<i class="lui icon luggage"></i>
-				<input type="text" readonly="readonly" value="luggage">
-			</li>
-			<li>
-				<i class="lui icon train"></i>
-				<input type="text" readonly="readonly" value="train">
-			</li>
-			<li>
-				<i class="lui icon tools"></i>
-				<input type="text" readonly="readonly" value="tools">
-			</li>
-			<li>
-				<i class="lui icon toll dollar"></i>
-				<input type="text" readonly="readonly" value="toll dollar">
-			</li>
-			<li>
-				<i class="lui icon toll euro"></i>
-				<input type="text" readonly="readonly" value="toll euro">
-			</li>
-			<li>
-				<i class="lui icon taxi"></i>
-				<input type="text" readonly="readonly" value="taxi">
-			</li>
-			<li>
-				<i class="lui icon clean car"></i>
-				<input type="text" readonly="readonly" value="clean car">
-			</li>
-			<li>
-				<i class="lui icon car"></i>
-				<input type="text" readonly="readonly" value="car">
-			</li>
-			<li>
-				<i class="lui icon postage"></i>
-				<input type="text" readonly="readonly" value="postage">
-			</li>
-			<li>
-				<i class="lui icon iron"></i>
-				<input type="text" readonly="readonly" value="iron">
-			</li>
-			<li>
-				<i class="lui icon plane"></i>
-				<input type="text" readonly="readonly" value="plane">
-			</li>
-			<li>
-				<i class="lui icon piggy bank"></i>
-				<input type="text" readonly="readonly" value="piggy bank">
-			</li>
-			<li>
-				<i class="lui icon phone"></i>
-				<input type="text" readonly="readonly" value="phone">
-			</li>
-			<li>
-				<i class="lui icon parking"></i>
-				<input type="text" readonly="readonly" value="parking">
-			</li>
-			<li>
-				<i class="lui computer mouse icon"></i>
-				<input type="text" readonly="readonly" value="computer mouse">
-			</li>
-			<li>
-				<i class="lui icon subway"></i>
-				<input type="text" readonly="readonly" value="subway">
-			</li>
-			<li>
-				<i class="lui icon meal"></i>
-				<input type="text" readonly="readonly" value="meal">
-			</li>
-			<li>
-				<i class="lui icon lunch"></i>
-				<input type="text" readonly="readonly" value="lunch">
-			</li>
-			<li>
-				<i class="lui icon mileage"></i>
-				<input type="text" readonly="readonly" value="mileage">
-			</li>
-			<li>
-				<i class="lui icon hotel"></i>
-				<input type="text" readonly="readonly" value="hotel">
-			</li>
-			<li>
-				<i class="lui icon gasoline"></i>
-				<input type="text" readonly="readonly" value="gasoline">
-			</li>
-			<li>
-				<i class="lui icon euro"></i>
-				<input type="text" readonly="readonly" value="euro">
-			</li>
-			<li>
-				<i class="lui icon drink"></i>
-				<input type="text" readonly="readonly" value="drink">
-			</li>
-			<li>
-				<i class="lui icon diner"></i>
-				<input type="text" readonly="readonly" value="diner">
-			</li>
-			<li>
-				<i class="lui icon dollar"></i>
-				<input type="text" readonly="readonly" value="dollar">
-			</li>
-			<li>
-				<i class="lui icon computer"></i>
-				<input type="text" readonly="readonly" value="computer">
-			</li>
-			<li>
-				<i class="lui icon bus"></i>
-				<input type="text" readonly="readonly" value="bus">
-			</li>
-			<li>
-				<i class="lui icon breakfast"></i>
-				<input type="text" readonly="readonly" value="breakfast">
-			</li>
-			<li>
-				<i class="lui icon arrow west"></i>
-				<input type="text" readonly="readonly" value="arrow west">
-			</li>
-			<li>
-				<i class="lui icon arrow east"></i>
-				<input type="text" readonly="readonly" value="arrow east">
-			</li>
-			<li>
-				<i class="lui icon arrow north"></i>
-				<input type="text" readonly="readonly" value="arrow north">
-			</li>
-			<li>
-				<i class="lui icon arrow south"></i>
-				<input type="text" readonly="readonly" value="arrow south">
-			</li>
-		</ul>
 	</article>
 
 	<article id="lui-label">
@@ -941,7 +540,7 @@
 				<a href="#" class="item">on the left</a>
 			</div>
 
-			<div class="lui item right">
+			<div class="lui right item">
 				<div class="lui buttons">
 					<button class="lui button icon edit"></button>
 					<button class="lui button icon files"></button>
@@ -965,7 +564,7 @@
 			<a class="item" href="#">as well as</a>
 			<a class="item" href="#">center aligned</a>
 
-			<div class="lui item right">
+			<div class="lui right item">
 				<div class="lui input search fit">
 					<input type="search" name="name" placeholder="Search..." value="">
 				</div>
@@ -984,7 +583,7 @@
 			<a class="item" href="#">Item 02</a>
 			<a class="item" href="#">Item 03</a>
 		</div>
-		<div class="clear"></div>
+		<div class="lui clear"></div>
 		<div class="lui menu top dividing justify">
 			<div class="lui top dividing left menu">
 				<div class="item header">Justified</div>
