@@ -83,6 +83,9 @@
 						var momentValue = moment(this.$viewValue, format);
 						scope.hours = momentValue.format('HH');
 						scope.mins = momentValue.format('mm');
+					}else{
+						scope.hours = undefined;
+						scope.mins = undefined;
 					}
 				};
 				ngModelCtrl.setValue = function(newMomentValue){
@@ -94,9 +97,12 @@
 				};
 			}else{
 				ngModelCtrl.$render = function(){
-					if(this.$viewValue && this.$viewValue.isValid()){
+					if(this.$viewValue && !!this.$viewValue.isValid && this.$viewValue.isValid()){
 						scope.hours = this.$viewValue.format('HH');
 						scope.mins = this.$viewValue.format('mm');
+					}else{
+						scope.hours = undefined;
+						scope.mins = undefined;
 					}
 				};
 				ngModelCtrl.setValue = function(newMomentValue){ ngModelCtrl.$setViewValue(newMomentValue); };
@@ -162,7 +168,7 @@
 			$scope.ngModelCtrl.$setValidity('pattern', true);
 
 			var curr = moment(currentValue());
-			if(!curr){curr = getRefDate().startOf('day');}
+			if(!curr || !curr.isValid()){curr = getRefDate().startOf('day');}
 			if(contains(specialSteps, Math.abs(step)) && curr.minutes()%step!==0){
 				step = step<0? -(curr.minutes()%step) : -curr.minutes()%step + step;
 			}
@@ -237,6 +243,7 @@
 			var intMinutes = parseInt($scope.mins);
 			if(intHours!=intHours){intHours = 0;} // intHour isNaN
 			if(intMinutes!=intMinutes){intMinutes = 0;} // intMins isNaN
+			if(intMinutes > 60){ intMinutes = 59; $scope.mins = "59"; }
 
 			return getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
 		};
