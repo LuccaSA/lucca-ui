@@ -2,83 +2,82 @@
 /**
  * General
  * --------------------------------------------------------------------------- */
-html {
+.lui.body {
 	font-size: @font-size;
-}
-body {
+
 	font-family: @font-family;
 	color: @color;
 	line-height: @line-height;
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
 
-small {
-	font-size: @small-size;
-}
-
-/**
- * Headings
- * --------------------------------------------------------------------------- */
-
-h1, h2, h3, h4, h5, h6 {
-	font-family: @heading-font;
-	line-height: @heading-line-height;
-	margin: @heading-v-margin 0;
-	font-weight: @heading-font-weight;
-	padding: 0em;
-}
-
-h1 {
-	font-size: @h1-size;
-	font-weight: @h1-weight;
-}
-h2 {
-	font-size: @h2-size;
-	font-weight: @h2-weight;
-}
-h3 {
-	font-size: @h3-size;
-	font-weight: @h3-weight;
-}
-h4 {
-	font-size: @h4-size;
-	font-weight: @h4-weight;
-}
-h5 {
-	font-size: @h5-size;
-	font-weight: @h5-weight;
-}
-h6 {
-	font-size: @h6-size;
-	font-weight: @h6-weight;
-}
-
-.lui.sub.heading {
-	letter-spacing: normal;
-	color: lighten(@color, 15);
-}
-
-h1, h2, h3, h4, h5, h6 {
-	// Sub heading
-	// =====
-	.lui.sub.heading {
-		display: inline-block;
-		vertical-align: middle;
-		font-size: 0.9rem;
+	small {
+		font-size: @small-size;
 	}
 
-	// Icon support
-	// =====
-	.lui.icon:not(.button) {
-		margin-right: .5em;
-		vertical-align: top;
-		font-size: @icon-in-heading-size;
+	/**
+	 * Headings
+	 * --------------------------------------------------------------------------- */
 
-		&.right {
-			margin-left: .5em;
-			margin-right: 0;
+	h1, h2, h3, h4, h5, h6 {
+		font-family: @heading-font;
+		line-height: @heading-line-height;
+		margin: @heading-v-margin 0;
+		font-weight: @heading-font-weight;
+		padding: 0em;
+	}
+
+	h1 {
+		font-size: @h1-size;
+		font-weight: @h1-weight;
+	}
+	h2 {
+		font-size: @h2-size;
+		font-weight: @h2-weight;
+	}
+	h3 {
+		font-size: @h3-size;
+		font-weight: @h3-weight;
+	}
+	h4 {
+		font-size: @h4-size;
+		font-weight: @h4-weight;
+	}
+	h5 {
+		font-size: @h5-size;
+		font-weight: @h5-weight;
+	}
+	h6 {
+		font-size: @h6-size;
+		font-weight: @h6-weight;
+	}
+
+	.lui.sub.heading {
+		letter-spacing: normal;
+		color: lighten(@color, 15);
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		// Sub heading
+		// =====
+		.lui.sub.heading {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 0.9rem;
+		}
+
+		// Icon support
+		// =====
+		.lui.icon:not(.button) {
+			margin-right: .5em;
+			vertical-align: top;
+			font-size: @icon-in-heading-size;
+
+			&.right {
+				margin-left: .5em;
+				margin-right: 0;
+			}
 		}
 	}
 }
@@ -98,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
  * Links
  * --------------------------------------------------------------------------- */
 
-a {
+.lui.body a {
 	color: @link-color;
 	&:hover, &:active {
 		color: @link-color-over;

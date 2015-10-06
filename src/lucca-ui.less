@@ -1,5 +1,21 @@
 
 /** ---------------------------------------------------------------------------
+ * ------ ICON COMPONENT - Comes from the Lucca-icons bower component
+ * ---------------------------------------------------------------------------- */
+
+@import "@{bowerDir}/lucca-icons/src/lucca-icons";
+@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
+
+// We define a mixin alias here for better support
+.lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
+.lui.icon {
+	.lui_supports_sizing({
+		font-size: @sizeEms;
+	});
+};
+
+
+/** ---------------------------------------------------------------------------
  * ------ UTILITIES
  * ---------------------------------------------------------------------------- */
 
@@ -13,7 +29,7 @@
  * Coloring handler
  * ----------------------------------------------------------------------------- */
 
-@import "core/definitions/_colors";
+@import "core/variables/_colors";
 @import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
 
 @import "core/utilities/_supports-coloring";
@@ -23,7 +39,7 @@
  * Sizing handler
  * ----------------------------------------------------------------------------- */
 
-@import "core/definitions/_sizes";
+@import "core/variables/_sizes";
 @import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
 
 @import "core/utilities/_supports-sizing";
@@ -34,7 +50,7 @@
  * ----------------------------------------------------------------------------- */
 
  // Breakpoints definitions
- @import "core/definitions/_breakpoints";
+ @import "core/variables/_breakpoints";
 
 // Responsive mixins - based on breakpoints
 @import "core/utilities/_responsive";
@@ -44,9 +60,8 @@
 @import "core/utilities/_supports-breakpoints.less";
 
 
-
 /** ---------------------------------------------------------------------------
- * ------ DEFINITIONS
+ * ------ DEFINITIONS : global adjectives
  * ---------------------------------------------------------------------------- */
 
 /**
@@ -80,81 +95,6 @@
 	@import (optional) "@{themeDir}@{theme}/definitions/stuck.overrides.less";
 	& when (@enabled = true) {
 		@import "core/definitions/_stuck.less";
-	}
-}
-
-
-/**
- * Definition lists
- * ----------------------------------------------------------------------------- */
-
-& {
-	@enabled: true;
-
-	@import (optional) "@{themeDir}@{theme}/definitions/definition-list.overrides.less";
-	& when (@enabled = true) {
-		@import "core/definitions/_definition-list.less";
-	}
-}
-
-
-/**
- * Grid
- * --------------------------------------------------------------------------- */
-
-& {
-	@gutter: 1em;
-	@columns: 12;
-	@column: 100%/@columns;
-	@container-width: auto;
-
-
-	@enabled: true;
-	@import (optional) "@{themeDir}@{theme}/definitions/grid.overrides.less";
-
-	& when (@enabled = true) {
-		@import "core/definitions/_grid";
-	}
-}
-
-
-/**
- * Typography
- * --------------------------------------------------------------------------- */
-
-& {
-	@font-size: 14px;
-	@font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
-	@color: #666;
-	@line-height: 1.4em;
-	@small-size: 0.8em;
-	// Headings
-	@heading-font: @font-family;
-	@heading-line-height: 1.25em;
-	@heading-v-margin: 0;
-	@heading-font-weight: normal;
-	@h1-size: 2.5em;
-	@h1-weight: 300;
-	@h2-size: 1.75em;
-	@h2-weight: 400;
-	@h3-size: 1.5em;
-	@h3-weight: 400;
-	@h4-size: 1.25em;
-	@h4-weight: 400;
-	@h5-size: 1.1em;
-	@h5-weight: 600;
-	@h6-size: 1em;
-	@h6-weight: 600;
-	@icon-in-heading-size: 0.8em;
-	// Links
-	@link-color: #666;
-	@link-color-over: #444;
-
-	@enabled: true;
-	@import (optional) "@{themeDir}@{theme}/definitions/typography.overrides.less";
-
-	& when (@enabled = true) {
-		@import "core/definitions/_typography.less";
 	}
 }
 
@@ -201,18 +141,64 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Icon - Comes from the Lucca-icons bower component
+ * Typography
  * --------------------------------------------------------------------------- */
-@import "@{bowerDir}/lucca-icons/src/lucca-icons";
-@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
-// We define a mixin alias here for better support
-.lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
-.lui.icon {
-	.lui_supports_sizing({
-		font-size: @sizeEms;
-	});
-};
+& {
+	@font-size: 13px;
+	@font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
+	@color: #666;
+	@line-height: 1.4em;
+	@small-size: 0.8em;
+	// Headings
+	@heading-font: @font-family;
+	@heading-line-height: 1.25em;
+	@heading-v-margin: 0;
+	@heading-font-weight: normal;
+	@h1-size: 2.5em;
+	@h1-weight: 300;
+	@h2-size: 1.75em;
+	@h2-weight: 400;
+	@h3-size: 1.5em;
+	@h3-weight: 400;
+	@h4-size: 1.25em;
+	@h4-weight: 400;
+	@h5-size: 1.1em;
+	@h5-weight: 600;
+	@h6-size: 1em;
+	@h6-weight: 600;
+	@icon-in-heading-size: 0.8em;
+	// Links
+	@link-color: #666;
+	@link-color-over: #444;
+
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/typography.overrides.less";
+
+	& when (@enabled = true) {
+		@import "core/elements/_typography.less";
+	}
+}
+
+
+/**
+ * Grid
+ * --------------------------------------------------------------------------- */
+
+& {
+	@gutter: 1em;
+	@columns: 12;
+	@column: 100%/@columns;
+	@container-width: auto;
+
+
+	@enabled: true;
+	@import (optional) "@{themeDir}@{theme}/elements/grid.overrides.less";
+
+	& when (@enabled = true) {
+		@import "core/elements/_grid";
+	}
+}
 
 
 /**
@@ -317,6 +303,9 @@
  * --------------------------------------------------------------------------- */
 
 & {
+	@animation-duration: 0.3s;
+	@animation-easing: ease-out;
+
 	@bg: #FFF;
 	@border-radius: 3px;
 	@border-color: #CCC;
@@ -325,21 +314,39 @@
 	@h-padding: 1em;
 	@placeholder-color: rgba(0, 0, 0, 0.5);
 	@placeholder-style: italic;
+	@focus-border-color: darken(@border-color, 10);
 	@invalid-color: #f60;
+	@shadow: 0 2px 2px 0 rgba(50, 50, 50, 0.2);
 
 	@field-v-margin: 0.5em;
 	@field-label-font-weight: 600;
 
 	@checkbox-color: #FFC900;
 
+	// Switch specifics
+	// =====
+	@switch-width: 4.5em;
+	@switch-height: 2.25em;
 	@switch-bg: #666;
 	@switch-color: darken(@switch-bg, 15);
-
 	@switch-bg-active: #FFC900;
 	@switch-color-active: darken(@switch-bg-active, 15);
 	@switch-grab-lines-color: #CCC;
 
+	// UI select specifics
+	// =====
+	@ui-select-min-width: 15em;
+	@ui-select-max-height: 15em;
+	@ui-select-thumb-size: 1.5em;
+	@ui-select-multiple-close-size: 1.5em;
+
+	// Timespanpicker specifics
+	// =====
 	@timespan-width: 5em;
+
+	// Momentpicker specifics
+	// =====
+	@momentpicker-input-width: 2.2em;
 
 	@enabled: true;
 	@import (optional) "@{themeDir}@{theme}/elements/input.overrides.less";
@@ -385,6 +392,20 @@
 
 	& when (@enabled = true) {
 		@import "core/elements/_divider";
+	}
+}
+
+
+/**
+ * Definition lists
+ * ----------------------------------------------------------------------------- */
+
+& {
+	@enabled: true;
+
+	@import (optional) "@{themeDir}@{theme}/elements/definition-list.overrides.less";
+	& when (@enabled = true) {
+		@import "core/elements/_definition-list.less";
 	}
 }
 

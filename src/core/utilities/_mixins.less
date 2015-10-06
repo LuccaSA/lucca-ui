@@ -7,15 +7,12 @@
 .pulled-right, [class*="right pulled"] {
 	float: right;
 }
-.clear {
-	zoom: 1;
-	&:after {
-		display: block;
-		visibility: hidden;
-		height: 0;
-		clear: both;
-		content: "";
-	}
+.lui.clear {
+	zoom:1; /* For IE 6/7 (trigger hasLayout) */
+
+	&:before,
+	&:after { content: ""; display: table; }
+	&:after { clear:both; }
 }
 
 
@@ -24,6 +21,7 @@
  * --------------------------------------------------------------------------- */
 .user_select_none {
 	-ms-user-select: none;
+	-webkit-user-select: none;
 	user-select: none;
 }
 
@@ -91,19 +89,6 @@
 	border-top: (@size/2) solid transparent;
 	border-bottom: (@size/2) solid transparent;
 	border-left: @size solid @color;
-}
-
-
-/**
-* Floats
-* --------------------------------------------------------------------------- */
-
-.lui.clear {
-	zoom:1; /* For IE 6/7 (trigger hasLayout) */
-
-	&:before,
-	&:after { content: ""; display: table; }
-	&:after { clear:both; }
 }
 
 

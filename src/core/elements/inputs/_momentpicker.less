@@ -1,0 +1,59 @@
+/**
+ * Momentpicker
+ * --------------------------------------------------------------------------- */
+
+luid-moment {
+	max-width: 5.25em;
+
+	&:extend(.lui.input all);
+
+	> .luid-moment {
+		&:extend(.lui.input > input all);
+		padding: 0 !important;
+	}
+
+	&:active, &:focus {
+		box-shadow: none;
+	}
+
+	// styling the inputs inside the directive
+	input {
+		&:first-child { padding-left: @h-padding; }
+		&:last-child { padding-right: @h-padding; }
+		line-height: (1em + 2 * @v-padding);
+		display: inline-block;
+
+		&:focus, &:active {
+			outline: none;
+			box-shadow: none;
+		}
+
+		background-color: transparent;
+		border: none;
+		width: @momentpicker-input-width;
+		&:nth-child(1) { text-align: right; }
+	}
+	// buttons + -
+	.mp-button {
+		line-height: 1.5em;
+		.user_select_none;
+		font-size: 75%;
+		position: absolute;
+		z-index: 999;
+		cursor: pointer;
+		width: 50%;
+		text-align: center;
+		color: #FFF;
+		background-color: @border-color;
+
+		// Positions
+		&.top { bottom: 100%; }
+		&.bottom { top: 100%; }
+		&.left { left: 0; }
+		&.right { right: 0; }
+	}
+
+	&.ng-invalid {
+		.mp-button { background-color: @invalid-color !important; }
+	}
+}
