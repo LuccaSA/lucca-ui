@@ -1,166 +1,156 @@
 
 /**
- * Angular UI - UI select reskin
- * ----------------------------------------------------------------------------- */
-@keyframes dropdown {
-	from { transform: scale(1, 0); }
-	to { transform: scale(1, 1); }
-}
-
-.lui.ui-select.input {}
-
-.lui.nguibs-ui-select {
-	box-shadow: none;
-	line-height: 1;
-	margin: 0;
-	&, .ui-select-match {
-		min-width: @ui-select-min-width;
-		height: auto;
-	}
-
-	&.fitting {
-		&, .ui-select-match { width: 100%; }
-	}
-
-	.ui-select-match > .btn,
-	input.form-control.ui-select-search {
-		// height: 1em + 2*extract(@ui-select-padding, 1);
-		line-height: 0.8;
-		font-size: @ui-select-txt-size;
-		padding: @ui-select-padding;
-		overflow: visible;
-
-		color: @color;
-		border-radius: @ui-select-border-radius;
-
-		&, &:active, &:focus, &:visited, &:hover {
-			outline: none;
-			box-shadow: none;
-		}
-		&:active, &:focus, &:visited, &:hover {
-			background: #FFF;
-			border: 1px solid darken(@ui-select-border-color, 10);
-		}
-	}
-
-	input::-webkit-input-placeholder {
-		 line-height: 1;
-	}
-
-	.divider { height: 2px; }
-
-	.dropdown-header {
-		color: @color;
-		text-transform: uppercase;
-		padding: 0 0 0.75em 1em;
-	}
-
-	.ui-select-match {
-		outline: none;
-		box-shadow: none;
-		.btn {
-			&[disabled] {
-				opacity: .75;
-				.caret {
-					display: none;
-				}
-			}
-		}
-	}
-
-	.ui-select-choices {
-		font-size: 1em;
-		width: 100%;
-		padding: 0;
-		background-color: #FFF;
-		border: 1px solid darken(@ui-select-border-color, 10);
-		border-top-right-radius: 0;
-		border-top-left-radius: 0;
-		border-bottom-left-radius: @ui-select-border-radius;
-		border-bottom-right-radius: @ui-select-border-radius;
-		font-size: 1rem;
-
-		.ui-select-choices-row {
-			border-top: 1px solid #EEE;
-			> a {
-				color: @color;
-				padding: 0.5em 1em;
-				line-height: 1em;
-			}
-			&.active > a {
-				background-color: #EEE;
-			}
-		}
-		.ui-select-choices-group-label + .ui-select-choices-row {
-			border-top: none;
-		}
-	}
-
-	.btn-primary {
-		background-color: #EEE;
-		color: @color;
-		border-color: #AAA;
-	}
-	.btn-xs { font-size: 1em; }
-	&.ui-select-multiple.ui-select-bootstrap .ui-select-match .close { line-height: 1em; }
-
-	&.open {
-		box-shadow: @shadow;
-
-		&:not(.ui-select-multiple) input.ui-select-search { border-bottom: none !important; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-		.ui-select-choices {
-			transform-origin: center top;
-			animation-easing: @animation-easing;
-			animation-duration: @animation-duration;
-			animation-fill-mode: both;
-			animation-name: dropdown;
-
-			border-top: none;
-			box-shadow: @shadow;
-		}
-		&.ui-select-multiple {
-			border-bottom-left-radius: 0; border-bottom-right-radius: 0;
-			border: 1px solid darken(@ui-select-border-color, 10);
-			.ui-select-choices { width: auto; left: -1px; right: -1px; }
-		}
-	}
-
-	// Clear cross
-	// ====
-	.ui-select-match > .btn > .btn {
-		position: absolute; right: 1em; top: 50%; transform: translateY(-50%);
-		font-size: 0.75rem;
-		color: @color;
-		border-radius: @ui-select-border-radius;
-		&:hover {
-			background: @ui-select-border-color;
-		}
-	}
-}
-
-/**
- * Sizing & coloring support
+ * UI select
  * --------------------------------------------------------------------------- */
 
-.lui.nguibs-ui-select {
-	.lui_supports_sizing({
-		font-size: @sizeEms;
-	});
-	.lui_supports_coloring({
-		.ui-select-choices .ui-select-choices-row.active > a {
-			background-color: @coloring-color;
-			color: @coloring-text;
-		}
-		.btn-primary {
-			.btn-primary {
-				background-color: @coloring-color;
-				color: @coloring-text;
-				border-color: darken(@coloring-color, 10);
-			}
-		}
-	});
+@keyframes dropdown {
+ 	from { transform: scale(1, 0); }
+ 	to { transform: scale(1, 1); }
+}
+@keyframes multiselect {
+	from { opacity: 0; transform: scale(0, 0); }
+	to { opacity: 1; transform: scale(1, 1); }
 }
 
-.lui.nguibs-ui-select.x-short, .lui.nguibs-ui-select.short, .lui.nguibs-ui-select.medium, .lui.nguibs-ui-select.long, .lui.nguibs-ui-select.x-long {
-	&, .ui-select-match, .ui-select-choices  { min-width: 0; }
+.lui.nguibs-ui-select {
+	&:extend(.lui.input all);
+	min-width: @ui-select-min-width;
+
+	// Displays the arrow icon
+	// =====
+	.lui_make_icon(south arrow);
+	&:before { font-size: 0.6rem; position: absolute; z-index: 4; right: @h-padding; top: 50%; transform: translateY(-50%); }
+
+
+	.btn, .ui-select-choices { box-sizing: border-box; }
+	> .ui-select-match { width: 100%; }
+
+	// Input fields lookalikes
+	// =====
+	.ui-select-match > .btn,
+	> .ui-select-search,
+	&.ui-select-multiple > div { &:extend(.lui.input > input all); }
+
+	// Dropdown list styling
+	// =====
+	.ui-select-choices {
+		visibility: hidden;
+
+		&:extend(ul.lui.unstyled);
+		position: absolute; z-index: 1000;
+		top: 100%; left: 0;
+		width: 100%;
+
+		border: 1px solid @focus-border-color;
+		border-top: none;
+		background-color: @bg;
+
+		box-shadow: @shadow;
+
+		max-height: @ui-select-max-height;
+		overflow-x: hidden;
+
+		-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+		backface-visibility: hidden;
+	}
+	.ui-select-choices .active a,
+	.ui-select-choices a:hover { background: #EEE; }
+	.ui-select-choices a {
+		text-decoration: none;
+		display: block;
+		padding: 0.5em @h-padding;
+		border-top: 1px solid #EEE;
+
+		> span { vertical-align: middle; }
+	}
+
+	// Multiselect mode
+	// =====
+	&.ui-select-multiple {
+		> div { padding: 0 @v-padding !important; height: auto !important; }
+
+		input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
+
+		.ui-select-match { display: inline-block; line-height: 1; }
+
+		.ui-select-match-item {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 0.9em;
+			margin: 0 0.1em;
+			padding: 0.1em 0.5em;
+			border: 1px solid @border-color;
+			border-radius: @border-radius;
+
+			background-color: @bg;
+
+			// transform-origin: center center;
+			// animation-easing: @animation-easing;
+			// animation-duration: @animation-duration;
+			// animation-fill-mode: both;
+			// animation-name: multiselect;
+
+			.lui_is_animated("down scale in");
+
+			> span > span { line-height: @ui-select-multiple-close-size; }
+
+			// active state ~ selected
+			&.btn-primary { background-color: #EEE; }
+
+			// Close button
+			.ui-select-match-close {
+				float: right;
+				font-size: @ui-select-multiple-close-size;
+				font-weight: 600;
+			}
+		}
+		.ui-select-match-item:focus { outline: none; outline: 0; }
+	}
+
+	// Dropped state
+	// =====
+	&.open {
+		box-shadow: @shadow;
+		.ui-select-match > .btn,
+		> .ui-select-search,
+		&.ui-select-multiple > div { z-index: 100; }
+
+		> .ui-select-search,
+		&.ui-select-multiple > div {
+			border-color: @focus-border-color;
+			border-bottom-color: transparent !important;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+
+		.ui-select-choices {
+			visibility: visible;
+
+			.lui_is_animated("up slide in");
+		}
+	}
+
+	// Thumbnail support
+	// =====
+	.ui-select-choices-row .thumbnail {
+		width: @ui-select-thumb-size;
+		height: @ui-select-thumb-size;
+		vertical-align: middle;
+		margin-right: 0.5em;
+	}
+
+	// Highlighting support
+	// =====
+	.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
+
+	.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
+}
+
+// Coloring support
+// =====
+.lui.nguibs-ui-select {
+	.lui_supports_coloring({
+		.active a,
+		a:hover { background: @coloring-color; border-color: @coloring-color; color: @coloring-text; }
+	});
 }
