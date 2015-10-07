@@ -4,122 +4,88 @@
  * ----------------------------------------------------------------------------- */
 
 .lui.nguibs-datepicker {
-	position: relative;
-	display: inline-block;
-	width: @datepicker-width;
+	&:extend(.lui.input all);
 
-	.lui_make_icon(calendar);
+	button { &:extend(button.lui.unstyled all); }
 
-	// Style reset
-	button {
-		outline: none;
-	}
-	// Displays a calendar icon
-	&:before {
-		position: absolute;
-		z-index: 1;
-		top: 50%;
-		left: 0.75em;
-		transform: translateY(-50%);
-		z-index: 2;
-		color: @calendar-icon-color;
-		font-size: @calendar-icon-size;
-	}
-
-	> input {
-		padding-left: 2.5em;
-	}
-	// Icon should be hidden for inline datepickers
-	&.inline {
-		&:before {
-			display: none;
+	&:not([role="application"]) {
+		.lui_make_icon(calendar);
+		> input { padding-left: 2.5em; width: @datepicker-input-width; }
+		&:before, &:after {
+			cursor: text;
+			display: inline-block;
+			position: absolute;
+			top: 50%; left: 1em;
+			-ms-transform: translate(0, -50%);
+			transform: translate(0, -50%);
+			.user_select_none();
 		}
+	}
+
+	// Datepicker styling
+	&[role="application"], .dropdown-menu {
+		background-color: @datepicker-bg;
+		min-width: @datepicker-min-width;
+		border: 1px solid @border-color;
+	}
+
+	// Datepicker in dropdown
+	.dropdown-menu {
+		&:extend(ul.lui.unstyled);
+		position: absolute;
+		left: 0; top: 100%;
+		margin-top: -1px;
+
+		.lui_is_animated("down fade in");
+		&:extend(.lui.raised);
 	}
 
 	table {
-		width: 100%;
-		margin-bottom: 0.5em;
-
-		&, &:active, &:focus {
-			outline: 0;
-		}
-
-		button {
+		width: 100%; margin-bottom: 0.5em;
+		&:focus { outline: 0; }
+	}
+	thead tr {
+		// Month & year
+		&:first-child {
+			background-color: @color-primary;
 			border: none;
-			background-color: transparent;
-			.lui_border_radius(0);
+			margin: 0;
 
-			&:active,
-			&:focus {
-				outline: none;
-			}
-		}
-
-		thead tr {
-			// Month & year
-			&:first-child {
-				background-color: @color-primary;
-				border: none;
-				margin: 0;
-
-				th {
-					button {
-						color: @color-primary-over;
-						padding-top: 1em;
-						padding-bottom: 1em;
-						.lui_border_radius(0);
-						font-size: 1.1em;
-
-						&:hover, &:active, &:focus {
-							background-color: lighten(@color-primary, 10);
-						}
-					}
-				}
-			}
-		}
-
-		tbody {
 			button {
-				color: @color;
+				color: @color-primary-over;
+				padding: 1em;
+				.lui_border_radius(0);
+				font-size: 1.1em;
 
-				&:hover {
-					background-color: #fafafa;
-				}
-
-				&.active {
-					font-weight: 600;
-					color: darken(@color, 10);
-					box-shadow: none;
-					background-color: lighten(@color-primary, 30);
+				&:hover, &:active, &:focus {
+					background-color: lighten(@color-primary, 10);
 				}
 			}
 		}
 	}
 
-	.dropdown-menu {
-		width: 100%;
-		min-width: 300px;
-		padding: 0;
-		border-radius: @datepicker-border-radius;
+	.pull-left { float: left; }
+	.pull-right { float: right; }
+	.glyphicon-chevron-left { .lui_make_icon(west arrow); }
+	.glyphicon-chevron-right { .lui_make_icon(east arrow); }
 
-		> li {
-			.text-muted {
-				color: lighten(@color, 15);
-			}
+	tbody {
+		text-align: center;
+		button {
+			padding: 0.5em 1em;
+			color: @color;
+			.lui_transition_properties(background-color);
 
-			&[ng-if="showButtonBar"] {
-				.lui.clear;
-				margin-bottom: 0.5em;
+			&:hover { background-color: #EEE; }
 
-				border-top: 1px solid #CCC;
-
-				.btn {
-					border: 1px solid #CCC;
-					background-color: #FFF;
-					color: #333;
-					outline: none;
-				}
-			}
+			&.active { color: darken(@color, 10); background-color: lighten(@color-primary, 30); }
 		}
+		.text-muted { color: lighten(@color, 20); }
+	}
+
+	li[ng-if="showButtonBar"] {
+		&:extend(.lui.clear all);
+		border-top: 1px solid @border-color;
+		.btn { &:extend(.lui.button all); }
 	}
 }
