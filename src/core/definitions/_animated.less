@@ -29,7 +29,7 @@
 	from { opacity: 1;  transform: none }
 	to { opacity: 0; transform: translate3d(0, -@fade-translation-distance, 0);; }
 }
-.lui.animated[class*="up fade out"] { animation-name: fadeInUp; }
+.lui.animated[class*="up fade out"] { animation-name: fadeOutUp; }
 
 // Downsided fade in/out
 @keyframes fadeInDown {
@@ -42,7 +42,7 @@
 	from { opacity: 1;  transform: none }
 	to { opacity: 0; transform: translate3d(0, @fade-translation-distance, 0);; }
 }
-.lui.animated[class*="down fade out"] { animation-name: fadeInDown; }
+.lui.animated[class*="down fade out"] { animation-name: fadeOutDown; }
 
 // Leftsided fade in/out
 @keyframes fadeInLeft {
