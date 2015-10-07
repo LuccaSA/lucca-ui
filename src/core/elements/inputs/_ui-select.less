@@ -3,10 +3,10 @@
  * UI select
  * --------------------------------------------------------------------------- */
 
- @keyframes dropdown {
+@keyframes dropdown {
  	from { transform: scale(1, 0); }
  	to { transform: scale(1, 1); }
- }
+}
 @keyframes multiselect {
 	from { opacity: 0; transform: scale(0, 0); }
 	to { opacity: 1; transform: scale(1, 1); }
@@ -51,6 +51,9 @@
 
 		max-height: @ui-select-max-height;
 		overflow-x: hidden;
+
+		-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+		backface-visibility: hidden;
 	}
 	.ui-select-choices-row.active a,
 	.ui-select-choices-row-inner:hover { background: #EEE; }
