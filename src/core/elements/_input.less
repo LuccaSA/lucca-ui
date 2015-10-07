@@ -3,7 +3,6 @@
 @import "inputs/_switch";
 @import "inputs/_checkbox";
 
-@import "inputs/_ui-select";
 @import "inputs/_timespanpicker";
 @import "inputs/_momentpicker";
 
@@ -101,22 +100,19 @@
 }
 
 
-// Addons
-// =====
-
 // Addon support
 // =====
-// .lui.input > .addon { &:extend(.lui.input > input); }
-
 .lui.input[class*="with addon"],
 .lui.input[class*="with addons"] {
 	> .addon {
+		box-sizing: border-box;
 		position: relative; z-index: 2;
 		vertical-align: middle;
 		border: 1px solid @border-color;
 		padding: 0 @h-padding;
 		background: @bg;
 		line-height: 1 + 2 * @v-padding;
+		height: 1 + 2 * @v-padding;
 	}
 
 	> .lui.addon:not([class*="right addon"]),
