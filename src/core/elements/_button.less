@@ -15,18 +15,10 @@
 }
 
 .lui.button {
-	cursor: pointer;
-	outline: none;
-	border: none;
-	text-decoration: none;
-	font-style: normal;
-	line-height: 1em;
-	.user_select_none;
+	&:extend(button.lui.unstyled all);
 
 	&:extend(.lui_button_sizing);
 
-	white-space: nowrap;
-	font-weight: normal;
 	text-transform: @text-transform;
 	text-shadow: @text-shadow;
 	text-align: center;
