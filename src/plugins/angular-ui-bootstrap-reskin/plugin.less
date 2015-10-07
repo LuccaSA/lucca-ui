@@ -1,5 +1,29 @@
-// @import "components/_ui-select";
-@import "components/_datepicker";
-@import "components/_tooltip";
+@import (multiple) "plugin.variables.less";
+
+// Input variables dependency
+@import (multiple) "../../core/elements/_input.variables.less";
+
+// General declarations
+.lui[class*="nguibs-"] .btn { cursor: pointer; }
+
+// UI select
+@import (optional) "components/_ui-select.variables.less";
+@import "components/_ui-select";
+
+// Dropdown
+@import (optional) "components/_dropdown.variables.less";
 @import "components/_dropdown";
-@import "components/_popover";
+
+// Tooltip
+@import (optional) "components/_tooltip.variables.less";
+@import "components/_tooltip";
+
+// Datepicker
+@import (optional) "components/_datepicker.variables.less";
+@import "components/_datepicker";
+
+// @import "components/_ui-select";
+// @import "components/_datepicker";
+// @import "components/_tooltip";
+// @import "components/_dropdown";
+// @import "components/_popover";
