@@ -44,6 +44,11 @@
 .lui.input > input {
 	padding: 0 @h-padding;
 	line-height: (1em + 2 * @v-padding);
+
+	// Fix for Internet Explorer
+	box-sizing: border-box;
+	height: (1em + 2 * @v-padding);
+
 	display: inline-block;
 	.flex();
 }

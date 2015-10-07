@@ -39,12 +39,18 @@
 		visibility: hidden;
 
 		&:extend(.lui_unstyled_list);
-		position: absolute;
+		position: absolute; z-index: 1000;
 		top: 100%; left: 0;
 		width: 100%;
 
 		border: 1px solid @focus-border-color;
+		border-top: none;
 		background-color: @bg;
+
+		box-shadow: @shadow;
+
+		max-height: @ui-select-max-height;
+		overflow-x: hidden;
 	}
 	.ui-select-choices-row.active a,
 	.ui-select-choices-row-inner:hover { background: #EEE; }
@@ -105,7 +111,6 @@
 		.ui-select-match > .btn,
 		> .ui-select-search,
 		&.ui-select-multiple > div { z-index: 100; }
-		.ui-select-choices { z-index: 99; }
 
 		> .ui-select-search,
 		&.ui-select-multiple > div {
@@ -123,12 +128,6 @@
 			animation-duration: @animation-duration;
 			animation-fill-mode: both;
 			animation-name: dropdown;
-
-			border-top: none;
-			box-shadow: @shadow;
-
-			max-height: @ui-select-max-height;
-			overflow: auto;
 		}
 	}
 
