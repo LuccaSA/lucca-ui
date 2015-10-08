@@ -12,7 +12,7 @@
 		];
 
 		$scope.contextInsensIcons = [
-			['attachment', 'files', "email", "notification", "camera", "settings", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "bookmark", "branch", "analytics"],
+			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "bookmark", "branch", "analytics"],
 			["edit", "edit frame", "edit mini", "download", "upload", "outside", "send", "search", "trash", "refresh", "printer"],
 			["user", "add user", "remove user", "to user"],
 		];
@@ -31,12 +31,10 @@
 			["breakfast", "coffee", "meal", "lunch", "diner", "drink"],
 			["car", "clean car", "taxi", "bus", "subway", "truck", "train", "plane"],
 			["euro toll", "dollar toll", "parking", "milestone", "mileage", "gasoline"],
-			["journey", "luggage", "hotel", "postage", "phone", "iron"],
+			["journey", "luggage", "hotel", "postage"],
 			["euro", "dollar", "quantity", "piggy bank", "bank card", "pricetag", "payment"],
 			["computer", "computer mouse", "database"],
-			["tools", "tiles", "jumping cc"]
+			["tools", "tiles", "iron", "jumping cc"]
 		];
-
-
 	}]);
 })();
