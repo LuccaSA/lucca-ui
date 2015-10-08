@@ -141,8 +141,8 @@
 		<h2 class="lui divider below">Tooltip</h2>
 		<p><a href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
 		<button tooltip="Regular tooltip" tooltip-class="lui nguibs-tooltip" tooltip-placement="top" class="lui button">Hover me!</button>
-		<button tooltip="Primary tooltip" tooltip-class="lui primary nguibs-tooltip" tooltip-placement="top" class="lui button">No, Me!!!</button>
-		<button tooltip="OMG! An error!" tooltip-class="lui red nguibs-tooltip" tooltip-trigger="click" tooltip-placement="top" class="lui button">Click me!</button>
+		<button tooltip="Primary tooltip" tooltip-class="lui primary nguibs-tooltip" tooltip-placement="right" class="lui button">No, Me!!!</button>
+		<button tooltip="OMG! An error!" tooltip-class="lui red nguibs-tooltip" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
 		<div class="lui divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
@@ -153,10 +153,10 @@
 	<article id="popover" ng-controller="popoverCtrl">
 		<h2 class="lui divider below">Popover</h2>
 		<p><a href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-		<button popover="some important text about stuff" popover-class="lui nguibs-popover" class="lui button">Click me!</button>
-		<button popover="Primary tooltip" popover-class="lui primary nguibs-popover" class="lui button">Primary tooltip</button>
-		<button popover-html="popoverHtml" tooltip-class="lui nguibs-tooltip" class="lui button">with some html</button>
-		<button popover-template="'myPopoverTemplate.html'" tooltip-class="lui nguibs-tooltip" class="lui button">with a template</button>
+		<button popover="some important text about stuff" popover-title="This is critical!" popover-class="lui nguibs-popover" class="lui button">Click me!</button>
+		<button popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary nguibs-popover" class="lui button">Primary tooltip</button>
+		<button popover-html="popoverHtml" popover-class="lui nguibs-popover" class="lui button">with some html</button>
+		<button popover-template="'myPopoverTemplate.html'" popover-class="lui nguibs-popover" class="lui button">with a template</button>
 
 		<script type="text/ng-template" id="myPopoverTemplate.html">
 			<h4 class="lui divider below">a title</h4>
@@ -190,7 +190,7 @@
 		<div class="lui nguibs-datepicker">
 			<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
 		</div>
-		
+
 		<div class="lui divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
