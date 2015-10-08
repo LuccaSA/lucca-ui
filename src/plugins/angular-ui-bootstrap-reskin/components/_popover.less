@@ -1,21 +1,24 @@
 
 .lui.nguibs-popover {
-	min-width: @popover-min-width;
-	border: 1px solid @popover-border-color;
-	padding: 0;
-	font-family: inherit; // Bootstrap bleeding...
-	box-shadow: @popover-shadow;
-	border-radius: @popover-border-radius;
+	&:extend(.lui.nguibs-tooltip all);
 
-	.button-bar { text-align: right; }
 
-	input, .ui-select-container {
-		width: 100%;
+	.popover-inner, .popover-title {
+		padding: @popover-inner-vertical-padding @popover-inner-horizontal-padding;
 	}
 
-	.popover-inner { padding: @popover-padding; }
+	.popover-title {
+		font-size: @popover-title-font-size;
+		background: @popover-title-bg;
+		border-bottom: 1px solid @popover-title-divider-color;
+		margin: -@popover-inner-vertical-padding -@popover-inner-horizontal-padding @popover-title-bottom-margin -@popover-inner-horizontal-padding;
+	}
 
-	.popover-content { padding: 0; }
+
+	@coloring-color: @popover-bg;
+	@coloring-text: @popover-color;
+	@coloring-lightOnDark: false;
+	@tooltip-coloring-ruleset();
 }
 
 .lui.popover:not(.ng-hide) {
@@ -51,18 +54,8 @@
 	}
 };
 
-// Default coloring
-// ====
-.lui.popover {
-	@coloring-color: @popover-default-bg;
-	@coloring-text: @popover-default-color;
-	@coloring-lightOnDark: false;
-
-	@popover-coloring-ruleset();
-}
-
 // Custom coloring support
 // ====
-.lui.popover {
+.lui.nguibs-popover {
 	.lui_supports_coloring(@popover-coloring-ruleset);
 }
