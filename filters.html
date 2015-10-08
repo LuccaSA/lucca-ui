@@ -44,7 +44,7 @@
 	</div>
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
-	<div class="lui callout warning">
+	<div class="lui callout primary">
 		<p>
 			<b>Important:</b>
 			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
@@ -53,14 +53,11 @@
 		<p>
 			The exact list of dependencies which can be found in the bower.json file is:
 			<ul class="lui unstyled">
-				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.0.3</span></li>
-				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
-				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
-				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span></li>
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span> - this dependency is not used here</li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
 			</ul>
-		</p>
-		<p>
-			None of the filters displayed here use angular-bootstrap
 		</p>
 	</div>
 
@@ -70,14 +67,14 @@
 		<p>
 			A basic filter that display a placeholder if the value is <code>undefined</code> or <code>""</code>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myValue | luifPlaceholder:"a fixed placeholder" }}
 {{ myValue | luifPlaceholder: aVarInScope }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="placeholderCtrl" class="lui block round">
@@ -112,13 +109,13 @@
 		<p>
 			A basic filter that capitalizes and replace spaces by _
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myValue | luifDefaultCode }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="defaultcodeCtrl" class="lui block round">
@@ -194,13 +191,13 @@
 		<p>
 			<strong>Important:</strong> May require <a href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;,00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="numberCtrl" class="lui block round">
@@ -234,7 +231,7 @@
 		<p>
 			A typical usage is in the case of paginating a list <code>ng-repeat="item in list | luifStartFrom : myIndex | limitTo : 20"</code>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
@@ -242,7 +239,7 @@
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex | limitTo : cnt"&gt;...&lt;/ANY&gt;</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="startfromCtrl" class="lui block round">
@@ -285,14 +282,14 @@
 		<p>
 			if none is provided, will use the format <code>LLL</code>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
 {{ myValue | luifMoment : myFormat }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="momentCtrl" class="lui block round">
@@ -335,14 +332,14 @@
 		<p>
 			Does not support the formats arguments available from momentjs version 2.10.5 onwards
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myValue | luifCalendar }}
 {{ myValue | luifCalendar : myRefDate }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="calendarCtrl" class="lui block round">
@@ -390,14 +387,14 @@
 			It has the parameter <code>excludeEnd</code> for when you are dealing with block going from start included to end excluded.
 			Example : september is from September 1st included to October 1st excluded or from Septembre 1st included to September 30th included
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myBlock | luifFriendlyRange }}
 {{ myBlock | luifFriendlyRange : true }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="friendlyrangeCtrl" class="lui block round">
@@ -446,14 +443,14 @@
 			</ul>
 			Associated <a href="https://github.com/LuccaSA/lucca-ui/issues/25">issue</a>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>{{ myValue | luifDuration }}
 {{ myValue | luifDuration : myFormat : showSign }}</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="durationCtrl" class="lui block round">
@@ -494,7 +491,7 @@
 				<li><code>moment.duration(3,'m').humanize(true)</code>: in 3 minutes</li>
 			</ul>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
