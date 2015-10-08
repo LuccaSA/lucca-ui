@@ -6,9 +6,9 @@
 .lui.nguibs-tooltip {
 	position: absolute;
 	z-index: @tooltip-z-index;
+	&:extend(.lui.raised);
 
-	.tooltip-inner {
-		&:extend(.lui.raised);
+	> [class*="-inner"] {
 		padding: @tooltip-padding;
 		border-radius: @tooltip-border-radius;
 	}
@@ -18,27 +18,30 @@
 	&.fade.in { .lui_is_animated("up fade in"); }
 
 	// Arrow
-	.tooltip-arrow {
+	> [class*="arrow"] {
+		width: 0; height: 0;
 		&:extend(.lui.pointing:after);
 		position: absolute;
 	}
-	&.left .tooltip-arrow, &.right .tooltip-arrow { top: 50%; transform: translateY(-50%); }
-	&.left .tooltip-arrow {
-		&:extend(.lui[class*="right pointing"]:after);
-		left: 100%;
-	}
-	&.right .tooltip-arrow {
-		&:extend(.lui[class*="left pointing"]:after);
-		right: 100%;
-	}
-	&.top .tooltip-arrow, &.bottom .tooltip-arrow { left: 50%; transform: translateX(-50%); }
-	&.top .tooltip-arrow {
-		&:extend(.lui[class*="bottom pointing"]:after);
-		top: 100%;
-	}
-	&.bottom .tooltip-arrow {
-		&:extend(.lui[class*="top pointing"]:after);
-		bottom: 100%;
+
+	& {
+		@import (multiple) "../../../core/definitions/_pointing.variables.less";
+
+		&.left > [class*="arrow"], &.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
+
+		&.left { margin-left: -@triangle-width; }
+		&.left > [class*="arrow"] { &:extend(.lui[class*="right pointing"]:after); left: 100%; }
+
+		&.right { margin-right: -@triangle-width; }
+		&.right > [class*="arrow"] { &:extend(.lui[class*="left pointing"]:after); right: 100%; }
+
+		&.top > [class*="arrow"], &.bottom > [class*="arrow"] { left: 50%; transform: translateX(-50%); }
+
+		&.top { margin-top: -@triangle-width; }
+		&.top > [class*="arrow"] { &:extend(.lui[class*="bottom pointing"]:after); top: 100%; }
+
+		&.bottom { margin-bottom: -@triangle-width; }
+		&.bottom > [class*="arrow"] { &:extend(.lui[class*="top pointing"]:after); bottom: 100%; }
 	}
 }
 
@@ -49,18 +52,18 @@
 
 // Coloring ruleset
 // ====
-@coloring-ruleset: {
-	.tooltip-inner {
+@tooltip-coloring-ruleset: {
+	> [class*="-inner"] {
 		background-color: @coloring-color;
 		color: @coloring-text;
 		& when (@coloring-lightOnDark = true) {
 			text-shadow: 1px 0 1px darken(@coloring-color, 5);
 		}
 	}
-	&.left .tooltip-arrow { border-left-color: @coloring-color; }
-	&.top .tooltip-arrow { border-top-color: @coloring-color; }
-	&.right .tooltip-arrow { border-right-color: @coloring-color; }
-	&.bottom .tooltip-arrow { border-bottom-color: @coloring-color; }
+	&.left > [class*="arrow"] { border-left-color: @coloring-color; }
+	&.top > [class*="arrow"] { border-top-color: @coloring-color; }
+	&.right > [class*="arrow"] { border-right-color: @coloring-color; }
+	&.bottom > [class*="arrow"] { border-bottom-color: @coloring-color; }
 };
 
 // Default coloring
@@ -73,11 +76,11 @@
 	@coloring-text: @tooltip-color;
 	@coloring-lightOnDark: false;
 
-	@coloring-ruleset();
+	@tooltip-coloring-ruleset();
 }
 
 // Custom coloring support
 // ====
 .lui.nguibs-tooltip {
-	.lui_supports_coloring(@coloring-ruleset);
+	.lui_supports_coloring(@tooltip-coloring-ruleset);
 }
