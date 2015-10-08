@@ -21,6 +21,19 @@
 	}]);
 
 	angular.module('nguibsApp')
+	.controller('dropdownCtrl', ['$scope', function($scope){
+	}]);
+
+	angular.module('nguibsApp')
 	.controller('tooltipCtrl', ['$scope', function($scope){
+	}]);
+
+	angular.module('nguibsApp')
+	.controller('popoverCtrl', ['$scope', function($scope){
+		$scope.popoverHtml="<b>Bold stuff</b> and a <span class='lui label'>lui label</span>";
+	}]);
+
+	angular.module('nguibsApp')
+	.controller('datepickerCtrl', ['$scope', function($scope){
 	}]);
 })();
