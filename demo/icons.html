@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
+
+	<script type="text/javascript" src="js/icons.js"></script>
+
+</head>
+<body ng-app="iconsApp" ng-controller="iconsCtrl">
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="./index.html">less framework</a>
+		<a class="item active" href="./icons.html">lucca icons</a>
+		<a class="item" href="./nguibs.html">lui nguibs</a>
+		<a class="item" href="./filters.html">lui filters</a>
+		<a class="item" href="./directives.html">lui directives</a>
+		<div class="lui vertical dashed divider"></div>
+		<a class="item" href="#how-to">How to use</a>
+		<a class="item" href="#arrows">Arrows</a>
+		<a class="item" href="#sensitive">Context sensitive</a>
+		<a class="item" href="#insensitive">Context insensitive</a>
+		<a class="item" href="#mouse">Mouse interractions</a>
+		<a class="item" href="#specific">Specific</a>
+	</nav>
+
+
+<div id="main-content" class="lui container">
+	<h1 class="lui column desktop-8">Lucca UI</h1>
+	<div class="lui column desktop-4">
+		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</div>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.1</span></p>
+
+	<div class="lui callout primary">
+		<p>
+			<b>Important:</b>
+			all these icons come from the bower componenet <a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a>, you are not forced to use this library of icons and 
+		</p>
+	</div>
+
+	<article id="how-to">
+		<h2 class="lui divider below">How to use</h2>
+		<p>
+			Just append/prepend a <code><\i class="lui icon {icon-name}"><\/i></code> element.
+		</p>
+		<p>
+			<b>Important:</b> the order of the words is important in the icon-name: <code>lui icon arrow south</code> is not the same as <code>lui icon south arrow</code>
+		</p>
+		<p>
+			Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
+		</p>
+	</article>
+
+	<article>
+		<h2 class="lui divider below">List of all available icons</h2>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline" id="arrows">Arrows</h4>
+		</div>
+		<p>
+			Self explanatory.
+		</p>
+		<ul class="icon-list lucca-input-group" ng-repeat="list in arrowIcons">
+			<li ng-repeat="item in list">
+				<i class="lui icon {{item}}"></i>
+				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+			</li>
+		</ul>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline" id="sensitive">Context sensitive icons</h4>
+		</div>
+		<p>
+			Icons that tend to appear a lot in the web page and convey a message that depends highly on the context. They serve to reinforce a message given by the context.
+		</p>
+		<p>
+			For example this 
+			<div class="lui small buttons"><button class="lui button"><i class="lui check icon"></i> ok</button><button class="lui button">cancel</button></div><br>
+			does not convey the same information as this
+			<ul>
+				<li>some stuff, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
+				<li>other stuff, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
+				<li>a third thing, status: <span class="lui red label with addon">failure <i class="lui icon warning right addon"></i></span></li>
+				<li>you get the idea, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
+			</ul>
+			In both cases <i class="lui icon check"></i> put emphasis on the information next to it but the information reinforced is not the same
+		</p>
+		<ul class="icon-list lucca-input-group" ng-repeat="list in contextSensIcons">
+			<li ng-repeat="item in list">
+				<i class="lui icon {{item}}"></i>
+				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+			</li>
+		</ul>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline" id="insensitive">Context insensitive icons</h4>
+		</div>
+		<p>
+			Generic icons that convey a fixed message and using them adds information to the element or put emphasis on existing information.
+		</p>
+		<p>
+			For example this <button class="lui flat button">some_doc_name</button> looks like a link to some page while this <button class="lui flat button"><i class="lui icon attachment"></i>some_doc_name</button> is clearly a link to some attachment
+		</p>
+		<p>
+			Also this button <button class="lui button with addon"><i class="lui icon send addon"></i> send</button> conveys a clearer information than this button <button class="lui button">send</button>
+		</p>
+		<ul class="icon-list lucca-input-group" ng-repeat="list in contextInsensIcons">
+			<li ng-repeat="item in list">
+				<i class="lui icon {{item}}"></i>
+				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+			</li>
+		</ul>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline" id="mouse">Mouse interractions</h4>
+		</div>
+		<p>
+			Here are the icons that either tell the user there is a mouse interraction possible or that appear when the user does a mouse interraction.
+		</p>
+		<p>
+			This <i class="lui drag icon"></i> tells the user he can drag n drop the element, when he does his mouse cursor is changed to <i class="lui icon move"></i> to tell him he is moving something.
+		</p>
+		<ul class="icon-list lucca-input-group" ng-repeat="list in mouseIcons">
+			<li ng-repeat="item in list">
+				<i class="lui icon {{item}}"></i>
+				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+			</li>
+		</ul>
+
+
+		<div class="lui divider">
+			<h4 class="lui underline" id="specific">Spécific icons</h4>
+		</div>
+		<p>
+			Icons that represent one thing and one thing only
+		</p>
+		<ul class="icon-list lucca-input-group" ng-repeat="list in speIcons">
+			<li ng-repeat="item in list">
+				<i class="lui icon {{item}}"></i>
+				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+			</li>
+		</ul>
+	</article>
+
+</div>
+</body>
+</html>
