@@ -178,6 +178,7 @@
 				<p>
 					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
 				</p>
+				<hr>
 				<p>
 					myPrice: 
 					<span class="lui short input with addon">
@@ -252,6 +253,7 @@
 				<p>
 					number of time ng-change on the luid-moment has been called: <code>{{updateCnt}}</code>
 				</p>
+				<hr>
 				<p>
 					myStr in luid-moment with format="'HH:mm:ss'": 
 					<luid-moment ng-model="myStr" format="'HH:mm:ss'"></luid-moment>
@@ -262,6 +264,7 @@
 						<input type="text" ng-model="myStr">
 					</span>
 				</p>
+				<hr>
 				<p>
 					myValue2 bounded between "08:00" and "22:00":
 					<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'"></luid-moment>
@@ -272,6 +275,7 @@
 						<input type="text" ng-model="myValue2" readonly="readonly">
 					</span>
 				</p>
+				<hr>
 				<p>
 					myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM):
 					<luid-moment ng-model="myValue3" min="min" max="max"></luid-moment>
