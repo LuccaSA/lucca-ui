@@ -6,7 +6,7 @@
 		$scope.contextSensIcons = [
 			['plus', 'minus', 'check', 'cross', 'forbidden'],
 			['error','warning','help'],
-			["ellipsis", "list", "analytical allocation", "blocks", "filter"],
+			["ellipsis", "list", "tree list", "blocks", "filter"],
 			['checkbox', 'checkbox checked'],
 			['lock', 'unlock'],
 		];
