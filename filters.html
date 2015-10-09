@@ -80,16 +80,16 @@
 		<div ng-controller="placeholderCtrl" class="lui block round">
 			<p>
 				myValue:
-				<div class="lui input with addon right">
+				<span class="lui input with addon right">
 					<input type="text" ng-model="myValue">
 					<i class="lui cross icon right addon" ng-click="myValue='';"></i>
-				</div>
+				</span>
 			</p>
 			<p>
 				dynamic placeholder:
-				<div class="lui input">
+				<span class="lui input">
 					<input type="text" ng-model="myPlaceholder">
-				</div>
+				</span>
 			</p>
 			<p>
 				myValue: <code>{{myValue}}</code>
@@ -121,9 +121,9 @@
 		<div ng-controller="defaultcodeCtrl" class="lui block round">
 			<p>
 				value:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myValue">
-				</div>
+				</span>
 			</p>
 			<p>
 				myValue: <code>{{myValue}}</code>
@@ -203,9 +203,9 @@
 		<div ng-controller="numberCtrl" class="lui block round">
 			<p>
 				value:
-				<div class="lui long input">
+				<span class="lui input">
 					<input type="number" ng-model="myValue">
-				</div>
+				</span>
 			</p>
 			<p>
 				myValue: <code>{{myValue}}</code>
@@ -245,16 +245,11 @@
 		<div ng-controller="startfromCtrl" class="lui block round">
 			<p>
 				myIndex:
-				<div class="lui input">
+				<span class="lui input">
 					<input type="number" ng-model="myIndex">
-				</div>
+				</span>
 			</p>
-			<p>
-				all the values <code>ng-repeat="val in values"</code>
-				<ul class="lui unstyled">
-					<li ng-repeat="val in values">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
-				</ul>
-			</p>
+			<p>values: <code>{{values}}</code></p>
 			<p>
 				all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
 				<ul class="lui unstyled">
@@ -294,21 +289,22 @@
 		</div>
 		<div ng-controller="momentCtrl" class="lui block round">
 			<p>
-				myValue: (enter '2015-01-01' or such like, or try something that is not parsable by moment)
-				<div class="lui long input">
+				myValue: 
+				<span class="lui long input">
 					<input type="text" ng-model="myValue">
-				</div>
+				</span>
+				 (enter '2015-01-01' or such like, or try something that is not parsable by moment)
 			</p>
 			<p>
 				set myValue to
-				<div class="lui button" ng-click="setToDate()">new Date()</div>
-				<div class="lui button" ng-click="setToMoment()">moment().startOf('week')</div>
+				<span class="lui button" ng-click="setToDate()">new Date()</span>
+				<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
 			</p>
 			<p>
 				myFormat:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myFormat">
-				</div>
+				</span>
 			</p>
 			<p>
 				myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
@@ -345,20 +341,20 @@
 		<div ng-controller="calendarCtrl" class="lui block round">
 			<p>
 				myValue:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myValue">
-				</div>
+				</span>
 			</p>
 			<p>
 				set myValue to
-				<div class="lui button" ng-click="setToThisWeek()">start of week</div>
-				<div class="lui button" ng-click="setToLastWeek()">last week</div>
+				<span class="lui button" ng-click="setToThisWeek()">start of week</span>
+				<span class="lui button" ng-click="setToLastWeek()">last week</span>
 			</p>
 			<p>
 				myRefDate:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myRefDate">
-				</div>
+				</span>
 			</p>
 			<p>
 				myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
@@ -400,15 +396,15 @@
 		<div ng-controller="friendlyrangeCtrl" class="lui block round">
 			<p>
 				myBlock.start:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myBlock.start">
-				</div>
+				</span>
 			</p>
 			<p>
 				myBlock.end:
-				<div class="lui long input">
+				<span class="lui long input">
 					<input type="text" ng-model="myBlock.end">
-				</div>
+				</span>
 			</p>
 			<p>
 				myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
@@ -455,15 +451,16 @@
 		</div>
 		<div ng-controller="durationCtrl" class="lui block round">
 			<p>
-				myValue: (enter '1.11:30:00' or 'PT35H30m' or such like)
-				<div class="lui long input">
+				myValue: 
+				<span class="lui input">
 					<input type="text" ng-model="myValue">
-				</div>
+				</span>
+				 (enter '1.11:30:00' or 'PT35H30m' or such like)
 			</p>
 			<p>
 				set myValue to
-				<div class="lui button" ng-click="myValue='PT35H'">35h</div>
-				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
+				<span class="lui button" ng-click="myValue='PT35H'">35h</span>
+				<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
 			</p>
 			<p>
 				myValue: <code>{{ myValue | luifDuration }}</code>
@@ -482,13 +479,15 @@
 		<h2 class="lui divider below">luifHumanize</h2>
 
 		<p>
-			A filter to cast the input to a <a href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a href="http://momentjs.com/docs/#/durations/humanize/">humanize on it</a>
+			A filter to cast the input to a <a href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a href="http://momentjs.com/docs/#/durations/humanize/">humanize</a> on it
 		</p>
 		<p>
 			the first argument is to use the suffix in the humanize function
 			<ul class="lui unstyled">
+				<li><code>moment.duration(-3,'m').humanize()</code>: 3 minutes</li>
 				<li><code>moment.duration(3,'m').humanize()</code>: 3 minutes</li>
-				<li><code>moment.duration(3,'m').humanize(true)</code>: in 3 minutes</li>
+				<li><code>moment.duration(-3,'m').humanize(true)</code>: 3 minutes <b>ago</b></li>
+				<li><code>moment.duration(3,'m').humanize(true)</code>: <b>in</b> 3 minutes</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -503,15 +502,16 @@
 		</div>
 		<div ng-controller="humanizeCtrl" class="lui block round">
 			<p>
-				myValue: (enter '1.11:30:00' or 'PT35H30M' or such like)
-				<div class="lui long input">
+				myValue: 
+				<span class="lui input">
 					<input type="text" ng-model="myValue">
-				</div>
+				</span>
+				 (enter '1.11:30:00' or 'PT35H30M' or such like)
 			</p>
 			<p>
 				set myValue to
-				<div class="lui button" ng-click="myValue='PT1H'">1h</div>
-				<div class="lui button" ng-click="myValue='-PT30M'">-30m</div>
+				<span class="lui button" ng-click="myValue='PT1H'">1h</span>
+				<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
 			</p>
 			<p>
 				myValue humanized: <code>{{ myValue | luifHumanize }}</code>
