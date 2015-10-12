@@ -33,6 +33,13 @@ module.exports = function(grunt) {
                 preprocessors: {
                     'test/**/*.js': ['coverage'],
                 }
+            },
+            ng12:{
+                configFile: 'karma.ng12.js',
+                singleRun: true,
+                autoWatch: false,
+                browsers: ['PhantomJS'],
+                reporters: ['progress']
             }
         },
         watch: {
@@ -65,6 +72,15 @@ module.exports = function(grunt) {
                 ],
                 // the location of the resulting JS file
                 dest: 'dist/lucca-ui.js'
+            },
+            ng12:{
+                src:[
+                    'js/lui.js',
+                    'js/directives/percentage-picker.js',
+                    'js/directives/timespan-picker.js',
+                    'js/filters/*.js',
+                ],
+                dest: 'dist/custom/lucca-ui-compat-ng-1-2.js'
             }
         },
         uglify: {
@@ -112,5 +128,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
     grunt.registerTask('minifyjs', ['concat','uglify']);
     grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask('ng12', ['concat:ng12','karma:ng12']);
 
 };
