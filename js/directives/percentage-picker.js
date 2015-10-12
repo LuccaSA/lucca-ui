@@ -21,7 +21,6 @@
 					scope.intPct = undefined;
 					return;
 				}
-
 				// must support the different formats here
 				scope.intPct = scope.parse(parseFloat(this.$viewValue));
 			};
@@ -64,7 +63,7 @@
 		};
 		var format = function (pct) {
 			// should support deifferents formats
-			switch($scope.format){
+			switch($scope.format || "0.XX"){
 				case "XX":
 					return pct;
 				case "0.XX":
@@ -77,7 +76,7 @@
 
 		$scope.parse = function (intInput) {
 			// should support deifferents formats
-			switch($scope.format){
+			switch($scope.format || "0.XX"){
 				case "XX":
 					return intInput;
 				case "0.XX":
