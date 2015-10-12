@@ -23,7 +23,7 @@ module.exports = function(grunt) {
                 singleRun: true,
                 autoWatch: false,
                 browsers: ['PhantomJS'],
-                reporters: ['junit']
+                reporters: ['progress']
             },
             coverage: {
                 singleRun: true,
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             dev: ['watch','karma']
         }
     });
-    grunt.loadNpmTasks('grunt-contrib-jshint'); 
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
