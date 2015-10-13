@@ -6,6 +6,7 @@
 @import "inputs/_timespanpicker";
 @import "inputs/_momentpicker";
 
+
 /**
  * Input
  * --------------------------------------------------------------------------- */
@@ -15,6 +16,10 @@
 	display: inline-block;
 	vertical-align: middle;
 	.display-flex(true);
+	.flex-align-items(center);
+
+	// IE fix
+	.ie9 & { overflow: hidden; }
 }
 
 // General styles for inputs
@@ -43,13 +48,17 @@
 .lui.input > input {
 	padding: 0 @h-padding;
 	line-height: (1em + 2 * @v-padding);
+	height: 1 + 2 * @v-padding; // For any version of IE...
 
 	// Fix for Internet Explorer
-	box-sizing: border-box;
 	height: (1em + 2 * @v-padding);
-
 	display: inline-block;
 	.flex();
+
+	box-sizing: border-box;
+	width: 100%;
+
+	.ie9 & { width: auto; }
 }
 .lui.input > input, .lui.input > textarea { cursor: text; }
 .lui.input > select, .lui.input > textarea { padding: @v-padding @h-padding; }
@@ -61,10 +70,10 @@
 
 // Inputs length (horizontal sizing)
 // =====
-.lui.input.short, .lui.field.short > input { min-width: 0; width: 8em !important; }
-.lui.input.medium, .lui.field.medium > input { min-width: 0; width: 15em !important; }
-.lui.input.long, .lui.field.long > input { min-width: 0; width: 20em !important; }
-.lui.input.x-long, .lui.field.x-long > input { min-width: 0; width: 25em !important; }
+.lui.input.short > input, .lui.field.short > input { min-width: 0; width: 8em !important; }
+.lui.input.medium > input, .lui.field.medium > input { min-width: 0; width: 15em !important; }
+.lui.input.long > input, .lui.field.long > input { min-width: 0; width: 20em !important; }
+.lui.input.x-long > input, .lui.field.x-long > input { min-width: 0; width: 25em !important; }
 
 // Icon support
 // =====
@@ -105,7 +114,7 @@
 .lui.input[class*="with addon"],
 .lui.input[class*="with addons"] {
 	> .addon {
-		box-sizing: border-box;
+		display: inline-block;
 		position: relative; z-index: 2;
 		vertical-align: middle;
 		border: 1px solid @border-color;
@@ -113,23 +122,30 @@
 		background: @bg;
 		line-height: 1 + 2 * @v-padding;
 		height: 1 + 2 * @v-padding;
+		box-sizing: border-box;
 	}
 
-	> .lui.addon:not([class*="right addon"]),
-	&[class*="with addons"] > .lui.addon:first-child {
-		margin-right: -1px;
+	&:not(.addons) > .lui.addon:not([class*="right addon"]),
+	&.addons > .lui.addon:first-child {
+		border-right: none;
 		border-radius: @border-radius 0 0 @border-radius;
 		& + input { border-radius: 0 @border-radius @border-radius 0; }
 	}
 
-	> .lui[class*="right addon"],
-	&[class*="with addons"] .lui.addon:last-child {
+	&:not(.addons) > .lui[class*="right addon"],
+	&.addons .lui.addon:last-child {
 		border-radius: 0 @border-radius @border-radius 0;
 		margin-left: -@border-radius;
 	}
 
-	&[class*="with addons"] > input {
+	&.addons > input {
 		border-radius: 0 !important;
+	}
+
+	// Old browsers
+	.ie9 & {
+		// display: inline-table;
+		// > input, > .addon { display: table-cell; }
 	}
 }
 
@@ -158,6 +174,7 @@
 		margin: @field-v-margin 0;
 		&:not(.inline) {
 			.flex-direction(column);
+			.flex-align-items(flex-start);
 
 			> label, > input { display: block; }
 		}
@@ -191,6 +208,6 @@
 	> input {
 		color: @invalid-color;
 		border-color: @invalid-color;
-		.lui_placeholder({ color: lighten(@invalid-color, 15); });
+		.lui_placeholder({ color: lighten(@invalid-color, 15); font-style: italic;});
 	}
 }
