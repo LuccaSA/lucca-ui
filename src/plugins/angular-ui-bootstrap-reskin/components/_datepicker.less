@@ -8,6 +8,9 @@
 
 	button { &:extend(button.lui.unstyled all); }
 
+	// IE 9 fix
+	overflow: visible !important;
+
 	&:not([role="application"]) {
 		.lui_make_icon(calendar);
 		> input { padding-left: 2.5em; width: @datepicker-input-width; }
