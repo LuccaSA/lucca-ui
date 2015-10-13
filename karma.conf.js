@@ -14,6 +14,7 @@ module.exports = function(config) {
 
 		'bower_components/angular/angular.js',
 		'bower_components/moment/min/moment-with-locales.js',
+		'bower_components/underscore/underscore-min.js',
 
 		'bower_components/angular-mocks/angular-mocks.js',
 
