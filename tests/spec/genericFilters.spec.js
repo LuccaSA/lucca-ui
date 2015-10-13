@@ -67,6 +67,8 @@ describe('luif.timefilters', function(){
 			expect(luifNumber('a string',0).$$unwrapTrustedValue()).toEqual("a string<span style=\"opacity:0\"></span>");
 		});
 		it('should work with value = undefined', function(){
+			expect(luifNumber(0/0).$$unwrapTrustedValue()).toEqual("<span style=\"opacity:0\">.00</span>");
+			expect(luifNumber(null).$$unwrapTrustedValue()).toEqual("<span style=\"opacity:0\">.00</span>");
 			expect(luifNumber(undefined).$$unwrapTrustedValue()).toEqual("<span style=\"opacity:0\">.00</span>");
 			expect(luifNumber(undefined,undefined,0).$$unwrapTrustedValue()).toEqual("0<span style=\"opacity:0\">.00</span>");
 			expect(luifNumber(undefined,undefined,'nothing').$$unwrapTrustedValue()).toEqual("nothing<span style=\"opacity:0\">.00</span>");

@@ -31,7 +31,8 @@
 	.filter('luifNumber', ['$sce', '$filter', function($sce, $filter) {
 		return function(_input, _precision, _placeholder) {
 			var placeholder = _placeholder === undefined ? '' : _placeholder;
-			var input = _input === undefined ? placeholder : _input;
+			// alert(_input + " " + (!!_input.isNaN && _input.isNaN()));
+			var input = _input === undefined || _input === null || _input != _input ? placeholder : _input; // the last check is to check if _input is NaN
 			var separator = $filter("number")(1.1,1)[1];
 			var precision = _precision === undefined ? 2 : _precision;
 
@@ -50,7 +51,7 @@
 				// the _input or the _placeholder was not parsable by the number $filter, just return input but trusted as html
 				return $sce.trustAsHtml(input + rightSpan);
 			}
-			
+
 			var integerPart = text.split(separator)[0];
 			return $sce.trustAsHtml(integerPart + rightSpan);
 		};
