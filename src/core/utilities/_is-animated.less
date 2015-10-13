@@ -1,4 +1,5 @@
 
-.lui_is_animated(@animation-name) {
+.lui_is_animated(@animation-name, @loop: false) {
 	&:extend(.lui.animated); &:extend(.lui.animated[class*="@{animation-name}"]);
+	& when (@loop = true) { &:extend(.lui.infinitely.animated); }
 }
