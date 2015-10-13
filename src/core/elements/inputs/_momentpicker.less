@@ -33,6 +33,8 @@ luid-moment {
 		border: none;
 		width: @momentpicker-input-width;
 		&:nth-child(1) { text-align: right; }
+
+		height: 1 + 2 * @v-padding; // For any version of IE...
 	}
 	// buttons + -
 	.mp-button {
