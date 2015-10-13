@@ -8,8 +8,10 @@
 	display: flex;
 }
 .display-flex(@inline: false) when (@inline = true) {
-	display: -ms-inline-flexbox;
-	display: inline-flex;
+	html:not(.ie9) & {
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+	}
 }
 
 
