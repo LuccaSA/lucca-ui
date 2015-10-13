@@ -146,11 +146,17 @@
 	40% { transform: translateY(-@bounce-distance);	}
 	60% { transform: translateY(-(@bounce-distance / 2)); }
 }
-.lui.animated.bounce { animation-name: bounce; }
+.lui.animated[class*="bounce"] { animation-name: bounce; }
 
 @keyframes pulse {
 	0% { transform: scale(1); opacity: 1; }
 	50% { transform: scale(0.85); opacity: 0.75; }
 	100% { transform: scale(1); opacity: 1; }
 }
-.lui.animated.pulse { animation-name: pulse; }
+.lui.animated[class*="pulse"] { animation-name: pulse; }
+
+@keyframes spin {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}
+}
+.lui.animated[class*="spin"] { animation-name: spin; }
