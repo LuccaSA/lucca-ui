@@ -3,15 +3,6 @@
  * UI select
  * --------------------------------------------------------------------------- */
 
-@keyframes dropdown {
- 	from { transform: scale(1, 0); }
- 	to { transform: scale(1, 1); }
-}
-@keyframes multiselect {
-	from { opacity: 0; transform: scale(0, 0); }
-	to { opacity: 1; transform: scale(1, 1); }
-}
-
 .lui.nguibs-ui-select {
 	&:extend(.lui.input all);
 	min-width: @ui-select-min-width;
@@ -19,17 +10,20 @@
 	// Displays the arrow icon
 	// =====
 	.lui_make_icon(south arrow);
-	&:before { font-size: 0.6rem; position: absolute; z-index: 4; right: @h-padding; top: 50%; transform: translateY(-50%); }
+	&:before { font-size: 0.6rem; position: absolute; z-index: 4; right: @h-padding; top: 50%; transform: translateY(-50%); .ie9 & { margin-top: -1em; } }
 
 
 	.btn, .ui-select-choices { box-sizing: border-box; }
 	> .ui-select-match { width: 100%; }
 
+	// IE9 fix
+	overflow: visible !important;
+
 	// Input fields lookalikes
 	// =====
 	.ui-select-match > .btn,
 	> .ui-select-search,
-	&.ui-select-multiple > div { &:extend(.lui.input > input all); }
+	&.ui-select-multiple > div { &:extend(.lui.input > input all); .ie9 & { width: 100%; } }
 
 	// Dropdown list styling
 	// =====
@@ -52,6 +46,8 @@
 
 		-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
 		backface-visibility: hidden;
+
+		.ie9 & { box-sizing: content-box; }
 	}
 	.ui-select-choices .active a,
 	.ui-select-choices a:hover { background: #EEE; }
@@ -83,12 +79,6 @@
 			border-radius: @border-radius;
 
 			background-color: @bg;
-
-			// transform-origin: center center;
-			// animation-easing: @animation-easing;
-			// animation-duration: @animation-duration;
-			// animation-fill-mode: both;
-			// animation-name: multiselect;
 
 			.lui_is_animated("down scale in");
 
@@ -127,6 +117,12 @@
 			visibility: visible;
 
 			.lui_is_animated("up slide in");
+
+			.ie9 & {
+				display: block;
+				opacity: 1;
+				height: auto;
+			}
 		}
 	}
 
