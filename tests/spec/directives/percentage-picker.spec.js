@@ -1,4 +1,6 @@
 describe('luidPercentage', function(){
+	beforeEach(module('moment'));
+	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
 	beforeEach(module('lui.directives'));
