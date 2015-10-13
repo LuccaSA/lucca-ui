@@ -3,11 +3,7 @@
  * Loader
  * --------------------------------------------------------------------------- */
 
-// Animation frames for infinite rotation
-@keyframes spin {
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
-}
+@lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 
 .lui.loader {
 	.lui_loader();
@@ -31,11 +27,8 @@
 	&:after {
 		position: absolute;
 		top: 50%; margin-top: -@size/2; left: 50%; margin-left: -@size/2;
-
-		animation-duration: @speed;
+		.lui_is_animated(spin, true);
 		animation-timing-function: linear;
-		animation-name: spin;
-		animation-iteration-count: infinite;
 	}
 
 	& when (@inverted = true) {
@@ -45,5 +38,11 @@
 	& when (@inverted = false) {
 		&:before { border-color: rgba(0, 0, 0, 0.25); }
 		&:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
+	}
+
+	// IE9 support
+	.ie9 & {
+		&:before { border: none; }
+		&:after { border: none; margin: 0; background: transparent url("@{lui_ie_fallback_loader}") no-repeat center center; background-size: contain; }
 	}
 }
