@@ -92,6 +92,12 @@
 		margin-top: -0.15em;
 	}
 }
+// Old browsers
+.lui.menu:not(.vertical) > .lui.item:not([class*="right item"]),
+.lui.menu:not(.vertical) > .lui.menu:not([class*="right menu"]) { float: left; }
+.lui.menu:not(.vertical) > .lui.item[class*="right item"],
+.lui.menu:not(.vertical) > .lui.menu[class*="right menu"] { float: right; }
+
 .lui.menu > a.item {
 	cursor: pointer;
 }
