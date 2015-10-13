@@ -3,11 +3,8 @@
  * General
  * --------------------------------------------------------------------------- */
 
- // Only bleeding thing!
- // But must be done in order to be able to use REM units
- html { font-size: @font-size; }
-
 .lui.body {
+	font-size: @lui_default_font_size;
 	font-family: @font-family;
 	color: @color;
 	line-height: @line-height;
@@ -65,7 +62,7 @@
 		.lui.sub.heading {
 			display: inline-block;
 			vertical-align: middle;
-			font-size: 0.9rem;
+			font-size: (0.9 * @lui_default_font_size);
 		}
 
 		// Icon support
