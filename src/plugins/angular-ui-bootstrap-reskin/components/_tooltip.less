@@ -6,7 +6,12 @@
 .lui.nguibs-tooltip {
 	position: absolute;
 	z-index: @tooltip-z-index;
-	&:extend(.lui.raised);
+
+	& {
+		@import (multiple) "../../../core/definitions/_raised.variables.less";
+		-webkit-filter: drop-shadow(@x @y @blur @color);
+		filter: drop-shadow(@x @y @blur @color);
+	}
 
 	> [class*="-inner"] {
 		padding: @tooltip-padding;
