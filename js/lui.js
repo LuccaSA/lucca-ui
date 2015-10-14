@@ -3,7 +3,7 @@
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	
-	angular.module('lui.directives', ['moment', 'underscore']);
+	angular.module('lui.directives', ['moment', 'underscore','ui.select']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
 	// all the templates in one module
