@@ -89,6 +89,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/lui.js',
                     'js/directives/*.js',
+                    'js/directives/lucca/*.js',
                     'js/filters/*.js',
                 ],
                 // the location of the resulting JS file
