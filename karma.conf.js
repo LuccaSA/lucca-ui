@@ -13,6 +13,7 @@ module.exports = function(config) {
 	files: [
 
 		'bower_components/angular/angular.js',
+		'bower_components/ui-select/dist/select.js',
 		'bower_components/moment/min/moment-with-locales.js',
 		'bower_components/underscore/underscore-min.js',
 
