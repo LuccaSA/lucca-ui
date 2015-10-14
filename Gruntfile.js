@@ -68,6 +68,7 @@ module.exports = function(grunt) {
                 src: [
                     'js/lui.js',
                     'js/directives/*.js',
+                    'js/directives/lucca/*.js',
                     'js/filters/*.js',
                 ],
                 // the location of the resulting JS file
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
     grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
     grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
-    grunt.registerTask('minifyjs', ['concat','uglify']);
+    grunt.registerTask('minifyjs', ['concat:dist','uglify']);
     grunt.registerTask('default', ['concurrent']);
     grunt.registerTask('ng12', ['concat:ng12','karma:ng12']);
 
