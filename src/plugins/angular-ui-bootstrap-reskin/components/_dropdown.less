@@ -3,7 +3,7 @@
 	position: relative;
 	display: inline-block;
 
-	> .lui.button { margin: 0; }
+	&:not(.buttons) > .lui.button { margin: 0; }
 
 	.dropdown-menu {
 		&:extend(.lui.nguibs-ui-select .ui-select-choices all);
@@ -17,6 +17,8 @@
 	&.open .dropdown-menu { &:extend(.lui.nguibs-ui-select.open .ui-select-choices all); }
 
 	a { cursor: pointer; }
+
+	&:not(.aligned) { text-align: left; }
 }
 
 // Coloring support
