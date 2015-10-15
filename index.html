@@ -21,20 +21,21 @@
 <body ng-app="demoApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item active" href="./index.html">less framework</a>
-		<a class="item" href="./icons.html">lucca icons</a>
-		<a class="item" href="./animations.html">animations</a>
-		<a class="item" href="./nguibs.html">lui nguibs</a>
-		<a class="item" href="./filters.html">lui filters</a>
-		<a class="item" href="./directives.html">lui directives</a>
+		<a class="item active" href="./index.html">Less framework</a>
+		<a class="item" href="./icons.html">Lucca Icons</a>
+		<a class="item" href="./animations.html">Animations</a>
+		<a class="item" href="./nguibs.html">Bootstrap components</a>
+		<a class="item" href="./filters.html">Lucca Filters</a>
+		<a class="item" href="./directives.html">Lucca Directives</a>
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#lui-grid">The grid</a>
 		<a class="item" href="#lui-typography">Typography</a>
-		<a class="item" href="#lui-button">Button</a>
+		<a class="item" href="#lui-button">Buttons</a>
 		<a class="item" href="#lui-icon">Icons</a>
 		<a class="item" href="#lui-label">Labels</a>
-		<a class="item" href="#lui-input">Input</a>
+		<a class="item" href="#lui-input">Inputs</a>
 		<a class="item" href="#lui-callout">Callout</a>
+		<a class="item" href="#lui-table">Table</a>
 		<a class="item" href="#lui-menu">Menu</a>
 	</nav>
 
@@ -49,10 +50,10 @@
 	<div class="lui callout primary">
 		<p>
 			<b>Important:</b>
-			this part of the framework has no dependency and you can use it at your heart content.
+			This part of the framework has no dependency.
 		</p>
 		<p>
-			It is however recommended to use normalize to prevent any browser from injecting its styles.
+			It is recommended to use <code>normalize.css</code> to prevent browsers from injecting unwanted styles.
 		</p>
 	</div>
 
@@ -61,23 +62,28 @@
 		<h2 class="lui divider below">The grid</h2>
 
 		<p>
-			By default, the grid is 12 columns based, but that can be overriden.
+			By default, the lucca grid is 12 columns based. This can be overriden.
 		</p>
 		<p>
 			Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
 		</p>
 		<p>
-			To define the size of a grid element for mobiles, give it the <code>lui column mobile-x</code> classes where x is the number of columns.
-			For tablets, use <code>lui column tablet-x</code>, for desktop, <code>lui column desktop-x</code> and finally, for large screens,
-			<code>lui column large-x</code>.
+			To define the size of a grid element for different devices, c being the number of columns, use
+			<li>
+				<ul><code>lui column mobile-x</code> for mobiles phones</ul>
+				<ul><code>lui column tablet-x</code> for tablets</ul>
+				<ul><code>lui column desktop-x</code> for desktops</ul>
+				<ul><code>lui column large-x</code> for large screens</ul>
+			</li>
 		</p>
 
 		<p>
-			You can offset a specific grid child with the <code>{device}-offset-x</code> class.
+			Use the <code>{device}-offset-x</code> class to offset a specific grid child.
 		</p>
 		<p>
-			You can reorder children elements with the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes.
+			Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
 		</p>
+		<br/>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Example #1: Without gutter space</h4>
 		</div>
@@ -92,14 +98,15 @@
 			<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
 		</div>
 
+		<br/>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Example #2: With gutter space</h4>
 		</div>
 		<p>
-			Adding the <code>spaced</code> class to a column will give it a gutter. Adding it to the <code>.lui.container</code> parent element will give gutters to all <code>.lui.column</code> children.
+			Add the <code>spaced</code> class to give a column a gutter. Add it to the <code>.lui.container</code> parent element to give gutters to all <code>.lui.column</code> children.
 		</p>
 		<p>
-			To neutralise gutter space around the container, wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element (plural).
+			Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
 		</p>
 		<div class="lui container spaced">
 			<div class="lui columns">
@@ -117,7 +124,7 @@
 	<article id="lui-typography">
 		<h2 class="lui divider below">Typography</h2>
 
-		<h4 class="lui divider">Lucca's less framework <span class="lui sub heading">Introduction</span></h4>
+		<h4 class="lui divider">Lucca less framework <span class="lui sub heading">Introduction</span></h4>
 		<p>
 			Semantics (from Ancient Greek: σημαντικός sēmantikós, "significant")[1][2] is the study of meaning. It focuses on the relation between signifiers, like words, phrases, signs, and symbols, and what they stand for; their denotation. Linguistic semantics is the study of meaning that is used for understanding human expression through language. Other forms of semantics include the semantics of programming languages, formal logics, and semiotics. In international scientific vocabulary semantics is also called semasiology.
 		</p>
@@ -166,9 +173,9 @@
 				<h4 class="lui underline">Icon support</h4>
 			</div>
 			<p>
-				Only icon: <button class="lui button icon add user"></button>
-				Icon (left) + text: <button class="lui button"><i class="lui icon add user"></i>Add user</button>
-				Icon (right) + text: <button class="lui button">Add user<i class="lui icon right add user"></i></button>
+				Icon only: <button class="lui button icon add user"></button>
+				Left Icon + text: <button class="lui button"><i class="lui icon add user"></i>Add user</button>
+				Right Icon + text: <button class="lui button">Add user<i class="lui icon right add user"></i></button>
 			</p>
 			<p>
 				<b>Icon addon:</b> <button class="lui button with addon"><i class="lui addon icon send"></i>Send message</button>
@@ -454,8 +461,8 @@
 		</div>
 	</article>
 
-	<article id="component-table" class="component">
-		<h2>Tables</h2>
+	<article id="lui-table" class="component">
+		<h2 class="lui divider below">Tables</h2>
 
 		<table class="lui table v-aligned">
 			<thead>
@@ -548,7 +555,7 @@
 
 		<p>
 			The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
-			Giving it the <code>vertical</code> class will change this.
+			Add the <code>vertical</code> class to change this.
 		</p>
 
 		<div class="lui bordered menu">
@@ -584,7 +591,7 @@
 		</div>
 		<p>
 			Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
-			The color of the active border can be changed by adding a color class.
+			Add a color class to change the color of the active border.
 		</p>
 		<div class="lui menu green dividing center aligned">
 			<div class="item header">Dividing style</div>
