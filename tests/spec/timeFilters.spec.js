@@ -146,6 +146,17 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(360100005, true)).toEqual('+100h01');
 			expect(luifDuration(-360100005, true)).toEqual('-100h01');
 		});
+		it('should be resistant to edge cases', function(){
+			// default formatting is unit:hour, precision:minute
+			expect(luifDuration(undefined)).toEqual('');
+			expect(luifDuration(undefined, true)).toEqual('');
+			expect(luifDuration(undefined, true, 'd','ms')).toEqual('');
+
+			expect(luifDuration('not parsable as duration')).toEqual('');
+			expect(luifDuration('not parsable as duration', true)).toEqual('');
+			expect(luifDuration('not parsable as duration', true, 'd','ms')).toEqual('');
+
+		});
 		it('should produce the right results when a unit is provided', function(){
 			moment.locale('en');
 			expect(luifDuration(360000, false, 'd')).toEqual(''); // x < 1h 
@@ -164,11 +175,11 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(999, false, 'm')).toEqual(''); // x < 1s
 			expect(luifDuration(1001, false, 'm')).toEqual('1s'); // 1s <= x < 1m
 			expect(luifDuration(60001, false, 'm')).toEqual('1m'); // 1d <= x
-			expect(luifDuration(61001, false, 'm')).toEqual('1m01'); // 1d <= x
-			expect(luifDuration(61001, false, 'min')).toEqual('1m01'); // 1d <= x
-			expect(luifDuration(61001, false, 'mins')).toEqual('1m01'); // 1d <= x
-			expect(luifDuration(61001, false, 'minute')).toEqual('1m01'); // 1d <= x
-			expect(luifDuration(61001, false, 'minutes')).toEqual('1m01'); // 1d <= x
+			expect(luifDuration(61001, false, 'm')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'min')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'mins')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'minute')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'minutes')).toEqual('1m01'); 
 
 			expect(luifDuration(0, false, 's')).toEqual(''); 
 			expect(luifDuration(999, false, 's')).toEqual(''); 

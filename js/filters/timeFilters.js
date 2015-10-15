@@ -193,7 +193,7 @@
 
 			// add prefix
 			var prefix = '';
-			if (_sign) {
+			if (_sign && !!result) {
 				if (d.asMilliseconds() > 0) {
 					prefix = '+';
 				} else if (d.asMilliseconds() < 0) {
