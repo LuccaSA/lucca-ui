@@ -27,6 +27,7 @@
 
 	// Datepicker styling
 	&[role="application"], .dropdown-menu {
+		z-index: @datepicker-z-index;
 		background-color: @datepicker-bg;
 		min-width: @datepicker-min-width;
 		border: 1px solid @border-color;
@@ -46,6 +47,7 @@
 	table {
 		width: 100%; margin-bottom: 0.5em;
 		&:focus { outline: 0; }
+		text-align: center;
 	}
 	thead tr {
 		// Month & year
@@ -73,7 +75,6 @@
 	.glyphicon-chevron-right { .lui_make_icon(east arrow); }
 
 	tbody {
-		text-align: center;
 		button {
 			padding: 0.5em 1em;
 			color: @color;
