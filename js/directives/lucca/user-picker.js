@@ -36,23 +36,30 @@
 			template: userPickerTemplate,
 			require: "luidUserPicker",
 			scope: {
-				showFormerEmployees: "=",
+				/*** STANDARD ***/
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
-				useCustomFilter: "=",
-				customFilter: "&",
+				/*** FORMER EMPLOYEES ***/
+				showFormerEmployees: "=", // boolean
+				/*** HOMONYMS ***/
+				homonymsProperties: "@", // list of properties to handle homonyms
+				/*** CUSTOM FILTER ***/
+				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
+				/*** OPERATION SCOPE ***/
 				appId: "@",
-				operation: "@",
-				homonymsProperties: "@"
+				operation: "@"
 			},
-			link: function (scope, elt, attrs, ctrls) {
+			link: function (scope, elt, attrs, ctrl) {
 				if (attrs.homonymsProperties) {
 					scope.properties = attrs.homonymsProperties.split(',');
 				}
 				else {
 					scope.properties = DEFAULT_HOMONYMS_PROPERTIES;
 				}
+				ctrl.isMultipleSelect = false;
+				ctrl.asyncPagination = false;
+				ctrl.useCustomFilter = !!attrs.customFilter;
 			}
 		};
 	})
@@ -64,167 +71,281 @@
 			template: userPickerMultipleTemplate,
 			require: "luidUserPickerController",
 			scope: {
-				showFormerEmployees: "=",
+				/*** STANDARD ***/
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
-				useCustomFilter: "=",
-				customFilter: "&",
+				/*** FORMER EMPLOYEES ***/
+				showFormerEmployees: "=", // boolean
+				/*** HOMONYMS ***/
+				homonymsProperties: "@", // list of properties to handle homonyms
+				/*** CUSTOM FILTER ***/
+				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
+				/*** OPERATION SCOPE ***/
 				appId: "@",
-				operation: "@",
-				homonymsProperties: "@"
+				operation: "@"
 			},
-			link: function (scope, elt, attrs, ctrls) {
+			link: function (scope, elt, attrs, ctrl) {
 				if (attrs.homonymsProperties) {
 					scope.properties = attrs.homonymsProperties.split(',');
 				}
 				else {
 					scope.properties = DEFAULT_HOMONYMS_PROPERTIES;
 				}
+				ctrl.isMultipleSelect = true;
+				ctrl.asyncPagination = false;
+				ctrl.useCustomFilter = !!attrs.customFilter;
 			}
 		};
 	})
 
 	.controller("luidUserPickerController", ['$scope', '$http', 'moment', '$timeout', '$q', function ($scope, $http, moment, $timeout, $q) {
-		var timeout = {};
-		var promise;
-		var maxUsers = 0;
+		var ctrl = this;
+		var promise; // store the current get request to fetch users
+		// Only used for UserPickerMultiple
 		var selectedUsersCount = 0;
+		// Only used for asynchronous pagination
+		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 
-		$scope.user = {};
+		//$scope.user = {};
 		$scope.selected = {};
 		$scope.selected.users = [];
 
-		var getUsers = function(init, input) {
-			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
-			var limit = "&limit=";
-			var clue = "&clue=" + input;
-			var query = "/api/v3/users/find?" + (init ? "" : (clue + "&")) + formerEmployees;
+		/****************/
+		/***** FIND *****/
+		/****************/
 
-			if (promise) {
-				promise.then(function (response) {}); // do nothing
-			}
+		$scope.find = function (clue) {
+			getUsersAsync(clue).then(
+				function(users) {
+					var filteredUsers = users;
+					var count = filteredUsers.length;
 
-			// Cancel previous timeout
-			if (timeout.count) {
-				$timeout.cancel(timeout.count);
-			}
-
-			// If we use a UserPickerMultiple or a custom filter, we ask for all the users
-			if ((selectedUsersCount !== 0) || ($scope.useCustomFilter)) {
-				limit += MAGIC_NUMBER_maxUsers;
-			}
-			else {
-				limit += (MAX_COUNT + 1);
-			}
-			query += limit;
-
-			promise = $http.get(query);
-			promise.then(function (response) {
-				$scope.users = response.data.data.items;
-
-				// Handle pagination
-				if (!$scope.useCustomFilter && (selectedUsersCount === 0)) {
-					// If there are more results than MAX_COUNT, launch a timer to get the number of results
-					if ($scope.users.length > MAX_COUNT) {
-						countTimeout(input);
-						$scope.users = _.first($scope.users, MAX_COUNT);
-						$scope.users.push({ overflow: MAX_COUNT + "/..." });
-					}
-				}
-				else {
 					// Used for UserPickerMultiple only
-					if (selectedUsersCount > 0) {
+					if (ctrl.isMultipleSelect) {
 						// Remove duplicates between results and selected users
 						_.each($scope.selected.users, function (selectedUser) {
-							$scope.users = _.reject($scope.users, function (user) {
+							filteredUsers = _.reject(filteredUsers, function (user) {
 								return (user.id === selectedUser.id);
 							});
 						});
 						// Number of results matching the query
-						$scope.count = $scope.users.length;
+						count = filteredUsers.length;
 					}
 
 					// Used when a custom filtering function is given
-					if ($scope.useCustomFilter) {
+					if (ctrl.useCustomFilter) {
 						// Get new set of users
-						$scope.users = $scope.customFilter({ users: $scope.users });
-						$scope.count = $scope.users.length;
+						filteredUsers = _.filter(filteredUsers, function(user){ return $scope.customFilter(angular.copy(user)); });
+						count = filteredUsers.length;
 					}
 
-					if ($scope.count > MAX_COUNT) {
-						$scope.users = _.first($scope.users, MAX_COUNT);
-						$scope.users.push({ overflow: MAX_COUNT + "/" + $scope.count });
+					if (hasFormerEmployees(filteredUsers)) {
+						handleFormerEmployees(filteredUsers);
 					}
-				}
 
-				if ($scope.showFormerEmployees) {
-					checkFormerEmployees();
-				}
+					if (hasHomonyms(filteredUsers)) {
+						tagHomonyms(filteredUsers);
+						handleHomonyms(filteredUsers);
+					}
 
-				if (hasHomonyms()) {
-					getHomonymsProperties();
-				}
-			});
-		};
-
-		var checkFormerEmployees = function () {
-			_.each($scope.users, function (user) {
-				if (moment(user.dtContractEnd).isBefore(moment())) {
-					user.isFormerEmployee = true;
-				}
-			});
-		};
-
-		var hasHomonyms = function () {
-			var hasHomonyms = false;
-
-			_.each($scope.users, function (user) {
-								// Search homonyms in set of results
-								_.each($scope.users, function (otherUser) {
-									if ((user.firstName === otherUser.firstName) && (user.lastName === otherUser.lastName) && (user.id !== otherUser.id)) {
-										user.hasHomonyms = true;
-										otherUser.hasHomonyms = true;
-										if (!hasHomonyms) {
-											hasHomonyms = true;
-										}
-									}
-								});
-
-								// Search homonyms in selected users (used by UserPickerMultiple only)
-								_.each($scope.selected.users, function (selectedUser) {
-									if ((user.firstName === selectedUser.firstName) && (user.lastName === selectedUser.lastName)) {
-										user.hasHomonyms = true;
-										selectedUser.hasHomonyms = true;
-										if (!hasHomonyms) {
-											hasHomonyms = true;
-										}
-									}
-								});
+					if (hasPagination(filteredUsers)) {
+						if (asyncPagination) {
+							filteredUsers = addOverflowMessage(filteredUsers, "...");
+							// Call the api to get the right count and update the message to the user
+							handlePaginationAsync(clue).then(function(cnt){
+								count = cnt;
+								filteredUsers = updateOverflowMessage(filteredUsers, MAX_COUNT, count);
+							}, function(error) {
+								// HANDLE ERROR
 							});
-			return hasHomonyms;
+						}
+						else {
+							filteredUsers = addOverflowMessage(filteredUsers, count);
+						}
+					}
+					$scope.users = filteredUsers;
+					$scope.count = count;
+				}, 
+				function(error) {
+					// HANDLE ERROR
+				}
+			);
 		};
 
-		var getHomonymsProperties = function () {
-			var homonyms = _.where($scope.users, { hasHomonyms: true });
+		/*******************/
+		/***** TIMEOUT *****/
+		/*******************/
+
+		var reinitTimeout = function() {
+			// Cancel previous timeout
+			if (timeout.count) {
+				$timeout.cancel(timeout.count);
+			}
+		};
+
+		/*****************/
+		/***** USERS *****/
+		/*****************/
+
+		var getLimit = function() {
+			var limit = MAGIC_NUMBER_maxUsers;
+
+			if (ctrl.asyncPagination) {
+				limit = MAX_COUNT + 1;
+			}
+			return limit;
+		};
+
+		var getUsersAsync = function(input) {
+			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
+			var limit = "&limit=" + getLimit();
+			var clue = "&clue=" + input;
+			var query = "/api/v3/users/find?" + (init ? "" : (clue + "&")) + formerEmployees + limit;
+			var deferred = $q.defer();
+
+			// Happen when the user starts typing a name, then waits enough to call the api and continues typing
+			// We do not want to treat the result of the previous request since they are now obsolete
+			if (promise) {
+				promise.then(function (response) {}); // do nothing with the results
+			}
+
+			reinitTimeout();
+
+			promise = $http.get(query);
+			promise.then(
+				function (response) {
+					deferred.resolve(response.data.data.items);
+				}, 
+				function (error) {
+					deferred.reject(error); // HANDLE ERROR
+				}
+			);
+			return deferred.promise;
+		};
+
+		/**********************/
+		/***** PAGINATION *****/
+		/**********************/
+
+		var hasPagination = function(users) {
+			if (users.length > MAX_COUNT) {
+				return true;
+			}
+			return false;
+		};
+
+		var handlePaginationAsync = function(input) {
+			var delay = 2500; // default delay is 2,5s
+			var deferred = $q.defer();
+
+			reinitTimeout();
+
+			// launch new timeout 
+			timeout.count = $timeout(function() {
+				getCountAsync(input).then(
+					function (count) {
+						deferred.resolve(count);
+					},
+					function (error) {
+						// HANDLE ERROR
+						deferred.reject(error);
+					}
+				);
+			}, delay);
+			return deferred.promise;
+		};
+
+		var getCountAsync = function(input) {
+			var deferred = $q.defer();
+			var dtContractEnd = "&dtcontractend=since," + moment().format("YYYY-MM-DD") + ",null";
+			var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
+
+			delete timeout.count;
+			$http.get(query).then(
+				function(response) {
+					deferred.resolve(response.data.data.count);
+				},
+				function(error) {
+					deferred.reject(error);
+				}
+			);
+			return deferred.promise;
+		};
+
+		var addOverflowMessage = function(users, maxNbUsers) {
+			var firstUsers = _.first(users, MAX_COUNT);
+			firstUsers.push({ overflow: MAX_COUNT + "/" + maxNbUsers });
+			return firstUsers;
+		};
+
+		var updateOverflowMessage = function(users, nbUsers, maxNbUsers) {
+			_.last(users).overflow = nbUsers + "/" + maxNbUsers;
+			return users;
+		};
+
+		/********************/
+		/***** HOMONYMS *****/
+		/********************/
+
+		var hasHomonyms = function(users) {
+			var usersWithoutHomonyms = _.uniq(users, function(user) { return (user.firstName + user.lastName); });
+
+			if (usersWithoutHomonyms.length < users.length) {
+				return true;
+			}
+			return false;
+		};
+
+		var handleHomonyms = function(users) {
+			var homonyms = _.where(users, { hasHomonyms: true });
 			var homonymsArray = [];
 
-			loadPropertiesFromUrls(homonyms).then(function (response) {
-								// Add homonyms properties for each user
-								_.each(homonyms, function (user, item) {
-									// Get the returned user
-									var userWithProps = response[item].data.data.items[0];
+			getHomonymsPropertiesAsync(homonyms).then(
+				function (response) {
+					// Add homonyms properties for each user
+					_.each(homonyms, function(user, item) {
+						// Get the returned user
+						var userWithProps = response[item].data.data.items[0];
 
-									// Add each property to the user
-									_.each($scope.properties, function (prop) {
-										var newProp = prop.split('.')[0];
-										user[newProp] = userWithProps[newProp];
-									});
-								});
-							});
+						// Add each property to the user
+						_.each($scope.properties, function (prop) {
+							var newProp = prop.split('.')[0];
+							user[newProp] = userWithProps[newProp];
+						});
+					});
+				},
+				function(error) {
+					// HANDLE ERROR
+				}
+			);
 		};
 
-		var loadPropertiesFromUrls = function (homonyms) {
+		var tagHomonyms = function(users) {
+			_.each(users, function (user, index) {
+				var rest = _.rest(users, index + 1);
+				_.each(rest, function (otherUser) {
+					if ((user.firstName === otherUser.lastName) && (user.lastName === otherUser.lastName)) {
+						user.hasHomonyms = true;
+						otherUser.hasHomonyms = true;
+					}
+				});
+
+				// Search homonyms in selected users (used by UserPickerMultiple only)
+				_.each($scope.selected.users, function (selectedUser) {
+					if ((user.firstName === selectedUser.firstName) && (user.lastName === selectedUser.lastName)) {
+						user.hasHomonyms = true;
+						selectedUser.hasHomonyms = true;
+					}
+				});
+			});
+		};
+
+		/*******************************/
+		/***** HOMONYMS PROPERTIES *****/
+		/*******************************/
+
+		var getHomonymsPropertiesAsync = function(homonyms) {
 			var urlCalls = [];
 			var queries = [];
 			var templateQuery = "/api/v3/users?id=";
@@ -245,57 +366,55 @@
 				urlCalls.push($http.get(query));
 			});
 
-			$q.all(urlCalls)
-			.then(
+			$q.all(urlCalls).then(
 				function (response) {
 					deferred.resolve(response);
 				},
 				function (error) {
 					deferred.reject(error);
 				}
-				);
+			);
 			return deferred.promise;
 		};
 
-		var countTimeout = function (input, delay) {
-			delay = delay || 5000; // default delay value 1s
-
-			// cancel previous timeout
-			if (timeout.count) {
-				console.log("-- cancel previous timeout");
-				$timeout.cancel(timeout.count);
-			}
-
-			// launch new timeout to save in _delay_ 
-			timeout.count = $timeout(function () {
-				doCount(input);
-			}, delay);
-		};
-
-		var doCount = function (input) {
-			var query = "/api/v3/users?name=like," + input + "&fields=collection.count"; // query for count
-
-			delete timeout.count;
-
-			$http.get(query)
-			.then(function (response) {
-					$scope.count = response.data.data.count; // To update with right query
-					_.last($scope.users).overflow = MAX_COUNT + "/" + $scope.count;
-				});
-		};
-
-		$scope.getProperty = function (user, prop) {
+		$scope.getProperty = function(user, prop) {
 			var propList = prop.split('.');
 			var value = user[_.first(propList)];
 
-			_.each(propList, function (item) {
+			_.each(propList, function(item) {
 				if (value && (item !== _.first(propList))) {
 					value = value[item];
 				}
 			});
-
 			return value;
 		};
+
+		/****************************/
+		/***** FORMER EMPLOYEES *****/
+		/****************************/
+
+		var hasFormerEmployees = function(users) {
+			var formerEmployee = _.find(users, function(user) {
+				return (moment(user.dtContractEnd).isBefore(moment()));
+			});
+
+			if (formerEmployee) {
+				return true;
+			}
+			return false;
+		};
+
+		var handleFormerEmployees = function(users) {
+			_.each(users, function (user) {
+				if (moment(user.dtContractEnd).isBefore(moment())) {
+					user.isFormerEmployee = true;
+				}
+			});
+		};
+
+		/*********************/
+		/***** ON-SELECT *****/
+		/*********************/
 
 		// Used by UserPickerMultiple
 		// Function executed when onSelect is fired
@@ -304,17 +423,7 @@
 			selectedUsersCount++;
 			// Update overflow message
 			if ($scope.count > MAX_COUNT) {
-				_.last($scope.users).overflow = (MAX_COUNT - selectedUsersCount) + "/" + $scope.count;
-			}
-		};
-
-		$scope.find = function (input) {
-			if (input) {
-				getUsers(false, input);
-			}
-			// For initialization
-			else {
-				getUsers(true, "");
+				$scope.users = updateOverflowMessage($scope.users, MAX_COUNT - selectedUsersCount, $scope.count);
 			}
 		};
 	}]);
