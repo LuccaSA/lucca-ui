@@ -345,10 +345,15 @@ describe('luidUserPicker', function(){
 			// expect(homonymIds).toBeTruthy([1,2,3]);
 		});
 		it('should fetch additional info for these homonyms via the right api', function(){
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
 
 			// TODO_ANAIS
 			// expect($httpBackend.flush).not.toThrow();
+		});
+		it('should handle errors when getting homonyms details', function(){
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
+
+			// TODO_ANAIS - test the error was handled
 		});
 		it('should identify the differentiating properties', function(){
 			// TODO_ANAIS
@@ -496,5 +501,6 @@ describe('luidUserPicker', function(){
 	// Errors
 	var RESPONSE_ERROR_FIND = {Message:"error_find"};
 	var RESPONSE_ERROR_COUNT = {Message:"error_count"};
+	var RESPONSE_ERROR_DETAILS = {Message:"error_details"};
 });
 
