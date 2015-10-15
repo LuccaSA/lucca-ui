@@ -10,7 +10,7 @@
 	// Displays the arrow icon
 	// =====
 	.lui_make_icon(south arrow);
-	&:before { font-size: (0.6 * @lui_default_font_size); position: absolute; z-index: 4; right: @h-padding; top: 50%; transform: translateY(-50%); .ie9 & { margin-top: -1em; } }
+	&:before { font-size: (0.6 * @lui_default_font_size); position: absolute; z-index: 4; right: @h-padding; top: 50%; transform: translateY(-50%); .ie9 & { margin-top: -0.5em; } }
 
 
 	.btn, .ui-select-choices { box-sizing: border-box; }
@@ -60,6 +60,17 @@
 		> span { vertical-align: middle; }
 	}
 
+	&:not(.ui-select-multiple) .ui-select-search { display: none; }
+
+	// dividers
+	.divider { &:extend(.lui.divider all); margin: 0.5em 0; }
+	.dropdown-header {
+		padding: 0.5em 1em;
+		font-size: 1.1em;
+		font-weight: 600;
+		&:empty { padding-top: 0; padding-bottom: 0; }
+	}
+
 	// Multiselect mode
 	// =====
 	&.ui-select-multiple {
@@ -101,6 +112,9 @@
 	// =====
 	&.open {
 		box-shadow: @shadow;
+		&:not(.ui-select-multiple) .ui-select-match { display: none; }
+		&:not(.ui-select-multiple) .ui-select-search { display: block; }
+
 		.ui-select-match > .btn,
 		> .ui-select-search,
 		&.ui-select-multiple > div { z-index: 100; }
