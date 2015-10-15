@@ -17,12 +17,6 @@ describe('luidUserPicker', function(){
 		$timeout = _$timeout_;
 		$compile = _$compile_;
 		moment = _moment_;
-		$scope.customFilter = function(params) {
-			var users = _.filter(params, function (item, index) {
-				return index % 2 === 0;
-			});
-			return users;
-		};
 	}));
 
 	// describe('most basic-est use', function(){
@@ -87,7 +81,8 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("no pagination, no former employees, no homonyms", function(){
 		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
-		var standardFilters = /\&formerEmployees=false\&limit=\d*/;
+		var findApiWithoutClue = /api\/v3\/users\/find\?/;
+		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
@@ -95,9 +90,14 @@ describe('luidUserPicker', function(){
 			$scope.$digest();
 		});
 		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
+			// no clue
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
+			isolateScope.find();
+			$httpBackend.flush();
+			// a clue
 			var clues = ['a', 'ismael', 'zanzibar'];
 			_.each(clues, function(clue){
-				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + standardFilters.source)).respond(200, RESPONSE_0_users);
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source)).respond(200, RESPONSE_0_users);
 				isolateScope.find(clue);
 				$httpBackend.flush();
 			});
@@ -125,14 +125,86 @@ describe('luidUserPicker', function(){
 	** PAGINATION        **
 	**********************/
 	describe("with pagination", function(){
-		// beforeEach(function(){
-		// 	var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-		// 	elt = $compile(tpl)($scope);
-		// 	isolateScope = elt.isolateScope();
-		// 	$scope.$digest();
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-		// 	$httpBackend.expectGET(findApi).respond(RESPONSE_20_users);
-		// });
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+		});
+		it('should detect there is too many users to display', function(){
+			isolateScope.find();
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.displayedUsers.length).toBe(less than 20);
+			// expect(last displayed user).toBe(the label displaying 'results 1-5/20')
+		});
+	});
+	// Async
+	describe("with async pagination", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+		});
+		it('should detect there is too many users to display and ask for how many results there is', function(){
+			isolateScope.find();
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.displayedUsers.length).toBe(less than 20);
+			// expect(last displayed user).toBe(the label displaying 'results 1-5/20')
+
+			// might need a $scope.$apply here to resolve some promises
+			// $httpBackend.expectGET(findApi).respond(200, RESPONSE_find_count);
+			// $timeout.flush();
+			// $httpBackend.flush();
+		});
+		it('should ask how many user ther is only once its timeout is resolved, not after each find', function(){
+			isolateScope.find('a');
+			$httpBackend.flush();
+
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find('ab');
+			$httpBackend.flush();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find('abc');
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.displayedUsers.length).toBe(less than 20);
+			// expect(last displayed user).toBe(the label displaying 'results 1-5/20')
+
+			// might need a $scope.$apply here to resolve some promises
+			// $httpBackend.expectGET(findApi).respond(200, RESPONSE_find_count);
+			// $timeout.flush();
+			// $httpBackend.flush();
+		});
+		it('should handle error when asking for the number of results', function(){
+			isolateScope.find('a');
+			$httpBackend.flush();
+
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find('ab');
+			$httpBackend.flush();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find('abc');
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.displayedUsers.length).toBe(less than 20);
+			// expect(last displayed user).toBe(the label displaying 'results 1-5/20')
+
+			// might need a $scope.$apply here to resolve some promises
+			// $httpBackend.expectGET(findApi).respond(500, RESPONSE_ERROR_COUNT;
+			// $timeout.flush();
+			// $httpBackend.flush();
+		});
 	});
 
 	// TODO
@@ -140,7 +212,31 @@ describe('luidUserPicker', function(){
 	** FORMER EMPLOYEES  **
 	**********************/
 	describe("with former employees", function(){
+		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');
+			$scope.showFE = true;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+		});
+		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
+			var clues = ['a', 'ismael', 'zanzibar'];
+			_.each(clues, function(clue){
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + standardFilters.source)).respond(200, RESPONSE_0_users);
+				isolateScope.find(clue);
+				$httpBackend.flush();
+			});
+		});
+		it('should detect and flag former employees in the response', function(){
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_FE);
+			isolateScope.find();
+			$httpBackend.flush();
 
+			// TODO_ANAIS
+			// expect(xavier.isFormerEmployee).toBe(true);
+		})
 	});
 
 	// TODO
@@ -148,7 +244,43 @@ describe('luidUserPicker', function(){
 	** CUSTOM FILTERING  **
 	**********************/
 	describe("with custom filtering", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-filter="customFilter"></luid-user-picker>');
+			$scope.customFilter = function(user) { // only user with even id
+				return user.id % 2 === 0;
+			};
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+		});
+
+		it("should call $scope.customFilter N times", function(){
+			spyOn($scope, 'customFilter').and.callThrough();
+			isolateScope.find();
+			// TODO_ANAIS make it work
+			// expect($scope.customFilter).toHaveBeenCalled();
+			// expect($scope.customFilter.calls.count()).toBe(4);
+		});
+		it("should display all when customFilter returns true", function(){
+			spyOn($scope, 'customFilter').and.returnValue(true); // all users
+			isolateScope.find();
+			// TODO_ANAIS make it work
+			// expect(isolateScope.users.length).toBe(4);
+		});
+		it("should display nothing when customFilter returns false", function(){
+			spyOn($scope, 'customFilter').and.returnValue(false); // no users
+			isolateScope.find();
+			// TODO_ANAIS make it work
+			// expect(isolateScope.users.length).toBe(0);
+		});
+		it("should display the right results", function(){
+			spyOn($scope, 'customFilter').and.callThrough(); // 2 users
+			isolateScope.find();
+			// TODO_ANAIS make it work
+			// expect(isolateScope.users.length).toBe(the right number, i guess 2);
+		});
 	});
 
 	// TODO
@@ -202,6 +334,7 @@ describe('luidUserPicker', function(){
 	//var RESPONSE_initWithFormerEmployees = {"header":{},"data":{"items":[{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":324,"name":"Administrateur Administrateur","firstName":"Administrateur","lastName":"Administrateur"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":330,"name":"Catherine Foliot","firstName":"Catherine","lastName":"Foliot"},{"id":331,"name":"Catherine Lenzi","firstName":"Catherine","lastName":"Lenzi"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":340,"name":"Olivier Ducros","firstName":"Olivier","lastName":"Ducros"},{"id":342,"name":"Olivier Ducros","firstName":"Olivier","lastName":"Ducros"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"id":348,"name":"Aurélien Bottazini","firstName":"Aurélien","lastName":"Bottazini"},{"id":352,"name":"Régis de Germay","firstName":"Régis","lastName":"de Germay"}]}};
 
 
+	// TODO_ANAIS - fill the mocked api response
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
 	var RESPONSE_4_users = {header:{}, data:{items:[]}};
@@ -222,7 +355,10 @@ describe('luidUserPicker', function(){
 	// Details on homonyms
 	var RESPONSE_homonyms_details = {header:{}, data:{items:[]}};
 
+	// count
+	var RESPONSE_find_count = {header:{}, data:{}};
 	// Errors
 	var RESPONSE_ERROR_FIND = {Message:"error_find"};
+	var RESPONSE_ERROR_COUNT = {Message:"error_count"};
 });
 
