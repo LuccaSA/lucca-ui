@@ -34,7 +34,7 @@
 			restrict: 'E',
 			controller: "luidUserPickerController",
 			template: userPickerTemplate,
-			require: "luidUserPicker",
+			// require: "luidUserPicker",
 			scope: {
 				/*** STANDARD ***/
 				onSelect: "&",
@@ -69,7 +69,7 @@
 			restrict: 'E',
 			controller: "luidUserPickerController",
 			template: userPickerMultipleTemplate,
-			require: "luidUserPickerController",
+			// require: "luidUserPicker",
 			scope: {
 				/*** STANDARD ***/
 				onSelect: "&",
