@@ -322,7 +322,6 @@ describe('luidUserPicker', function(){
 	describe("with homonyms", function(){
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-			$scope.showFE = true;
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -372,7 +371,6 @@ describe('luidUserPicker', function(){
 		beforeEach(function(){
 			// TODO_ANAIS - change template
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-			$scope.showFE = true;
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -387,6 +385,7 @@ describe('luidUserPicker', function(){
 
 			// expect($httpBackend.flush).not.toThrow();
 		});
+		// Don't need to test anything else, it is handled by the same cogs as standard homonyms treatment
 	});
 
 	// TODO
@@ -394,7 +393,47 @@ describe('luidUserPicker', function(){
 	** MULTISELECT       **
 	**********************/
 	describe("handling multi-select", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+			// TODO_ANAIS fill this with some of the users from RESPONSE_4_users and one from another response
+			$scope.users = [];
 
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it("should have removed from isolateScope.users the ones from $scope.users to avoid displaying an already selected user", function(){
+			// TODO_ANAIS
+			// _.each($scope.users, function(user){
+			// 	expect(_.findWhere(isolateScope.users, {id:user.id})).not.toBeTruthy();
+			// });
+		});
+	});
+	describe("handling multi-select interracting with", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+			$scope.users = [];
+
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		describe("the list of displayed users", function(){
+			it("onSelect should update isolateScope.users to always display 5 choices or less", function(){});
+			it("onRemove should update isolateScope.users to always display 5 choices or less", function(){});
+		});
+		describe("pagination", function(){
+			it("onSelect should update the pagination label", function(){});
+			it("onRemove should update the pagination label", function(){});
+		});
 	});
 
 	// TODO
@@ -403,7 +442,23 @@ describe('luidUserPicker', function(){
 	** HOMONYMS SELECTED **
 	**********************/
 	describe("handling multi select with some homonyms thrown in the mix", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+			// TODO_ANAIS fill this with some of the homonyms (not all) from RESPONSE_4_users_homonyms and one from another response
+			// what we want to test here is that the directive can identify homonyms when some are in the response and some in the selected users
+			$scope.users = [];
 
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it("should flag homonyms from $scope.users union isolateScope.users ", function(){
+
+		});
 	});
 
 
