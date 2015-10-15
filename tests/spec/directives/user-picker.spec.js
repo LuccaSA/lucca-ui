@@ -236,7 +236,7 @@ describe('luidUserPicker', function(){
 
 			// TODO_ANAIS
 			// expect(xavier.isFormerEmployee).toBe(true);
-		})
+		});
 	});
 
 	// TODO
@@ -313,7 +313,6 @@ describe('luidUserPicker', function(){
 				$httpBackend.flush();
 			});
 		});
-		
 	});
 
 	// TODO
@@ -321,7 +320,47 @@ describe('luidUserPicker', function(){
 	** HOMONYMS          **
 	**********************/
 	describe("with homonyms", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			$scope.showFE = true;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it('should detect there are homonyms', function(){
+			// TODO_ANAIS
+			// here you could check that there is at least one user with the flag hasHomonyms
+			// expect(_.findWhere($scope.users, {hasHomonyms:true})).toBeTruthy();
+		});
+		it('should flag the homonyms', function(){
+			// TODO_ANAIS
+			// here you check that the homonyms you sent back in the api response are flagged as homonyms
+			var homonymIds = _.chain($scope.users)
+			.where({hasHomonyms:true}) // keep only the one having an homonym
+			.pluck('id') // just keep their id
+			.value();
+			// expect(homonymIds).toBeTruthy([1,2,3]);
+		});
+		it('should fetch additional info for these homonyms via the right api', function(){
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+
+			// TODO_ANAIS
+			// expect($httpBackend.flush).not.toThrow();
+		});
+		it('should identify the differentiating properties', function(){
+			// TODO_ANAIS
+			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			// $httpBackend.flush();
+
+			// expect(isolateScope.properties.length).toBe(the right number);
+			// expect(isolateScope.properties[0]).toBe(the right one);
+			// expect(isolateScope.properties[1]).toBe(the right one);
+			// etc...
+		});
 	});
 
 	// TODO
@@ -330,7 +369,24 @@ describe('luidUserPicker', function(){
 	** CUSTOM PROPERTIES **
 	**********************/
 	describe("with homonyms and custom properties", function(){
+		beforeEach(function(){
+			// TODO_ANAIS - change template
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			$scope.showFE = true;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it('should fetch additional info for these homonyms via the right api', function(){
+			// TODO_ANAIS - update regex for the custom properties you ask
+			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+
+			// expect($httpBackend.flush).not.toThrow();
+		});
 	});
 
 	// TODO
