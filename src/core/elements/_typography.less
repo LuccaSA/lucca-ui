@@ -28,26 +28,32 @@
 
 	h1 {
 		font-size: @h1-size;
+		line-height: @h1-line-height;
 		font-weight: @h1-weight;
 	}
 	h2 {
 		font-size: @h2-size;
+		line-height: @h2-line-height;
 		font-weight: @h2-weight;
 	}
 	h3 {
 		font-size: @h3-size;
+		line-height: @h3-line-height;
 		font-weight: @h3-weight;
 	}
 	h4 {
 		font-size: @h4-size;
+		line-height: @h4-line-height;
 		font-weight: @h4-weight;
 	}
 	h5 {
 		font-size: @h5-size;
+		line-height: @h5-line-height;
 		font-weight: @h5-weight;
 	}
 	h6 {
 		font-size: @h6-size;
+		line-height: @h6-line-height;
 		font-weight: @h6-weight;
 	}
 
@@ -124,23 +130,10 @@
 }
 
 
-.lui.body-copy {
-	h1:first-child,
-	h2:first-child,
-	h3:first-child,
-	h4:first-child,
-	h5:first-child,
-	h6:first-child {
-		margin-top: 0em;
-	}
-
-	h1:last-child,
-	h2:last-child,
-	h3:last-child,
-	h4:last-child,
-	h5:last-child,
-	h6:last-child {
-		margin-bottom: 0em;
+.lui.typeset {
+	h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
+	h1:first-child {
+		margin-top: 0;
 	}
 }
 
