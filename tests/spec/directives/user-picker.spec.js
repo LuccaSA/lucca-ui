@@ -86,22 +86,38 @@ describe('luidUserPicker', function(){
 	** BASIC             **
 	**********************/
 	describe("no pagination, no former employees, no homonyms", function(){
-		// var findApiWithClue = /api\/v3\/users\/find\?clue=/;
-		// var standardFilters = /\&formerEmployees=false\&limit=[0-9]*/;
-		// beforeEach(function(){
-		// 	var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-		// 	elt = $compile(tpl)($scope);
-		// 	isolateScope = elt.isolateScope();
-		// 	$scope.$digest();
-		// });
-		// it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
-		// 	var clues = ['a', 'ismael', 'zanzibar'];
-		// 	_.each(clues, function(clue){
-		// 		$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + standardFilters.source)).respond(200, RESPONSE_0_users);
-		// 		isolateScope.find(clue);
-		// 		$httpBackend.flush();
-		// 	});
-		// });
+		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var standardFilters = /\&formerEmployees=false\&limit=\d*/;
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+		});
+		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
+			var clues = ['a', 'ismael', 'zanzibar'];
+			_.each(clues, function(clue){
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + standardFilters.source)).respond(200, RESPONSE_0_users);
+				isolateScope.find(clue);
+				$httpBackend.flush();
+			});
+		});
+		it('should handle the response', function(){
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
+			isolateScope.find();
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.users).toBe(something);
+		});
+		it('should handle errors', function(){
+			$httpBackend.expectGET(findApi).respond(500, RESPONSE_ERROR_FIND);
+			isolateScope.find();
+			$httpBackend.flush();
+
+			// TODO_ANAIS
+			// expect(isolateScope.users).toBe(something);
+		});
 	});
 
 	// TODO
@@ -205,5 +221,8 @@ describe('luidUserPicker', function(){
 
 	// Details on homonyms
 	var RESPONSE_homonyms_details = {header:{}, data:{items:[]}};
+
+	// Errors
+	var RESPONSE_ERROR_FIND = {Message:"error_find"};
 });
 
