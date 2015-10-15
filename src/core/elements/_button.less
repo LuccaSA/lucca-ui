@@ -303,8 +303,9 @@
 	// Modern browsers: flex-box model
 	.display-flex(true);
 
-	.ie9 > .button {
-		height: 100%;
+	.ie9 & {
+		display: inline-table;
+		> .button { display: table-cell; }
 	}
 }
 
