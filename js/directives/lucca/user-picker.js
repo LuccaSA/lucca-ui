@@ -101,7 +101,6 @@
 
 	.controller("luidUserPickerController", ['$scope', '$http', 'moment', '$timeout', '$q', function ($scope, $http, moment, $timeout, $q) {
 		var ctrl = this;
-		var promise; // store the current get request to fetch users
 		// Only used for UserPickerMultiple
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
@@ -116,30 +115,30 @@
 		/****************/
 
 		$scope.find = function (clue) {
+			reinit();
 			getUsersAsync(clue).then(
-				function(users) {
-					var filteredUsers = users;
-					var count = filteredUsers.length;
+				function(results) {
+					var users = results;
+					var filteredUsers = filterResults(users);
 
-					// Used for UserPickerMultiple only
-					if (ctrl.isMultipleSelect) {
-						// Remove duplicates between results and selected users
-						_.each($scope.selected.users, function (selectedUser) {
-							filteredUsers = _.reject(filteredUsers, function (user) {
-								return (user.id === selectedUser.id);
-							});
-						});
-						// Number of results matching the query
-						count = filteredUsers.length;
+					if (hasPagination(filteredUsers)) {
+						if (ctrl.asyncPagination) {
+							handlePaginationAsync(clue, filteredUsers).catch(
+								function(message) {
+									errorHandler("GET_COUNT", message);
+								}
+							);
+						}
+						else {
+							handlePagination(filteredUsers);
+						}
+					}
+					else {
+						$scope.users = filteredUsers;
+						$scope.count = $scope.users.length;
 					}
 
-					// Used when a custom filtering function is given
-					if (ctrl.useCustomFilter) {
-						// Get new set of users
-						filteredUsers = _.filter(filteredUsers, function(user){ return $scope.customFilter(angular.copy(user)); });
-						count = filteredUsers.length;
-					}
-
+					/***** POST FILTERS *****/
 					if (hasFormerEmployees(filteredUsers)) {
 						handleFormerEmployees(filteredUsers);
 					}
@@ -150,33 +149,54 @@
 							function(usersWithHomonymsProperties) {
 								filteredUsers = usersWithHomonymsProperties;
 							},
-							function(error) {
-								errorHandler("GET_HOMONYMS_PROPERTIES", error);
+							function(message) {
+								errorHandler("GET_HOMONYMS_PROPERTIES", message);
 							});
 					}
-
-					if (hasPagination(filteredUsers)) {
-						if (asyncPagination) {
-							filteredUsers = addOverflowMessage(filteredUsers, "...");
-							// Call the api to get the right count and update the message to the user
-							handlePaginationAsync(clue).then(function(cnt){
-								count = cnt;
-								filteredUsers = updateOverflowMessage(filteredUsers, MAX_COUNT, count);
-							}, function(error) {
-								errorHandler("GET_COUNT", error);
-							});
-						}
-						else {
-							filteredUsers = addOverflowMessage(filteredUsers, count);
-						}
-					}
-					$scope.users = filteredUsers;
-					$scope.count = count;
 				}, 
-				function(error) {
-					errorHandler("GET_USERS", error);
+				function(message) {
+					errorHandler("GET_USERS", message);
 				}
 			);
+		};
+
+		var getUsersPromise; // store the current get request to fetch users
+		var reinit = function() {
+			reinitTimeout();
+
+			// Reinitialise promise
+			// Happen when the user starts typing a name, then waits enough to call the api and continues typing
+			// We do not want to treat the result of the previous request since they are now obsolete
+			if (getUsersPromise) {
+				getUsersPromise.then(function(response) {}); // do nothing with the results
+			}
+		};
+
+		/*******************/
+		/***** FILTERS *****/
+		/*******************/
+
+		var filterResults = function(users) {
+			var filteredUsers = users;
+
+			//console.log(ctrl);
+
+			// Remove duplicates between results and selected users (for UserPickerMultiple)
+			if (ctrl.isMultipleSelect) {
+				_.each($scope.selected.users, function(selectedUser) {
+					filteredUsers = _.reject(users, function(user) {
+						return (user.id === selectedUser.id);
+					});
+				});
+			}
+
+			// Used when a custom filtering function is given
+			if (ctrl.useCustomFilter) {
+				//console.log("toto");
+				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
+			}
+
+			return filteredUsers;
 		};
 
 		/*******************/
@@ -207,24 +227,16 @@
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
 			var clue = "&clue=" + input;
-			var query = "/api/v3/users/find?" + (init ? "" : (clue + "&")) + formerEmployees + limit;
+			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
 			var deferred = $q.defer();
 
-			// Happen when the user starts typing a name, then waits enough to call the api and continues typing
-			// We do not want to treat the result of the previous request since they are now obsolete
-			if (promise) {
-				promise.then(function (response) {}); // do nothing with the results
-			}
-
-			reinitTimeout();
-
-			promise = $http.get(query);
-			promise.then(
-				function (response) {
+			getUsersPromise = $http.get(query);
+			getUsersPromise.then(
+				function(response) {
 					deferred.resolve(response.data.data.items);
 				}, 
-				function (error) {
-					deferred.reject(error);
+				function(message) {
+					deferred.reject(message);
 				}
 			);
 			return deferred.promise;
@@ -241,20 +253,35 @@
 			return false;
 		};
 
-		var handlePaginationAsync = function(input) {
+		var handlePagination = function(users) {
+			if (!ctrl.asyncPagination) {
+				$scope.count = users.length;
+			}
+			else {
+				$scope.count = "...";
+			}
+			$scope.users = _.first(users, MAX_COUNT);
+			handleOverflowMessage();
+		};
+
+		var handlePaginationAsync = function(input, users) {
 			var delay = 2500; // default delay is 2,5s
 			var deferred = $q.defer();
 
 			reinitTimeout();
+			// Only select the X first users and display a message to the user to indicate that there are more results
+			handlePagination(users);
 
 			// launch new timeout 
 			timeout.count = $timeout(function() {
 				getCountAsync(input).then(
-					function (count) {
+					function(count) {
+						$scope.count = count;
+						handleOverflowMessage();
 						deferred.resolve(count);
 					},
-					function (error) {
-						deferred.reject(error);
+					function(message) {
+						deferred.reject(message);
 					}
 				);
 			}, delay);
@@ -271,23 +298,23 @@
 				function(response) {
 					deferred.resolve(response.data.data.count);
 				},
-				function(error) {
-					deferred.reject(error);
+				function(message) {
+					deferred.reject(message);
 				}
 			);
 			return deferred.promise;
 		};
 
-		var addOverflowMessage = function(users, maxNbUsers) {
-			var firstUsers = _.first(users, MAX_COUNT);
-			firstUsers.push({ overflow: MAX_COUNT + "/" + maxNbUsers });
-			return firstUsers;
+		var handleOverflowMessage = function() {
+			$scope.users.push({ overflow: MAX_COUNT + "/" + $scope.count });
 		};
 
-		var updateOverflowMessage = function(users, nbUsers, maxNbUsers) {
-			_.last(users).overflow = nbUsers + "/" + maxNbUsers;
-			return users;
+		// We probably won't have to use this
+		/*
+		var updateOverflowMessage = function(maxNbUsers) {
+			_.last($scope.users).overflow = MAX_COUNT + "/" + maxNbUsers;
 		};
+		*/
 
 		/********************/
 		/***** HOMONYMS *****/
@@ -308,31 +335,31 @@
 			var deferred = $q.defer();
 
 			getHomonymsPropertiesAsync(homonyms).then(
-				function (response) {
+				function(response) {
 					// Add homonyms properties for each user
 					_.each(homonyms, function(user, item) {
 						// Get the returned user
 						var userWithProps = response[item].data.data.items[0];
 
 						// Add each property to the user
-						_.each($scope.properties, function (prop) {
+						_.each($scope.properties, function(prop) {
 							var newProp = prop.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
 						deferred.resolve(users);
 					});
 				},
-				function(error) {
-					deferred.reject(error);
+				function(message) {
+					deferred.reject(message);
 				}
 			);
 			return deferred.promise;
 		};
 
 		var tagHomonyms = function(users) {
-			_.each(users, function (user, index) {
+			_.each(users, function(user, index) {
 				var rest = _.rest(users, index + 1);
-				_.each(rest, function (otherUser) {
+				_.each(rest, function(otherUser) {
 					if ((user.firstName === otherUser.lastName) && (user.lastName === otherUser.lastName)) {
 						user.hasHomonyms = true;
 						otherUser.hasHomonyms = true;
@@ -340,7 +367,7 @@
 				});
 
 				// Search homonyms in selected users (used by UserPickerMultiple only)
-				_.each($scope.selected.users, function (selectedUser) {
+				_.each($scope.selected.users, function(selectedUser) {
 					if ((user.firstName === selectedUser.firstName) && (user.lastName === selectedUser.lastName)) {
 						user.hasHomonyms = true;
 						selectedUser.hasHomonyms = true;
@@ -362,24 +389,24 @@
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
-			_.each($scope.properties, function (prop) {
+			_.each($scope.properties, function(prop) {
 				fields += "," + prop;
 			});
 
-			_.each(homonyms, function (user) {
+			_.each(homonyms, function(user) {
 				queries.push(templateQuery + user.id + fields);
 			});
 
-			_.each(queries, function (query) {
+			_.each(queries, function(query) {
 				urlCalls.push($http.get(query));
 			});
 
 			$q.all(urlCalls).then(
-				function (response) {
+				function(response) {
 					deferred.resolve(response);
 				},
-				function (error) {
-					deferred.reject(error);
+				function(message) {
+					deferred.reject(message);
 				}
 			);
 			return deferred.promise;
@@ -413,7 +440,7 @@
 		};
 
 		var handleFormerEmployees = function(users) {
-			_.each(users, function (user) {
+			_.each(users, function(user) {
 				if (moment(user.dtContractEnd).isBefore(moment())) {
 					user.isFormerEmployee = true;
 				}
@@ -431,7 +458,8 @@
 			selectedUsersCount++;
 			// Update overflow message
 			if ($scope.count > MAX_COUNT) {
-				$scope.users = updateOverflowMessage($scope.users, MAX_COUNT - selectedUsersCount, $scope.count);
+				// Should always display MAX_COUNT users!
+				//$scope.users = updateOverflowMessage($scope.users, MAX_COUNT - selectedUsersCount, $scope.count);
 			}
 		};
 
@@ -447,7 +475,6 @@
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
-				default:
 					console.log(cause + ": " + message);
 					break;
 			}
