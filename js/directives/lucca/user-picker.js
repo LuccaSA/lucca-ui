@@ -146,7 +146,13 @@
 
 					if (hasHomonyms(filteredUsers)) {
 						tagHomonyms(filteredUsers);
-						handleHomonyms(filteredUsers);
+						handleHomonymsAsync(filteredUsers).then(
+							function(usersWithHomonymsProperties) {
+								filteredUsers = usersWithHomonymsProperties;
+							},
+							function(error) {
+								errorHandler("GET_HOMONYMS_PROPERTIES", error);
+							});
 					}
 
 					if (hasPagination(filteredUsers)) {
@@ -157,7 +163,7 @@
 								count = cnt;
 								filteredUsers = updateOverflowMessage(filteredUsers, MAX_COUNT, count);
 							}, function(error) {
-								// HANDLE ERROR
+								errorHandler("GET_COUNT", error);
 							});
 						}
 						else {
@@ -168,7 +174,7 @@
 					$scope.count = count;
 				}, 
 				function(error) {
-					// HANDLE ERROR
+					errorHandler("GET_USERS", error);
 				}
 			);
 		};
@@ -218,7 +224,7 @@
 					deferred.resolve(response.data.data.items);
 				}, 
 				function (error) {
-					deferred.reject(error); // HANDLE ERROR
+					deferred.reject(error);
 				}
 			);
 			return deferred.promise;
@@ -248,7 +254,6 @@
 						deferred.resolve(count);
 					},
 					function (error) {
-						// HANDLE ERROR
 						deferred.reject(error);
 					}
 				);
@@ -297,9 +302,10 @@
 			return false;
 		};
 
-		var handleHomonyms = function(users) {
+		var handleHomonymsAsync = function(users) {
 			var homonyms = _.where(users, { hasHomonyms: true });
 			var homonymsArray = [];
+			var deferred = $q.defer();
 
 			getHomonymsPropertiesAsync(homonyms).then(
 				function (response) {
@@ -313,12 +319,14 @@
 							var newProp = prop.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
+						deferred.resolve(users);
 					});
 				},
 				function(error) {
-					// HANDLE ERROR
+					deferred.reject(error);
 				}
 			);
+			return deferred.promise;
 		};
 
 		var tagHomonyms = function(users) {
@@ -424,6 +432,24 @@
 			// Update overflow message
 			if ($scope.count > MAX_COUNT) {
 				$scope.users = updateOverflowMessage($scope.users, MAX_COUNT - selectedUsersCount, $scope.count);
+			}
+		};
+
+		/**************************/
+		/***** ERROR HANDLING *****/
+		/**************************/
+
+		var errorHandler = function(cause, message) {
+			switch (cause) {
+				case "GET_USERS": // error while trying to get the users matching the query
+					$scope.users = [];
+					$scope.users.push({ overflow: "VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !" });
+					break;
+				case "GET_COUNT": // error while trying to get the total number of users matching the query
+				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
+				default:
+					console.log(cause + ": " + message);
+					break;
 			}
 		};
 	}]);
