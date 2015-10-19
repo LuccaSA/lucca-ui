@@ -369,15 +369,6 @@
 						otherUser.hasHomonyms = true;
 					}
 				});
-
-				// Search homonyms in selected users (used by UserPickerMultiple only)
-				// _.each($scope.selected.users, function(selectedUser) {
-				// 	// Should latinise names and take into account composite names
-				// 	if ((user.firstName.toLowerCase() === selectedUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === selectedUser.lastName.toLowerCase())) {
-				// 		user.hasHomonyms = true;
-				// 		selectedUser.hasHomonyms = true;
-				// 	}
-				// });
 			});
 		};
 
