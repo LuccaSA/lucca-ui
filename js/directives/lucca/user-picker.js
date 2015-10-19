@@ -183,10 +183,13 @@
 
 			// Remove duplicates between results and selected users (for UserPickerMultiple)
 			if (ctrl.isMultipleSelect) {
+				// Remove duplicates between results and selected users
 				_.each($scope.selected.users, function(selectedUser) {
 					filteredUsers = _.reject(users, function(user) {
 						return (user.id === selectedUser.id);
 					});
+					// Add selected user: it will not be displayed, but will be used for homonyms detection
+					filteredUsers.push(selectedUser);
 				});
 			}
 
