@@ -186,9 +186,9 @@
 					filteredUsers = _.reject(users, function(user) {
 						return (user.id === selectedUser.id);
 					});
+					// Add selected user: it will not be displayed, but will be used for homonyms detection
+					filteredUsers.push(selectedUser);
 				});
-				// Add selected user: it will not be displayed, but will be used for homonyms detection
-				filteredUsers.push(selectedUser);
 			}
 
 			// Used when a custom filtering function is given
@@ -226,7 +226,7 @@
 		var getUsersAsync = function(input) {
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
-			var clue = "&clue=" + input;
+			var clue = "clue=" + input;
 			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
 			var deferred = $q.defer();
 
