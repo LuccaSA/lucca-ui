@@ -26,15 +26,21 @@
 </head>
 <body ng-app="e2eApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
-		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item" href="./index.html">less framework</a>
-		<a class="item" href="./icons.html">lucca icons</a>
-		<a class="item" href="./animations.html">animations</a>
-		<a class="item" href="./nguibs.html">lui nguibs</a>
-		<a class="item" href="./filters.html">lui filters</a>
-		<a class="item active" href="./directives.html">lui directives</a>
+		<a class="item header" href="#"><b>Filters</b></a>
+		<a class="item" href="luifPlaceholder">luifPlaceholder</a>
+		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
+		<a class="item" href="#luifNumber">luifNumber</a>
+		<a class="item" href="#luifStartFrom">luifStartFrom</a>
+		<a class="item" href="#luifMoment">luifMoment</a>
+		<a class="item" href="#luifCalendar">luifCalendar</a>
+		<a class="item" href="#luifFriendlyRange">luifFriendlyRange</a>
+		<a class="item" href="#luifDuration">luifDuration</a>
+		<a class="item" href="#luifHumanize">luifHumanize</a>
 		<div class="lui vertical dashed divider"></div>
-		<a class="item" href="#luid-user-picker">luid-user-picker</a>
+		<a class="item header" href="#"><b>Directives</b></a>
+		<a class="item" href="#luid-timespan">luid-timespan</a>
+		<a class="item" href="#luid-percentage">luid-percentage</a>
+		<a class="item" href="#luid-moment">luid-moment</a>
 
 	</nav>
 
@@ -54,8 +60,14 @@
 
 	</div>
 
-	<article id="luid-user-picker">
-
+	<article id="luifPlaceholder">
+		<h2 class="lui divider below">luifPlaceholder</h2>
+		<div ng-controller="luifPlaceholderCtrl" class="lui block round">
+			<div class="lui input"><input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text"></div>
+			<div class="lui input"><input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text"></div>
+			<div id="luifPlaceholder_myValue_value_1">{{myValue | luifPlaceholder : "static placeholder"}}</div>
+			<div id="luifPlaceholder_myValue_value_2">{{myValue | luifPlaceholder : myPlaceholder}}</div>
+		</div>
 	</article>
 
 
