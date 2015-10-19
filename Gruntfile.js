@@ -152,6 +152,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
     grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
+    
     grunt.registerTask('minifyjs', ['concat:dist','uglify']);
     grunt.registerTask('default', ['concurrent']);
     grunt.registerTask('ng12', ['concat:ng12','karma:ng12']);
