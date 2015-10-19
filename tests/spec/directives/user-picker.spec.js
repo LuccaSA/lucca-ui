@@ -336,53 +336,69 @@ describe('luidUserPicker', function(){
 	/**********************
 	** HOMONYMS          **
 	**********************/
-	// describe("with homonyms", function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	describe("with homonyms", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	it('should detect there are homonyms', function(){
-	// 		// TODO_ANAIS
-	// 		// here you could check that there is at least one user with the flag hasHomonyms
-	// 		// expect(_.findWhere($scope.users, {hasHomonyms:true})).toBeTruthy();
-	// 	});
-	// 	it('should flag the homonyms', function(){
-	// 		// TODO_ANAIS
-	// 		// here you check that the homonyms you sent back in the api response are flagged as homonyms
-	// 		var homonymIds = _.chain($scope.users)
-	// 		.where({hasHomonyms:true}) // keep only the one having an homonym
-	// 		.pluck('id') // just keep their id
-	// 		.value();
-	// 		// expect(homonymIds).toBeTruthy([1,2,3]);
-	// 	});
-	// 	it('should fetch additional info for these homonyms via the right api', function(){
-	// 		$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
+			isolateScope.find();
+		});
+		it('should detect there are homonyms', function(){
+			// TODO_ANAIS
+			// Should throw because GET /api/v3/users/id=1,3&fields=... is expected, but as we only want to check that homonyms have been tagged, we do not care about calling the api for more info
+			expect($httpBackend.flush).toThrow();
+			// There is at least one user with the flag hasHomonyms
+			expect(_.findWhere(isolateScope.users, {hasHomonyms:true})).toBeTruthy();
+			// DONE
+		});
+		it('should flag the homonyms', function(){
+			// TODO_ANAIS
+			// Should throw because GET /api/v3/users/id=1,3&fields=... is expected, but as we only want to check that homonyms have been tagged, we do not care about calling the api for more info
+			expect($httpBackend.flush).toThrow();
+			// Check that the homonyms sent back in the api response are flagged as homonyms
+			var homonymIds = _.chain(isolateScope.users)
+			.where({hasHomonyms:true}) // keep only the one having an homonym
+			.pluck('id') // just keep their id
+			.value();
+			expect(homonymIds).toEqual([1,3]);
+			// DONE
+		});
+		it('should fetch additional info for these homonyms via the right api', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
 
-	// 		// TODO_ANAIS
-	// 		// expect($httpBackend.flush).not.toThrow();
-	// 	});
-	// 	it('should handle errors when getting homonyms details', function(){
-	// 		$httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
+			// TODO_ANAIS
+			expect($httpBackend.flush).not.toThrow();
+			// DONE
+		});
+		it('should fetch additional info for these homonyms and add the properties to the users', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
 
-	// 		// TODO_ANAIS - test the error was handled
-	// 	});
-	// 	it('should identify the differentiating properties', function(){
-	// 		// TODO_ANAIS
-	// 		// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
-	// 		// $httpBackend.flush();
+			// TODO_ANAIS
+			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}];
+			$httpBackend.flush();
+			var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
+			expect(angular.equals(users, homonyms)).toBe(true);
+			// DONE
+		});
+		it('should handle errors when getting homonyms details', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
 
-	// 		// expect(isolateScope.properties.length).toBe(the right number);
-	// 		// expect(isolateScope.properties[0]).toBe(the right one);
-	// 		// expect(isolateScope.properties[1]).toBe(the right one);
-	// 		// etc...
-	// 	});
-	// });
+			// TODO_ANAIS - test the error was handled
+		});
+		it('should identify the differentiating properties', function(){
+			// TODO_ANAIS
+			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			// $httpBackend.flush();
+
+			// expect(isolateScope.properties.length).toBe(the right number);
+			// expect(isolateScope.properties[0]).toBe(the right one);
+			// expect(isolateScope.properties[1]).toBe(the right one);
+			// etc...
+		});
+	});
 
 	// TODO
 	/**********************
@@ -503,7 +519,7 @@ describe('luidUserPicker', function(){
 	var RESPONSE_20_users_FE = {header:{}, data:{items:[]}};
 
 	// N users, no former employees, SOME homonyms
-	var RESPONSE_4_users_homonyms = {header:{}, data:{items:[]}};
+	var RESPONSE_4_users_homonyms = {"header":{},"data":{"items":[{"id":1,"firstName":"Lucien","lastName":"Bertin"},{"id":2,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":3,"firstName":"Lucien","lastName":"Bertin"},{"id":4,"firstName":"Benoit","lastName":"Paugam"}]}};
 	var RESPONSE_20_users_homonyms = {header:{}, data:{items:[]}};
 
 	// N users, SOME former employees, SOME homonyms
@@ -511,7 +527,7 @@ describe('luidUserPicker', function(){
 	var RESPONSE_20_users_FE_homonyms = {header:{}, data:{items:[]}};
 
 	// Details on homonyms
-	var RESPONSE_homonyms_details = {header:{}, data:{items:[]}};
+	var RESPONSE_homonyms_details = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
 
 	// count
 	var RESPONSE_find_count = {header:{}, data:{}};
