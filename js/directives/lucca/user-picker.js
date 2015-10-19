@@ -118,40 +118,45 @@
 			reinit();
 			getUsersAsync(clue).then(
 				function(results) {
-					var users = results;
-					var filteredUsers = filterResults(users);
+						if (results.length > 0) {
+						var users = results;
+						var filteredUsers = filterResults(users);
 
-					if (hasPagination(filteredUsers)) {
-						if (ctrl.asyncPagination) {
-							handlePaginationAsync(clue, filteredUsers).catch(
-								function(message) {
-									errorHandler("GET_COUNT", message);
-								}
-							);
+						if (hasPagination(filteredUsers)) {
+							if (ctrl.asyncPagination) {
+								handlePaginationAsync(clue, filteredUsers).catch(
+									function(message) {
+										errorHandler("GET_COUNT", message);
+									}
+								);
+							}
+							else {
+								handlePagination(filteredUsers);
+							}
 						}
 						else {
-							handlePagination(filteredUsers);
+							$scope.users = filteredUsers;
+							$scope.count = $scope.users.length;
+						}
+
+						/***** POST FILTERS *****/
+						if (hasFormerEmployees(filteredUsers)) {
+							handleFormerEmployees(filteredUsers);
+						}
+
+						if (hasHomonyms(filteredUsers)) {
+							tagHomonyms(filteredUsers);
+							handleHomonymsAsync(filteredUsers).then(
+								function(usersWithHomonymsProperties) {
+									filteredUsers = usersWithHomonymsProperties;
+								},
+								function(message) {
+									errorHandler("GET_HOMONYMS_PROPERTIES", message);
+								});
 						}
 					}
 					else {
-						$scope.users = filteredUsers;
-						$scope.count = $scope.users.length;
-					}
-
-					/***** POST FILTERS *****/
-					if (hasFormerEmployees(filteredUsers)) {
-						handleFormerEmployees(filteredUsers);
-					}
-
-					if (hasHomonyms(filteredUsers)) {
-						tagHomonyms(filteredUsers);
-						handleHomonymsAsync(filteredUsers).then(
-							function(usersWithHomonymsProperties) {
-								filteredUsers = usersWithHomonymsProperties;
-							},
-							function(message) {
-								errorHandler("GET_HOMONYMS_PROPERTIES", message);
-							});
+						$scope.users = [{overflow: "VAR_TRAD Pas de résultat."}];
 					}
 				}, 
 				function(message) {
