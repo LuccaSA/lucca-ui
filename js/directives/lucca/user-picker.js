@@ -195,7 +195,6 @@
 
 			// Used when a custom filtering function is given
 			if (ctrl.useCustomFilter) {
-				//console.log("toto");
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
 
@@ -324,7 +323,8 @@
 		/********************/
 
 		var hasHomonyms = function(users) {
-			var usersWithoutHomonyms = _.uniq(users, function(user) { return (user.firstName + user.lastName); });
+			// Should latinise names and take into account composite names
+			var usersWithoutHomonyms = _.uniq(users, function(user) { return (user.firstName.toLowerCase() + user.lastName.toLowerCase()); });
 
 			if (usersWithoutHomonyms.length < users.length) {
 				return true;
@@ -334,23 +334,37 @@
 
 		var handleHomonymsAsync = function(users) {
 			var homonyms = _.where(users, { hasHomonyms: true });
-			var homonymsArray = [];
+			//var homonymsArray = [];
 			var deferred = $q.defer();
 
 			getHomonymsPropertiesAsync(homonyms).then(
-				function(response) {
-					// Add homonyms properties for each user
-					_.each(homonyms, function(user, item) {
+				function(homonymsArray) {
+					/*// Add homonyms properties for each user
+					_.each(homonyms, function(user, index) {
 						// Get the returned user
-						var userWithProps = response[item].data.data.items[0];
+						var userWithProps = response[index].data.data.items[0];
 
 						// Add each property to the user
 						_.each($scope.properties, function(prop) {
 							var newProp = prop.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
-						deferred.resolve(users);
+					});*/
+
+					_.each(homonyms, function(user) {
+						// Get the returned user
+						var userWithProps = _.find(homonymsArray, function(homonym) {
+							return (user.id === homonym.id);
+						});
+
+						// Add each property to the user
+						_.each($scope.properties, function(prop) {
+							var newProp = prop.split('.')[0];
+							user[newProp] = userWithProps[newProp];
+						});
 					});
+
+					deferred.resolve(users);
 				},
 				function(message) {
 					deferred.reject(message);
@@ -363,19 +377,21 @@
 			_.each(users, function(user, index) {
 				var rest = _.rest(users, index + 1);
 				_.each(rest, function(otherUser) {
-					if ((user.firstName === otherUser.lastName) && (user.lastName === otherUser.lastName)) {
+					// Should latinise names and take into account composite names
+					if ((user.firstName.toLowerCase() === otherUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === otherUser.lastName.toLowerCase())) {
 						user.hasHomonyms = true;
 						otherUser.hasHomonyms = true;
 					}
 				});
 
 				// Search homonyms in selected users (used by UserPickerMultiple only)
-				_.each($scope.selected.users, function(selectedUser) {
-					if ((user.firstName === selectedUser.firstName) && (user.lastName === selectedUser.lastName)) {
-						user.hasHomonyms = true;
-						selectedUser.hasHomonyms = true;
-					}
-				});
+				// _.each($scope.selected.users, function(selectedUser) {
+				// 	// Should latinise names and take into account composite names
+				// 	if ((user.firstName.toLowerCase() === selectedUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === selectedUser.lastName.toLowerCase())) {
+				// 		user.hasHomonyms = true;
+				// 		selectedUser.hasHomonyms = true;
+				// 	}
+				// });
 			});
 		};
 
@@ -385,10 +401,10 @@
 
 		var getHomonymsPropertiesAsync = function(homonyms) {
 			var urlCalls = [];
-			var queries = [];
-			var templateQuery = "/api/v3/users?id=";
-			var fields = "&fields=id,name,firstname,lastname,dtcontractend";
+			var query = "/api/v3/users?id=";
+			var fields = "&fields=id,firstname,lastname,dtcontractend";
 			var deferred = $q.defer();
+			var ids;
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
@@ -397,18 +413,19 @@
 			});
 
 			_.each(homonyms, function(user) {
-				queries.push(templateQuery + user.id + fields);
+				if (user !== _.last(homonyms)) {
+					query += (user.id + ',');
+				}
+				else {
+					query += (user.id + fields);
+				}
 			});
 
-			_.each(queries, function(query) {
-				urlCalls.push($http.get(query));
-			});
-
-			$q.all(urlCalls).then(
+			$http.get(query).then(
 				function(response) {
-					deferred.resolve(response);
-				},
-				function(message) {
+					var homonyms = response.data.data.items;
+					deferred.resolve(homonyms);
+				}, function(message) {
 					deferred.reject(message);
 				}
 			);
