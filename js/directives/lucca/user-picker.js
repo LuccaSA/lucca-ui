@@ -179,8 +179,6 @@
 		var filterResults = function(users) {
 			var filteredUsers = users;
 
-			//console.log(ctrl);
-
 			// Remove duplicates between results and selected users (for UserPickerMultiple)
 			if (ctrl.isMultipleSelect) {
 				// Remove duplicates between results and selected users
@@ -188,9 +186,9 @@
 					filteredUsers = _.reject(users, function(user) {
 						return (user.id === selectedUser.id);
 					});
-					// Add selected user: it will not be displayed, but will be used for homonyms detection
-					filteredUsers.push(selectedUser);
 				});
+				// Add selected user: it will not be displayed, but will be used for homonyms detection
+				filteredUsers.push(selectedUser);
 			}
 
 			// Used when a custom filtering function is given
@@ -339,18 +337,6 @@
 
 			getHomonymsPropertiesAsync(homonyms).then(
 				function(homonymsArray) {
-					/*// Add homonyms properties for each user
-					_.each(homonyms, function(user, index) {
-						// Get the returned user
-						var userWithProps = response[index].data.data.items[0];
-
-						// Add each property to the user
-						_.each($scope.properties, function(prop) {
-							var newProp = prop.split('.')[0];
-							user[newProp] = userWithProps[newProp];
-						});
-					});*/
-
 					_.each(homonyms, function(user) {
 						// Get the returned user
 						var userWithProps = _.find(homonymsArray, function(homonym) {
@@ -404,7 +390,6 @@
 			var query = "/api/v3/users?id=";
 			var fields = "&fields=id,firstname,lastname,dtcontractend";
 			var deferred = $q.defer();
-			var ids;
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
