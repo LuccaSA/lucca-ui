@@ -42,6 +42,27 @@ module.exports = function(grunt) {
                 reporters: ['progress']
             }
         },
+        protractor: {
+            options: {
+                configFile: "protractor.conf.js", // Default config file
+                keepAlive: false, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {
+                    specs: [
+                        'tests/e2e/**/*.spec.js'
+                ],
+                    capabilities: {
+                        'browserName': 'chrome' 
+                    },
+                    rootElement: '[ng-app]'
+                }
+            },
+            continuous: {
+            },
+            dev: {
+                configFile: "protractor.conf.js"
+            }
+        },
         watch: {
             less: {
                 files: ['src/**/*.less'],
@@ -121,12 +142,16 @@ module.exports = function(grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
-    grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
+    grunt.loadNpmTasks('grunt-protractor-runner');
+
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
+
+    grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
+
+    grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
     grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
-    grunt.registerTask('minifyjs', ['concat','uglify']);
+    grunt.registerTask('minifyjs', ['concat:dist','uglify']);
     grunt.registerTask('default', ['concurrent']);
     grunt.registerTask('ng12', ['concat:ng12','karma:ng12']);
 
