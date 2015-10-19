@@ -8,4 +8,9 @@
 		$scope.myValue = "stuff";
 		$scope.myPlaceholder = "placeholder";
 	}]);
+
+	angular.module('e2eApp')
+	.controller("luifDefaultCodeCtrl",['$scope', function($scope){
+		$scope.myValue = "stuff";
+	}]);
 })();

@@ -27,7 +27,7 @@
 <body ng-app="e2eApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>Filters</b></a>
-		<a class="item" href="luifPlaceholder">luifPlaceholder</a>
+		<a class="item" href="#luifPlaceholder">luifPlaceholder</a>
 		<a class="item" href="#luifDefaultCode">luifDefaultCode</a>
 		<a class="item" href="#luifNumber">luifNumber</a>
 		<a class="item" href="#luifStartFrom">luifStartFrom</a>
@@ -65,8 +65,16 @@
 		<div ng-controller="luifPlaceholderCtrl" class="lui block round">
 			<div class="lui input"><input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text"></div>
 			<div class="lui input"><input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text"></div>
-			<div id="luifPlaceholder_myValue_value_1">{{myValue | luifPlaceholder : "static placeholder"}}</div>
-			<div id="luifPlaceholder_myValue_value_2">{{myValue | luifPlaceholder : myPlaceholder}}</div>
+			<div id="luifPlaceholder_myValue_value_1">{{ myValue | luifPlaceholder : "static placeholder" }}</div>
+			<div id="luifPlaceholder_myValue_value_2">{{ myValue | luifPlaceholder : myPlaceholder }}</div>
+		</div>
+	</article>
+
+	<article id="luifDefaultCode">
+		<h2 class="lui divider below">luifDefaultCode</h2>
+		<div ng-controller="luifDefaultCodeCtrl" class="lui block round">
+			<div class="lui long input"><input id="luifDefaultCode_myValue_input" ng-model="myValue" type="text"></div>
+			<div id="luifDefaultCode_myValue_value">{{ myValue | luifDefaultCode }}</div>
 		</div>
 	</article>
 
