@@ -85,7 +85,7 @@ describe('luidUserPicker', function(){
 	** BASIC             **
 	**********************/
 	describe("no pagination, no former employees, no homonyms", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
@@ -224,7 +224,7 @@ describe('luidUserPicker', function(){
 	** FORMER EMPLOYEES  **
 	**********************/
 	describe("with former employees", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');
@@ -438,11 +438,15 @@ describe('luidUserPicker', function(){
 
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
+	// 		controller = elt.controller("luidUserPickerMultiple");
 	// 		$scope.$digest();
 
 	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
 	// 		isolateScope.find();
 	// 		$httpBackend.flush();
+	// 	});
+	// 	it("should initialise isMultipleSelect variable", function() {
+	// 		expect(controller.isMultipleSelect).toBe(true);
 	// 	});
 	// 	it("should have removed from isolateScope.users the ones from $scope.users to avoid displaying an already selected user", function(){
 	// 		// TODO_ANAIS
