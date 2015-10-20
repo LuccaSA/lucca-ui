@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.css" media="screen" title="no title" charset="utf-8">
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-mocks.js"></script>
+	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-sanitize.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.2/select.min.js"></script>
+
+
+	<script src="../dist/lucca-ui.js"></script>
+	<script src="js/lucca-spe.js"></script>
+</head>
+<body ng-app="luccaSpeApp">
+	<nav id="toc" class="lui vertical primary dividing menu">
+		<a class="item header" href="#"><b>LUCCA UI</b></a>
+		<a class="item" href="./index.html">less framework</a>
+		<a class="item" href="./icons.html">lucca icons</a>
+		<a class="item" href="./animations.html">animations</a>
+		<a class="item" href="./nguibs.html">lui nguibs</a>
+		<a class="item" href="./filters.html">lui filters</a>
+		<a class="item active" href="./directives.html">lui directives</a>
+		<div class="lui vertical dashed divider"></div>
+		<a class="item" href="#luid-user-picker">luid-user-picker</a>
+
+	</nav>
+
+
+	<section id="main-content" class="lui container">
+		<h1 class="lui column desktop-8">Lucca UI</h1>
+		<div class="lui column desktop-4">
+			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+		</div>
+		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+
+		<div class="lui callout warning">
+			<p>
+				<b>Important:</b>
+				<!-- This is for directive specifically made for their use in  -->
+			</p>
+<!-- 		<p>
+			The exact list of dependencies which can be found in the bower.json file is:
+			<ul class="lui unstyled">
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
+			</ul>
+		</p> -->
+	</div>
+
+	<article id="luid-user-picker">
+		<h2 class="lui divider below">luid-user-picker</h2>
+
+		<p>
+			An input to have a ui-select plugged to /api/v3/users with a more powerful search and also manages former employees and homonyms.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Features:</h4>
+		</div>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value the value.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Supported arguments:</h4>
+		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees</li>
+<!-- 				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
+				<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
+				<li><code>placeholder</code>: placeholder to display when the input is empty</li> -->
+			</ul>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;</pre>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="userPickerCtrl" class="lui block round">
+			<p>
+				basic example, here the call to /api/v3/users/find is mocked to respond always the same 4 users no matter what you type in the search box
+			</p>
+			<input type="checkbox" ng-model="isChecked">Show former employees 
+			<span ng-if="isChecked">
+				<luid-user-picker ng-model="myUser" show-former-employees="true"></luid-user-picker>
+			</span>
+			<span ng-if="!isChecked">
+				<luid-user-picker ng-model="myUser" show-former-employees="false"></luid-user-picker>
+			</span>
+			<p>
+				You can still see the number of time the api was called: <code>{{getCnt}}</code>
+			</p>
+			<p>
+				and the details of the calls: 
+				<ul class="lui unstyled">
+					<li ng-repeat="call in apiCalls track by call.id" ng-bind-html="call.url | highlight : 'clue='">{{call.url}}</li>
+				</ul>
+			</p>
+		</div>
+	</article>
+
+
+</section>
+</body>
+</html>

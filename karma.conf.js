@@ -13,13 +13,15 @@ module.exports = function(config) {
 	files: [
 
 		'bower_components/angular/angular.js',
+		'bower_components/ui-select/dist/select.js',
 		'bower_components/moment/min/moment-with-locales.js',
+		'bower_components/underscore/underscore-min.js',
 
 		'bower_components/angular-mocks/angular-mocks.js',
 
 		'dist/lucca-ui.js',
 
-		'tests/**/*.js'
+		'tests/spec/**/*.js'
 	],
 
 	preprocessors: {
