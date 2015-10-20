@@ -14,7 +14,7 @@
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refreshDelay=\"200\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in properties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
+	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\">VAR_TRAD Parti(e) le {{user.dtContractEnd | luifMoment: 'll'}}</small>" +
 	"<small ng-if=\"user.overflow\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
@@ -28,7 +28,7 @@
 	var userPickerMultipleTemplate = "<ui-select multiple ng-model=\"selected.users\" theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"VAR_TRAD Sélectionner un utilisateur...\">{{$item.firstName}} {{$item.lastName}} " +
-	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in properties\">&lt{{getProperty($item, property)}}&gt</span>" +
+	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property)}}&gt</span>" +
 	"<span ng-if=\"$item.isFormerEmployee\">&lt;VAR_TRAD Parti(e) le {{$item.dtContractEnd | luifMoment: 'll'}}&gt;</span>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -351,13 +351,17 @@
 
 		var handleHomonymsAsync = function(users) {
 			var homonyms = _.where(users, { hasHomonyms: true });
-			//var homonymsArray = [];
+			var found = false; // indicate if we have found two properties allowing to differentiate homonyms
 			var deferred = $q.defer();
+			var propertiesArray; // Will contain each couple of properties to compare
+			var properties; // Object containing the couple of properties to compare
+			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
 
 			getHomonymsPropertiesAsync(homonyms).then(
 				function(homonymsArray) {
+					// Add fetched properties to the homonyms
 					_.each(homonyms, function(user) {
-						// Get the returned user
+						// Get the user returned by the api
 						var userWithProps = _.find(homonymsArray, function(homonym) {
 							return (user.id === homonym.id);
 						});
@@ -369,6 +373,54 @@
 						});
 					});
 
+					// Compare properties between homonyms
+					_.each($scope.properties, function (prop1, propIndex1) {
+						if (!found) {
+							// Compare prop1 with the rest of the properties array
+							var propRest = _.rest($scope.properties, propIndex1 + 1);
+							_.each(propRest, function (prop2, index) {
+								if (!found) {
+									// Build array with the two properties
+									// Each element of the array is an object with the properties that we want to compare
+									propertiesArray = [];
+									_.each(homonymsArray, function(item) {
+										var valueProp1 = $scope.getProperty(item, prop1);
+										var valueProp2 = $scope.getProperty(item, prop2);
+										properties = {};
+										properties[prop1] = valueProp1;
+										properties[prop2] = valueProp2;
+										propertiesArray.push(properties);
+									});
+
+									// Used to check that all values for prop1 are not equal
+									var prop1Values = _.chain(propertiesArray)
+										.pluck(prop1)
+										.uniq()
+										.value();
+									// Used to check that all values for prop2 are not equal
+									var prop2Values = _.chain(propertiesArray)
+										.pluck(prop2)
+										.uniq()
+										.value();
+
+									// All values for both properties must not be equal
+									// There must be at least two different values
+									if ((prop1Values.length > 1) && (prop2Values.length > 1)) {
+										// Check that each couple of values is different from the other couples
+										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1] + item[prop2]); });
+										// If the arrays have the same length, each couple of values is different
+										if (withoutDuplicates.length === propertiesArray.length) {
+											found = true;
+											$scope.displayedProperties.push(prop1);
+											$scope.displayedProperties.push(prop2);
+										}
+									}
+								}
+							});
+						}
+					});
+
+					// TODO: handle if no couple of properties allows to differentiate users
 					deferred.resolve(users);
 				},
 				function(message) {
