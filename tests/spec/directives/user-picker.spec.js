@@ -19,38 +19,6 @@ describe('luidUserPicker', function(){
 		moment = _moment_;
 	}));
 
-	// describe('most basic-est use', function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		controller = elt.controller;
-	// 		$scope.$digest();
-	// 		isolateScope.find();
-	// 		$httpBackend.expectGET('/api/v3/users/find?formerEmployees=false&limit=6').respond(200, RESPONSE_initWithoutFormerEmployees);
-	// 	});
-	// 	it('should initialise users', function(){
-	// 		$httpBackend.flush();
-	// 		expect(isolateScope.users).toBeDefined();
-	// 	});
-	// 	it('should initialise users with the 5 first users returned by the api', function() {
-	// 		users = [{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"overflow":"5/..."}];
-	// 		$httpBackend.flush();
-	// 		expect(angular.equals(isolateScope.users, users)).toBe(true);
-	// 	});
-
-	// 	describe('with pagination', function() {
-	// 		beforeEach(function() {
-	// 			$httpBackend.flush();
-	// 			$timeout.flush();
-	// 			//$httpBackend.expectGET('/api/v3/users/find?formerEmployees=false&limit=6').respond(200, RESPONSE_initWithoutFormerEmployees);
-	// 		});
-	// 		it('should get the number of users', function() {
-
-	// 		});
-	// 	});
-	// });
-
 	/**********************
 	** INITIALISATION    **
 	**********************/
@@ -85,7 +53,7 @@ describe('luidUserPicker', function(){
 	** BASIC             **
 	**********************/
 	describe("no pagination, no former employees, no homonyms", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
@@ -224,7 +192,7 @@ describe('luidUserPicker', function(){
 	** FORMER EMPLOYEES  **
 	**********************/
 	describe("with former employees", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');

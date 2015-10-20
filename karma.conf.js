@@ -21,7 +21,7 @@ module.exports = function(config) {
 
 		'dist/lucca-ui.js',
 
-		'tests/**/*.js'
+		'tests/spec/**/*.js'
 	],
 
 	preprocessors: {
