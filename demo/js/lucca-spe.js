@@ -16,7 +16,8 @@
 		var RESPONSE_2_users_FE = {header:{}, data:{items:_.last(users_FE,2)}};
 		var RESPONSE_1_users_FE = {header:{}, data:{items:_.last(users_FE,1)}};
 		/***** With homonyms *****/
-		var RESPONSE_5_users_homonyms ={header:{}, data:{items:homonyms}};
+		var RESPONSE_5_users_homonyms = {header:{}, data:{items:homonyms}};
+		var RESPONSE_3_users_homonyms = {header:{}, data:{items:_.first(homonyms,3)}};
 		var RESPONSE_homonyms_properties = {header:{},data:{items:[{id:421,firstName:"Lucien",lastName:"Bertin",department:{name:"BU Timmi/Lucca"},legalEntity:{name:"Lucca"},employeeNumber:"00068",mail:"no-reply@lucca.fr"},{id:449,firstName:"Lucien",lastName:"Bertin",department:{name:"Sales"},legalEntity:{name:"Lucca"},employeeNumber:"00099",mail:"no-reply@lucca.fr"},{id:450,firstName:"Lucien",lastName:"Bertin",department:{name:"Marketing"},legalEntity:{name:"Lucca"},employeeNumber:"00110",mail:"no-reply@lucca.fr"}]}};
 
 		$scope.isChecked = false;
@@ -86,9 +87,38 @@
 		/******      HOMONYMS      *****/
 		/***** NO FORMER EMPLOYEES *****/
 		/*******************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=false/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_5_users_homonyms];
+		});
+
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=false/i).respond(function(method, url) {
+			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			return [200, RESPONSE_3_users_homonyms];
+		});
+
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=false/i).respond(function(method, url) {
+			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			return [200, RESPONSE_0_users];
+		});
+
+		/****************************/
+		/******    HOMONYMS     *****/
+		/***** FORMER EMPLOYEES *****/
+		/****************************/
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=true/i).respond(function(method, url) {
+			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			return [200, RESPONSE_5_users_homonyms];
+		});
+
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=true/i).respond(function(method, url) {
+			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			return [200, RESPONSE_3_users_homonyms];
+		});
+
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=true/i).respond(function(method, url) {
+			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			return [200, RESPONSE_0_users];
 		});
 
 		/****************************/
