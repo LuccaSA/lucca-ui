@@ -46,7 +46,11 @@
 	box-shadow: none;
 }
 .lui.button.disabled, .lui.button[disabled] {
-	opacity: 0.75;
+	opacity: @disabled-opacity;
+
+	-webkit-filter: grayscale(@disabled-grayscale);
+	filter: grayscale(@disabled-grayscale);
+
 	cursor: normal;
 	pointer-events: none;
 }

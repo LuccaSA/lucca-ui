@@ -6,9 +6,12 @@
 .lui.nguibs-tooltip {
 	position: absolute;
 	z-index: @tooltip-z-index;
+	pointer-events: none;
 
 	& {
-		@import (multiple) "../../../core/definitions/_raised.variables.less";
+		@import (multiple, optional) "../../../core/definitions/_raised.variables.less";
+		@import (optional) "@{themeDir}@{theme}/definitions/raised.overrides.less";
+
 		-webkit-filter: drop-shadow(@x @y @blur @color);
 		filter: drop-shadow(@x @y @blur @color);
 	}
@@ -31,6 +34,7 @@
 
 	& {
 		@import (multiple) "../../../core/definitions/_pointing.variables.less";
+		@import (optional) "@{themeDir}@{theme}/definitions/poiting.overrides.less";
 
 		&.left > [class*="arrow"], &.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
 

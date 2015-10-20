@@ -1,416 +1,387 @@
+@namespace: .lui.lucca2;
+@{namespace}:extend(@{namespace} .lui.body all) {}
+.lui.lucca:extend(.lui.lucca .lui.body all) {}
 
-/** ---------------------------------------------------------------------------
- * ------ ICON COMPONENT - Comes from the Lucca-icons bower component
- * ---------------------------------------------------------------------------- */
+.lui.lucca,
+@{namespace} {
 
-@import "@{bowerDir}/lucca-icons/src/lucca-icons";
-@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
+	/** ---------------------------------------------------------------------------
+	 * ------ ICON COMPONENT - Comes from the Lucca-icons bower component
+	 * ---------------------------------------------------------------------------- */
 
-// We define a mixin alias here for better support
-.lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
-.lui.icon {
-	.lui_supports_sizing({
-		font-size: @sizeEms;
-	});
-};
+	@import "@{bowerDir}/lucca-icons/src/lucca-icons";
+	@import (optional) "@{themeDir}@{theme}/elements/icon.overrides.less";
 
+	// We define a mixin alias here for better support
+	.lui_make_icon(@name, @position: left) { .luccaIcons_make(@name, @position); }
+	.lui.icon {
+		.lui_supports_sizing({
+			font-size: @sizeEms;
+		});
+	};
 
-/** ---------------------------------------------------------------------------
- * ------ UTILITIES
- * ---------------------------------------------------------------------------- */
 
-@import "core/utilities/_resets";
-@import "core/utilities/_mixins";
-@import "core/utilities/_flex";
-@import "core/utilities/_loader";
-@import "core/utilities/_is-animated";
+	/** ---------------------------------------------------------------------------
+	 * ------ UTILITIES
+	 * ---------------------------------------------------------------------------- */
 
+	@import "core/utilities/_resets";
+	@import "core/utilities/_mixins";
+	@import "core/utilities/_flex";
+	@import "core/utilities/_loader";
+	@import "core/utilities/_is-animated";
+	// @import "core/utilities/_extend";
 
-/**
- * Coloring handler
- * ----------------------------------------------------------------------------- */
 
-@import "core/variables/_colors";
-@import (optional) "@{themeDir}@{theme}/definitions/colors.overrides.less";
+	/**
+	 * Coloring handler
+	 * ----------------------------------------------------------------------------- */
 
-@import "core/utilities/_supports-coloring";
+	@import "core/variables/_colors";
+	@import (optional) "@{themeDir}@{theme}/variables/colors.overrides.less";
 
+	@import "core/utilities/_supports-coloring";
 
-/**
- * Sizing handler
- * ----------------------------------------------------------------------------- */
 
-@import "core/variables/_sizes";
-@import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
+	/**
+	 * Sizing handler
+	 * ----------------------------------------------------------------------------- */
 
-@import "core/utilities/_supports-sizing";
+	@import "core/variables/_sizes";
+	@import (optional) "@{themeDir}@{theme}/definitions/sizes.overrides.less";
 
+	@import "core/utilities/_supports-sizing";
 
-/**
- * Breakpoints handler
- * ----------------------------------------------------------------------------- */
 
- // Breakpoints definitions
- @import "core/variables/_breakpoints";
+	/**
+	 * Breakpoints handler
+	 * ----------------------------------------------------------------------------- */
 
-// Responsive mixins - based on breakpoints
-@import "core/utilities/_responsive";
+	// Breakpoints definitions
+	@import "core/variables/_breakpoints";
 
-@import (optional) "@{themeDir}@{theme}/definitions/breakpoints.overrides.less";
+	// Responsive mixins - based on breakpoints
+	@import "core/utilities/_responsive";
 
-@import "core/utilities/_supports-breakpoints.less";
+	@import (optional) "@{themeDir}@{theme}/definitions/breakpoints.overrides.less";
 
+	@import "core/utilities/_supports-breakpoints.less";
 
-/** ---------------------------------------------------------------------------
- * ------ DEFINITIONS : global adjectives
- * ---------------------------------------------------------------------------- */
 
-/**
- * Unstyled
- * ----------------------------------------------------------------------------- */
-& {
-	@enabled: true;
-	@object-type: "definition";
-	@object-name: "unstyled";
+	/** ---------------------------------------------------------------------------
+	 * ------ DEFINITIONS : global adjectives
+	 * ---------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	/**
+	 * Unstyled
+	 * ----------------------------------------------------------------------------- */
+	& {
+		@enabled: true;
+		@object-type: "definition";
+		@object-name: "unstyled";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Animated
- * ----------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "definition";
-	@object-name: "animated";
+	/**
+	 * Animated
+	 * ----------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "definition";
+		@object-name: "animated";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Stuck
- * ----------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "definition";
-	@object-name: "stuck";
+	/**
+	 * Stuck
+	 * ----------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "definition";
+		@object-name: "stuck";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Raised
- * --------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "definition";
-	@object-name: "raised";
+	/**
+	 * Raised
+	 * --------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "definition";
+		@object-name: "raised";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Pointing (directional triangular arrow)
- * --------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "definition";
-	@object-name: "pointing";
+	/**
+	 * Pointing (directional triangular arrow)
+	 * --------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "definition";
+		@object-name: "pointing";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/** ---------------------------------------------------------------------------
- * ------ ELEMENTS
- * ---------------------------------------------------------------------------- */
 
-/**
- * Typography
- * --------------------------------------------------------------------------- */
+	/** ---------------------------------------------------------------------------
+	 * ------ ELEMENTS
+	 * ---------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "element";
-	@object-name: "typography";
+	/**
+	 * Typography
+	 * --------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "element";
+		@object-name: "typography";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Grid
- * --------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "element";
-	@object-name: "grid";
+	/**
+	 * Grid
+	 * --------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "element";
+		@object-name: "grid";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Button
- * --------------------------------------------------------------------------- */
-& {
-	@enabled: true;
-	@object-type: "element";
-	@object-name: "button";
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	/**
+	 * Button
+	 * --------------------------------------------------------------------------- */
+	& {
+		@enabled: true;
+		@object-type: "element";
+		@object-name: "button";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Menu
- * --------------------------------------------------------------------------- */
-& {
-	@enabled: true;
-	@object-type: "element";
-	@object-name: "menu";
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	/**
+	 * Menu
+	 * --------------------------------------------------------------------------- */
+	& {
+		@enabled: true;
+		@object-type: "element";
+		@object-name: "menu";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-/**
- * Block - your basic everyday building block
- * --------------------------------------------------------------------------- */
 
-& {
-	@enabled: true;
-	@object-type: "element";
-	@object-name: "block";
+	/**
+	 * Block - your basic everyday building block
+	 * --------------------------------------------------------------------------- */
 
-	@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
+	& {
+		@enabled: true;
+		@object-type: "element";
+		@object-name: "block";
 
-	@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
-}
+		@import (multiple, optional) "core/@{object-type}s/_@{object-name}.variables.less";
 
-/**
- * Input
- * --------------------------------------------------------------------------- */
+		@import (optional) "@{themeDir}@{theme}/@{object-type}s/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}s/_@{object-name}"; }
+	}
 
-& {
-	@object-type: "elements";
-	@object-name: "input";
+	/**
+	 * Input
+	 * --------------------------------------------------------------------------- */
 
-	@enabled: true;
+	& {
+		@object-type: "elements";
+		@object-name: "input";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-/**
- * Label
- * --------------------------------------------------------------------------- */
 
-& {
-	@object-type: "elements";
-	@object-name: "label";
+	/**
+	 * Label
+	 * --------------------------------------------------------------------------- */
 
-	@enabled: true;
+	& {
+		@object-type: "elements";
+		@object-name: "label";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-/**
- * Divider
- * --------------------------------------------------------------------------- */
 
-& {
-	@object-type: "elements";
-	@object-name: "divider";
+	/**
+	 * Divider
+	 * --------------------------------------------------------------------------- */
 
-	@enabled: true;
+	& {
+		@object-type: "elements";
+		@object-name: "divider";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-/**
- * Definition lists
- * ----------------------------------------------------------------------------- */
 
-& {
-	@object-type: "elements";
-	@object-name: "definition-list";
+	/**
+	 * Definition lists
+	 * ----------------------------------------------------------------------------- */
 
-	@enabled: true;
+	& {
+		@object-type: "elements";
+		@object-name: "definition-list";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-/**
- * Breadcrumbs
- * --------------------------------------------------------------------------- */
 
-& {
-	@object-type: "elements";
-	@object-name: "breadcrumbs";
+	/**
+	 * Breadcrumbs
+	 * --------------------------------------------------------------------------- */
 
-	@enabled: true;
+	& {
+		@object-type: "elements";
+		@object-name: "breadcrumbs";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
-/**
- * Callout
- * --------------------------------------------------------------------------- */
-& {
-	@object-type: "elements";
-	@object-name: "callout";
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-	@enabled: true;
+	/**
+	 * Callout
+	 * --------------------------------------------------------------------------- */
+	& {
+		@object-type: "elements";
+		@object-name: "callout";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
-/**
- * Table
- * --------------------------------------------------------------------------- */
-& {
-	@object-type: "elements";
-	@object-name: "table";
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-	@enabled: true;
+	/**
+	 * Table
+	 * --------------------------------------------------------------------------- */
+	& {
+		@object-type: "elements";
+		@object-name: "table";
 
-	@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-	& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
-}
+		@enabled: true;
 
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-/** ---------------------------------------------------------------------------
- * ------ PLUGINS
- * ---------------------------------------------------------------------------- */
+	/**
+	 * Overlay
+	 * --------------------------------------------------------------------------- */
+	& {
+		@object-type: "elements";
+		@object-name: "overlay";
 
-/**
- * Angular UI Bootstrap Reskin Plugin
- * --------------------------------------------------------------------------- */
-& {
-	@color-primary: #FFC900;
-	@color-primary-over: #666;
-	//
-	// // Tooltip
-	// @tooltip-border-radius: 3px;
-	// @tooltip-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
-	// @tooltip-bg: #FFF;
-	// @tooltip-color: @color;
-	//
-	// // Dropdown
-	// @dropdown-border-radius: @ui-select-border-radius;
-	// @dropdown-border-color: @ui-select-border-color;
-	// @dropdown-padding: @ui-select-padding;
-	//
-	// // Datepicker
-	// @datepicker-width: 9em;
-	// @datepicker-border-radius: 3px;
-	// @datepicker-color: @color-primary;
-	// @calendar-icon-color: #999;
-	// @calendar-icon-size: 1em;
-	//
-	// // Popover
-	// @popover-min-width: 15em;
-	// @popover-border-radius: 3px;
-	// @popover-default-bg: #FFF;
-	// @popover-default-color: @color;
-	// @popover-shadow: 0 2px 5px rgba(50, 50, 50, 0.2);
-	// @popover-border-color: rgba(50, 50, 50, 0.2);
-	// @popover-padding: 1em;
+		@enabled: true;
 
-	@object-type: "plugins";
-	@object-name: "angular-ui-bootstrap-reskin";
-	@enabled: true;
+		@import (multiple, optional) "core/@{object-type}/_@{object-name}.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "core/@{object-type}/_@{object-name}"; }
+	}
 
-	& when (@enabled = true) { @import "@{object-type}/@{object-name}/plugin.less"; }
-	@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
-}
 
+	/** ---------------------------------------------------------------------------
+	 * ------ PLUGINS
+	 * ---------------------------------------------------------------------------- */
 
-/**
- * Lucca App layout Plugin
- * --------------------------------------------------------------------------- */
-& {
-	@color-primary: #FFC900;
-	@color-primary-over: #666;
+	/**
+	 * Angular UI Bootstrap Reskin Plugin
+	 * --------------------------------------------------------------------------- */
+	& {
+		@object-type: "plugins";
+		@object-name: "angular-ui-bootstrap-reskin";
+		@enabled: true;
 
-	// #App variables
-	@top-offset: 0;
-	@body-bg-color: #eee;
+		@import (multiple, optional) "@{object-type}/@{object-name}/plugin.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "@{object-type}/@{object-name}/plugin.less"; }
+	}
 
-	// Main Navigation variables
-	@logo-font-size: 1.75em;
-	@navigation-bg: #344f5d;
-	@navigation-icon-size: 1.25em;
-	@navigation-width: 7rem;
-	@navigation-compact-item-height: 3.25rem;
-	@navigation-font-size: 0.9rem;
-	@navigation-font-weight: 600;
-	@updates-bullet-size: 5px;
 
-	// Main Header variables
-	@header-height: 5rem;
-	@header-bottom-margin: 2rem;
-	@header-bg: #FFF;
+	/**
+	 * Lucca App layout Plugin
+	 * --------------------------------------------------------------------------- */
+	& {
+		@object-type: "plugins";
+		@object-name: "lucca-app-layout";
+		@enabled: true;
 
-
-	@enabled: true;
-	@import (optional) "@{themeDir}@{theme}/plugins/lucca-app-layout.overrides.less";
-
-	& when (@enabled = true) {
-		@import "plugins/lucca-app-layout/plugin.less";
+		@import (multiple, optional) "@{object-type}/@{object-name}/plugin.variables.less";
+		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
+		& when (@enabled = true) { @import "@{object-type}/@{object-name}/plugin.less"; }
 	}
 }

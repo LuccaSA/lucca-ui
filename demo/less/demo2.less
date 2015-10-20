@@ -1,0 +1,25 @@
+@namespace: ~"#app";
+
+@{namespace} {
+    & {
+        @bg: red;
+        @yellow: yellow;
+        .body {
+            background: red;
+            color: yellow;
+        }
+    }
+	&:extend(.body);
+}
+
+// #app {
+//     & {
+//         @bg: red;
+//         @yellow: yellow;
+//         .body {
+//             background: red;
+//             color: yellow;
+//         }
+//     }
+// 	&:extend(#app .body);
+// }

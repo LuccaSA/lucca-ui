@@ -125,7 +125,6 @@
 // ====
 .lui.menu > .item.header {
 	font-size: @header-size;
-	font-weight: @header-weight;
 }
 
 // Horizontal menu item
@@ -240,7 +239,8 @@
 .lui.menu:not(.vertical) {
 	.flex-direction(row);
 }
-.lui.menu.v-aligned {
+.lui.menu.v-aligned,
+.lui.menu[class*="vertically aligned"] {
 	.flex-align-items(center);
 }
 
@@ -368,8 +368,9 @@
 // Dividing menus inception
 .lui[class*="top dividing"].menu:not(.vertical) > .lui[class*="top dividing"].menu:not(.vertical) { border-top: none; }
 .lui.dividing.menu:not([class*="top dividing"]):not(.vertical) > .lui.dividing.menu:not([class*="top dividing"]):not(.vertical) { border-bottom: none; }
-.lui[class*="left dividing"].menu.vertical > .lui[class*="left dividing"].menu.vertical { border-left: none; }
+.lui:not([class*="right dividing"]).menu.vertical > .lui:not([class*="left dividing"]).menu.vertical { border-left: none; }
 .lui[class*="right dividing"].menu.vertical > .lui[class*="right dividing"].menu.vertical { border-right: none; }
+
 
 
 // Tabbed

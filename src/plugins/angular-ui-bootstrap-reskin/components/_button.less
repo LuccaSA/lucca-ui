@@ -2,16 +2,18 @@
 /**
  * Button
  * --------------------------------------------------------------------------- */
- 
-.lui.btn-primary {
+
+.lui[class*="nguibs-"] .btn { cursor: pointer; }
+
+.lui[class*="nguibs-"] .btn-primary {
 	&, &:active, &.active, &:focus, &:hover {
-		background-color: @primary-color;
-		border-color: @primary-color;
+		background-color: extract(@lui_colors-primary, 2);
+		border-color:extract(@lui_colors-primary, 2);
 	}
 }
-.lui.btn-secondary {
+.lui[class*="nguibs-"] .btn-secondary {
 	&, &:active, &.active, &:focus, &:hover {
-		background-color: @secondary-color;
-		border-color: @secondary-color;
+		background-color: extract(@lui_colors-secondary, 2);
+		border-color: extract(@lui_colors-secondary, 2);
 	}
 }

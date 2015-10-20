@@ -1,29 +1,33 @@
 @bg: #FFF;
 @border-radius: 3px;
-@border-color: #CCC;
-@color: #666;
+@border-color: extract(@lui_colors-light, 2);
+
+@color: extract(@lui_colors-grey, 2);
 @v-padding: 0.66em;
 @h-padding: 1em;
 @placeholder-color: rgba(0, 0, 0, 0.5);
 @placeholder-style: italic;
 @focus-border-color: darken(@border-color, 10);
-@invalid-color: #f60;
+@invalid-color: extract(@lui_colors-red, 2);
 @shadow: 0 2px 2px 0 rgba(50, 50, 50, 0.2);
 
 @field-v-margin: 0.5em;
 @field-label-font-weight: 600;
 
+// Checkbox specifics
+// =====
 @checkbox-color: #FFC900;
+@checkbox-size: 1.5em;
 
 // Switch specifics
 // =====
 @switch-width: 4.5em;
 @switch-height: 2.25em;
-@switch-bg: #666;
+@switch-bg: extract(@lui_colors-grey, 2);
 @switch-color: darken(@switch-bg, 15);
-@switch-bg-active: #FFC900;
+@switch-bg-active: extract(@lui_colors-primary, 2);
 @switch-color-active: darken(@switch-bg-active, 15);
-@switch-grab-lines-color: #CCC;
+@switch-grab-lines-color: extract(@lui_colors-light, 2);;
 
 // UI select specifics
 // =====

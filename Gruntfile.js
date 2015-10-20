@@ -81,7 +81,7 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    compress: true,
+                    // compress: true,
                     relativeUrls:true,
                     sourceMap:true,
                     sourceMapFileInline:true,
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             dev: ['watch','karma']
         }
     });
-    grunt.loadNpmTasks('grunt-contrib-jshint'); 
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib

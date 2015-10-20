@@ -52,18 +52,18 @@
 	thead tr {
 		// Month & year
 		&:first-child {
-			background-color: @color-primary;
+			background-color: extract(@lui_colors-primary, 2);
 			border: none;
 			margin: 0;
 
 			button {
-				color: @color-primary-over;
+				color: extract(@lui_colors-primary, 3);
 				padding: 1em;
 				.lui_border_radius(0);
 				font-size: 1.1em;
 
 				&:hover, &:active, &:focus {
-					background-color: lighten(@color-primary, 10);
+					background-color: lighten(extract(@lui_colors-primary, 2), 10);
 				}
 			}
 		}
@@ -82,7 +82,7 @@
 
 			&:hover { background-color: #EEE; }
 
-			&.active { color: darken(@color, 10); background-color: lighten(@color-primary, 30); }
+			&.active { color: darken(@color, 10); background-color: lighten(extract(@lui_colors-primary, 2), 30); }
 		}
 		.text-muted { color: lighten(@color, 20); }
 	}
