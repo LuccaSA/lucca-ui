@@ -3,31 +3,18 @@
 module.exports = function(grunt, options){
 	return {
 		options: {
-			configFile: 'karma.conf.js'
+			configFile: 'karma.conf.js',
+			singleRun: true,
+			autoWatch: false,
 		},
 		dev: {
+			singleRun: false,
+			autoWatch: true,
 		},
-		continuous: {
-			singleRun: true,
-			autoWatch: false,
-			browsers: ['PhantomJS'],
-			reporters: ['progress']
-		},
-		coverage: {
-			singleRun: true,
-			autoWatch: false,
-			browsers: ['PhantomJS'],
-			reporters: ['coverage'],
-			preprocessors: {
-				'test/**/*.js': ['coverage'],
-			}
+		singlerun: {
 		},
 		ng12:{
 			configFile: 'karma.ng12.js',
-			singleRun: true,
-			autoWatch: false,
-			browsers: ['PhantomJS'],
-			reporters: ['progress']
 		}
 	};
 }

@@ -39,7 +39,7 @@ module.exports = function(grunt, options){
 		},
 		ng12:{
 			src:[
-				'js/lui-light.js',
+				'js/lui.js',
 				'js/directives/percentage-picker.js',
 				'js/directives/timespan-picker.js',
 				'js/filters/*.js',
