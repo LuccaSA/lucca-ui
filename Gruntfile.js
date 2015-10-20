@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
 
+	// I don't know if this is important
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 	});
@@ -17,10 +18,36 @@ module.exports = function(grunt) {
 	// load the configs of all tasks defined under /config
 	var configs = require('load-grunt-configs')(grunt);
 	grunt.initConfig(configs);
-	
-	// register some grunt tasks
-	grunt.registerTask('default', ['concurrent']);
-	grunt.registerTask('minifyjs', ['concat:dist','uglify']);
-	grunt.registerTask('ng12', ['concat:ng12','karma:ng12']);
+
+
+
+	/***********************
+	*** CONTINUOUS TASKS ***
+	***********************/
+	// use this task when you're working on the js framework, it will launch the karma testus and launch jshint on each modif of a .js file
+	grunt.registerTask('dev-js', ['concurrent:js']);
+	// use this task when you're working on the less framework, it will transpile automatically on each modif of a .less file
+	grunt.registerTask('dev-less', ['watch:less']);
+	// use this task when you're working on the less framework or the js one, will do both the tasks from above concurrently
+	grunt.registerTask('dev', ['concurrent:dev']);
+	// use this when you are working on the demo pages, it will do devjs and devless but also transpile transpile demo.min.css if any .less file under /src or /demo is changed
+	grunt.registerTask('dev-demo', ['concurrent:demo']);
+
+
+
+	/***********************
+	*** SINGLE RUN TASKS ***
+	***********************/
+	// this task creates the standard distribution and launches all the tests (u & e2e) in a single run
+	grunt.registerTask('dist', []);
+
+	// this task creates the standard distribution and launches all the tests (u & e2e) in a single run
+	grunt.registerTask('dist-standard', []);
+	// this task creates the distribution with the code spe lucca and launches all the tests (u & e2e) in a single run
+	grunt.registerTask('dist-light', []);
+	// this task creates the distribution with the code spe lucca and launches all the tests (u & e2e) in a single run
+	grunt.registerTask('dist-lucca', []);
+	// This task create the distribution compatible with angular 1.2 and run the tests that are compatible
+	grunt.registerTask('dist-ng12', ['concat:ng12','karma:ng12']);
 
 };
