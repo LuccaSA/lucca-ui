@@ -6,9 +6,9 @@ module.exports = function(grunt, options){
 			// the banner is inserted at the top of the output
 			banner: '/*! lucca-ui <%= grunt.template.today("dd-mm-yyyy") %> */\n'
 		},
-		dist: {
+		standard: {
 			files: {
-				'dist/lucca-ui.min.js': ['<%= concat.dist.dest %>']
+				'dist/lucca-ui.min.js': ['dist/lucca-ui.js']
 			}
 		}
 	};

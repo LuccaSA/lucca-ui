@@ -5,7 +5,6 @@ exports.config = {
 
 	onPrepare: function() {
 		browser.driver.get(exports.config.baseUrl);
-
 	},
 
 	jasmineNodeOpts: {

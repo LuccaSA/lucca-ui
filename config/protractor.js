@@ -16,10 +16,7 @@ module.exports = function(grunt, options){
 				rootElement: '[ng-app]'
 			}
 		},
-		continuous: {
-		},
-		dev: {
-			configFile: "protractor.conf.js"
+		singlerun: {
 		}
 	};
 }

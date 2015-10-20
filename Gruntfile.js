@@ -39,15 +39,18 @@ module.exports = function(grunt) {
 	*** SINGLE RUN TASKS ***
 	***********************/
 	// this task creates the standard distribution and launches all the tests (u & e2e) in a single run
-	grunt.registerTask('dist', []);
+	grunt.registerTask('dist', ['dist-lucca', 'dist-standard', 'dist-light', 'dist-ng12']);
 
-	// this task creates the standard distribution and launches all the tests (u & e2e) in a single run
-	grunt.registerTask('dist-standard', []);
-	// this task creates the distribution with the code spe lucca and launches all the tests (u & e2e) in a single run
-	grunt.registerTask('dist-light', []);
-	// this task creates the distribution with the code spe lucca and launches all the tests (u & e2e) in a single run
-	grunt.registerTask('dist-lucca', []);
-	// This task create the distribution compatible with angular 1.2 and run the tests that are compatible
-	grunt.registerTask('dist-ng12', ['concat:ng12','karma:ng12']);
+	// this task creates the standard distribution
+	grunt.registerTask('dist-standard', ['concat:standard', 'uglify:standard']);
+	// this task creates the distribution with the code needing only moment
+	grunt.registerTask('dist-light', ['concat:light']);
+	// this task creates the distribution with the code spe lucca 
+	grunt.registerTask('dist-lucca', ['concat:spe']);
+	// This task create the distribution compatible with angular 1.2 
+	grunt.registerTask('dist-ng12', ['concat:ng12']);
+
+	// this task creates the tested distributions and launches associated tests
+	grunt.registerTask('test', ['jshint', 'dist-lucca', 'dist-standard', 'dist-ng12', 'karma:spe', 'karma:ng12', 'protractor:singlerun']);
 
 };
