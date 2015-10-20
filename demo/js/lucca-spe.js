@@ -22,6 +22,7 @@
 		$scope.isChecked = false;
 		$scope.getCnt = 0;
 		$scope.apiCalls = [];
+		$scope.myUser = {};
 
 		/********************************/
 		/******     NO HOMONYMS     *****/

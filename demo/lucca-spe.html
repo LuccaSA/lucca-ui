@@ -79,6 +79,9 @@
 		<p>
 			<ul class="lui unstyled">
 				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>on-select</code>: function to execute when an item is selected</li>
+				<li><code>on-remove</code>: function to execute when an item is removed</li>
+				<li><code>control-disabled</code>: boolean indicating if the control is disabled</li>
 				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees</li>
 <!-- 				<li><code>ng-change</code>: events to launch when the value is updated</li>
 				<li><code>ng-disabled</code>: </li>
@@ -91,29 +94,40 @@
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
-			<pre ng-non-bindable>&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;</pre>
+			<pre ng-non-bindable>&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
+			</pre>
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="userPickerCtrl" class="lui block round">
 			<p>
-				basic example, here the call to /api/v3/users/find is mocked to respond always the same 4 users no matter what you type in the search box
-			</p>
-			<input type="checkbox" ng-model="isChecked">Show former employees 
-			<span ng-if="isChecked">
-				<luid-user-picker ng-model="myUser" show-former-employees="true"></luid-user-picker>
-			</span>
-			<span ng-if="!isChecked">
-				<luid-user-picker ng-model="myUser" show-former-employees="false"></luid-user-picker>
-			</span>
-			<p>
-				You can still see the number of time the api was called: <code>{{getCnt}}</code>
+				Basic example, here the call to <code>/api/v3/users/find</code> is mocked to always respond the same users no matter what you type in the search box. <br/>
+				If you would like to display users <b>without homonyms</b>, enter any letter between 'b' and 'z'. <br/>
+				If you would like to <b>display homonyms</b>, start your search with 'a'.
 			</p>
 			<p>
-				and the details of the calls: 
+				<input type="checkbox" ng-model="isChecked">Show former employees 
+			</p>
+			<p>
+				<span ng-if="isChecked">
+					<luid-user-picker ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
+				</span>
+				<span ng-if="!isChecked">
+					<luid-user-picker ng-model="myUser.selected" show-former-employees="false"></luid-user-picker>
+				</span>
+			</p>
+			<p>
+				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
+			</p>
+			<p>
+				You can see the number of time the api was called: <code>{{getCnt}}</code>
+			</p>
+			<p>
+				And the details of the calls: 
 				<ul class="lui unstyled">
-					<li ng-repeat="call in apiCalls track by call.id" ng-bind-html="call.url | highlight : 'clue='">{{call.url}}</li>
+					<li ng-repeat="call in apiCalls track by call.id" ng-bind-html="call.url | highlight : 'clue=' | highlight : 'formerEmployees='">{{call.url}}</li>
 				</ul>
 			</p>
 		</div>
