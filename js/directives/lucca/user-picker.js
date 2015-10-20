@@ -19,8 +19,8 @@
 	"<small ng-if=\"user.overflow\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select ng-model=\"user\" theme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	var userPickerTemplate = "<ui-select ng-model=\"ngModel\" theme=\"bootstrap\"" +
+	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ $select.selected.firstName }} {{$select.selected.lastName}}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
@@ -44,6 +44,7 @@
 			// require: "luidUserPicker",
 			scope: {
 				/*** STANDARD ***/
+				ngModel: "=",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -113,7 +114,6 @@
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 
-		//$scope.user = {};
 		$scope.selected = {};
 		$scope.selected.users = [];
 
@@ -391,7 +391,7 @@
 		var getHomonymsPropertiesAsync = function(homonyms) {
 			var urlCalls = [];
 			var query = "/api/v3/users?id=";
-			var fields = "&fields=id,firstname,lastname,dtcontractend";
+			var fields = "&fields=id,firstname,lastname";
 			var deferred = $q.defer();
 
 			// WARNING: Do not check if the properties exist!
@@ -458,6 +458,12 @@
 		/*********************/
 		/***** ON-SELECT *****/
 		/*********************/
+
+		$scope.updateSelectedUser = function(selectedUser) {
+			$scope.onSelect();
+			// Bind the selected user to the ng-model in luid-user-picker directive
+			$scope.ngModel = selectedUser;
+		};
 
 		// Used by UserPickerMultiple
 		// Function executed when onSelect is fired
