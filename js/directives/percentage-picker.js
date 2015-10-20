@@ -1,7 +1,11 @@
 (function () {
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none
+	**/
 
-	angular.module('lui.directives').directive('luidPercentage', ['moment', function (moment) {
+	angular.module('lui.directives').directive('luidPercentage', function () {
 		function link(scope, element, attrs, ctrls) {
 
 			var ngModelCtrl = ctrls[1];
@@ -48,8 +52,8 @@
 			link: link,
 			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
 		};
-	}])
-	.controller('luidPercentageController', ['$scope', 'moment', function ($scope, moment) {
+	})
+	.controller('luidPercentageController', ['$scope', function ($scope) {
 
 		// public methods for update
 		$scope.updateValue = function () {

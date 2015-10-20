@@ -1,5 +1,12 @@
 (function(){
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - moment - for tagging former employees
+	**  - underscore
+	**  - ui.select
+	**  - ngSanitize as a result of the dependency to ui.select
+	**/
 
 	var MAX_COUNT = 5; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter

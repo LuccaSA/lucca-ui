@@ -1,5 +1,9 @@
 (function(){
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none, nothing, nada
+	**/
 	function replaceAll(string, find, replace) {
 		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
 		// lets not reinvent the wheel

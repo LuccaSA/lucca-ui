@@ -1,6 +1,9 @@
 ﻿(function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
 		var m = moment(_moment);
 		if (m.isValid()) {
