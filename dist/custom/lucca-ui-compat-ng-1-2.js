@@ -1,8 +1,9 @@
 (function(){
 	'use strict';
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
+	angular.module('underscore', []).factory('_', function () { return window._; });
 	
-	angular.module('lui.directives', []);
+	angular.module('lui.directives', ['moment', 'underscore','ui.select']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
 	// all the templates in one module
@@ -13,8 +14,12 @@
 })();
 ;(function () {
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none
+	**/
 
-	angular.module('lui.directives').directive('luidPercentage', ['moment', function (moment) {
+	angular.module('lui.directives').directive('luidPercentage', function () {
 		function link(scope, element, attrs, ctrls) {
 
 			var ngModelCtrl = ctrls[1];
@@ -61,8 +66,8 @@
 			link: link,
 			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
 		};
-	}])
-	.controller('luidPercentageController', ['$scope', 'moment', function ($scope, moment) {
+	})
+	.controller('luidPercentageController', ['$scope', function ($scope) {
 
 		// public methods for update
 		$scope.updateValue = function () {
@@ -174,7 +179,11 @@
 })();
 ;(function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
+	
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
 		function link(scope, element, attrs, ctrls) {
 
@@ -380,6 +389,10 @@
 })();
 ;(function(){
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none, nothing, nada
+	**/
 	function replaceAll(string, find, replace) {
 		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
 		// lets not reinvent the wheel
@@ -438,7 +451,10 @@
 	}]);
 })();;(function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
 		var m = moment(_moment);
 		if (m.isValid()) {
