@@ -1,0 +1,177 @@
+// The whole project is namespaced
+#{$namespace} {
+
+	// ===================================
+	// ============ GLOBALS ==============
+	// ===================================
+
+	@import "globals/sizes";
+	@import "globals/colors";
+	@import "globals/breakpoints";
+
+
+	// ===================================
+	// =========== UTILITIES =============
+	// ===================================
+
+	// Resets
+	@import "core/utilities/flex";
+	// Responsive
+	@import "core/utilities/responsive";
+	// Transition & animations mixins
+	@import "core/utilities/transition";
+	// Is animated (mixin)
+	@import "core/utilities/is-animated";
+	// Sizing handler
+	@import "core/utilities/supports-sizing";
+	// Color handler
+	@import "core/utilities/colorschemer";
+	// Loader
+	@import "core/utilities/loader";
+
+
+	// Lucca icons
+	// ===================================
+
+	@import "lucca-icons/src/lucca-icons";
+	@import "elements/icon.variables";
+
+	// We define a mixin alias here for better support
+	@mixin lui_make_icon($name, $position: left) {
+		@include luccaIcons_make($name, $position);
+	}
+	.lui.icon { @include lui_supports_sizing(); };
+
+
+	// ===================================
+	// =========== ADJECTIVES ============
+	// ===================================
+
+	& {
+		// Unstyled
+		// ===================================
+		@import "adjectives/unstyled.variables";
+		@import "core/adjectives/unstyled";
+	}
+
+	& {
+		// Animated
+		// ===================================
+		@import "adjectives/animated.variables";
+		@import "core/adjectives/animated";
+	}
+
+	& {
+		// Pointing
+		// ===================================
+		@import "adjectives/pointing.variables";
+		@import "core/adjectives/pointing";
+	}
+
+	& {
+		// Raised: subtle shadow effect
+		// ===================================
+		@import "adjectives/raised.variables";
+		@import "core/adjectives/raised";
+	}
+
+	& {
+		// Rounded
+		// ===================================
+		@import "adjectives/rounded.variables";
+		@import "core/adjectives/rounded";
+	}
+
+	& {
+		// Stuck
+		// ===================================
+		@import "core/adjectives/stuck";
+	}
+
+
+	// ===================================
+	// ============ ELEMENTS =============
+	// ===================================
+
+	& {
+		// Grid
+		// ===================================
+		@import "elements/grid.variables";
+		@import "core/elements/grid";
+	}
+
+	& {
+		// Typography
+		// ===================================
+		@import "elements/typography.variables";
+		@import "core/elements/typography";
+	}
+
+	& {
+		// Divider
+		// ===================================
+		@import "elements/divider.variables";
+		@import "core/elements/divider";
+	}
+
+	& {
+		// Table
+		// ===================================
+		@import "elements/table.variables";
+		@import "core/elements/table";
+	}
+
+	& {
+		// Menu
+		// ===================================
+		@import "elements/menu.variables";
+		@import "core/elements/menu";
+	}
+
+	& {
+		// Breadcrumbs
+		// ===================================
+		@import "elements/breadcrumbs.variables";
+		@import "core/elements/breadcrumbs";
+	}
+
+	& {
+		// label
+		// ===================================
+		@import "elements/label.variables";
+		@import "core/elements/label";
+	}
+
+	& {
+		// Callout
+		// ===================================
+		@import "elements/callout.variables";
+		@import "core/elements/callout";
+	}
+
+	& {
+		// Block (@TODO: under construction)
+		// ===================================
+		@import "elements/block.variables";
+		@import "core/elements/block";
+	}
+
+	& {
+		// Overlay
+		// ===================================
+		@import "elements/overlay.variables";
+		@import "core/elements/overlay";
+	}
+
+
+	// ===================================
+	// ============= PLUGINS =============
+	// ===================================
+
+	& {
+		// Nguibs - Angular UI bootstrap reskin project
+		// ===================================
+		// @import "plugins/angular-ui-bootstrap-reskin/plugin";
+		// @import "plugins/angular-ui-bootstrap-reskin.variables";
+	}
+}

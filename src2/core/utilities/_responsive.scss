@@ -1,0 +1,21 @@
+
+@mixin lui_screens_smaller_than($breakpoint) {
+	@if map-has-key($lui_breakpoints, $breakpoint) {
+		@media (max-width: #{nth(map-get($lui_breakpoints, $breakpoint), 1)}) {
+			@content;
+		}
+	} @else {
+		@warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+		+ "Please make sure it is defined in the `$lui_breakpoints` map variable.";
+	}
+}
+@mixin lui_screens_larger_than($breakpoint) {
+	@if map-has-key($lui_breakpoints, $breakpoint) {
+		@media (min-width: #{nth(map-get($lui_breakpoints, $breakpoint), 1)}) {
+			@content;
+		}
+	} @else {
+		@warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+		+ "Please make sure it is defined in the `$lui_breakpoints` map variable.";
+	}
+}

@@ -1,0 +1,114 @@
+.lui.table {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+	text-align: left;
+	margin: 1em 0;
+	background-color: $bg;
+
+	> .thead .tr, > .tbody .tr,
+	> thead tr, > tbody tr {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	> .thead > .tr > .th, > .tbody > .tr > .td,
+	> thead > tr > th, > tbody > tr > td {
+		display: table-cell;
+		float: none;
+		vertical-align: top;
+		padding: $padding;
+		border-top: $border;
+	}
+
+	// thead
+	// ====
+	> .thead, > thead {
+		display: table-header-group;
+		padding: $padding;
+		border: $border;
+		border-bottom: none;
+	}
+	> .thead > .tr > .th, > thead > tr > th {
+		font-weight: 600;
+		padding-top: 1em;
+		padding-bottom: 1em;
+		vertical-align: middle;
+	}
+
+	// tbody
+	// ====
+	> .tbody, > tbody {
+		display: table-row-group;
+		border: $border;
+		border-top: none;
+		background-color: $bg;
+	}
+
+	// Zebra table
+	// ====
+	&.zebra {
+		> tbody > tr, .tbody > .tr {
+			border: none;
+			&:nth-child(odd) {
+				background-color: $zebra-bg;
+			}
+		}
+	}
+
+	// Verticaly aligned
+	// ====
+	&[class*="vertically aligned table"] {
+		vertical-align: middle;
+
+		> tbody > tr > td,
+		> .tbody > .tr > .td,
+		> thead > tr > th,
+		> .thead > .tr > .th {
+			vertical-align: middle;
+			float: none;
+		}
+	}
+}
+
+
+// Coloring support
+// ===================================
+.lui.table {
+	.tr > .th:first-child,
+	.tr > .td:first-child,
+	tr > th:first-child,
+	tr > td:first-child {
+
+		display: table-cell;
+		position: relative;
+		box-sizing: border-box;
+		&:after {
+			visibility: visible !important; // Neutralises possible clearfix
+			position: absolute;
+			z-index: 2;
+			display: block;
+			content: "";
+			top: 0px; bottom: -1px; left: -1px;
+			width: 5px;
+			min-height: 100%;
+		}
+	}
+}
+
+.lui.table tr,
+.lui.table .tr {
+	@each $name, $scheme in $lui_colors {
+		$color: map-get($scheme, color);
+
+		&.#{$name} {
+			> .th:first-child:after,
+			> .td:first-child:after,
+			> th:first-child:after,
+			> td:first-child:after { background: $color; }
+		}
+	}
+}

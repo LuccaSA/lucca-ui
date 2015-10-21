@@ -1,0 +1,24 @@
+
+.lui.breadcrumbs {
+	@extend ul.lui.unstyled;
+
+	> li {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		padding: $item-padding;
+
+		&:after {
+			display: inline-block;
+			content: $dividers-character;
+			vertical-align: middle;
+			margin: $dividers-margin;
+		}
+		&:last-child:after { content: ""; }
+
+		> a { display: inline-block; }
+	}
+
+	// Changes inter-items dividers with slashes rather than the default ">"
+	&.slashes > li:after { content: "/"; }
+}

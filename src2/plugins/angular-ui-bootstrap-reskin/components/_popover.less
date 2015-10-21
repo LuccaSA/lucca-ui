@@ -1,0 +1,65 @@
+
+.lui.nguibs-popover {
+	&:extend(.lui.nguibs-tooltip all);
+	pointer-events: auto;
+	min-width: @popover-min-width;
+	max-width: @popover-max-width;
+
+	.popover-inner { .lui.clear; }
+
+	.popover-inner, .popover-title {
+		padding: @popover-inner-vertical-padding @popover-inner-horizontal-padding;
+	}
+
+	.popover-title {
+		font-size: @popover-title-font-size;
+		background: @popover-title-bg;
+		border-bottom: 1px solid @popover-title-divider-color;
+		margin: -@popover-inner-vertical-padding -@popover-inner-horizontal-padding @popover-title-bottom-margin -@popover-inner-horizontal-padding;
+	}
+
+
+	@coloring-color: @popover-bg;
+	@coloring-text: @popover-color;
+	@coloring-lightOnDark: false;
+	@tooltip-coloring-ruleset();
+}
+
+.lui.popover:not(.ng-hide) {
+	display: block !important;
+}
+
+
+/**
+ * Coloring support
+ * --------------------------------------------------------------------------- */
+
+// Coloring ruleset
+// ====
+@popover-coloring-ruleset: {
+	background-color: @coloring-color;
+	color: @coloring-text;
+	& when (@coloring-lightOnDark = true) {
+		border: none;
+		> .arrow { border-color: transparent; }
+	}
+
+	&.bottom > .arrow:after {
+		border-bottom-color: @coloring-color;
+	}
+	&.top > .arrow:after {
+		border-top-color: @coloring-color;
+	}
+	&.left > .arrow:after {
+		border-left-color: @coloring-color;
+	}
+	&.right > .arrow:after {
+		border-right-color: @coloring-color;
+	}
+};
+
+// Custom coloring support
+// ====
+.lui.nguibs-popover {
+	.lui_supports_coloring(@popover-coloring-ruleset);
+}

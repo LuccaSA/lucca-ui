@@ -1,40 +1,14 @@
+var luiConfig = {
+	bowerPath: 'bower_components',
+	theme: {
+		name: 'test',
+		path: '/dev'
+	}
+};
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        jshint: {
-            files: ['js/**/*.js'],
-            options: {
-                // options here to override JSHint defaults
-                globals: {
-                    jQuery: true,
-                    console: true,
-                    module: true,
-                    document: true
-                }
-            }
-        },
-        karma: {
-            options: {
-                configFile: 'karma.conf.js'
-            },
-            dev: {
-            },
-            continuous: {
-                singleRun: true,
-                autoWatch: false,
-                browsers: ['PhantomJS'],
-                reporters: ['junit']
-            },
-            coverage: {
-                singleRun: true,
-                autoWatch: false,
-                browsers: ['PhantomJS'],
-                reporters: ['coverage'],
-                preprocessors: {
-                    'test/**/*.js': ['coverage'],
-                }
-            }
-        },
         watch: {
             less: {
                 files: ['src/**/*.less'],
@@ -43,40 +17,10 @@ module.exports = function(grunt) {
                     nospawn: true
                 }
             },
-            js: {
-                files: ['js/**/*.js'],
-                tasks: ['minifyjs','jshint'], // minify is put before jshint because if jshint finds an error, it will not launch any tasks after that so the minification was not done
-                options: {
-                    nospawn: true
-                }
-            }
-        },
-        concat: {
-            options: {
-                // define a string to put between each file in the concatenated output
-                separator: ';'
-            },
-            dist: {
-                // we dont use the **/*.js synthax cuz it's still a WIP in the transition and all the js files are not meant to be distributed
-                src: [
-                    'js/lui.js',
-                    'js/directives/*.js',
-                    'js/filters/*.js',
-                ],
-                // the location of the resulting JS file
-                dest: 'dist/lucca-ui.js'
-            }
-        },
-        uglify: {
-            options: {
-            // the banner is inserted at the top of the output
-                banner: '/*! lucca-ui <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-            },
-            dist: {
-                files: {
-                    'dist/lucca-ui.min.js': ['<%= concat.dist.dest %>']
-                }
-            }
+			sass: {
+				files: ['src2/**/*.scss', 'src2/*.sass'],
+				tasks: ['sass']
+			}
         },
         less: {
             development: {
@@ -96,6 +40,44 @@ module.exports = function(grunt) {
                 ]
             }
         },
+		sass: {
+			development: {
+				options: {
+					// style: 'compressed',
+					sourcemap: 'inline',
+					loadPath: [
+						'src2',
+						luiConfig.bowerPath,
+						luiConfig.theme.path + '/' + luiConfig.theme.name,
+						'themes/lucca'
+						// // Core directories
+						// 'src2/core/definitions',
+						// 'src2/core/elements',
+						// 'src2/core/elements/inputs',
+						// 'src2/core/utilities',
+						// 'src2/core/variables',
+						// 'src2/plugins/angular-ui-bootstrap-reskin',
+						// 'src2/plugins/angular-ui-bootstrap-reskin/components',
+						// 'src2/plugins/lucca-app-layout',
+						// 'src2/plugins/lucca-app-layout/components',
+						//
+						// // Expected theming directories
+						// 'themes/' + themeName + '/definitions',
+						// 'themes/' + themeName + '/elements',
+						// 'themes/' + themeName + '/utilities',
+						// 'themes/' + themeName + '/variables',
+						// 'themes/' + themeName + '/plugins/angular-ui-bootstrap-reskin',
+						// 'themes/' + themeName + '/plugins/lucca-app-layout'
+					]
+				},
+				files: [
+					{
+						"dist/lucca-ui.min.css": "src2/lucca-ui.dist.scss",
+						"demo/demo.min.css": "demo/sass/demo.scss"
+					}
+				]
+			}
+		},
         concurrent: {
             options: {
                 logConcurrentOutput: true
@@ -105,7 +87,8 @@ module.exports = function(grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
+	grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
+	grunt.loadNpmTasks('grunt-contrib-sass'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
     grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener

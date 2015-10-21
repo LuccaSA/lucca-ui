@@ -1,0 +1,19 @@
+
+/**
+ * Button
+ * --------------------------------------------------------------------------- */
+
+.lui[class*="nguibs-"] .btn { cursor: pointer; }
+
+.lui[class*="nguibs-"] .btn-primary {
+	&, &:active, &.active, &:focus, &:hover {
+		background-color: extract(@lui_colors-primary, 2);
+		border-color:extract(@lui_colors-primary, 2);
+	}
+}
+.lui[class*="nguibs-"] .btn-secondary {
+	&, &:active, &.active, &:focus, &:hover {
+		background-color: extract(@lui_colors-secondary, 2);
+		border-color: extract(@lui_colors-secondary, 2);
+	}
+}
