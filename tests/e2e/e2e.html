@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<title>Lucca UI - Demo</title>
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/> -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8"> -->
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.css" media="screen" title="no title" charset="utf-8"> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.css" media="screen" title="no title" charset="utf-8">
 
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../demo/demo.min.css"/>
@@ -19,7 +19,6 @@
 
 	<script src="../../bower_components/ui-select/dist/select.min.js"></script>
 	<script src="../../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-
 
 	<script src="../../dist/custom/lucca-ui-spe.js"></script>
 	<script src="e2e.js"></script>
@@ -41,7 +40,7 @@
 		<a class="item" href="#luid-timespan">luid-timespan</a>
 		<a class="item" href="#luid-percentage">luid-percentage</a>
 		<a class="item" href="#luid-moment">luid-moment</a>
-
+		<a class="item" href="#luid-user-picker">luid-user-picker</a>
 	</nav>
 
 
@@ -78,17 +77,14 @@
 		</div>
 	</article>
 
-	<article id="luifNumber">
-		<h2 class="lui divider below">luifNumber</h2>
-		<div ng-controller="luifNumberCtrl" class="lui block round">
-			<div class="lui input"><input id="luifNumber_myValue_input" ng-model="myValue" type="text"></div>
-			<div class="lui input"><input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number"></div>
-			<div id="luifNumber_myValue_value_1" ng-bind-html="myValue | luifNumber : myPrecision "></div>
-			<div id="luifNumber_myValue_value_2" ng-bind-html="myValue | luifNumber : myPrecision : 0"></div>
-			<div id="luifNumber_myValue_value_3" ng-bind-html="myValue | luifNumber : myPrecision : '-'"></div>
+	<article id="luidUserPicker">
+		<h2 class="lui divider below">luidUserPicker</h2>
+		<div ng-controller="luidUserPickerCtrl" class="lui block round">
+			<luid-user-picker id="luidUserPicker_myUser_select" ng-model="myUser.selected"></luid-user-picker>
+			<div id="luidUserPicker_myUser_value">{{myUser.selected.firstName}} {{myUser.selected.lastName}}
+			</div>
 		</div>
 	</article>
-
 
 </section>
 </body>
