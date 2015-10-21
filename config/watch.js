@@ -9,6 +9,10 @@ module.exports = function(grunt, options){
 			files: ['src/**/*.less'],
 			tasks: ['less:dist'],
 		},
+		sass: {
+			files: ['src2/**/*.scss', 'src2/*.sass'],
+			tasks: ['sass']
+		},
 		demo: {
 			files: ['demo/**/*.less'],
 			tasks: ['less:demo'],
