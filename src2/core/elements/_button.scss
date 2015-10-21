@@ -10,8 +10,8 @@
 	margin: $v-margin $h-margin;
 }
 
-.lui.button {
-	@extend button.lui.unstyled;
+#{$prefix}.button {
+	@extend button#{$prefix}.unstyled;
 
 	@extend .lui_button_sizing;
 
@@ -30,13 +30,13 @@
 // Button states
 // ===================================
 
-.lui.button:hover {
+#{$prefix}.button:hover {
 	box-shadow: 0px 1px 2px 0 rgba(50, 50, 50, 0.25);
 }
-.lui.button:active, .lui.button.active {
+#{$prefix}.button:active, #{$prefix}.button.active {
 	box-shadow: none;
 }
-.lui.button.disabled, .lui.button[disabled] {
+#{$prefix}.button.disabled, #{$prefix}.button[disabled] {
 	opacity: $disabled-opacity;
 
 	-webkit-filter: grayscale($disabled-grayscale);
@@ -50,7 +50,7 @@
 // Button styles
 // ===================================
 
-.lui.button:not(.wired) {
+#{$prefix}.button:not(.wired) {
 	&:hover {
 		box-shadow: $default-border, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
 	}
@@ -61,14 +61,14 @@
 
 
 // Style - filling
-.lui.button.filling {
+#{$prefix}.button.filling {
 	&:not(.inverted) {
 		background: #FFF;
 	}
 }
 
 // Style - inverted
-.lui.button.inverted {
+#{$prefix}.button.inverted {
 	background: transparent;
 	color: rgba(255, 255, 255, 0.5);
 	&:hover, &:active, &.active {
@@ -79,7 +79,7 @@
 }
 
 // Style - wired
-.lui.button.wired {
+#{$prefix}.button.wired {
 	background: transparent;
 	&[class*="with addon"] {
 		> .addon {
@@ -92,12 +92,12 @@
 }
 
 // Style - fake
-.lui.button.fake {
+#{$prefix}.button.fake {
 	@extend .lui_button_sizing;
 }
 
 // Style - flat
-.lui.button.flat {
+#{$prefix}.button.flat {
 	background-color: transparent;
 	color: map-get($default-coloring, text);
 	text-decoration: underline;
@@ -224,12 +224,12 @@
 	}
 };
 
-.lui.button {
+#{$prefix}.button {
 	// Default coloring scheme
 	@include lui_button_coloring($default-coloring);
 	// Coloring support
 	@each $name, $scheme in $lui_colors {
-		&.#{$name} {
+		&.#{map-get($scheme, class)} {
 			@include lui_button_coloring($scheme);
 		}
 	}
@@ -238,7 +238,7 @@
 
 // Buttons: button group
 // ===================================
-.lui.buttons {
+#{$prefix}.buttons {
 	display: inline-block;
 	vertical-align: middle;
 	margin: $v-margin 0;
@@ -258,7 +258,7 @@
 		}
 		border-radius: 0;
 		&:first-child {
-			border-radius: $border-radius 0 $border-radius 0;
+			border-radius: $border-radius 0 0 $border-radius;
 		}
 		&:last-child {
 			border-radius: 0 $border-radius $border-radius 0;
@@ -273,7 +273,7 @@
 	// Modern browsers: flex-box model
 	@include display-flex(true);
 
-	.ie9 & {
+	@include lui_target_IE9 {
 		display: inline-table;
 		> .button { display: table-cell; }
 	}
@@ -282,8 +282,8 @@
 // Squared button
 // ===================================
 
-.lui.button.squared,
-.lui.buttons.squared > .button {
+#{$prefix}.button.squared,
+#{$prefix}.buttons.squared > .button {
 	border-radius: 0;
 }
 
@@ -291,7 +291,7 @@
 // Fitted buttons
 // ===================================
 
-.lui.buttons.justified {
+#{$prefix}.buttons.justified {
 	width: 100%;
 	display: table;
 	table-layout: fixed;
@@ -315,11 +315,11 @@
 // Icon support
 // ===================================
 
- .lui.button.icon:before {
+ #{$prefix}.button.icon:before {
 	@include luccaIcons_icon_base();
 	display: inline-block;
  }
-.lui.button .lui.icon {
+#{$prefix}.button #{$prefix}.icon {
 	margin-right: 0.5em;
 	&[class*="right icon"] {
 		margin-left: 0.5em; margin-right: 0;
@@ -330,7 +330,7 @@
 // Icon addon
 // ===================================
 
-.lui.button[class*="with addon"] {
+#{$prefix}.button[class*="with addon"] {
 	position: relative;
 	> .addon {
 		position: absolute;
@@ -371,12 +371,12 @@
 
 // Status button
 // ====
-.lui.button.status {
+#{$prefix}.button.status {
 	position: relative;
 }
 
 // Has addon > update the addon icon
-.lui.button.status[class*="with addon"] {
+#{$prefix}.button.status[class*="with addon"] {
 	&.loading > .addon {
 		@include lui_loader();
 		position: absolute;
@@ -391,7 +391,7 @@
 	}
 }
 // Else
-.lui.button.status:not([class*="with addon"]) {
+#{$prefix}.button.status:not([class*="with addon"]) {
 	color: transparent;
 
 	&:not(.icon):before, &:after {
@@ -433,8 +433,8 @@
 // Sizing support
 // ===================================
 
-.lui.button,
-.lui.buttons {
+#{$prefix}.button,
+#{$prefix}.buttons {
 	@include lui_supports_sizing();
 }
 
@@ -442,12 +442,12 @@
 // Button inside heading
 // ===================================
 
-h1 .lui.button,
-h2 .lui.button,
-h3 .lui.button,
-h4 .lui.button,
-h5 .lui.button,
-h6 .lui.button {
+h1 #{$prefix}.button,
+h2 #{$prefix}.button,
+h3 #{$prefix}.button,
+h4 #{$prefix}.button,
+h5 #{$prefix}.button,
+h6 #{$prefix}.button {
 	vertical-align: middle;
 	margin: 0 0.5em;
 }

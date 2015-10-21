@@ -1,8 +1,8 @@
 @mixin lui_is_animated($name, $loop: false) {
-	@extend .lui.animated;
-	@extend .lui.animated[class*="#{$name}"];
+	@extend .lui_animated_base;
+	@extend #{$prefix}.animated[class*="#{$name}"];
 
 	@if $loop {
-		@extend .lui.infinitely.animated;
+		@extend #{$prefix}.infinitely.animated;
 	}
 }

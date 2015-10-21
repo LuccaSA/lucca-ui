@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="js/demo.js"></script>
 
 </head>
-<body id="lui-demo" class="lui lucca" ng-app="demoApp">
+<body class="lui app" ng-app="demoApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
 		<a class="item active" href="./index.html">less framework</a>
@@ -37,9 +37,10 @@
 
 
 <div id="main-content" class="lui typeset container">
-	<h1>Lucca UI</h1>
-
-	<a class="lui large right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	<h1>
+		Lucca UI
+		<a class="lui regular right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+	</h1>
 
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.1</span></p>
 
@@ -342,19 +343,17 @@
 			<h4 class="lui underline">Form</h4>
 		</div>
 
-		<div class="lui form">
-			<div class="lui field">
-				<label for="">First name</label>
-				<input type="text" name="first-name" placeholder="First name" value="">
-			</div>
-			<div class="lui field">
-				<label for="">Last name</label>
-				<input type="text" name="last-name" placeholder="Last name" value="">
-			</div>
-			<div class="lui field invalid">
-				<label for="">Password</label>
-				<input type="password" name="password" placeholder="password" value="">
-			</div>
+		<div class="lui input">
+			<label for="">First name</label>
+			<input type="text" name="first-name" placeholder="First name" value="">
+		</div>
+		<div class="lui input">
+			<label for="">Last name</label>
+			<input type="text" name="last-name" placeholder="Last name" value="">
+		</div>
+		<div class="lui input invalid">
+			<label for="">Password</label>
+			<input type="password" name="password" placeholder="password" value="">
 		</div>
 
 		<div class="lui divider">

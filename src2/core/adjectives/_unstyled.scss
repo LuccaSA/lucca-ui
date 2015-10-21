@@ -1,17 +1,17 @@
 // Lists
 // ====
-ul.lui.unstyled, ol.lui.unstyled {
+ul#{$prefix}.unstyled, ol#{$prefix}.unstyled {
 	list-style: none; padding: 0; margin: 0;
 }
 // Links
 // ====
-a.lui.unstyled {
+a#{$prefix}.unstyled {
 	text-decoration: none;
 }
 
 // Buttons
 // =====
-button.lui.unstyled {
+button#{$prefix}.unstyled {
 	cursor: pointer;
 	outline: none;
 	border: none;

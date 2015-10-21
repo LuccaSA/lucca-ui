@@ -33,12 +33,12 @@ $lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 	}
 
 	// IE9 support
-	.ie9 & {
+	@include lui_target_IE9 {
 		&:before { border: none; }
 		&:after { border: none; margin: 0; background: transparent url("#{$lui_ie_fallback_loader}") no-repeat center center; background-size: contain; }
 	}
 }
 
-.lui.loader {
+#{$prefix}.loader {
 	@include lui_loader();
 }

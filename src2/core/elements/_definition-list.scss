@@ -1,5 +1,5 @@
-dl.lui.definition-list {
-	@extend .lui.clear;
+dl#{$prefix}.definition-list {
+	@extend #{$prefix}.clear;
 	dt {
 		float: left;
 		clear: left;

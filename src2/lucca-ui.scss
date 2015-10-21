@@ -1,6 +1,8 @@
-// The whole project is namespaced
-#{$namespace} {
+$prefix: '' !default;
+$namespace: "#{$prefix}.app" !default;
+$luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
 
+#{$namespace} {
 	// ===================================
 	// ============ GLOBALS ==============
 	// ===================================
@@ -14,6 +16,8 @@
 	// =========== UTILITIES =============
 	// ===================================
 
+	// IE9 support mixin
+	@import "core/utilities/ie9-support";
 	// Resets
 	@import "core/utilities/flex";
 	// Responsive
@@ -33,8 +37,8 @@
 	// Lucca icons
 	// ===================================
 
-	@import "lucca-icons/src/lucca-icons";
 	@import "elements/icon.variables";
+	@import "lucca-icons/src/lucca-icons";
 
 	// We define a mixin alias here for better support
 	@mixin lui_make_icon($name, $position: left) {
@@ -93,7 +97,7 @@
 	// ============ ELEMENTS =============
 	// ===================================
 
-	& {
+	@at-root {
 		// Grid
 		// ===================================
 		@import "elements/grid.variables";
@@ -185,7 +189,6 @@
 	& {
 		// Nguibs - Angular UI bootstrap reskin project
 		// ===================================
-		// @import "plugins/angular-ui-bootstrap-reskin/plugin";
-		// @import "plugins/angular-ui-bootstrap-reskin.variables";
+		@import "plugins/angular-ui-bootstrap-reskin/plugin";
 	}
 }

@@ -1,4 +1,4 @@
-.lui.table {
+#{$prefix}.table {
 	display: table;
 	table-layout: fixed;
 	width: 100%;
@@ -77,7 +77,7 @@
 
 // Coloring support
 // ===================================
-.lui.table {
+#{$prefix}.table {
 	.tr > .th:first-child,
 	.tr > .td:first-child,
 	tr > th:first-child,
@@ -99,12 +99,12 @@
 	}
 }
 
-.lui.table tr,
-.lui.table .tr {
+#{$prefix}.table tr,
+#{$prefix}.table .tr {
 	@each $name, $scheme in $lui_colors {
 		$color: map-get($scheme, color);
 
-		&.#{$name} {
+		&.#{map-get($scheme, class)} {
 			> .th:first-child:after,
 			> .td:first-child:after,
 			> th:first-child:after,

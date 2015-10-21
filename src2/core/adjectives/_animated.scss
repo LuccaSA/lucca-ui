@@ -1,5 +1,4 @@
-
-.lui.animated {
+.lui_animated_base {
 	animation-easing: $animation-easing;
 	animation-duration: $animation-duration;
 	animation-fill-mode: both;
@@ -11,12 +10,15 @@
 	opacity: 1;
 }
 
-.lui.infinitely.animated { animation-iteration-count: infinite; }
+#{$prefix}.animated {
+	@extend .lui_animated_base;
+}
+
+#{$prefix}.infinitely.animated { animation-iteration-count: infinite; }
 
 
-/**
- * Fading animations
- * --------------------------------------------------------------------------- */
+// Fading animations
+// ===================================
 
 // Upsided fade in/out
 @at-root {
@@ -25,7 +27,7 @@
 		to { opacity: 1; transform: none; }
 	}
 }
-.lui.animated[class*="up fade in"] { animation-name: fadeInUp; }
+#{$prefix}.animated[class*="up fade in"] { animation-name: fadeInUp; }
 
 @at-root {
 	@keyframes fadeOutUp {
@@ -33,7 +35,7 @@
 		to { opacity: 0; transform: translate3d(0, -$fade-translation-distance, 0);; }
 	}
 }
-.lui.animated[class*="up fade out"] { animation-name: fadeOutUp; }
+#{$prefix}.animated[class*="up fade out"] { animation-name: fadeOutUp; }
 
 // Downsided fade in/out
 @at-root {
@@ -42,7 +44,7 @@
 		to { opacity: 1; transform: none; }
 	}
 }
-.lui.animated[class*="down fade in"] { animation-name: fadeInDown; }
+#{$prefix}.animated[class*="down fade in"] { animation-name: fadeInDown; }
 
 @at-root {
 	@keyframes fadeOutDown {
@@ -50,7 +52,7 @@
 		to { opacity: 0; transform: translate3d(0, $fade-translation-distance, 0);; }
 	}
 }
-.lui.animated[class*="down fade out"] { animation-name: fadeOutDown; }
+#{$prefix}.animated[class*="down fade out"] { animation-name: fadeOutDown; }
 
 // Leftsided fade in/out
 @at-root {
@@ -59,7 +61,7 @@
 		to { opacity: 1; transform: none; }
 	}
 }
-.lui.animated[class*="left fade in"] { animation-name: fadeInLeft; }
+#{$prefix}.animated[class*="left fade in"] { animation-name: fadeInLeft; }
 
 @at-root {
 	@keyframes fadeOutLeft {
@@ -67,7 +69,7 @@
 		to { opacity: 0; transform: translate3d(-$fade-translation-distance, 0, 0);; }
 	}
 }
-.lui.animated[class*="left fade out"] { animation-name: fadeOutLeft; }
+#{$prefix}.animated[class*="left fade out"] { animation-name: fadeOutLeft; }
 
 // Rightsided fade in/out
 @at-root {
@@ -76,7 +78,7 @@
 		to { opacity: 1; transform: none; }
 	}
 }
-.lui.animated[class*="right fade in"] { animation-name: fadeInRight; }
+#{$prefix}.animated[class*="right fade in"] { animation-name: fadeInRight; }
 
 @at-root {
 	@keyframes fadeOutRight {
@@ -84,12 +86,11 @@
 		to { opacity: 0; transform: translate3d($fade-translation-distance, 0, 0);; }
 	}
 }
-.lui.animated[class*="right fade out"] { animation-name: fadeOutRight; }
+#{$prefix}.animated[class*="right fade out"] { animation-name: fadeOutRight; }
 
 
-/**
- * Scaling animations
- * --------------------------------------------------------------------------- */
+// Scaling animations
+// ===================================
 
  // Down scale
 @at-root {
@@ -98,7 +99,7 @@
 		to { transform: scale(1); opacity: 1; }
 	}
 }
-.lui.animated[class*="down scale in"] { animation-name: downScaleIn; }
+#{$prefix}.animated[class*="down scale in"] { animation-name: downScaleIn; }
 
 @at-root {
 	@keyframes downScaleOut {
@@ -106,7 +107,7 @@
 		to { transform: scale((1 - $scale-animation-ratio / 100)); opacity: 0; }
 	}
 }
-.lui.animated[class*="down scale out"] { animation-name: downScaleOut; }
+#{$prefix}.animated[class*="down scale out"] { animation-name: downScaleOut; }
 
 // Up scale
 @at-root {
@@ -115,7 +116,7 @@
 		to { transform: scale(1); opacity: 1; }
 	}
 }
-.lui.animated[class*="up scale in"] { animation-name: upScaleIn; }
+#{$prefix}.animated[class*="up scale in"] { animation-name: upScaleIn; }
 
 @at-root {
 	@keyframes upScaleOut {
@@ -123,12 +124,11 @@
 		to { transform: scale((1 + $scale-animation-ratio / 100)); opacity: 0; }
 	}
 }
-.lui.animated[class*="up scale out"] { animation-name: upScaleOut; }
+#{$prefix}.animated[class*="up scale out"] { animation-name: upScaleOut; }
 
 
-/**
- * Sliding animations
- * --------------------------------------------------------------------------- */
+// Sliding animations
+// ===================================
 
  // Slide vertical
 @at-root {
@@ -137,8 +137,8 @@
 		to { transform: scale(1, 1); }
 	}
 }
-.lui.animated[class*="up slide in"] { transform-origin: center top; animation-name: slideInVertical; }
-.lui.animated[class*="down slide in"] { transform-origin: center bottom; animation-name: slideInVertical; }
+#{$prefix}.animated[class*="up slide in"] { transform-origin: center top; animation-name: slideInVertical; }
+#{$prefix}.animated[class*="down slide in"] { transform-origin: center bottom; animation-name: slideInVertical; }
 
 @at-root {
 	@keyframes slideOutVertical {
@@ -146,8 +146,8 @@
 		to { transform: scale(1, 0); }
 	}
 }
-.lui.animated[class*="up slide out"] { transform-origin: center top; animation-name: slideOutVertical; }
-.lui.animated[class*="down slide out"] { transform-origin: center bottom; animation-name: slideOutVertical; }
+#{$prefix}.animated[class*="up slide out"] { transform-origin: center top; animation-name: slideOutVertical; }
+#{$prefix}.animated[class*="down slide out"] { transform-origin: center bottom; animation-name: slideOutVertical; }
 
 // Slide horizontal
 @at-root {
@@ -156,8 +156,8 @@
 		to { transform: scale(1, 1); }
 	}
 }
-.lui.animated[class*="left slide in"] { transform-origin: left center; animation-name: slideInHorizontal; }
-.lui.animated[class*="right slide in"] { transform-origin: right center; animation-name: slideInHorizontal; }
+#{$prefix}.animated[class*="left slide in"] { transform-origin: left center; animation-name: slideInHorizontal; }
+#{$prefix}.animated[class*="right slide in"] { transform-origin: right center; animation-name: slideInHorizontal; }
 
 @at-root {
 	@keyframes slideOutHorizontal {
@@ -165,13 +165,12 @@
 		to { transform: scale(0, 1); }
 	}
 }
-.lui.animated[class*="left slide out"] { transform-origin: left center; animation-name: slideOutHorizontal; }
-.lui.animated[class*="right slide out"] { transform-origin: right center; animation-name: slideOutHorizontal; }
+#{$prefix}.animated[class*="left slide out"] { transform-origin: left center; animation-name: slideOutHorizontal; }
+#{$prefix}.animated[class*="right slide out"] { transform-origin: right center; animation-name: slideOutHorizontal; }
 
 
-/**
- * Static animations
- * --------------------------------------------------------------------------- */
+// Static animations
+// ===================================
 
 @at-root {
 	@keyframes bounce {
@@ -180,7 +179,7 @@
 		60% { transform: translateY(-($bounce-distance / 2)); }
 	}
 }
-.lui.animated[class*="bounce"] { animation-name: bounce; }
+#{$prefix}.animated[class*="bounce"] { animation-name: bounce; }
 
 @at-root {
 	@keyframes pulse {
@@ -189,7 +188,7 @@
 		100% { transform: scale(1); opacity: 1; }
 	}
 }
-.lui.animated[class*="pulse"] { animation-name: pulse; }
+#{$prefix}.animated[class*="pulse"] { animation-name: pulse; }
 
 @at-root {
 	@keyframes spin {
@@ -197,4 +196,4 @@
 		to {transform: rotate(360deg);}
 	}
 }
-.lui.animated[class*="spin"] { animation-name: spin; }
+#{$prefix}.animated[class*="spin"] { animation-name: spin; }

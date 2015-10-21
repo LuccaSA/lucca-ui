@@ -1,6 +1,6 @@
 
-.lui.checkbox {
-	@extend .lui.input;
+#{$prefix}.checkbox {
+	@extend .lui_input_holder_base;
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;
@@ -37,11 +37,11 @@
 
 // Icon version
 // ====
-.lui.checkbox.icon {
+#{$prefix}.checkbox.icon {
 	&[class*="checkbox checked"]:before { color: $checkbox-color; }
 
 	&:before { font-size: $checkbox-size; color: $border-color; }
 }
-.lui.checkbox.icon.button {
+#{$prefix}.checkbox.icon.button {
 	padding: 0.25em;
 }

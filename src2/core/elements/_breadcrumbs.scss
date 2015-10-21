@@ -1,6 +1,6 @@
 
-.lui.breadcrumbs {
-	@extend ul.lui.unstyled;
+#{$prefix}.breadcrumbs {
+	@extend ul#{$prefix}.unstyled;
 
 	> li {
 		position: relative;

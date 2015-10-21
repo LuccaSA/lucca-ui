@@ -1,33 +1,36 @@
-// Input variables dependency
-@import "../../core/elements/_input.variables.less";
+// Import lucca-UI dependencies
+// =============================================
+// Input
+@import "elements/input.variables";
 
-// Buttons
-@import "../../core/elements/_button.variables.less";
 
-// UI select
-@import "components/_ui-select.variables.less";
-@import "components/_ui-select";
+// Plugin components
+// =============================================
 
 // Dropdown
-@import "components/_dropdown.variables.less";
-@import "components/_dropdown";
+@import "plugins/angular-ui-bootstrap-reskin/variables/dropdown.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/dropdown";
+
+// UI select
+@import "plugins/angular-ui-bootstrap-reskin/variables/ui-select.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/ui-select";
 
 // Tooltip
-@import "components/_tooltip.variables.less";
-@import "components/_tooltip";
+@import "plugins/angular-ui-bootstrap-reskin/variables/tooltip.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/tooltip";
 
 // Datepicker
-@import "components/_datepicker.variables.less";
-@import "components/_datepicker";
+@import "plugins/angular-ui-bootstrap-reskin/variables/datepicker.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/datepicker";
 
 // Popover
-@import "components/_popover.variables.less";
-@import "components/_popover";
+@import "plugins/angular-ui-bootstrap-reskin/variables/popover.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/popover";
 
 // Modal
-@import "components/_modal.variables.less";
-@import "components/_modal";
+@import "plugins/angular-ui-bootstrap-reskin/variables/modal.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/modal";
 
 // Collapse
-@import "components/_collapse.variables.less";
-@import "components/_collapse";
+@import "plugins/angular-ui-bootstrap-reskin/variables/collapse.variables";
+@import "plugins/angular-ui-bootstrap-reskin/components/collapse";

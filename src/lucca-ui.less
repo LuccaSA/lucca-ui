@@ -1,9 +1,5 @@
 @namespace: .lui.lucca2;
-@{namespace}:extend(@{namespace} .lui.body all) {}
-.lui.lucca:extend(.lui.lucca .lui.body all) {}
 
-.lui.lucca,
-@{namespace} {
 
 	/** ---------------------------------------------------------------------------
 	 * ------ ICON COMPONENT - Comes from the Lucca-icons bower component
@@ -384,4 +380,3 @@
 		@import (optional) "@{themeDir}@{theme}/@{object-type}/@{object-name}.overrides.less";
 		& when (@enabled = true) { @import "@{object-type}/@{object-name}/plugin.less"; }
 	}
-}

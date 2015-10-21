@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    // compress: true,
+                    compress: true,
                     relativeUrls:true,
                     sourceMap:true,
                     sourceMapFileInline:true,
@@ -43,36 +43,18 @@ module.exports = function(grunt) {
 		sass: {
 			development: {
 				options: {
-					// style: 'compressed',
 					sourcemap: 'inline',
+					style: 'compact',
 					loadPath: [
 						'src2',
 						luiConfig.bowerPath,
 						luiConfig.theme.path + '/' + luiConfig.theme.name,
 						'themes/lucca'
-						// // Core directories
-						// 'src2/core/definitions',
-						// 'src2/core/elements',
-						// 'src2/core/elements/inputs',
-						// 'src2/core/utilities',
-						// 'src2/core/variables',
-						// 'src2/plugins/angular-ui-bootstrap-reskin',
-						// 'src2/plugins/angular-ui-bootstrap-reskin/components',
-						// 'src2/plugins/lucca-app-layout',
-						// 'src2/plugins/lucca-app-layout/components',
-						//
-						// // Expected theming directories
-						// 'themes/' + themeName + '/definitions',
-						// 'themes/' + themeName + '/elements',
-						// 'themes/' + themeName + '/utilities',
-						// 'themes/' + themeName + '/variables',
-						// 'themes/' + themeName + '/plugins/angular-ui-bootstrap-reskin',
-						// 'themes/' + themeName + '/plugins/lucca-app-layout'
 					]
 				},
 				files: [
 					{
-						"dist/lucca-ui.min.css": "src2/lucca-ui.dist.scss",
+						"dist/lucca-ui.min.css": "src2/lucca-ui.scss",
 						"demo/demo.min.css": "demo/sass/demo.scss"
 					}
 				]

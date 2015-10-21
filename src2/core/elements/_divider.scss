@@ -1,15 +1,17 @@
-
-.lui.divider {
+.lui_divider_base {
 	width: 100%; box-sizing: border-box;
 	letter-spacing: 0.025em;
 	border-width: 0; // reset
 
 	margin: $lui_default_font_size 0;
+	border-bottom: $divider-weight solid $border-color;
+}
 
-	&:not([class*="top divider"]) {
-		border-bottom: $divider-weight solid $border-color;
-	}
+#{$prefix}.divider {
+	@extend .lui_divider_base;
+
 	&[class*="top divider"] {
+		border-bottom: none;
 		border-top: $divider-weight solid $border-color;
 	}
 
@@ -24,7 +26,7 @@
 		border-style: dotted;
 	}
 }
-.lui.divider.inverted {
+#{$prefix}.divider.inverted {
 	border-color: $border-color-inverted;
 }
 
@@ -32,15 +34,15 @@
 // Heading divider
 // ===================================
 
-h1.lui.divider,
-h2.lui.divider,
-h3.lui.divider,
-h4.lui.divider,
-h5.lui.divider,
-h6.lui.divider {
-	@extend .lui.divider.heading;
+h1#{$prefix}.divider,
+h2#{$prefix}.divider,
+h3#{$prefix}.divider,
+h4#{$prefix}.divider,
+h5#{$prefix}.divider,
+h6#{$prefix}.divider {
+	@extend #{$prefix}.divider.heading;
 }
-.lui.divider.heading {
+#{$prefix}.divider.heading {
 	padding-bottom: 0.5em;
 	margin: 1em 0;
 	&.spaced {
@@ -48,12 +50,12 @@ h6.lui.divider {
 	}
 }
 
-h1.lui.divider.below,
-h2.lui.divider.below,
-h3.lui.divider.below,
-h4.lui.divider.below,
-h5.lui.divider.below,
-h6.lui.divider.below {
+h1#{$prefix}.divider.below,
+h2#{$prefix}.divider.below,
+h3#{$prefix}.divider.below,
+h4#{$prefix}.divider.below,
+h5#{$prefix}.divider.below,
+h6#{$prefix}.divider.below {
 	height: auto;
 	border-top-width: 0;
 	display: table;
@@ -80,19 +82,19 @@ h6.lui.divider.below {
 		background-position: left 1em top 50%;
 	}
 
-	.lui.icon {
+	#{$prefix}.icon {
 		margin: 0.5em;
 	}
 }
 
 
 // Underline style
-.lui.divider h1.underline,
-.lui.divider h2.underline,
-.lui.divider h3.underline,
-.lui.divider h4.underline,
-.lui.divider h5.underline,
-.lui.divider h6.underline {
+#{$prefix}.divider h1.underline,
+#{$prefix}.divider h2.underline,
+#{$prefix}.divider h3.underline,
+#{$prefix}.divider h4.underline,
+#{$prefix}.divider h5.underline,
+#{$prefix}.divider h6.underline {
 	display: inline-block;
 
 	border-bottom: $larger-weight solid $border-color;
@@ -103,8 +105,8 @@ h6.lui.divider.below {
 
 // List divider
 // ===================================
-ul li.lui.divider,
-ol li.lui.divider {
+ul li#{$prefix}.divider,
+ol li#{$prefix}.divider {
 	margin: 0.5em 0;
 	padding: 0.5em 0;
 	font-size: 0.8em;

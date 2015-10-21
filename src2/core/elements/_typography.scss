@@ -1,6 +1,7 @@
 
 // General
 // ===================================
+
 & {
 	font-size: $lui_default_font_size;
 	font-family: $font-family;
@@ -10,6 +11,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 small { font-size: $small-size; }
 
 // Headings
@@ -54,7 +56,7 @@ h6 {
 	font-weight: $h6-weight;
 }
 
-.lui.sub.heading {
+#{$prefix}.sub.heading {
 	letter-spacing: normal;
 	color: lighten($color, 15);
 }
@@ -62,7 +64,7 @@ h6 {
 h1, h2, h3, h4, h5, h6 {
 	// Sub heading
 	// =====
-	.lui.sub.heading {
+	#{$prefix}.sub.heading {
 		display: inline-block;
 		vertical-align: middle;
 		font-size: (0.9 * $lui_default_font_size);
@@ -70,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
 
 	// Icon support
 	// =====
-	> .lui.icon:not(.button) {
+	> #{$prefix}.icon:not(.button) {
 		margin-right: .5em;
 		vertical-align: top;
 		font-size: $icon-in-heading-size;
@@ -86,8 +88,8 @@ h1, h2, h3, h4, h5, h6 {
 // Definition lists
 // ===================================
 
-dl.lui.definition-list {
-	@extend .lui.clear;
+dl#{$prefix}.definition-list {
+	@extend #{$prefix}.clear;
 	dt {
 		float: left;
 		clear: left;
@@ -108,10 +110,10 @@ dl.lui.definition-list {
 // Text alignment
 // ===================================
 
-.lui[class*="center aligned"] { text-align: center; }
-.lui[class*="left aligned"] { text-align: left; }
-.lui[class*="right aligned"] { text-align: right; }
-.lui[class*="justify aligned"] { text-align: justify; }
+#{$prefix}[class*="center aligned"] { text-align: center; }
+#{$prefix}[class*="left aligned"] { text-align: left; }
+#{$prefix}[class*="right aligned"] { text-align: right; }
+#{$prefix}[class*="justify aligned"] { text-align: justify; }
 
 
 // Links
@@ -133,19 +135,19 @@ a {
 // Body copy
 // ===================================
 
-.lui[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
-.lui.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
-.lui.uppercase { text-transform: uppercase; }
+#{$prefix}[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
+#{$prefix}.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
+#{$prefix}.uppercase { text-transform: uppercase; }
 
-.lui.italic {
+#{$prefix}.italic {
 	font-style: italic;
 }
-.lui.bold {
+#{$prefix}.bold {
 	font-style: 600;
 }
 
 
-.lui.typeset {
+#{$prefix}.typeset {
 	h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
 	h1:first-child {
 		margin-top: 0;
@@ -154,6 +156,6 @@ a {
 
 // Menus
 // ====
-.lui.menu .item.divider:not(.header) {
+#{$prefix}.menu .item.divider:not(.header) {
 	color: lighten($color, 25);
 }

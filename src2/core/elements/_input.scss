@@ -1,14 +1,13 @@
 
-// @import "core/elements/input.search";
+@import "core/elements/input.search";
 @import "core/elements/input.switch";
 @import "core/elements/input.checkbox";
 //
-// @import "core/elements/input.timespanpicker";
+@import "core/elements/input.timespanpicker";
 @import "core/elements/input.momentpicker";
 
 @mixin lui_placeholder() {
 	&::-webkit-input-placeholder,
-	&:-moz-placeholder,
 	&::-moz-placeholder,
 	&:-ms-input-placeholder {
 		@content;
@@ -27,7 +26,7 @@
 	@include flex-align-items(center);
 
 	// IE fix
-	.ie9 & { overflow: hidden; }
+	@include lui_target_IE9 { overflow: hidden; }
 }
 .lui_input_field_base {
 	width: 100%;
@@ -45,18 +44,7 @@
 		font-style: $placeholder-style;
 	}
 }
-
-.lui.input {
-	@extend .lui_input_holder_base;
-	> input,
-	> textarea,
-	> select {
-		@extend .lui_input_field_base;
-	}
-}
-
-// Text inputs
-.lui.input > input {
+.lui_input_text_field {
 	padding: 0 $h-padding;
 	line-height: (1em + 2 * $v-padding);
 	height: 1 + 2 * $v-padding; // For any version of IE...
@@ -69,29 +57,43 @@
 	box-sizing: border-box;
 	width: 100%;
 
-	.ie9 & { width: auto; }
+	@include lui_target_IE9 { width: auto; }
 }
-.lui.input > input, .lui.input > textarea { cursor: text; }
-.lui.input > input[type="checkbox"] { cursor: pointer; }
-.lui.input > select, .lui.input > textarea { padding: $v-padding $h-padding; }
+
+#{$prefix}.input {
+	@extend .lui_input_holder_base;
+	> input,
+	> textarea,
+	> select {
+		@extend .lui_input_field_base;
+	}
+}
+
+// Text inputs
+#{$prefix}.input > input {
+	@extend .lui_input_text_field;
+}
+#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
+#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
+#{$prefix}.input > select, #{$prefix}.input > textarea { padding: $v-padding $h-padding; }
 
 // Fitting size
-.lui.fitting.input { width: 100%; }
+#{$prefix}.fitting.input { width: 100%; }
 
 // Inputs length (horizontal sizing)
-.lui.input.short > input, .lui.field.short > input { min-width: 0; width: 8em !important; }
-.lui.input.medium > input, .lui.field.medium > input { min-width: 0; width: 15em !important; }
-.lui.input.long > input, .lui.field.long > input { min-width: 0; width: 20em !important; }
-.lui.input.x-long > input, .lui.field.x-long > input { min-width: 0; width: 25em !important; }
+#{$prefix}.input.short > input, #{$prefix}.field.short > input { min-width: 0; width: 8em !important; }
+#{$prefix}.input.medium > input, #{$prefix}.field.medium > input { min-width: 0; width: 15em !important; }
+#{$prefix}.input.long > input, #{$prefix}.field.long > input { min-width: 0; width: 20em !important; }
+#{$prefix}.input.x-long > input, #{$prefix}.field.x-long > input { min-width: 0; width: 25em !important; }
 
 
 // Icon
 // ===================================
 
-.lui.input.icon {
+#{$prefix}.input.icon {
 	> input { padding-left: 2.5em; }
 
-	.lui.icon {
+	#{$prefix}.icon {
 		position: absolute;
 		z-index: 2;
 		top: 0; bottom: 0;
@@ -111,7 +113,7 @@
 			padding-left: 0;
 			padding-right: 2.5em;
 		}
-		.lui.icon {
+		#{$prefix}.icon {
 			left: auto; right: 0;
 			margin-right: 0;
 			margin-left: 0.5em;
@@ -123,8 +125,8 @@
 // Addon
 // ===================================
 
-.lui.input[class*="with addon"],
-.lui.input[class*="with addons"] {
+#{$prefix}.input[class*="with addon"],
+#{$prefix}.input[class*="with addons"] {
 	> .addon {
 		display: inline-block;
 		position: relative; z-index: 2;
@@ -137,15 +139,15 @@
 		box-sizing: border-box;
 	}
 
-	&:not(.addons) > .lui.addon:not([class*="right addon"]),
-	&.addons > .lui.addon:first-child {
+	&:not(.addons) > #{$prefix}.addon:not([class*="right addon"]),
+	&.addons > #{$prefix}.addon:first-child {
 		border-right: none;
 		border-radius: $border-radius 0 0 $border-radius;
 		& + input { border-radius: 0 $border-radius $border-radius 0; }
 	}
 
-	&:not(.addons) > .lui[class*="right addon"],
-	&.addons .lui.addon:last-child {
+	&:not(.addons) > #{$prefix}[class*="right addon"],
+	&.addons #{$prefix}.addon:last-child {
 		border-radius: 0 $border-radius $border-radius 0;
 		margin-left: -$border-radius;
 	}
@@ -155,7 +157,7 @@
 	}
 
 	// Old browsers
-	.ie9 & {
+	@include lui_target_IE9 {
 		// display: inline-table;
 		// > input, > .addon { display: table-cell; }
 	}
@@ -173,9 +175,9 @@
 		@if map-get($scheme, lod) { text-shadow: 0 1px 1px darken(map-get($scheme, color), 15); }
 	}
 }
-.lui.input {
+#{$prefix}.input {
 	@each $name, $scheme in $lui_colors {
-		&.#{$name} {
+		&.#{map-get($scheme, class)} {
 			@include lui_input_coloring($scheme);
 		}
 	}
@@ -185,31 +187,27 @@
 // Form and fields
 // ===================================
 
-.lui.field { @extend .lui.input; }
+// #{$prefix}.input { // Automatic inputs styling
+// 	margin: $field-v-margin 0;
+// 	&:not(.inline) {
+// 		@include flex-direction(column);
+// 		@include flex-align-items(flex-start);
+//
+// 		> label, > input { display: block; }
+// 	}
+//
+// 	> input[type="checkbox"] { width: auto; }
+// 	input[type="checkbox"] + label { margin-left: 0.5em; }
+//
+// 	> label { font-weight: $field-label-font-weight; }
+// }
 
-.lui.form {
-
-	.lui.field { // Automatic inputs styling
-		margin: $field-v-margin 0;
-		&:not(.inline) {
-			@include flex-direction(column);
-			@include flex-align-items(flex-start);
-
-			> label, > input { display: block; }
-		}
-
-		> input[type="checkbox"] { width: auto; }
-		input[type="checkbox"] + label { margin-left: 0.5em; }
-
-		> label { font-weight: $field-label-font-weight; }
-	}
-}
 
 
 // Sizing support
 // ===================================
 
-.lui.input {
+#{$prefix}.input {
 	@include lui_supports_sizing();
 }
 
@@ -220,12 +218,11 @@
 .lui_invalid_input_base {
 	color: $invalid-color;
 	border-color: $invalid-color;
-	@include lui_placeholder() {
-		color: lighten($invalid-color, 15);
-		font-style: italic;
-	};
 }
-.lui.input.invalid,
-.lui.input.ng-invalid {
-	@extend .lui_invalid_input_base;
+#{$prefix}.input.invalid,
+#{$prefix}.input.ng-invalid {
+	&,
+	> input,
+	> select,
+	> textarea { @extend .lui_invalid_input_base; }
 }

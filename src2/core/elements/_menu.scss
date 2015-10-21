@@ -1,5 +1,5 @@
 
-.lui.menu {
+#{$prefix}.menu {
 
 	position: relative;
 	@include display-flex();
@@ -12,20 +12,19 @@
 	&:last-child { margin-bottom: 0; }
 
 	// resets
-	@extend .lui.clear;
-	ul { @extend ul.lui.unstyled; }
-	a { @extend a.lui.unstyled; }
+	@extend #{$prefix}.clear;
+	ul { @extend ul#{$prefix}.unstyled; }
+	a { @extend a#{$prefix}.unstyled; }
 }
 
 // Borders
-// ====
-.lui.menu.bordered {
+#{$prefix}.menu.bordered {
 	border: $border-width solid $border-color;
 	&.inverted {
 		border: $border-width solid $border-color-inverted;
 	}
 }
-.lui.menu.bordered:not(.vertical) {
+#{$prefix}.menu.bordered:not(.vertical) {
 	> .item, > .menu {
 		border-right: $border-width solid $border-color;
 		@include flex-align-self(stretch);
@@ -40,7 +39,7 @@
 	> .menu[class*="top dividing"] { margin-top: -1px; }
 	> .menu:not([class*="top dividing"]) { margin-bottom: -1px; }
 }
-.lui.menu.vertical.bordered {
+#{$prefix}.menu.vertical.bordered {
 	> .item, > .menu {
 		border-bottom: $border-width solid $border-color;
 	}
@@ -56,32 +55,28 @@
 }
 
 // Sub menu
-// ====
-.lui.menu:not(.dividing) > .menu:not(.dividing) {
+#{$prefix}.menu:not(.dividing) > .menu:not(.dividing) {
 	border-width: 0;
 	margin: 0;
 	padding: $horizontal-item-y-padding $horizontal-item-x-padding;
 	margin: $horizontal-item-y-margin $horizontal-item-x-margin;
 }
-.lui.menu:not(.vertical) > .menu {
+#{$prefix}.menu:not(.vertical) > .menu {
 	@include display-flex();
 }
 
 
-/**
- * Menu item
- * --------------------------------------------------------------------------- */
+// Items - groups (horizontal menus only)
+// ===================================
 
 // Common
-// ====
-.lui.menu > .item {
+#{$prefix}.menu > .item {
 	// Resets
 	position: relative;
 	line-height: 1;
-	@extend .lui.clear;
+	@extend #{$prefix}.clear;
 
 	// Label support
-	// ====
 	> .label {
 		float: right;
 		margin-right: 0;
@@ -89,43 +84,39 @@
 	}
 }
 // Old browsers
-.lui.menu:not(.vertical) > .lui.item:not([class*="right item"]),
-.lui.menu:not(.vertical) > .lui.menu:not([class*="right menu"]) { float: left; }
-.lui.menu:not(.vertical) > .lui.item[class*="right item"],
-.lui.menu:not(.vertical) > .lui.menu[class*="right menu"] { float: right; }
+#{$prefix}.menu:not(.vertical) > #{$prefix}.item:not([class*="right item"]),
+#{$prefix}.menu:not(.vertical) > #{$prefix}.menu:not([class*="right menu"]) { float: left; }
+#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right item"],
+#{$prefix}.menu:not(.vertical) > #{$prefix}.menu[class*="right menu"] { float: right; }
 
-.lui.menu > a.item {
+#{$prefix}.menu > a.item {
 	cursor: pointer;
 }
-.lui.menu > .item.disabled,
-.lui.menu > .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
+#{$prefix}.menu > .item.disabled,
+#{$prefix}.menu > .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
 
 // Active item
-// ====
-.lui.menu > .item.active {
+#{$prefix}.menu > .item.active {
 	font-weight: 600;
 }
 
 // Divider item
-// ====
-.lui.menu:not(.vertical) > .item.divider:not(.header) {
+#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
 	border: none; padding-right: 0; margin-right: $horizontal-item-x-padding + $horizontal-item-x-margin;
 	border-right: 1px solid $divider-color;
 }
-.lui.menu.vertical > .item.divider:not(.header) {
+#{$prefix}.menu.vertical > .item.divider:not(.header) {
 	padding-top: 0 !important;
 	padding-bottom: 0 !important;
 }
 
 // Header item
-// ====
-.lui.menu > .item.header {
+#{$prefix}.menu > .item.header {
 	font-size: $header-size;
 }
 
 // Horizontal menu item
-// ====
-.lui.menu:not(.vertical) > .item {
+#{$prefix}.menu:not(.vertical) > .item {
 	// Old browsers
 	float: left;
 
@@ -137,8 +128,7 @@
 }
 
 // Vertical menu item
-// ====
-.lui.menu.vertical > .item {
+#{$prefix}.menu.vertical > .item {
 	display: block;
 
 	 padding: $vertical-item-y-padding $vertical-item-x-padding;
@@ -146,42 +136,38 @@
 }
 
 // Centered item
-.lui.menu > .centered.item,
-.lui.menu > .centered.menu {
+#{$prefix}.menu > .centered.item,
+#{$prefix}.menu > .centered.menu {
 	margin-left: auto !important; margin-right: auto !important;
 	text-align: center;
 }
 
 
 // Element support
-// ====
-.lui.item .button,
-.lui.item.button,
-.lui.item .buttons,
-.lui.item.buttons,
-.lui.item .input,
-.lui.item.input {
+#{$prefix}.item .button,
+#{$prefix}.item.button,
+#{$prefix}.item .buttons,
+#{$prefix}.item.buttons,
+#{$prefix}.item .input,
+#{$prefix}.item.input {
 	@include flex-align-self(center);
 }
 
 
-/**
- * Items - groups (horizontal menus only)
- * --------------------------------------------------------------------------- */
+// Items - groups (horizontal menus only)
+// ===================================
 
 // Horizontal left floated
-// ====
-.lui.menu:not(.vertical) > [class*="left item"],
-.lui.menu:not(.vertical) > [class*="left menu"] {
+#{$prefix}.menu:not(.vertical) > [class*="left item"],
+#{$prefix}.menu:not(.vertical) > [class*="left menu"] {
 	float: left; // old browsers...
 	@include display-flex();
 	@include flex-wrap(wrap);
 	margin-right: auto;
 }
 // Horizontal right floated
-// ====
-.lui.menu:not(.vertical) > [class*="right item"],
-.lui.menu:not(.vertical) > [class*="right menu"] {
+#{$prefix}.menu:not(.vertical) > [class*="right item"],
+#{$prefix}.menu:not(.vertical) > [class*="right menu"] {
 	float: right; // old browsers...
 	@include display-flex();
 	@include flex-wrap(wrap);
@@ -189,21 +175,18 @@
 	margin-left: auto !important;
 }
 // vertical
-// ====
-.lui.menu.vertical > .menu:not(.horizontal),
-.lui.menu.vertical > .item {
+#{$prefix}.menu.vertical > .menu:not(.horizontal),
+#{$prefix}.menu.vertical > .item {
 	@include flex-direction(column);
 }
 // Vertical bottom "floated"
-// ====
-.lui.menu.vertical > .bottom.item,
-.lui.menu.vertical > .bottom.menu {
+#{$prefix}.menu.vertical > .bottom.item,
+#{$prefix}.menu.vertical > .bottom.menu {
 	margin-top: auto !important;
 }
 // Borders
-// ====
-.lui.menu.bordered,
-.lui.menu.bordered {
+#{$prefix}.menu.bordered,
+#{$prefix}.menu.bordered {
 	&.inverted:not(.vertical) {
 		> [class*="left item"], > [class*="left menu"] {
 			border-right: $border-width solid $border-color-inverted;
@@ -221,28 +204,25 @@
 		}
 	}
 }
-.lui.menu.vertical > [class*="left item"] + [class*="right item"] {
+#{$prefix}.menu.vertical > [class*="left item"] + [class*="right item"] {
 	border-top: none;
 }
 
 
-/**
- * Menu orientation
- * --------------------------------------------------------------------------- */
+// menu orientation
+// ===================================
 
 // Menu orientation - Horizontal (default)
-// ====
-.lui.menu:not(.vertical) {
+#{$prefix}.menu:not(.vertical) {
 	@include flex-direction(row);
 }
-.lui.menu.v-aligned,
-.lui.menu[class*="vertically aligned"] {
+#{$prefix}.menu.v-aligned,
+#{$prefix}.menu[class*="vertically aligned"] {
 	@include flex-align-items(center);
 }
 
 // Menu orientation - Vertical
-// ====
-.lui.menu.vertical {
+#{$prefix}.menu.vertical {
 	@include flex-direction(column);
 
 	> .menu > .item {
@@ -251,13 +231,11 @@
 }
 
 
-/**
- * Menu styles
- * --------------------------------------------------------------------------- */
+// Menu styles
+// ===================================
 
  // Dividing - Common
- // ====
-.lui.menu.dividing {
+#{$prefix}.menu.dividing {
 	border-color: $divider-color;
 
 	> .item {
@@ -285,8 +263,7 @@
 	}
 }
 // Dividing - Horizontal
-// ====
-.lui.menu.dividing:not(.vertical) {
+#{$prefix}.menu.dividing:not(.vertical) {
 	> a.item:after,
 	> a.item:before {
 		left: 0; right: 0;
@@ -295,7 +272,6 @@
 	}
 
 	// Dividing is down
-	// ====
 	&:not([class*="top dividing"]),
 	&[class*="bottom dividing"] {
 		border-bottom-width: $divider-width;
@@ -308,7 +284,6 @@
 	}
 
 	// Dividing is up
-	// ====
 	&[class*="top dividing"] {
 		border-top-width: $divider-width;
 		border-top-style: solid;
@@ -321,8 +296,7 @@
 }
 
 // Dividing - Vertical
-// ====
-.lui.menu.dividing.vertical {
+#{$prefix}.menu.dividing.vertical {
 	> .item {
 		margin: $vertical-item-y-margin $vertical-item-x-margin;
 		padding: $vertical-item-y-padding $vertical-item-x-padding;
@@ -336,7 +310,6 @@
 	}
 
 	// Divider is left
-	// ====
 	&:not([class*="right dividing"]),
 	&[class*="left dividing"] {
 		border-left-width: $divider-width;
@@ -349,7 +322,6 @@
 	}
 
 	// Divider is right
-	// ====
 	&[class*="right dividing"] {
 		border-right-width: $divider-width;
 		border-right-style: solid;
@@ -362,16 +334,15 @@
 }
 
 // Dividing menus inception
-.lui[class*="top dividing"].menu:not(.vertical) > .lui[class*="top dividing"].menu:not(.vertical) { border-top: none; }
-.lui.dividing.menu:not([class*="top dividing"]):not(.vertical) > .lui.dividing.menu:not([class*="top dividing"]):not(.vertical) { border-bottom: none; }
+#{$prefix}[class*="top dividing"].menu:not(.vertical) > #{$prefix}[class*="top dividing"].menu:not(.vertical) { border-top: none; }
+#{$prefix}.dividing.menu:not([class*="top dividing"]):not(.vertical) > #{$prefix}.dividing.menu:not([class*="top dividing"]):not(.vertical) { border-bottom: none; }
 .lui:not([class*="right dividing"]).menu.vertical > .lui:not([class*="left dividing"]).menu.vertical { border-left: none; }
-.lui[class*="right dividing"].menu.vertical > .lui[class*="right dividing"].menu.vertical { border-right: none; }
+#{$prefix}[class*="right dividing"].menu.vertical > #{$prefix}[class*="right dividing"].menu.vertical { border-right: none; }
 
 
 
 // Tabbed
-// ====
-.lui.menu.tabbed {
+#{$prefix}.menu.tabbed {
 	background: $tabbed-bg;
 	padding: $tabbed-padding;
 	border: 1px solid $tabbed-border-color;
@@ -409,8 +380,7 @@
 }
 
 // Pills
-// ====
-.lui.menu.pills {
+#{$prefix}.menu.pills {
 	> .item {
 		border-right: none !important;
 	}
@@ -423,16 +393,15 @@
 
 	&[class*="squared pills"] > a.item { border-radius: 0; }
 }
-.lui.menu.pills:not(.vertical) > a.item {
+#{$prefix}.menu.pills:not(.vertical) > a.item {
 	padding: ($horizontal-item-y-padding + $horizontal-item-y-margin) ($horizontal-item-x-padding + $horizontal-item-x-margin);
 }
-.lui.menu.pills.vertical > a.item {
+#{$prefix}.menu.pills.vertical > a.item {
 	padding: ($vertical-item-y-padding + $vertical-item-y-margin) ($vertical-item-x-padding + $vertical-item-x-margin);
 }
 
 // Alignments
-// ====
-.lui.menu.justified:not(.vertical) {
+#{$prefix}.menu.justified:not(.vertical) {
 	@include flex-justify-content(space-between);
 	> .item {
 		@include flex(1);
@@ -465,12 +434,12 @@
 		border-top-color: map-get($scheme, color);
 	}
 }
-.lui.menu {
+#{$prefix}.menu {
 	// Default coloring scheme
 	@include lui_menu_coloring($default-coloring);
 	// Coloring support
 	@each $name, $scheme in $lui_colors {
-		&.#{$name} {
+		&.#{map-get($scheme, class)} {
 			@include lui_menu_coloring($scheme);
 		}
 	}
@@ -486,7 +455,7 @@
 
 	@at-root {
 		@media (min-width: $breakAt) {
-			#{$namespace} .lui.menu.container {
+			#{$namespace} #{$prefix}.menu.container {
 				padding-left: $spacing;
 				padding-right: $spacing;
 			}
@@ -494,7 +463,7 @@
 	}
 }
 
-.lui.menu.container {
+#{$prefix}.menu.container {
 	> .item:first-child {
 		padding-left: 0;
 		margin-left: 0;

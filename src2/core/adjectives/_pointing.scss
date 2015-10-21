@@ -2,7 +2,7 @@
 // Pointing arrows
 // ===================================
 
-.lui.pointing:after {
+#{$prefix}.pointing:after {
 	content: '';
 	display: block;
 	width: 0;
@@ -10,25 +10,25 @@
 	border-style: solid;
 	border-color: transparent;
 }
-.lui[class*="top pointing"]:after,
-.lui[class*="bottom pointing"]:after {
+#{$prefix}[class*="top pointing"]:after,
+#{$prefix}[class*="bottom pointing"]:after {
 	border-left-width: $triangle-width;
 	border-right-width: $triangle-width;
 }
-.lui[class*="top pointing"]:after {
+#{$prefix}[class*="top pointing"]:after {
 	border-bottom: $triangle-width solid $triangle-color;
 }
-.lui[class*="bottom pointing"]:after {
+#{$prefix}[class*="bottom pointing"]:after {
 	border-top: $triangle-width solid $triangle-color;
 }
-.lui[class*="left pointing"]:after,
-.lui[class*="right pointing"]:after {
+#{$prefix}[class*="left pointing"]:after,
+#{$prefix}[class*="right pointing"]:after {
 	border-top-width: $triangle-width;
 	border-bottom-width: $triangle-width;
 }
-.lui[class*="left pointing"]:after {
+#{$prefix}[class*="left pointing"]:after {
 	border-right: $triangle-width solid $triangle-color;
 }
-.lui[class*="right pointing"]:after {
+#{$prefix}[class*="right pointing"]:after {
 	border-left: $triangle-width solid $triangle-color;
 }
