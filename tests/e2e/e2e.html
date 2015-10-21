@@ -77,7 +77,18 @@
 		</div>
 	</article>
 
-	<article id="luidUserPicker">
+	<article id="luifNumber">
+		<h2 class="lui divider below">luifNumber</h2>
+		<div ng-controller="luifNumberCtrl" class="lui block round">
+			<div class="lui input"><input id="luifNumber_myValue_input" ng-model="myValue" type="text"></div>
+			<div class="lui input"><input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number"></div>
+			<div id="luifNumber_myValue_value_1" ng-bind-html="myValue | luifNumber : myPrecision "></div>
+			<div id="luifNumber_myValue_value_2" ng-bind-html="myValue | luifNumber : myPrecision : 0"></div>
+			<div id="luifNumber_myValue_value_3" ng-bind-html="myValue | luifNumber : myPrecision : '-'"></div>
+		</div>
+	</article>
+
+	<article id="luid-user-picker">
 		<h2 class="lui divider below">luidUserPicker</h2>
 		<div ng-controller="luidUserPickerCtrl" class="lui block round">
 			<luid-user-picker id="luidUserPicker_myUser_select" ng-model="myUser.selected"></luid-user-picker>

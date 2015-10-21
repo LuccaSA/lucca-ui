@@ -1,21 +1,23 @@
 describe('luidUserPicker', function() {
 	var myUserDiv;
 	var myUserPicker;
-
-	var findApi = /api\/v3\/users\/find\?.*/;
-
+	var myUserPickerInput;
 
 	beforeEach(function() {
 		myUserPicker = element(by.id("luidUserPicker_myUser_select"));
+		myUserPickerInput = myUserPicker.all(by.tagName("input")).first();
 		myUserDiv = element(by.id("luidUserPicker_myUser_value"));
 	});
 
-	it("should call the api and initialise the list of users", function() {
-		//$httpBackend.expectGET(findApi).respond(200, RESPONSE_0_users);
+	it("should display init input value", function() {
+		myUserPicker.getText().then(function(text){
+			expect(text).toBe('Lucien Bertin');
+		});
 	});
-	it("should call the api and display users whose name begins with", function() {
-		myUserPicker.sendKeys('be');
+	it("should display a list of 5 users and an overflow message", function() {
+		myUserPicker.click();
 	});
-
-	var RESPONSE_0_users = {header:{}, data:{items:[]}};
+	it("should update the list of users when updating input value", function() {
+		myUserPickerInput.sendKeys("ber");
+	});
 });
