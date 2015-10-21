@@ -13,4 +13,10 @@
 	.controller("luifDefaultCodeCtrl",['$scope', function($scope){
 		$scope.myValue = "stuff";
 	}]);
+
+	angular.module('e2eApp')
+	.controller("luifNumberCtrl",['$scope', function($scope){
+		$scope.myValue = 3.141592;
+		$scope.myPrecision = 2;
+	}]);
 })();
