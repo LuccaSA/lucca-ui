@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 			development: {
 				options: {
 					sourcemap: 'inline',
-					style: 'compact',
+					style: 'compressed', // compressed, compact, nested, expanded
 					loadPath: [
 						'src2',
 						luiConfig.bowerPath,
@@ -54,7 +54,8 @@ module.exports = function(grunt) {
 				},
 				files: [
 					{
-						"dist/lucca-ui.min.css": "src2/lucca-ui.scss",
+						"dist/lucca-ui.namespaced.min.css": "src2/lucca-ui.namespaced.scss",
+						"dist/lucca-ui.global.min.css": "src2/lucca-ui.global.scss",
 						"demo/demo.min.css": "demo/sass/demo.scss"
 					}
 				]

@@ -2,7 +2,7 @@
 // General
 // ===================================
 
-& {
+@mixin lui_body_typeset {
 	font-size: $lui_default_font_size;
 	font-family: $font-family;
 	color: $color;
@@ -10,6 +10,16 @@
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+@if ($namespace) {
+	@at-root #{$namespace} {
+		@include lui_body_typeset;
+	}
+} @else {
+	body {
+		@include lui_body_typeset;
+	}
 }
 
 small { font-size: $small-size; }

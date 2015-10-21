@@ -1,12 +1,11 @@
 $prefix: '' !default;
 $namespace: "#{$prefix}.app" !default;
-$luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
 
 #{$namespace} {
+
 	// ===================================
 	// ============ GLOBALS ==============
 	// ===================================
-
 	@import "globals/sizes";
 	@import "globals/colors";
 	@import "globals/breakpoints";
@@ -15,7 +14,6 @@ $luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
 	// ===================================
 	// =========== UTILITIES =============
 	// ===================================
-
 	// IE9 support mixin
 	@import "core/utilities/ie9-support";
 	// Resets
@@ -33,19 +31,21 @@ $luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
 	// Loader
 	@import "core/utilities/loader";
 
-
 	// Lucca icons
 	// ===================================
 
+	$luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
+	$luccaIcons_font-family: if($namespace, "#{$namespace} - lucca-icons", 'lucca-icons');
+
 	@import "elements/icon.variables";
 	@import "lucca-icons/src/lucca-icons";
+
+	.lui.icon { @include lui_supports_sizing(); };
 
 	// We define a mixin alias here for better support
 	@mixin lui_make_icon($name, $position: left) {
 		@include luccaIcons_make($name, $position);
 	}
-	.lui.icon { @include lui_supports_sizing(); };
-
 
 	// ===================================
 	// =========== ADJECTIVES ============
