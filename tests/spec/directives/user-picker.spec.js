@@ -402,23 +402,19 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with homonyms and custom properties", function(){
 		beforeEach(function(){
-			// TODO_ANAIS - change template
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="birthDate,manager.name,mail"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
 
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
 			isolateScope.find();
-			$httpBackend.flush();
 		});
 		it('should fetch additional info for these homonyms via the right api', function(){
-			// TODO_ANAIS - update regex for the custom properties you ask
-			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,manager.name,mail/i).respond(RESPONSE_2_homonyms_details_0_1);
 
-			// expect($httpBackend.flush).not.toThrow();
+			expect($httpBackend.flush).not.toThrow();
 		});
-		// Don't need to test anything else, it is handled by the same cogs as standard homonyms treatment
 	});
 
 	// TODO
@@ -535,4 +531,3 @@ describe('luidUserPicker', function(){
 	var RESPONSE_ERROR_COUNT = {Message:"error_count"};
 	var RESPONSE_ERROR_DETAILS = {Message:"error_details"};
 });
-
