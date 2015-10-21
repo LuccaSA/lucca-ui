@@ -1,0 +1,7 @@
+luid-timespan {
+	@extend .lui.input;
+
+	> input {
+		width: @timespan-width;
+	}
+}

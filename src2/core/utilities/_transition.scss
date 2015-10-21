@@ -14,10 +14,10 @@ $lui_defaults-transition_delay: 0.3s !default;
 	@include lui_transition_easing();
 }
 @mixin lui_transition_duration($duration: $lui_defaults-transition_duration) {
-	-moz-transition-property:    $duration;
-	-o-transition-property:      $duration;
-	-webkit-transition-property: $duration;
-	transition-property:         $duration;
+	-moz-transition-duration:    $duration;
+	-o-transition-duration:      $duration;
+	-webkit-transition-duration: $duration;
+	transition-duration:         $duration;
 }
 @mixin lui_transition_easing($timing: $lui_defaults-transition_easing) {
 	-moz-transition-timing-function:    $timing;

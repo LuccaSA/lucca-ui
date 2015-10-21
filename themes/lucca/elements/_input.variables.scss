@@ -1,0 +1,45 @@
+$bg: #FFF;
+$border-radius: 3px;
+$border-color: lui_get_colorscheme(light, color);
+
+$color: lui_get_colorscheme(grey, color);
+$v-padding: 0.66em;
+$h-padding: 1em;
+$placeholder-color: rgba(0, 0, 0, 0.5);
+$placeholder-style: italic;
+$focus-border-color: darken($border-color, 10);
+$invalid-color: lui_get_colorscheme(red, color);
+$shadow: 0 2px 2px 0 rgba(50, 50, 50, 0.2);
+
+$field-v-margin: 0.5em;
+$field-label-font-weight: 600;
+
+// Checkbox specifics
+// =====
+$checkbox-color: #FFC900;
+$checkbox-size: 1.5em;
+
+// Switch specifics
+// =====
+$switch-width: 4.5em;
+$switch-height: 2.25em;
+$switch-bg: lui_get_colorscheme(grey, color);
+$switch-color: darken($switch-bg, 15);
+$switch-bg-active: lui_get_colorscheme(primary, color);
+$switch-color-active: darken($switch-bg-active, 15);
+$switch-grab-lines-color: lui_get_colorscheme(light, color);
+
+// UI select specifics
+// =====
+$ui-select-min-width: 15em;
+$ui-select-max-height: 15em;
+$ui-select-thumb-size: 1.5em;
+$ui-select-multiple-close-size: 1.5em;
+
+// Timespanpicker specifics
+// =====
+$timespan-width: 5em;
+
+// Momentpicker specifics
+// =====
+$momentpicker-input-width: 2.2em;
