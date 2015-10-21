@@ -400,26 +400,26 @@ describe('luidUserPicker', function(){
 	** HOMONYMS WITH     **
 	** CUSTOM PROPERTIES **
 	**********************/
-	// describe("with homonyms and custom properties", function(){
-	// 	beforeEach(function(){
-	// 		// TODO_ANAIS - change template
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	describe("with homonyms and custom properties", function(){
+		beforeEach(function(){
+			// TODO_ANAIS - change template
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	it('should fetch additional info for these homonyms via the right api', function(){
-	// 		// TODO_ANAIS - update regex for the custom properties you ask
-	// 		// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it('should fetch additional info for these homonyms via the right api', function(){
+			// TODO_ANAIS - update regex for the custom properties you ask
+			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
 
-	// 		// expect($httpBackend.flush).not.toThrow();
-	// 	});
-	// 	// Don't need to test anything else, it is handled by the same cogs as standard homonyms treatment
-	// });
+			// expect($httpBackend.flush).not.toThrow();
+		});
+		// Don't need to test anything else, it is handled by the same cogs as standard homonyms treatment
+	});
 
 	// TODO
 	/**********************
