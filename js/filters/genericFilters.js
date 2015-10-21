@@ -36,9 +36,9 @@
 		return function(_input, _precision, _placeholder) {
 			var placeholder = _placeholder === undefined ? '' : _placeholder;
 			// alert(_input + " " + (!!_input.isNaN && _input.isNaN()));
-			var input = _input === undefined || _input === null || _input != _input ? placeholder : _input; // the last check is to check if _input is NaN
+			var input = _input === undefined || _input === null || _input != _input || _input === "" ? placeholder : _input; // the last check is to check if _input is NaN
 			var separator = $filter("number")(1.1,1)[1];
-			var precision = _precision === undefined ? 2 : _precision;
+			var precision = _precision === undefined || _precision === null || _precision != _precision ? 2 : _precision;
 
 			var text = $filter("number")(input, precision);
 			var decimalPart = (text || $filter("number")(0, precision)).split(separator)[1];
