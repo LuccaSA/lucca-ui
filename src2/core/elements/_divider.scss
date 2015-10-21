@@ -1,4 +1,4 @@
-.lui_divider_base {
+%lui_divider_base {
 	width: 100%; box-sizing: border-box;
 	letter-spacing: 0.025em;
 	border-width: 0; // reset
@@ -8,7 +8,7 @@
 }
 
 #{$prefix}.divider {
-	@extend .lui_divider_base;
+	@extend %lui_divider_base;
 
 	&[class*="top divider"] {
 		border-bottom: none;
@@ -40,9 +40,6 @@ h3#{$prefix}.divider,
 h4#{$prefix}.divider,
 h5#{$prefix}.divider,
 h6#{$prefix}.divider {
-	@extend #{$prefix}.divider.heading;
-}
-#{$prefix}.divider.heading {
 	padding-bottom: 0.5em;
 	margin: 1em 0;
 	&.spaced {

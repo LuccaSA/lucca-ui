@@ -1,6 +1,6 @@
 
 #{$prefix}.checkbox {
-	@extend .lui_input_holder_base;
+	@extend %lui_input_holder_base;
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;

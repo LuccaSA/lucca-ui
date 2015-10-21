@@ -1,7 +1,5 @@
 
-#{$prefix}.switch {
-	@extend .lui_input_holder_base;
-
+#{$prefix}.switch.input {
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;

@@ -1,9 +1,12 @@
-
-#{$prefix}.overlay {
+%lui_overlay_base {
 	position: fixed;
 	top: 0; left: 0;
 	height: 100%;
 	width: 100%;
 	z-index: $z-index;
 	background-color: $bg;
+}
+
+#{$prefix}.overlay {
+	@extend %lui_overlay_base;
 }

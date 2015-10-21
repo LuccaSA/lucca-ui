@@ -22,14 +22,14 @@ button#{$prefix}.unstyled {
 	font-weight: normal;
 	background-color: transparent;
 	border-radius: 0;
-	@extend .lui_user_select_none;
+	@extend %lui_user_select_none;
 	&:active, &:focus {	outline: none; outline: 0; }
 }
 
 
 // Helpers
 // ====
-.lui_user_select_none {
+%lui_user_select_none {
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;

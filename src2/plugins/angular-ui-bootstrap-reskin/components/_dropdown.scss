@@ -1,4 +1,4 @@
-.lui_nguibs_dropdown {
+%lui_nguibs_dropdown {
 	position: relative;
 	display: inline-block;
 	overflow: visible !important; // IE fix
@@ -41,7 +41,7 @@
 	}
 
 	// Dividers
-	.divider { 	@extend .lui_divider_base; margin: 0.5em 0; }
+	.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
 	.dropdown-header {
 		padding: 0.5em 1em;
 		font-size: 1.1em;
@@ -77,7 +77,7 @@
 }
 
 #{$prefix}.nguibs-dropdown {
-	@extend .lui_nguibs_dropdown;
+	@extend %lui_nguibs_dropdown;
 
 	&:not(.buttons) > #{$prefix}.button { margin: 0; }
 

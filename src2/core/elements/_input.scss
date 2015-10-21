@@ -18,7 +18,7 @@
 // General properties
 // ===================================
 
-.lui_input_holder_base {
+%lui_input_holder_base {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
@@ -28,7 +28,7 @@
 	// IE fix
 	@include lui_target_IE9 { overflow: hidden; }
 }
-.lui_input_field_base {
+%lui_input_field_base {
 	width: 100%;
 	border-radius: $border-radius;
 	border: 1px solid $border-color;
@@ -44,7 +44,7 @@
 		font-style: $placeholder-style;
 	}
 }
-.lui_input_text_field {
+%lui_input_text_field {
 	padding: 0 $h-padding;
 	line-height: (1em + 2 * $v-padding);
 	height: 1 + 2 * $v-padding; // For any version of IE...
@@ -61,17 +61,17 @@
 }
 
 #{$prefix}.input {
-	@extend .lui_input_holder_base;
+	@extend %lui_input_holder_base;
 	> input,
 	> textarea,
 	> select {
-		@extend .lui_input_field_base;
+		@extend %lui_input_field_base;
 	}
 }
 
 // Text inputs
 #{$prefix}.input > input {
-	@extend .lui_input_text_field;
+	@extend %lui_input_text_field;
 }
 #{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
 #{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
@@ -215,7 +215,7 @@
 // Validation
 // ===================================
 
-.lui_invalid_input_base {
+%lui_invalid_input_base {
 	color: $invalid-color;
 	border-color: $invalid-color;
 }
@@ -224,5 +224,5 @@
 	&,
 	> input,
 	> select,
-	> textarea { @extend .lui_invalid_input_base; }
+	> textarea { @extend %lui_invalid_input_base; }
 }

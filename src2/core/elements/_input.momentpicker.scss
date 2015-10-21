@@ -2,10 +2,10 @@ luid-moment {
 	max-width: 5.25em;
 	overflow: visible !important; // Buttons
 
-	@extend .lui_input_holder_base;
+	@extend %lui_input_holder_base;
 
 	> .luid-moment {
-		@extend .lui_input_field_base;
+		@extend %lui_input_field_base;
 		padding: 0 !important;
 	}
 
@@ -36,7 +36,7 @@ luid-moment {
 	// buttons + -
 	.mp-button {
 		line-height: 1.5em;
-		@extend .lui_user_select_none;
+		@extend %lui_user_select_none;
 		font-size: 75%;
 		position: absolute;
 		z-index: 999;
@@ -57,6 +57,6 @@ luid-moment {
 // Invalid field
 luid-moment.invalid .luid-moment,
 luid-moment.ng-invalid .luid-moment {
-	@extend .lui_invalid_input_base;
+	@extend %lui_invalid_input_base;
 	.mp-button { background-color: $invalid-color !important; }
 }

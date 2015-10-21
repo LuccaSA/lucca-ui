@@ -1,4 +1,4 @@
-.lui_animated_base {
+%lui_animated_base {
 	animation-easing: $animation-easing;
 	animation-duration: $animation-duration;
 	animation-fill-mode: both;
@@ -11,7 +11,7 @@
 }
 
 #{$prefix}.animated {
-	@extend .lui_animated_base;
+	@extend %lui_animated_base;
 }
 
 #{$prefix}.infinitely.animated { animation-iteration-count: infinite; }
