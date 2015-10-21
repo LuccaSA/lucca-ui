@@ -12,7 +12,7 @@ module.exports = function(grunt, options){
 		options:{
 			// style: 'compressed',
 			sourcemap: 'inline',
-		}
+		},
 		dist:{
 			loadPath: [
 				'src2',
