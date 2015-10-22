@@ -1,0 +1,12 @@
+@function lui_get_colorscheme($colorName, $property: all) {
+	$scheme: map-get($lui_colors, $colorName);
+	@if $property != all and map-has-key($scheme, $property) {
+		@return map-get($scheme, $property);
+	} @else {
+		@return $scheme;
+	}
+}
+
+@function lui_add_colorscheme($name, $scheme) {
+	$lui_colors: map-set($lui_colors, $name, $scheme);
+}

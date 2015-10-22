@@ -1,0 +1,93 @@
+
+// Common classes
+// ===================================
+
+body, html { width: 100%; height: 100%; }
+#{$prefix}.clear {
+	zoom:1; /* For IE 6/7 (trigger hasLayout) */
+
+	&:before,
+	&:after { content: ""; display: table; }
+	&:after { clear:both; }
+}
+#{$prefix}[class*="left pulled"] { float: left; }
+#{$prefix}[class*="right pulled"] { float: right; }
+
+
+// Elements
+// ===================================
+
+#{$prefix}.container {
+	padding: 0;
+	width: $container-width;
+	@extend #{$prefix}.clear;
+}
+#{$prefix}.container #{$prefix}.column, {
+	float: left;
+	box-sizing: border-box;
+	width: 100%;
+}
+#{$prefix}.container #{$prefix}.column[class*="-pull-"],
+#{$prefix}.container #{$prefix}.column[class*="-push-"] { position: relative; }
+
+// Bootstrap '.row' equivalent
+#{$prefix}.container #{$prefix}.columns { @extend #{$prefix}.clear; }
+
+
+// Grid styles
+// ===================================
+
+// Fitting container
+// Takes up the whole available width
+#{$prefix}.fitting.container { margin-left: 0; margin-right: 0; }
+
+// Spaced container
+// Adds gutter
+#{$prefix}.container.spaced #{$prefix}.column,
+#{$prefix}.container #{$prefix}.column.spaced { padding: 0 $gutter; }
+
+#{$prefix}.container.spaced .columns { margin: 0 -$gutter; }
+
+
+// The Loop(s)
+// ===================================
+
+@mixin lui_loop_columns($device, $spacing) {
+	@for $i from 0 through $columns {
+		@if $i > 0 {
+			#{$prefix}.container #{$prefix}.column.#{$device}-#{$i} { width: $column * $i; }
+		}
+		// Offset
+		#{$prefix}.container #{$prefix}.column.#{$device}-offset-#{$i} { margin-left: $column * $i; }
+		// Reordering: Pulling
+		#{$prefix}.container #{$prefix}.column.#{$device}-pull-#{$i} { left: -$column * $i; }
+		// Reordering: Pushing
+		#{$prefix}.container #{$prefix}.column.#{$device}-push-#{$i} { left: $column * $i; }
+	}
+}
+
+@each $device, $props in $lui_breakpoints {
+	$i: index($device, $lui_breakpoints);
+	$breakAt: nth($props, 1);
+	$spacing: nth($props, 2);
+
+	@if $i == 1 { // Mobile first
+		// Container
+		#{$prefix}.container { margin: 0 $spacing; }
+		// Hide / Show
+		.#{$device}-hide { display: none !important; }
+		.#{$device}-show { display: block !important; }
+		@include lui_loop_columns($device, $spacing);
+
+	} @else {
+			@media (min-width: $breakAt) {
+					// Container
+					#{$prefix}.container { margin: 0  $spacing; }
+					// Hide / Show
+					.#{$device}-hide { display: none !important; }
+					.#{$device}-show { display: block !important; }
+
+					@include lui_loop_columns($device, $spacing);
+			}
+	}
+}

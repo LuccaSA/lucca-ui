@@ -1,0 +1,36 @@
+
+#{$prefix}.block {
+	border: $border;
+	padding: $vertical-padding $horizontal-padding;
+
+	> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+		padding: $vertical-padding $horizontal-padding;
+	}
+
+	> .header, #{$prefix}.header {
+		margin: -$vertical-padding -$horizontal-padding 0 -$horizontal-padding;
+		border-bottom: $border;
+	}
+	> .footer, #{$prefix}.footer {
+		margin: 0 -$horizontal-padding -$vertical-padding -$horizontal-padding;
+		border-top: $border;
+	}
+}
+
+#{$prefix}.block.inverted {
+	border-color: $border-inverted;
+
+	> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+		border-color: $border-inverted;
+	}
+}
+
+#{$prefix}.block.round {
+	border-radius: $border-radius;
+	> .header, #{$prefix}.header {
+		border-radius: $border-radius $border-radius 0 0;
+	}
+	> .footer, #{$prefix}.footer {
+		border-radius: 0 0 $border-radius $border-radius;
+	}
+}

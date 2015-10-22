@@ -10,35 +10,10 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         watch: {
-            less: {
-                files: ['src/**/*.less'],
-                tasks: ['less'],
-                options: {
-                    nospawn: true
-                }
-            },
 			sass: {
 				files: ['src2/**/*.scss', 'src2/*.sass'],
 				tasks: ['sass']
 			}
-        },
-        less: {
-            development: {
-                options: {
-                    compress: true,
-                    relativeUrls:true,
-                    sourceMap:true,
-                    sourceMapFileInline:true,
-                    sourceMapRootpath:"..",
-                    optimization: 2
-                },
-                files: [
-                    {
-                        "dist/lucca-ui.min.css": "src/lucca-ui.dist.less",
-                        "demo/demo.min.css": "demo/less/demo.less"
-                    }
-                ]
-            }
         },
 		sass: {
 			development: {
@@ -46,7 +21,7 @@ module.exports = function(grunt) {
 					sourcemap: 'inline',
 					style: 'compressed', // compressed, compact, nested, expanded
 					loadPath: [
-						'src2',
+						'src',
 						luiConfig.bowerPath,
 						luiConfig.theme.path + '/' + luiConfig.theme.name,
 						'themes/lucca'
@@ -54,8 +29,8 @@ module.exports = function(grunt) {
 				},
 				files: [
 					{
-						"dist/lucca-ui.namespaced.min.css": "src2/lucca-ui.namespaced.scss",
-						"dist/lucca-ui.global.min.css": "src2/lucca-ui.global.scss",
+						"dist/lucca-ui.namespaced.min.css": "src/lucca-ui.namespaced.scss",
+						"dist/lucca-ui.global.min.css": "src/lucca-ui.global.scss",
 						"demo/demo.min.css": "demo/sass/demo.scss"
 					}
 				]
@@ -70,7 +45,6 @@ module.exports = function(grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
 	grunt.loadNpmTasks('grunt-contrib-sass'); // loads less compiler
     grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
     grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner

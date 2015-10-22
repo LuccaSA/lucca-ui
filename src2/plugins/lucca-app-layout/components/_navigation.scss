@@ -1,0 +1,125 @@
+#main-navigation {
+	background: $navigation-bg;
+	width: $navigation-width;
+
+	border: none;
+
+	// Text and links coloring
+	&, a {
+		color: lighten($navigation-bg, 25);
+	}
+}
+
+// Menu item
+#main-navigation a.item {
+	text-align: center;
+
+	&:before {
+		margin-left: 0;
+	}
+
+	// Hover and active states
+	&:hover, &:active {
+		background: darken($navigation-bg, 1);
+		color: #FFF;
+	}
+	&:hover, &.active {
+		background: darken($navigation-bg, 5);
+		color: #FFF;
+	}
+	// Item icon
+	> i.icon {
+		position: relative;
+		font-size: $navigation-icon-size;
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
+	// Item title
+	> span.item-name {
+		font-size: $navigation-font-size;
+		font-weight: $navigation-font-weight;
+	}
+
+	// Updates / Todo styling
+	span.item-updates {
+		display: none;
+
+		position: absolute;
+		top: $navigation-icon-size + 0.15em;
+		right: 1em;
+	}
+	&.has-updates span.item-updates {
+		display: block;
+	}
+}
+
+// Application logo
+#main-navigation #app-logo {
+	box-sizing: content-box;
+	padding-top: $top-offset;
+
+	display: block;
+	overflow: hidden;
+	height: $header-height;
+	line-height: $header-height;
+
+	background-color: lui_get_colorscheme(primary, color);
+	text-align: center;
+	font-size: $logo-font-size;
+	font-weight: lighter;
+
+	&, a {
+		color: lui_get_colorscheme(primary, text);
+	}
+
+	// Navigation mobile toggle
+	.navigation-toggle {
+		display: none;
+	}
+}
+
+// Mobile version
+#main-navigation {
+	@include lui_screens_smaller_than(tablet) {
+		background: transparent;
+		position: relative !important;
+		left: 0; right: 0; bottom: auto;
+		z-index: 100;
+		width: 100%; max-height: 100vh; overflow: auto;
+		height: auto;
+
+		#app-logo {
+			a, .navigation-toggle {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+
+		a.item {
+			background: $navigation-bg;
+		}
+
+		a.item span.item-name,
+		a.item i.icon {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		a.item i.icon {
+			margin-bottom: 0;
+			margin-right: (0.5 * $lui_default_font_size);
+		}
+		a.item.has-updates span.item-updates {
+			display: inline-block;
+			position: relative;
+			float: none;
+			top: auto; left: auto; right: auto;
+		}
+
+		// Dropped state
+		.item { display: none; }
+		&.dropped a.item {
+			display: block;
+		}
+	}
+}

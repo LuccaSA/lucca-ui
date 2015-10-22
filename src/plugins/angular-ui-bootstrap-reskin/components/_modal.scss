@@ -1,0 +1,39 @@
+
+#{$prefix}.nguibs-modal {
+	display: none; overflow: hidden;
+	position: fixed;
+	top: 0; right: 0; bottom: 0; left: 0;
+	z-index: $modal-z-index;
+	-webkit-overflow-scrolling: touch;
+	outline: 0; // Chrome fix
+
+	// When fading in the modal, animate it to slide down
+	&.in .modal-dialog {
+		@include lui_is_animated("up fade in");
+	}
+	&:not(.in) .modal-dialog {
+		@include lui_is_animated("up fade out");
+	}
+
+	.modal-dialog {
+		@extend #{$prefix}.raised;
+		margin: $top-margin auto $bottom-margin auto;
+	}
+}
+
+#{$prefix}.nguibs-modal-backdrop {
+	@extend #{$prefix}.overlay;
+
+	visibility: hidden;
+	opacity: 0;
+	@include lui_transition_properties(opacity);
+
+	&.in { visibility: visible; opacity: 1; }
+	&:not(.in) { visibility: visible; opacity: 0; }
+}
+
+// Kill the scroll on the body
+.modal-open {
+	overflow: hidden;
+	#{$prefix}.nguibs-modal { overflow-x: hidden; overflow-y: auto; }
+}

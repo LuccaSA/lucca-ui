@@ -1,0 +1,20 @@
+
+// Stuck: fixed positioning
+// ===================================
+
+#{$prefix}.stuck { position: fixed !important; }
+
+#{$prefix}[class*="top stuck"] { top: 0; left: 0; right: 0; }
+#{$prefix}[class*="bottom stuck"] { bottom: 0; left: 0; right: 0; }
+
+#{$prefix}[class*="middle stuck"] { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+#{$prefix}[class*="left stuck"] { top: 0; bottom: 0; left: 0; }
+#{$prefix}[class*="right stuck"] { top: 0; bottom: 0; right: 0; }
+
+#{$prefix}[class*="top middle stuck"],
+#{$prefix}[class*="top left stuck"],
+#{$prefix}[class*="top right stuck"] { top: 0; bottom: auto; }
+
+#{$prefix}[class*="bottom middle stuck"],
+#{$prefix}[class*="bottom left stuck"],
+#{$prefix}[class*="bottom right stuck"] { top: auto; bottom: 0; }

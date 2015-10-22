@@ -1,0 +1,3 @@
+#{$prefix}.raised { box-shadow: $x $y $blur $spread $color; }
+
+#{$prefix}.callout { @extend #{$prefix}.raised; }

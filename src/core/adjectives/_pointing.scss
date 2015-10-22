@@ -1,0 +1,34 @@
+
+// Pointing arrows
+// ===================================
+
+#{$prefix}.pointing:after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-color: transparent;
+}
+#{$prefix}[class*="top pointing"]:after,
+#{$prefix}[class*="bottom pointing"]:after {
+	border-left-width: $triangle-width;
+	border-right-width: $triangle-width;
+}
+#{$prefix}[class*="top pointing"]:after {
+	border-bottom: $triangle-width solid $triangle-color;
+}
+#{$prefix}[class*="bottom pointing"]:after {
+	border-top: $triangle-width solid $triangle-color;
+}
+#{$prefix}[class*="left pointing"]:after,
+#{$prefix}[class*="right pointing"]:after {
+	border-top-width: $triangle-width;
+	border-bottom-width: $triangle-width;
+}
+#{$prefix}[class*="left pointing"]:after {
+	border-right: $triangle-width solid $triangle-color;
+}
+#{$prefix}[class*="right pointing"]:after {
+	border-left: $triangle-width solid $triangle-color;
+}

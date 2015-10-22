@@ -1,0 +1,95 @@
+
+#{$prefix}.label {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0.85em;
+	padding: $v-padding $h-padding;
+	margin: 0 0.5em;
+	font-weight: normal;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	border-radius: $border-radius;
+
+	// Icon support
+	// ====
+	#{$prefix}.icon, > i.icon {
+		margin-right: 0.25em;
+		&[class*="right icon"] {
+			margin-right: 0; margin-left: 0.25em;
+		}
+	}
+
+	// Circular
+	// =====
+	&.circular {
+		display: inline-block;
+		border-radius: 1em;
+		&.icon:after {
+			font-size: .5em;
+		}
+	}
+}
+
+
+// Sizing support
+// ===================================
+
+#{$prefix}.label {
+	@include lui_supports_sizing();
+}
+
+
+// Addons
+// ===================================
+
+#{$prefix}.label[class*="with addon"],
+#{$prefix}.label[class*="with addons"] {
+	@include display-flex(true);
+	> .addon {
+		display: inline-block;
+		vertical-align: top;
+		background: rgba(0, 0, 0, 0.2); // @TODO: remove this arbitrary value!
+		padding: $v-padding $h-padding;
+		margin: (-$v-padding) ($h-padding) (-$v-padding) (-$h-padding);
+		&[class*="right addon"] {
+			margin-right: -$h-padding;
+			margin-left: $h-padding;
+		}
+	}
+}
+
+
+// Labels in headings
+// ===================================
+
+h1, h2, h3, h4, h5, h6 {
+	#{$prefix}.label {
+		margin-top: -.15em;
+	}
+}
+
+
+// Coloring support
+// ===================================
+
+@mixin lui_label_coloring($scheme) {
+	& {
+		background: map-get($scheme, color);
+		color: map-get($scheme, text);
+		@if map-get($scheme, lod) {
+			text-shadow: 1px 0 1px darken(map-get($scheme, color), 5);
+		}
+	}
+}
+
+#{$prefix}.label {
+	// Default coloring scheme
+	@include lui_label_coloring($default-coloring);
+	// Coloring support
+	@each $name, $scheme in $lui_colors {
+		&.#{map-get($scheme, class)} {
+			@include lui_label_coloring($scheme);
+		}
+	}
+}

@@ -1,0 +1,27 @@
+
+#{$prefix}.nguibs-popover {
+	@extend #{$prefix}.nguibs-tooltip;
+	pointer-events: auto;
+	min-width: $popover-min-width;
+	max-width: $popover-max-width;
+
+	.popover-inner { @extend #{$prefix}.clear; }
+
+	.popover-inner, .popover-title {
+		padding: ($popover-inner-vertical-padding) ($popover-inner-horizontal-padding);
+	}
+
+	.popover-title {
+		font-size: $popover-title-font-size;
+		background: $popover-title-bg;
+		border-bottom: 1px solid $popover-title-divider-color;
+		margin: (-$popover-inner-vertical-padding) (-$popover-inner-horizontal-padding) ($popover-title-bottom-margin) (-$popover-inner-horizontal-padding);
+	}
+
+	// Default coloring
+	@include lui_nguibs_tooltip_coloring($popover-default-coloring);
+}
+
+#{$prefix}.popover:not(.ng-hide) {
+	display: block !important;
+}
