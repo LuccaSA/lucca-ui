@@ -19,7 +19,6 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-sanitize.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.2/select.min.js"></script>
 
-
 	<script src="../dist/custom/lucca-ui-spe.js"></script>
 	<script src="js/lucca-spe.js"></script>
 </head>
@@ -34,9 +33,7 @@
 		<a class="item active" href="./directives.html">lui directives</a>
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#luid-user-picker">luid-user-picker</a>
-
 	</nav>
-
 
 	<section id="main-content" class="lui container">
 		<h1 class="lui column desktop-8">Lucca UI</h1>
@@ -48,30 +45,53 @@
 		<div class="lui callout warning">
 			<p>
 				<b>Important:</b>
-				<!-- This is for directive specifically made for their use in  -->
+				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome. 
+				It also uses <code>underscorejs</code>, which is a Javascript library providing very usefull helpers (especially for arrays and collections). <br />
+				The luid-user-picker directive depends on <code>AngularJS ui-select</code> because it offers a large set of customizable features.
 			</p>
-<!-- 		<p>
-			The exact list of dependencies which can be found in the bower.json file is:
-			<ul class="lui unstyled">
-				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
-				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
-				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
-			</ul>
-		</p> -->
-	</div>
+			<p>
+				The exact list of dependencies which can be found in the bower.json file is:
+				<ul class="lui unstyled">
+					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
+					<li><a href="http://underscorejs.org/">underscorejs</a> <span class="lui label">1.8</span></li>
+					<li><a href="https://github.com/angular-ui/ui-select">ui-select</a> <span class="lui label">0.13</span></li>
+					<li><a href="https://github.com/angular/bower-angular-sanitize">angular sanitize</a> <span class="lui label">1.4</span></li>
+				</ul>
+			</p>
+		</div>
 
 	<article id="luid-user-picker">
 		<h2 class="lui divider below">luid-user-picker</h2>
 
 		<p>
-			An input to have a ui-select plugged to /api/v3/users with a more powerful search and also manages former employees and homonyms.
+			An input to have a ui-select plugged to <code>/api/v3/users/find</code> with a more powerful search and very amazing features. 
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Features:</h4>
 		</div>
 		<p>
-			Supports up and down key events and scroll event to increment/decrement the value the value.
+			Supports up and down key events to select a value.
+		</p>
+		<p>
+			Detects and handles homonyms. When homonyms are detected, specific user informations are displayed in order to easily differentiate them. These informations are not initially retrieved by the query to <code>/api/v3/users/find</code> but they will be fetched with a single query to <code>/api/v3/users</code> with the ids of the homonyms. By default, the list of properties to display is <code>department.name, legalEntity.name, employeeNumber, mail</code>. The two first properties that differentiate the homonyms will be displayed. A couple of properties is considered as differentiating if at least one property value is different from the others and each couple of properties is unique among all homonyms. For example, if you have two users 'Lucien Bertin' whose properties are:
+			<ul class="lui unstyled">
+				<li><code>{ id: 1, name: 'Lucien Bertin', legalEntity: { name: 'Lucca' }, department: { name: 'BU Timmi/Lucca' }, employeeNumber: 58, mail: 'no-reply@lucca.fr' }</code></li>
+				<li><code>{ id: 2, name: 'Lucien Bertin', legalEntity: { name: 'Lucca' }, department: { name: 'Sales' }, employeeNumber: 72, mail: 'no-reply@lucca.fr' }</code></li>
+			</ul>
+			The differentiating properties are <code>deparment.name</code> and <code>employeeNumber</code>. <code>legalEntity.name</code> is not differentiating because all values are the same among homonyms.
+		</p>
+		<p>
+			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported.
+		</p>
+		<p>
+			You can choose to fetch former employees. By default, only users who are still in the company are displayed. If you want to display former employees, their date of contract end will be displayed below their name.
+		</p>
+		<p>
+			Handles pagination. By default, only 5 users are displayed in the dropdown menu. If more users match the query, a message is displayed at the end of the list indicating that there are more results, encouraging the user to specify his search.
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Supported arguments:</h4>
@@ -81,13 +101,9 @@
 				<li><code>ng-model</code>: the variable to bind to</li>
 				<li><code>on-select</code>: function to execute when an item is selected</li>
 				<li><code>on-remove</code>: function to execute when an item is removed</li>
-				<li><code>control-disabled</code>: boolean indicating if the control is disabled</li>
-				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees</li>
-<!-- 				<li><code>ng-change</code>: events to launch when the value is updated</li>
-				<li><code>ng-disabled</code>: </li>
-				<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
-				<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
-				<li><code>placeholder</code>: placeholder to display when the input is empty</li> -->
+				<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
+				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not</li>
+				<li><code>custom-properties</code>: list of properties you want to display in case of homonyms</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -95,7 +111,8 @@
 		</div>
 		<p>
 			<pre ng-non-bindable>&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;</pre>
+&lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" custom-properties="manager.name,mail,birthdate"&gt;&lt;/luid-user-picker&gt;</pre>
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>

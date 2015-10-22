@@ -29,60 +29,60 @@
 		$scope.apiCalls = [];
 		$scope.myUser = {};
 
-		/********************************/
-		/******     NO HOMONYMS     *****/
-		/****** NO FORMER EMPLOYEES *****/
-		/********************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=true/i).respond(function(method, url) {
+		/*****************************/
+		/******    NO HOMONYMS   *****/
+		/****** FORMER EMPLOYEES *****/
+		/*****************************/
+		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_20_users_FE];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{1}\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{1}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_10_users_FE];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{2}\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{2}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_5_users_FE];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{3}\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{3}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_2_users_FE];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{4}\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{4}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_1_users_FE];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{5,}\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{5,}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_0_users];
 		});
 
-		/****************************/
-		/******   NO HOMONYMS   *****/
-		/***** FORMER EMPLOYEES *****/
-		/****************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=false/i).respond(function(method, url) {
+		/*******************************/
+		/******    NO HOMONYMS     *****/
+		/***** NO FORMER EMPLOYEES *****/
+		/*******************************/
+		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_20_users];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_10_users];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{2}\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{2}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_5_users];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{3}\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{3}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_2_users];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{4}\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{4}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_1_users];
 		});
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{5,}\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]{5,}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_0_users];
 		});
@@ -91,17 +91,17 @@
 		/******      HOMONYMS      *****/
 		/***** NO FORMER EMPLOYEES *****/
 		/*******************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_4_users_homonyms];
 		});
 
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_2_users_homonyms];
 		});
 
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=false/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_0_users];
 		});
@@ -118,17 +118,17 @@
 		/******    HOMONYMS     *****/
 		/***** FORMER EMPLOYEES *****/
 		/****************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_5_users_homonyms_FE];
 		});
 
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_3_users_homonyms_FE];
 		});
 
-		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=true/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.*\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
 			return [200, RESPONSE_0_users];
 		});
