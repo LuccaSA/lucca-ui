@@ -1,8 +1,0 @@
-@mixin lui_is_animated($name, $loop: false) {
-	@extend %lui_animated_base;
-	@extend #{$prefix}.animated[class*="#{$name}"];
-
-	@if $loop {
-		@extend #{$prefix}.infinitely.animated;
-	}
-}
