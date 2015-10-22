@@ -6,7 +6,7 @@
 	// http://underscorejs.org/
 	angular.module('underscore', []).factory('_', function () { return window._; });
 
-	angular.module('demoApp',['ui.bootstrap']);
+	angular.module('demoApp',['ui.bootstrap', 'ngRoute']);
 
 	angular.module('demoApp')
 	.controller('buttonsCtrl', ['$scope', function($scope){
@@ -21,5 +21,14 @@
 		$scope.inverted = false;
 		$scope.disabled = false;
 
+	}]);
+
+	angular.module('demoApp')
+	.config(['$routeProvider', function($routeProvider) {
+		$routeProvider
+			.when('/less', {
+				templateUrl: 'less.html',
+			})
+			.otherwise({ redirectTo: '/less'});
 	}]);
 })();
