@@ -43,60 +43,64 @@
 		<a class="item" href="#luid-user-picker">luid-user-picker</a>
 	</nav>
 
-
-<section id="main-content" class="lui container">
-	<h1 class="lui column desktop-8">Lucca UI</h1>
-	<div class="lui column desktop-4">
-		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-	</div>
-	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
-
-	<div class="lui callout warning">
-		<p>
-			<b>Important:</b>
-			this page is used for all them e2e tests
-		</p>
-
-	</div>
-
-	<article id="luifPlaceholder">
-		<h2 class="lui divider below">luifPlaceholder</h2>
-		<div ng-controller="luifPlaceholderCtrl" class="lui block round">
-			<div class="lui input"><input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text"></div>
-			<div class="lui input"><input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text"></div>
-			<div id="luifPlaceholder_myValue_value_1">{{ myValue | luifPlaceholder : "static placeholder" }}</div>
-			<div id="luifPlaceholder_myValue_value_2">{{ myValue | luifPlaceholder : myPlaceholder }}</div>
+	<section id="main-content" class="lui container">
+		<h1 class="lui column desktop-8">Lucca UI</h1>
+		<div class="lui column desktop-4">
+			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 		</div>
-	</article>
+		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
-	<article id="luifDefaultCode">
-		<h2 class="lui divider below">luifDefaultCode</h2>
-		<div ng-controller="luifDefaultCodeCtrl" class="lui block round">
-			<div class="lui long input"><input id="luifDefaultCode_myValue_input" ng-model="myValue" type="text"></div>
-			<div id="luifDefaultCode_myValue_value">{{ myValue | luifDefaultCode }}</div>
+		<div class="lui callout warning">
+			<p>
+				<b>Important:</b>
+				this page is used for all them e2e tests
+			</p>
 		</div>
-	</article>
 
-	<article id="luifNumber">
-		<h2 class="lui divider below">luifNumber</h2>
-		<div ng-controller="luifNumberCtrl" class="lui block round">
-			<div class="lui input"><input id="luifNumber_myValue_input" ng-model="myValue" type="text"></div>
-			<div class="lui input"><input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number"></div>
-			<div id="luifNumber_myValue_value_1" ng-bind-html="myValue | luifNumber : myPrecision "></div>
-			<div id="luifNumber_myValue_value_2" ng-bind-html="myValue | luifNumber : myPrecision : 0"></div>
-			<div id="luifNumber_myValue_value_3" ng-bind-html="myValue | luifNumber : myPrecision : '-'"></div>
-		</div>
-	</article>
-
-	<article id="luid-user-picker">
-		<h2 class="lui divider below">luidUserPicker</h2>
-		<div ng-controller="luidUserPickerCtrl" class="lui block round">
-			<luid-user-picker id="luidUserPicker_myUser_select" ng-model="myUser.selected"></luid-user-picker>
-			<div id="luidUserPicker_myUser_value">{{myUser.selected.firstName}} {{myUser.selected.lastName}}
+		<article id="luifPlaceholder">
+			<h2 class="lui divider below">luifPlaceholder</h2>
+			<div ng-controller="luifPlaceholderCtrl" class="lui block round">
+				<div class="lui input"><input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text"></div>
+				<div class="lui input"><input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text"></div>
+				<div id="luifPlaceholder_myValue_value_1">{{ myValue | luifPlaceholder : "static placeholder" }}</div>
+				<div id="luifPlaceholder_myValue_value_2">{{ myValue | luifPlaceholder : myPlaceholder }}</div>
 			</div>
-		</div>
-	</article>
+		</article>
 
-</section>
+		<article id="luifDefaultCode">
+			<h2 class="lui divider below">luifDefaultCode</h2>
+			<div ng-controller="luifDefaultCodeCtrl" class="lui block round">
+				<div class="lui long input"><input id="luifDefaultCode_myValue_input" ng-model="myValue" type="text"></div>
+				<div id="luifDefaultCode_myValue_value">{{ myValue | luifDefaultCode }}</div>
+			</div>
+		</article>
+
+		<article id="luifNumber">
+			<h2 class="lui divider below">luifNumber</h2>
+			<div ng-controller="luifNumberCtrl" class="lui block round">
+				<div class="lui input"><input id="luifNumber_myValue_input" ng-model="myValue" type="text"></div>
+				<div class="lui input"><input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number"></div>
+				<div id="luifNumber_myValue_value_1" ng-bind-html="myValue | luifNumber : myPrecision "></div>
+				<div id="luifNumber_myValue_value_2" ng-bind-html="myValue | luifNumber : myPrecision : 0"></div>
+				<div id="luifNumber_myValue_value_3" ng-bind-html="myValue | luifNumber : myPrecision : '-'"></div>
+			</div>
+		</article>
+
+		<article id="luid-user-picker">
+			<h2 class="lui divider below">luidUserPicker</h2>
+			<div ng-controller="luidUserPickerCtrl" class="lui block round">
+				<!-- Without former employees -->
+				<div>
+					<luid-user-picker id="luidUserPicker_myUser_select" ng-model="myUser.selected"></luid-user-picker>
+					<div id="luidUserPicker_myUser_value">{{myUser.selected.firstName}} {{myUser.selected.lastName}}
+					</div>
+				</div>
+				<!-- With former employees -->
+				<div>
+					<luid-user-picker id="luidUserPicker_myUser_select_former_employees" ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
+				</div>
+			</div>
+		</article>
+	</section>
 </body>
 </html>
