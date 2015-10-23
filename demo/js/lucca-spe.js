@@ -1,7 +1,7 @@
 (function(){
 	angular.module('luccaSpeApp',['lui', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'ngMockE2E']);
 	angular.module('luccaSpeApp')
-	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', function($scope, $httpBackend, _) {
+	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', function($scope, $httpBackend, _, $http) {
 		var RESPONSE_0_users = {header:{},data:{items:[]}};
 		/***** Without Former Employees *****/
 		var RESPONSE_20_users = {header:{},data:{items:users}};
@@ -28,33 +28,54 @@
 		$scope.getCnt = 0;
 		$scope.apiCalls = [];
 		$scope.myUser = {};
+		$scope.reroute = false;
+		$scope.local = "lucca";
 
+		$httpBackend.whenGET(/\/\/\w*.local\/.*/).passThrough();
 		/*****************************/
 		/******    NO HOMONYMS   *****/
 		/****** FORMER EMPLOYEES *****/
 		/*****************************/
-		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=true\&.*/i).respond(function(method, url) {
+		$httpBackend.whenGET(/^\/api\/v3\/users\/find\?formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_20_users_FE];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_10_users_FE];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_5_users_FE];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{2,5}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_2_users_FE];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{5,9}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_1_users_FE];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{10,}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_0_users];
 		});
 
@@ -64,18 +85,30 @@
 		/*******************************/
 		$httpBackend.whenGET(/api\/v3\/users\/find\?formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_20_users];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_10_users];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_5_users];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{2,5}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_2_users];
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{5,9}\&formerEmployees=false\&.*/i).respond(function(method, url) {
@@ -84,6 +117,9 @@
 		});
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=[b-z]\w{10,}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_0_users];
 		});
 
@@ -93,16 +129,25 @@
 		/*******************************/
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_4_users_homonyms];
 		});
 
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.{1,4}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_2_users_homonyms];
 		});
 
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.{5,}\&formerEmployees=false\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_0_users];
 		});
 
@@ -111,6 +156,9 @@
 		/****************************/
 		$httpBackend.whenGET(/api\/v3\/users\?id=450,421.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_homonyms_properties];
 		});
 
@@ -120,24 +168,36 @@
 		/****************************/
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_5_users_homonyms_FE];
 		});
 
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.{1,4}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_3_users_homonyms_FE];
 		});
 
 		$httpBackend.whenGET(/api\/v3\/users\/find\?clue=a.{5,}\&formerEmployees=true\&.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_0_users];
 		});
 
 		/****************************/
 		/***** HOMONYMS DETAILS *****/
 		/****************************/
-		$httpBackend.whenGET(/api\/v3\/users\?id=450,449,421.*/i).respond(function(method, url) {
+		$httpBackend.whenGET(/api\/v3\/users\?.*/i).respond(function(method, url) {
 			$scope.apiCalls.push({id:$scope.getCnt++, url:url});
+			if($scope.reroute){
+				return $http.get("//" + $scope.local + ".local" + url);
+			}
 			return [200, RESPONSE_homonyms_properties_FE];
 		});
 	}]);

@@ -128,7 +128,15 @@
 				<input type="checkbox" ng-model="isChecked">Show former employees 
 			</p>
 			<p>
-			<luid-user-picker class="lui long input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
+				<input type="checkbox" ng-model="reroute">reroute all calls to 
+				<span class="lui input with addons">
+					<span class="lui addon">http://</span>
+					<input type="text" class="lui input" ng-model="local" ng-disabled="!reroute">
+					<span class="lui addon">.local</span>
+				</span>
+			</p>
+			<p>
+				<luid-user-picker class="lui long input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
 			</p>
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
