@@ -902,7 +902,7 @@
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = ["department.name", "legalEntity.name", "employeeNumber", "mail"]; // MAGIC_STRING
 
-	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refreshDelay=\"200\" ui-disable-choice=\"!!user.overflow\">" +
+	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refreshDelay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\">VAR_TRAD Parti(e) le {{user.dtContractEnd | luifMoment: 'll'}}</small>" +
@@ -1137,14 +1137,13 @@
 			var deferred = $q.defer();
 
 			getUsersPromise = $http.get(query);
-			getUsersPromise.then(
-				function(response) {
-					deferred.resolve(response.data.data.items);
-				}, 
-				function(message) {
-					deferred.reject(message);
-				}
-			);
+			getUsersPromise
+			.success(function(response) {
+				deferred.resolve(response.data.items);
+			})
+			.error(function(response) {
+				deferred.reject(response.Message);
+			});
 			return deferred.promise;
 		};
 
