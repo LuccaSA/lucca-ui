@@ -353,6 +353,7 @@
 			var deferred = $q.defer();
 			var propertiesArray; // Will contain each couple of properties to compare
 			var properties; // Object containing the couple of properties to compare
+			var emergencyProperty; // used if NO couple of differentiating properties are found. In this case, only one property will be displayed
 			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
 
 			getHomonymsPropertiesAsync(homonyms).then(
@@ -401,6 +402,12 @@
 										.uniq()
 										.value();
 
+									// prop1 is a differentiating property: each homonym has a different value for this property
+									// if we do not find a couple of differentiating properties, we will at least display this one
+									if ((!emergencyProperty) && (prop1Values.length === homonyms.length)) {
+										emergencyProperty = prop1;
+									}
+
 									// All values for both properties must not be equal
 									// There must be at least two different values
 									if ((prop1Values.length > 1) && (prop2Values.length > 1)) {
@@ -418,7 +425,10 @@
 						}
 					});
 
-					// TODO: handle if no couple of properties allows to differentiate users
+					// If no couple of properties are differentiating, we will display the first differentiating property (values are different for all homonyms)
+					if (!found && emergencyProperty) {
+						$scope.displayedProperties.push(emergencyProperty);
+					}
 					deferred.resolve(users);
 				},
 				function(message) {
