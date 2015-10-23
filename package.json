@@ -10,6 +10,7 @@
     "grunt-contrib-jasmine": "^0.6.3",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-less": "^1.0.1",
+    "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-uglify": "^0.9.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-karma": "^0.8.2",
@@ -24,7 +25,8 @@
     "karma-jasmine": "^0.3.6",
     "karma-junit-reporter": "^0.2.2",
     "karma-ng-html2js-preprocessor": "^0.1.0",
-    "karma-phantomjs-launcher": "^0.1.4"
+    "karma-phantomjs-launcher": "^0.1.4",
+    "load-grunt-configs": "^0.4.3"
   },
   "author": "Lucca",
   "license": "ISC",

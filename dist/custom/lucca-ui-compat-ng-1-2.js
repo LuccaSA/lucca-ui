@@ -3,7 +3,7 @@
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	
-	angular.module('lui.directives', ['moment', 'underscore']);
+	angular.module('lui.directives', ['moment', 'underscore','ui.select']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
 	// all the templates in one module
@@ -14,8 +14,12 @@
 })();
 ;(function () {
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none
+	**/
 
-	angular.module('lui.directives').directive('luidPercentage', ['moment', function (moment) {
+	angular.module('lui.directives').directive('luidPercentage', function () {
 		function link(scope, element, attrs, ctrls) {
 
 			var ngModelCtrl = ctrls[1];
@@ -62,8 +66,8 @@
 			link: link,
 			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
 		};
-	}])
-	.controller('luidPercentageController', ['$scope', 'moment', function ($scope, moment) {
+	})
+	.controller('luidPercentageController', ['$scope', function ($scope) {
 
 		// public methods for update
 		$scope.updateValue = function () {
@@ -175,7 +179,11 @@
 })();
 ;(function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
+	
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
 		function link(scope, element, attrs, ctrls) {
 
@@ -381,6 +389,10 @@
 })();
 ;(function(){
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none, nothing, nada
+	**/
 	function replaceAll(string, find, replace) {
 		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
 		// lets not reinvent the wheel
@@ -410,22 +422,39 @@
 		};
 	})
 	.filter('luifNumber', ['$sce', '$filter', function($sce, $filter) {
-		return function(_input, _precision) {
+		return function(_input, _precision, _placeholder) {
+			var placeholder = _placeholder === undefined ? '' : _placeholder;
+			// alert(_input + " " + (!!_input.isNaN && _input.isNaN()));
+			var input = _input === undefined || _input === null || _input === "" || _input != _input ? placeholder : _input; // the last check is to check if _input is NaN
 			var separator = $filter("number")(1.1,1)[1];
-			var precision = _precision || 2;
+			var precision = _precision === undefined || _precision === null || _precision != _precision ? 2 : _precision;
 
-			var text = $filter("number")(_input, precision);
+			var text = $filter("number")(input, precision);
+			var decimalPart = (text || $filter("number")(0, precision)).split(separator)[1];
+			var rightSpan;
 
-			var details = text.split(separator);
-			if ( parseInt(details[1]) === 0) {
-				return $sce.trustAsHtml(details[0] + "<span style=\"opacity:0\">" + separator + details[1] + "</span>");
+			if(decimalPart === undefined){
+				rightSpan = "<span style=\"opacity:0\"></span>";
+			}else if(parseInt(decimalPart) === 0){
+				rightSpan = "<span style=\"opacity:0\">" + separator + decimalPart + "</span>";
+			}else{
+				rightSpan = "<span>" + separator + decimalPart + "</span>";
 			}
-			return $sce.trustAsHtml(details[0] + separator + details[1]);
+			if(input === '' || !text){
+				// the _input or the _placeholder was not parsable by the number $filter, just return input but trusted as html
+				return $sce.trustAsHtml(input + rightSpan);
+			}
+
+			var integerPart = text.split(separator)[0];
+			return $sce.trustAsHtml(integerPart + rightSpan);
 		};
 	}]);
 })();;(function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
 		var m = moment(_moment);
 		if (m.isValid()) {
@@ -499,32 +528,134 @@
 			}
 		};
 	})
+	// this filter is very ugly and i'm sorry - i'll add lots of comments
 	.filter('luifDuration', function () {
-		return function (_duration, _format, _sign) {  //expects a duration, returns the duration in the given format or a sensible one
+		return function (_duration, _sign, _unit, _precision) {  //expects a duration, returns the duration in the given unit with the given precision
 			var d = moment.duration(_duration);
-			var hours = Math.floor(d.asHours()); 
-			if(hours < 0){ // we dont want to approxximate -0.33h as -1h20
-				hours = Math.ceil(d.asHours());
+
+			if(d.asMilliseconds() === 0){ return ''; }
+
+			// parse duration
+			var values = [Math.abs(d.days()), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
+			var units = ['d ', 'h', 'm', 's', 'ms'];
+			var unit;
+
+			// First we get the floor part of the unit of the duration : 1d11h = 1.x day or 35 hours or 2100 minutes depending on your unit
+			switch(_unit){
+				case 'd':
+				case 'day':
+				case 'days':
+					_precision = !!_precision ? _precision : 'h'; // if no precision is provided, we take the next unit
+
+					// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
+					unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
+					values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
+					break;
+				case undefined:
+				case '': // if no _unit is provided, use hour
+				case 'h':
+				case 'hour':
+				case 'hours':
+					_precision = _precision || 'm';
+					unit = values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					values[1] = Math.abs(d.asHours() >= 0 ? Math.floor(d.asHours()) : Math.ceil(d.asHours()));
+					break;
+				case 'm':
+				case 'min':
+				case 'mins':
+				case 'minute':
+				case 'minutes':
+					_precision = _precision || 's';
+					unit = values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					values[2] = Math.abs(d.asMinutes() >= 0 ? Math.floor(d.asMinutes()) : Math.ceil(d.asMinutes()));
+					break;
+				case 's':
+				case 'sec':
+				case 'second':
+				case 'seconds':
+					_precision = _precision || 's';
+					unit = values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					values[3] = Math.abs(d.asSeconds() >= 0 ? Math.floor(d.asSeconds()) : Math.ceil(d.asSeconds()));
+					break;
+				case 'ms':
+				case 'millisec':
+				case 'millisecond':
+				case 'milliseconds':
+					_precision = _precision || 'ms';
+					unit = 4;
+					values[4] = Math.abs(d.asMilliseconds() >= 0 ? Math.floor(d.asMilliseconds()) : Math.ceil(d.asMilliseconds()));
+					break;
 			}
-			var minutes = d.minutes();
+			var precision; // if you want 1h as minutes, precision milliseconds you want the result to be 60m and not 60m 00.000s
+			switch(_precision){
+				case 'd':
+				case 'day':
+				case 'days':
+					precision = 0;
+					break;
+				case 'h':
+				case 'hour':
+				case 'hours':
+					precision = values[1] !== 0 ? 1 : 0;
+					break;
+				case 'm':
+				case 'min':
+				case 'mins':
+				case 'minute':
+				case 'minutes':
+					precision = values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
+					break;
+				case 's':
+				case 'sec':
+				case 'second':
+				case 'seconds':
+					precision = values[3] !== 0 ? 3 : values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
+					break;
+				case 'ms':
+				case 'millisec':
+				case 'millisecond':
+				case 'milliseconds':
+					precision = values[4] !== 0 ? 4 : values[3] !== 0 ? 3 : values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
+					break;
+			}
+			// some localisation shenanigans
+			switch(moment.locale()){
+				case "fr": units[0] = 'j '; break;
+			}
+
+			// if precision = ms and unit bigger than s we want to display 12.525s and not 12s525ms
+			if(unit <= 3 && precision === 4){ units[3] = '.'; units[4] = 's'; }
+			if(unit <= 1 && precision === 2){ units[2] = ''; }
+			if(unit === 2 && precision === 3){ units[3] = ''; }
+
+			var format = function(value, u){
+				if (u === unit){
+					return value + units[u];
+				}
+				if (u === 2 || u === 3){
+					return (value < 10 ? '0' + value : value) + units[u];
+				}
+				if (u === 4){
+					return (value < 10 ? '00' + value : value < 100 ? '0' + value : value) + units[u];
+				}
+				return value + units[u];
+			};
+			var result = '';
+			for(var i = unit; i <= precision; i++){
+				result += format(values[i],i);
+			}
+
+			// add prefix
 			var prefix = '';
-			if (_sign) {
+			if (_sign && !!result) {
 				if (d.asMilliseconds() > 0) {
 					prefix = '+';
 				} else if (d.asMilliseconds() < 0) {
 					prefix = '-';
 				}
 			}
-			if (!_format) { // if no format is provided, it will try to display "30min" or "3h" or "3h30"
-				if (hours && minutes) {
-					return prefix + Math.abs(hours) + 'h' + formatMoment(moment(minutes, 'm'), 'mm');
-				} else if (minutes) {
-					return prefix + Math.abs(minutes) + 'm';
-				} else if (hours) {
-					return prefix + Math.abs(hours) + 'h';
-				} else { return ''; } // 00:00 -> should not be displayed
-			}
-			return prefix + formatMoment(moment(hours + ':' + minutes + ':00', 'H:mm:ss'), _format);
+
+			return prefix + result;
 		};
 	})
 	.filter('luifHumanize', function () {

@@ -9,21 +9,18 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.min.js',
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-mocks.js',
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-sanitize.js',
-
+			'bower_components/angular/angular.js',
+			'bower_components/angular-sanitize/angular-sanitize.js',
 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/ui-select/dist/select.js',
 			'bower_components/moment/min/moment-with-locales.js',
 			'bower_components/underscore/underscore-min.js',
-			
-			'dist/custom/lucca-ui-compat-ng-1-2.js',
 
-			'tests/spec/genericFilters.spec.js',
-			'tests/spec/timeFilters.spec.js',
-			'tests/spec/directives/timespan-picker.spec.js',
-			'tests/spec/directives/percentage-picker.spec.js',
+			'bower_components/angular-mocks/angular-mocks.js',
+
+			'dist/custom/lucca-ui-spe.js',
+
+			'tests/spec/**/*.js'
 		],
 
 		// web server port

@@ -19,38 +19,6 @@ describe('luidUserPicker', function(){
 		moment = _moment_;
 	}));
 
-	// describe('most basic-est use', function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		controller = elt.controller;
-	// 		$scope.$digest();
-	// 		isolateScope.find();
-	// 		$httpBackend.expectGET('/api/v3/users/find?formerEmployees=false&limit=6').respond(200, RESPONSE_initWithoutFormerEmployees);
-	// 	});
-	// 	it('should initialise users', function(){
-	// 		$httpBackend.flush();
-	// 		expect(isolateScope.users).toBeDefined();
-	// 	});
-	// 	it('should initialise users with the 5 first users returned by the api', function() {
-	// 		users = [{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"overflow":"5/..."}];
-	// 		$httpBackend.flush();
-	// 		expect(angular.equals(isolateScope.users, users)).toBe(true);
-	// 	});
-
-	// 	describe('with pagination', function() {
-	// 		beforeEach(function() {
-	// 			$httpBackend.flush();
-	// 			$timeout.flush();
-	// 			//$httpBackend.expectGET('/api/v3/users/find?formerEmployees=false&limit=6').respond(200, RESPONSE_initWithoutFormerEmployees);
-	// 		});
-	// 		it('should get the number of users', function() {
-
-	// 		});
-	// 	});
-	// });
-
 	/**********************
 	** INITIALISATION    **
 	**********************/
@@ -112,20 +80,16 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			// TODO_ANAIS
 			users = [{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}];
 			expect(angular.equals(isolateScope.users, users)).toBe(true);
-			// DONE
 		});
 		it('should handle errors', function(){
 			$httpBackend.expectGET(findApi).respond(500, RESPONSE_ERROR_FIND);
 			isolateScope.find();
 			$httpBackend.flush();
 
-			// TODO_ANAIS
 			users = [{"overflow":"VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !"}]
 			expect(angular.equals(isolateScope.users, users)).toBe(true);
-			// DONE
 		});
 	});
 
@@ -146,12 +110,10 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			// TODO_ANAIS
 			var overflow = {overflow: "5/20"};
 			expect(isolateScope.count).toBe(20);
 			expect(isolateScope.users.length).toBe(6); // 5 first users + overflow message ==> 6 items
 			expect(angular.equals(_.last(isolateScope.users), overflow)).toBe(true);
-			// DONE
 		});
 	});
 	// Async
@@ -246,13 +208,11 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			// TODO_ANAIS
 			var formerEmployeeIds = _.chain(isolateScope.users)
 			.where({isFormerEmployee:true}) // keep only the ones tagged as 'former employee'
 			.pluck('id') // just keep their id
 			.value();
 			expect(formerEmployeeIds).toEqual([2,3]);
-			// DONE
 		});
 	});
 
@@ -336,26 +296,24 @@ describe('luidUserPicker', function(){
 	/**********************
 	** HOMONYMS          **
 	**********************/
-	describe("with homonyms", function(){
+	/* BASIC CASE: 2 homonyms */
+	describe("with 2 homonyms", function(){
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
 
-			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
 			isolateScope.find();
 		});
 		it('should detect there are homonyms', function(){
-			// TODO_ANAIS
 			// Should throw because GET /api/v3/users/id=1,3&fields=... is expected, but as we only want to check that homonyms have been tagged, we do not care about calling the api for more info
 			expect($httpBackend.flush).toThrow();
 			// There is at least one user with the flag hasHomonyms
 			expect(_.findWhere(isolateScope.users, {hasHomonyms:true})).toBeTruthy();
-			// DONE
 		});
 		it('should flag the homonyms', function(){
-			// TODO_ANAIS
 			// Should throw because GET /api/v3/users/id=1,3&fields=... is expected, but as we only want to check that homonyms have been tagged, we do not care about calling the api for more info
 			expect($httpBackend.flush).toThrow();
 			// Check that the homonyms sent back in the api response are flagged as homonyms
@@ -364,39 +322,76 @@ describe('luidUserPicker', function(){
 			.pluck('id') // just keep their id
 			.value();
 			expect(homonymIds).toEqual([1,3]);
-			// DONE
 		});
 		it('should fetch additional info for these homonyms via the right api', function(){
-			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
-
-			// TODO_ANAIS
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_2_homonyms_details_0_1);
 			expect($httpBackend.flush).not.toThrow();
-			// DONE
 		});
 		it('should fetch additional info for these homonyms and add the properties to the users', function(){
-			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_homonyms_details);
-
-			// TODO_ANAIS
-			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}];
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_2_homonyms_details_0_1);
 			$httpBackend.flush();
+
+			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}];
 			var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
 			expect(angular.equals(users, homonyms)).toBe(true);
-			// DONE
 		});
 		it('should handle errors when getting homonyms details', function(){
-			$httpBackend.whenGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
 
 			// TODO_ANAIS - test the error was handled
 		});
-		it('should identify the differentiating properties', function(){
-			// TODO_ANAIS
-			// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
-			// $httpBackend.flush();
+		it('should identify the first and second property as differentiating properties', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_1);
+			$httpBackend.flush();
 
-			// expect(isolateScope.properties.length).toBe(the right number);
-			// expect(isolateScope.properties[0]).toBe(the right one);
-			// expect(isolateScope.properties[1]).toBe(the right one);
-			// etc...
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0]).toBe("department.name");
+			expect(isolateScope.displayedProperties[1]).toBe("legalEntity.name");
+		});
+		it('should identify the first and last property as differentiating properties', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_3);
+			$httpBackend.flush();
+
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0]).toBe("department.name");
+			expect(isolateScope.displayedProperties[1]).toBe("mail");
+		});
+	});
+
+	/* COMPLEX CASE: more than 2 homonyms */
+	describe("with 4 homonyms", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users_4_homonyms);
+			isolateScope.find();
+		});
+		it('should identify the first and third property as differentiating properties', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_0_2);
+			$httpBackend.flush();
+
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0]).toBe("department.name");
+			expect(isolateScope.displayedProperties[1]).toBe("employeeNumber");
+		});
+		it('should identify the first and second property as differentiating properties', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_0_1);
+			$httpBackend.flush();
+
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0]).toBe("department.name");
+			expect(isolateScope.displayedProperties[1]).toBe("legalEntity.name");
+		});
+		it('should identify the second and third property as differentiating properties', function(){
+			$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_1_2);
+			$httpBackend.flush();
+
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0]).toBe("legalEntity.name");
+			expect(isolateScope.displayedProperties[1]).toBe("employeeNumber");
 		});
 	});
 
@@ -405,26 +400,22 @@ describe('luidUserPicker', function(){
 	** HOMONYMS WITH     **
 	** CUSTOM PROPERTIES **
 	**********************/
-	// describe("with homonyms and custom properties", function(){
-	// 	beforeEach(function(){
-	// 		// TODO_ANAIS - change template
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	describe("with homonyms and custom properties", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="birthDate,manager.name,mail"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	it('should fetch additional info for these homonyms via the right api', function(){
-	// 		// TODO_ANAIS - update regex for the custom properties you ask
-	// 		// $httpBackend.expectGET(/api\/v3\/users\?id=1,2,3\&fields=.*/i).respond(RESPONSE_homonyms_details);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+			isolateScope.find();
+		});
+		it('should fetch additional info for these homonyms via the right api', function(){
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,manager.name,mail/i).respond(RESPONSE_2_homonyms_details_0_1);
 
-	// 		// expect($httpBackend.flush).not.toThrow();
-	// 	});
-	// 	// Don't need to test anything else, it is handled by the same cogs as standard homonyms treatment
-	// });
+			expect($httpBackend.flush).not.toThrow();
+		});
+	});
 
 	// TODO
 	/**********************
@@ -438,15 +429,11 @@ describe('luidUserPicker', function(){
 
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
-	// 		controller = elt.controller("luidUserPickerMultiple");
 	// 		$scope.$digest();
 
 	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
 	// 		isolateScope.find();
 	// 		$httpBackend.flush();
-	// 	});
-	// 	it("should initialise isMultipleSelect variable", function() {
-	// 		expect(controller.isMultipleSelect).toBe(true);
 	// 	});
 	// 	it("should have removed from isolateScope.users the ones from $scope.users to avoid displaying an already selected user", function(){
 	// 		// TODO_ANAIS
@@ -503,8 +490,6 @@ describe('luidUserPicker', function(){
 	// 	});
 	// });
 
-
-
 	// responses from api
 	var RESPONSE_userWhoseNameBeginsWithBe = {"header":{},"data":{"items":[{"id":401,"firstName":"Jean-Baptiste","lastName":"Beuzelin","employeeNumber":"3","mail":"no-reply@lucca.fr","dtContractEnd":null},{"id":416,"firstName":"Benoit","lastName":"Paugam","employeeNumber":"00057","mail":"no-reply@lucca.fr","dtContractEnd":null},{"id":421,"firstName":"Lucien","lastName":"Bertin","employeeNumber":"00068","mail":"no-reply@lucca.fr","dtContractEnd":null}]}};
 	var RESPONSE_initWithoutFormerEmployees = {"header":{},"data":{"items":[{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"id":353,"name":"Guillaume Allain","firstName":"Guillaume","lastName":"Allain"}]}};
@@ -523,15 +508,21 @@ describe('luidUserPicker', function(){
 	var RESPONSE_20_users_FE = {header:{}, data:{items:[]}};
 
 	// N users, no former employees, SOME homonyms
-	var RESPONSE_4_users_homonyms = {"header":{},"data":{"items":[{"id":1,"firstName":"Lucien","lastName":"Bertin"},{"id":2,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":3,"firstName":"Lucien","lastName":"Bertin"},{"id":4,"firstName":"Benoit","lastName":"Paugam"}]}};
-	var RESPONSE_20_users_homonyms = {header:{}, data:{items:[]}};
+	var RESPONSE_4_users_2_homonyms = {"header":{},"data":{"items":[{"id":1,"firstName":"Lucien","lastName":"Bertin"},{"id":2,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":3,"firstName":"Lucien","lastName":"Bertin"},{"id":4,"firstName":"Benoit","lastName":"Paugam"}]}};
+	var RESPONSE_20_users_4_homonyms = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Lucien","lastName":"Bertin"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Lucien","lastName":"Bertin"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Lucien","lastName":"Bertin"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
 
 	// N users, SOME former employees, SOME homonyms
 	var RESPONSE_4_users_FE_homonyms = {header:{}, data:{items:[]}};
 	var RESPONSE_20_users_FE_homonyms = {header:{}, data:{items:[]}};
 
 	// Details on homonyms
-	var RESPONSE_homonyms_details = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
+	// When 2 homonyms
+	var RESPONSE_2_homonyms_details_0_1 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
+	var RESPONSE_2_homonyms_details_0_3 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"lbertin@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"lbertin2@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
+	// When 4 homonyms
+	var RESPONSE_4_homonyms_details_0_2 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Marketing"}}]}};
+	var RESPONSE_4_homonyms_details_0_1 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Sales"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
+	var RESPONSE_4_homonyms_details_1_2 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Sales"}}]}};
 
 	// count
 	var RESPONSE_find_count = {header:{}, data:{}};
@@ -540,4 +531,3 @@ describe('luidUserPicker', function(){
 	var RESPONSE_ERROR_COUNT = {Message:"error_count"};
 	var RESPONSE_ERROR_DETAILS = {Message:"error_details"};
 });
-

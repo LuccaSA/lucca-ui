@@ -1,5 +1,9 @@
 (function(){
 	'use strict';
+		/**
+	** DEPENDENCIES
+	**  - none
+	**/
 	angular.module('lui.directives')
 	.directive('luidSelectOnClick', function () {
 		return {

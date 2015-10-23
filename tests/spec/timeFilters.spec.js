@@ -130,17 +130,101 @@ describe('luif.timefilters', function(){
 			luifDuration = $filter('luifDuration');
 		});
 		it('should produce the right results when no format is provided', function(){
+			// default formatting is unit:hour, precision:minute
 			expect(luifDuration(0)).toEqual('');
 			expect(luifDuration(1000)).toEqual('');
 			expect(luifDuration(60000)).toEqual('1m');
 			expect(luifDuration(360000)).toEqual('6m');
+			expect(luifDuration(-360000)).toEqual('6m');
 			expect(luifDuration(3600000)).toEqual('1h');
 			expect(luifDuration(3960000)).toEqual('1h06');
 			expect(luifDuration(36000000)).toEqual('10h');
 			expect(luifDuration(360000000)).toEqual('100h');
-			expect(luifDuration(-36000000, '', true)).toEqual('-10h');
-			expect(luifDuration(-37200000, '', true)).toEqual('-10h20');
-			expect(luifDuration(360000000, '', true)).toEqual('+100h');
+			expect(luifDuration(360000005)).toEqual('100h');
+			expect(luifDuration(360001005)).toEqual('100h');
+			expect(luifDuration(360100005)).toEqual('100h01');
+			expect(luifDuration(360100005, true)).toEqual('+100h01');
+			expect(luifDuration(-360100005, true)).toEqual('-100h01');
+		});
+		it('should be resistant to edge cases', function(){
+			// default formatting is unit:hour, precision:minute
+			expect(luifDuration(undefined)).toEqual('');
+			expect(luifDuration(undefined, true)).toEqual('');
+			expect(luifDuration(undefined, true, 'd','ms')).toEqual('');
+
+			expect(luifDuration('not parsable as duration')).toEqual('');
+			expect(luifDuration('not parsable as duration', true)).toEqual('');
+			expect(luifDuration('not parsable as duration', true, 'd','ms')).toEqual('');
+
+		});
+		it('should produce the right results when a unit is provided', function(){
+			moment.locale('en');
+			expect(luifDuration(360000, false, 'd')).toEqual(''); // x < 1h 
+			expect(luifDuration(36000000, false, 'd')).toEqual('10h'); // 1h <= x < 1d
+			expect(luifDuration(360000000, false, 'd')).toEqual('4d 4h'); // 1d <= x
+			expect(luifDuration(360000000, false, 'day')).toEqual('4d 4h'); 
+			expect(luifDuration(360000000, false, 'days')).toEqual('4d 4h'); 
+
+			expect(luifDuration(59000, false, 'h')).toEqual(''); // x < 1m
+			expect(luifDuration(61000, false, 'h')).toEqual('1m'); // 1m <= x < 1h
+			expect(luifDuration(3600001, false, 'h')).toEqual('1h'); // 1h <= x
+			expect(luifDuration(3660001, false, 'h')).toEqual('1h01');
+			expect(luifDuration(3660001, false, 'hour')).toEqual('1h01');
+			expect(luifDuration(3660001, false, 'hours')).toEqual('1h01');
+
+			expect(luifDuration(999, false, 'm')).toEqual(''); // x < 1s
+			expect(luifDuration(1001, false, 'm')).toEqual('1s'); // 1s <= x < 1m
+			expect(luifDuration(60001, false, 'm')).toEqual('1m'); // 1d <= x
+			expect(luifDuration(61001, false, 'm')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'min')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'mins')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'minute')).toEqual('1m01'); 
+			expect(luifDuration(61001, false, 'minutes')).toEqual('1m01'); 
+
+			expect(luifDuration(0, false, 's')).toEqual(''); 
+			expect(luifDuration(999, false, 's')).toEqual(''); 
+			expect(luifDuration(1001, false, 's')).toEqual('1s'); 
+			expect(luifDuration(1001, false, 'sec')).toEqual('1s'); 
+			expect(luifDuration(1001, false, 'second')).toEqual('1s'); 
+			expect(luifDuration(1001, false, 'seconds')).toEqual('1s'); 
+
+			expect(luifDuration(0, false, 'ms')).toEqual(''); 
+			expect(luifDuration(10, false, 'ms')).toEqual('10ms'); 
+			expect(luifDuration(10, false, 'millisec')).toEqual('10ms'); 
+			expect(luifDuration(10, false, 'millisecond')).toEqual('10ms'); 
+			expect(luifDuration(10, false, 'milliseconds')).toEqual('10ms'); 
+		});
+		it('should produce the right results when a unit and a precision are provided', function(){
+			moment.locale('en');
+			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1d '); 
+			expect(luifDuration(90061001, false, 'd', 'h')).toEqual('1d 1h'); 
+			expect(luifDuration(90061001, false, 'd', 'm')).toEqual('1d 1h01'); 
+			expect(luifDuration(90061001, false, 'd', 's')).toEqual('1d 1h01m01s'); 
+			expect(luifDuration(90061001, false, 'd', 'ms')).toEqual('1d 1h01m01.001s'); 
+
+			expect(luifDuration(90061001, false, 'h', 'd')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'h', 'h')).toEqual('25h'); 
+			expect(luifDuration(90061001, false, 'h', 'm')).toEqual('25h01'); 
+			expect(luifDuration(90061001, false, 'h', 's')).toEqual('25h01m01s'); 
+			expect(luifDuration(90061001, false, 'h', 'ms')).toEqual('25h01m01.001s'); 
+
+			expect(luifDuration(90061001, false, 'm', 'd')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'm', 'h')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'm', 'm')).toEqual('1501m'); 
+			expect(luifDuration(90061001, false, 'm', 's')).toEqual('1501m01'); 
+			expect(luifDuration(90061001, false, 'm', 'ms')).toEqual('1501m01.001s'); 
+
+			expect(luifDuration(90061001, false, 's', 'd')).toEqual(''); 
+			expect(luifDuration(90061001, false, 's', 'h')).toEqual(''); 
+			expect(luifDuration(90061001, false, 's', 'm')).toEqual(''); 
+			expect(luifDuration(90061001, false, 's', 's')).toEqual('90061s'); 
+			expect(luifDuration(90061001, false, 's', 'ms')).toEqual('90061.001s'); 
+
+			expect(luifDuration(90061001, false, 'ms', 'd')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'ms', 'h')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'ms', 'm')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'ms', 's')).toEqual(''); 
+			expect(luifDuration(90061001, false, 'ms', 'ms')).toEqual('90061001ms'); 
 		});
 	});
 	describe('luifHumanize', function(){
