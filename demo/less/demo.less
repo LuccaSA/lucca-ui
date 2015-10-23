@@ -5,6 +5,7 @@
 
 // Table of contents
 @toc-width: 10em;
+@banner-height: 4em;
 
 html, body {
 	min-height: 100%;
@@ -19,17 +20,31 @@ html, body {
 	}
 }
 
+#banner {
+	position: fixed;
+	z-index: 20;
+	left: 0; top: 0;
+
+	width: 100%;
+	height: @banner-height;
+	background-color: #ccc;
+}
+
 #toc {
 	position: fixed;
 	z-index: 10;
-	left: 0; top: 0;
+	left: 0; top: @banner-height;
 
 	width: @toc-width;
 	height: 100%;
 	//background-color: #333;
 }
+
 #main-content {
+	position: relative;
 	margin-left: @toc-width;
+
+	top: @banner-height;
 	padding: 2em;
 }
 
