@@ -65,7 +65,7 @@ $luiTheme: () !default;
 // @import "core/theming/defaults.values";
 @at-root {
 	@import "core/theming/defaults.values";
-}
 
-// User theme overrides
-@import "theme.variables";
+	// User theme overrides
+	@import "theme.variables";
+}

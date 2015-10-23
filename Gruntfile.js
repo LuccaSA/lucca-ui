@@ -21,10 +21,9 @@ module.exports = function(grunt) {
 					sourcemap: 'inline',
 					style: 'expanded', // compressed, compact, nested, expanded
 					loadPath: [
+						luiConfig.theme.path + '/' + luiConfig.theme.name,
 						'src',
 						luiConfig.bowerPath,
-						luiConfig.theme.path + '/' + luiConfig.theme.name,
-						'themes/lucca'
 					]
 				},
 				files: [
