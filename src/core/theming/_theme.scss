@@ -1,3 +1,8 @@
+$luiTheme: () !default;
+
+// Helpers
+// ===================================
+
 @function map-gets($map, $keys...) {
 	@each $key in $keys {
 		$map: map-get($map, $key);
@@ -6,12 +11,6 @@
 	@return $map;
 }
 
-/// jQuery-style extend function
-/// @param {Map} $map - first map
-/// @param {ArgList} $maps - other maps
-/// @param {Bool} $deep - recursive mode
-/// @return {Map}
-// Credits: http://www.sitepoint.com/extra-map-functions-sass/
 @function map-extend($map, $maps.../*, $deep */) {
 	$last: nth($maps, -1);
 	$deep: $last == true;
@@ -44,27 +43,29 @@
 }
 
 
-// Retrieves theming variables
+// Get / set theming variables
 // ===================================
 
-@function lui_get_component_vars($type, $name) {
+@function lui_set_component_variables($type, $name, $map) {
+	$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)), true);
+	$luiTheme: $luiTheme !global; // Maske it globally known
+	@return $luiTheme;
+}
 
-	@if  (map-has-key($luiTheme, unquote("#{$type}s"))) and
-		 (map-has-key(map-get($luiTheme, unquote("#{$type}s")), $name)) {
-			@return map-get(map-get($luiTheme, unquote("#{$type}s")), $name);
+@function lui_get_component_variables($type, $name) {
+	@if  (map-has-key($luiTheme, "#{$type}s")) and
+		 (map-has-key(map-get($luiTheme, "#{$type}s"), $name)) {
+			@return map-gets($luiTheme, "#{$type}s", $name);
 	} @else {
 		@warn "Component #{$name} of type #{$type} was not found !";
 	}
 }
 
+// Load core defaults
+// @import "core/theming/defaults.values";
+@at-root {
+	@import "core/theming/defaults.values";
+}
 
-// Theming
-// ===================================
-
-// Core defaults
-@import "core/defaults/defaults.values";
 // User theme overrides
-$myTheme: () !default;
 @import "theme.variables";
-
-$luiTheme: map-extend($luiDefaultTheme, $myTheme, true);

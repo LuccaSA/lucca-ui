@@ -1,7 +1,7 @@
 $prefix: '' !default;
 $namespace: false;
 
-@import "core/defaults/defaults";
+@import "core/theming/theme";
 
 
 // ===================================
@@ -50,28 +50,28 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 @at-root {
 	// Animated
 	// ===================================
-	$vars: lui_get_component_vars(adjective, animated);
+	$vars: lui_get_component_variables(adjective, animated);
 	@import "core/adjectives/animated";
 }
 
 @at-root {
 	// Pointing
 	// ===================================
-	$vars: lui_get_component_vars(adjective, pointing);
+	$vars: lui_get_component_variables(adjective, pointing);
 	@import "core/adjectives/pointing";
 }
 
 @at-root {
 	// Raised: subtle shadow effect
 	// ===================================
-	$vars: lui_get_component_vars(adjective, raised);
+	$vars: lui_get_component_variables(adjective, raised);
 	@import "core/adjectives/raised";
 }
 
 @at-root {
 	// Rounded
 	// ===================================
-	$vars: lui_get_component_vars(adjective, rounded);
+	$vars: lui_get_component_variables(adjective, rounded);
 	@import "core/adjectives/rounded";
 }
 
@@ -89,84 +89,84 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 @at-root {
 	// Grid
 	// ===================================
-	$vars: lui_get_component_vars(element, grid);
+	$vars: lui_get_component_variables(element, grid);
 	@import "core/elements/grid";
 }
 
 @at-root {
 	// Typography
 	// ===================================
-	$vars: lui_get_component_vars(element, typography);
+	$vars: lui_get_component_variables(element, typography);
 	@import "core/elements/typography";
 }
 
 @at-root {
 	// Input
 	// ===================================
-	$vars: lui_get_component_vars(element, input);
+	$vars: lui_get_component_variables(element, input);
 	@import "core/elements/input";
 }
 
 @at-root {
 	// Button
 	// ===================================
-	$vars: lui_get_component_vars(element, button);
+	$vars: lui_get_component_variables(element, button);
 	@import "core/elements/button";
 }
 
 @at-root {
 	// Divider
 	// ===================================
-	$vars: lui_get_component_vars(element, divider);
+	$vars: lui_get_component_variables(element, divider);
 	@import "core/elements/divider";
 }
 
 @at-root {
 	// Table
 	// ===================================
-	$vars: lui_get_component_vars(element, table);
+	$vars: lui_get_component_variables(element, table);
 	@import "core/elements/table";
 }
 
 @at-root {
 	// Menu
 	// ===================================
-	$vars: lui_get_component_vars(element, menu);
+	$vars: lui_get_component_variables(element, menu);
 	@import "core/elements/menu";
 }
 
 @at-root {
 	// Breadcrumbs
 	// ===================================
-	$vars: lui_get_component_vars(element, breadcrumbs);
+	$vars: lui_get_component_variables(element, breadcrumbs);
 	@import "core/elements/breadcrumbs";
 }
 
 @at-root {
 	// label
 	// ===================================
-	$vars: lui_get_component_vars(element, label);
+	$vars: lui_get_component_variables(element, label);
 	@import "core/elements/label";
 }
 
 @at-root {
 	// Callout
 	// ===================================
-	$vars: lui_get_component_vars(element, callout);
+	$vars: lui_get_component_variables(element, callout);
 	@import "core/elements/callout";
 }
 
 @at-root {
 	// Block (@TODO: under construction)
 	// ===================================
-	$vars: lui_get_component_vars(element, block);
+	$vars: lui_get_component_variables(element, block);
 	@import "core/elements/block";
 }
 
 @at-root {
 	// Overlay
 	// ===================================
-	$vars: lui_get_component_vars(element, overlay);
+	$vars: lui_get_component_variables(element, overlay);
 	@import "core/elements/overlay";
 }
 

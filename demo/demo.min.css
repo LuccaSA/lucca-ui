@@ -551,7 +551,7 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
 }
 .loader:after, .animated, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after, .button.status.loading:not([class*="with addon"]):after {
   animation-easing: ease-out;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-fill-mode: both;
   -webkit-backface-visibility: hidden;
   /* Chrome, Safari, Opera */
@@ -884,7 +884,7 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
   border-left: 0.5em solid #CCC;
 }
 .raised, .callout {
-  box-shadow: 0 1px 2px 0 red;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .rounded {
   border-radius: 3px;
@@ -2348,16 +2348,6 @@ luid-timespan > input:focus, luid-moment > .luid-moment:focus, .input > input:fo
   outline: none;
   border-color: #b3b3b3;
 }
-luid-timespan > input::-webkit-input-placeholder, luid-moment > .luid-moment::-webkit-input-placeholder, .input > input::-webkit-input-placeholder,
-.input > textarea::-webkit-input-placeholder,
-.input > select::-webkit-input-placeholder, luid-timespan > input::-moz-placeholder, luid-moment > .luid-moment::-moz-placeholder, .input > input::-moz-placeholder,
-.input > textarea::-moz-placeholder,
-.input > select::-moz-placeholder, luid-timespan > input:-ms-input-placeholder, luid-moment > .luid-moment:-ms-input-placeholder, .input > input:-ms-input-placeholder,
-.input > textarea:-ms-input-placeholder,
-.input > select:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.5);
-  font-style: italic;
-}
 
 luid-timespan > input, .input > input {
   padding: 0 1em;
@@ -2565,7 +2555,7 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
   text-transform: normal;
   text-shadow: none;
   text-align: center;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
   border-radius: 3px;
   transition-property: background, box-shadow, color;
   -moz-transition-duration: 0.3s;
@@ -2595,10 +2585,10 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 }
 
 .button:not(.wired):hover {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .button:not(.wired):active, .button:not(.wired).active {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
 }
 
 .button.filling:not(.inverted) {
@@ -4282,28 +4272,28 @@ ol li.divider {
   border-top-color: #FFC900;
 }
 
-@media (min-width: 320px) {
+@media (min-width: break 320px) {
   .menu.container {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: spacing 1em;
+    padding-right: spacing 1em;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: break 768px) {
   .menu.container {
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: spacing 2em;
+    padding-right: spacing 2em;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: break 992px) {
   .menu.container {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: spacing 3em;
+    padding-right: spacing 3em;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: break 1200px) {
   .menu.container {
-    padding-left: 5em;
-    padding-right: 5em;
+    padding-left: spacing 5em;
+    padding-right: spacing 5em;
   }
 }
 .menu.container > .item:first-child {

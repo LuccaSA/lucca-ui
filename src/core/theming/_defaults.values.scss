@@ -1,0 +1,441 @@
+// ===================================
+// ========== Dependencies ===========
+// ===================================
+
+
+// Lucca icons
+// ===================================
+
+$luccaIcons: (
+	iconBaseSelector: "#{$prefix}.icon"
+);
+$luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
+
+
+
+// ===================================
+// ============= Globals =============
+// ===================================
+
+// Default color scheme
+// ===================================
+
+$colors: (
+	grey: 		( class: "grey", 		color: #666, 	text: #fff, lod: true ),
+	light: 		( class: "light", 		color: #CCC, 	text: #666, lod: false ),
+	primary: 	( class: "primary", 	color: #FFC900, text: #666, lod: false ),
+	secondary: 	( class: "secondary", 	color: #F60, 	text: #FFF, lod: true ),
+	red: 		( class: "red", 		color: #F60, 	text: #FFF, lod: true ),
+	orange: 	( class: "orange", 		color: #F90, 	text: #FFF, lod: true ),
+	green: 		( class: "green", 		color: #5cb85c, text: #FFF, lod: true ),
+	yellow: 	( class: "yellow", 		color: #FFC900, text: #666, lod: false )
+);
+$luiTheme: lui_set_component_variables(global, colors, $colors);
+
+
+// Sizes
+// ===================================
+
+$sizes: (
+	"x-small": 					0.7em,
+	"small": 					0.8em,
+	"regular": 					13px,
+	"large": 					1.25em,
+	"x-large": 					1.5em
+);
+$luiTheme: lui_set_component_variables(global, sizes, $sizes);
+
+
+// Sizes
+// ===================================
+
+$breakpoints: (
+	mobile: 					(break: 320px, spacing: 1em),
+	tablet: 					(break: 768px, spacing: 2em),
+	desktop: 					(break: 992px, spacing: 3em),
+	large: 						(break: 1200px, spacing: 5em)
+);
+$luiTheme: lui_set_component_variables(global, breakpoints, $breakpoints);
+
+
+
+// ===================================
+// =========== Adjectives ============
+// ===================================
+
+// Animated
+// ===================================
+
+$animated: (
+	enabled:					true,
+	animationDuration:			0.5s,
+	animationEasing:			ease-out,
+	fadeTranslationDistance: 	1em,
+	scaleAnimationRatio: 		25,
+	bounceDistance: 			2em
+);
+$luiTheme: lui_set_component_variables(adjective, animated, $animated);
+
+
+// Pointing
+// ===================================
+
+$pointing: (
+	triangleColor:				map-gets($colors, light, color),
+	triangleWidth:				0.5em
+);
+$luiTheme: lui_set_component_variables(adjective, pointing, $pointing);
+
+
+// Raised
+// ===================================
+
+$raised: (
+	x: 							0,
+	y: 							1px,
+	blur: 						2px,
+	spread: 					0,
+	color: 						rgba(0, 0, 0, 0.2)
+);
+$luiTheme: lui_set_component_variables(adjective, raised, $raised);
+
+
+// Rounded
+// ===================================
+
+$rounded: 						( radius: 3px );
+$luiTheme: lui_set_component_variables(adjective, rounded, $rounded);
+
+
+
+// ===================================
+// ============ Elements =============
+// ===================================
+
+// Grid
+// ===================================
+
+$grid: (
+	gutter: 					1em,
+	columns: 					12,
+	containerWidth: 			auto
+);
+$luiTheme: lui_set_component_variables(element, grid, $grid);
+
+
+// Typography
+// ===================================
+
+$typography: (
+	fontFamily: 				"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
+	color: 						#666,
+	lineHeight:					1.4em,
+	smallSize:	 				0.8em,
+	bodyFontSize: 				13px,
+
+	headings: (
+		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
+		lineHeight: 			1.25em,
+		verticalMargin:			0,
+		fontWeight: 			normal,
+
+		h1Size:					2.75em,
+		h1LineHeight:			1.25em,
+		h1Weight:				300,
+
+		h2Size:					2.25em,
+		h2LineHeight:			1.25em,
+		h2Weight:				300,
+
+		h3Size:					1.8em,
+		h3LineHeight:			1.3em,
+		h3Weight:				400,
+
+		h4Size:					1.5em,
+		h4LineHeight:			1.3em,
+		h4Weight:				400,
+
+		h5Size:					1.25em,
+		h5LineHeight:			1em,
+		h5Weight:				400,
+
+		h6Size:					1.1em,
+		h6LineHeight:			1em,
+		h6Weight:				600,
+
+		iconSize: 				0.8em
+	),
+
+	linkColor:					#666,
+	linkColorHover:				darken(#666, 10),
+
+	dlDivider:					":",
+	dlGutter:					2em,
+	dlDtWeight:					600,
+	dlDdWeight:					400
+);
+$luiTheme: lui_set_component_variables(element, typography, $typography);
+
+
+// Divider
+// ===================================
+
+$divider: (
+	borderColor: 				rgba(50, 50, 50, 0.2),
+	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
+	dividerWeight: 				1px,
+	dividerFatWeight:			3px
+);
+$luiTheme: lui_set_component_variables(element, divider, $divider);
+
+
+// Button
+// ===================================
+
+$button: (
+	enabled:					true,
+
+	textTransform:				normal,
+
+	minHeight:					1em,
+	minWidth:					3em,
+
+	verticalPadding:			0.66em,
+	horizontalPadding:			1em,
+	verticalMargin:				0.25em,
+	horizontalMargin:			0.25em,
+
+	textShadow:					none,
+	borderRadius:				3px,
+
+	defaultColoring: (
+		color:					#FFF,
+		text:					#666,
+		lod:					false
+	),
+
+	defaultBorder: 				0 0 0 1px map-get($divider, borderColor) inset,
+
+	disabledOpacity: 			0.5,
+	disabledGrayscale: 			50%,
+);
+$luiTheme: lui_set_component_variables(element, button, $button);
+
+
+// Input(s)
+// ===================================
+
+$input: (
+	bg: 						#FFF,
+	borderRadius: 				3px,
+	color: 						#666,
+	verticalPadding: 			0.66em,
+	horizontalPadding: 			1em,
+	borderColor: 				map-gets($colors, light, color),
+	focusBorderColor: 			darken(map-gets($colors, light, color), 10),
+	invalidColor:  				map-gets($colors, red, color),
+	shadow: 					0 2px 2px 0 map-gets($divider, borderColor),
+
+	placeholder: (
+		color: 					rgba(0, 0, 0, 0.5),
+		style: 					italic,
+	),
+
+	field: (
+		verticalMargin: 		0.5em,
+		labelFontWeight: 		600,
+	),
+
+	checkbox: (
+		color: 					map-gets($colors, primary, color),
+		size: 					1.5em
+	),
+
+	switch: (
+		width: 					4.5em,
+		height: 				2.25em,
+		background: 			#666,
+		color: 					darken(#666, 15),
+		activeBackground: 		map-gets($colors, primary, color),
+		activeColor:			darken(map-gets($colors, primary, color), 15),
+		grabLinesColor: 		map-gets($colors, light, color),
+	),
+
+	search: (
+		paddingLeft: 			2.5em
+	),
+
+
+	timespanpicker: (
+		width: 					5em
+	),
+
+	momentpicker: (
+		width: 					2.2em,
+		maxWidth: 				5.25em
+	)
+);
+$luiTheme: lui_set_component_variables(element, input, $input);
+
+
+
+// Table
+// ===================================
+
+$table: (
+	background:					#fff,
+	border: 					1px solid #d6d6d6,
+	padding: 					0.5em 1em,
+	zebraBackground:			rgba(200, 200, 200,0.25),
+	verticalMargin: 			1em,
+	horizontalMargin: 			0,
+	textAlignment: 				left,
+
+	coloredBorderWidth: 		5px
+);
+$luiTheme: lui_set_component_variables(element, table, $table);
+
+
+// Menu
+// ===================================
+
+$menu: (
+	defaultColoring: 			(color: #666, text: #FFF, lod: true),
+
+	verticalMargin: 			0,
+	horizontalMargin: 			0,
+	verticalPadding: 			0,
+	horizontalPadding: 			0,
+
+	borderColor: 				map-gets($divider, borderColor),
+	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
+	borderStyle:				solid,
+
+	borderWidth: 				1px,
+
+	item: (
+		vertical: (
+			verticalPadding: 	1em,
+			horizontalPadding: 	1.5em,
+			verticalMargin: 	0,
+			horizontalMargin: 	0,
+		),
+		horizontal: (
+			verticalPadding: 	0.5em,
+			horizontalPadding: 	1em,
+			verticalMargin: 	0,
+			horizontalMargin: 	0,
+		),
+		header: (
+			fontSize:			''
+		)
+	),
+
+	dividing: (
+		dividerColor: 			map-gets($divider, borderColor),
+		dividerWidth: 			1px,
+		activeDividerWidth: 	3px,
+		activeDividerColor: 	map-gets($colors, primary, color)
+	),
+
+	tabbed: (
+		padding: 				0 1em,
+		background: 			#FAFAFA,
+		activeBackground: 		#FFF,
+		borderColor: 			map-gets($divider, borderColor),
+		activeBorderWidth: 		3px,
+		bottomSpacing: 			5px
+	),
+
+	pills: (
+		borderRadius: 			3px
+	)
+);
+$luiTheme: lui_set_component_variables(element, menu, $menu);
+
+
+// Breadcrumbs
+// ===================================
+
+$breadcrumbs: (
+	itemPadding:  				0.5em 0,
+
+	dividers: (
+		fontFamily: 			'',
+		character: 				"\003e",
+		margin: 				0 0.5em,
+		color:					map-gets($divider, borderColor)
+	)
+);
+$luiTheme: lui_set_component_variables(element, breadcrumbs, $breadcrumbs);
+
+
+// label
+// ===================================
+
+$label: (
+	defaultColoring: 			(color: map-gets($colors, light, color), text: #666, lod: false),
+	borderRadius: 				3px,
+	verticalPadding: 			0.25em,
+	horizontalPadding: 			0.5em
+);
+$luiTheme: lui_set_component_variables(element, label, $label);
+
+
+// Callout
+// ===================================
+
+$callout: (
+	background: 				#FFF,
+	borderColor: 				map-gets($colors, light, color),
+	borderWidth: 				5px,
+
+	verticalPadding: 			1em,
+	horizontalPadding: 			2em,
+	verticalMargin: 			1em,
+	horizontalMargin: 			0,
+
+	defaultColoring: 			(color: map-gets($colors, light, color), text: #222, lod: false)
+);
+$luiTheme: lui_set_component_variables(element, callout, $callout);
+
+
+// Block
+// ===================================
+
+$block: (
+	verticalPadding: 			1em,
+	horizontalPadding: 			1em,
+	border: 					1px solid map-gets($divider, borderColor),
+	invertedBorder: 			rgba(255, 255, 255, 0.2),
+	borderRadius: 				3px
+);
+$luiTheme: lui_set_component_variables(element, block, $block);
+
+
+// Overlay
+// ===================================
+
+$overlay: (
+	zIndex: 					100,
+	background: 				rgba(0, 0, 0, 0.5)
+);
+$luiTheme: lui_set_component_variables(element, overlay, $overlay);
+
+$luiTheme: $luiTheme !global;
+
+
+
+// ===================================
+// ============= Plugins =============
+// ===================================
+
+// Angular UI bootstrap reskin project
+// ===================================
+@at-root {
+	// @import "plugins/angular-ui-bootstrap-reskin/plugin.variables";
+	// $luiTheme: lui_set_component_variables(element, overlay, $overlay);
+};
+
+// Lucca app layout
+// ===================================

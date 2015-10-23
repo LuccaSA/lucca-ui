@@ -1,5 +1,5 @@
 @function lui_get_colorscheme($colorName, $property: all) {
-	$scheme: map-get(map-gets($luiTheme, globals, colors), $colorName);
+	$scheme: map-gets($luiTheme, globals, colors, $colorName);
 	@if $property != all and map-has-key($scheme, $property) {
 		@return map-get($scheme, $property);
 	} @else {

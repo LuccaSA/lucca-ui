@@ -437,7 +437,7 @@
 }
 .app .loader:after, .app .animated, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after, .app .button.status.loading:not([class*="with addon"]):after {
   animation-easing: ease-out;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-fill-mode: both;
   -webkit-backface-visibility: hidden;
   /* Chrome, Safari, Opera */
@@ -740,7 +740,7 @@
   border-left: 0.5em solid #CCC;
 }
 .app .raised, .app .callout {
-  box-shadow: 0 1px 2px 0 red;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .app .rounded {
   border-radius: 3px;
@@ -2165,16 +2165,6 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   outline: none;
   border-color: #b3b3b3;
 }
-.app luid-timespan > input::-webkit-input-placeholder, .app luid-moment > .luid-moment::-webkit-input-placeholder, .app .input > input::-webkit-input-placeholder,
-.app .input > textarea::-webkit-input-placeholder,
-.app .input > select::-webkit-input-placeholder, .app luid-timespan > input::-moz-placeholder, .app luid-moment > .luid-moment::-moz-placeholder, .app .input > input::-moz-placeholder,
-.app .input > textarea::-moz-placeholder,
-.app .input > select::-moz-placeholder, .app luid-timespan > input:-ms-input-placeholder, .app luid-moment > .luid-moment:-ms-input-placeholder, .app .input > input:-ms-input-placeholder,
-.app .input > textarea:-ms-input-placeholder,
-.app .input > select:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.5);
-  font-style: italic;
-}
 .app luid-timespan > input, .app .input > input {
   padding: 0 1em;
   line-height: 2.32em;
@@ -2367,7 +2357,7 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   text-transform: normal;
   text-shadow: none;
   text-align: center;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
   border-radius: 3px;
   transition-property: background, box-shadow, color;
   -moz-transition-duration: 0.3s;
@@ -2393,10 +2383,10 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   pointer-events: none;
 }
 .app .button:not(.wired):hover {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .app .button:not(.wired):active, .app .button:not(.wired).active {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
 }
 .app .button.filling:not(.inverted) {
   background: #FFF;
@@ -4015,28 +4005,28 @@ html:not(.ie9) .app .buttons {
 .app .menu.yellow.tabbed > a.item.active {
   border-top-color: #FFC900;
 }
-@media (min-width: 320px) {
+@media (min-width: break 320px) {
   .app .menu.container {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: spacing 1em;
+    padding-right: spacing 1em;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: break 768px) {
   .app .menu.container {
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: spacing 2em;
+    padding-right: spacing 2em;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: break 992px) {
   .app .menu.container {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: spacing 3em;
+    padding-right: spacing 3em;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: break 1200px) {
   .app .menu.container {
-    padding-left: 5em;
-    padding-right: 5em;
+    padding-left: spacing 5em;
+    padding-right: spacing 5em;
   }
 }
 .app .menu.container > .item:first-child {

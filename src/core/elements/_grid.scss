@@ -67,10 +67,10 @@ body, html { width: 100%; height: 100%; }
 	}
 }
 
-@each $device, $props in lui_get_component_vars(global, breakpoints) {
-	$i: index($device, lui_get_component_vars(global, breakpoints));
-	$breakAt: nth($props, 1);
-	$spacing: nth($props, 2);
+@each $device, $props in lui_get_component_variables(global, breakpoints) {
+	$i: index($device, lui_get_component_variables(global, breakpoints));
+	$breakAt: map-get($props, break);
+	$spacing: map-get($props, spacing);
 
 	@if $i == 1 { // Mobile first
 		// Container
