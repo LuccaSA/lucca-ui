@@ -126,23 +126,16 @@
 					<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
 					<span class="lui addon">.local</span>
 				</span>
-				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate as passepartout</span><br>
+				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
+				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span><br>
+				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. For now this is only available on branch <a href="https://github.com/LuccaSA/ilucca/tree/lu.rc.users.lookup">lu.rc.users.lookup</a> but will be merged to rc soon.
 			</p>
 			<p>
-				<luid-user-picker class="lui long input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
+				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
 				<input type="checkbox" ng-model="isChecked">Show former employees 
 			</p>
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
-			</p>
-			<p>
-				You can see the number of time the api was called: <code>{{getCnt}}</code>
-			</p>
-			<p>
-				And the details of the calls: 
-				<ul class="lui unstyled">
-					<li ng-repeat="call in apiCalls track by call.id" ng-bind-html="call.url | highlight : 'clue=' | highlight : 'formerEmployees='">{{call.url}}</li>
-				</ul>
 			</p>
 		</div>
 		<div class="lui dashed divider">
