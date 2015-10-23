@@ -1,5 +1,12 @@
 (function(){
-	angular.module('luccaSpeApp',['lui', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'ngMockE2E']);
+	angular.module('luccaSpeApp',['lui', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'ngMockE2E', 'pascalprecht.translate'])
+	.config(['$translateProvider', function($translateProvider){
+		var culture = 'en';
+		$translateProvider.use(culture);
+		$translateProvider.preferredLanguage(culture);
+		$translateProvider.fallbackLanguage(['en', 'fr']);
+		moment.locale(culture)
+	}]);
 	angular.module('luccaSpeApp')
 	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', function($scope, $httpBackend, _, $http) {
 
