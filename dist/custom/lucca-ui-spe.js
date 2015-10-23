@@ -902,7 +902,7 @@
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = ["department.name", "legalEntity.name", "employeeNumber", "mail"]; // MAGIC_STRING
 
-	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refreshDelay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
+	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\">VAR_TRAD Parti(e) le {{user.dtContractEnd | luifMoment: 'll'}}</small>" +
@@ -1056,7 +1056,7 @@
 						}
 					}
 					else {
-						$scope.users = [{overflow: "VAR_TRAD Pas de résultat."}];
+						$scope.users = [{overflow: "VAR_TRAD Pas de résultat.", id:-1}];
 					}
 				}, 
 				function(message) {
@@ -1213,7 +1213,7 @@
 		// };
 
 		var handleOverflowMessage = function() {
-			$scope.users.push({ overflow: MAX_COUNT + "/" + $scope.count });
+			$scope.users.push({ overflow: MAX_COUNT + "/" + $scope.count, id:-1 });
 		};
 
 		// userPickerMultiple feature, not yet implemented
@@ -1434,7 +1434,7 @@
 			switch (cause) {
 				case "GET_USERS": // error while trying to get the users matching the query
 					$scope.users = [];
-					$scope.users.push({ overflow: "VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !" });
+					$scope.users.push({ overflow: "VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !", id:-1 });
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
