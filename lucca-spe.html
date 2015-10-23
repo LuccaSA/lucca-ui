@@ -128,12 +128,7 @@
 				<input type="checkbox" ng-model="isChecked">Show former employees 
 			</p>
 			<p>
-				<span ng-if="isChecked">
-					<luid-user-picker ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
-				</span>
-				<span ng-if="!isChecked">
-					<luid-user-picker ng-model="myUser.selected" show-former-employees="false"></luid-user-picker>
-				</span>
+			<luid-user-picker class="lui long input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
 			</p>
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
