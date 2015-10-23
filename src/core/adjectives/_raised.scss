@@ -1,1 +1,3 @@
-#{$prefix}.raised { box-shadow: map-get($vars, x) map-get($vars, y) map-get($vars, blur) map-get($vars, spread) map-get($vars, color); }
+@if map-get($vars, enabled) {
+	#{$prefix}.raised { box-shadow: map-get($vars, x) map-get($vars, y) map-get($vars, blur) map-get($vars, spread) map-get($vars, color); }
+}

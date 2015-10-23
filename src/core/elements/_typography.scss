@@ -1,3 +1,6 @@
+// ===================================
+// ============= Mixins ==============
+// ===================================
 
 // General
 // ===================================
@@ -12,160 +15,161 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-@if ($namespace) {
-	@at-root #{$namespace} {
-		@include lui_body_typeset;
-	}
-} @else {
-	body {
-		@include lui_body_typeset;
-	}
-}
 
-small { font-size: map-get($vars, smallSize); }
-
-// Headings
+// ===================================
+// ============= Element =============
 // ===================================
 
-h1, h2, h3, h4, h5, h6 {
-	font-family: unquote(map-gets($vars, headings, fontFamily));
-	line-height: map-gets($vars, headings, fontFamily);
-	margin: map-gets($vars, headings, fontFamily) 0;
-	font-weight: map-gets($vars, headings, fontFamily);
-	padding: 0em;
-}
+@if map-get($vars, enabled) {
 
-h1 {
-	font-size: map-gets($vars, headings, h1Size);
-	line-height: map-gets($vars, headings, h1LineHeight);
-	font-weight: map-gets($vars, headings, h1Weight);
-}
-h2 {
-	font-size: map-gets($vars, headings, h2Size);
-	line-height: map-gets($vars, headings, h2LineHeight);
-	font-weight: map-gets($vars, headings, h2Weight);
-}
-h3 {
-	font-size: map-gets($vars, headings, h3Size);
-	line-height: map-gets($vars, headings, h3LineHeight);
-	font-weight: map-gets($vars, headings, h3Weight);
-}
-h4 {
-	font-size: map-gets($vars, headings, h4Size);
-	line-height: map-gets($vars, headings, h4LineHeight);
-	font-weight: map-gets($vars, headings, h4Weight);
-}
-h5 {
-	font-size: map-gets($vars, headings, h5Size);
-	line-height: map-gets($vars, headings, h5LineHeight);
-	font-weight: map-gets($vars, headings, h5Weight);
-}
-h6 {
-	font-size: map-gets($vars, headings, h6Size);
-	line-height: map-gets($vars, headings, h6LineHeight);
-	font-weight: map-gets($vars, headings, h6Weight);
-}
+	@if ($namespace) {
+		@at-root #{$namespace} {
+			@include lui_body_typeset;
+		}
+	} @else {
+		body {
+			@include lui_body_typeset;
+		}
+	}
 
-#{$prefix}.sub.heading {
-	letter-spacing: normal;
-	color: lighten(map-get($vars, color), 15);
-}
+	small { font-size: map-get($vars, smallSize); }
 
-h1, h2, h3, h4, h5, h6 {
-	// Sub heading
-	// =====
+	// Headings
+	// ===================================
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: unquote(map-gets($vars, headings, fontFamily));
+		line-height: map-gets($vars, headings, fontFamily);
+		margin: map-gets($vars, headings, fontFamily) 0;
+		font-weight: map-gets($vars, headings, fontFamily);
+		padding: 0em;
+	}
+
+	h1 {
+		font-size: map-gets($vars, headings, h1Size);
+		line-height: map-gets($vars, headings, h1LineHeight);
+		font-weight: map-gets($vars, headings, h1Weight);
+	}
+	h2 {
+		font-size: map-gets($vars, headings, h2Size);
+		line-height: map-gets($vars, headings, h2LineHeight);
+		font-weight: map-gets($vars, headings, h2Weight);
+	}
+	h3 {
+		font-size: map-gets($vars, headings, h3Size);
+		line-height: map-gets($vars, headings, h3LineHeight);
+		font-weight: map-gets($vars, headings, h3Weight);
+	}
+	h4 {
+		font-size: map-gets($vars, headings, h4Size);
+		line-height: map-gets($vars, headings, h4LineHeight);
+		font-weight: map-gets($vars, headings, h4Weight);
+	}
+	h5 {
+		font-size: map-gets($vars, headings, h5Size);
+		line-height: map-gets($vars, headings, h5LineHeight);
+		font-weight: map-gets($vars, headings, h5Weight);
+	}
+	h6 {
+		font-size: map-gets($vars, headings, h6Size);
+		line-height: map-gets($vars, headings, h6LineHeight);
+		font-weight: map-gets($vars, headings, h6Weight);
+	}
+
 	#{$prefix}.sub.heading {
-		display: inline-block;
-		vertical-align: middle;
-		font-size: (0.9 * map-get($vars, bodyFontSize));
+		letter-spacing: normal;
+		color: lighten(map-get($vars, color), 15);
 	}
 
-	// Icon support
-	// =====
-	> #{$prefix}.icon:not(.button) {
-		margin-right: .5em;
-		vertical-align: top;
-		font-size: map-gets($vars, headings, iconSize);
-
-		&.right {
-			margin-left: .5em;
-			margin-right: 0;
+	h1, h2, h3, h4, h5, h6 {
+		// Sub heading
+		// =====
+		#{$prefix}.sub.heading {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: (0.9 * map-get($vars, bodyFontSize));
 		}
-	}
-}
 
+		// Icon support
+		// =====
+		> #{$prefix}.icon:not(.button) {
+			margin-right: .5em;
+			vertical-align: top;
+			font-size: map-gets($vars, headings, iconSize);
 
-// Definition lists
-// ===================================
-
-dl#{$prefix}.definition-list {
-	@extend #{$prefix}.clear;
-	dt {
-		float: left;
-		clear: left;
-		font-weight: map-get($vars, dlDtWeight);
-		&:after {
-			content: map-get($vars, dlDivider);;
+			&.right {
+				margin-left: .5em;
+				margin-right: 0;
+			}
 		}
 	}
 
-	dd {
-		float: right;
-		font-weight: map-get($vars, dlDdWeight);;
-		margin: 0 0 0 map-get($vars, dlGutter);;
-	}
-}
 
+	// Definition lists
+	// ===================================
 
-// Text alignment
-// ===================================
+	dl#{$prefix}.definition-list {
+		@extend #{$prefix}.clear;
+		dt {
+			float: left;
+			clear: left;
+			font-weight: map-get($vars, dlDtWeight);
+			&:after {
+				content: map-get($vars, dlDivider);;
+			}
+		}
 
-#{$prefix}[class*="center aligned"] { text-align: center; }
-#{$prefix}[class*="left aligned"] { text-align: left; }
-#{$prefix}[class*="right aligned"] { text-align: right; }
-#{$prefix}[class*="justify aligned"] { text-align: justify; }
-
-
-// Links
-// ===================================
-
-a {
-	color: map-get($vars, linkColor);;
-	&:hover, &:active {
-		color: map-get($vars, linkColorHover);;
+		dd {
+			float: right;
+			font-weight: map-get($vars, dlDdWeight);;
+			margin: 0 0 0 map-get($vars, dlGutter);;
+		}
 	}
 
-	&[ui-sref] {
-		cursor: pointer;
+
+	// Text alignment
+	// ===================================
+
+	#{$prefix}[class*="center aligned"] { text-align: center; }
+	#{$prefix}[class*="left aligned"] { text-align: left; }
+	#{$prefix}[class*="right aligned"] { text-align: right; }
+	#{$prefix}[class*="justify aligned"] { text-align: justify; }
+
+
+	// Links
+	// ===================================
+
+	a {
+		color: map-get($vars, linkColor);;
+		&:hover, &:active {
+			color: map-get($vars, linkColorHover);;
+		}
+
+		&[ui-sref] {
+			cursor: pointer;
+		}
 	}
-}
 
 
+	// Body copy
+	// ===================================
 
-// Body copy
-// ===================================
+	#{$prefix}[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
+	#{$prefix}.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
+	#{$prefix}.uppercase { text-transform: uppercase; }
 
-#{$prefix}[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
-#{$prefix}.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
-#{$prefix}.uppercase { text-transform: uppercase; }
-
-#{$prefix}.italic {
-	font-style: italic;
-}
-#{$prefix}.bold {
-	font-style: 600;
-}
-
-
-#{$prefix}.typeset {
-	h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
-	h1:first-child {
-		margin-top: 0;
+	#{$prefix}.italic {
+		font-style: italic;
 	}
-}
+	#{$prefix}.bold {
+		font-style: 600;
+	}
 
-// Menus
-// ====
-#{$prefix}.menu .item.divider:not(.header) {
-	color: lighten(map-get($vars, color), 25);
+
+	#{$prefix}.typeset {
+		h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
+		h1:first-child {
+			margin-top: 0;
+		}
+	}
 }

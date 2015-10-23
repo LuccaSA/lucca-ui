@@ -1,25 +1,27 @@
+@if map-get($vars, enabled) {
 
-#{$prefix}.breadcrumbs {
-	@extend ul#{$prefix}.unstyled;
+	#{$prefix}.breadcrumbs {
+		@extend ul#{$prefix}.unstyled;
 
-	> li {
-		position: relative;
-		display: inline-block;
-		vertical-align: middle;
-		padding: map-gets($vars, padding);
-
-		&:after {
+		> li {
+			position: relative;
 			display: inline-block;
-			font-family: map-gets($vars, dividers, fontFamily);
-			content: map-gets($vars, dividers, character);
 			vertical-align: middle;
-			margin: map-gets($vars, dividers, margin);
+			padding: map-gets($vars, padding);
+
+			&:after {
+				display: inline-block;
+				font-family: map-gets($vars, dividers, fontFamily);
+				content: map-gets($vars, dividers, character);
+				vertical-align: middle;
+				margin: map-gets($vars, dividers, margin);
+			}
+			&:last-child:after { content: ""; }
+
+			> a { display: inline-block; }
 		}
-		&:last-child:after { content: ""; }
 
-		> a { display: inline-block; }
+		// Changes inter-items dividers with slashes rather than the default ">"
+		&.slashes > li:after { content: "/"; }
 	}
-
-	// Changes inter-items dividers with slashes rather than the default ">"
-	&.slashes > li:after { content: "/"; }
 }

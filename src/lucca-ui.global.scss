@@ -78,6 +78,7 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 @at-root {
 	// Stuck
 	// ===================================
+	$vars: lui_get_component_variables(adjective, stuck);
 	@import "core/adjectives/stuck";
 }
 

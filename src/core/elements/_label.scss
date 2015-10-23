@@ -1,74 +1,6 @@
-
-#{$prefix}.label {
-	display: inline-block;
-	vertical-align: middle;
-	font-size: 0.85em;
-	padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-	margin: 0 0.5em;
-	font-weight: normal;
-	line-height: 1;
-	text-align: center;
-	white-space: nowrap;
-	border-radius: map-gets($vars, borderRadius);
-
-	// Icon support
-	// ====
-	#{$prefix}.icon, > i.icon {
-		margin-right: 0.25em;
-		&[class*="right icon"] {
-			margin-right: 0; margin-left: 0.25em;
-		}
-	}
-
-	// Circular
-	// =====
-	&.circular {
-		display: inline-block;
-		border-radius: 1em;
-		&.icon:after {
-			font-size: .5em;
-		}
-	}
-}
-
-
-// Sizing support
 // ===================================
-
-#{$prefix}.label {
-	@include lui_supports_sizing();
-}
-
-
-// Addons
+// ============= Mixins ==============
 // ===================================
-
-#{$prefix}.label[class*="with addon"],
-#{$prefix}.label[class*="with addons"] {
-	@include display-flex(true);
-	> .addon {
-		display: inline-block;
-		vertical-align: top;
-		background: rgba(0, 0, 0, 0.2); // @TODO: remove this arbitrary value!
-		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-		margin: -(map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding));
-		&[class*="right addon"] {
-			margin-right: -(map-gets($vars, horizontalPadding));
-			margin-left: map-gets($vars, horizontalPadding);
-		}
-	}
-}
-
-
-// Labels in headings
-// ===================================
-
-h1, h2, h3, h4, h5, h6 {
-	#{$prefix}.label {
-		margin-top: -.15em;
-	}
-}
-
 
 // Coloring support
 // ===================================
@@ -83,13 +15,84 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-#{$prefix}.label {
-	// Default coloring scheme
-	@include lui_label_coloring(map-gets($vars, defaultColoring));
+
+// ===================================
+// ============= Element =============
+// ===================================
+
+@if map-get($vars, enabled) {
+
+	#{$prefix}.label {
+		display: inline-block;
+		vertical-align: middle;
+		font-size: map-get($vars, fontSize);
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+		margin: (map-get($vars, verticalMargin)) (map-get($vars, horizontalMargin));
+		font-weight: normal;
+		line-height: map-get($vars, lineHeight);
+		text-align: map-get($vars, textAlign);
+		white-space: nowrap;
+		border-radius: map-gets($vars, borderRadius);
+
+		// Icon support
+		// ====
+		#{$prefix}.icon, > i.icon {
+			margin-right: map-get($vars, iconMargin);
+			&[class*="right icon"] {
+				margin-right: 0; margin-left: map-get($vars, iconMargin);
+			}
+		}
+
+		// Circular
+		// =====
+		&.circular {
+			display: inline-block;
+			border-radius: 1em;
+			&.icon:after {
+				font-size: .5em;
+			}
+		}
+	}
+
+
+	// Sizing support
+	// ===================================
+
+	#{$prefix}.label {
+		@include lui_supports_sizing();
+	}
+
+
+	// Addons
+	// ===================================
+
+	#{$prefix}.label[class*="with addon"],
+	#{$prefix}.label[class*="with addons"] {
+		@include display-flex(true);
+		> .addon {
+			display: inline-block;
+			vertical-align: top;
+			background: map-gets($vars, addonBackground);
+			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+			margin: (- map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding));
+			&[class*="right addon"] {
+				margin-right: -(map-gets($vars, horizontalPadding));
+				margin-left: map-gets($vars, horizontalPadding);
+			}
+		}
+	}
+
 	// Coloring support
-	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
-		&.#{map-get($scheme, class)} {
-			@include lui_label_coloring($scheme);
+	// ===================================
+
+	#{$prefix}.label {
+		// Default coloring scheme
+		@include lui_label_coloring(map-gets($vars, defaultColoring));
+		// Coloring support
+		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+			&.#{map-get($scheme, class)} {
+				@include lui_label_coloring($scheme);
+			}
 		}
 	}
 }

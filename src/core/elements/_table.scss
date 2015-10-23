@@ -1,112 +1,114 @@
-#{$prefix}.table {
-	display: table;
-	table-layout: fixed;
-	width: 100%;
-	border-spacing: 0;
-	border-collapse: collapse;
-	text-align: map-gets($vars, textAlignment);
-	margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
-	background-color: map-gets($vars, background);
-
-	> .thead .tr, > .tbody .tr,
-	> thead tr, > tbody tr {
+@if map-get($vars, enabled) {
+	#{$prefix}.table {
 		display: table;
 		table-layout: fixed;
 		width: 100%;
-	}
-
-	> .thead > .tr > .th, > .tbody > .tr > .td,
-	> thead > tr > th, > tbody > tr > td {
-		display: table-cell;
-		float: none;
-		vertical-align: top;
-		padding: map-gets($vars, padding);
-		border-top: map-gets($vars, border);
-	}
-
-	// thead
-	// ====
-	> .thead, > thead {
-		display: table-header-group;
-		padding: map-gets($vars, padding);
-		border: map-gets($vars, border);
-		border-bottom: none;
-	}
-	> .thead > .tr > .th, > thead > tr > th {
-		font-weight: 600;
-		padding-top: 1em;
-		padding-bottom: 1em;
-		vertical-align: middle;
-	}
-
-	// tbody
-	// ====
-	> .tbody, > tbody {
-		display: table-row-group;
-		border: map-gets($vars, border);
-		border-top: none;
+		border-spacing: 0;
+		border-collapse: collapse;
+		text-align: map-gets($vars, textAlignment);
+		margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
 		background-color: map-gets($vars, background);
-	}
 
-	// Zebra table
-	// ====
-	&.zebra {
-		> tbody > tr, .tbody > .tr {
-			border: none;
-			&:nth-child(odd) {
-				background-color: map-gets($vars, zebraBackground);
+		> .thead .tr, > .tbody .tr,
+		> thead tr, > tbody tr {
+			display: table;
+			table-layout: fixed;
+			width: 100%;
+		}
+
+		> .thead > .tr > .th, > .tbody > .tr > .td,
+		> thead > tr > th, > tbody > tr > td {
+			display: table-cell;
+			float: none;
+			vertical-align: top;
+			padding: map-gets($vars, padding);
+			border-top: map-gets($vars, border);
+		}
+
+		// thead
+		// ====
+		> .thead, > thead {
+			display: table-header-group;
+			padding: map-gets($vars, padding);
+			border: map-gets($vars, border);
+			border-bottom: none;
+		}
+		> .thead > .tr > .th, > thead > tr > th {
+			font-weight: 600;
+			padding-top: 1em;
+			padding-bottom: 1em;
+			vertical-align: middle;
+		}
+
+		// tbody
+		// ====
+		> .tbody, > tbody {
+			display: table-row-group;
+			border: map-gets($vars, border);
+			border-top: none;
+			background-color: map-gets($vars, background);
+		}
+
+		// Zebra table
+		// ====
+		&.zebra {
+			> tbody > tr, .tbody > .tr {
+				border: none;
+				&:nth-child(odd) {
+					background-color: map-gets($vars, zebraBackground);
+				}
+			}
+		}
+
+		// Verticaly aligned
+		// ====
+		&[class*="vertically aligned table"] {
+			vertical-align: middle;
+
+			> tbody > tr > td,
+			> .tbody > .tr > .td,
+			> thead > tr > th,
+			> .thead > .tr > .th {
+				vertical-align: middle;
+				float: none;
 			}
 		}
 	}
 
-	// Verticaly aligned
-	// ====
-	&[class*="vertically aligned table"] {
-		vertical-align: middle;
 
-		> tbody > tr > td,
-		> .tbody > .tr > .td,
-		> thead > tr > th,
-		> .thead > .tr > .th {
-			vertical-align: middle;
-			float: none;
+	// Coloring support
+	// ===================================
+	#{$prefix}.table {
+		.tr > .th:first-child,
+		.tr > .td:first-child,
+		tr > th:first-child,
+		tr > td:first-child {
+
+			display: table-cell;
+			position: relative;
+			box-sizing: border-box;
+			&:after {
+				visibility: visible !important; // Neutralises possible clearfix
+				position: absolute;
+				z-index: 2;
+				display: block;
+				content: "";
+				top: 0px; bottom: -1px; left: -1px;
+				width: map-gets($vars, coloredBorderWidth);
+				min-height: 100%;
+			}
 		}
 	}
-}
 
-
-// Coloring support
-// ===================================
-#{$prefix}.table {
-	.tr > .th:first-child,
-	.tr > .td:first-child,
-	tr > th:first-child,
-	tr > td:first-child {
-
-		display: table-cell;
-		position: relative;
-		box-sizing: border-box;
-		&:after {
-			visibility: visible !important; // Neutralises possible clearfix
-			position: absolute;
-			z-index: 2;
-			display: block;
-			content: "";
-			top: 0px; bottom: -1px; left: -1px;
-			width: map-gets($vars, coloredBorderWidth);
-			min-height: 100%;
-		}
-	}
-}
-
-#{$prefix}.table tr,
-#{$prefix}.table .tr {
-	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
-		&.#{map-get($scheme, class)} {
-			> .th:first-child:after,
-			> .td:first-child:after,
-			> th:first-child:after,
-			> td:first-child:after { background: map-get($scheme, color); }
+	#{$prefix}.table tr,
+	#{$prefix}.table .tr {
+		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+			&.#{map-get($scheme, class)} {
+				> .th:first-child:after,
+				> .td:first-child:after,
+				> th:first-child:after,
+				> td:first-child:after { background: map-get($scheme, color); }
+			}
 		}
 	}
 }

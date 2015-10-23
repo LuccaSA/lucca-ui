@@ -1,62 +1,64 @@
-luid-moment {
-	max-width:  map-gets($vars, momentpicker, maxWidth);
-	overflow: visible !important; // Buttons
+@if map-get($vars, enabled) {
+	luid-moment {
+		max-width:  map-gets($vars, momentpicker, maxWidth);
+		overflow: visible !important; // Buttons
 
-	@extend %lui_input_holder_base;
+		@extend %lui_input_holder_base;
 
-	> .luid-moment {
-		@extend %lui_input_field_base;
-		padding: 0 !important;
-	}
+		> .luid-moment {
+			@extend %lui_input_field_base;
+			padding: 0 !important;
+		}
 
-	&:active, &:focus {
-		box-shadow: none;
-	}
-
-	// styling the inputs inside the directive
-	input {
-		box-sizing: border-box;
-		&:first-child { padding-left:  map-gets($vars, horizontalPadding); }
-		&:last-child { padding-right: map-gets($vars, horizontalPadding); }
-		line-height: (1em + 2 * map-gets($vars, verticalPadding));
-		display: inline-block;
-
-		&:focus, &:active {
-			outline: none;
+		&:active, &:focus {
 			box-shadow: none;
 		}
 
-		background-color: transparent;
-		border: none;
-		width: map-gets($vars, momentpicker, width);
-		&:nth-child(1) { text-align: right; }
+		// styling the inputs inside the directive
+		input {
+			box-sizing: border-box;
+			&:first-child { padding-left:  map-gets($vars, horizontalPadding); }
+			&:last-child { padding-right: map-gets($vars, horizontalPadding); }
+			line-height: (1em + 2 * map-gets($vars, verticalPadding));
+			display: inline-block;
 
-		height: 1 + 2 * map-gets($vars, verticalPadding); // For any version of IE...
+			&:focus, &:active {
+				outline: none;
+				box-shadow: none;
+			}
+
+			background-color: transparent;
+			border: none;
+			width: map-gets($vars, momentpicker, width);
+			&:nth-child(1) { text-align: right; }
+
+			height: 1 + 2 * map-gets($vars, verticalPadding); // For any version of IE...
+		}
+		// buttons + -
+		.mp-button {
+			line-height: 1.5em;
+			@extend %lui_user_select_none;
+			font-size: 75%;
+			position: absolute;
+			z-index: 999;
+			cursor: pointer;
+			width: 50%;
+			text-align: center;
+			color: #FFF;
+			background-color: map-gets($vars, borderColor);
+
+			// Positions
+			&.top { bottom: 100%; }
+			&.bottom { top: 100%; }
+			&.left { left: 0; }
+			&.right { right: 0; }
+		}
 	}
-	// buttons + -
-	.mp-button {
-		line-height: 1.5em;
-		@extend %lui_user_select_none;
-		font-size: 75%;
-		position: absolute;
-		z-index: 999;
-		cursor: pointer;
-		width: 50%;
-		text-align: center;
-		color: #FFF;
-		background-color: map-gets($vars, borderColor);
 
-		// Positions
-		&.top { bottom: 100%; }
-		&.bottom { top: 100%; }
-		&.left { left: 0; }
-		&.right { right: 0; }
+	// Invalid field
+	luid-moment.invalid .luid-moment,
+	luid-moment.ng-invalid .luid-moment {
+		@extend %lui_invalid_input_base;
+		.mp-button { background-color: map-gets($vars, invalidColor) !important; }
 	}
-}
-
-// Invalid field
-luid-moment.invalid .luid-moment,
-luid-moment.ng-invalid .luid-moment {
-	@extend %lui_invalid_input_base;
-	.mp-button { background-color: map-gets($vars, invalidColor) !important; }
 }

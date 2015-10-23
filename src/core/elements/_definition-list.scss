@@ -1,17 +1,19 @@
-dl#{$prefix}.definition-list {
-	@extend #{$prefix}.clear;
-	dt {
-		float: left;
-		clear: left;
-		font-weight: $dt-weight;
-		&:after {
-			content: $divider;
+@if map-get($vars, enabled) {
+	dl#{$prefix}.definition-list {
+		@extend #{$prefix}.clear;
+		dt {
+			float: left;
+			clear: left;
+			font-weight: $dt-weight;
+			&:after {
+				content: $divider;
+			}
 		}
-	}
 
-	dd {
-		float: right;
-		font-weight: $dd-weight;
-		margin: 0 0 0 $gutter;
+		dd {
+			float: right;
+			font-weight: $dd-weight;
+			margin: 0 0 0 $gutter;
+		}
 	}
 }

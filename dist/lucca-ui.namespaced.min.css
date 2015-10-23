@@ -43,7 +43,7 @@
   font-weight: normal;
   font-style: normal;
 }
-.app i.icon, .app .button.icon, .app .button.icon:before {
+.app i.icon, .app .button.icon:before {
   font-family: "lucca-icons";
   font-style: normal;
   font-weight: normal;
@@ -420,8 +420,7 @@
   border: none;
   text-decoration: none;
   font-style: normal;
-  line-height: 1em;
-  white-space: nowrap;
+  line-height: 1;
   font-weight: normal;
   background-color: transparent;
   border-radius: 0;
@@ -435,7 +434,8 @@
   -webkit-user-select: none;
   user-select: none;
 }
-.app .loader:after, .app .animated, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after, .app .button.status.loading:not([class*="with addon"]):after {
+.app .loader:after, .app .animated, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after,
+.app .button.status.loading:not([class*="with addon"]):after {
   animation-easing: ease-out;
   animation-duration: 0.5s;
   animation-fill-mode: both;
@@ -444,7 +444,8 @@
   backface-visibility: hidden;
   opacity: 1;
 }
-.app .infinitely.animated, .app .loader:after, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after, .app .button.status.loading:not([class*="with addon"]):after {
+.app .infinitely.animated, .app .loader:after, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after,
+.app .button.status.loading:not([class*="with addon"]):after {
   animation-iteration-count: infinite;
 }
 @keyframes fadeInUp {
@@ -706,7 +707,8 @@
     transform: rotate(360deg);
   }
 }
-.app .animated[class*="spin"], .app .loader:after, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after, .app .button.status.loading:not([class*="with addon"]):after {
+.app .animated[class*="spin"], .app .loader:after, .app .search.input.searching:after, .app .button.status[class*="with addon"].loading > .addon:after,
+.app .button.status.loading:not([class*="with addon"]):after {
   animation-name: spin;
 }
 .app .pointing:after {
@@ -786,61 +788,6 @@
   top: auto;
   bottom: 0;
 }
-body, html {
-  width: 100%;
-  height: 100%;
-}
-
-.clear, .app dl.definition-list, .app .menu, .app .menu > .item, .app .callouts, .container, .container .columns {
-  zoom: 1;
-  /* For IE 6/7 (trigger hasLayout) */
-}
-.clear:before, .app dl.definition-list:before, .app .menu:before, .app .menu > .item:before, .app .callouts:before, .container:before, .container .columns:before, .clear:after, .app dl.definition-list:after, .app .menu:after, .app .menu > .item:after, .app .callouts:after, .container:after, .container .columns:after {
-  content: "";
-  display: table;
-}
-.clear:after, .app dl.definition-list:after, .app .menu:after, .app .menu > .item:after, .app .callouts:after, .container:after, .container .columns:after {
-  clear: both;
-}
-
-[class*="left pulled"] {
-  float: left;
-}
-
-[class*="right pulled"] {
-  float: right;
-}
-
-.container {
-  padding: 0;
-  width: auto;
-}
-
-.container .column {
-  float: left;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.container .column[class*="-pull-"],
-.container .column[class*="-push-"] {
-  position: relative;
-}
-
-.fitting.container {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.container.spaced .column,
-.container .column.spaced {
-  padding: 0 1em;
-}
-
-.container.spaced .columns {
-  margin: -1em;
-}
-
 @media (min-width: 320px) {
   .container {
     margin: 0 1em;
@@ -1709,6 +1656,60 @@ body, html {
     left: 100%;
   }
 }
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+.clear, .app dl.definition-list, .app .menu, .app .menu > .item, .app .callouts, .container, .container .columns {
+  zoom: 1;
+  /* For IE 6/7 (trigger hasLayout) */
+}
+.clear:before, .app dl.definition-list:before, .app .menu:before, .app .menu > .item:before, .app .callouts:before, .container:before, .container .columns:before, .clear:after, .app dl.definition-list:after, .app .menu:after, .app .menu > .item:after, .app .callouts:after, .container:after, .container .columns:after {
+  content: "";
+  display: table;
+}
+.clear:after, .app dl.definition-list:after, .app .menu:after, .app .menu > .item:after, .app .callouts:after, .container:after, .container .columns:after {
+  clear: both;
+}
+
+[class*="left pulled"] {
+  float: left;
+}
+
+[class*="right pulled"] {
+  float: right;
+}
+
+.container {
+  padding: 0;
+  width: auto;
+}
+
+.container .column {
+  float: left;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.container .column[class*="-pull-"],
+.container .column[class*="-push-"] {
+  position: relative;
+}
+
+.fitting.container {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.container.spaced .column,
+.container .column.spaced {
+  padding: 0 1em;
+}
+
+.container.spaced .columns {
+  margin: -1em;
+}
 .app {
   font-size: 13px;
   font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
@@ -1830,8 +1831,50 @@ body, html {
 .app .typeset h1:first-child {
   margin-top: 0;
 }
-.app .menu .item.divider:not(.header) {
-  color: #a6a6a6;
+.app .input.grey[class*="with addon"] > .addon {
+  background-color: #666;
+  border-color: #666;
+  color: #fff;
+  text-shadow: 0 1px 1px #404040;
+}
+.app .input.light[class*="with addon"] > .addon {
+  background-color: #CCC;
+  border-color: #CCC;
+  color: #666;
+}
+.app .input.primary[class*="with addon"] > .addon {
+  background-color: #FFC900;
+  border-color: #FFC900;
+  color: #666;
+}
+.app .input.secondary[class*="with addon"] > .addon {
+  background-color: #F60;
+  border-color: #F60;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b34700;
+}
+.app .input.red[class*="with addon"] > .addon {
+  background-color: #F60;
+  border-color: #F60;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b34700;
+}
+.app .input.orange[class*="with addon"] > .addon {
+  background-color: #F90;
+  border-color: #F90;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b36b00;
+}
+.app .input.green[class*="with addon"] > .addon {
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+  color: #FFF;
+  text-shadow: 0 1px 1px #3d8b3d;
+}
+.app .input.yellow[class*="with addon"] > .addon {
+  background-color: #FFC900;
+  border-color: #FFC900;
+  color: #666;
 }
 .app .search.input:before {
   font-family: "lucca-icons";
@@ -2271,51 +2314,6 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .input[class*="with addons"].addons > input {
   border-radius: 0 !important;
 }
-.app .input.grey[class*="with addon"] > .addon {
-  background-color: #666;
-  border-color: #666;
-  color: #fff;
-  text-shadow: 0 1px 1px #404040;
-}
-.app .input.light[class*="with addon"] > .addon {
-  background-color: #CCC;
-  border-color: #CCC;
-  color: #666;
-}
-.app .input.primary[class*="with addon"] > .addon {
-  background-color: #FFC900;
-  border-color: #FFC900;
-  color: #666;
-}
-.app .input.secondary[class*="with addon"] > .addon {
-  background-color: #F60;
-  border-color: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.app .input.red[class*="with addon"] > .addon {
-  background-color: #F60;
-  border-color: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.app .input.orange[class*="with addon"] > .addon {
-  background-color: #F90;
-  border-color: #F90;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b36b00;
-}
-.app .input.green[class*="with addon"] > .addon {
-  background-color: #5cb85c;
-  border-color: #5cb85c;
-  color: #FFF;
-  text-shadow: 0 1px 1px #3d8b3d;
-}
-.app .input.yellow[class*="with addon"] > .addon {
-  background-color: #FFC900;
-  border-color: #FFC900;
-  color: #666;
-}
 .app .input.x-small {
   font-size: 0.7em;
 }
@@ -2369,12 +2367,6 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-.app .button:hover {
-  box-shadow: 0px 1px 2px 0 rgba(50, 50, 50, 0.25);
-}
-.app .button:active, .app .button.active {
-  box-shadow: none;
-}
 .app .button.disabled, .app .button[disabled] {
   opacity: 0.5;
   -webkit-filter: grayscale(50%);
@@ -2383,24 +2375,15 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   pointer-events: none;
 }
 .app .button:not(.wired):hover {
-  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .app .button:not(.wired):active, .app .button:not(.wired).active {
   box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
 }
-.app .button.filling:not(.inverted) {
-  background: #FFF;
-}
 .app .button.inverted {
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
-}
-.app .button.inverted:hover, .app .button.inverted:active, .app .button.inverted.active {
-  color: #FFF;
-  box-shadow: 0 0 0 2px #FFF;
-}
-.app .button.wired {
-  background: transparent;
+  box-shadow: 0 0 0 2px rgba(200, 200, 200, 0.75) inset;
+  color: rgba(200, 200, 200, 0.75);
 }
 .app .button.wired[class*="with addon"] > .addon {
   background-color: transparent;
@@ -2419,16 +2402,13 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.1);
 }
 .app .button.flat:hover {
-  background-color: rgba(50, 50, 50, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 .app .button.flat:active {
-  background-color: rgba(50, 50, 50, 0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 .app .button.flat:before, .app .button.flat:after {
   text-decoration: none;
-}
-.app .button.flat:inverted {
-  color: #FFF;
 }
 .app .button.flat.icon {
   text-decoration: none;
@@ -2437,22 +2417,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
   border-right: none !important;
   background-color: transparent;
 }
-.app .button:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.flat.inverted {
+  color: rgba(200, 200, 200, 0.75);
+}
+.app .button.flat.inverted:hover {
+  background: rgba(200, 200, 200, 0.1);
+}
+.app .button.flat.inverted:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+.app .button:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #FFF;
   color: #666;
 }
-.app .button:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
+.app .button:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
   background: white;
 }
-.app .button:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f7f7f7;
+.app .button:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #f2f2f2;
 }
-.app .button.filling:hover {
+.app .button.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFF inset;
+  color: #FFF;
+}
+.app .button.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.app .button.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFF;
+}
+.app .button.filling:hover, .app .button.filling:active, .app .button.filling.active {
   background: #FFF;
   color: #666;
 }
-.app .button.filling:active, .app .button.filling.active {
-  background: #f2f2f2;
+.app .button.wired {
+  background: transparent;
 }
 .app .button.wired:not(.inverted):hover, .app .button.wired:not(.inverted):active, .app .button.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFF inset;
@@ -2461,56 +2463,38 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFF;
 }
-.app .button.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.status.ok:after, .app .button.status.ok > .addon:after, .app .button.status.failure:after, .app .button.status.failure > .addon:after {
+  color: #666 !important;
 }
-.app .button.inverted:hover {
-  box-shadow: 0 0 0 2px #FFF inset;
-  color: #FFF;
+.app .button.grey:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #666;
+  color: #fff;
 }
-.app .button.inverted.filling {
-  box-shadow: 0 0 0 1px #FFF inset;
-  color: #FFF;
+.app .button.grey:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #737373;
 }
-.app .button.inverted.filling:hover {
-  color: #666;
+.app .button.grey:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.grey:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #595959;
 }
-.app .button.inverted.filling[class*="with addon"] > .addon {
+.app .button.grey.inverted:not(.flat) {
   background: transparent;
 }
-.app .button.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFF;
-}
-.app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.status.filling:hover.ok:after, .app .button.status.filling:hover.failure:after {
+.app .button.grey.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #666 inset;
   color: #666;
 }
-.app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
+.app .button.grey.inverted:not(.flat).filling:hover {
+  color: #fff;
 }
-.app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+.app .button.grey.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #666;
 }
-.app .button.grey:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.grey.filling:hover, .app .button.grey.filling:active, .app .button.grey.filling.active {
   background: #666;
   color: #fff;
 }
-.app .button.grey:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #6e6e6e;
-}
-.app .button.grey:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.grey:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #5e5e5e;
-}
-.app .button.grey.filling:hover {
-  background: #666;
-  color: #fff;
-  text-shadow: 0 1px 1px #404040;
-}
-.app .button.grey.filling:active, .app .button.grey.filling.active {
-  background: #595959;
+.app .button.grey.wired {
+  background: transparent;
 }
 .app .button.grey.wired:not(.inverted):hover, .app .button.grey.wired:not(.inverted):active, .app .button.grey.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #666 inset;
@@ -2519,55 +2503,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.grey.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.grey.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.grey.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #666;
 }
-.app .button.grey.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.grey.status.ok:after, .app .button.grey.status.ok > .addon:after, .app .button.grey.status.failure:after, .app .button.grey.status.failure > .addon:after {
+  color: #fff !important;
 }
-.app .button.grey.inverted:hover {
-  box-shadow: 0 0 0 2px #666 inset;
-  color: #666;
-}
-.app .button.grey.inverted.filling {
-  box-shadow: 0 0 0 1px #666 inset;
-  color: #666;
-}
-.app .button.grey.inverted.filling:hover {
-  color: #fff;
-}
-.app .button.grey.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.grey.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #666;
-}
-.app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.grey.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.grey.status.filling:hover.ok:after, .app .button.grey.status.filling:hover.failure:after {
-  color: #fff;
-}
-.app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.grey.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.grey.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.app .button.grey.status.loading:not([class*="with addon"]):before, .app .button.grey.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.grey.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.grey.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.app .button.grey.status.loading:not([class*="with addon"]):after, .app .button.grey.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.app .button.light:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.light:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #CCC;
   color: #666;
 }
-.app .button.light:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #d4d4d4;
+.app .button.light:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #d9d9d9;
 }
-.app .button.light:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.light:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #c4c4c4;
-}
-.app .button.light.filling:hover {
-  background: #CCC;
-  color: #666;
-}
-.app .button.light.filling:active, .app .button.light.filling.active {
+.app .button.light:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.light:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #bfbfbf;
+}
+.app .button.light.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.light.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #CCC inset;
+  color: #CCC;
+}
+.app .button.light.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.app .button.light.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #CCC;
+}
+.app .button.light.filling:hover, .app .button.light.filling:active, .app .button.light.filling.active {
+  background: #CCC;
+  color: #666;
+}
+.app .button.light.wired {
+  background: transparent;
 }
 .app .button.light.wired:not(.inverted):hover, .app .button.light.wired:not(.inverted):active, .app .button.light.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #CCC inset;
@@ -2576,55 +2549,38 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.light.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.light.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.light.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #CCC;
 }
-.app .button.light.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.light.status.ok:after, .app .button.light.status.ok > .addon:after, .app .button.light.status.failure:after, .app .button.light.status.failure > .addon:after {
+  color: #666 !important;
 }
-.app .button.light.inverted:hover {
-  box-shadow: 0 0 0 2px #CCC inset;
-  color: #CCC;
-}
-.app .button.light.inverted.filling {
-  box-shadow: 0 0 0 1px #CCC inset;
-  color: #CCC;
-}
-.app .button.light.inverted.filling:hover {
+.app .button.primary:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #FFC900;
   color: #666;
 }
-.app .button.light.inverted.filling[class*="with addon"] > .addon {
+.app .button.primary:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffce1a;
+}
+.app .button.primary:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.primary:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e6b500;
+}
+.app .button.primary.inverted:not(.flat) {
   background: transparent;
 }
-.app .button.light.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #CCC;
+.app .button.primary.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFC900 inset;
+  color: #FFC900;
 }
-.app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.light.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.light.status.filling:hover.ok:after, .app .button.light.status.filling:hover.failure:after {
+.app .button.primary.inverted:not(.flat).filling:hover {
   color: #666;
 }
-.app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.light.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.light.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
+.app .button.primary.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFC900;
 }
-.app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.light.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.light.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.app .button.primary:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.primary.filling:hover, .app .button.primary.filling:active, .app .button.primary.filling.active {
   background: #FFC900;
   color: #666;
 }
-.app .button.primary:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ffcc0f;
-}
-.app .button.primary:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.primary:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f0bd00;
-}
-.app .button.primary.filling:hover {
-  background: #FFC900;
-  color: #666;
-}
-.app .button.primary.filling:active, .app .button.primary.filling.active {
-  background: #e6b500;
+.app .button.primary.wired {
+  background: transparent;
 }
 .app .button.primary.wired:not(.inverted):hover, .app .button.primary.wired:not(.inverted):active, .app .button.primary.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFC900 inset;
@@ -2633,56 +2589,38 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.primary.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.primary.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.primary.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFC900;
 }
-.app .button.primary.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+.app .button.primary.status.ok:after, .app .button.primary.status.ok > .addon:after, .app .button.primary.status.failure:after, .app .button.primary.status.failure > .addon:after {
+  color: #666 !important;
+}
+.app .button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #F60;
   color: #FFF;
 }
-.app .button.primary.inverted:hover {
-  box-shadow: 0 0 0 2px #FFC900 inset;
-  color: #FFC900;
+.app .button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ff751a;
 }
-.app .button.primary.inverted.filling {
-  box-shadow: 0 0 0 1px #FFC900 inset;
-  color: #FFC900;
+.app .button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e65c00;
 }
-.app .button.primary.inverted.filling:hover {
-  color: #666;
-}
-.app .button.primary.inverted.filling[class*="with addon"] > .addon {
+.app .button.secondary.inverted:not(.flat) {
   background: transparent;
 }
-.app .button.primary.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFC900;
+.app .button.secondary.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #F60 inset;
+  color: #F60;
 }
-.app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.primary.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
+.app .button.secondary.inverted:not(.flat).filling:hover {
+  color: #FFF;
 }
-.app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.primary.status.filling:hover.ok:after, .app .button.primary.status.filling:hover.failure:after {
-  color: #666;
+.app .button.secondary.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #F60;
 }
-.app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.primary.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.primary.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.primary.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.primary.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.app .button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.secondary.filling:hover, .app .button.secondary.filling:active, .app .button.secondary.filling.active {
   background: #F60;
   color: #FFF;
 }
-.app .button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff6f0f;
-}
-.app .button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f06000;
-}
-.app .button.secondary.filling:hover {
-  background: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.app .button.secondary.filling:active, .app .button.secondary.filling.active {
-  background: #e65c00;
+.app .button.secondary.wired {
+  background: transparent;
 }
 .app .button.secondary.wired:not(.inverted):hover, .app .button.secondary.wired:not(.inverted):active, .app .button.secondary.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F60 inset;
@@ -2691,56 +2629,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.secondary.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.secondary.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.secondary.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.app .button.secondary.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+.app .button.secondary.status.ok:after, .app .button.secondary.status.ok > .addon:after, .app .button.secondary.status.failure:after, .app .button.secondary.status.failure > .addon:after {
+  color: #FFF !important;
+}
+.app .button.secondary.status.loading:not([class*="with addon"]):before, .app .button.secondary.status.loading[class*="with addon"] > .addon:before {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.app .button.secondary.status.loading:not([class*="with addon"]):after, .app .button.secondary.status.loading[class*="with addon"] > .addon:after {
+  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
+}
+.app .button.red:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #F60;
   color: #FFF;
 }
-.app .button.secondary.inverted:hover {
+.app .button.red:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ff751a;
+}
+.app .button.red:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.red:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e65c00;
+}
+.app .button.red.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.red.inverted:not(.flat):hover {
   box-shadow: 0 0 0 2px #F60 inset;
   color: #F60;
 }
-.app .button.secondary.inverted.filling {
-  box-shadow: 0 0 0 1px #F60 inset;
-  color: #F60;
-}
-.app .button.secondary.inverted.filling:hover {
+.app .button.red.inverted:not(.flat).filling:hover {
   color: #FFF;
 }
-.app .button.secondary.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.secondary.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
+.app .button.red.inverted:not(.flat)[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.secondary.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.secondary.status.filling:hover.ok:after, .app .button.secondary.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.secondary.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.secondary.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(255, 255, 255, 0.25);
-}
-.app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.secondary.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.secondary.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
-}
-.app .button.red:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.red.filling:hover, .app .button.red.filling:active, .app .button.red.filling.active {
   background: #F60;
   color: #FFF;
 }
-.app .button.red:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff6f0f;
-}
-.app .button.red:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.red:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f06000;
-}
-.app .button.red.filling:hover {
-  background: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.app .button.red.filling:active, .app .button.red.filling.active {
-  background: #e65c00;
+.app .button.red.wired {
+  background: transparent;
 }
 .app .button.red.wired:not(.inverted):hover, .app .button.red.wired:not(.inverted):active, .app .button.red.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F60 inset;
@@ -2749,56 +2675,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.red.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.red.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.red.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.app .button.red.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.red.status.ok:after, .app .button.red.status.ok > .addon:after, .app .button.red.status.failure:after, .app .button.red.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.app .button.red.inverted:hover {
-  box-shadow: 0 0 0 2px #F60 inset;
-  color: #F60;
-}
-.app .button.red.inverted.filling {
-  box-shadow: 0 0 0 1px #F60 inset;
-  color: #F60;
-}
-.app .button.red.inverted.filling:hover {
-  color: #FFF;
-}
-.app .button.red.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.red.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #F60;
-}
-.app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.red.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.red.status.filling:hover.ok:after, .app .button.red.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.red.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.red.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.app .button.red.status.loading:not([class*="with addon"]):before, .app .button.red.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.red.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.red.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.app .button.red.status.loading:not([class*="with addon"]):after, .app .button.red.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.app .button.orange:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.orange:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #F90;
   color: #FFF;
 }
-.app .button.orange:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff9f0f;
+.app .button.orange:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffa31a;
 }
-.app .button.orange:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.orange:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f09000;
-}
-.app .button.orange.filling:hover {
-  background: #F90;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b36b00;
-}
-.app .button.orange.filling:active, .app .button.orange.filling.active {
+.app .button.orange:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.orange:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #e68a00;
+}
+.app .button.orange.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.orange.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #F90 inset;
+  color: #F90;
+}
+.app .button.orange.inverted:not(.flat).filling:hover {
+  color: #FFF;
+}
+.app .button.orange.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #F90;
+}
+.app .button.orange.filling:hover, .app .button.orange.filling:active, .app .button.orange.filling.active {
+  background: #F90;
+  color: #FFF;
+}
+.app .button.orange.wired {
+  background: transparent;
 }
 .app .button.orange.wired:not(.inverted):hover, .app .button.orange.wired:not(.inverted):active, .app .button.orange.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F90 inset;
@@ -2807,56 +2721,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.orange.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.orange.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.orange.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F90;
 }
-.app .button.orange.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.orange.status.ok:after, .app .button.orange.status.ok > .addon:after, .app .button.orange.status.failure:after, .app .button.orange.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.app .button.orange.inverted:hover {
-  box-shadow: 0 0 0 2px #F90 inset;
-  color: #F90;
-}
-.app .button.orange.inverted.filling {
-  box-shadow: 0 0 0 1px #F90 inset;
-  color: #F90;
-}
-.app .button.orange.inverted.filling:hover {
-  color: #FFF;
-}
-.app .button.orange.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.orange.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #F90;
-}
-.app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.orange.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.orange.status.filling:hover.ok:after, .app .button.orange.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.orange.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.orange.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.app .button.orange.status.loading:not([class*="with addon"]):before, .app .button.orange.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.orange.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.orange.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.app .button.orange.status.loading:not([class*="with addon"]):after, .app .button.orange.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.app .button.green:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.green:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #5cb85c;
   color: #FFF;
 }
-.app .button.green:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #67bd67;
+.app .button.green:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #6ec06e;
 }
-.app .button.green:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.green:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #51b351;
-}
-.app .button.green.filling:hover {
-  background: #5cb85c;
-  color: #FFF;
-  text-shadow: 0 1px 1px #3d8b3d;
-}
-.app .button.green.filling:active, .app .button.green.filling.active {
+.app .button.green:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.green:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #4cae4c;
+}
+.app .button.green.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.green.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #5cb85c inset;
+  color: #5cb85c;
+}
+.app .button.green.inverted:not(.flat).filling:hover {
+  color: #FFF;
+}
+.app .button.green.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #5cb85c;
+}
+.app .button.green.filling:hover, .app .button.green.filling:active, .app .button.green.filling.active {
+  background: #5cb85c;
+  color: #FFF;
+}
+.app .button.green.wired {
+  background: transparent;
 }
 .app .button.green.wired:not(.inverted):hover, .app .button.green.wired:not(.inverted):active, .app .button.green.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #5cb85c inset;
@@ -2865,55 +2767,44 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.green.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.green.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.green.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #5cb85c;
 }
-.app .button.green.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.app .button.green.status.ok:after, .app .button.green.status.ok > .addon:after, .app .button.green.status.failure:after, .app .button.green.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.app .button.green.inverted:hover {
-  box-shadow: 0 0 0 2px #5cb85c inset;
-  color: #5cb85c;
-}
-.app .button.green.inverted.filling {
-  box-shadow: 0 0 0 1px #5cb85c inset;
-  color: #5cb85c;
-}
-.app .button.green.inverted.filling:hover {
-  color: #FFF;
-}
-.app .button.green.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.green.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #5cb85c;
-}
-.app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.green.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.green.status.filling:hover.ok:after, .app .button.green.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.green.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.green.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.app .button.green.status.loading:not([class*="with addon"]):before, .app .button.green.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.green.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.green.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.app .button.green.status.loading:not([class*="with addon"]):after, .app .button.green.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.app .button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.app .button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #FFC900;
   color: #666;
 }
-.app .button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ffcc0f;
+.app .button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffce1a;
 }
-.app .button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat):active, .app .button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f0bd00;
-}
-.app .button.yellow.filling:hover {
-  background: #FFC900;
-  color: #666;
-}
-.app .button.yellow.filling:active, .app .button.yellow.filling.active {
+.app .button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired):active, .app .button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #e6b500;
+}
+.app .button.yellow.inverted:not(.flat) {
+  background: transparent;
+}
+.app .button.yellow.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFC900 inset;
+  color: #FFC900;
+}
+.app .button.yellow.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.app .button.yellow.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFC900;
+}
+.app .button.yellow.filling:hover, .app .button.yellow.filling:active, .app .button.yellow.filling.active {
+  background: #FFC900;
+  color: #666;
+}
+.app .button.yellow.wired {
+  background: transparent;
 }
 .app .button.yellow.wired:not(.inverted):hover, .app .button.yellow.wired:not(.inverted):active, .app .button.yellow.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFC900 inset;
@@ -2922,38 +2813,8 @@ html:not(.ie9) .app .checkbox, html:not(.ie9) .app luid-timespan, html:not(.ie9)
 .app .button.yellow.wired:not(.inverted):hover[class*="with addon"] > .addon, .app .button.yellow.wired:not(.inverted):active[class*="with addon"] > .addon, .app .button.yellow.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFC900;
 }
-.app .button.yellow.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
-}
-.app .button.yellow.inverted:hover {
-  box-shadow: 0 0 0 2px #FFC900 inset;
-  color: #FFC900;
-}
-.app .button.yellow.inverted.filling {
-  box-shadow: 0 0 0 1px #FFC900 inset;
-  color: #FFC900;
-}
-.app .button.yellow.inverted.filling:hover {
-  color: #666;
-}
-.app .button.yellow.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.app .button.yellow.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFC900;
-}
-.app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .app .button.yellow.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .app .button.yellow.status.filling:hover.ok:after, .app .button.yellow.status.filling:hover.failure:after {
-  color: #666;
-}
-.app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .app .button.yellow.status.filling:hover.loading:not([class*="with addon"]):before, .app .button.yellow.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .app .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .app .button.yellow.status.filling:hover.loading:not([class*="with addon"]):after, .app .button.yellow.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+.app .button.yellow.status.ok:after, .app .button.yellow.status.ok > .addon:after, .app .button.yellow.status.failure:after, .app .button.yellow.status.failure > .addon:after {
+  color: #666 !important;
 }
 .app .buttons {
   display: inline-block;
@@ -3000,15 +2861,14 @@ html:not(.ie9) .app .buttons {
 }
 .app .buttons.justified {
   width: 100%;
+}
+.ie9 .app .buttons.justified {
   display: table;
   table-layout: fixed;
-  display: -ms-flexbox;
-  display: flex;
 }
-.app .buttons.justified > .button {
+.ie9 .app .buttons.justified > .button {
   display: table-cell;
   text-align: center;
-  float: none;
 }
 .app .buttons.justified > .button {
   float: none;
@@ -3052,79 +2912,30 @@ html:not(.ie9) .app .buttons {
 }
 .app .button[class*="with addon"]:not(.right) > .addon {
   left: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(50, 50, 50, 0.2);
 }
 .app .button[class*="with addon"].right {
   padding-right: 3.5em;
 }
 .app .button[class*="with addon"].right > .addon {
   right: 0;
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px rgba(50, 50, 50, 0.2);
 }
 .app .button.status {
   position: relative;
 }
-.app .button.status[class*="with addon"].loading > .addon {
-  display: inline-block;
-  position: relative;
-  position: absolute;
+.app .button.status:not([class*="with addon"]),
+.app .button.status[class*="with addon"] > .addon:before {
+  color: transparent !important;
 }
-.app .button.status[class*="with addon"].loading > .addon:before, .app .button.status[class*="with addon"].loading > .addon:after {
-  box-sizing: border-box;
-  display: block;
-  content: "";
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  border-width: 2px;
-  border-style: solid;
-}
-.app .button.status[class*="with addon"].loading > .addon:after {
-  position: absolute;
-  top: 50%;
-  margin-top: -0.5em;
-  left: 50%;
-  margin-left: -0.5em;
-  animation-timing-function: linear;
-}
-.app .button.status[class*="with addon"].loading > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.app .button.status[class*="with addon"].loading > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.ie9 .app .button.status[class*="with addon"].loading > .addon:before {
-  border: none;
-}
-.ie9 .app .button.status[class*="with addon"].loading > .addon:after {
-  border: none;
-  margin: 0;
-  background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
-  background-size: contain;
-}
-.app .button.status[class*="with addon"].ok > .addon:before {
-  content: "\e00b";
-}
-.app .button.status[class*="with addon"].failure > .addon:before {
-  content: "\e01e";
-}
-.app .button.status:not([class*="with addon"]) {
-  color: transparent;
-}
-.app .button.status:not([class*="with addon"]):not(.icon):before, .app .button.status:not([class*="with addon"]):after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -150%);
-  transform: translate(-50%, -150%);
-  width: 1.1em;
-  height: 1.1em;
-}
+.app .button.status[class*="with addon"].loading > .addon,
 .app .button.status:not([class*="with addon"]).loading {
   display: inline-block;
   position: relative;
 }
-.app .button.status:not([class*="with addon"]).loading:before, .app .button.status:not([class*="with addon"]).loading:after {
+.app .button.status[class*="with addon"].loading > .addon:before, .app .button.status[class*="with addon"].loading > .addon:after,
+.app .button.status:not([class*="with addon"]).loading:before,
+.app .button.status:not([class*="with addon"]).loading:after {
   box-sizing: border-box;
   display: block;
   content: "";
@@ -3134,6 +2945,7 @@ html:not(.ie9) .app .buttons {
   border-width: 2px;
   border-style: solid;
 }
+.app .button.status[class*="with addon"].loading > .addon:after,
 .app .button.status:not([class*="with addon"]).loading:after {
   position: absolute;
   top: 50%;
@@ -3142,21 +2954,26 @@ html:not(.ie9) .app .buttons {
   margin-left: -0.5em;
   animation-timing-function: linear;
 }
+.app .button.status[class*="with addon"].loading > .addon:before,
 .app .button.status:not([class*="with addon"]).loading:before {
   border-color: rgba(0, 0, 0, 0.25);
 }
+.app .button.status[class*="with addon"].loading > .addon:after,
 .app .button.status:not([class*="with addon"]).loading:after {
   border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
-.ie9 .app .button.status:not([class*="with addon"]).loading:before {
+.ie9 .app .button.status[class*="with addon"].loading > .addon:before, .ie9
+.app .button.status:not([class*="with addon"]).loading:before {
   border: none;
 }
-.ie9 .app .button.status:not([class*="with addon"]).loading:after {
+.ie9 .app .button.status[class*="with addon"].loading > .addon:after, .ie9
+.app .button.status:not([class*="with addon"]).loading:after {
   border: none;
   margin: 0;
   background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
   background-size: contain;
 }
+.app .button.status[class*="with addon"].ok > .addon:after,
 .app .button.status:not([class*="with addon"]).ok:after {
   font-family: "lucca-icons";
   display: inline-block;
@@ -3165,6 +2982,7 @@ html:not(.ie9) .app .buttons {
   content: "";
   margin-left: 0.5em;
 }
+.app .button.status[class*="with addon"].failure > .addon:after,
 .app .button.status:not([class*="with addon"]).failure:after {
   font-family: "lucca-icons";
   display: inline-block;
@@ -3173,15 +2991,20 @@ html:not(.ie9) .app .buttons {
   content: "";
   margin-left: 0.5em;
 }
-.app .button.status:not([class*="with addon"]).loading:after, .app .button.status:not([class*="with addon"]).loading:not(.icon):before, .app .button.status:not([class*="with addon"]).ok:after, .app .button.status:not([class*="with addon"]).failure:after {
+.app .button.status[class*="with addon"] > .addon {
+  position: absolute !important;
+}
+.app .button.status.loading:not([class*="with addon"]):not(.icon):before,
+.app .button.status.ok:not([class*="with addon"]):after,
+.app .button.status.ok[class*="with addon"] > .addon:after,
+.app .button.status.failure:not([class*="with addon"]):after,
+.app .button.status.failure[class*="with addon"] > .addon:after {
+  position: absolute;
+  margin: 0 !important;
+  left: 50%;
+  top: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-.app .button.status:not([class*="with addon"]).status.loading, .app .button.status:not([class*="with addon"]).status.ok, .app .button.status:not([class*="with addon"]).status.failure {
-  color: transparent;
-}
-.app .button.status:not([class*="with addon"]).status.ok:after, .app .button.status:not([class*="with addon"]).status.failure:after {
-  margin: 0;
 }
 .app .button.x-small,
 .app .buttons.x-small {
@@ -3491,6 +3314,132 @@ html:not(.ie9) .app .buttons {
 .app .table .tr.yellow > th:first-child:after,
 .app .table .tr.yellow > td:first-child:after {
   background: #FFC900;
+}
+.app .menu.dividing > a.item:before, .app .menu.dividing > a.item:after {
+  background-color: #666;
+}
+.app .menu.pills > a.item:active, .app .menu.pills > a.item.active {
+  background-color: #666;
+  color: #FFF;
+}
+.app .menu.pills > a.item:hover {
+  background-color: #737373;
+  color: #FFF;
+}
+.app .menu.tabbed > a.item.active {
+  border-top-color: #666;
+}
+.app .menu.grey.dividing > a.item:before, .app .menu.grey.dividing > a.item:after {
+  background-color: #666;
+}
+.app .menu.grey.pills > a.item:active, .app .menu.grey.pills > a.item.active {
+  background-color: #666;
+  color: #fff;
+}
+.app .menu.grey.pills > a.item:hover {
+  background-color: #737373;
+  color: #fff;
+}
+.app .menu.grey.tabbed > a.item.active {
+  border-top-color: #666;
+}
+.app .menu.light.dividing > a.item:before, .app .menu.light.dividing > a.item:after {
+  background-color: #CCC;
+}
+.app .menu.light.pills > a.item:active, .app .menu.light.pills > a.item.active {
+  background-color: #CCC;
+  color: #666;
+}
+.app .menu.light.pills > a.item:hover {
+  background-color: #d9d9d9;
+  color: #666;
+}
+.app .menu.light.tabbed > a.item.active {
+  border-top-color: #CCC;
+}
+.app .menu.primary.dividing > a.item:before, .app .menu.primary.dividing > a.item:after {
+  background-color: #FFC900;
+}
+.app .menu.primary.pills > a.item:active, .app .menu.primary.pills > a.item.active {
+  background-color: #FFC900;
+  color: #666;
+}
+.app .menu.primary.pills > a.item:hover {
+  background-color: #ffce1a;
+  color: #666;
+}
+.app .menu.primary.tabbed > a.item.active {
+  border-top-color: #FFC900;
+}
+.app .menu.secondary.dividing > a.item:before, .app .menu.secondary.dividing > a.item:after {
+  background-color: #F60;
+}
+.app .menu.secondary.pills > a.item:active, .app .menu.secondary.pills > a.item.active {
+  background-color: #F60;
+  color: #FFF;
+}
+.app .menu.secondary.pills > a.item:hover {
+  background-color: #ff751a;
+  color: #FFF;
+}
+.app .menu.secondary.tabbed > a.item.active {
+  border-top-color: #F60;
+}
+.app .menu.red.dividing > a.item:before, .app .menu.red.dividing > a.item:after {
+  background-color: #F60;
+}
+.app .menu.red.pills > a.item:active, .app .menu.red.pills > a.item.active {
+  background-color: #F60;
+  color: #FFF;
+}
+.app .menu.red.pills > a.item:hover {
+  background-color: #ff751a;
+  color: #FFF;
+}
+.app .menu.red.tabbed > a.item.active {
+  border-top-color: #F60;
+}
+.app .menu.orange.dividing > a.item:before, .app .menu.orange.dividing > a.item:after {
+  background-color: #F90;
+}
+.app .menu.orange.pills > a.item:active, .app .menu.orange.pills > a.item.active {
+  background-color: #F90;
+  color: #FFF;
+}
+.app .menu.orange.pills > a.item:hover {
+  background-color: #ffa31a;
+  color: #FFF;
+}
+.app .menu.orange.tabbed > a.item.active {
+  border-top-color: #F90;
+}
+.app .menu.green.dividing > a.item:before, .app .menu.green.dividing > a.item:after {
+  background-color: #5cb85c;
+}
+.app .menu.green.pills > a.item:active, .app .menu.green.pills > a.item.active {
+  background-color: #5cb85c;
+  color: #FFF;
+}
+.app .menu.green.pills > a.item:hover {
+  background-color: #6ec06e;
+  color: #FFF;
+}
+.app .menu.green.tabbed > a.item.active {
+  border-top-color: #5cb85c;
+}
+.app .menu.yellow.dividing > a.item:before, .app .menu.yellow.dividing > a.item:after {
+  background-color: #FFC900;
+}
+.app .menu.yellow.pills > a.item:active, .app .menu.yellow.pills > a.item.active {
+  background-color: #FFC900;
+  color: #666;
+}
+.app .menu.yellow.pills > a.item:hover {
+  background-color: #ffce1a;
+  color: #666;
+}
+.app .menu.yellow.tabbed > a.item.active {
+  border-top-color: #FFC900;
 }
 .app .menu {
   position: relative;
@@ -3879,132 +3828,6 @@ html:not(.ie9) .app .buttons {
 .app .menu.justified:not(.vertical):after {
   display: none;
 }
-.app .menu.dividing > a.item:before, .app .menu.dividing > a.item:after {
-  background-color: #666;
-}
-.app .menu.pills > a.item:active, .app .menu.pills > a.item.active {
-  background-color: #666;
-  color: #FFF;
-}
-.app .menu.pills > a.item:hover {
-  background-color: #737373;
-  color: #FFF;
-}
-.app .menu.tabbed > a.item.active {
-  border-top-color: #666;
-}
-.app .menu.grey.dividing > a.item:before, .app .menu.grey.dividing > a.item:after {
-  background-color: #666;
-}
-.app .menu.grey.pills > a.item:active, .app .menu.grey.pills > a.item.active {
-  background-color: #666;
-  color: #fff;
-}
-.app .menu.grey.pills > a.item:hover {
-  background-color: #737373;
-  color: #fff;
-}
-.app .menu.grey.tabbed > a.item.active {
-  border-top-color: #666;
-}
-.app .menu.light.dividing > a.item:before, .app .menu.light.dividing > a.item:after {
-  background-color: #CCC;
-}
-.app .menu.light.pills > a.item:active, .app .menu.light.pills > a.item.active {
-  background-color: #CCC;
-  color: #666;
-}
-.app .menu.light.pills > a.item:hover {
-  background-color: #d9d9d9;
-  color: #666;
-}
-.app .menu.light.tabbed > a.item.active {
-  border-top-color: #CCC;
-}
-.app .menu.primary.dividing > a.item:before, .app .menu.primary.dividing > a.item:after {
-  background-color: #FFC900;
-}
-.app .menu.primary.pills > a.item:active, .app .menu.primary.pills > a.item.active {
-  background-color: #FFC900;
-  color: #666;
-}
-.app .menu.primary.pills > a.item:hover {
-  background-color: #ffce1a;
-  color: #666;
-}
-.app .menu.primary.tabbed > a.item.active {
-  border-top-color: #FFC900;
-}
-.app .menu.secondary.dividing > a.item:before, .app .menu.secondary.dividing > a.item:after {
-  background-color: #F60;
-}
-.app .menu.secondary.pills > a.item:active, .app .menu.secondary.pills > a.item.active {
-  background-color: #F60;
-  color: #FFF;
-}
-.app .menu.secondary.pills > a.item:hover {
-  background-color: #ff751a;
-  color: #FFF;
-}
-.app .menu.secondary.tabbed > a.item.active {
-  border-top-color: #F60;
-}
-.app .menu.red.dividing > a.item:before, .app .menu.red.dividing > a.item:after {
-  background-color: #F60;
-}
-.app .menu.red.pills > a.item:active, .app .menu.red.pills > a.item.active {
-  background-color: #F60;
-  color: #FFF;
-}
-.app .menu.red.pills > a.item:hover {
-  background-color: #ff751a;
-  color: #FFF;
-}
-.app .menu.red.tabbed > a.item.active {
-  border-top-color: #F60;
-}
-.app .menu.orange.dividing > a.item:before, .app .menu.orange.dividing > a.item:after {
-  background-color: #F90;
-}
-.app .menu.orange.pills > a.item:active, .app .menu.orange.pills > a.item.active {
-  background-color: #F90;
-  color: #FFF;
-}
-.app .menu.orange.pills > a.item:hover {
-  background-color: #ffa31a;
-  color: #FFF;
-}
-.app .menu.orange.tabbed > a.item.active {
-  border-top-color: #F90;
-}
-.app .menu.green.dividing > a.item:before, .app .menu.green.dividing > a.item:after {
-  background-color: #5cb85c;
-}
-.app .menu.green.pills > a.item:active, .app .menu.green.pills > a.item.active {
-  background-color: #5cb85c;
-  color: #FFF;
-}
-.app .menu.green.pills > a.item:hover {
-  background-color: #6ec06e;
-  color: #FFF;
-}
-.app .menu.green.tabbed > a.item.active {
-  border-top-color: #5cb85c;
-}
-.app .menu.yellow.dividing > a.item:before, .app .menu.yellow.dividing > a.item:after {
-  background-color: #FFC900;
-}
-.app .menu.yellow.pills > a.item:active, .app .menu.yellow.pills > a.item.active {
-  background-color: #FFC900;
-  color: #666;
-}
-.app .menu.yellow.pills > a.item:hover {
-  background-color: #ffce1a;
-  color: #666;
-}
-.app .menu.yellow.tabbed > a.item.active {
-  border-top-color: #FFC900;
-}
 @media (min-width: break 320px) {
   .app .menu.container {
     padding-left: spacing 1em;
@@ -4110,15 +3933,12 @@ html:not(.ie9) .app .label[class*="with addon"], html:not(.ie9)
   vertical-align: top;
   background: rgba(0, 0, 0, 0.2);
   padding: 0.25em 0.5em;
-  margin: -0.25em -0.25em;
+  margin: -0.25em 0.5em -0.25em -0.5em;
 }
 .app .label[class*="with addon"] > .addon[class*="right addon"],
 .app .label[class*="with addons"] > .addon[class*="right addon"] {
   margin-right: -0.5em;
   margin-left: 0.5em;
-}
-.app h1 .label, .app h2 .label, .app h3 .label, .app h4 .label, .app h5 .label, .app h6 .label {
-  margin-top: -.15em;
 }
 .app .label {
   background: #CCC;
@@ -4170,36 +3990,14 @@ html:not(.ie9) .app .label[class*="with addon"], html:not(.ie9)
   background: #FFF;
   padding: 1em 2em;
 }
-.app .callout p:first-child {
-  margin-top: 0;
-}
-.app .callout p:last-child {
-  margin-bottom: 0;
-}
 .app .callout > .header {
   padding: 1em 2em 0.5em 2em;
-  margin: -3em -1.5em;
+  margin: -1em -2em 0.5em -2em;
 }
 .app .callout > .footer {
   text-align: right;
-  margin: -4em;
+  margin: 1em -2em -1em -2em;
   padding: 1em 2em;
-  background: #F6F6F6;
-}
-.app .callout:not(.filled) {
-  border-left: none;
-}
-.app .callout:not(.filled)[class*="up callout"] {
-  border-top-width: 0;
-  border-left: 1px solid #CCC;
-}
-.app .callout:not(.filled)[class*="down callout"] {
-  border-bottom-width: 0;
-  border-left: 1px solid #CCC;
-}
-.app .callout:not(.filled)[class*="right callout"] {
-  border-right-width: 0;
-  border-left: 1px solid #CCC;
 }
 .app .callout:after {
   visibility: visible !important;

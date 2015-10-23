@@ -68,6 +68,7 @@ $luiTheme: lui_set_component_variables(global, breakpoints, $breakpoints);
 
 $animated: (
 	enabled:					true,
+
 	animationDuration:			0.5s,
 	animationEasing:			ease-out,
 	fadeTranslationDistance: 	1em,
@@ -81,6 +82,8 @@ $luiTheme: lui_set_component_variables(adjective, animated, $animated);
 // ===================================
 
 $pointing: (
+	enabled: 					true,
+
 	triangleColor:				map-gets($colors, light, color),
 	triangleWidth:				0.5em
 );
@@ -91,6 +94,8 @@ $luiTheme: lui_set_component_variables(adjective, pointing, $pointing);
 // ===================================
 
 $raised: (
+	enabled: 					true,
+
 	x: 							0,
 	y: 							1px,
 	blur: 						2px,
@@ -103,8 +108,15 @@ $luiTheme: lui_set_component_variables(adjective, raised, $raised);
 // Rounded
 // ===================================
 
-$rounded: 						( radius: 3px );
+$rounded: 						( enabled: true, radius: 3px );
 $luiTheme: lui_set_component_variables(adjective, rounded, $rounded);
+
+
+// Stuck
+// ===================================
+
+$stuck: 						( enabled: true );
+$luiTheme: lui_set_component_variables(adjective, stuck, $stuck);
 
 
 
@@ -116,6 +128,8 @@ $luiTheme: lui_set_component_variables(adjective, rounded, $rounded);
 // ===================================
 
 $grid: (
+	enabled: 					true,
+
 	gutter: 					1em,
 	columns: 					12,
 	containerWidth: 			auto
@@ -127,6 +141,8 @@ $luiTheme: lui_set_component_variables(element, grid, $grid);
 // ===================================
 
 $typography: (
+	enabled: 					true,
+
 	fontFamily: 				"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
 	color: 						#666,
 	lineHeight:					1.4em,
@@ -181,6 +197,8 @@ $luiTheme: lui_set_component_variables(element, typography, $typography);
 // ===================================
 
 $divider: (
+	enabled: 					true,
+
 	borderColor: 				rgba(50, 50, 50, 0.2),
 	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
 	dividerWeight: 				1px,
@@ -207,6 +225,12 @@ $button: (
 
 	textShadow:					none,
 	borderRadius:				3px,
+	hoverShadow:				"#{map-get($raised, x)} #{map-get($raised, y)} #{map-get($raised, blur)} #{map-get($raised, spread)} #{map-get($raised, color)}",
+
+	addon: (
+		width: 					2.5em,
+		background:				rgba(0, 0, 0, 0.1)
+	),
 
 	defaultColoring: (
 		color:					#FFF,
@@ -214,7 +238,26 @@ $button: (
 		lod:					false
 	),
 
-	defaultBorder: 				0 0 0 1px map-get($divider, borderColor) inset,
+	inverted: (
+		color: 					rgba(200, 200, 200, 0.75)
+	),
+
+	flat: (
+		background:				transparent,
+		textDecoration:			underline,
+		hoverBackground:		rgba(0, 0, 0, 0.05),
+		activeBackground:		rgba(0, 0, 0, 0.1),
+		activeShadow: 			0 0 0 1px rgba(50, 50, 50, .1),
+		invertedHoverBackground:rgba(200, 200, 200, 0.1),
+		invertedActiveBackground:rgba(255, 255, 255, .25)
+	),
+
+	wired: (
+		borderWidth: 			2px
+	),
+
+	defaultBorderWidth:			1px,
+	defaultBorderColor:			map-get($divider, borderColor),
 
 	disabledOpacity: 			0.5,
 	disabledGrayscale: 			50%,
@@ -226,6 +269,8 @@ $luiTheme: lui_set_component_variables(element, button, $button);
 // ===================================
 
 $input: (
+	enabled: 					true,
+
 	bg: 						#FFF,
 	borderRadius: 				3px,
 	color: 						#666,
@@ -247,11 +292,15 @@ $input: (
 	),
 
 	checkbox: (
+		enabled: 				true,
+		
 		color: 					map-gets($colors, primary, color),
 		size: 					1.5em
 	),
 
 	switch: (
+		enabled: 				true,
+		
 		width: 					4.5em,
 		height: 				2.25em,
 		background: 			#666,
@@ -262,15 +311,21 @@ $input: (
 	),
 
 	search: (
+		enabled: 				true,
+		
 		paddingLeft: 			2.5em
 	),
 
 
 	timespanpicker: (
+		enabled: 				true,
+		
 		width: 					5em
 	),
 
 	momentpicker: (
+		enabled: 				true,
+		
 		width: 					2.2em,
 		maxWidth: 				5.25em
 	)
@@ -283,6 +338,8 @@ $luiTheme: lui_set_component_variables(element, input, $input);
 // ===================================
 
 $table: (
+	enabled: 					true,
+
 	background:					#fff,
 	border: 					1px solid #d6d6d6,
 	padding: 					0.5em 1em,
@@ -300,6 +357,8 @@ $luiTheme: lui_set_component_variables(element, table, $table);
 // ===================================
 
 $menu: (
+	enabled: 					true,
+
 	defaultColoring: 			(color: #666, text: #FFF, lod: true),
 
 	verticalMargin: 			0,
@@ -358,6 +417,8 @@ $luiTheme: lui_set_component_variables(element, menu, $menu);
 // ===================================
 
 $breadcrumbs: (
+	enabled: 					true,
+
 	itemPadding:  				0.5em 0,
 
 	dividers: (
@@ -374,10 +435,24 @@ $luiTheme: lui_set_component_variables(element, breadcrumbs, $breadcrumbs);
 // ===================================
 
 $label: (
-	defaultColoring: 			(color: map-gets($colors, light, color), text: #666, lod: false),
-	borderRadius: 				3px,
+	enabled: 					true,
+
+	fontSize:					0.85em,
+	lineHeight:					1,
+	textAlign: 					center,
+
 	verticalPadding: 			0.25em,
-	horizontalPadding: 			0.5em
+	horizontalPadding: 			0.5em,
+
+	verticalMargin:				0,
+	horizontalMargin: 			0.5em,
+
+	borderRadius: 				3px,
+
+	defaultColoring: 			(color: map-gets($colors, light, color), text: #666, lod: false),
+
+	addonBackground: 			rgba(0, 0, 0, 0.2),
+	iconMargin: 				0.25em
 );
 $luiTheme: lui_set_component_variables(element, label, $label);
 
@@ -386,6 +461,8 @@ $luiTheme: lui_set_component_variables(element, label, $label);
 // ===================================
 
 $callout: (
+	enabled: 					true,
+
 	background: 				#FFF,
 	borderColor: 				map-gets($colors, light, color),
 	borderWidth: 				5px,
@@ -404,6 +481,8 @@ $luiTheme: lui_set_component_variables(element, callout, $callout);
 // ===================================
 
 $block: (
+	enabled: 					true,
+
 	verticalPadding: 			1em,
 	horizontalPadding: 			1em,
 	border: 					1px solid map-gets($divider, borderColor),
@@ -417,6 +496,8 @@ $luiTheme: lui_set_component_variables(element, block, $block);
 // ===================================
 
 $overlay: (
+	enabled: 					true,
+
 	zIndex: 					100,
 	background: 				rgba(0, 0, 0, 0.5)
 );

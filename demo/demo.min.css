@@ -44,7 +44,7 @@
   font-weight: normal;
   font-style: normal;
 }
-i.lui.icon, .button.icon, .button.icon:before {
+i.lui.icon, .button.icon:before {
   font-family: "lucca-icons";
   font-style: normal;
   font-weight: normal;
@@ -533,8 +533,7 @@ button.unstyled, .button {
   border: none;
   text-decoration: none;
   font-style: normal;
-  line-height: 1em;
-  white-space: nowrap;
+  line-height: 1;
   font-weight: normal;
   background-color: transparent;
   border-radius: 0;
@@ -549,7 +548,8 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
   -webkit-user-select: none;
   user-select: none;
 }
-.loader:after, .animated, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after, .button.status.loading:not([class*="with addon"]):after {
+.loader:after, .animated, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after,
+.button.status.loading:not([class*="with addon"]):after {
   animation-easing: ease-out;
   animation-duration: 0.5s;
   animation-fill-mode: both;
@@ -559,7 +559,8 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
   opacity: 1;
 }
 
-.infinitely.animated, .loader:after, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after, .button.status.loading:not([class*="with addon"]):after {
+.infinitely.animated, .loader:after, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after,
+.button.status.loading:not([class*="with addon"]):after {
   animation-iteration-count: infinite;
 }
 
@@ -844,7 +845,8 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
     transform: rotate(360deg);
   }
 }
-.animated[class*="spin"], .loader:after, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after, .button.status.loading:not([class*="with addon"]):after {
+.animated[class*="spin"], .loader:after, .search.input.searching:after, .button.status[class*="with addon"].loading > .addon:after,
+.button.status.loading:not([class*="with addon"]):after {
   animation-name: spin;
 }
 .pointing:after {
@@ -937,61 +939,6 @@ button.unstyled, .button, .search.input:before, .search.input:after, luid-moment
   top: auto;
   bottom: 0;
 }
-body, html {
-  width: 100%;
-  height: 100%;
-}
-
-.clear, .container, .container .columns, dl.definition-list, .menu, .menu > .item, .callouts {
-  zoom: 1;
-  /* For IE 6/7 (trigger hasLayout) */
-}
-.clear:before, .container:before, .container .columns:before, dl.definition-list:before, .menu:before, .menu > .item:before, .callouts:before, .clear:after, .container:after, .container .columns:after, dl.definition-list:after, .menu:after, .menu > .item:after, .callouts:after {
-  content: "";
-  display: table;
-}
-.clear:after, .container:after, .container .columns:after, dl.definition-list:after, .menu:after, .menu > .item:after, .callouts:after {
-  clear: both;
-}
-
-[class*="left pulled"] {
-  float: left;
-}
-
-[class*="right pulled"] {
-  float: right;
-}
-
-.container {
-  padding: 0;
-  width: auto;
-}
-
-.container .column {
-  float: left;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.container .column[class*="-pull-"],
-.container .column[class*="-push-"] {
-  position: relative;
-}
-
-.fitting.container {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.container.spaced .column,
-.container .column.spaced {
-  padding: 0 1em;
-}
-
-.container.spaced .columns {
-  margin: -1em;
-}
-
 @media (min-width: 320px) {
   .container {
     margin: 0 1em;
@@ -1860,6 +1807,60 @@ body, html {
     left: 100%;
   }
 }
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+.clear, .container, .container .columns, dl.definition-list, .menu, .menu > .item, .callouts {
+  zoom: 1;
+  /* For IE 6/7 (trigger hasLayout) */
+}
+.clear:before, .container:before, .container .columns:before, dl.definition-list:before, .menu:before, .menu > .item:before, .callouts:before, .clear:after, .container:after, .container .columns:after, dl.definition-list:after, .menu:after, .menu > .item:after, .callouts:after {
+  content: "";
+  display: table;
+}
+.clear:after, .container:after, .container .columns:after, dl.definition-list:after, .menu:after, .menu > .item:after, .callouts:after {
+  clear: both;
+}
+
+[class*="left pulled"] {
+  float: left;
+}
+
+[class*="right pulled"] {
+  float: right;
+}
+
+.container {
+  padding: 0;
+  width: auto;
+}
+
+.container .column {
+  float: left;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.container .column[class*="-pull-"],
+.container .column[class*="-push-"] {
+  position: relative;
+}
+
+.fitting.container {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.container.spaced .column,
+.container .column.spaced {
+  padding: 0 1em;
+}
+
+.container.spaced .columns {
+  margin: -1em;
+}
 body {
   font-size: 13px;
   font-family: 'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif;
@@ -2003,10 +2004,52 @@ a[ui-sref] {
 .typeset h1:first-child {
   margin-top: 0;
 }
-
-.menu .item.divider:not(.header) {
-  color: #a6a6a6;
+.input.grey[class*="with addon"] > .addon {
+  background-color: #666;
+  border-color: #666;
+  color: #fff;
+  text-shadow: 0 1px 1px #404040;
 }
+.input.light[class*="with addon"] > .addon {
+  background-color: #CCC;
+  border-color: #CCC;
+  color: #666;
+}
+.input.primary[class*="with addon"] > .addon {
+  background-color: #FFC900;
+  border-color: #FFC900;
+  color: #666;
+}
+.input.secondary[class*="with addon"] > .addon {
+  background-color: #F60;
+  border-color: #F60;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b34700;
+}
+.input.red[class*="with addon"] > .addon {
+  background-color: #F60;
+  border-color: #F60;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b34700;
+}
+.input.orange[class*="with addon"] > .addon {
+  background-color: #F90;
+  border-color: #F90;
+  color: #FFF;
+  text-shadow: 0 1px 1px #b36b00;
+}
+.input.green[class*="with addon"] > .addon {
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+  color: #FFF;
+  text-shadow: 0 1px 1px #3d8b3d;
+}
+.input.yellow[class*="with addon"] > .addon {
+  background-color: #FFC900;
+  border-color: #FFC900;
+  color: #666;
+}
+
 .search.input:before {
   font-family: "lucca-icons";
   display: inline-block;
@@ -2466,52 +2509,6 @@ luid-timespan > input, .input > input {
   border-radius: 0 !important;
 }
 
-.input.grey[class*="with addon"] > .addon {
-  background-color: #666;
-  border-color: #666;
-  color: #fff;
-  text-shadow: 0 1px 1px #404040;
-}
-.input.light[class*="with addon"] > .addon {
-  background-color: #CCC;
-  border-color: #CCC;
-  color: #666;
-}
-.input.primary[class*="with addon"] > .addon {
-  background-color: #FFC900;
-  border-color: #FFC900;
-  color: #666;
-}
-.input.secondary[class*="with addon"] > .addon {
-  background-color: #F60;
-  border-color: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.input.red[class*="with addon"] > .addon {
-  background-color: #F60;
-  border-color: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.input.orange[class*="with addon"] > .addon {
-  background-color: #F90;
-  border-color: #F90;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b36b00;
-}
-.input.green[class*="with addon"] > .addon {
-  background-color: #5cb85c;
-  border-color: #5cb85c;
-  color: #FFF;
-  text-shadow: 0 1px 1px #3d8b3d;
-}
-.input.yellow[class*="with addon"] > .addon {
-  background-color: #FFC900;
-  border-color: #FFC900;
-  color: #666;
-}
-
 .input.x-small {
   font-size: 0.7em;
 }
@@ -2568,14 +2565,6 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
   transition-timing-function: ease-out;
 }
 
-.button:hover {
-  box-shadow: 0px 1px 2px 0 rgba(50, 50, 50, 0.25);
-}
-
-.button:active, .button.active {
-  box-shadow: none;
-}
-
 .button.disabled, .button[disabled] {
   opacity: 0.5;
   -webkit-filter: grayscale(50%);
@@ -2585,28 +2574,18 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 }
 
 .button:not(.wired):hover {
-  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 .button:not(.wired):active, .button:not(.wired).active {
   box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.2) inset;
 }
 
-.button.filling:not(.inverted) {
-  background: #FFF;
-}
-
 .button.inverted {
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
-}
-.button.inverted:hover, .button.inverted:active, .button.inverted.active {
-  color: #FFF;
-  box-shadow: 0 0 0 2px #FFF;
+  box-shadow: 0 0 0 2px rgba(200, 200, 200, 0.75) inset;
+  color: rgba(200, 200, 200, 0.75);
 }
 
-.button.wired {
-  background: transparent;
-}
 .button.wired[class*="with addon"] > .addon {
   background-color: transparent;
 }
@@ -2625,16 +2604,13 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
   box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.1);
 }
 .button.flat:hover {
-  background-color: rgba(50, 50, 50, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 .button.flat:active {
-  background-color: rgba(50, 50, 50, 0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 .button.flat:before, .button.flat:after {
   text-decoration: none;
-}
-.button.flat:inverted {
-  color: #FFF;
 }
 .button.flat.icon {
   text-decoration: none;
@@ -2643,23 +2619,45 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
   border-right: none !important;
   background-color: transparent;
 }
+.button.flat.inverted {
+  color: rgba(200, 200, 200, 0.75);
+}
+.button.flat.inverted:hover {
+  background: rgba(200, 200, 200, 0.1);
+}
+.button.flat.inverted:active {
+  background: rgba(255, 255, 255, 0.25);
+}
 
-.button:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #FFF;
   color: #666;
 }
-.button:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
+.button:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
   background: white;
 }
-.button:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f7f7f7;
+.button:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #f2f2f2;
 }
-.button.filling:hover {
+.button.inverted:not(.flat) {
+  background: transparent;
+}
+.button.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFF inset;
+  color: #FFF;
+}
+.button.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.button.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFF;
+}
+.button.filling:hover, .button.filling:active, .button.filling.active {
   background: #FFF;
   color: #666;
 }
-.button.filling:active, .button.filling.active {
-  background: #f2f2f2;
+.button.wired {
+  background: transparent;
 }
 .button.wired:not(.inverted):hover, .button.wired:not(.inverted):active, .button.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFF inset;
@@ -2668,56 +2666,38 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.wired:not(.inverted):active[class*="with addon"] > .addon, .button.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFF;
 }
-.button.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.status.ok:after, .button.status.ok > .addon:after, .button.status.failure:after, .button.status.failure > .addon:after {
+  color: #666 !important;
 }
-.button.inverted:hover {
-  box-shadow: 0 0 0 2px #FFF inset;
-  color: #FFF;
+.button.grey:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #666;
+  color: #fff;
 }
-.button.inverted.filling {
-  box-shadow: 0 0 0 1px #FFF inset;
-  color: #FFF;
+.button.grey:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #737373;
 }
-.button.inverted.filling:hover {
-  color: #666;
+.button.grey:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.grey:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #595959;
 }
-.button.inverted.filling[class*="with addon"] > .addon {
+.button.grey.inverted:not(.flat) {
   background: transparent;
 }
-.button.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFF;
-}
-.button.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.status.filling:hover.ok:after, .button.status.filling:hover.failure:after {
+.button.grey.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #666 inset;
   color: #666;
 }
-.button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.status.filling:hover.loading:not([class*="with addon"]):before, .button.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
+.button.grey.inverted:not(.flat).filling:hover {
+  color: #fff;
 }
-.button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.status.filling:hover.loading:not([class*="with addon"]):after, .button.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+.button.grey.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #666;
 }
-.button.grey:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.grey.filling:hover, .button.grey.filling:active, .button.grey.filling.active {
   background: #666;
   color: #fff;
 }
-.button.grey:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #6e6e6e;
-}
-.button.grey:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.grey:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #5e5e5e;
-}
-.button.grey.filling:hover {
-  background: #666;
-  color: #fff;
-  text-shadow: 0 1px 1px #404040;
-}
-.button.grey.filling:active, .button.grey.filling.active {
-  background: #595959;
+.button.grey.wired {
+  background: transparent;
 }
 .button.grey.wired:not(.inverted):hover, .button.grey.wired:not(.inverted):active, .button.grey.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #666 inset;
@@ -2726,55 +2706,44 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.grey.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.grey.wired:not(.inverted):active[class*="with addon"] > .addon, .button.grey.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #666;
 }
-.button.grey.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.grey.status.ok:after, .button.grey.status.ok > .addon:after, .button.grey.status.failure:after, .button.grey.status.failure > .addon:after {
+  color: #fff !important;
 }
-.button.grey.inverted:hover {
-  box-shadow: 0 0 0 2px #666 inset;
-  color: #666;
-}
-.button.grey.inverted.filling {
-  box-shadow: 0 0 0 1px #666 inset;
-  color: #666;
-}
-.button.grey.inverted.filling:hover {
-  color: #fff;
-}
-.button.grey.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.grey.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #666;
-}
-.button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.grey.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.grey.status.filling:hover.ok:after, .button.grey.status.filling:hover.failure:after {
-  color: #fff;
-}
-.button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.grey.status.filling:hover.loading:not([class*="with addon"]):before, .button.grey.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.button.grey.status.loading:not([class*="with addon"]):before, .button.grey.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.grey.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.grey.status.filling:hover.loading:not([class*="with addon"]):after, .button.grey.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.button.grey.status.loading:not([class*="with addon"]):after, .button.grey.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.button.light:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.light:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #CCC;
   color: #666;
 }
-.button.light:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #d4d4d4;
+.button.light:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #d9d9d9;
 }
-.button.light:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.light:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #c4c4c4;
-}
-.button.light.filling:hover {
-  background: #CCC;
-  color: #666;
-}
-.button.light.filling:active, .button.light.filling.active {
+.button.light:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.light:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #bfbfbf;
+}
+.button.light.inverted:not(.flat) {
+  background: transparent;
+}
+.button.light.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #CCC inset;
+  color: #CCC;
+}
+.button.light.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.button.light.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #CCC;
+}
+.button.light.filling:hover, .button.light.filling:active, .button.light.filling.active {
+  background: #CCC;
+  color: #666;
+}
+.button.light.wired {
+  background: transparent;
 }
 .button.light.wired:not(.inverted):hover, .button.light.wired:not(.inverted):active, .button.light.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #CCC inset;
@@ -2783,55 +2752,38 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.light.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.light.wired:not(.inverted):active[class*="with addon"] > .addon, .button.light.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #CCC;
 }
-.button.light.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.light.status.ok:after, .button.light.status.ok > .addon:after, .button.light.status.failure:after, .button.light.status.failure > .addon:after {
+  color: #666 !important;
 }
-.button.light.inverted:hover {
-  box-shadow: 0 0 0 2px #CCC inset;
-  color: #CCC;
-}
-.button.light.inverted.filling {
-  box-shadow: 0 0 0 1px #CCC inset;
-  color: #CCC;
-}
-.button.light.inverted.filling:hover {
+.button.primary:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #FFC900;
   color: #666;
 }
-.button.light.inverted.filling[class*="with addon"] > .addon {
+.button.primary:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffce1a;
+}
+.button.primary:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.primary:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e6b500;
+}
+.button.primary.inverted:not(.flat) {
   background: transparent;
 }
-.button.light.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #CCC;
+.button.primary.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFC900 inset;
+  color: #FFC900;
 }
-.button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.light.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.light.status.filling:hover.ok:after, .button.light.status.filling:hover.failure:after {
+.button.primary.inverted:not(.flat).filling:hover {
   color: #666;
 }
-.button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.light.status.filling:hover.loading:not([class*="with addon"]):before, .button.light.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
+.button.primary.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFC900;
 }
-.button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.light.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.light.status.filling:hover.loading:not([class*="with addon"]):after, .button.light.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.button.primary:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.primary.filling:hover, .button.primary.filling:active, .button.primary.filling.active {
   background: #FFC900;
   color: #666;
 }
-.button.primary:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ffcc0f;
-}
-.button.primary:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.primary:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f0bd00;
-}
-.button.primary.filling:hover {
-  background: #FFC900;
-  color: #666;
-}
-.button.primary.filling:active, .button.primary.filling.active {
-  background: #e6b500;
+.button.primary.wired {
+  background: transparent;
 }
 .button.primary.wired:not(.inverted):hover, .button.primary.wired:not(.inverted):active, .button.primary.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFC900 inset;
@@ -2840,56 +2792,38 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.primary.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.primary.wired:not(.inverted):active[class*="with addon"] > .addon, .button.primary.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFC900;
 }
-.button.primary.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+.button.primary.status.ok:after, .button.primary.status.ok > .addon:after, .button.primary.status.failure:after, .button.primary.status.failure > .addon:after {
+  color: #666 !important;
+}
+.button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #F60;
   color: #FFF;
 }
-.button.primary.inverted:hover {
-  box-shadow: 0 0 0 2px #FFC900 inset;
-  color: #FFC900;
+.button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ff751a;
 }
-.button.primary.inverted.filling {
-  box-shadow: 0 0 0 1px #FFC900 inset;
-  color: #FFC900;
+.button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.secondary:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e65c00;
 }
-.button.primary.inverted.filling:hover {
-  color: #666;
-}
-.button.primary.inverted.filling[class*="with addon"] > .addon {
+.button.secondary.inverted:not(.flat) {
   background: transparent;
 }
-.button.primary.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFC900;
+.button.secondary.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #F60 inset;
+  color: #F60;
 }
-.button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.primary.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
+.button.secondary.inverted:not(.flat).filling:hover {
+  color: #FFF;
 }
-.button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.primary.status.filling:hover.ok:after, .button.primary.status.filling:hover.failure:after {
-  color: #666;
+.button.secondary.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #F60;
 }
-.button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.primary.status.filling:hover.loading:not([class*="with addon"]):before, .button.primary.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.primary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.primary.status.filling:hover.loading:not([class*="with addon"]):after, .button.primary.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.secondary.filling:hover, .button.secondary.filling:active, .button.secondary.filling.active {
   background: #F60;
   color: #FFF;
 }
-.button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff6f0f;
-}
-.button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.secondary:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f06000;
-}
-.button.secondary.filling:hover {
-  background: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.button.secondary.filling:active, .button.secondary.filling.active {
-  background: #e65c00;
+.button.secondary.wired {
+  background: transparent;
 }
 .button.secondary.wired:not(.inverted):hover, .button.secondary.wired:not(.inverted):active, .button.secondary.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F60 inset;
@@ -2898,56 +2832,44 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.secondary.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.secondary.wired:not(.inverted):active[class*="with addon"] > .addon, .button.secondary.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.button.secondary.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+.button.secondary.status.ok:after, .button.secondary.status.ok > .addon:after, .button.secondary.status.failure:after, .button.secondary.status.failure > .addon:after {
+  color: #FFF !important;
+}
+.button.secondary.status.loading:not([class*="with addon"]):before, .button.secondary.status.loading[class*="with addon"] > .addon:before {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.button.secondary.status.loading:not([class*="with addon"]):after, .button.secondary.status.loading[class*="with addon"] > .addon:after {
+  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
+}
+.button.red:not(.inverted):not(.flat):not(.filling):not(.wired) {
+  background: #F60;
   color: #FFF;
 }
-.button.secondary.inverted:hover {
+.button.red:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ff751a;
+}
+.button.red:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.red:not(.inverted):not(.flat):not(.filling):not(.wired).active {
+  background: #e65c00;
+}
+.button.red.inverted:not(.flat) {
+  background: transparent;
+}
+.button.red.inverted:not(.flat):hover {
   box-shadow: 0 0 0 2px #F60 inset;
   color: #F60;
 }
-.button.secondary.inverted.filling {
-  box-shadow: 0 0 0 1px #F60 inset;
-  color: #F60;
-}
-.button.secondary.inverted.filling:hover {
+.button.red.inverted:not(.flat).filling:hover {
   color: #FFF;
 }
-.button.secondary.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.secondary.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
+.button.red.inverted:not(.flat)[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.secondary.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.secondary.status.filling:hover.ok:after, .button.secondary.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.secondary.status.filling:hover.loading:not([class*="with addon"]):before, .button.secondary.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(255, 255, 255, 0.25);
-}
-.button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.secondary.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.secondary.status.filling:hover.loading:not([class*="with addon"]):after, .button.secondary.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
-}
-.button.red:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.red.filling:hover, .button.red.filling:active, .button.red.filling.active {
   background: #F60;
   color: #FFF;
 }
-.button.red:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff6f0f;
-}
-.button.red:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.red:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f06000;
-}
-.button.red.filling:hover {
-  background: #F60;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b34700;
-}
-.button.red.filling:active, .button.red.filling.active {
-  background: #e65c00;
+.button.red.wired {
+  background: transparent;
 }
 .button.red.wired:not(.inverted):hover, .button.red.wired:not(.inverted):active, .button.red.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F60 inset;
@@ -2956,56 +2878,44 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.red.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.red.wired:not(.inverted):active[class*="with addon"] > .addon, .button.red.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F60;
 }
-.button.red.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.red.status.ok:after, .button.red.status.ok > .addon:after, .button.red.status.failure:after, .button.red.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.button.red.inverted:hover {
-  box-shadow: 0 0 0 2px #F60 inset;
-  color: #F60;
-}
-.button.red.inverted.filling {
-  box-shadow: 0 0 0 1px #F60 inset;
-  color: #F60;
-}
-.button.red.inverted.filling:hover {
-  color: #FFF;
-}
-.button.red.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.red.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #F60;
-}
-.button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.red.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.red.status.filling:hover.ok:after, .button.red.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.red.status.filling:hover.loading:not([class*="with addon"]):before, .button.red.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.button.red.status.loading:not([class*="with addon"]):before, .button.red.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.red.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.red.status.filling:hover.loading:not([class*="with addon"]):after, .button.red.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.button.red.status.loading:not([class*="with addon"]):after, .button.red.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.button.orange:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.orange:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #F90;
   color: #FFF;
 }
-.button.orange:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ff9f0f;
+.button.orange:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffa31a;
 }
-.button.orange:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.orange:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f09000;
-}
-.button.orange.filling:hover {
-  background: #F90;
-  color: #FFF;
-  text-shadow: 0 1px 1px #b36b00;
-}
-.button.orange.filling:active, .button.orange.filling.active {
+.button.orange:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.orange:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #e68a00;
+}
+.button.orange.inverted:not(.flat) {
+  background: transparent;
+}
+.button.orange.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #F90 inset;
+  color: #F90;
+}
+.button.orange.inverted:not(.flat).filling:hover {
+  color: #FFF;
+}
+.button.orange.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #F90;
+}
+.button.orange.filling:hover, .button.orange.filling:active, .button.orange.filling.active {
+  background: #F90;
+  color: #FFF;
+}
+.button.orange.wired {
+  background: transparent;
 }
 .button.orange.wired:not(.inverted):hover, .button.orange.wired:not(.inverted):active, .button.orange.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #F90 inset;
@@ -3014,56 +2924,44 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.orange.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.orange.wired:not(.inverted):active[class*="with addon"] > .addon, .button.orange.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #F90;
 }
-.button.orange.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.orange.status.ok:after, .button.orange.status.ok > .addon:after, .button.orange.status.failure:after, .button.orange.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.button.orange.inverted:hover {
-  box-shadow: 0 0 0 2px #F90 inset;
-  color: #F90;
-}
-.button.orange.inverted.filling {
-  box-shadow: 0 0 0 1px #F90 inset;
-  color: #F90;
-}
-.button.orange.inverted.filling:hover {
-  color: #FFF;
-}
-.button.orange.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.orange.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #F90;
-}
-.button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.orange.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.orange.status.filling:hover.ok:after, .button.orange.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.orange.status.filling:hover.loading:not([class*="with addon"]):before, .button.orange.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.button.orange.status.loading:not([class*="with addon"]):before, .button.orange.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.orange.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.orange.status.filling:hover.loading:not([class*="with addon"]):after, .button.orange.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.button.orange.status.loading:not([class*="with addon"]):after, .button.orange.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.button.green:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.green:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #5cb85c;
   color: #FFF;
 }
-.button.green:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #67bd67;
+.button.green:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #6ec06e;
 }
-.button.green:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.green:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #51b351;
-}
-.button.green.filling:hover {
-  background: #5cb85c;
-  color: #FFF;
-  text-shadow: 0 1px 1px #3d8b3d;
-}
-.button.green.filling:active, .button.green.filling.active {
+.button.green:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.green:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #4cae4c;
+}
+.button.green.inverted:not(.flat) {
+  background: transparent;
+}
+.button.green.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #5cb85c inset;
+  color: #5cb85c;
+}
+.button.green.inverted:not(.flat).filling:hover {
+  color: #FFF;
+}
+.button.green.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #5cb85c;
+}
+.button.green.filling:hover, .button.green.filling:active, .button.green.filling.active {
+  background: #5cb85c;
+  color: #FFF;
+}
+.button.green.wired {
+  background: transparent;
 }
 .button.green.wired:not(.inverted):hover, .button.green.wired:not(.inverted):active, .button.green.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #5cb85c inset;
@@ -3072,55 +2970,44 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.green.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.green.wired:not(.inverted):active[class*="with addon"] > .addon, .button.green.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #5cb85c;
 }
-.button.green.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
+.button.green.status.ok:after, .button.green.status.ok > .addon:after, .button.green.status.failure:after, .button.green.status.failure > .addon:after {
+  color: #FFF !important;
 }
-.button.green.inverted:hover {
-  box-shadow: 0 0 0 2px #5cb85c inset;
-  color: #5cb85c;
-}
-.button.green.inverted.filling {
-  box-shadow: 0 0 0 1px #5cb85c inset;
-  color: #5cb85c;
-}
-.button.green.inverted.filling:hover {
-  color: #FFF;
-}
-.button.green.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.green.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #5cb85c;
-}
-.button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.green.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.green.status.filling:hover.ok:after, .button.green.status.filling:hover.failure:after {
-  color: #FFF;
-}
-.button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.green.status.filling:hover.loading:not([class*="with addon"]):before, .button.green.status.filling:hover.loading[class*="with addon"] > .addon:before {
+.button.green.status.loading:not([class*="with addon"]):before, .button.green.status.loading[class*="with addon"] > .addon:before {
   border-color: rgba(255, 255, 255, 0.25);
 }
-.button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.green.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.green.status.filling:hover.loading:not([class*="with addon"]):after, .button.green.status.filling:hover.loading[class*="with addon"] > .addon:after {
+.button.green.status.loading:not([class*="with addon"]):after, .button.green.status.loading[class*="with addon"] > .addon:after {
   border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
 }
-.button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat) {
+.button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired) {
   background: #FFC900;
   color: #666;
 }
-.button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat):hover {
-  background: #ffcc0f;
+.button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired):hover {
+  background: #ffce1a;
 }
-.button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat):active, .button.yellow:not(.filling):not(.wired):not(.inverted):not(.flat).active {
-  background: #f0bd00;
-}
-.button.yellow.filling:hover {
-  background: #FFC900;
-  color: #666;
-}
-.button.yellow.filling:active, .button.yellow.filling.active {
+.button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired):active, .button.yellow:not(.inverted):not(.flat):not(.filling):not(.wired).active {
   background: #e6b500;
+}
+.button.yellow.inverted:not(.flat) {
+  background: transparent;
+}
+.button.yellow.inverted:not(.flat):hover {
+  box-shadow: 0 0 0 2px #FFC900 inset;
+  color: #FFC900;
+}
+.button.yellow.inverted:not(.flat).filling:hover {
+  color: #666;
+}
+.button.yellow.inverted:not(.flat)[class*="with addon"] > .addon {
+  border-color: #FFC900;
+}
+.button.yellow.filling:hover, .button.yellow.filling:active, .button.yellow.filling.active {
+  background: #FFC900;
+  color: #666;
+}
+.button.yellow.wired {
+  background: transparent;
 }
 .button.yellow.wired:not(.inverted):hover, .button.yellow.wired:not(.inverted):active, .button.yellow.wired:not(.inverted).active {
   box-shadow: 0 0 0 2px #FFC900 inset;
@@ -3129,38 +3016,8 @@ luid-moment.ng-invalid .luid-moment, .input.invalid,
 .button.yellow.wired:not(.inverted):hover[class*="with addon"] > .addon, .button.yellow.wired:not(.inverted):active[class*="with addon"] > .addon, .button.yellow.wired:not(.inverted).active[class*="with addon"] > .addon {
   border-color: #FFC900;
 }
-.button.yellow.inverted {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  color: #FFF;
-}
-.button.yellow.inverted:hover {
-  box-shadow: 0 0 0 2px #FFC900 inset;
-  color: #FFC900;
-}
-.button.yellow.inverted.filling {
-  box-shadow: 0 0 0 1px #FFC900 inset;
-  color: #FFC900;
-}
-.button.yellow.inverted.filling:hover {
-  color: #666;
-}
-.button.yellow.inverted.filling[class*="with addon"] > .addon {
-  background: transparent;
-}
-.button.yellow.inverted.filling[class*="with addon"]:not(:hover):not(.active) > .addon {
-  border-color: #FFC900;
-}
-.button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat):not([class*="with addon"]), .button.yellow.status.filling:hover:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).ok:after, .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).failure:after, .button.yellow.status.filling:hover.ok:after, .button.yellow.status.filling:hover.failure:after {
-  color: #666;
-}
-.button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):before, .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:before, .button.yellow.status.filling:hover.loading:not([class*="with addon"]):before, .button.yellow.status.filling:hover.loading[class*="with addon"] > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading:not([class*="with addon"]):after, .button.yellow.status:not(.filling):not(.wired):not(.inverted):not(.flat).loading[class*="with addon"] > .addon:after, .button.yellow.status.filling:hover.loading:not([class*="with addon"]):after, .button.yellow.status.filling:hover.loading[class*="with addon"] > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
+.button.yellow.status.ok:after, .button.yellow.status.ok > .addon:after, .button.yellow.status.failure:after, .button.yellow.status.failure > .addon:after {
+  color: #666 !important;
 }
 
 .buttons {
@@ -3210,15 +3067,14 @@ html:not(.ie9) .buttons {
 
 .buttons.justified {
   width: 100%;
+}
+.ie9 .buttons.justified {
   display: table;
   table-layout: fixed;
-  display: -ms-flexbox;
-  display: flex;
 }
-.buttons.justified > .button {
+.ie9 .buttons.justified > .button {
   display: table-cell;
   text-align: center;
-  float: none;
 }
 .buttons.justified > .button {
   float: none;
@@ -3265,82 +3121,33 @@ html:not(.ie9) .buttons {
 }
 .button[class*="with addon"]:not(.right) > .addon {
   left: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(50, 50, 50, 0.2);
 }
 .button[class*="with addon"].right {
   padding-right: 3.5em;
 }
 .button[class*="with addon"].right > .addon {
   right: 0;
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px rgba(50, 50, 50, 0.2);
 }
 
 .button.status {
   position: relative;
 }
 
-.button.status[class*="with addon"].loading > .addon {
-  display: inline-block;
-  position: relative;
-  position: absolute;
-}
-.button.status[class*="with addon"].loading > .addon:before, .button.status[class*="with addon"].loading > .addon:after {
-  box-sizing: border-box;
-  display: block;
-  content: "";
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  border-width: 2px;
-  border-style: solid;
-}
-.button.status[class*="with addon"].loading > .addon:after {
-  position: absolute;
-  top: 50%;
-  margin-top: -0.5em;
-  left: 50%;
-  margin-left: -0.5em;
-  animation-timing-function: linear;
-}
-.button.status[class*="with addon"].loading > .addon:before {
-  border-color: rgba(0, 0, 0, 0.25);
-}
-.button.status[class*="with addon"].loading > .addon:after {
-  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-}
-.ie9 .button.status[class*="with addon"].loading > .addon:before {
-  border: none;
-}
-.ie9 .button.status[class*="with addon"].loading > .addon:after {
-  border: none;
-  margin: 0;
-  background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
-  background-size: contain;
-}
-.button.status[class*="with addon"].ok > .addon:before {
-  content: "\e00b";
-}
-.button.status[class*="with addon"].failure > .addon:before {
-  content: "\e01e";
+.button.status:not([class*="with addon"]),
+.button.status[class*="with addon"] > .addon:before {
+  color: transparent !important;
 }
 
-.button.status:not([class*="with addon"]) {
-  color: transparent;
-}
-.button.status:not([class*="with addon"]):not(.icon):before, .button.status:not([class*="with addon"]):after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -150%);
-  transform: translate(-50%, -150%);
-  width: 1.1em;
-  height: 1.1em;
-}
+.button.status[class*="with addon"].loading > .addon,
 .button.status:not([class*="with addon"]).loading {
   display: inline-block;
   position: relative;
 }
-.button.status:not([class*="with addon"]).loading:before, .button.status:not([class*="with addon"]).loading:after {
+.button.status[class*="with addon"].loading > .addon:before, .button.status[class*="with addon"].loading > .addon:after,
+.button.status:not([class*="with addon"]).loading:before,
+.button.status:not([class*="with addon"]).loading:after {
   box-sizing: border-box;
   display: block;
   content: "";
@@ -3350,6 +3157,7 @@ html:not(.ie9) .buttons {
   border-width: 2px;
   border-style: solid;
 }
+.button.status[class*="with addon"].loading > .addon:after,
 .button.status:not([class*="with addon"]).loading:after {
   position: absolute;
   top: 50%;
@@ -3358,21 +3166,27 @@ html:not(.ie9) .buttons {
   margin-left: -0.5em;
   animation-timing-function: linear;
 }
+.button.status[class*="with addon"].loading > .addon:before,
 .button.status:not([class*="with addon"]).loading:before {
   border-color: rgba(0, 0, 0, 0.25);
 }
+.button.status[class*="with addon"].loading > .addon:after,
 .button.status:not([class*="with addon"]).loading:after {
   border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
-.ie9 .button.status:not([class*="with addon"]).loading:before {
+.ie9 .button.status[class*="with addon"].loading > .addon:before, .ie9
+.button.status:not([class*="with addon"]).loading:before {
   border: none;
 }
-.ie9 .button.status:not([class*="with addon"]).loading:after {
+.ie9 .button.status[class*="with addon"].loading > .addon:after, .ie9
+.button.status:not([class*="with addon"]).loading:after {
   border: none;
   margin: 0;
   background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
   background-size: contain;
 }
+
+.button.status[class*="with addon"].ok > .addon:after,
 .button.status:not([class*="with addon"]).ok:after {
   font-family: "lucca-icons";
   display: inline-block;
@@ -3381,6 +3195,8 @@ html:not(.ie9) .buttons {
   content: "";
   margin-left: 0.5em;
 }
+
+.button.status[class*="with addon"].failure > .addon:after,
 .button.status:not([class*="with addon"]).failure:after {
   font-family: "lucca-icons";
   display: inline-block;
@@ -3389,15 +3205,22 @@ html:not(.ie9) .buttons {
   content: "";
   margin-left: 0.5em;
 }
-.button.status:not([class*="with addon"]).loading:after, .button.status:not([class*="with addon"]).loading:not(.icon):before, .button.status:not([class*="with addon"]).ok:after, .button.status:not([class*="with addon"]).failure:after {
+
+.button.status[class*="with addon"] > .addon {
+  position: absolute !important;
+}
+
+.button.status.loading:not([class*="with addon"]):not(.icon):before,
+.button.status.ok:not([class*="with addon"]):after,
+.button.status.ok[class*="with addon"] > .addon:after,
+.button.status.failure:not([class*="with addon"]):after,
+.button.status.failure[class*="with addon"] > .addon:after {
+  position: absolute;
+  margin: 0 !important;
+  left: 50%;
+  top: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-.button.status:not([class*="with addon"]).status.loading, .button.status:not([class*="with addon"]).status.ok, .button.status:not([class*="with addon"]).status.failure {
-  color: transparent;
-}
-.button.status:not([class*="with addon"]).status.ok:after, .button.status:not([class*="with addon"]).status.failure:after {
-  margin: 0;
 }
 
 .button.x-small,
@@ -3718,6 +3541,133 @@ ol li.divider {
 .table .tr.yellow > td:first-child:after {
   background: #FFC900;
 }
+.menu.dividing > a.item:before, .menu.dividing > a.item:after {
+  background-color: #666;
+}
+.menu.pills > a.item:active, .menu.pills > a.item.active {
+  background-color: #666;
+  color: #FFF;
+}
+.menu.pills > a.item:hover {
+  background-color: #737373;
+  color: #FFF;
+}
+.menu.tabbed > a.item.active {
+  border-top-color: #666;
+}
+.menu.grey.dividing > a.item:before, .menu.grey.dividing > a.item:after {
+  background-color: #666;
+}
+.menu.grey.pills > a.item:active, .menu.grey.pills > a.item.active {
+  background-color: #666;
+  color: #fff;
+}
+.menu.grey.pills > a.item:hover {
+  background-color: #737373;
+  color: #fff;
+}
+.menu.grey.tabbed > a.item.active {
+  border-top-color: #666;
+}
+.menu.light.dividing > a.item:before, .menu.light.dividing > a.item:after {
+  background-color: #CCC;
+}
+.menu.light.pills > a.item:active, .menu.light.pills > a.item.active {
+  background-color: #CCC;
+  color: #666;
+}
+.menu.light.pills > a.item:hover {
+  background-color: #d9d9d9;
+  color: #666;
+}
+.menu.light.tabbed > a.item.active {
+  border-top-color: #CCC;
+}
+.menu.primary.dividing > a.item:before, .menu.primary.dividing > a.item:after {
+  background-color: #FFC900;
+}
+.menu.primary.pills > a.item:active, .menu.primary.pills > a.item.active {
+  background-color: #FFC900;
+  color: #666;
+}
+.menu.primary.pills > a.item:hover {
+  background-color: #ffce1a;
+  color: #666;
+}
+.menu.primary.tabbed > a.item.active {
+  border-top-color: #FFC900;
+}
+.menu.secondary.dividing > a.item:before, .menu.secondary.dividing > a.item:after {
+  background-color: #F60;
+}
+.menu.secondary.pills > a.item:active, .menu.secondary.pills > a.item.active {
+  background-color: #F60;
+  color: #FFF;
+}
+.menu.secondary.pills > a.item:hover {
+  background-color: #ff751a;
+  color: #FFF;
+}
+.menu.secondary.tabbed > a.item.active {
+  border-top-color: #F60;
+}
+.menu.red.dividing > a.item:before, .menu.red.dividing > a.item:after {
+  background-color: #F60;
+}
+.menu.red.pills > a.item:active, .menu.red.pills > a.item.active {
+  background-color: #F60;
+  color: #FFF;
+}
+.menu.red.pills > a.item:hover {
+  background-color: #ff751a;
+  color: #FFF;
+}
+.menu.red.tabbed > a.item.active {
+  border-top-color: #F60;
+}
+.menu.orange.dividing > a.item:before, .menu.orange.dividing > a.item:after {
+  background-color: #F90;
+}
+.menu.orange.pills > a.item:active, .menu.orange.pills > a.item.active {
+  background-color: #F90;
+  color: #FFF;
+}
+.menu.orange.pills > a.item:hover {
+  background-color: #ffa31a;
+  color: #FFF;
+}
+.menu.orange.tabbed > a.item.active {
+  border-top-color: #F90;
+}
+.menu.green.dividing > a.item:before, .menu.green.dividing > a.item:after {
+  background-color: #5cb85c;
+}
+.menu.green.pills > a.item:active, .menu.green.pills > a.item.active {
+  background-color: #5cb85c;
+  color: #FFF;
+}
+.menu.green.pills > a.item:hover {
+  background-color: #6ec06e;
+  color: #FFF;
+}
+.menu.green.tabbed > a.item.active {
+  border-top-color: #5cb85c;
+}
+.menu.yellow.dividing > a.item:before, .menu.yellow.dividing > a.item:after {
+  background-color: #FFC900;
+}
+.menu.yellow.pills > a.item:active, .menu.yellow.pills > a.item.active {
+  background-color: #FFC900;
+  color: #666;
+}
+.menu.yellow.pills > a.item:hover {
+  background-color: #ffce1a;
+  color: #666;
+}
+.menu.yellow.tabbed > a.item.active {
+  border-top-color: #FFC900;
+}
+
 .menu {
   position: relative;
   display: -ms-flexbox;
@@ -4145,133 +4095,6 @@ ol li.divider {
   display: none;
 }
 
-.menu.dividing > a.item:before, .menu.dividing > a.item:after {
-  background-color: #666;
-}
-.menu.pills > a.item:active, .menu.pills > a.item.active {
-  background-color: #666;
-  color: #FFF;
-}
-.menu.pills > a.item:hover {
-  background-color: #737373;
-  color: #FFF;
-}
-.menu.tabbed > a.item.active {
-  border-top-color: #666;
-}
-.menu.grey.dividing > a.item:before, .menu.grey.dividing > a.item:after {
-  background-color: #666;
-}
-.menu.grey.pills > a.item:active, .menu.grey.pills > a.item.active {
-  background-color: #666;
-  color: #fff;
-}
-.menu.grey.pills > a.item:hover {
-  background-color: #737373;
-  color: #fff;
-}
-.menu.grey.tabbed > a.item.active {
-  border-top-color: #666;
-}
-.menu.light.dividing > a.item:before, .menu.light.dividing > a.item:after {
-  background-color: #CCC;
-}
-.menu.light.pills > a.item:active, .menu.light.pills > a.item.active {
-  background-color: #CCC;
-  color: #666;
-}
-.menu.light.pills > a.item:hover {
-  background-color: #d9d9d9;
-  color: #666;
-}
-.menu.light.tabbed > a.item.active {
-  border-top-color: #CCC;
-}
-.menu.primary.dividing > a.item:before, .menu.primary.dividing > a.item:after {
-  background-color: #FFC900;
-}
-.menu.primary.pills > a.item:active, .menu.primary.pills > a.item.active {
-  background-color: #FFC900;
-  color: #666;
-}
-.menu.primary.pills > a.item:hover {
-  background-color: #ffce1a;
-  color: #666;
-}
-.menu.primary.tabbed > a.item.active {
-  border-top-color: #FFC900;
-}
-.menu.secondary.dividing > a.item:before, .menu.secondary.dividing > a.item:after {
-  background-color: #F60;
-}
-.menu.secondary.pills > a.item:active, .menu.secondary.pills > a.item.active {
-  background-color: #F60;
-  color: #FFF;
-}
-.menu.secondary.pills > a.item:hover {
-  background-color: #ff751a;
-  color: #FFF;
-}
-.menu.secondary.tabbed > a.item.active {
-  border-top-color: #F60;
-}
-.menu.red.dividing > a.item:before, .menu.red.dividing > a.item:after {
-  background-color: #F60;
-}
-.menu.red.pills > a.item:active, .menu.red.pills > a.item.active {
-  background-color: #F60;
-  color: #FFF;
-}
-.menu.red.pills > a.item:hover {
-  background-color: #ff751a;
-  color: #FFF;
-}
-.menu.red.tabbed > a.item.active {
-  border-top-color: #F60;
-}
-.menu.orange.dividing > a.item:before, .menu.orange.dividing > a.item:after {
-  background-color: #F90;
-}
-.menu.orange.pills > a.item:active, .menu.orange.pills > a.item.active {
-  background-color: #F90;
-  color: #FFF;
-}
-.menu.orange.pills > a.item:hover {
-  background-color: #ffa31a;
-  color: #FFF;
-}
-.menu.orange.tabbed > a.item.active {
-  border-top-color: #F90;
-}
-.menu.green.dividing > a.item:before, .menu.green.dividing > a.item:after {
-  background-color: #5cb85c;
-}
-.menu.green.pills > a.item:active, .menu.green.pills > a.item.active {
-  background-color: #5cb85c;
-  color: #FFF;
-}
-.menu.green.pills > a.item:hover {
-  background-color: #6ec06e;
-  color: #FFF;
-}
-.menu.green.tabbed > a.item.active {
-  border-top-color: #5cb85c;
-}
-.menu.yellow.dividing > a.item:before, .menu.yellow.dividing > a.item:after {
-  background-color: #FFC900;
-}
-.menu.yellow.pills > a.item:active, .menu.yellow.pills > a.item.active {
-  background-color: #FFC900;
-  color: #666;
-}
-.menu.yellow.pills > a.item:hover {
-  background-color: #ffce1a;
-  color: #666;
-}
-.menu.yellow.tabbed > a.item.active {
-  border-top-color: #FFC900;
-}
-
 @media (min-width: break 320px) {
   .menu.container {
     padding-left: spacing 1em;
@@ -4379,16 +4202,12 @@ html:not(.ie9) .label[class*="with addon"], html:not(.ie9)
   vertical-align: top;
   background: rgba(0, 0, 0, 0.2);
   padding: 0.25em 0.5em;
-  margin: -0.25em -0.25em;
+  margin: -0.25em 0.5em -0.25em -0.5em;
 }
 .label[class*="with addon"] > .addon[class*="right addon"],
 .label[class*="with addons"] > .addon[class*="right addon"] {
   margin-right: -0.5em;
   margin-left: 0.5em;
-}
-
-h1 .label, h2 .label, h3 .label, h4 .label, h5 .label, h6 .label {
-  margin-top: -.15em;
 }
 
 .label {
@@ -4441,36 +4260,14 @@ h1 .label, h2 .label, h3 .label, h4 .label, h5 .label, h6 .label {
   background: #FFF;
   padding: 1em 2em;
 }
-.callout p:first-child {
-  margin-top: 0;
-}
-.callout p:last-child {
-  margin-bottom: 0;
-}
 .callout > .header {
   padding: 1em 2em 0.5em 2em;
-  margin: -3em -1.5em;
+  margin: -1em -2em 0.5em -2em;
 }
 .callout > .footer {
   text-align: right;
-  margin: -4em;
+  margin: 1em -2em -1em -2em;
   padding: 1em 2em;
-  background: #F6F6F6;
-}
-.callout:not(.filled) {
-  border-left: none;
-}
-.callout:not(.filled)[class*="up callout"] {
-  border-top-width: 0;
-  border-left: 1px solid #CCC;
-}
-.callout:not(.filled)[class*="down callout"] {
-  border-bottom-width: 0;
-  border-left: 1px solid #CCC;
-}
-.callout:not(.filled)[class*="right callout"] {
-  border-right-width: 0;
-  border-left: 1px solid #CCC;
 }
 .callout:after {
   visibility: visible !important;

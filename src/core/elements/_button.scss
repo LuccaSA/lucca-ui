@@ -1,205 +1,59 @@
 
-%lui_button_sizing {
-	display: inline-block;
-	vertical-align: middle;
-	box-sizing: border-box;
-
-	min-height: map-gets($vars, minHeight);
-	min-width: map-gets($vars, minWidth);
-	padding: (map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding));
-	margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
-}
-
-%lui_basic_button {
-	@extend button#{$prefix}.unstyled;
-
-	@extend %lui_button_sizing;
-
-	text-transform: map-gets($vars, textTransform);
-	text-shadow: map-gets($vars, textShadow);
-	text-align: center;
-
-	box-shadow: map-gets($vars, defaultBorder);
-
-	border-radius: map-gets($vars, borderRadius);
-
-	@include lui_transition_properties(background, box-shadow, color);
-}
-
-#{$prefix}.button {
-	@extend %lui_basic_button;
-}
-
-
-// Button states
 // ===================================
-
-#{$prefix}.button:hover {
-	box-shadow: 0px 1px 2px 0 rgba(50, 50, 50, 0.25);
-}
-#{$prefix}.button:active, #{$prefix}.button.active {
-	box-shadow: none;
-}
-#{$prefix}.button.disabled, #{$prefix}.button[disabled] {
-	opacity: map-gets($vars, disabledOpacity);
-
-	-webkit-filter: grayscale(map-gets($vars, disabledGrayscale));
-	filter: grayscale(map-gets($vars, disabledGrayscale));
-
-	cursor: normal;
-	pointer-events: none;
-}
-
-
-// Button styles
+// ============= Mixins ==============
 // ===================================
-
-#{$prefix}.button:not(.wired) {
-	&:hover {
-		box-shadow: map-gets($vars, defaultBorder), 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
-	}
-	&:active, &.active {
-		box-shadow: map-gets($vars, defaultBorder);
-	}
-}
-
-
-// Style - filling
-#{$prefix}.button.filling {
-	&:not(.inverted) {
-		background: #FFF;
-	}
-}
-
-// Style - inverted
-#{$prefix}.button.inverted {
-	background: transparent;
-	color: rgba(255, 255, 255, 0.5);
-	&:hover, &:active, &.active {
-		color: #FFF;
-
-		box-shadow: 0 0 0 2px #FFF;
-	}
-}
-
-// Style - wired
-#{$prefix}.button.wired {
-	background: transparent;
-	&[class*="with addon"] {
-		> .addon {
-			background-color: transparent;
-		}
-		&:hover > .addon {
-			border-width: 2px;
-		}
-	}
-}
-
-// Style - fake
-#{$prefix}.button.fake {
-	@extend %lui_button_sizing;
-}
-
-// Style - flat
-#{$prefix}.button.flat {
-	background-color: transparent;
-	color: map-get(map-gets($vars, defaultColoring), text);
-	text-decoration: underline;
-	box-shadow: none;
-
-	&:hover, &:active, &.active {
-		background: rgba(0, 0, 0, 0.1);
-		box-shadow: 0 0 0 1px rgba(50, 50, 50, .1);
-	}
-
-	&:hover { background-color: rgba(50, 50, 50, .05); }
-
-	&:active { background-color: rgba(50, 50, 50, 0.1); }
-
-	&:before, &:after { text-decoration: none; }
-
-	&:inverted { color: #FFF; }
-
-	&.icon { text-decoration: none; }
-
-	&[class*="with addon"],
-	&[class*="with addons"] {
-		> .addon { border-right: none !important; background-color: transparent; }
-	}
-}
-
 
 // Coloring support
 // ===================================
 
-@mixin lui_button_coloring($scheme){
+@mixin lui_button_coloring($scheme) {
+
 	// Style - regular
-	&:not(.filling):not(.wired):not(.inverted):not(.flat) {
+	// ====
+	&:not(.inverted):not(.flat):not(.filling):not(.wired) {
 		background: map-get($scheme, color);
 		color: map-get($scheme, text);
+		&:hover { background: lighten(map-get($scheme, color), 5); }
+		&:active, &.active { background: darken(map-get($scheme, color), 5); }
+	}
+
+	// Style - inverted
+	// ====
+	&.inverted:not(.flat) {
+		background: transparent;
 		&:hover {
-			background: lighten(map-get($scheme, color), 3);
+			box-shadow: 0 0 0 map-gets($vars, wired, borderWidth) map-get($scheme, color) inset;
+			color: map-gets($scheme, color);
 		}
-		&:active, &.active {
-			background: darken(map-get($scheme, color), 3);
+		&.filling:hover {
+			color: map-gets($scheme, text);
 		}
-		@if map-get($scheme, lod) {
-			// removed after issue 10 - https://github.com/LuccaSA/lucca-ui/issues/10
-			// text-shadow: 0 1px 1px darken($coloring-color, 5);
+
+		&[class*="with addon"] > .addon {
+			border-color: map-get($scheme, color);
 		}
 	}
 
 	// Style - filling
+	// ====
 	&.filling {
-		&:hover {
-			background: map-get($scheme, color);
-			color: map-get($scheme, text);
-			@if map-get($scheme, lod) {
-				text-shadow: 0 1px 1px darken(map-get($scheme, color), 15);
-			}
-		}
-		&:active, &.active {
-			background: darken(map-get($scheme, color), 5);
+		&:hover, &:active, &.active {
+			background: map-gets($scheme, color);
+			color: map-gets($scheme, text);
 		}
 	}
 
 	// Style - Wired
-	&.wired:not(.inverted) {
-		// Regular
-		&:hover,
-		&:active,
-		&.active, {
-			box-shadow: 0 0 0 2px map-get($scheme, color) inset;
+	&.wired {
+		background: transparent;
+
+		&:not(.inverted):hover,
+		&:not(.inverted):active,
+		&:not(.inverted).active {
+			box-shadow: 0 0 0 map-gets($vars, wired, borderWidth) map-get($scheme, color) inset;
 			color: map-get($scheme, color);
 
 			&[class*="with addon"] > .addon {
-				border-color: map-get($scheme, color);
-			}
-		}
-	}
-
-	// Style - inverted
-	&.inverted {
-		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-		color: #FFF;
-
-		&:hover {
-			box-shadow: 0 0 0 2px map-get($scheme, color) inset;
-			color: map-get($scheme, color);
-		}
-
-		&.filling {
-			box-shadow: 0 0 0 1px map-get($scheme, color) inset;
-			color: map-get($scheme, color);
-
-			&:hover {
-				color: map-get($scheme, text);
-			}
-
-			&[class*="with addon"] > .addon {
-				background: transparent;
-			}
-			&[class*="with addon"]:not(:hover):not(.active) > .addon {
 				border-color: map-get($scheme, color);
 			}
 		}
@@ -207,254 +61,369 @@
 
 	// Status icon
 	// ====
-	// Regular button style
-	&.status:not(.filling):not(.wired):not(.inverted):not(.flat),
-	&.status.filling:hover {
-		// Transparent text if icon is shown over button text
-		&:not([class*="with addon"]) { color: transparent; }
-		// Colored icons
-		&.ok:after, &.failure:after { color: map-get($scheme, text); }
-		// Loader color depends on $lightOnDark
-		&.loading:not([class*="with addon"]),
-		&.loading[class*="with addon"] > .addon {
-			@if map-get($scheme, lod) {
-				&:before { border-color: rgba(255, 255, 255, 0.25); }
-				&:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
-			} @else {
-				&:before { border-color: rgba(0, 0, 0, 0.25); }
-				&:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
-			}
+	&.status.ok,
+	&.status.failure {
+		&:after, > .addon:after {
+			color: map-get($scheme, text) !important;
+		}
+	}
+	@if map-get($scheme, lod) {
+		&.status.loading:not([class*="with addon"]),
+		&.status.loading[class*="with addon"] > .addon {
+			&:before { border-color: rgba(255, 255, 255, 0.25); }
+			&:after { border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent; }
 		}
 	}
 };
 
-#{$prefix}.button {
-	// Default coloring scheme
-	@include lui_button_coloring(map-gets($vars, defaultColoring));
-	// Coloring support
-	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
-		&.#{map-get($scheme, class)} {
-			@include lui_button_coloring($scheme);
-		}
-	}
-}
 
-
-// Buttons: button group
 // ===================================
-#{$prefix}.buttons {
-	display: inline-block;
-	vertical-align: middle;
-	margin: map-gets($vars, verticalMargin) 0;
-
-	& + .buttons {
-		margin-left: 1em;
-	}
-
-	> .button {
-		float: left;
-		margin: 0; margin-left: -1px;
-		@include flex-align-self(stretch !important);
-
-		&.wired:hover {
-			position: relative;
-			z-index: 2;
-		}
-		border-radius: 0;
-		&:first-child {
-			border-radius: (map-gets($vars, borderRadius)) 0 0 (map-gets($vars, borderRadius));
-		}
-		&:last-child {
-			border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
-		}
-	}
-
-	// Buttons inception support
-	> .buttons {
-		margin: 0;
-	}
-
-	// Modern browsers: flex-box model
-	@include display-flex(true);
-
-	@include lui_target_IE9 {
-		display: inline-table;
-		> .button { display: table-cell; }
-	}
-}
-
-// Squared button
+// ============= Element =============
 // ===================================
 
-#{$prefix}.button.squared,
-#{$prefix}.buttons.squared > .button {
-	border-radius: 0;
-}
+@if (map-get($vars, enabled)) {
+	%lui_button_sizing {
+		display: inline-block;
+		vertical-align: middle;
+		box-sizing: border-box;
 
+		min-height: map-gets($vars, minHeight);
+		min-width: map-gets($vars, minWidth);
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+		margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+	}
 
-// Fitted buttons
-// ===================================
+	%lui_basic_button {
+		@extend button#{$prefix}.unstyled;
 
-#{$prefix}.buttons.justified {
-	width: 100%;
-	display: table;
-	table-layout: fixed;
+		@extend %lui_button_sizing;
 
-	> .button {
-		display: table-cell;
+		text-transform: map-gets($vars, textTransform);
+		text-shadow: map-gets($vars, textShadow);
 		text-align: center;
-		float: none;
+
+		box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset;
+
+		border-radius: map-gets($vars, borderRadius);
+
+		@include lui_transition_properties(background, box-shadow, color);
 	}
 
-	// Modern browsers: flex-box model
-	@include display-flex();
-
-	> .button {
-		float: none;
-		@include flex(1);
+	#{$prefix}.button {
+		@extend %lui_basic_button;
 	}
-}
 
 
-// Icon support
-// ===================================
+	// Disabled
+	// ===================================
 
-#{$prefix}.button.icon {
-	@extend %luccaIcons_icon_base;
-}
-#{$prefix}.button.icon:before {
-	@extend %luccaIcons_icon_base;
-	display: inline-block;
- }
-#{$prefix}.button #{$prefix}.icon {
-	margin-right: 0.5em;
-	&[class*="right icon"] {
-		margin-left: 0.5em; margin-right: 0;
+	#{$prefix}.button.disabled, #{$prefix}.button[disabled] {
+		opacity: map-gets($vars, disabledOpacity);
+
+		-webkit-filter: grayscale(map-gets($vars, disabledGrayscale));
+		filter: grayscale(map-gets($vars, disabledGrayscale));
+
+		cursor: normal;
+		pointer-events: none;
 	}
-}
 
 
-// Icon addon
-// ===================================
+	// Button styles
+	// ===================================
 
-#{$prefix}.button[class*="with addon"] {
-	position: relative;
-	> .addon {
-		position: absolute;
-		z-index: 1;
-		top: 0; bottom: 0;
-		width: 2.5em;
-		height: 100%;
-		margin: 0;
+	#{$prefix}.button:not(.wired) {
+		&:hover { box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset, unquote(map-gets($vars, hoverShadow)); }
+		&:active, &.active { box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset,; }
+	}
 
-		background: rgba(0, 0, 0, 0.1);
+	// Style - inverted
+	#{$prefix}.button.inverted {
+		background: transparent;
+		box-shadow: 0 0 0 map-gets($vars, wired, borderWidth) map-gets($vars, inverted, color) inset;
+		color: map-gets($vars, inverted, color);
+	}
 
-		&.icon:before {
+	// Style - wired
+	#{$prefix}.button.wired {
+		&[class*="with addon"] {
+			> .addon {
+				background-color: transparent;
+			}
+			&:hover > .addon {
+				border-width: map-gets($vars, wired, borderWidth);
+			}
+		}
+	}
+
+	// Style - fake
+	#{$prefix}.button.fake {
+		@extend %lui_button_sizing;
+	}
+
+	// Style - flat
+	#{$prefix}.button.flat {
+		background-color: map-gets($vars, flat, background);
+		color: map-gets($vars, defaultColoring, text);
+		text-decoration: map-gets($vars, flat, textDecoration);
+		box-shadow: none;
+
+		&:hover, &:active, &.active {
+			background: map-gets($vars, flat, activeBackground);
+			box-shadow: map-gets($vars, flat, activeShadow);
+		}
+
+		&:hover { background: map-gets($vars, flat, hoverBackground); }
+
+		&:active { background: map-gets($vars, flat, activeBackground); }
+
+		&:before, &:after { text-decoration: none; }
+
+		&.icon { text-decoration: none; }
+
+		&[class*="with addon"],
+		&[class*="with addons"] {
+			> .addon { border-right: none !important; background-color: transparent; }
+		}
+
+		&.inverted {
+			color: map-gets($vars, inverted, color);
+			&:hover { background: map-gets($vars, flat, invertedHoverBackground); }
+
+			&:active { background: map-gets($vars, flat, invertedActiveBackground); }
+		}
+	}
+
+
+	// Coloring
+	// ===================================
+
+	#{$prefix}.button {
+		// Default coloring scheme
+		@include lui_button_coloring(map-gets($vars, defaultColoring));
+		// Coloring support
+		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+			&.#{map-get($scheme, class)} {
+				@include lui_button_coloring($scheme);
+			}
+		}
+	}
+
+
+	// Buttons: button group
+	// ===================================
+
+	#{$prefix}.buttons {
+		display: inline-block;
+		vertical-align: middle;
+		margin: map-gets($vars, verticalMargin) 0;
+
+		& + .buttons {
+			margin-left: 1em;
+		}
+
+		> .button {
+			float: left;
+			margin: 0; margin-left: -1px;
+			@include flex-align-self(stretch !important);
+
+			&.wired:hover {
+				position: relative;
+				z-index: 2;
+			}
+			border-radius: 0;
+			&:first-child {
+				border-radius: (map-gets($vars, borderRadius)) 0 0 (map-gets($vars, borderRadius));
+			}
+			&:last-child {
+				border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
+			}
+		}
+
+		// Buttons inception support
+		> .buttons {
+			margin: 0;
+		}
+
+		// Modern browsers: flex-box model
+		@include display-flex(true);
+
+		@include lui_target_IE9 {
+			display: inline-table;
+			> .button { display: table-cell; }
+		}
+	}
+
+	// Squared button
+	// ===================================
+
+	#{$prefix}.button.squared,
+	#{$prefix}.buttons.squared > .button {
+		border-radius: 0;
+	}
+
+
+	// Justified buttons
+	// ===================================
+
+	#{$prefix}.buttons.justified {
+		width: 100%;
+
+		@include lui_target_IE9() {
+			display: table;
+			table-layout: fixed;
+
+			> .button {
+				display: table-cell;
+				text-align: center;
+			}
+		}
+
+		> .button {
+			float: none;
+			@include flex(1);
+		}
+	}
+
+
+	// Icon support
+	// ===================================
+
+	#{$prefix}.button.icon:before {
+		@extend %luccaIcons_icon_base;
+		display: inline-block;
+	 }
+	#{$prefix}.button #{$prefix}.icon {
+		margin-right: 0.5em;
+		&[class*="right icon"] {
+			margin-left: 0.5em; margin-right: 0;
+		}
+	}
+
+
+	// Icon addon
+	// ===================================
+
+	#{$prefix}.button[class*="with addon"] {
+		position: relative;
+		> .addon {
 			position: absolute;
-			top: 50%; left: 50%;
-			-ms-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
+			z-index: 1;
+			top: 0; bottom: 0;
+			width: map-gets($vars, addon, width);
+			height: 100%;
+			margin: 0;
+
+			background: map-gets($vars, addon, background);
+
+			&.icon:before {
+				position: absolute;
+				top: 50%; left: 50%;
+				-ms-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+			@include lui_transition(border);
 		}
-		@include lui_transition(border);
-	}
 
-	&:not(.right) {
-		padding-left: 3.5em;
-		> .addon {
-			left: 0;
-			border-right: 1px solid rgba(0, 0, 0, 0.2);
+		&:not(.right) {
+			padding-left: map-gets($vars, addon, width) + 1em;
+			> .addon {
+				left: 0;
+				border-right: map-gets($vars, defaultBorderWidth) solid map-gets($vars, defaultBorderColor);
+			}
+		}
+
+		&.right {
+			padding-right: map-gets($vars, addon, width) + 1em;
+			> .addon {
+				right: 0;
+				border-left: map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor);
+			}
 		}
 	}
 
-	&.right {
-		padding-right: 3.5em;
-		> .addon {
-			right: 0;
-			border-left: 1px solid rgba(0, 0, 0, 0.2);
-		}
+
+	// Status button
+	// ====
+	#{$prefix}.button.status {
+		position: relative;
 	}
-}
-
-
-// Status button
-// ====
-#{$prefix}.button.status {
-	position: relative;
-}
-
-// Has addon > update the addon icon
-#{$prefix}.button.status[class*="with addon"] {
-	&.loading > .addon {
-		@include lui_loader();
-		position: absolute;
+	#{$prefix}.button.status:not([class*="with addon"]),
+	#{$prefix}.button.status[class*="with addon"] > .addon:before {
+		color: transparent !important;
 	}
 
-	&.ok > .addon:before {
-		content: "\e00b";
-	}
-
-	&.failure > .addon:before {
-		content: "\e01e";
-	}
-}
-// Else
-#{$prefix}.button.status:not([class*="with addon"]) {
-	color: transparent;
-
-	&:not(.icon):before, &:after {
-		position: absolute;
-		top: 50%; left: 50%;
-		-ms-transform: translate(-50%, -150%);
-		transform: translate(-50%, -150%);
-		width: 1.1em; height: 1.1em; // Chrome fix
-	}
-
-	// loading
-	&.loading {
+	#{$prefix}.button.status[class*="with addon"].loading > .addon,
+	#{$prefix}.button.status:not([class*="with addon"]).loading {
 		@include lui_loader();
 	}
-	// Status: OK
-	&.ok {
+	#{$prefix}.button.status[class*="with addon"].ok > .addon,
+	#{$prefix}.button.status:not([class*="with addon"]).ok {
 		@include lui_make_icon(check, right);
 	}
-	// Status: failure
-	&.failure {
+	#{$prefix}.button.status[class*="with addon"].failure > .addon,
+	#{$prefix}.button.status:not([class*="with addon"]).failure {
 		@include lui_make_icon(forbidden, right);
 	}
-	// Transition
-	&.loading:after, &.loading:not(.icon):before,
-	&.ok:after, &.failure:after {
+	#{$prefix}.button.status[class*="with addon"] > .addon {
+		position: absolute !important;
+	}
+	#{$prefix}.button.status.loading:not([class*="with addon"]):not(.icon):before,
+	#{$prefix}.button.status.ok:not([class*="with addon"]):after,
+	#{$prefix}.button.status.ok[class*="with addon"]> .addon:after,
+	#{$prefix}.button.status.failure:not([class*="with addon"]):after,
+	#{$prefix}.button.status.failure[class*="with addon"]> .addon:after {
+		position: absolute;
+		margin: 0 !important;
+		left: 50%; top: 50%;
 		-ms-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 	}
-	// Status
-	&.status.loading, &.status.ok, &.status.failure {
-		color: transparent;
+
+
+	// #{$prefix}.button.status:not([class*="with addon"]) {
+	// 	&.loading > .addon:before, & .addon:after {
+	// 		position: absolute;
+	// 		top: 50%; left: 50%;
+	// 		-ms-transform: translate(-50%, -150%);
+	// 		transform: translate(-50%, -150%);
+	// 		width: 1.1em; height: 1.1em; // Chrome fix
+	// 	}
+	//
+	// 	// Transition
+	// 	&.loading:after, &.loading:not(.icon):before,
+	// 	&.ok:after, &.failure:after {
+	// 		-ms-transform: translate(-50%, -50%);
+	// 		transform: translate(-50%, -50%);
+	// 	}
+	// 	// Status
+	// 	&.status.loading, &.status.ok, &.status.failure {
+	// 		color: transparent;
+	// 	}
+	// 	&.status.ok:after, &.status.failure:after {
+	// 		margin: 0;
+	// 	}
+	// }
+
+
+	// Sizing support
+	// ===================================
+
+	#{$prefix}.button,
+	#{$prefix}.buttons {
+		@include lui_supports_sizing();
 	}
-	&.status.ok:after, &.status.failure:after {
-		margin: 0;
+
+
+	// Button inside heading
+	// ===================================
+
+	h1 #{$prefix}.button,
+	h2 #{$prefix}.button,
+	h3 #{$prefix}.button,
+	h4 #{$prefix}.button,
+	h5 #{$prefix}.button,
+	h6 #{$prefix}.button {
+		vertical-align: middle;
+		margin: 0 0.5em;
 	}
-}
-
-
-// Sizing support
-// ===================================
-
-#{$prefix}.button,
-#{$prefix}.buttons {
-	@include lui_supports_sizing();
-}
-
-
-// Button inside heading
-// ===================================
-
-h1 #{$prefix}.button,
-h2 #{$prefix}.button,
-h3 #{$prefix}.button,
-h4 #{$prefix}.button,
-h5 #{$prefix}.button,
-h6 #{$prefix}.button {
-	vertical-align: middle;
-	margin: 0 0.5em;
 }

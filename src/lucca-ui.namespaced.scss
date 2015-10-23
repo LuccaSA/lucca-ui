@@ -81,6 +81,7 @@ $namespace: "#{$prefix}.app" !default;
 	& {
 		// Stuck
 		// ===================================
+		$vars: lui_get_component_variables(adjective, stuck);
 		@import "core/adjectives/stuck";
 	}
 

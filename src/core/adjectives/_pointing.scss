@@ -1,34 +1,32 @@
-
-// Pointing arrows
-// ===================================
-
-#{$prefix}.pointing:after {
-	content: '';
-	display: block;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-color: transparent;
-}
-#{$prefix}[class*="top pointing"]:after,
-#{$prefix}[class*="bottom pointing"]:after {
-	border-left-width: map-get($vars, triangleWidth);
-	border-right-width: map-get($vars, triangleWidth);
-}
-#{$prefix}[class*="top pointing"]:after {
-	border-bottom: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
-}
-#{$prefix}[class*="bottom pointing"]:after {
-	border-top: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
-}
-#{$prefix}[class*="left pointing"]:after,
-#{$prefix}[class*="right pointing"]:after {
-	border-top-width: map-get($vars, triangleWidth);
-	border-bottom-width: map-get($vars, triangleWidth);
-}
-#{$prefix}[class*="left pointing"]:after {
-	border-right: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
-}
-#{$prefix}[class*="right pointing"]:after {
-	border-left: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
+@if map-get($vars, enabled) {
+	#{$prefix}.pointing:after {
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-color: transparent;
+	}
+	#{$prefix}[class*="top pointing"]:after,
+	#{$prefix}[class*="bottom pointing"]:after {
+		border-left-width: map-get($vars, triangleWidth);
+		border-right-width: map-get($vars, triangleWidth);
+	}
+	#{$prefix}[class*="top pointing"]:after {
+		border-bottom: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
+	}
+	#{$prefix}[class*="bottom pointing"]:after {
+		border-top: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
+	}
+	#{$prefix}[class*="left pointing"]:after,
+	#{$prefix}[class*="right pointing"]:after {
+		border-top-width: map-get($vars, triangleWidth);
+		border-bottom-width: map-get($vars, triangleWidth);
+	}
+	#{$prefix}[class*="left pointing"]:after {
+		border-right: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
+	}
+	#{$prefix}[class*="right pointing"]:after {
+		border-left: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
+	}
 }

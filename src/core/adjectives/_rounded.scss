@@ -1,5 +1,6 @@
-
-#{$prefix}.rounded {
-	border-radius: map-get($vars, radius);
-	background-clip: padding-box;
+@if map-get($vars, enabled) {
+	#{$prefix}.rounded {
+		border-radius: map-get($vars, radius);
+		background-clip: padding-box;
+	}
 }
