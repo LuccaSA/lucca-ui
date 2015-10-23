@@ -7,58 +7,49 @@
 	<link rel="icon" type="image/png" href="/img/favicon.png" />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8"> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.css" media="screen" title="no title" charset="utf-8">
+
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-mocks.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
 	<script type="text/javascript" src="../../bower_components/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-sanitize.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.2/select.min.js"></script>
+
+	<script src="../dist/lucca-ui.js"></script>
 
 	<script type="text/javascript" src="js/demo.js"></script>
+	<script type="text/javascript" src="js/less-framework.js"></script>
+	<script type="text/javascript" src="js/icons.js"></script>
+	<script type="text/javascript" src="js/animations.js"></script>
+	<script type="text/javascript" src="js/nguibs.js"></script>
+	<script type="text/javascript" src="js/filters.js"></script>
+	<script type="text/javascript" src="js/directives.js"></script>
 
 </head>
 <body ng-app="demoApp">
-	<nav id="toc" class="lui vertical primary dividing menu">
-		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item active" href="#/less">Less framework</a>
-		<a class="item" href="#/icons">Lucca Icons</a>
-		<a class="item" href="">Animations</a>
-		<a class="item" href="">Bootstrap components</a>
-		<a class="item" href="">Lucca Filters</a>
-		<a class="item" href="">Lucca Directives</a>
-		<div class="lui vertical dashed divider"></div>
-		<a class="item" href="#lui-grid">The grid</a>
-		<a class="item" href="#lui-typography">Typography</a>
-		<a class="item" href="#lui-button">Buttons</a>
-		<a class="item" href="#lui-icon">Icons</a>
-		<a class="item" href="#lui-label">Labels</a>
-		<a class="item" href="#lui-input">Inputs</a>
-		<a class="item" href="#lui-callout">Callout</a>
-		<a class="item" href="#lui-table">Table</a>
-		<a class="item" href="#lui-menu">Menu</a>
-	</nav>
-
-
-	<div id="main-content" class="lui container">
-		<h1 class="lui column desktop-8">Lucca UI</h1>
-		<div class="lui column desktop-4">
-			<a class="lui large button pull right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-		</div>
-		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.1</span></p>
-
-		<div class="lui callout primary">
-			<p>
-				<b>Important:</b>
-				This part of the framework has no dependency.
-			</p>
-			<p>
-				It is recommended to use <code>normalize.css</code> to prevent browsers from injecting unwanted styles.
-			</p>
+	<div id="banner" class="lui menu grey dividing justify" ng-controller="bannerCtrl">
+		<div class="lui dividing left menu">
+			<a class="item" href="#/less" ng-class="{ active: isActive('/less') }">Less framework</a>
+			<a class="item" href="#/icons" ng-class="{ active: isActive('/icons') }">Lucca Icons</a>
+			<a class="item" href="#/animations" ng-class="{ active: isActive('/animations') }">Animations</a>
+			<a class="item" href="#/nguibs" ng-class="{ active: isActive('/nguibs') }">Bootstrap components</a>
+			<a class="item" href="#/filters" ng-class="{ active: isActive('/filters') }">Lucca Filters</a>
+			<a class="item" href="#/directives" ng-class="{ active: isActive('/directives') }">Lucca Directives</a>
 		</div>
 
-		<div ng-view></div>
+		<div class="lui menu right">
+			<a class="item" href="#/lucca" ng-class="{ active: isActive('/lucca') }">Lucca Specific</a>
+		</div>
 	</div>
+
+	<div ng-view class="lui container"></div>
 </body>
 </html>
