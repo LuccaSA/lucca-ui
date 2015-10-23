@@ -88,7 +88,7 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			users = [{"overflow":"VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !"}]
+			users = [{"overflow":"VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !", id:-1}]
 			expect(angular.equals(isolateScope.users, users)).toBe(true);
 		});
 	});
@@ -110,7 +110,7 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			var overflow = {overflow: "5/20"};
+			var overflow = {overflow: "5/20", id:-1};
 			expect(isolateScope.count).toBe(20);
 			expect(isolateScope.users.length).toBe(6); // 5 first users + overflow message ==> 6 items
 			expect(angular.equals(_.last(isolateScope.users), overflow)).toBe(true);
