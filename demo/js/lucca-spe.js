@@ -1,6 +1,7 @@
 (function(){
-	angular.module('luccaSpeApp',['lui', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'ngMockE2E']);
-	angular.module('luccaSpeApp')
+	'use strict';
+
+	angular.module('demoApp')
 	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', function($scope, $httpBackend, _) {
 		var RESPONSE_0_users = {header:{},data:{items:[]}};
 		/***** Without Former Employees *****/
@@ -147,6 +148,3 @@
 	var homonyms = [{"id":450,"firstName":"Lucien","lastName":"Bertin"},{"id":421,"firstName":"Lucien","lastName":"Bertin"},{"id":401,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":416,"firstName":"Benoit","lastName":"Paugam"}];
 	var homonyms_FE = [{"id":450,"firstName":"Lucien","lastName":"Bertin","dtContractEnd":null},{"id":449,"firstName":"Lucien","lastName":"Bertin","dtContractEnd":"2015-10-16T00:00:00"},{"id":421,"firstName":"Lucien","lastName":"Bertin","dtContractEnd":null},{"id":401,"firstName":"Jean-Baptiste","lastName":"Beuzelin","dtContractEnd":null},{"id":416,"firstName":"Benoit","lastName":"Paugam","dtContractEnd":null}];
 })();
-
-
-
