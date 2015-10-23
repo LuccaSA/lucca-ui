@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	angular.module('iconsApp',[])
+	angular.module('demoApp')
 	.controller('iconsCtrl', ['$scope', function($scope){
 		$scope.contextSensIcons = [
 			['plus', 'minus', 'check', 'cross', 'forbidden'],
