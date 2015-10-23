@@ -1,40 +1,40 @@
 {
-  "name": "lucca-ui",
-  "homepage": "https://github.com/LuccaSA/lucca-ui",
-  "authors": [
-    "lucien Bertin <me@lucienbertin.com>",
-    "benoit Paugam <bpaugam@lucca.fr>"
-  ],
-  "description": "less and js framework by lucca",
-  "main": "src/lucca-ui.less",
-  "keywords": [
-    "lucca",
-    "lui",
-    "lucca-ui",
-    "less"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/LuccaSA/lucca-ui.git"
-  },
-  "dependencies": {
-    "angular": "~1.4.5",
-    "moment": "~2.10.6",
-    "angular-bootstrap": "0.13.x",
-    "lucca-icons": "~1.1.0",
-    "underscore": "~1.8.3",
-    "ui-select": "angular-ui-select#~0.13.2",
-    "angular-sanitize": "~1.4.5"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.4.5",
-    "angular-route": "~1.4.x"
-  }
+	"name": "lucca-ui",
+	"homepage": "https://github.com/LuccaSA/lucca-ui",
+	"authors": [
+		"lucien Bertin <me@lucienbertin.com>",
+		"benoit Paugam <bpaugam@lucca.fr>"
+	],
+	"description": "less and js framework by lucca",
+	"main": "src/lucca-ui.less",
+	"keywords": [
+		"lucca",
+		"lui",
+		"lucca-ui",
+		"less"
+	],
+	"license": "MIT",
+	"ignore": [
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/LuccaSA/lucca-ui.git"
+	},
+	"dependencies": {
+		"angular": "~1.4.5",
+		"moment": "~2.10.6",
+		"angular-bootstrap": "0.13.x",
+		"lucca-icons": "~1.1.0",
+		"underscore": "~1.8.3",
+		"ui-select": "angular-ui-select#~0.13.2",
+		"angular-sanitize": "~1.4.5",
+		"angular-route": "~1.4.x"
+	},
+	"devDependencies": {
+		"angular-mocks": "~1.4.5"
+	}
 }
