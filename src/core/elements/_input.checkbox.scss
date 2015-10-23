@@ -19,18 +19,18 @@
 	}
 
 	label {
-		color: $border-color;
+		color: map-gets($vars, borderColor);
 		display: block;
 		position: relative;
 		padding: 0;
 
 		@include lui_make_icon("checkbox");
 
-		&:before,&:after { display: block; font-size: $checkbox-size; }
+		&:before,&:after { display: block; font-size:  map-gets($vars, checkbox, size); }
 	}
 
 	input:checked ~ label {
-		color: $checkbox-color;
+		color: map-gets($vars, checkbox, color);
 		@include lui_make_icon("checkbox checked");
 	}
 }
@@ -38,9 +38,9 @@
 // Icon version
 // ====
 #{$prefix}.checkbox.icon {
-	&[class*="checkbox checked"]:before { color: $checkbox-color; }
+	&[class*="checkbox checked"]:before { color: map-gets($vars, checkbox, color); }
 
-	&:before { font-size: $checkbox-size; color: $border-color; }
+	&:before { font-size: map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
 }
 #{$prefix}.checkbox.icon.button {
 	padding: 0.25em;

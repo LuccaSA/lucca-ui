@@ -12,23 +12,23 @@
 }
 #{$prefix}[class*="top pointing"]:after,
 #{$prefix}[class*="bottom pointing"]:after {
-	border-left-width: $triangle-width;
-	border-right-width: $triangle-width;
+	border-left-width: map-get($vars, triangleWidth);
+	border-right-width: map-get($vars, triangleWidth);
 }
 #{$prefix}[class*="top pointing"]:after {
-	border-bottom: $triangle-width solid $triangle-color;
+	border-bottom: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
 }
 #{$prefix}[class*="bottom pointing"]:after {
-	border-top: $triangle-width solid $triangle-color;
+	border-top: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
 }
 #{$prefix}[class*="left pointing"]:after,
 #{$prefix}[class*="right pointing"]:after {
-	border-top-width: $triangle-width;
-	border-bottom-width: $triangle-width;
+	border-top-width: map-get($vars, triangleWidth);
+	border-bottom-width: map-get($vars, triangleWidth);
 }
 #{$prefix}[class*="left pointing"]:after {
-	border-right: $triangle-width solid $triangle-color;
+	border-right: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
 }
 #{$prefix}[class*="right pointing"]:after {
-	border-left: $triangle-width solid $triangle-color;
+	border-left: map-get($vars, triangleWidth) solid map-get($vars, triangleColor);
 }

@@ -3,12 +3,7 @@ $namespace: "#{$prefix}.app" !default;
 
 #{$namespace} {
 
-	// ===================================
-	// ============ GLOBALS ==============
-	// ===================================
-	@import "globals/sizes";
-	@import "globals/colors";
-	@import "globals/breakpoints";
+	@import "core/defaults/defaults";
 
 
 	// ===================================
@@ -34,10 +29,8 @@ $namespace: "#{$prefix}.app" !default;
 	// Lucca icons
 	// ===================================
 
-	$luccaIcons_icon-base-selector: "#{$prefix}.icon" !default;
-	$luccaIcons_font-family: if($namespace, "#{$namespace} - lucca-icons", 'lucca-icons');
+	$luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, iconBaseSelector);
 
-	@import "elements/icon.variables";
 	@import "lucca-icons/src/lucca-icons";
 
 	.lui.icon { @include lui_supports_sizing(); };
@@ -54,35 +47,34 @@ $namespace: "#{$prefix}.app" !default;
 	& {
 		// Unstyled
 		// ===================================
-		@import "adjectives/unstyled.variables";
 		@import "core/adjectives/unstyled";
 	}
 
 	& {
 		// Animated
 		// ===================================
-		@import "adjectives/animated.variables";
+		$vars: lui_get_component_vars(adjective, animated);
 		@import "core/adjectives/animated";
 	}
 
 	& {
 		// Pointing
 		// ===================================
-		@import "adjectives/pointing.variables";
+		$vars: lui_get_component_vars(adjective, pointing);
 		@import "core/adjectives/pointing";
 	}
 
 	& {
 		// Raised: subtle shadow effect
 		// ===================================
-		@import "adjectives/raised.variables";
+		$vars: lui_get_component_vars(adjective, raised);
 		@import "core/adjectives/raised";
 	}
 
 	& {
 		// Rounded
 		// ===================================
-		@import "adjectives/rounded.variables";
+		$vars: lui_get_component_vars(adjective, rounded);
 		@import "core/adjectives/rounded";
 	}
 
@@ -100,84 +92,84 @@ $namespace: "#{$prefix}.app" !default;
 	@at-root {
 		// Grid
 		// ===================================
-		@import "elements/grid.variables";
+		$vars: lui_get_component_vars(element, grid);
 		@import "core/elements/grid";
 	}
 
 	& {
 		// Typography
 		// ===================================
-		@import "elements/typography.variables";
+		$vars: lui_get_component_vars(element, typography);
 		@import "core/elements/typography";
 	}
 
 	& {
 		// Input
 		// ===================================
-		@import "elements/input.variables";
+		$vars: lui_get_component_vars(element, input);
 		@import "core/elements/input";
 	}
 
 	& {
 		// Button
 		// ===================================
-		@import "elements/button.variables";
+		$vars: lui_get_component_vars(element, button);
 		@import "core/elements/button";
 	}
 
 	& {
 		// Divider
 		// ===================================
-		@import "elements/divider.variables";
+		$vars: lui_get_component_vars(element, divider);
 		@import "core/elements/divider";
 	}
 
 	& {
 		// Table
 		// ===================================
-		@import "elements/table.variables";
+		$vars: lui_get_component_vars(element, table);
 		@import "core/elements/table";
 	}
 
 	& {
 		// Menu
 		// ===================================
-		@import "elements/menu.variables";
+		$vars: lui_get_component_vars(element, menu);
 		@import "core/elements/menu";
 	}
 
 	& {
 		// Breadcrumbs
 		// ===================================
-		@import "elements/breadcrumbs.variables";
+		$vars: lui_get_component_vars(element, breadcrumbs);
 		@import "core/elements/breadcrumbs";
 	}
 
 	& {
 		// label
 		// ===================================
-		@import "elements/label.variables";
+		$vars: lui_get_component_vars(element, label);
 		@import "core/elements/label";
 	}
 
 	& {
 		// Callout
 		// ===================================
-		@import "elements/callout.variables";
+		$vars: lui_get_component_vars(element, callout);
 		@import "core/elements/callout";
 	}
 
 	& {
 		// Block (@TODO: under construction)
 		// ===================================
-		@import "elements/block.variables";
+		$vars: lui_get_component_vars(element, block);
 		@import "core/elements/block";
 	}
 
 	& {
 		// Overlay
 		// ===================================
-		@import "elements/overlay.variables";
+		$vars: lui_get_component_vars(element, overlay);
 		@import "core/elements/overlay";
 	}
 
@@ -189,7 +181,7 @@ $namespace: "#{$prefix}.app" !default;
 	& {
 		// Nguibs - Angular UI bootstrap reskin project
 		// ===================================
-		@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+		// @import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 	}
 
 	& {

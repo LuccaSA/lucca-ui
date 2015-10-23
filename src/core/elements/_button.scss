@@ -4,10 +4,10 @@
 	vertical-align: middle;
 	box-sizing: border-box;
 
-	min-height: $min-height;
-	min-width: $min-width;
-	padding: $v-padding $h-padding;
-	margin: $v-margin $h-margin;
+	min-height: map-gets($vars, minHeight);
+	min-width: map-gets($vars, minWidth);
+	padding: (map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding));
+	margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
 }
 
 %lui_basic_button {
@@ -15,13 +15,13 @@
 
 	@extend %lui_button_sizing;
 
-	text-transform: $text-transform;
-	text-shadow: $text-shadow;
+	text-transform: map-gets($vars, textTransform);
+	text-shadow: map-gets($vars, textShadow);
 	text-align: center;
 
-	box-shadow: $default-border;
+	box-shadow: map-gets($vars, defaultBorder);
 
-	border-radius: $border-radius;
+	border-radius: map-gets($vars, borderRadius);
 
 	@include lui_transition_properties(background, box-shadow, color);
 }
@@ -41,10 +41,10 @@
 	box-shadow: none;
 }
 #{$prefix}.button.disabled, #{$prefix}.button[disabled] {
-	opacity: $disabled-opacity;
+	opacity: map-gets($vars, disabledOpacity);
 
-	-webkit-filter: grayscale($disabled-grayscale);
-	filter: grayscale($disabled-grayscale);
+	-webkit-filter: grayscale(map-gets($vars, disabledGrayscale));
+	filter: grayscale(map-gets($vars, disabledGrayscale));
 
 	cursor: normal;
 	pointer-events: none;
@@ -56,10 +56,10 @@
 
 #{$prefix}.button:not(.wired) {
 	&:hover {
-		box-shadow: $default-border, 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+		box-shadow: map-gets($vars, defaultBorder), 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
 	}
 	&:active, &.active {
-		box-shadow: $default-border;
+		box-shadow: map-gets($vars, defaultBorder);
 	}
 }
 
@@ -103,7 +103,7 @@
 // Style - flat
 #{$prefix}.button.flat {
 	background-color: transparent;
-	color: map-get($default-coloring, text);
+	color: map-get(map-gets($vars, defaultColoring), text);
 	text-decoration: underline;
 	box-shadow: none;
 
@@ -230,9 +230,9 @@
 
 #{$prefix}.button {
 	// Default coloring scheme
-	@include lui_button_coloring($default-coloring);
+	@include lui_button_coloring(map-gets($vars, defaultColoring));
 	// Coloring support
-	@each $name, $scheme in $lui_colors {
+	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
 		&.#{map-get($scheme, class)} {
 			@include lui_button_coloring($scheme);
 		}
@@ -245,7 +245,7 @@
 #{$prefix}.buttons {
 	display: inline-block;
 	vertical-align: middle;
-	margin: $v-margin 0;
+	margin: map-gets($vars, verticalMargin) 0;
 
 	& + .buttons {
 		margin-left: 1em;
@@ -262,10 +262,10 @@
 		}
 		border-radius: 0;
 		&:first-child {
-			border-radius: $border-radius 0 0 $border-radius;
+			border-radius: (map-gets($vars, borderRadius)) 0 0 (map-gets($vars, borderRadius));
 		}
 		&:last-child {
-			border-radius: 0 $border-radius $border-radius 0;
+			border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
 		}
 	}
 

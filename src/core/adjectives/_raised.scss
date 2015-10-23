@@ -1,3 +1,1 @@
-#{$prefix}.raised { box-shadow: $x $y $blur $spread $color; }
-
-#{$prefix}.callout { @extend #{$prefix}.raised; }
+#{$prefix}.raised { box-shadow: map-get($vars, x) map-get($vars, y) map-get($vars, blur) map-get($vars, spread) map-get($vars, color); }

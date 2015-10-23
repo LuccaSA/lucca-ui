@@ -3,8 +3,8 @@
 	letter-spacing: 0.025em;
 	border-width: 0; // reset
 
-	margin: $lui_default_font_size 0;
-	border-bottom: $divider-weight solid $border-color;
+	margin: map-gets($luiTheme, elements, typography, bodyFontSize) 0;
+	border-bottom: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
 }
 
 #{$prefix}.divider {
@@ -12,11 +12,11 @@
 
 	&[class*="top divider"] {
 		border-bottom: none;
-		border-top: $divider-weight solid $border-color;
+		border-top: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
 	}
 
 	&.double {
-		border-top: $divider-weight solid $border-color;
+		border-top: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
 	}
 
 	&.dashed {
@@ -27,7 +27,7 @@
 	}
 }
 #{$prefix}.divider.inverted {
-	border-color: $border-color-inverted;
+	border-color: map-gets($vars, invertedBorderColor);
 }
 
 
@@ -94,9 +94,9 @@ h6#{$prefix}.divider.below {
 #{$prefix}.divider h6.underline {
 	display: inline-block;
 
-	border-bottom: $larger-weight solid $border-color;
+	border-bottom: map-gets($vars, dividerFatWeight) solid map-gets($vars, borderColor);
 	padding-bottom: 0.5em;
-	margin-bottom: -$divider-weight;
+	margin-bottom: -(map-gets($vars, dividerWeight));
 }
 
 

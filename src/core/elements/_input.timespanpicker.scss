@@ -4,7 +4,7 @@ luid-timespan {
 	> input {
 		@extend %lui_input_field_base;
 		@extend %lui_input_text_field;
-		width: $timespan-width;
+		width: map-gets($vars, timespanpicker, width);
 	}
 }
 // Invalid field

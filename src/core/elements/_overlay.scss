@@ -3,8 +3,8 @@
 	top: 0; left: 0;
 	height: 100%;
 	width: 100%;
-	z-index: $z-index;
-	background-color: $bg;
+	z-index: map-gets($vars, zIndex);
+	background-color: map-gets($vars, background);
 }
 
 #{$prefix}.overlay {

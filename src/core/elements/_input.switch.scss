@@ -3,8 +3,8 @@
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;
-	height: $switch-height;
-	width: $switch-width;
+	width: map-gets($vars, switch, width);
+	height: map-gets($vars, switch, height);
 
 	input {
 		position: absolute;
@@ -21,8 +21,8 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-		background: $switch-bg;
-		color: $switch-color;
+		background: map-gets($vars, switch, background);
+		color: map-gets($vars, switch, color);
 		@include lui_transition();
 		@include lui_make_icon("check", left);
 		@include lui_make_icon("cross", right);
@@ -55,8 +55,8 @@
 				display: block;
 				height: 50%;
 				width: 0.1em;
-				background: $switch-grab-lines-color;
-				box-shadow: -0.2em 0 0 0 $switch-grab-lines-color, 0.2em 0 0 0 $switch-grab-lines-color;
+				background: map-gets($vars, switch, grabLinesColor);
+				box-shadow: -0.2em 0 0 0 map-gets($vars, switch, grabLinesColor), 0.2em 0 0 0 map-gets($vars, switch, grabLinesColor);
 				margin: auto;
 				@include lui_transition();
 			}
@@ -64,8 +64,8 @@
 	}
 
 	input:checked ~ label {
-		background: $switch-bg-active;
-		color: $switch-color-active;
+		background: map-gets($vars, switch, activeBackground);
+		color: map-gets($vars, switch, activeColor);
 	}
 
 	input:checked ~ label span {

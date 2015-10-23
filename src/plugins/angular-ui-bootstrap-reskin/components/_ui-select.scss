@@ -6,7 +6,7 @@
 
 	// Displays the arrow icon
 	@include lui_make_icon("south arrow");
-	&:before { font-size: (0.6 * $lui_default_font_size); position: absolute; z-index: 4; right: $h-padding; top: 50%; transform: translateY(-50%); @include lui_target_IE9 { margin-top: -0.5em; } }
+	&:before { font-size: (0.6 * map-gets($luiTheme, elements, typography, bodyFontSize)); position: absolute; z-index: 4; right: $h-padding; top: 50%; transform: translateY(-50%); @include lui_target_IE9 { margin-top: -0.5em; } }
 
 	.ui-select-choices {
 		border-color: $focus-border-color;

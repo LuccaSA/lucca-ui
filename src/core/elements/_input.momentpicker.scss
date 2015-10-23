@@ -1,5 +1,5 @@
 luid-moment {
-	max-width: 5.25em;
+	max-width:  map-gets($vars, momentpicker, maxWidth);
 	overflow: visible !important; // Buttons
 
 	@extend %lui_input_holder_base;
@@ -16,9 +16,9 @@ luid-moment {
 	// styling the inputs inside the directive
 	input {
 		box-sizing: border-box;
-		&:first-child { padding-left: $h-padding; }
-		&:last-child { padding-right: $h-padding; }
-		line-height: (1em + 2 * $v-padding);
+		&:first-child { padding-left:  map-gets($vars, horizontalPadding); }
+		&:last-child { padding-right: map-gets($vars, horizontalPadding); }
+		line-height: (1em + 2 * map-gets($vars, verticalPadding));
 		display: inline-block;
 
 		&:focus, &:active {
@@ -28,10 +28,10 @@ luid-moment {
 
 		background-color: transparent;
 		border: none;
-		width: $momentpicker-input-width;
+		width: map-gets($vars, momentpicker, width);
 		&:nth-child(1) { text-align: right; }
 
-		height: 1 + 2 * $v-padding; // For any version of IE...
+		height: 1 + 2 * map-gets($vars, verticalPadding); // For any version of IE...
 	}
 	// buttons + -
 	.mp-button {
@@ -44,7 +44,7 @@ luid-moment {
 		width: 50%;
 		text-align: center;
 		color: #FFF;
-		background-color: $border-color;
+		background-color: map-gets($vars, borderColor);
 
 		// Positions
 		&.top { bottom: 100%; }
@@ -58,5 +58,5 @@ luid-moment {
 luid-moment.invalid .luid-moment,
 luid-moment.ng-invalid .luid-moment {
 	@extend %lui_invalid_input_base;
-	.mp-button { background-color: $invalid-color !important; }
+	.mp-button { background-color: map-gets($vars, invalidColor) !important; }
 }

@@ -1,3 +1,4 @@
+$column: 100% / map-gets($vars, columns);
 
 // Common classes
 // ===================================
@@ -19,7 +20,7 @@ body, html { width: 100%; height: 100%; }
 
 #{$prefix}.container {
 	padding: 0;
-	width: $container-width;
+	width: map-get($vars, containerWidth);
 	@extend #{$prefix}.clear;
 }
 #{$prefix}.container #{$prefix}.column, {
@@ -44,16 +45,16 @@ body, html { width: 100%; height: 100%; }
 // Spaced container
 // Adds gutter
 #{$prefix}.container.spaced #{$prefix}.column,
-#{$prefix}.container #{$prefix}.column.spaced { padding: 0 $gutter; }
+#{$prefix}.container #{$prefix}.column.spaced { padding: 0 map-get($vars, gutter); }
 
-#{$prefix}.container.spaced .columns { margin: 0 -$gutter; }
+#{$prefix}.container.spaced .columns { margin: 0 -(map-get($vars, gutter)); }
 
 
 // The Loop(s)
 // ===================================
 
 @mixin lui_loop_columns($device, $spacing) {
-	@for $i from 0 through $columns {
+	@for $i from 0 through map-get($vars, columns) {
 		@if $i > 0 {
 			#{$prefix}.container #{$prefix}.column.#{$device}-#{$i} { width: $column * $i; }
 		}
@@ -66,8 +67,8 @@ body, html { width: 100%; height: 100%; }
 	}
 }
 
-@each $device, $props in $lui_breakpoints {
-	$i: index($device, $lui_breakpoints);
+@each $device, $props in lui_get_component_vars(global, breakpoints) {
+	$i: index($device, lui_get_component_vars(global, breakpoints));
 	$breakAt: nth($props, 1);
 	$spacing: nth($props, 2);
 

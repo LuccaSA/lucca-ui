@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 			development: {
 				options: {
 					sourcemap: 'inline',
-					style: 'compressed', // compressed, compact, nested, expanded
+					style: 'expanded', // compressed, compact, nested, expanded
 					loadPath: [
 						'src',
 						luiConfig.bowerPath,

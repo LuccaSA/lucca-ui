@@ -6,13 +6,14 @@
 		position: relative;
 		display: inline-block;
 		vertical-align: middle;
-		padding: $item-padding;
+		padding: map-gets($vars, padding);
 
 		&:after {
 			display: inline-block;
-			content: $dividers-character;
+			font-family: map-gets($vars, dividers, fontFamily);
+			content: map-gets($vars, dividers, character);
 			vertical-align: middle;
-			margin: $dividers-margin;
+			margin: map-gets($vars, dividers, margin);
 		}
 		&:last-child:after { content: ""; }
 

@@ -1,7 +1,7 @@
 #{$prefix}.search.input {
 	@include lui_make_icon("search");
 
-	> input { padding-left: $search-input-left-padding; }
+	> input { padding-left: map-gets($vars, search, paddingLeft); }
 
 	&.searching {
 		@include lui_loader();
@@ -23,8 +23,8 @@
 		font-style: normal;
 		cursor: pointer;
 
-		font-size: (0.5 * $lui_default_font_size);
-		width: $lui_default_font_size; height: $lui_default_font_size;
+		font-size: (0.5 * map-gets($luiTheme, elements, typography, bodyFontSize));
+		width: map-gets($luiTheme, elements, typography, bodyFontSize); height: map-gets($luiTheme, elements, typography, bodyFontSize);
 		text-align: center;
 		border-radius: 50%;
 
@@ -35,7 +35,7 @@
 		right: 1em;
 		&:before { right: 0.5em; }
 
-		background: $border-color;
+		background: map-gets($vars, borderColor);
 		color: #FFF;
 	}
 }

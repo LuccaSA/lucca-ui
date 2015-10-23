@@ -4,10 +4,12 @@
 	box-sizing: border-box;
 	position: relative;
 
-	margin: $v-margin $h-margin;
-	border: 1px solid $border-color;
-	background: $background;
-	padding: $v-padding $h-padding;
+	@extend #{$prefix}.raised;
+
+	margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+	border: 1px solid map-gets($vars, borderColor);
+	background: map-gets($vars, background);
+	padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
 
 	// Content paragraphs
 	p:first-child {
@@ -19,16 +21,16 @@
 
 	// Header
 	> .header {
-		padding: $v-padding $h-padding ($v-padding/2) $h-padding;
-		margin: (-$v-padding) (-$h-padding) 0.5em (-$h-padding);
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding) (map-gets($vars, verticalPadding)/2) map-gets($vars, horizontalPadding);
+		margin: -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding)) 0.5em -(map-gets($vars, horizontalPadding));
 	}
 
 
 	// Footer
 	> .footer {
 		text-align: right;
-		margin: ($v-padding) (-$h-padding) (-$v-padding) (-$h-padding);
-		padding: $v-padding $h-padding;
+		margin: (map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding)) -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding));
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
 		background: #F6F6F6;
 	}
 
@@ -38,15 +40,15 @@
 
 		&[class*="up callout"] {
 			border-top-width: 0;
-			border-left: 1px solid $border-color;
+			border-left: 1px solid map-gets($vars, borderColor);
 		}
 		&[class*="down callout"] {
 			border-bottom-width: 0;
-			border-left: 1px solid $border-color;
+			border-left: 1px solid map-gets($vars, borderColor);
 		}
 		&[class*="right callout"] {
 			border-right-width: 0;
-			border-left: 1px solid $border-color;
+			border-left: 1px solid map-gets($vars, borderColor);
 		}
 	}
 
@@ -61,28 +63,28 @@
 	// Position - defaults to left
 	&:after {
 		top: 0; left: 0;
-		width: $border-width;
+		width: map-gets($vars, borderWidth);
 		min-height: 100%;
 	}
 	&[class*="up callout"]:after {
 		top: 0; left: 0;
 		width: 100%;
-		min-height: $border-width;
+		min-height: map-gets($vars, borderWidth);
 	}
 	&[class*="right callout"]:after {
 		top: 0; left: auto; right: 0;
-		width: $border-width;
+		width: map-gets($vars, borderWidth);
 		min-height: 100%;
 	}
 	&[class*="left callout"]:after {
 		top: 0; left: 0;
-		width: $border-width;
+		width: map-gets($vars, borderWidth);
 		min-height: 100%;
 	}
 	&[class*="down callout"]:after {
 		top: auto; bottom: 0; left: 0;
 		width: 100%;
-		min-height: $border-width;
+		min-height: map-gets($vars, borderWidth);
 	}
 }
 
@@ -128,9 +130,9 @@
 // =====
 #{$prefix}.callout {
 	// Default coloring scheme
-	@include lui_callout_coloring($default-coloring);
+	@include lui_callout_coloring(map-gets($vars, defaultColoring));
 	// Coloring support
-	@each $name, $scheme in $lui_colors {
+	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
 		&.#{map-get($scheme, class)} {
 			@include lui_callout_coloring($scheme);
 		}

@@ -66,7 +66,7 @@
 
 #{$prefix}.nguibs-tooltip {
 	@include lui_nguibs_tooltip_coloring($tooltip-default-coloring);
-	@each $name, $scheme in $lui_colors {
+	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
 		&.#{map-get($scheme, class)} {
 			@include lui_nguibs_tooltip_coloring($scheme);
 		}

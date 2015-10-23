@@ -69,7 +69,7 @@
 			a:hover { background: map-get($scheme, color); border-color: map-get($scheme, color); color: map-get($scheme, text); }
 		}
 	}
-	@each $name, $scheme in $lui_colors {
+	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
 		&.#{map-get($scheme, class)} {
 			@include lui_nguibs_dropdown_coloring($scheme);
 		}
