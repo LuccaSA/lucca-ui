@@ -42,7 +42,7 @@
 
 			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 
-			.ui-select-match { display: inline-block; line-height: 1; }
+			.ui-select-match { display: inline-block; line-height: 1; &:empty { display: none; } }
 
 			.ui-select-match-item {
 				display: inline-block;
