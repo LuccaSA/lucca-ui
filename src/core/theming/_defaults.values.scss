@@ -271,7 +271,7 @@ $luiTheme: lui_set_component_variables(element, button, $button);
 $input: (
 	enabled: 					true,
 
-	bg: 						#FFF,
+	background: 				#FFF,
 	borderRadius: 				3px,
 	color: 						#666,
 	verticalPadding: 			0.66em,
@@ -293,14 +293,14 @@ $input: (
 
 	checkbox: (
 		enabled: 				true,
-		
+
 		color: 					map-gets($colors, primary, color),
 		size: 					1.5em
 	),
 
 	switch: (
 		enabled: 				true,
-		
+
 		width: 					4.5em,
 		height: 				2.25em,
 		background: 			#666,
@@ -312,20 +312,20 @@ $input: (
 
 	search: (
 		enabled: 				true,
-		
+
 		paddingLeft: 			2.5em
 	),
 
 
 	timespanpicker: (
 		enabled: 				true,
-		
+
 		width: 					5em
 	),
 
 	momentpicker: (
 		enabled: 				true,
-		
+
 		width: 					2.2em,
 		maxWidth: 				5.25em
 	)

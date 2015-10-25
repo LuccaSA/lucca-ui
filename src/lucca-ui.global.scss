@@ -19,8 +19,6 @@ $namespace: false;
 @import "core/utilities/is-animated";
 // Sizing handler
 @import "core/utilities/supports-sizing";
-// Color handler
-@import "core/utilities/colorschemer";
 // Loader
 @import "core/utilities/loader";
 
@@ -179,7 +177,7 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 @at-root {
 	// Nguibs - Angular UI bootstrap reskin project
 	// ===================================
-	// @import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 }
 
 @at-root {

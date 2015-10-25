@@ -21,8 +21,6 @@ $namespace: "#{$prefix}.app" !default;
 	@import "core/utilities/is-animated";
 	// Sizing handler
 	@import "core/utilities/supports-sizing";
-	// Color handler
-	@import "core/utilities/colorschemer";
 	// Loader
 	@import "core/utilities/loader";
 
@@ -182,7 +180,7 @@ $namespace: "#{$prefix}.app" !default;
 	& {
 		// Nguibs - Angular UI bootstrap reskin project
 		// ===================================
-		// @import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+		@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 	}
 
 	& {

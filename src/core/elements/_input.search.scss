@@ -24,8 +24,8 @@
 			font-style: normal;
 			cursor: pointer;
 
-			font-size: (0.5 * map-gets($luiTheme, elements, typography, bodyFontSize));
-			width: map-gets($luiTheme, elements, typography, bodyFontSize); height: map-gets($luiTheme, elements, typography, bodyFontSize);
+			font-size: lui_rem((1/2));
+			width: lui_rem(1.25); height: lui_rem(1.25);
 			text-align: center;
 			border-radius: 50%;
 
@@ -34,7 +34,7 @@
 				top: 50%; transform: translateY(-50%);
 			}
 			right: 1em;
-			&:before { right: 0.5em; }
+			&:before { right:  lui_rem(0.45	); margin: 0; }
 
 			background: map-gets($vars, borderColor);
 			color: #FFF;

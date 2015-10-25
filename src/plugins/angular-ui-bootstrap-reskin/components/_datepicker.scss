@@ -1,100 +1,101 @@
-
-#{$prefix}.nguibs-datepicker {
-	@extend %lui_input_holder_base;
-	> input {
-		@extend %lui_input_field_base; @extend %lui_input_text_field;
-		&.invalid,
-		&.ng-invalid {
-			@extend %lui_invalid_input_base;
+@if map-get($pluginVars, enabled) {
+	#{$prefix}.nguibs-datepicker {
+		@extend %lui_input_holder_base;
+		> input {
+			@extend %lui_input_field_base; @extend %lui_input_text_field;
+			&.invalid,
+			&.ng-invalid {
+				@extend %lui_invalid_input_base;
+			}
 		}
-	}
 
-	button { @extend button#{$prefix}.unstyled; }
+		button { @extend button#{$prefix}.unstyled; }
 
-	// IE 9 fix
-	overflow: visible !important;
+		// IE 9 fix
+		overflow: visible !important;
 
-	&:not([role="application"]) {
-		@include lui_make_icon("calendar");
-		> input { padding-left: 2.5em; width: $datepicker-input-width; }
-		&:before, &:after {
-			cursor: text;
-			display: inline-block;
+		&:not([role="application"]) {
+			@include lui_make_icon("calendar");
+			> input { padding-left: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
+			&:before, &:after {
+				cursor: text;
+				display: inline-block;
+				position: absolute;
+				top: 50%; left: 1em;
+				-ms-transform: translate(0, -50%);
+				transform: translate(0, -50%);
+				@extend %lui_user_select_none;
+			}
+		}
+
+		// Datepicker styling
+		&[role="application"], .dropdown-menu {
+			z-index: map-gets($pluginVars, datepicker, dropdownZindex);
+			background-color: map-gets($pluginVars, datepicker, background);
+			min-width: map-gets($pluginVars, datepicker, minWidth);
+			border: 1px solid map-gets($inputVars, borderColor);
+		}
+
+		// Datepicker in dropdown
+		.dropdown-menu {
+			@extend ul#{$prefix}.unstyled;
 			position: absolute;
-			top: 50%; left: 1em;
-			-ms-transform: translate(0, -50%);
-			transform: translate(0, -50%);
-			@extend %lui_user_select_none;
+			left: 0; top: 100%;
+			margin-top: -1px;
+
+			@include lui_is_animated("down fade in");
+			@extend #{$prefix}.raised;
 		}
-	}
 
-	// Datepicker styling
-	&[role="application"], .dropdown-menu {
-		z-index: $datepicker-z-index;
-		background-color: $datepicker-bg;
-		min-width: $datepicker-min-width;
-		border: 1px solid $border-color;
-	}
+		table {
+			width: 100%; margin-bottom: 0.5em;
+			&:focus { outline: 0; }
+			text-align: center;
+		}
+		thead tr {
+			// Month & year
+			&:first-child {
+				background-color: lui_get_colorscheme(primary, color);
+				border: none;
+				margin: 0;
 
-	// Datepicker in dropdown
-	.dropdown-menu {
-		@extend ul#{$prefix}.unstyled;
-		position: absolute;
-		left: 0; top: 100%;
-		margin-top: -1px;
+				button {
+					color: lui_get_colorscheme(primary, text);
+					padding: 1em;
+					border-radius: 0;
+					font-size: 1.1em;
 
-		@include lui_is_animated("down fade in");
-		@extend #{$prefix}.raised;
-	}
-
-	table {
-		width: 100%; margin-bottom: 0.5em;
-		&:focus { outline: 0; }
-		text-align: center;
-	}
-	thead tr {
-		// Month & year
-		&:first-child {
-			background-color: lui_get_colorscheme(primary, color);
-			border: none;
-			margin: 0;
-
-			button {
-				color: lui_get_colorscheme(primary, text);
-				padding: 1em;
-				border-radius: 0;
-				font-size: 1.1em;
-
-				&:hover, &:active, &:focus {
-					background-color: lighten(lui_get_colorscheme(primary, color), 10);
+					&:hover, &:active, &:focus {
+						background-color: lighten(lui_get_colorscheme(primary, color), 10);
+					}
 				}
 			}
 		}
-	}
 
-	.pull-left { float: left; }
-	.pull-right { float: right; }
-	.glyphicon-chevron-left { @include lui_make_icon("west arrow"); }
-	.glyphicon-chevron-right { @include lui_make_icon("east arrow"); }
+		.pull-left { float: left; }
+		.pull-right { float: right; }
+		.glyphicon-chevron-left { @include lui_make_icon("west arrow"); }
+		.glyphicon-chevron-right { @include lui_make_icon("east arrow"); }
 
-	tbody {
-		button {
-			padding: 0.5em 1em;
-			color: lui_get_colorscheme(grey, color);
-			@include lui_transition_properties(background-color);
+		tbody {
+			button {
+				padding: 0.5em 1em;
+				color: lui_get_colorscheme(grey, color);
+				@include lui_transition_properties(background-color);
 
-			&:hover { background-color: #EEE; }
+				&:hover { background-color: #EEE; }
 
-			&.active { color: darken(lui_get_colorscheme(grey, color), 10); background-color: lighten(lui_get_colorscheme(primary, color), 30); }
+				&.active { color: darken(lui_get_colorscheme(grey, color), 10); background-color: lighten(lui_get_colorscheme(primary, color), 30); }
+			}
+			.text-muted { color: lui_get_colorscheme(light, color); }
 		}
-		.text-muted { color: lui_get_colorscheme(light, color); }
-	}
 
-	li[ng-if="showButtonBar"] {
-		@extend #{$prefix}.clear;
-		border-top: 1px solid $border-color;
-		.btn {
-			@extend %lui_basic_button;
+		li[ng-if="showButtonBar"] {
+			@extend #{$prefix}.clear;
+			border-top: 1px solid map-gets($inputVars, borderColor);
+			.btn {
+				@extend %lui_basic_button;
+			}
 		}
 	}
 }

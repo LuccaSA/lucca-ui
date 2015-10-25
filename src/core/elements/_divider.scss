@@ -5,7 +5,7 @@
 		letter-spacing: 0.025em;
 		border-width: 0; // reset
 
-		margin: map-gets($luiTheme, elements, typography, bodyFontSize) 0;
+		margin: lui_rem() 0;
 		border-bottom: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
 	}
 

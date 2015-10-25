@@ -1,36 +1,28 @@
 // Import lucca-UI dependencies
 // =============================================
 // Input
-@import "elements/input.variables";
+$inputVars: lui_get_component_variables(element, input);
+
+
+// Plugin defaults
+// =============================================
+
+@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin.defaults";
 
 
 // Plugin components
 // =============================================
-
 // Dropdown
-@import "plugins/angular-ui-bootstrap-reskin/variables/dropdown.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/dropdown";
-
 // UI select
-@import "plugins/angular-ui-bootstrap-reskin/variables/ui-select.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/ui-select";
-
 // Tooltip
-@import "plugins/angular-ui-bootstrap-reskin/variables/tooltip.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/tooltip";
-
 // Datepicker
-@import "plugins/angular-ui-bootstrap-reskin/variables/datepicker.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/datepicker";
-
 // Popover
-@import "plugins/angular-ui-bootstrap-reskin/variables/popover.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/popover";
-
 // Modal
-@import "plugins/angular-ui-bootstrap-reskin/variables/modal.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/modal";
-
 // Collapse
-@import "plugins/angular-ui-bootstrap-reskin/variables/collapse.variables";
 @import "plugins/angular-ui-bootstrap-reskin/components/collapse";
