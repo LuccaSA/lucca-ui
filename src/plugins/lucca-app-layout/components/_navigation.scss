@@ -1,12 +1,12 @@
 #main-navigation {
-	background: $navigation-bg;
-	width: $navigation-width;
+	background: map-gets($vars, navigation, background);
+	width: map-gets($vars, navigation, width);
 
 	border: none;
 
 	// Text and links coloring
 	&, a {
-		color: lighten($navigation-bg, 25);
+		color: lighten(map-gets($vars, navigation, background), 25);
 	}
 }
 
@@ -20,25 +20,25 @@
 
 	// Hover and active states
 	&:hover, &:active {
-		background: darken($navigation-bg, 1);
+		background: darken(map-gets($vars, navigation, background), 1);
 		color: #FFF;
 	}
 	&:hover, &.active {
-		background: darken($navigation-bg, 5);
+		background: darken(map-gets($vars, navigation, background), 5);
 		color: #FFF;
 	}
 	// Item icon
 	> i.icon {
 		position: relative;
-		font-size: $navigation-icon-size;
+		font-size: map-gets($vars, navigation, iconSize);
 		display: block;
 		margin-bottom: 0.5em;
 	}
 
 	// Item title
 	> span.item-name {
-		font-size: $navigation-font-size;
-		font-weight: $navigation-font-weight;
+		font-size: map-gets($vars, navigation, fontSize);
+		font-weight: map-gets($vars, navigation, fontWeight);
 	}
 
 	// Updates / Todo styling
@@ -46,7 +46,7 @@
 		display: none;
 
 		position: absolute;
-		top: $navigation-icon-size + 0.15em;
+		top: map-gets($vars, navigation, iconSize) + 0.15em;
 		right: 1em;
 	}
 	&.has-updates span.item-updates {
@@ -57,16 +57,16 @@
 // Application logo
 #main-navigation #app-logo {
 	box-sizing: content-box;
-	padding-top: $top-offset;
+	padding-top: map-gets($vars, header, topOffset);
 
 	display: block;
 	overflow: hidden;
-	height: $header-height;
-	line-height: $header-height;
+	height: map-gets($vars, header, height);
+	line-height: map-gets($vars, header, height);
 
 	background-color: lui_get_colorscheme(primary, color);
 	text-align: center;
-	font-size: $logo-font-size;
+	font-size: map-gets($vars, logoFontSize);
 	font-weight: lighter;
 
 	&, a {
@@ -97,7 +97,7 @@
 		}
 
 		a.item {
-			background: $navigation-bg;
+			background: map-gets($vars, navigation, background);
 		}
 
 		a.item span.item-name,
@@ -107,7 +107,7 @@
 		}
 		a.item i.icon {
 			margin-bottom: 0;
-			margin-right: (0.5 * map-gets($luiTheme, elements, typography, bodyFontSize));
+			margin-right: lui_rem(0.5);
 		}
 		a.item.has-updates span.item-updates {
 			display: inline-block;

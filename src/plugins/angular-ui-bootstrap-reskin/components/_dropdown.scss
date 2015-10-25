@@ -42,9 +42,10 @@
 			.active a,
 			a:hover { background: #EEE; }
 			a {
+				color: map-gets($luiTheme, elements, typography, body, color);
 				text-decoration: none;
 				display: block;
-				padding: 0.5em map-gets($inputVars, horizontalPadding);
+				padding: 0.5em map-gets($inputVars, padding, right) 0.5em map-gets($inputVars, padding, left);
 				border-top: 1px solid #EEE;
 
 				> span { vertical-align: middle; }

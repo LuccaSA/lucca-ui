@@ -112,6 +112,12 @@
 	#{$prefix}.button {
 		@extend %lui_basic_button;
 	}
+	a#{$prefix}.button {
+		&, &:hover, &:active, &:visited {
+			color: map-gets($vars, defaultColoring, text);
+			text-decoration: none;
+		}
+	}
 
 
 	// Disabled

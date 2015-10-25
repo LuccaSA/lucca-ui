@@ -17,9 +17,9 @@
 		// styling the inputs inside the directive
 		input {
 			box-sizing: border-box;
-			&:first-child { padding-left:  map-gets($vars, horizontalPadding); }
-			&:last-child { padding-right: map-gets($vars, horizontalPadding); }
-			line-height: (1em + 2 * map-gets($vars, verticalPadding));
+			&:first-child { padding-left: map-gets($vars, padding, left); }
+			&:last-child { padding-right: map-gets($vars, padding, right); }
+			line-height: (1em + map-gets($vars, padding, top) +  map-gets($vars, padding, bottom));
 			display: inline-block;
 
 			&:focus, &:active {
@@ -32,7 +32,7 @@
 			width: map-gets($vars, momentpicker, width);
 			&:nth-child(1) { text-align: right; }
 
-			height: 1 + 2 * map-gets($vars, verticalPadding); // For any version of IE...
+			height: 1 + map-gets($vars, padding, top) + map-gets($vars, padding, bottom); // For any version of IE...
 		}
 		// buttons + -
 		.mp-button {

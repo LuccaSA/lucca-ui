@@ -91,6 +91,3 @@ $popover: (
 
 );
 $pluginVars: map-extend($pluginVars, (popover: $popover));
-
-// Set pluginVars in $luiTheme
-$luiTheme: lui_set_component_variables(plugin, nguibs, $pluginVars);

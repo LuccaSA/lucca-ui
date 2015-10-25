@@ -28,7 +28,6 @@ module.exports = function(grunt) {
 				},
 				files: [
 					{
-						"dist/lucca-ui.namespaced.min.css": "src/lucca-ui.namespaced.scss",
 						"dist/lucca-ui.global.min.css": "src/lucca-ui.global.scss",
 						"demo/demo.min.css": "demo/sass/demo.scss"
 					}

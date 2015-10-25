@@ -1,12 +1,12 @@
 
 #view #main-header {
 	box-sizing: content-box;
-	margin-top: $top-offset;
+	margin-top: map-gets($vars, header, topOffset);
 
-	margin-bottom: $header-bottom-margin;
-	min-height: $header-height;
+	margin-bottom: map-gets($vars, header, bottomMargin);
+	min-height: map-gets($vars, header, height);
 
-	background-color: $header-bg;
+	background-color: map-gets($vars, header, background);
 }
 #view #main-header {
 	@include lui_screens_smaller_than(tablet) {

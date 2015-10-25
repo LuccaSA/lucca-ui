@@ -6,7 +6,7 @@
 		border-width: 0; // reset
 
 		margin: lui_rem() 0;
-		border-bottom: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
+		border-bottom: map-gets($vars, width) solid map-gets($vars, color);
 	}
 
 	#{$prefix}.divider {
@@ -14,11 +14,11 @@
 
 		&[class*="top divider"] {
 			border-bottom: none;
-			border-top: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
+			border-top: map-gets($vars, width) solid map-gets($vars, color);
 		}
 
 		&.double {
-			border-top: map-gets($vars, dividerWeight) solid map-gets($vars, borderColor);
+			border-top: map-gets($vars, width) solid map-gets($vars, color);
 		}
 
 		&.dashed {
@@ -29,7 +29,7 @@
 		}
 	}
 	#{$prefix}.divider.inverted {
-		border-color: map-gets($vars, invertedBorderColor);
+		border-color: map-gets($vars, invertedColor);
 	}
 
 
@@ -96,9 +96,9 @@
 	#{$prefix}.divider h6.underline {
 		display: inline-block;
 
-		border-bottom: map-gets($vars, dividerFatWeight) solid map-gets($vars, borderColor);
+		border-bottom: map-gets($vars, fatWidth) solid map-gets($vars, color);
 		padding-bottom: 0.5em;
-		margin-bottom: -(map-gets($vars, dividerWeight));
+		margin-bottom: -(map-gets($vars, width));
 	}
 
 

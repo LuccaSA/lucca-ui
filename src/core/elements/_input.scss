@@ -73,12 +73,12 @@
 		}
 	}
 	%lui_input_text_field {
-		padding: 0 map-gets($vars, horizontalPadding);
-		line-height: (1em + 2 * map-gets($vars, verticalPadding));
-		height: 1 + 2 * map-gets($vars, verticalPadding); // For any version of IE...
+		padding: 0  map-gets($vars, padding, right) 0  map-gets($vars, padding, left);
+		line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+		height: 1 + map-gets($vars, padding, top) + map-gets($vars, padding, bottom); // For any version of IE...
 
 		// Fix for Internet Explorer
-		height: (1em + 2 * map-gets($vars, verticalPadding));
+		height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
 		display: inline-block;
 		@include flex();
 
@@ -103,7 +103,9 @@
 	}
 	#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
 	#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
-	#{$prefix}.input > select, #{$prefix}.input > textarea { padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding); }
+	#{$prefix}.input > select, #{$prefix}.input > textarea {
+		padding: map-gets($vars, padding, top) map-gets($vars, padding, right) map-gets($vars, padding, bottom) map-gets($vars, padding, left);
+	}
 
 	// Fitting size
 	#{$prefix}.fitting.input { width: 100%; }
@@ -160,10 +162,10 @@
 			position: relative; z-index: 2;
 			vertical-align: middle;
 			border: 1px solid map-gets($vars, borderColor);
-			padding: 0 map-gets($vars, horizontalPadding);
+			padding: 0 map-gets($vars, padding, right) 0 map-gets($vars, padding, left);
 			background: map-gets($vars, background);
-			line-height: 1 + 2 * map-gets($vars, verticalPadding);
-			height: 1 + 2 * map-gets($vars, verticalPadding);
+			line-height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
+			height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
 			box-sizing: border-box;
 		}
 

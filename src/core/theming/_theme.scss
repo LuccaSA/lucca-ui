@@ -80,8 +80,9 @@ $luiTheme: () !default;
 // Get root unit size
 // ===================================
 
-@function lui_rem($count: 1) {
-	@return ($count * map-gets($luiTheme, elements, typography, bodyFontSize));
+@function lui_rem($number: 1) {
+	// Remove $number unit if specified and multiply it by bodyFontSize
+	@return (($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
 }
 
 
@@ -91,5 +92,8 @@ $luiTheme: () !default;
 	@import "core/theming/defaults.values";
 
 	// User theme overrides
-	@import "theme.variables";
+	$myTheme: () !default;
+	@import "core/theme.overrides";
+
+	$luiTheme: map-extend($luiTheme, $myTheme, true);
 }

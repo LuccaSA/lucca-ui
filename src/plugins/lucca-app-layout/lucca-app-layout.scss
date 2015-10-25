@@ -1,4 +1,18 @@
-@import "plugins/lucca-app-layout/lucca-app-layout.variables";
+
+// Plugin theming
+// =============================================
+
+@import "plugins/lucca-app-layout/theme.defaults";
+
+$myTheme: () !default;
+@import "plugins/lucca-app-layout/theme.overrides";
+
+$pluginVars: map-extend($pluginVars, $myTheme, true);
+$vars: $pluginVars;
+
+
+// Plugin components
+// =============================================
 
 @import "plugins/lucca-app-layout/components/app";
 @import "plugins/lucca-app-layout/components/header";

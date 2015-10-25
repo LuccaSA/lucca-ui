@@ -38,7 +38,7 @@ $luiTheme: lui_set_component_variables(global, colors, $colors);
 
 $sizes: (
 	"x-small": 					0.7em,
-	"small": 					0.8em,
+	"small": 					0.85em,
 	"regular": 					13px,
 	"large": 					1.25em,
 	"x-large": 					1.5em
@@ -137,17 +137,35 @@ $grid: (
 $luiTheme: lui_set_component_variables(element, grid, $grid);
 
 
+// Divider
+// ===================================
+
+$divider: (
+	enabled: 					true,
+
+	width: 						1px,
+	fatWidth: 					3px,
+	color: 						rgba(50, 50, 50, 0.2),
+	invertedColor: 				rgba(255, 255, 255, 0.2)
+);
+$luiTheme: lui_set_component_variables(element, divider, $divider);
+
+
 // Typography
 // ===================================
 
 $typography: (
 	enabled: 					true,
 
-	fontFamily: 				"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
-	color: 						#666,
-	lineHeight:					1.4em,
-	smallSize:	 				0.8em,
-	bodyFontSize: 				13px,
+	body: (
+		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
+		fontSize: 				13px,
+		color: 					#666,
+		lineHeight:				1.4em,
+		boldWeight: 			600
+	),
+
+	smallSize:	 				map-gets($sizes, small),
 
 	headings: (
 		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
@@ -155,56 +173,115 @@ $typography: (
 		verticalMargin:			0,
 		fontWeight: 			normal,
 
-		h1Size:					2.75em,
-		h1LineHeight:			1.25em,
-		h1Weight:				300,
+		h1: (
+			fontSize:			2.75em,
+			lineHeight:			1.25em,
+			fontWeight:			300
+		),
+		h2: (
+			fontSize:			2.25em,
+			lineHeight:			1.25em,
+			fontWeight:			300
+		),
+		h3: (
+			fontSize:			1.8em,
+			lineHeight:			1.3em,
+			fontWeight:			400
+		),
+		h4: (
+			fontSize:			1.5em,
+			lineHeight:			1.3em,
+			fontWeight:			400
+		),
+		h5: (
+			fontSize:			1.25em,
+			lineHeight:			1em,
+			fontWeight:			400
+		),
+		h6: (
+			fontSize:			1.1em,
+			lineHeight:			1em,
+			fontWeight:			600
+		),
 
-		h2Size:					2.25em,
-		h2LineHeight:			1.25em,
-		h2Weight:				300,
+		iconSize: 				0.8em,
 
-		h3Size:					1.8em,
-		h3LineHeight:			1.3em,
-		h3Weight:				400,
-
-		h4Size:					1.5em,
-		h4LineHeight:			1.3em,
-		h4Weight:				400,
-
-		h5Size:					1.25em,
-		h5LineHeight:			1em,
-		h5Weight:				400,
-
-		h6Size:					1.1em,
-		h6LineHeight:			1em,
-		h6Weight:				600,
-
-		iconSize: 				0.8em
+		sub: (
+			color: 				lighten(#666, 20),
+			fontSize: 			map-gets($sizes, small),
+			fontWeight: 		400
+		)
 	),
 
-	linkColor:					#666,
-	linkColorHover:				darken(#666, 10),
+	links: (
+		color: 					#00b2ed,
+		decoration: 			none,
+		hover: (
+			color: 				lighten(#00b2ed, 10),
+			decoration: 		underline
+		),
+		visited: (
+			color: 				darken(#00b2ed, 10)
+		)
+	),
 
-	dlDivider:					":",
-	dlGutter:					2em,
-	dlDtWeight:					600,
-	dlDdWeight:					400
+	quote: (
+		fontSize:				1em,
+		fontStyle: 				normal,
+		border: (
+			width: 				1px,
+			style: 				solid,
+			color: 				map-gets($divider, color)
+		),
+		margin: (
+			top: 				1em,
+			left: 				0,
+			right: 				0,
+			bottom: 			1em
+		),
+		padding: (
+			top: 				0,
+			left: 				1em,
+			right: 				0,
+			bottom: 			0
+		),
+		cite: (
+			fontSize: 			1em,
+			fontStyle: 			normal,
+			fontWeight: 		400
+		)
+	),
+
+	kbd: (
+		fontSize: 				0.9em,
+		fontFamily: 			monospace,
+		color: 					#666,
+		background: 			#EFEFEF,
+		borderRadius: 			map-gets($rounded, radius),
+		padding: (
+			top: 				0.25em,
+			right: 				0.5em,
+			bottom: 			0.25em,
+			left: 				0.5em
+		),
+		border: (
+			width: 				1px,
+			style: 				solid,
+			color: 				darken(#EFEFEF, 10)
+		),
+		extrude: 				2px
+	),
+
+	definitionList: (
+		divider:				":",
+		gutter:					2em,
+		termWidth: 				10em,
+		termWeight:				600,
+		definitionWeight:		400,
+		itemVerticalSpacing: 	1em
+	)
 );
 $luiTheme: lui_set_component_variables(element, typography, $typography);
-
-
-// Divider
-// ===================================
-
-$divider: (
-	enabled: 					true,
-
-	borderColor: 				rgba(50, 50, 50, 0.2),
-	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
-	dividerWeight: 				1px,
-	dividerFatWeight:			3px
-);
-$luiTheme: lui_set_component_variables(element, divider, $divider);
 
 
 // Button
@@ -257,7 +334,7 @@ $button: (
 	),
 
 	defaultBorderWidth:			1px,
-	defaultBorderColor:			map-get($divider, borderColor),
+	defaultBorderColor:			map-get($divider, color),
 
 	disabledOpacity: 			0.5,
 	disabledGrayscale: 			50%,
@@ -274,12 +351,16 @@ $input: (
 	background: 				#FFF,
 	borderRadius: 				3px,
 	color: 						#666,
-	verticalPadding: 			0.66em,
-	horizontalPadding: 			1em,
+	padding: (
+		top: 					0.66em,
+		right: 					1em,
+		bottom:					0.66em,
+		left: 					1em
+	),
 	borderColor: 				map-gets($colors, light, color),
 	focusBorderColor: 			darken(map-gets($colors, light, color), 10),
 	invalidColor:  				map-gets($colors, red, color),
-	shadow: 					0 2px 2px 0 map-gets($divider, borderColor),
+	shadow: 					0 2px 2px 0 map-gets($divider, color),
 
 	placeholder: (
 		color: 					rgba(0, 0, 0, 0.5),
@@ -366,13 +447,14 @@ $menu: (
 	verticalPadding: 			0,
 	horizontalPadding: 			0,
 
-	borderColor: 				map-gets($divider, borderColor),
+	borderColor: 				map-gets($divider, color),
 	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
 	borderStyle:				solid,
 
 	borderWidth: 				1px,
 
 	item: (
+		color: 					map-gets($typography, body, color),
 		vertical: (
 			verticalPadding: 	1em,
 			horizontalPadding: 	1.5em,
@@ -391,9 +473,9 @@ $menu: (
 	),
 
 	dividing: (
-		dividerColor: 			map-gets($divider, borderColor),
+		dividerColor: 			map-gets($divider, color),
 		dividerWidth: 			1px,
-		activeDividerWidth: 	3px,
+		activeDividerWidth: 	map-gets($divider, fatWidth),
 		activeDividerColor: 	map-gets($colors, primary, color)
 	),
 
@@ -401,7 +483,7 @@ $menu: (
 		padding: 				0 1em,
 		background: 			#FAFAFA,
 		activeBackground: 		#FFF,
-		borderColor: 			map-gets($divider, borderColor),
+		borderColor: 			map-gets($divider, color),
 		activeBorderWidth: 		3px,
 		bottomSpacing: 			5px
 	),
@@ -425,7 +507,7 @@ $breadcrumbs: (
 		fontFamily: 			'',
 		character: 				"\003e",
 		margin: 				0 0.5em,
-		color:					map-gets($divider, borderColor)
+		color:					map-gets($divider, color)
 	)
 );
 $luiTheme: lui_set_component_variables(element, breadcrumbs, $breadcrumbs);
@@ -485,7 +567,7 @@ $block: (
 
 	verticalPadding: 			1em,
 	horizontalPadding: 			1em,
-	border: 					1px solid map-gets($divider, borderColor),
+	border: 					1px solid map-gets($divider, color),
 	invertedBorder: 			rgba(255, 255, 255, 0.2),
 	borderRadius: 				3px
 );
@@ -504,7 +586,6 @@ $overlay: (
 $luiTheme: lui_set_component_variables(element, overlay, $overlay);
 
 $luiTheme: $luiTheme !global;
-
 
 
 // ===================================

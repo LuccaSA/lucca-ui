@@ -4,10 +4,16 @@
 $inputVars: lui_get_component_variables(element, input);
 
 
-// Plugin defaults
+// Plugin theming
 // =============================================
 
-@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin.defaults";
+@import "plugins/angular-ui-bootstrap-reskin/theme.defaults";
+
+$myTheme: () !default;
+@import "plugins/angular-ui-bootstrap-reskin/theme.overrides";
+
+$pluginVars: map-extend($pluginVars, $myTheme, true);
+$vars: $pluginVars;
 
 
 // Plugin components

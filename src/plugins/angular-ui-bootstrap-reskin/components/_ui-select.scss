@@ -9,10 +9,10 @@
 		// Displays the arrow icon
 		@include lui_make_icon("south arrow");
 		&:before {
-			font-size: (0.6 * map-gets($luiTheme, elements, typography, bodyFontSize));
+			font-size: lui_rem(0.6);
 			position: absolute;
 			z-index: 4;
-			right: map-gets($inputVars, horizontalPadding);
+			right: map-gets($inputVars, padding, right);
 			top: 50%; transform: translateY(-50%);
 			@include lui_target_IE9 { margin-top: -0.5em; } }
 
@@ -38,7 +38,7 @@
 
 		// Multiselect mode
 		&.ui-select-multiple {
-			> div { padding: 0 map-gets($inputVars, verticalPadding) !important; height: auto !important; }
+			> div { padding: 0 map-gets($inputVars, padding, right) 0 map-gets($inputVars, padding, right) !important; height: auto !important; }
 
 			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 

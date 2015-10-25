@@ -6,7 +6,7 @@
 	position: relative;
 	top: 0; left: 0;
 
-	background-color: $body-bg-color;
+	background-color: map-gets($vars, appBackground);
 
 	// #app contains a <main> element
 	// There can be only one <main> element (http://www.w3schools.com/tags/tag_main.asp)
@@ -14,7 +14,7 @@
 	main {
 		min-height: 100%; min-height: 100vh;
 		position: relative;
-		margin-left: $navigation-width;
+		margin-left: map-gets($vars, navigation, width);
 	}
 }
 // Main NAvigation is hidden on mobiles --> remove margin

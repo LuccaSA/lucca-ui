@@ -6,8 +6,10 @@
 // ===================================
 
 @mixin lui_menu_coloring($scheme) {
-	&.dividing > a.item:before, &.dividing > a.item:after {
-		background-color: map-get($scheme, color);
+	&.dividing > a.item {
+		&:before, &:after {
+			background-color: map-get($scheme, color);
+		}
 	}
 	&.pills > a.item:active, &.pills > a.item.active {
 		background-color: map-get($scheme, color);
@@ -40,7 +42,6 @@
 @if map-get($vars, enabled) {
 
 	#{$prefix}.menu {
-
 		position: relative;
 		@include display-flex();
 		@include flex-wrap(wrap);
@@ -131,6 +132,7 @@
 
 	#{$prefix}.menu > a.item {
 		cursor: pointer;
+		&, &:hover, &:visited { color: map-gets($vars, item, color); text-decoration: none;}
 	}
 	#{$prefix}.menu > .item.disabled,
 	#{$prefix}.menu > .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
