@@ -17,6 +17,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-mocks.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.1/ui-bootstrap-tpls.min.js"></script>
 	<script type="text/javascript" src="../../bower_components/angular-route/angular-route.min.js"></script>
 	<script type="text/javascript" src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
@@ -38,7 +39,7 @@
 <body ng-app="demoApp">
 	<div id="banner" class="lui menu grey dividing justify" ng-controller="bannerCtrl">
 		<div class="lui dividing left menu">
-			<a class="item" href="#/less" ng-class="{ active: isActive('/less') }">Less framework</a>
+			<a class="item" href="#/less" ng-class="{ active: isActive('/less') || isActive('/') }">Less framework</a>
 			<a class="item" href="#/icons" ng-class="{ active: isActive('/icons') }">Lucca Icons</a>
 			<a class="item" href="#/animations" ng-class="{ active: isActive('/animations') }">Animations</a>
 			<a class="item" href="#/nguibs" ng-class="{ active: isActive('/nguibs') }">Bootstrap components</a>
@@ -51,6 +52,6 @@
 		</div>
 	</div>
 
-	<div ng-view class="lui container"></div>
+	<div ng-view></div>
 </body>
 </html>
