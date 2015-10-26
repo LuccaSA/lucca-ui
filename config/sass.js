@@ -3,7 +3,7 @@
 module.exports = function(grunt, options){
 	return {
 		options:{
-			style: 'compressed',
+			outputStyle: 'compressed',
 			sourcemap: 'inline',
 			includePaths: [
 				'scss',
