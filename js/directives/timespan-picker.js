@@ -1,6 +1,10 @@
 (function () {
 	'use strict';
-
+	/**
+	** DEPENDENCIES
+	**  - moment
+	**/
+	
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
 		function link(scope, element, attrs, ctrls) {
 

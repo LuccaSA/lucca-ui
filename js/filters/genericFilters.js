@@ -1,5 +1,9 @@
 (function(){
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none, nothing, nada
+	**/
 	function replaceAll(string, find, replace) {
 		// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
 		// lets not reinvent the wheel
@@ -29,17 +33,31 @@
 		};
 	})
 	.filter('luifNumber', ['$sce', '$filter', function($sce, $filter) {
-		return function(_input, _precision) {
+		return function(_input, _precision, _placeholder) {
+			var placeholder = _placeholder === undefined ? '' : _placeholder;
+			// alert(_input + " " + (!!_input.isNaN && _input.isNaN()));
+			var input = _input === undefined || _input === null || _input === "" || _input != _input ? placeholder : _input; // the last check is to check if _input is NaN
 			var separator = $filter("number")(1.1,1)[1];
-			var precision = _precision || 2;
+			var precision = _precision === undefined || _precision === null || _precision != _precision ? 2 : _precision;
 
-			var text = $filter("number")(_input, precision);
+			var text = $filter("number")(input, precision);
+			var decimalPart = (text || $filter("number")(0, precision)).split(separator)[1];
+			var rightSpan;
 
-			var details = text.split(separator);
-			if ( parseInt(details[1]) === 0) {
-				return $sce.trustAsHtml(details[0] + "<span style=\"opacity:0\">" + separator + details[1] + "</span>");
+			if(decimalPart === undefined){
+				rightSpan = "<span style=\"opacity:0\"></span>";
+			}else if(parseInt(decimalPart) === 0){
+				rightSpan = "<span style=\"opacity:0\">" + separator + decimalPart + "</span>";
+			}else{
+				rightSpan = "<span>" + separator + decimalPart + "</span>";
 			}
-			return $sce.trustAsHtml(details[0] + separator + details[1]);
+			if(input === '' || !text){
+				// the _input or the _placeholder was not parsable by the number $filter, just return input but trusted as html
+				return $sce.trustAsHtml(input + rightSpan);
+			}
+
+			var integerPart = text.split(separator)[0];
+			return $sce.trustAsHtml(integerPart + rightSpan);
 		};
 	}]);
 })();

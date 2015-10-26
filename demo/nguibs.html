@@ -15,7 +15,7 @@
 	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-sanitize.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-sanitize.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script src="../dist/lucca-ui.min.js"></script>
 	<script src="js/nguibs.js"></script>
@@ -23,10 +23,13 @@
 <body ng-app="nguibsApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item" href="./index.html">less framework</a>
-		<a class="item active" href="./nguibs.html">lui nguibs</a>
-		<a class="item" href="./filters.html">lui filters</a>
-		<a class="item" href="./directives.html">lui directives</a>
+		<a class="item" href="./index.html">Less framework</a>
+		<a class="item" href="./icons.html">Lucca Icons</a>
+		<a class="item" href="./animations.html">Animations</a>
+		<a class="item active" href="./nguibs.html">Bootstrap components</a>
+		<a class="item" href="./filters.html">Lucca Filters</a>
+		<a class="item" href="./directives.html">Lucca Directives</a>
+		<a class="item" href="./lucca-spe.html">Specific for Lucca</a>
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#ui-select">ui-select</a>
 		<a class="item" href="#dropdown">dropdown</a>
@@ -44,10 +47,11 @@
 	</div>
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
-	<div class="lui animated bounce left callout warning">
+	<div class="lui callout primary">
 		<p>
 			<b>Important:</b>
-			The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.
+			The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
+			For now this part only properly functions when the bootstrap css is present as well in your page. Developments are underway to remove this contraint.
 		</p>
 		<p>
 			The exact list of dependencies, which can be found in the bower.json file, is:
@@ -64,7 +68,7 @@
 	<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
 		<h2 class="lui divider below">ui-select</h2>
 		<p><a href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Simple select</h4>
 		</div>
 		<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui regular nguibs-ui-select">
@@ -88,7 +92,7 @@
 		</div>
 
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Multi-select</h4>
 		</div>
 		<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui x-long nguibs-ui-select">
@@ -97,7 +101,7 @@
 				{{color}}
 			</ui-select-choices>
 		</ui-select>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
@@ -126,7 +130,7 @@
 				</ul>
 			</div>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
@@ -145,7 +149,7 @@
 		<button tooltip="Regular tooltip" tooltip-class="lui nguibs-tooltip" tooltip-placement="top" class="lui button">Hover me!</button>
 		<button tooltip="Primary tooltip" tooltip-class="lui primary nguibs-tooltip" tooltip-placement="right" class="lui button">No, Me!!!</button>
 		<button tooltip="OMG! An error!" tooltip-class="lui red nguibs-tooltip" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
@@ -167,13 +171,13 @@
 				<input placeholder="some input">
 			</input>
 		</script>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
 			<pre ng-non-bindable>&lt;button popover="Hello there!" <b>popover-class="lui nguibs-popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Remarks:</h4>
 		</div>
 		<p>
@@ -193,7 +197,7 @@
 			<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
@@ -206,7 +210,7 @@
 	&lt;input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
 		</p>
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Remarks:</h4>
 		</div>
 		<p>

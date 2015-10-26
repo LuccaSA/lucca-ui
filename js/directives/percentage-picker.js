@@ -1,7 +1,11 @@
 (function () {
 	'use strict';
+	/**
+	** DEPENDENCIES
+	**  - none
+	**/
 
-	angular.module('lui.directives').directive('luidPercentage', ['moment', function (moment) {
+	angular.module('lui.directives').directive('luidPercentage', function () {
 		function link(scope, element, attrs, ctrls) {
 
 			var ngModelCtrl = ctrls[1];
@@ -21,7 +25,6 @@
 					scope.intPct = undefined;
 					return;
 				}
-
 				// must support the different formats here
 				scope.intPct = scope.parse(parseFloat(this.$viewValue));
 			};
@@ -49,8 +52,8 @@
 			link: link,
 			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
 		};
-	}])
-	.controller('luidPercentageController', ['$scope', 'moment', function ($scope, moment) {
+	})
+	.controller('luidPercentageController', ['$scope', function ($scope) {
 
 		// public methods for update
 		$scope.updateValue = function () {
@@ -64,7 +67,7 @@
 		};
 		var format = function (pct) {
 			// should support deifferents formats
-			switch($scope.format){
+			switch($scope.format || "0.XX"){
 				case "XX":
 					return pct;
 				case "0.XX":
@@ -77,7 +80,7 @@
 
 		$scope.parse = function (intInput) {
 			// should support deifferents formats
-			switch($scope.format){
+			switch($scope.format || "0.XX"){
 				case "XX":
 					return intInput;
 				case "0.XX":

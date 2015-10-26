@@ -5,6 +5,9 @@
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>Lucca UI - Demo</title>
+
+	<link rel="icon" type="image/png" href="/img/favicon.png" />
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8"> -->
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
@@ -20,18 +23,22 @@
 <body ng-app="demoApp">
 	<nav id="toc" class="lui vertical primary dividing menu">
 		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item active" href="./index.html">sass framework</a>
-		<a class="item" href="./nguibs.html">lui nguibs</a>
-		<a class="item" href="./filters.html">lui filters</a>
-		<a class="item" href="./directives.html">lui directives</a>
+		<a class="item active" href="./index.html">Less framework</a>
+		<a class="item" href="./icons.html">Lucca Icons</a>
+		<a class="item" href="./animations.html">Animations</a>
+		<a class="item" href="./nguibs.html">Bootstrap components</a>
+		<a class="item" href="./filters.html">Lucca Filters</a>
+		<a class="item" href="./directives.html">Lucca Directives</a>
+		<a class="item" href="./lucca-spe.html">Specific for Lucca</a>
 		<div class="lui vertical dashed divider"></div>
 		<a class="item" href="#lui-grid">The grid</a>
 		<a class="item" href="#lui-typography">Typography</a>
-		<a class="item" href="#lui-button">Button</a>
+		<a class="item" href="#lui-button">Buttons</a>
 		<a class="item" href="#lui-icon">Icons</a>
 		<a class="item" href="#lui-label">Labels</a>
-		<a class="item" href="#lui-input">Input</a>
+		<a class="item" href="#lui-input">Inputs</a>
 		<a class="item" href="#lui-callout">Callout</a>
+		<a class="item" href="#lui-table">Table</a>
 		<a class="item" href="#lui-menu">Menu</a>
 	</nav>
 
@@ -44,10 +51,13 @@
 
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework <span class="lui label">v1.1</span></p>
 
-	<div class="lui callout warning">
+	<div class="lui callout primary">
 		<p>
 			<b>Important:</b>
-			The less framework has no real dependencies, but it is highly recommended to load <code>normalize</code> for css reset purposes.
+			This part of the framework has no dependency.
+		</p>
+		<p>
+			It is recommended to use <code>normalize.css</code> to prevent browsers from injecting unwanted styles.
 		</p>
 	</div>
 
@@ -56,24 +66,29 @@
 		<h2 class="lui divider below">The grid</h2>
 
 		<p>
-			By default, the grid is 12 columns based, but that can be overriden.
+			By default, the lucca grid is 12 columns based. This can be overriden.
 		</p>
 		<p>
 			Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
 		</p>
 		<p>
-			To define the size of a grid element for mobiles, give it the <code>lui column mobile-x</code> classes where x is the number of columns.
-			For tablets, use <code>lui column tablet-x</code>, for desktop, <code>lui column desktop-x</code> and finally, for large screens,
-			<code>lui column large-x</code>.
+			To define the size of a grid element for different devices, c being the number of columns, use
+			<ul class="lui unstyled">
+				<li><code>lui column mobile-x</code> for mobiles phones</li>
+				<li><code>lui column tablet-x</code> for tablets</li>
+				<li><code>lui column desktop-x</code> for desktops</li>
+				<li><code>lui column large-x</code> for large screens</li>
+			</ul>
 		</p>
 
 		<p>
-			You can offset a specific grid child with the <code>{device}-offset-x</code> class.
+			Use the <code>{device}-offset-x</code> class to offset a specific grid child.
 		</p>
 		<p>
-			You can reorder children elements with the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes.
+			Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
 		</p>
-		<div class="lui divider">
+		<br/>
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Example #1: Without gutter space</h4>
 		</div>
 
@@ -87,14 +102,15 @@
 			<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
 		</div>
 
-		<div class="lui divider">
+		<br/>
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Example #2: With gutter space</h4>
 		</div>
 		<p>
-			Adding the <code>spaced</code> class to a column will give it a gutter. Adding it to the <code>.lui.container</code> parent element will give gutters to all <code>.lui.column</code> children.
+			Add the <code>spaced</code> class to give a column a gutter. Add it to the <code>.lui.container</code> parent element to give gutters to all <code>.lui.column</code> children.
 		</p>
 		<p>
-			To neutralise gutter space around the container, wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element (plural).
+			Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
 		</p>
 		<div class="lui container spaced">
 			<div class="lui columns">
@@ -113,7 +129,7 @@
 		<h2 class="lui divider below">Buttons</h2>
 
 		<section class="lui column desktop-8 spaced">
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">4 button styles</h4>
 			</div>
 			<button class="lui button">Default</button>
@@ -124,7 +140,7 @@
 				<button class="lui button inverted">Inverted</button>
 			</div>
 
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Icon support</h4>
 			</div>
 			<p>
@@ -144,7 +160,7 @@
 			<button class="lui button wired secondary">Take a picture<i class="lui right icon camera"></i></button>
 			<button class="lui button red disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
 
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Button colors</h4>
 			</div>
 			<button class="lui button primary">Primary</button>
@@ -156,7 +172,7 @@
 			<button class="lui button orange">Orange</button>
 			<button class="lui button green">Green</button>
 
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Various button examples</h4>
 			</div>
 			<button class="lui button wired green">Wired - Green</button>
@@ -168,7 +184,7 @@
 				<button class="lui button wired inverted light">Inverted - Wired - Light</button>
 			</div>
 
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Button sizes</h4>
 			</div>
 			<button class="lui button small">Small</button>
@@ -176,7 +192,7 @@
 			<button class="lui button large">Large</button>
 			<button class="lui button x-large">X-large</button>
 
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Button status</h4>
 			</div>
 			<p>
@@ -189,7 +205,7 @@
 			<button class="lui button large status failure">Argh!</button>
 			<button class="lui button large with addon status failure"><i class="lui addon icon send"></i>Argh!</button>
 			<button class="lui button large icon status loading icon save"></button>
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Buttons - button groups!</h4>
 			</div>
 			<nav class="lui buttons">
@@ -228,7 +244,7 @@
 			</nav>
 		</section>
 		<section class="lui column desktop-4 spaced">
-			<div class="lui divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Try it</h4>
 			</div>
 			<p ng-class="{dark:inverted}">
@@ -280,18 +296,6 @@
 		</section>
 	</article>
 
-	<article id="lui-icon">
-		<h2 class="lui divider below">Icons</h2>
-		<p>
-			Just append/prepend a <code><\i class="lui icon {icon-name}"><\/i></code> element or add the <code>lui icon {icon-name}</code> classes to your element.
-			You can also just add the <code>data-lui-icon="{letter}"</code> attribute.
-			Example here : <i lui-icon="h"></i>
-		</p>
-		<p>
-			Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
-		</p>
-	</article>
-
 	<article id="lui-label">
 		<h2 class="lui divider below">Labels</h2>
 
@@ -325,7 +329,7 @@
 		!--><span class="lui addon">.com</span>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Input length & sizes</h4>
 		</div>
 
@@ -339,7 +343,7 @@
 			<input type="text" name="name" value="regular short">
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Form</h4>
 		</div>
 
@@ -356,7 +360,7 @@
 			<input type="password" name="password" placeholder="password" value="">
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Search box</h4>
 		</div>
 		<div class="lui input search">
@@ -367,7 +371,7 @@
 			<input type="search" placeholder="Searching..." name="name" value="">
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Fancy checkbox</h4>
 		</div>
 		<div class="lui checkbox">
@@ -382,7 +386,7 @@
 		!--><input type="text" placeholder="Surname" class="lui input">
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Switch</h4>
 		</div>
 		<div class="lui input switch">
@@ -426,8 +430,8 @@
 		</div>
 	</article>
 
-	<article id="component-table" class="component">
-		<h2>Tables</h2>
+	<article id="lui-table" class="component">
+		<h2 class="lui divider below">Tables</h2>
 
 		<table class="lui table v-aligned">
 			<thead>
@@ -520,7 +524,7 @@
 
 		<p>
 			The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
-			Giving it the <code>vertical</code> class will change this.
+			Add the <code>vertical</code> class to change this.
 		</p>
 
 		<div class="lui bordered menu">
@@ -529,7 +533,7 @@
 			<a href="#" class="item">Item 3</a>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Right / Left sections</h4>
 		</div>
 
@@ -551,12 +555,12 @@
 			</div>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Dividing style</h4>
 		</div>
 		<p>
 			Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
-			The color of the active border can be changed by adding a color class.
+			Add a color class to change the color of the active border.
 		</p>
 		<div class="lui menu green dividing center aligned">
 			<div class="item header">Dividing style</div>
@@ -604,7 +608,7 @@
 			</div>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Pills style</h4>
 		</div>
 		<div class="lui menu pills justify">
@@ -614,7 +618,7 @@
 			<a class="item" href="#">Item 03</a>
 		</div>
 
-		<div class="lui divider">
+		<div class="lui dashed divider">
 			<h4 class="lui underline">Imbricated menus</h4>
 		</div>
 

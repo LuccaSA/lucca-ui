@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/LuccaSA/lucca-ui.svg?branch=master)](https://travis-ci.org/LuccaSA/lucca-ui)
 # lucca-ui
 Framework Less &amp; Angular by Lucca
 [luccaSA.github.io/lucca-ui](http://luccaSA.github.io/lucca-ui)
