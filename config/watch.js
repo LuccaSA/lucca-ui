@@ -14,8 +14,8 @@ module.exports = function(grunt, options){
 			tasks: ['sass']
 		},
 		demo: {
-			files: ['demo/**/*.less'],
-			tasks: ['less:demo'],
+			files: ['demo/**/*.scss'],
+			tasks: ['sass:demo'],
 		},
 		js: {
 			files: ['js/**/*.js'],

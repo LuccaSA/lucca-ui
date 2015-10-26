@@ -5,13 +5,14 @@
     "lucien Bertin <me@lucienbertin.com>",
     "benoit Paugam <bpaugam@lucca.fr>"
   ],
-  "description": "less and js framework by lucca",
-  "main": "src/lucca-ui.less",
+  "description": "scss and js framework by lucca",
+  "main": "scss/lucca-ui.global.scss",
   "keywords": [
     "lucca",
     "lui",
     "lucca-ui",
-    "less"
+    "scss",
+    "sass"
   ],
   "license": "MIT",
   "ignore": [
