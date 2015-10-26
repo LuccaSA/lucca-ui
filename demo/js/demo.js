@@ -6,7 +6,7 @@
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 
-	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select']);
+	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E']);
 
 	angular.module('demoApp')
 	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
@@ -40,37 +40,16 @@
 				templateUrl: 'lucca-spe.html',
 			})
 			.otherwise({ redirectTo: '/less'});
-
-		// $urlRouterProvider.otherwise('/less');
-
-		// $stateProvider
-		// .state('less', {
-		// 	url: '/less',
-		// 	templateUrl: 'less-framework.html'
-		// })
-		// .state('icons', {
-		// 	url: '/icons',
-		// 	templateUrl: 'icons.html'
-		// })
-		// .state('animations', {
-		// 	url: '/animations',
-		// 	templateUrl: 'animations.html'
-		// })
-		// .state('nguibs', {
-		// 	url: '/nguibs',
-		// 	templateUrl: 'nguibs.html'
-		// })
-		// .state('filters', {
-		// 	url: '/filters',
-		// 	templateUrl: 'filters.html'
-		// })
-		// .state('directives', {
-		// 	url: '/directives',
-		// 	templateUrl: 'directives.html'
-		// })
-		// .state('luccaSpe', {
-		// 	url: '/lucca',
-		// 	templateUrl: 'lucca-spe.html'
-		// })
 	}]);
+
+	angular.module('demoApp')
+	.run(function($httpBackend) {
+		$httpBackend.whenGET('less-framework.html').passThrough();
+		$httpBackend.whenGET('icons.html').passThrough();
+		$httpBackend.whenGET('animations.html').passThrough();
+		$httpBackend.whenGET('nguibs.html').passThrough();
+		$httpBackend.whenGET('filters.html').passThrough();
+		$httpBackend.whenGET('directives.html').passThrough();
+		$httpBackend.whenGET('lucca-spe.html').passThrough();
+	});
 })();
