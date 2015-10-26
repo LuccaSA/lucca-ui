@@ -13,6 +13,7 @@ module.exports = function(config) {
 			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-mocks.js',
 			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-sanitize.js',
 
+			'bower_components/angular-translate/angular-translate.js',
 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/ui-select/dist/select.js',
 			'bower_components/moment/min/moment-with-locales.js',

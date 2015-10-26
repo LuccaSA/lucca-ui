@@ -6,11 +6,16 @@
 	angular.module('lui.directives', ['moment', 'underscore','ui.select']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
+
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference moment-picker.js
 	angular.module('lui.templates', ['lui.templates.momentpicker']);
-
-	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates']);
+	
+	// all the translations in one module
+	angular.module('lui.translates.userpicker', []);
+	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker']);
+	
+	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates','lui.translates']);
 })();
 ;(function(){
 	'use strict';
@@ -902,24 +907,24 @@
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = ["department.name", "legalEntity.name", "employeeNumber", "mail"]; // MAGIC_STRING
 
-	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refreshDelay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
+	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
-	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\">VAR_TRAD Parti(e) le {{user.dtContractEnd | luifMoment: 'll'}}</small>" +
-	"<small ng-if=\"user.overflow\">{{user.overflow}}</small>" +
+	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select ng-model=\"ngModel\" theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ $select.selected.firstName }} {{$select.selected.lastName}}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
+	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
 	var userPickerMultipleTemplate = "<ui-select multiple ng-model=\"selected.users\" theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"VAR_TRAD Sélectionner un utilisateur...\">{{$item.firstName}} {{$item.lastName}} " +
+	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}>{{$item.firstName}} {{$item.lastName}} " +
 	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property)}}&gt</span>" +
-	"<span ng-if=\"$item.isFormerEmployee\">&lt;VAR_TRAD Parti(e) le {{$item.dtContractEnd | luifMoment: 'll'}}&gt;</span>" +
+	"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
@@ -1056,7 +1061,7 @@
 						}
 					}
 					else {
-						$scope.users = [{overflow: "VAR_TRAD Pas de résultat."}];
+						$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
 					}
 				}, 
 				function(message) {
@@ -1213,7 +1218,7 @@
 		// };
 
 		var handleOverflowMessage = function() {
-			$scope.users.push({ overflow: MAX_COUNT + "/" + $scope.count });
+			$scope.users.push({ overflow: "LUIDUSERPICKER_OVERFLOW", cnt:MAX_COUNT, all:$scope.count,  id:-1 });
 		};
 
 		// userPickerMultiple feature, not yet implemented
@@ -1434,14 +1439,47 @@
 			switch (cause) {
 				case "GET_USERS": // error while trying to get the users matching the query
 					$scope.users = [];
-					$scope.users.push({ overflow: "VAR_TRAD Nous n'avons pas réussi à récupérer les utilisateurs correspondant à votre requête. Tant pis !" });
+					$scope.users.push({ overflow: "LUIDUSERPICKER_ERR_GET_USERS", id:-1 });
+					console.log({cause:cause, message:message});
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
-					console.log(cause + ": " + message);
+					console.log({cause:cause, message:message});
 					break;
 			}
 		};
+	}]);
+	
+	/**************************/
+	/***** TRANSLATIONS   *****/
+	/**************************/
+	angular.module('lui.translates.userpicker').config(['$translateProvider', function ($translateProvider) {
+		$translateProvider.translations('en', {
+			"LUIDUSERPICKER_FORMEREMPLOYEE":"Left on {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS":"No results",
+			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
+			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
+			"LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
+		});
+		$translateProvider.translations('de', {
+
+		});
+		$translateProvider.translations('es', {
+
+		});
+		$translateProvider.translations('fr', {
+			"LUIDUSERPICKER_FORMEREMPLOYEE":"Parti(e) le {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
+			"LUIDUSERPICKER_ERR_GET_USERS":"Erruer lors de la récupération des utilisateurs",
+			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
+			"LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
+		});
+		$translateProvider.translations('it', {
+
+		});
+		$translateProvider.translations('nl', {
+
+		});
 	}]);
 })();
 
