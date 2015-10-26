@@ -2,12 +2,14 @@
 // Plugin theming
 // =============================================
 
+$pluginVars: (enabled: true) !default;
+$myTheme: () !default;
+
 @import "plugins/lucca-app-layout/theme.defaults";
 
-$myTheme: () !default;
 @import "plugins/lucca-app-layout/plugin.overrides";
 
-$pluginVars: map-extend($pluginVars, $myTheme, true);
+$pluginVars: if(length($myTheme) > 0, map-extend($pluginVars, $myTheme, true), $pluginVars);
 $vars: $pluginVars;
 
 

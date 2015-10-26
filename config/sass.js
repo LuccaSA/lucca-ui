@@ -5,7 +5,7 @@ module.exports = function(grunt, options){
 		options:{
 			style: 'compressed',
 			sourcemap: 'inline',
-			loadPath: [
+			includePaths: [
 				'scss',
 				'themes/default',
 				'themes/sample',
