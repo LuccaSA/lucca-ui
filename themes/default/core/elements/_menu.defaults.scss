@@ -1,0 +1,61 @@
+
+// Menu
+// @type: element
+// ===================================
+
+$menu: (
+	enabled: 					true,
+
+	defaultColoring: 			(color: #666, text: #FFF, lod: true),
+
+	verticalMargin: 			0,
+	horizontalMargin: 			0,
+	verticalPadding: 			0,
+	horizontalPadding: 			0,
+
+	borderColor: 				map-gets($luiTheme, elements, divider, color),
+	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
+	borderStyle:				solid,
+
+	borderWidth: 				1px,
+
+	item: (
+		color: 					map-gets($luiTheme, elements, typography, body, color),
+		vertical: (
+			verticalPadding: 	1em,
+			horizontalPadding: 	1.5em,
+			verticalMargin: 	0,
+			horizontalMargin: 	0,
+		),
+		horizontal: (
+			verticalPadding: 	0.5em,
+			horizontalPadding: 	1em,
+			verticalMargin: 	0,
+			horizontalMargin: 	0,
+		),
+		header: (
+			fontSize:			''
+		)
+	),
+
+	dividing: (
+		dividerColor: 			map-gets($luiTheme, elements, divider, color),
+		dividerWidth: 			1px,
+		activeDividerWidth: 	map-gets($luiTheme, elements, divider, fatWidth),
+		activeDividerColor: 	lui_get_colorscheme(primary, color)
+	),
+
+	tabbed: (
+		padding: 				0 1em,
+		background: 			#FAFAFA,
+		activeBackground: 		#FFF,
+		borderColor: 			map-gets($luiTheme, elements, divider, color),
+		activeBorderWidth: 		3px,
+		bottomSpacing: 			5px
+	),
+
+	pills: (
+		borderRadius: 			3px
+	)
+);
+$luiTheme: lui_set_component_variables(element, menu, $menu);

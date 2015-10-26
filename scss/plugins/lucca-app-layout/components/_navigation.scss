@@ -1,0 +1,125 @@
+#main-navigation {
+	background: map-gets($vars, navigation, background);
+	width: map-gets($vars, navigation, width);
+
+	border: none;
+
+	// Text and links coloring
+	&, a {
+		color: lighten(map-gets($vars, navigation, background), 25);
+	}
+}
+
+// Menu item
+#main-navigation a.item {
+	text-align: center;
+
+	&:before {
+		margin-left: 0;
+	}
+
+	// Hover and active states
+	&:hover, &:active {
+		background: darken(map-gets($vars, navigation, background), 1);
+		color: #FFF;
+	}
+	&:hover, &.active {
+		background: darken(map-gets($vars, navigation, background), 5);
+		color: #FFF;
+	}
+	// Item icon
+	> i.icon {
+		position: relative;
+		font-size: map-gets($vars, navigation, iconSize);
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
+	// Item title
+	> span.item-name {
+		font-size: map-gets($vars, navigation, fontSize);
+		font-weight: map-gets($vars, navigation, fontWeight);
+	}
+
+	// Updates / Todo styling
+	span.item-updates {
+		display: none;
+
+		position: absolute;
+		top: map-gets($vars, navigation, iconSize) + 0.15em;
+		right: 1em;
+	}
+	&.has-updates span.item-updates {
+		display: block;
+	}
+}
+
+// Application logo
+#main-navigation #app-logo {
+	box-sizing: content-box;
+	padding-top: map-gets($vars, header, topOffset);
+
+	display: block;
+	overflow: hidden;
+	height: map-gets($vars, header, height);
+	line-height: map-gets($vars, header, height);
+
+	background-color: lui_get_colorscheme(primary, color);
+	text-align: center;
+	font-size: map-gets($vars, logoFontSize);
+	font-weight: lighter;
+
+	&, a {
+		color: lui_get_colorscheme(primary, text);
+	}
+
+	// Navigation mobile toggle
+	.navigation-toggle {
+		display: none;
+	}
+}
+
+// Mobile version
+#main-navigation {
+	@include lui_screens_smaller_than(tablet) {
+		background: transparent;
+		position: relative !important;
+		left: 0; right: 0; bottom: auto;
+		z-index: 100;
+		width: 100%; max-height: 100vh; overflow: auto;
+		height: auto;
+
+		#app-logo {
+			a, .navigation-toggle {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+
+		a.item {
+			background: map-gets($vars, navigation, background);
+		}
+
+		a.item span.item-name,
+		a.item i.icon {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		a.item i.icon {
+			margin-bottom: 0;
+			margin-right: lui_rem(0.5);
+		}
+		a.item.has-updates span.item-updates {
+			display: inline-block;
+			position: relative;
+			float: none;
+			top: auto; left: auto; right: auto;
+		}
+
+		// Dropped state
+		.item { display: none; }
+		&.dropped a.item {
+			display: block;
+		}
+	}
+}

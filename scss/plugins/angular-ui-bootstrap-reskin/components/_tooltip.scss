@@ -1,0 +1,80 @@
+
+// Coloring support
+// ============================================================
+
+@mixin lui_nguibs_tooltip_coloring($scheme) {
+	> [class*="-inner"] {
+		background-color: map-get($scheme, color);
+		color: map-get($scheme, text);
+		@if map-get($scheme, lod) {
+			text-shadow: 1px 0 1px darken(map-get($scheme, color), 5);
+		}
+	}
+	&.left > [class*="arrow"] { border-left-color: map-get($scheme, color); }
+	&.top > [class*="arrow"] { border-top-color: map-get($scheme, color); }
+	&.right > [class*="arrow"] { border-right-color: map-get($scheme, color); }
+	&.bottom > [class*="arrow"] { border-bottom-color: map-get($scheme, color); }
+};
+
+@if map-get($pluginVars, enabled) {
+	#{$prefix}.nguibs-tooltip {
+		position: absolute;
+		z-index: map-gets($pluginVars, tooltip, zIndex);
+		pointer-events: none;
+
+		& {
+			$shadow: lui_get_component_variables(adjective, raised);
+			-webkit-filter: drop-shadow(map-gets($shadow, x) map-gets($shadow, y) map-gets($shadow, blur) map-gets($shadow, color));
+			filter: drop-shadow(map-gets($shadow, x) map-gets($shadow, y) map-gets($shadow, blur) map-gets($shadow, color));
+		}
+
+		> [class*="-inner"] {
+			padding: map-gets($pluginVars, tooltip, verticalPadding) map-gets($pluginVars, tooltip, horizontalPadding);
+			border-radius: map-gets($pluginVars, tooltip, borderRadius);
+		}
+
+		// Animations
+		&.fade:not(.in) { @include lui_is_animated("up fade out"); }
+		&.fade.in { @include lui_is_animated("up fade in"); }
+
+		// Arrow
+		> [class*="arrow"] {
+			width: 0; height: 0;
+			@extend #{$prefix}.pointing:after;
+			position: absolute;
+		}
+
+		& {
+			$triangle: lui_get_component_variables(adjective, pointing);
+
+			&.left > [class*="arrow"], &.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
+
+			&.left { margin-left: - map-gets($triangle, triangleWidth); }
+			&.left > [class*="arrow"] { @extend #{$prefix}[class*="right pointing"]:after; left: 100%; }
+
+			&.right { margin-right: - map-gets($triangle, triangleWidth); }
+			&.right > [class*="arrow"] { @extend #{$prefix}[class*="left pointing"]:after; right: 100%; }
+
+			&.top > [class*="arrow"], &.bottom > [class*="arrow"] { left: 50%; transform: translateX(-50%); }
+
+			&.top { margin-top: - map-gets($triangle, triangleWidth); }
+			&.top > [class*="arrow"] { @extend #{$prefix}[class*="bottom pointing"]:after; top: 100%; }
+
+			&.bottom { margin-bottom: - map-gets($triangle, triangleWidth); }
+			&.bottom > [class*="arrow"] { @extend #{$prefix}[class*="top pointing"]:after; bottom: 100%; }
+		}
+	}
+
+
+	// Coloring support
+	// ============================================================
+
+	#{$prefix}.nguibs-tooltip {
+		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
+		@each $name, $scheme in lui_get_component_variables(reference, colors) {
+			&.#{map-get($scheme, class)} {
+				@include lui_nguibs_tooltip_coloring($scheme);
+			}
+		}
+	}
+}

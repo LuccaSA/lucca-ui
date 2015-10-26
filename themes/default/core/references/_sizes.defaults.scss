@@ -1,0 +1,13 @@
+
+// Sizes
+// @type: reference
+// ===================================
+
+$sizes: (
+	"x-small": 					0.7em,
+	"small": 					0.85em,
+	"regular": 					13px,
+	"large": 					1.25em,
+	"x-large": 					1.5em
+);
+$luiTheme: lui_set_component_variables(reference, sizes, $sizes);

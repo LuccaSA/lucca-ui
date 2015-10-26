@@ -1,0 +1,108 @@
+
+@if map-get($pluginVars, enabled) {
+	#{$prefix}.nguibs-ui-select {
+		@extend %lui_input_holder_base;
+		@extend %lui_nguibs_dropdown;
+
+		min-width: map-gets($pluginVars, uiSelect, minWidth);
+
+		// Displays the arrow icon
+		@include lui_make_icon("south arrow");
+		&:before {
+			font-size: lui_rem(0.6);
+			position: absolute;
+			z-index: 4;
+			right: map-gets($inputVars, padding, right);
+			top: 50%; transform: translateY(-50%);
+			@include lui_target_IE9 { margin-top: -0.5em; } }
+
+		.ui-select-choices {
+			border-color: map-gets($inputVars, focusBorderColor);
+		}
+
+		.btn { box-sizing: border-box; }
+		> .ui-select-match { width: 100%; }
+
+		// Input fields lookalikes
+		.ui-select-match { height: 2.32em; }
+
+		.ui-select-match > .btn,
+		> .ui-select-search,
+		&.ui-select-multiple > div {
+			@extend %lui_input_field_base;
+			@extend %lui_input_text_field;
+			@include lui_target_IE9 { width: 100%; }
+		}
+
+		&:not(.ui-select-multiple) .ui-select-search { display: none; }
+
+		// Multiselect mode
+		&.ui-select-multiple {
+			> div { padding: 0 map-gets($inputVars, padding, right) 0 map-gets($inputVars, padding, right) !important; height: auto !important; }
+
+			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
+
+			.ui-select-match { display: inline-block; line-height: 1; &:empty { display: none; } }
+
+			.ui-select-match-item {
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 0.9em;
+				margin: 0 0.1em;
+				padding: 0.1em 0.5em;
+				border: 1px solid map-gets($inputVars, borderColor);
+				border-radius: map-gets($inputVars, borderRadius);
+
+				background-color: map-gets($inputVars, background);
+
+				@include lui_is_animated("down scale in");
+
+				> span > span { line-height: map-gets($pluginVars, uiSelect, multiple, closeSize); }
+
+				// active state ~ selected
+				&.btn-primary { background-color: #EEE; }
+
+				// Close button
+				.ui-select-match-close {
+					cursor: pointer;
+					float: right;
+					font-size: map-gets($pluginVars, uiSelect, multiple, closeSize);
+					font-weight: 600;
+				}
+			}
+			.ui-select-match-item:focus { outline: none; outline: 0; }
+		}
+
+		// Dropped state
+		&.open {
+			box-shadow:  map-gets($inputVars, shadow);
+			&:not(.ui-select-multiple) .ui-select-match { display: none; }
+			&:not(.ui-select-multiple) .ui-select-search { display: block; }
+
+			.ui-select-match > .btn,
+			> .ui-select-search,
+			&.ui-select-multiple > div { z-index: 100; }
+
+			> .ui-select-search,
+			&.ui-select-multiple > div {
+				border-color:  map-gets($inputVars, focusBorderColor);
+				border-bottom-color: transparent !important;
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+
+		// Thumbnail support
+		.ui-select-choices-row .thumbnail {
+			width: map-gets($pluginVars, uiSelect, thumbSize);
+			height: map-gets($pluginVars, uiSelect, thumbSize);
+			vertical-align: middle;
+			margin-right: 0.5em;
+		}
+
+		// Highlighting support
+		.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
+
+		.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
+	}
+}

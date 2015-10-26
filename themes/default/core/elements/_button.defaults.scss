@@ -1,0 +1,58 @@
+
+// Button
+// @type: element
+// ===================================
+
+$button: (
+	enabled:					true,
+
+	textTransform:				normal,
+
+	minHeight:					1em,
+	minWidth:					3em,
+
+	verticalPadding:			0.66em,
+	horizontalPadding:			1em,
+	verticalMargin:				0.25em,
+	horizontalMargin:			0.25em,
+
+	textShadow:					none,
+	borderRadius:				3px,
+	hoverShadow:				lui_get_default_shadow(),
+
+	addon: (
+		width: 					2.5em,
+		background:				rgba(0, 0, 0, 0.1)
+	),
+
+	defaultColoring: (
+		color:					#FFF,
+		text:					#666,
+		lod:					false
+	),
+
+	inverted: (
+		color: 					rgba(200, 200, 200, 0.75)
+	),
+
+	flat: (
+		background:				transparent,
+		textDecoration:			underline,
+		hoverBackground:		rgba(0, 0, 0, 0.05),
+		activeBackground:		rgba(0, 0, 0, 0.1),
+		activeShadow: 			0 0 0 1px rgba(50, 50, 50, .1),
+		invertedHoverBackground:rgba(200, 200, 200, 0.1),
+		invertedActiveBackground:rgba(255, 255, 255, .25)
+	),
+
+	wired: (
+		borderWidth: 			2px
+	),
+
+	defaultBorderWidth:			1px,
+	defaultBorderColor:			map-gets($luiTheme, elements, divider, color),
+
+	disabledOpacity: 			0.5,
+	disabledGrayscale: 			50%,
+);
+$luiTheme: lui_set_component_variables(element, button, $button);

@@ -1,0 +1,323 @@
+
+// ===================================
+// ========== Dependencies ===========
+// ===================================
+
+
+// Lucca icons
+// ===================================
+
+$luccaIcons: (
+	iconBaseSelector: "#{$prefix}.icon"
+);
+$luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
+
+
+
+// ===================================
+// ============ References ===========
+// ===================================
+
+// Default color scheme
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/references/colors.defaults";
+
+	// Theme overrides
+	@import "core/references/colors.overrides";
+	$luiTheme: lui_set_component_variables(reference, colors, $myTheme);
+}
+
+
+// Sizes
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/references/sizes.defaults";
+
+	// Theme overrides
+	@import "core/references/sizes.overrides";
+	$luiTheme: lui_set_component_variables(reference, sizes, $myTheme);
+}
+
+
+// Breakpoints
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/references/breakpoints.defaults";
+
+	// Theme overrides
+	@import "core/references/breakpoints.overrides";
+	$luiTheme: lui_set_component_variables(reference, breakpoints, $myTheme);
+}
+
+
+
+// ===================================
+// =========== Adjectives ============
+// ===================================
+
+// Animated
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/adjectives/animated.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/animated.overrides";
+	$luiTheme: lui_set_component_variables(adjective, animated, $myTheme);
+}
+
+
+// Pointing
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/adjectives/pointing.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/pointing.overrides";
+	$luiTheme: lui_set_component_variables(adjective, pointing, $myTheme);
+}
+
+
+// Raised
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/adjectives/raised.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/raised.overrides";
+	$luiTheme: lui_set_component_variables(adjective, raised, $myTheme);
+}
+
+
+// Rounded
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/adjectives/rounded.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/rounded.overrides";
+	$luiTheme: lui_set_component_variables(adjective, rounded, $myTheme);
+}
+
+
+// Stuck
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/adjectives/stuck.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/stuck.overrides";
+	$luiTheme: lui_set_component_variables(adjective, stuck, $myTheme);
+}
+
+
+
+// ===================================
+// ============ Elements =============
+// ===================================
+
+// Grid
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/grid.defaults";
+
+	// Theme overrides
+	@import "core/elements/grid.overrides";
+	$luiTheme: lui_set_component_variables(element, grid, $myTheme);
+}
+
+
+// Divider
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/divider.defaults";
+
+	// Theme overrides
+	@import "core/elements/divider.overrides";
+	$luiTheme: lui_set_component_variables(element, divider, $myTheme);
+}
+
+
+// Typography
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/typography.defaults";
+
+	// Theme overrides
+	@import "core/elements/typography.overrides";
+	$luiTheme: lui_set_component_variables(element, typography, $myTheme);
+}
+
+
+// Button
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/button.defaults";
+
+	// Theme overrides
+	@import "core/elements/button.overrides";
+	$luiTheme: lui_set_component_variables(element, button, $myTheme);
+}
+
+
+// Input(s)
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/input.defaults";
+
+	// Theme overrides
+	@import "core/elements/input.overrides";
+	$luiTheme: lui_set_component_variables(element, input, $myTheme);
+}
+
+
+
+// Table
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/table.defaults";
+
+	// Theme overrides
+	@import "core/elements/table.overrides";
+	$luiTheme: lui_set_component_variables(element, table, $myTheme);
+}
+
+
+// Menu
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/menu.defaults";
+
+	// Theme overrides
+	@import "core/elements/menu.overrides";
+	$luiTheme: lui_set_component_variables(element, menu, $myTheme);
+}
+
+
+// Breadcrumbs
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/breadcrumbs.defaults";
+
+	// Theme overrides
+	@import "core/elements/breadcrumbs.overrides";
+	$luiTheme: lui_set_component_variables(element, breadcrumbs, $myTheme);
+}
+
+
+// label
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/label.defaults";
+
+	// Theme overrides
+	@import "core/elements/label.overrides";
+	$luiTheme: lui_set_component_variables(element, label, $myTheme);
+}
+
+
+// Callout
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/callout.defaults";
+
+	// Theme overrides
+	@import "core/elements/callout.overrides";
+	$luiTheme: lui_set_component_variables(element, callout, $myTheme);
+}
+
+
+// Block
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/block.defaults";
+
+	// Theme overrides
+	@import "core/elements/block.overrides";
+	$luiTheme: lui_set_component_variables(element, block, $myTheme);
+}
+
+
+// Overlay
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/overlay.defaults";
+
+	// Theme overrides
+	@import "core/elements/overlay.overrides";
+	$luiTheme: lui_set_component_variables(element, overlay, $myTheme);
+}
+
+
+// Progress
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "core/elements/progress.defaults";
+
+	// Theme overrides
+	@import "core/elements/progress.overrides";
+	$luiTheme: lui_set_component_variables(element, progress, $myTheme);
+}

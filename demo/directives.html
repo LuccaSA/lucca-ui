@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<!--[if lte IE 9 ]><html class="ie ie9"><![endif]-->
+<!--[if gt IE 9]><html class="ie"><![endif]-->
+<!--[if !(IE)]><!--><html class=""><!--<![endif]-->
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>Lucca UI - Demo</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8"> -->
 
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
@@ -35,14 +37,14 @@
 <section id="main-content" class="lui container">
 	<h1 class="lui column desktop-8">Lucca UI</h1>
 	<div class="lui column desktop-4">
-		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+		<a class="lui large right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 	</div>
 	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
 	<div class="lui callout warning">
 		<p>
 			<b>Important:</b>
-			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
 			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
 		</p>
 		<p>
@@ -99,12 +101,12 @@
 		<div ng-controller="timespanCtrl" class="lui block round">
 			<form name="myForm">
 				<p>
-					myValue in luid-timespan (required): 
+					myValue in luid-timespan (required):
 					<luid-timespan name="myTimespan" ng-model="myValue" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
 					<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
 				</p>
 				<p>
-					myValue as it is in $scope: 
+					myValue as it is in $scope:
 					<span class="lui input">
 						<input name="myTextInput" type="text" ng-model="myValue">
 					</span>
@@ -135,7 +137,7 @@
 			Supports up and down key events and scroll event to increment/decrement the value.
 		</p>
 		<p>
-			Supports 3 formats : 
+			Supports 3 formats :
 			<ul class="lui unstyled">
 				<li><code>0.XX</code> default format. 10% in the input will be translated to 0.1 in the scope</li>
 				<li><code>XX</code> 10% in the input will be translated to 10 in the scope</li>
@@ -168,11 +170,11 @@
 		<div ng-controller="percentageCtrl" class="lui block round">
 			<form name="myForm">
 				<p>
-					myValue in luid-percentage: 
+					myValue in luid-percentage:
 					<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
 				</p>
 				<p>
-					myValue as it is in $scope: 
+					myValue as it is in $scope:
 					<span class="lui input">
 						<input name="myTextInput" type="text" ng-model="myValue">
 					</span>
@@ -243,11 +245,11 @@
 		<div ng-controller="momentCtrl" class="lui block round">
 			<form name="myForm">
 				<p>
-					myValue in luid-moment: 
+					myValue in luid-moment:
 					<luid-moment ng-model="myValue" ng-change="hasChanged()"></luid-moment>
 				</p>
 				<p>
-					myValue as it is in $scope: 
+					myValue as it is in $scope:
 					<span class="lui long input">
 						<input name="myTextInput" type="text" ng-model="myValue" readonly="readonly">
 					</span>
@@ -257,11 +259,11 @@
 				</p>
 				<hr>
 				<p>
-					myStr in luid-moment with format="'HH:mm:ss'": 
+					myStr in luid-moment with format="'HH:mm:ss'":
 					<luid-moment ng-model="myStr" format="'HH:mm:ss'"></luid-moment>
 				</p>
 				<p>
-					myStr as it is in $scope: 
+					myStr as it is in $scope:
 					<span class="lui input">
 						<input type="text" ng-model="myStr">
 					</span>
@@ -272,7 +274,7 @@
 					<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'"></luid-moment>
 				</p>
 				<p>
-					myValue2 as it is in $scope: 
+					myValue2 as it is in $scope:
 					<span class="lui long input">
 						<input type="text" ng-model="myValue2" readonly="readonly">
 					</span>
@@ -283,7 +285,7 @@
 					<luid-moment ng-model="myValue3" min="min" max="max"></luid-moment>
 				</p>
 				<p>
-					myValue2 as it is in $scope: 
+					myValue2 as it is in $scope:
 					<span class="lui long input">
 						<input type="text" ng-model="myValue3" readonly="readonly">
 					</span>

@@ -1,0 +1,239 @@
+// ===================================
+// ============= Mixins ==============
+// ===================================
+
+// Coloring support
+// ===================================
+
+@mixin lui_input_coloring($scheme) {
+	&[class*="with addon"] > .addon {
+		background-color: map-get($scheme, color);
+		border-color: map-get($scheme, color);
+		color: map-get($scheme, text);
+		@if map-get($scheme, lod) { text-shadow: 0 1px 1px darken(map-get($scheme, color), 15); }
+	}
+}
+#{$prefix}.input {
+	@each $name, $scheme in map-gets($luiTheme, references, colors) {
+		&.#{map-get($scheme, class)} {
+			@include lui_input_coloring($scheme);
+		}
+	}
+}
+
+@mixin lui_placeholder() {
+	&::-webkit-input-placeholder,
+	&::-moz-placeholder,
+	&:-ms-input-placeholder {
+		@content;
+	}
+}
+
+
+// ===================================
+// ============ Elements =============
+// ===================================
+
+@import "core/elements/input.search";
+@import "core/elements/input.switch";
+@import "core/elements/input.checkbox";
+//
+@import "core/elements/input.timespanpicker";
+@import "core/elements/input.momentpicker";
+
+@if map-get($vars, enabled) {
+
+	// General properties
+	// ===================================
+
+	%lui_input_holder_base {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		@include display-flex(true);
+		@include flex-align-items(center);
+
+		// IE fix
+		@include lui_target_IE9 { overflow: hidden; }
+	}
+	%lui_input_field_base {
+		width: 100%;
+		border-radius: map-gets($vars, borderRadius);
+		border: 1px solid map-gets($vars, borderColor);
+		background: map-gets($vars, background);
+		color: map-gets($vars, color);
+
+		&:focus, &:active {
+			outline: 0; outline: none;
+			border-color: map-gets($vars, focusBorderColor);
+		}
+		@include lui_placeholder() {
+			color: map-gets($vars, placeholderColor);
+			font-style: map-gets($vars, placeholderStyle);
+		}
+	}
+	%lui_input_text_field {
+		padding: 0  map-gets($vars, padding, right) 0  map-gets($vars, padding, left);
+		line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+		height: 1 + map-gets($vars, padding, top) + map-gets($vars, padding, bottom); // For any version of IE...
+
+		// Fix for Internet Explorer
+		height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+		display: inline-block;
+		@include flex();
+
+		box-sizing: border-box;
+		width: 100%;
+
+		@include lui_target_IE9 { width: auto; }
+	}
+
+	#{$prefix}.input {
+		@extend %lui_input_holder_base;
+		> input,
+		> textarea,
+		> select {
+			@extend %lui_input_field_base;
+		}
+	}
+
+	// Text inputs
+	#{$prefix}.input > input {
+		@extend %lui_input_text_field;
+	}
+	#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
+	#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
+	#{$prefix}.input > select, #{$prefix}.input > textarea {
+		padding: map-gets($vars, padding, top) map-gets($vars, padding, right) map-gets($vars, padding, bottom) map-gets($vars, padding, left);
+	}
+
+	// Fitting size
+	#{$prefix}.fitting.input { width: 100%; }
+
+	// Inputs length (horizontal sizing)
+	#{$prefix}.input.short > input, #{$prefix}.field.short > input { min-width: 0; width: 8em !important; }
+	#{$prefix}.input.medium > input, #{$prefix}.field.medium > input { min-width: 0; width: 15em !important; }
+	#{$prefix}.input.long > input, #{$prefix}.field.long > input { min-width: 0; width: 20em !important; }
+	#{$prefix}.input.x-long > input, #{$prefix}.field.x-long > input { min-width: 0; width: 25em !important; }
+
+
+	// Icon
+	// ===================================
+
+	#{$prefix}.input.icon {
+		> input { padding-left: 2.5em; }
+
+		#{$prefix}.icon {
+			position: absolute;
+			z-index: 2;
+			top: 0; bottom: 0;
+			height: 100%;
+			left: 0;
+			width: 2.5em;
+			margin-right: 0.5em;
+			&:before {
+				position: absolute;
+				top: 50%; left: 0; right: 0;
+				-ms-transform: translate(0, -50%);
+				transform: translate(0, -50%);
+			}
+		}
+		&[class*="left icon"] {
+			> input {
+				padding-left: 0;
+				padding-right: 2.5em;
+			}
+			#{$prefix}.icon {
+				left: auto; right: 0;
+				margin-right: 0;
+				margin-left: 0.5em;
+			}
+		}
+	}
+
+
+	// Addon
+	// ===================================
+
+	#{$prefix}.input[class*="with addon"],
+	#{$prefix}.input[class*="with addons"] {
+		> .addon {
+			display: inline-block;
+			position: relative; z-index: 2;
+			vertical-align: middle;
+			border: 1px solid map-gets($vars, borderColor);
+			padding: 0 map-gets($vars, padding, right) 0 map-gets($vars, padding, left);
+			background: map-gets($vars, background);
+			line-height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
+			height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
+			box-sizing: border-box;
+		}
+
+		&:not(.addons) > #{$prefix}.addon:not([class*="right addon"]),
+		&.addons > #{$prefix}.addon:first-child {
+			border-right: none;
+			border-radius: map-gets($vars, borderRadius) 0 0 map-gets($vars, borderRadius);
+			& + input { border-radius: 0 map-gets($vars, borderRadius) map-gets($vars, borderRadius) 0; }
+		}
+
+		&:not(.addons) > #{$prefix}[class*="right addon"],
+		&.addons #{$prefix}.addon:last-child {
+			border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
+			margin-left: -(map-gets($vars, borderRadius));
+		}
+
+		&.addons > input {
+			border-radius: 0 !important;
+		}
+
+		// Old browsers
+		@include lui_target_IE9 {
+			// display: inline-table;
+			// > input, > .addon { display: table-cell; }
+		}
+	}
+
+
+	// Form and fields
+	// ===================================
+
+	// #{$prefix}.input { // Automatic inputs styling
+	// 	margin: $field-v-margin 0;
+	// 	&:not(.inline) {
+	// 		@include flex-direction(column);
+	// 		@include flex-align-items(flex-start);
+	//
+	// 		> label, > input { display: block; }
+	// 	}
+	//
+	// 	> input[type="checkbox"] { width: auto; }
+	// 	input[type="checkbox"] + label { margin-left: 0.5em; }
+	//
+	// 	> label { font-weight: $field-label-font-weight; }
+	// }
+
+
+
+	// Sizing support
+	// ===================================
+
+	#{$prefix}.input {
+		@include lui_supports_sizing();
+	}
+
+
+	// Validation
+	// ===================================
+
+	%lui_invalid_input_base {
+		color: map-gets($vars, invalidColor);
+		border-color: map-gets($vars, invalidColor);
+	}
+	#{$prefix}.input.invalid,
+	#{$prefix}.input.ng-invalid {
+		&,
+		> input,
+		> select,
+		> textarea { @extend %lui_invalid_input_base; }
+	}
+}

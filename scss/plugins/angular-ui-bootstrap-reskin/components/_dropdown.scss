@@ -1,0 +1,98 @@
+// Coloring support
+// ============================================================
+
+@mixin lui_nguibs_dropdown_coloring($scheme) {
+	& {
+		.active a,
+		a:hover { background: map-get($scheme, color); border-color: map-get($scheme, color); color: map-get($scheme, text); }
+	}
+}
+
+@if map-get($pluginVars, enabled) {
+	%lui_nguibs_dropdown {
+		position: relative;
+		display: inline-block;
+		overflow: visible !important; // IE fix
+
+		.dropdown-menu {
+			box-sizing: border-box;
+			visibility: hidden;
+
+			@extend ul#{$prefix}.unstyled;
+			position: absolute; z-index: 1000;
+			margin-top: -1px;
+			top: 100%; left: 0;
+			width: 100%;
+			min-width: map-gets($pluginVars, dropdown, minWidth);
+
+			border: 1px solid map-gets($inputVars, borderColor);
+			border-top: none;
+			background-color: map-gets($inputVars, background);
+
+			box-shadow: map-gets($inputVars, shadow);
+
+			max-height: map-gets($pluginVars, dropdown, maxHeight);
+			overflow-x: hidden;
+
+			-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+			backface-visibility: hidden;
+
+			@include lui_target_IE9 { box-sizing: content-box; }
+
+			.active a,
+			a:hover { background: #EEE; }
+			a {
+				color: map-gets($luiTheme, elements, typography, body, color);
+				text-decoration: none;
+				display: block;
+				padding: 0.5em map-gets($inputVars, padding, right) 0.5em map-gets($inputVars, padding, left);
+				border-top: 1px solid #EEE;
+
+				> span { vertical-align: middle; }
+			}
+		}
+
+		// Dividers
+		.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
+		.dropdown-header {
+			padding: 0.5em 1em;
+			font-size: 1.1em;
+			font-weight: 600;
+			&:empty { padding-top: 0; padding-bottom: 0; }
+		}
+
+		&.open .dropdown-menu {
+			visibility: visible;
+			@include lui_is_animated("up slide in");
+			@include lui_target_IE9 {
+				display: block;
+				opacity: 1;
+				height: auto;
+			}
+		}
+
+
+		// Coloring support
+		// ============================================================
+		@each $name, $scheme in lui_get_component_variables(reference, colors) {
+			&.#{map-get($scheme, class)} {
+				@include lui_nguibs_dropdown_coloring($scheme);
+			}
+		}
+	}
+
+	#{$prefix}.nguibs-dropdown {
+		@extend %lui_nguibs_dropdown;
+
+		&:not(.buttons) > #{$prefix}.button { margin: 0; }
+
+		.dropdown-menu {
+		}
+
+		&.open #{$prefix}.button { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+		a { cursor: pointer; }
+
+		&:not(.aligned) { text-align: left; }
+	}
+}

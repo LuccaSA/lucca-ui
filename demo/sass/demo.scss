@@ -1,0 +1,89 @@
+
+$namespace: body;
+$prefix: '.lui';
+
+#{$namespace} {
+	@import "../../scss/lucca-ui.namespaced.scss";
+
+	// Table of contents
+	$toc-width: 10em;
+
+	html, body {
+		min-height: 100%;
+		width: 100%;
+	}
+
+	.dark {
+		background-color: #333;
+		padding: 1em;
+		&.inline {
+			display: inline-block;
+		}
+	}
+
+	#toc {
+		position: fixed;
+		z-index: 10;
+		left: 0; top: 0;
+
+		width: $toc-width;
+		height: 100%;
+		//background-color: #333;
+	}
+	#main-content {
+		margin-left: $toc-width;
+		padding: 2em;
+	}
+
+	#lui-grid .column {
+		p {
+			height: 2em;
+			margin: 0.5em 0;
+			border-radius: 2em;
+		}
+		&:nth-child(2n) p {
+			background: grey;
+		}
+		&:nth-child(2n+1) p {
+			background: black;
+		}
+	}
+
+	article {
+		@extend #{$prefix}.clear;
+	}
+
+
+	code {
+		font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+		font-size: 14px;
+		color: #c7254e;
+		background-color: #f9f2f4;
+		padding: 3px;
+		border-radius: 3px;
+	}
+	#lui-icon .icon-list {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			margin: 0 2em 3em 2em;
+			padding: 0;
+			display: inline-block;
+			text-align: center;
+			i {
+				color: #162a36;
+				font-size: 24px;
+				margin-bottom: 1em;
+			}
+			.lui.input {
+				display: block;
+				input {
+					display: block;
+					text-align: center;
+					margin-bottom: 0.5em;
+				}
+			}
+		}
+	}
+}

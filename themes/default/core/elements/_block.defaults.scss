@@ -1,0 +1,15 @@
+
+// Block
+// @type: element
+// ===================================
+
+$block: (
+	enabled: 					true,
+
+	verticalPadding: 			1em,
+	horizontalPadding: 			1em,
+	border: 					1px solid map-gets($luiTheme, elements, divider, color),
+	invertedBorder: 			rgba(255, 255, 255, 0.2),
+	borderRadius: 				3px
+);
+$luiTheme: lui_set_component_variables(element, block, $block);

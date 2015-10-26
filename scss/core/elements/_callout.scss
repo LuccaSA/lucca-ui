@@ -1,0 +1,145 @@
+
+// ===================================
+// ============= Mixins ==============
+// ===================================
+
+// Coloring support
+// ===================================
+
+@mixin lui_callout_coloring($scheme) {
+	// Regular style
+	&:not(.filled) {
+		&:after {
+			background: map-get($scheme, color);
+		}
+	}
+
+	// Filled style
+	&.filled {
+		background-color: map-get($scheme, color);
+		border-color: darken(map-get($scheme, color), 5);
+		&, &:before, a, button {
+			color: map-get($scheme, text);
+		}
+
+		@if map-get($scheme, lod) {
+			text-shadow: 0 1px 1px darken(map-get($scheme, color), 15);
+		}
+
+		> .footer {
+			background-color: darken(map-get($scheme, color), 3);
+		}
+	}
+}
+
+
+// ===================================
+// ============= Element =============
+// ===================================
+
+@if map-get($vars, enabled) {
+
+	#{$prefix}.callout {
+		display: block;
+		box-sizing: border-box;
+		position: relative;
+
+		@extend #{$prefix}.raised;
+
+		margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+		border: 1px solid map-gets($vars, borderColor);
+		background: map-gets($vars, background);
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+
+
+		// Header
+		> .header {
+			padding: (map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) (map-gets($vars, verticalPadding)/2) (map-gets($vars, horizontalPadding));
+			margin: (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding)) 0.5em (- map-gets($vars, horizontalPadding));
+		}
+
+
+		// Footer
+		> .footer {
+			text-align: right;
+			margin: map-gets($vars, verticalPadding) (- map-gets($vars, horizontalPadding)) (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding));
+			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+		}
+
+		// Handle border
+		&:after {
+			visibility: visible !important; // neutralise possible clearfix
+			position: absolute;
+			z-index: 2;
+			display: block;
+			content: "";
+		}
+		// Position - defaults to left
+		&:after {
+			top: 0; left: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
+		}
+		&[class*="up callout"]:after {
+			top: 0; left: 0;
+			width: 100%;
+			min-height: map-gets($vars, borderWidth);
+		}
+		&[class*="right callout"]:after {
+			top: 0; left: auto; right: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
+		}
+		&[class*="left callout"]:after {
+			top: 0; left: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
+		}
+		&[class*="down callout"]:after {
+			top: auto; bottom: 0; left: 0;
+			width: 100%;
+			min-height: map-gets($vars, borderWidth);
+		}
+	}
+
+
+	// Filled style
+	// =====
+	#{$prefix}.callout.filled {
+		&:after {
+			display: none;
+		}
+	}
+
+
+	// Coloring support
+	// ===================================
+
+	// Default coloring
+	// =====
+	#{$prefix}.callout {
+		// Default coloring scheme
+		@include lui_callout_coloring(map-gets($vars, defaultColoring));
+		// Coloring support
+		@each $name, $scheme in map-gets($luiTheme, references, colors) {
+			&.#{map-get($scheme, class)} {
+				@include lui_callout_coloring($scheme);
+			}
+		}
+	}
+
+
+
+	// Callouts
+	// =====
+	#{$prefix}.callouts {
+		@extend #{$prefix}.clear;
+		> #{$prefix}.callout {
+			margin: 0;
+
+			&:not(.filled):not(:first-child) {
+				border-top: none;
+			}
+		}
+	}
+}

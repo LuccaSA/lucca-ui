@@ -1,0 +1,7 @@
+
+// Rounded
+// @type: adjective
+// ===================================
+
+$rounded: 						( enabled: true, radius: 3px );
+$luiTheme: lui_set_component_variables(adjective, rounded, $rounded);

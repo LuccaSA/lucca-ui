@@ -1,0 +1,43 @@
+@if map-get($vars, enabled) {
+	#{$prefix}.search.input {
+		@include lui_make_icon("search");
+
+		> input { padding-left: map-gets($vars, search, paddingLeft); }
+
+		&.searching {
+			@include lui_loader();
+			&:after { margin-left: 0; left: 1em; }
+		}
+
+		&:before, &:after {
+			cursor: text;
+			display: inline-block;
+			position: absolute;
+			top: 50%; left: 1em;
+			-ms-transform: translate(0, -50%);
+			transform: translate(0, -50%);
+			@extend %lui_user_select_none;
+		}
+
+		i.empty {
+			@include lui_make_icon("cross");
+			font-style: normal;
+			cursor: pointer;
+
+			font-size: lui_rem((1/2));
+			width: lui_rem(1.25); height: lui_rem(1.25);
+			text-align: center;
+			border-radius: 50%;
+
+			&, &:before {
+				position: absolute;
+				top: 50%; transform: translateY(-50%);
+			}
+			right: 1em;
+			&:before { right:  lui_rem(0.45	); margin: 0; }
+
+			background: map-gets($vars, borderColor);
+			color: #FFF;
+		}
+	}
+}
