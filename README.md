@@ -20,5 +20,8 @@ or import the main less file in your scss file [recommended]
 @import "bower_components/lucca-ui/scss/lucca-ui.global";
 ```
 
+## Get started with LuccaUI 2.0
+https://github.com/LuccaSA/lucca-ui/wiki/Get-started-with-LuccaUI-2.0
+
 # Version 0.9
 [luccaSA.github.io/lucca-ui/0_9](http://luccaSA.github.io/lucca-ui/0_9)
