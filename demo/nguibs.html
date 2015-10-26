@@ -1,111 +1,74 @@
-<!DOCTYPE html>
-<!--[if lte IE 9 ]><html class="ie ie9"><![endif]-->
-<!--[if gt IE 9]><html class="ie"><![endif]-->
-<!--[if !(IE)]><!--><html class=""><!--<![endif]-->
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Lucca UI - Demo</title>
-
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
-	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="demo.min.css"/>
-
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
-	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.13.1/select.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-sanitize.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-	<script src="../dist/lucca-ui.min.js"></script>
-	<script src="js/nguibs.js"></script>
-</head>
-<body ng-app="nguibsApp">
+<div>
 	<nav id="toc" class="lui vertical primary dividing menu">
-		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item" href="./index.html">Less framework</a>
-		<a class="item" href="./icons.html">Lucca Icons</a>
-		<a class="item" href="./animations.html">Animations</a>
-		<a class="item active" href="./nguibs.html">Bootstrap components</a>
-		<a class="item" href="./filters.html">Lucca Filters</a>
-		<a class="item" href="./directives.html">Lucca Directives</a>
-		<a class="item" href="./lucca-spe.html">Specific for Lucca</a>
-		<div class="lui vertical dashed divider"></div>
-		<a class="item" href="#ui-select">ui-select</a>
-		<a class="item" href="#dropdown">dropdown</a>
-		<a class="item" href="#tooltip">tooltip</a>
-		<a class="item" href="#popover">popover</a>
-		<a class="item" href="#datepicker">datepicker</a>
-
+		<a class="item" href="#/nguibs#ui-select">ui-select</a>
+		<a class="item" href="#/nguibs#dropdown">dropdown</a>
+		<a class="item" href="#/nguibs#tooltip">tooltip</a>
+		<a class="item" href="#/nguibs#popover">popover</a>
+		<a class="item" href="#/nguibs#datepicker">datepicker</a>
 	</nav>
 
-
-<section id="main-content" class="lui container">
-	<h1 class="lui column desktop-8">Lucca UI</h1>
-	<div class="lui column desktop-4">
-		<a class="lui large right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-	</div>
-	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
-
-	<div class="lui callout primary">
-		<p>
-			<b>Important:</b>
-			The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
-			For now this part only properly functions when the bootstrap css is present as well in your page. Developments are underway to remove this contraint.
-		</p>
-		<p>
-			The exact list of dependencies, which can be found in the bower.json file, is:
-			<ul class="lui unstyled">
-				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.0.3</span></li>
-				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4.5</span></li>
-				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13.4</span></li>
-				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10.6</span> - this part does not use this dependency</li>
-			</ul>
-		</p>
-
-	</div>
-
-	<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
-		<h2 class="lui divider below">ui-select</h2>
-		<p><a href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Simple select</h4>
+	<section id="main-content" class="lui container">
+		<h1 class="lui column desktop-8">Lucca UI</h1>
+		<div class="lui column desktop-4">
+			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 		</div>
-		<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui regular nguibs-ui-select">
-			<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
-			<ui-select-choices repeat="person in people | filter: $select.search">
-				<span ng-bind-html="person.name | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
+		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
-		<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui primary regular nguibs-ui-select">
-			<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
-			<ui-select-choices repeat="person in people | filter: $select.search">
-				<span ng-bind-html="person.name | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
+		<div class="lui callout primary">
+			<p>
+				<b>Important:</b>
+				The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
+				For now this part only properly functions when the bootstrap css is present as well in your page. Developments are underway to remove this contraint.
+			</p>
+			<p>
+				The exact list of dependencies, which can be found in the bower.json file, is:
+				<ul class="lui unstyled">
+					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span> - this part does not use this dependency</li>
+				</ul>
+			</p>
 
-
-
-		<div class="lui long input">
-			<input type="text" name="name" placeholder="This is a lui long input">
 		</div>
+		<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
+			<h2 class="lui divider below">ui-select</h2>
+			<p><a href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Simple select</h4>
+			</div>
+			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui regular nguibs-ui-select input">
+				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+				<ui-select-choices repeat="person in people | filter: $select.search">
+					<span ng-bind-html="person.name | highlight: $select.search"></span>
+				</ui-select-choices>
+			</ui-select>
 
+			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui primary regular nguibs-ui-select input">
+				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+				<ui-select-choices repeat="person in people | filter: $select.search">
+					<span ng-bind-html="person.name | highlight: $select.search"></span>
+				</ui-select-choices>
+			</ui-select>
 
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Multi-select</h4>
-		</div>
-		<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui x-long nguibs-ui-select">
-			<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
-			<ui-select-choices repeat="color in availableColors | filter:$select.search">
-				{{color}}
-			</ui-select-choices>
-		</ui-select>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre ng-non-bindable>&lt;ui-select ng-model="myVar" <b>class="lui nguibs-ui-select"</b>&gt;
+			<div class="lui long input">
+				<input type="text" name="name" placeholder="This is a lui long input">
+			</div>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Multi-select</h4>
+			</div>
+			<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui nguibs-ui-select long input">
+				<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+				<ui-select-choices repeat="color in availableColors | filter:$select.search">
+					{{color}}
+				</ui-select-choices>
+			</ui-select>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre ng-non-bindable>&lt;ui-select ng-model="myVar" <b>class="lui nguibs-ui-select"</b>&gt;
 ...
 &lt;/ui-select&gt;
 &lt;ui-select  multiple ng-model="myVar" <b>class="lui nguibs-ui-select long input"</b>&gt;
@@ -132,9 +95,9 @@
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre ng-non-bindable>&lt;div <b>class="lui nguibs-dropdown input"</b> dropdown dropdown-toggle&gt;
+			</div>
+			<p>
+				<pre ng-non-bindable>&lt;div <b>class="lui nguibs-dropdown input"</b> dropdown dropdown-toggle&gt;
 	&lt;button class="lui button" dropdow-toggle&gt;click me&lt;/button&gt;
 	&lt;ul class="dropdown-menu"&gt;
 		&lt;li&gt;&lt;a&gt;action&lt;/a&gt;&lt;/li&gt;
@@ -209,14 +172,13 @@
 &lt;div <b>class="lui nguibs-datepicker long input"</b>&gt;
 	&lt;input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
-		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Remarks:</h4>
-		</div>
-		<p>
-			There is some problem with the inline component, an icon appears in the week number. There is an <a href="https://github.com/LuccaSA/lucca-ui/issues/32">issue</a> open for it
-		</p>
-	</article>
-</section>
-</body>
-</html>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Remarks:</h4>
+			</div>
+			<p>
+				There is some problem with the inline component, an icon appears in the week number. There is an <a href="https://github.com/LuccaSA/lucca-ui/issues/32">issue</a> open for it
+			</p>
+		</article>
+	</section>
+</div>

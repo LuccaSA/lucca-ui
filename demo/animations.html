@@ -1,154 +1,122 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Lucca UI - Demo</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="demo.min.css"/>
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.1/ui-bootstrap-tpls.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-
-
-	<script src="../dist/lucca-ui.min.js"></script>
-	<script src="js/animations.js"></script>
-</head>
-<body ng-app="animationApp">
+<div>
 	<nav id="toc" class="lui vertical primary dividing menu">
-		<a class="item header" href="#"><b>LUCCA UI</b></a>
-		<a class="item" href="./index.html">Less framework</a>
-		<a class="item" href="./icons.html">Lucca Icons</a>
-		<a class="item active" href="./animations.html">Animations</a>
-		<a class="item" href="./nguibs.html">Bootstrap components</a>
-		<a class="item" href="./filters.html">Lucca Filters</a>
-		<a class="item" href="./directives.html">Lucca Directives</a>
-		<a class="item" href="./lucca-spe.html">Specific for Lucca</a>
-		<div class="lui vertical dashed divider"></div>
-		<a class="item" href="#entering">Entering animations</a>
+		<a class="item" href="#/animations#entering">Entering animations</a>
 		<!-- <a class="item" href="#leaving">Leaving animations</a> -->
-		<a class="item" href="#static">Static animations</a>
-
+		<a class="item" href="#/animations#static">Static animations</a>
 	</nav>
 
-
-<section id="main-content" class="lui container">
-	<h1 class="lui column desktop-8">Lucca UI</h1>
-	<div class="lui column desktop-4">
-		<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-	</div>
-	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
-
-	<div class="lui callout primary">
-		<p>
-			<b>Important:</b>
-			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
-			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
-		</p>
-		<p>
-			The exact list of dependencies which can be found in the bower.json file is:
-			<ul class="lui unstyled">
-				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span> - this dependency is not used here</li>
-				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span> - this dependency is not used here</li>
-				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span> - this dependency is not used here</li>
-				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span> - this dependency is not used here</li>
-			</ul>
-		</p>
-	</div>
-
-	<article id="entering">
-		<h2 class="lui divider below">Entering animations</h2>
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+	<div id="main-content" class="lui container">
+		<h1 class="lui column desktop-8">Lucca UI</h1>
+		<div class="lui column desktop-4">
+			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 		</div>
-		<p>
-			<pre ng-non-bindable>&lt;ANY class="lui animated up fade in"&gt;&lt;/ANY&gt;
+		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+
+		<div class="lui callout primary">
+			<p>
+				<b>Important:</b>
+				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
+				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
+			</p>
+			<p>
+				The exact list of dependencies which can be found in the bower.json file is:
+				<ul class="lui unstyled">
+					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span> - this dependency is not used here</li>
+					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span> - this dependency is not used here</li>
+					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span> - this dependency is not used here</li>
+					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span> - this dependency is not used here</li>
+				</ul>
+			</p>
+		</div>
+
+		<article id="entering">
+			<h2 class="lui divider below">Entering animations</h2>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre ng-non-bindable>&lt;ANY class="lui animated up fade in"&gt;&lt;/ANY&gt;
 &lt;ANY class="lui animated _direction_ _animation_"&gt;&lt;/ANY&gt;</pre>
-		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Demo:</h4>
-		</div>
-		<div ng-controller="enterCtrl" class="lui block round">
-			<p>
-				<div class="lui buttons">
-					<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
-					<button class="lui button" ng-model="animation" uib-btn-radio="'slide in'">Slide in</button>
-					<button class="lui button" ng-model="animation" uib-btn-radio="'scale in'">Scale in</button>
-				</div>
-				<div class="lui buttons">
-					<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
-				</div>
-				<div class="lui button" ng-click="add()">Add</div> <code>lui animated {{direction}} {{animation}}</code>
 			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div ng-controller="enterCtrl" class="lui block round">
+				<p>
+					<div class="lui buttons">
+						<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
+						<button class="lui button" ng-model="animation" uib-btn-radio="'slide in'">Slide in</button>
+						<button class="lui button" ng-model="animation" uib-btn-radio="'scale in'">Scale in</button>
+					</div>
+					<div class="lui buttons">
+						<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
+					</div>
+					<div class="lui button" ng-click="add()">Add</div> <code>lui animated {{direction}} {{animation}}</code>
+				</p>
+				<p>
+					<span ng-repeat="item in array track by $index" class="lui label animated" ng-class="direction + ' ' + animation">{{item}}</span>
+				</p>
+			</div>
+		</article>
+
+	<!-- 	<article id="fadeOut">
+			<h2 class="lui divider below">fade out</h2>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
 			<p>
-				<span ng-repeat="item in array track by $index" class="lui label animated" ng-class="direction + ' ' + animation">{{item}}</span>
+				<pre ng-non-bindable>&lt;ANY class="lui animated up fade out"&gt;&lt;/ANY&gt;</pre>
 			</p>
-		</div>
-	</article>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div ng-controller="fadeOutCtrl" class="lui block round">
+				<p>
+					Fade Out
+					<div class="lui buttons">
+						<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
+					</div>
+					<div class="lui button" ng-click="remove()">Remove</div>
+				</p>
+				<p>
+					<span ng-repeat="item in fadeOut track by $index" class="lui label animated up fade out">{{item}}</span>
+				</p>
+			</div>
+		</article> -->
 
-<!-- 	<article id="fadeOut">
-		<h2 class="lui divider below">fade out</h2>
+		<article id="static">
+			<h2 class="lui divider below">Static animations</h2>
 
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre ng-non-bindable>&lt;ANY class="lui animated up fade out"&gt;&lt;/ANY&gt;</pre>
-		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Demo:</h4>
-		</div>
-		<div ng-controller="fadeOutCtrl" class="lui block round">
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
 			<p>
-				Fade Out
-				<div class="lui buttons">
-					<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
-					<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
-				</div>
-				<div class="lui button" ng-click="remove()">Remove</div>
-			</p>
-			<p>
-				<span ng-repeat="item in fadeOut track by $index" class="lui label animated up fade out">{{item}}</span>
-			</p>
-		</div>
-	</article> -->
-
-	<article id="static">
-		<h2 class="lui divider below">Static animations</h2>
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre ng-non-bindable>&lt;ANY class="lui animated <b>bounce</b>"&gt;&lt;/ANY&gt;
+				<pre ng-non-bindable>&lt;ANY class="lui animated <b>bounce</b>"&gt;&lt;/ANY&gt;
 &lt;ANY class="lui animated <b>bounce infinitely</b>"&gt;&lt;/ANY&gt;
 &lt;ANY class="lui animated <b>pulse</b>"&gt;&lt;/ANY&gt;</pre>
-		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Demo:</h4>
-		</div>
-		<div ng-controller="staticCtrl" class="lui block round">
-			<p>
-				<div class="lui button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div>
-				<div class="lui button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div>
 			</p>
-			<p>Infinite animation
-				<span class="lui label animated infinitely bounce">Bounce!</span>
-				<span class="lui label animated infinitely pulse">Pulse!</span>
-				<!-- <span class="lui animated infinitely spin">you spin me right roud baby right round!</span> -->
-			</p>
-		</div>
-	</article>
-
-</section>
-</body>
-</html>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div ng-controller="staticCtrl" class="lui block round">
+				<p>
+					<div class="lui button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div>
+					<div class="lui button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div>
+				</p>
+				<p>Infinite animation
+					<span class="lui label animated infinitely bounce">Bounce!</span>
+					<span class="lui label animated infinitely pulse">Pulse!</span>
+					<!-- <span class="lui animated infinitely spin">you spin me right roud baby right round!</span> -->
+				</p>
+			</div>
+		</article>
+	</div>
+</div>

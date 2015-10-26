@@ -1,10 +1,7 @@
 (function(){
 	'use strict';
 
-	angular.module('moment', []).factory('moment', function () { return window.moment; });
-	angular.module('filterApp',['lui']);
-
-	angular.module('filterApp')
+	angular.module('demoApp')
 	.controller('timespanCtrl', ['$scope', function($scope){
 		$scope.myValue = "1.11:00:00";
 		$scope.updateCnt = 0;
@@ -13,7 +10,7 @@
 		};
 	}]);
 
-	angular.module('filterApp')
+	angular.module('demoApp')
 	.controller('percentageCtrl', ['$scope', function($scope){
 		$scope.myValue = 0.1;
 		$scope.myCoeff = 1.1;
@@ -24,7 +21,7 @@
 		};
 	}]);
 
-	angular.module('filterApp')
+	angular.module('demoApp')
 	.controller('momentCtrl', ['$scope', 'moment', function($scope, moment){
 		$scope.myValue = moment();
 		$scope.myStr = "14:00:00";
