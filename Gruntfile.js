@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					style: 'compressed', // compressed, compact, nested, expanded
 					loadPath: [
 						luiConfig.theme.path + '/' + luiConfig.theme.name,
+						'themes/sample',
 						'scss',
 						luiConfig.bowerPath,
 					]
