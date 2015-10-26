@@ -55,8 +55,8 @@
 				/*** CUSTOM FILTER ***/
 				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
-				appId: "@",
-				operation: "@"
+				appId: "=", // id of the application that users should have access
+				operations: "=" // list of operation ids that users should have access
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				if (attrs.homonymsProperties) {
@@ -92,7 +92,7 @@
 	// 			customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
 	// 			/*** OPERATION SCOPE ***/
 	// 			appId: "@",
-	// 			operation: "@"
+	// 			operations: "@"
 	// 		},
 	// 		link: function (scope, elt, attrs, ctrl) {
 	// 			if (attrs.homonymsProperties) {
@@ -243,8 +243,25 @@
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
 			var clue = "clue=" + input;
+			var operations = "";
+			var appInstanceId = "";
 			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
 			var deferred = $q.defer();
+
+			// Both attributes should be defined
+			if ($scope.appId && $scope.operations) {
+				appInstanceId = "&appinstanceid=" + $scope.appId;
+				operations = "&operations=";
+				_.each($scope.operations, function(operation) {
+					if (operation !== _.last($scope.operations)) {
+						operations += (operation + ",");
+					}
+					else {
+						operations += operation;
+					}
+				});
+			}
+			query += (appInstanceId + operations);
 
 			getUsersPromise = $http.get(query);
 			getUsersPromise
