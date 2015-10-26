@@ -32,9 +32,9 @@
 		"underscore": "~1.8.3",
 		"ui-select": "angular-ui-select#~0.13.2",
 		"angular-sanitize": "~1.4.5",
-		"angular-route": "~1.4.x"
 	},
 	"devDependencies": {
-		"angular-mocks": "~1.4.5"
+		"angular-mocks": "~1.4.5",
+		"angular-route": "~1.4.7"
 	}
 }
