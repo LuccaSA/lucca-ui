@@ -11,26 +11,26 @@
 	var MAX_COUNT = 5; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = [{
-		"label": "VAR_TRAD Service",
+		"label": "LUIDUSERPICKER_DEPARTMENT",
 		"name": "department.name",
 		"icon": "location"
 	}, {
-		"label": "VAR_TRAD Entité légale",
+		"label": "LUIDUSERPICKER_LEGALENTITY",
 		"name": "legalEntity.name",
 		"icon": "tree list"
 	}, {
-		"label": "VAR_TRAD Matricule",
+		"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
 		"name": "employeeNumber",
 		"icon": "user"
 	}, {
-		"label": "VAR_TRAD Email",
+		"label": "LUIDUSERPICKER_MAIL",
 		"name": "mail",
 		"icon": "email"
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> {{property.label}}: {{getProperty(user, property.name)}}<br/></small>" +
+	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
@@ -586,6 +586,10 @@
 			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
 			"LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
+			"LUIDUSERPICKER_DEPARTMENT":"Department",
+			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
+			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
+			"LUIDUSERPICKER_MAIL":"Email"
 		});
 		$translateProvider.translations('de', {
 
@@ -596,9 +600,13 @@
 		$translateProvider.translations('fr', {
 			"LUIDUSERPICKER_FORMEREMPLOYEE":"Parti(e) le {{dtContractEnd | luifMoment : 'LL'}}",
 			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
-			"LUIDUSERPICKER_ERR_GET_USERS":"Erruer lors de la récupération des utilisateurs",
+			"LUIDUSERPICKER_ERR_GET_USERS":"Erreur lors de la récupération des utilisateurs",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
 			"LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
+			"LUIDUSERPICKER_DEPARTMENT":"Service",
+			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
+			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
+			"LUIDUSERPICKER_MAIL":"Email"
 		});
 		$translateProvider.translations('it', {
 
