@@ -266,33 +266,33 @@ describe('luidUserPicker', function(){
 	/**********************
 	** OPERATION SCOPE   **
 	**********************/
-	// describe("with filtering on an operation scope", function(){
-	// 	var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
-	// 	var findApiWithoutClue = /api\/v3\/users\/find\?/;
-	// 	var standardFilters = /formerEmployees=false\&limit=\d*/;
-	// 	// TODO_ANAIS change regex so it works, it should look something like that
-	// 	// var standardFilters = /formerEmployees=false\&limit=\d*\&applicationId=\d*\&operations=1,2,3/;
-	// 	beforeEach(function(){
-	// 		// TODO_ANAIS change the html template
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
-	// 	});
-	// 	it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
-	// 		// no clue
-	// 		$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 		// a clue
-	// 		var clues = ['a', 'ismael', 'zanzibar'];
-	// 		_.each(clues, function(clue){
-	// 			$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source)).respond(200, RESPONSE_0_users);
-	// 			isolateScope.find(clue);
-	// 			$httpBackend.flush();
-	// 		});
-	// 	});
-	// });
+	describe("with filtering on an operation scope", function(){
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
+		var findApiWithoutClue = /api\/v3\/users\/find\?/;
+		var standardFilters = /formerEmployees=false\&limit=\d*\&appinstanceid=86\&operations=1,2,3/;
+		
+		beforeEach(function(){
+			$scope.ops = [1,2,3];
+			$scope.appId = 86;
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" app-id="appId" operations="ops"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+		});
+		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
+			// no clue
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
+			isolateScope.find();
+			$httpBackend.flush();
+			// a clue
+			var clues = ['a', 'ismael', 'zanzibar'];
+			_.each(clues, function(clue){
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source)).respond(200, RESPONSE_0_users);
+				isolateScope.find(clue);
+				$httpBackend.flush();
+			});
+		});
+	});
 
 	// TODO
 	/**********************
