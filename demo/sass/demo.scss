@@ -3,7 +3,7 @@ $namespace: body;
 $prefix: '.lui';
 
 #{$namespace} {
-	@import "../../src/lucca-ui.namespaced.scss";
+	@import "../../scss/lucca-ui.namespaced.scss";
 
 	// Table of contents
 	$toc-width: 10em;

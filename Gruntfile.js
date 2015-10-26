@@ -22,13 +22,13 @@ module.exports = function(grunt) {
 					style: 'compressed', // compressed, compact, nested, expanded
 					loadPath: [
 						luiConfig.theme.path + '/' + luiConfig.theme.name,
-						'src',
+						'scss',
 						luiConfig.bowerPath,
 					]
 				},
 				files: [
 					{
-						"dist/lucca-ui.global.min.css": "src/lucca-ui.global.scss",
+						"dist/lucca-ui.global.min.css": "scss/lucca-ui.global.scss",
 						"demo/demo.min.css": "demo/sass/demo.scss"
 					}
 				]
