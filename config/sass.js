@@ -4,8 +4,8 @@ module.exports = function(grunt, options){
 	var luiConfig = {
 		bowerPath: 'bower_components',
 		theme: {
-			name: 'lucca',
-			path: '/src2'
+			name: 'sample',
+			path: 'themes'
 		}
 	};
 	return {
@@ -15,10 +15,9 @@ module.exports = function(grunt, options){
 		},
 		dist:{
 			loadPath: [
-				'src2',
+				'scss',
 				luiConfig.bowerPath,
-				luiConfig.theme.path + '/' + luiConfig.theme.name,
-				'themes/lucca'
+				luiConfig.theme.path + '/' + luiConfig.theme.name
 			]
 		}
 	};
