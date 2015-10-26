@@ -7,7 +7,6 @@
 			['plus', 'minus', 'check', 'cross', 'forbidden'],
 			['error','warning','help'],
 			["ellipsis", "list", "tree list", "blocks", "filter"],
-			['checkbox', 'checkbox checked'],
 			['lock', 'unlock'],
 		];
 
