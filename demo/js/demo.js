@@ -16,7 +16,7 @@
 	}]);
 
 	angular.module('demoApp')
-	.config(['$routeProvider', function($routeProvider) {
+	.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
 		$routeProvider
 			.when('/less', {
 				templateUrl: 'less-framework.html',
@@ -40,6 +40,12 @@
 				templateUrl: 'lucca-spe.html',
 			})
 			.otherwise({ redirectTo: '/less'});
+
+		var culture = 'en';
+		$translateProvider.use(culture);
+		$translateProvider.preferredLanguage(culture);
+		$translateProvider.fallbackLanguage(['en', 'fr']);
+		moment.locale(culture)
 	}]);
 
 	angular.module('demoApp')
