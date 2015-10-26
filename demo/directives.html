@@ -1,268 +1,261 @@
-<div>
-	<nav id="toc" class="lui vertical primary dividing menu">
-		<a class="item" href="#/directives#luid-timespan">luid-timespan</a>
-		<a class="item" href="#/directives#luid-percentage">luid-percentage</a>
-		<a class="item" href="#/directives#luid-moment">luid-moment</a>
-	</nav>
+<nav id="toc" class="lui vertical primary dividing menu">
+	<a class="item" href="#/directives#luid-timespan">luid-timespan</a>
+	<a class="item" href="#/directives#luid-percentage">luid-percentage</a>
+	<a class="item" href="#/directives#luid-moment">luid-moment</a>
+</nav>
 
-	<section id="main-content" class="lui container">
-		<h1 class="lui column desktop-8">Lucca UI</h1>
-		<div class="lui column desktop-4">
-			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+<section>
+	<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
+	<div class="lui callout primary">
+		<p>
+			<b>Important:</b>
+			The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
+			It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
+		</p>
+		<p>
+			The exact list of dependencies which can be found in the bower.json file is:
+			<ul class="lui unstyled">
+				<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+				<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+				<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+				<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
+			</ul>
+		</p>
+	</div>
+
+	<article id="luid-timespan">
+		<h2 class="lui divider below">luid-timespan</h2>
+
+		<p>
+			An input that display and edit a timespan in a user friendly manner but has a model value more easily usable by the js code.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Features:</h4>
 		</div>
-		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
-
-		<div class="lui callout primary">
-			<p>
-				<b>Important:</b>
-				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
-				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome
-			</p>
-			<p>
-				The exact list of dependencies which can be found in the bower.json file is:
-				<ul class="lui unstyled">
-					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
-					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
-					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
-				</ul>
-			</p>
+		<p>
+			It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of duration. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-timespan to be compatible with <code>required</code> and <code>ng-required</code>.
+		</p>
+		<p>
+			Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>140</code> and press enter, the text will change to <code>02h20</code>
+		</p>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value the value.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Supported arguments:</h4>
 		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
+				<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
+				<li><code>placeholder</code>: placeholder to display when the input is empty</li>
+			</ul>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-timespan ng-model="myValue"&gt;&lt;/luid-timespan&gt;</pre>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="timespanCtrl" class="lui block round">
+			<form name="myForm">
+				<p>
+					myValue in luid-timespan (required): 
+					<luid-timespan name="myTimespan" ng-model="myValue" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
+					<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
+				</p>
+				<p>
+					myValue as it is in $scope: 
+					<span class="lui input">
+						<input name="myTextInput" type="text" ng-model="myValue">
+					</span>
+				</p>
+				<p>
+					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
+				</p>
+			</form>
+		</div>
+	</article>
 
-		<article id="luid-timespan">
-			<h2 class="lui divider below">luid-timespan</h2>
+	<article id="luid-percentage">
+		<h2 class="lui divider below">luid-percentage</h2>
 
-			<p>
-				An input that display and edit a timespan in a user friendly manner but has a model value more easily usable by the js code.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Features:</h4>
-			</div>
-			<p>
-				It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of duration. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-timespan to be compatible with <code>required</code> and <code>ng-required</code>.
-			</p>
-			<p>
-				Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>140</code> and press enter, the text will change to <code>02h20</code>
-			</p>
-			<p>
-				Supports up and down key events and scroll event to increment/decrement the value the value.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Supported arguments:</h4>
-			</div>
-			<p>
-				<ul class="lui unstyled">
-					<li><code>ng-model</code>: the variable to bind to</li>
-					<li><code>ng-change</code>: events to launch when the value is updated</li>
-					<li><code>ng-disabled</code>: </li>
-					<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
-					<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
-					<li><code>placeholder</code>: placeholder to display when the input is empty</li>
-				</ul>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
-			</div>
-			<p>
-				<pre ng-non-bindable>&lt;luid-timespan ng-model="myValue"&gt;&lt;/luid-timespan&gt;</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="timespanCtrl" class="lui block round">
-				<form name="myForm">
-					<p>
-						myValue in luid-timespan (required): 
-						<luid-timespan name="myTimespan" ng-model="myValue" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
-						<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
-					</p>
-					<p>
-						myValue as it is in $scope: 
-						<span class="lui input">
-							<input name="myTextInput" type="text" ng-model="myValue">
-						</span>
-					</p>
-					<p>
-						number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
-					</p>
-				</form>
-			</div>
-		</article>
-
-		<article id="luid-percentage">
-			<h2 class="lui divider below">luid-percentage</h2>
-
-			<p>
-				An input that display and edit a percentage in a user friendly manner but has a model value more easily usable by the js code and support differnet formats.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Features:</h4>
-			</div>
-			<p>
-				It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of float. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-percentage to be compatible with <code>required</code> and <code>ng-required</code>.
-			</p>
-			<p>
-				Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>10.00</code> and press enter, the text will change to <code>10</code>
-			</p>
-			<p>
-				Supports up and down key events and scroll event to increment/decrement the value.
-			</p>
-			<p>
-				Supports 3 formats : 
-				<ul class="lui unstyled">
-					<li><code>0.XX</code> default format. 10% in the input will be translated to 0.1 in the scope</li>
-					<li><code>XX</code> 10% in the input will be translated to 10 in the scope</li>
-					<li><code>1.XX</code> 10% in the input will be translated to 1.1 in the scope, use this format if you want to directly use the value as multiplicative coefficient</li>
-				</ul>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Supported arguments:</h4>
-			</div>
-			<p>
-				<ul class="lui unstyled">
-					<li><code>ng-model</code>: the variable to bind to</li>
-					<li><code>ng-change</code>: events to launch when the value is updated</li>
-					<li><code>ng-disabled</code>: </li>
-					<li><code>format</code>: "0.XX", "XX" or "1.XX". the default is "0.XX", see above</li>
-					<li><code>step</code>: when scrolling or pressing the up/down key, how many percents you want to be added. The default is 5</li>
-					<li><code>placeholder</code>: placeholder to display when the input is empty</li>
-				</ul>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
-			</div>
-			<p>
-				<pre ng-non-bindable>&lt;luid-percentage ng-model="myValue"&gt;&lt;/luid-percentage&gt;
+		<p>
+			An input that display and edit a percentage in a user friendly manner but has a model value more easily usable by the js code and support differnet formats.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Features:</h4>
+		</div>
+		<p>
+			It is editable using a regex as pattern recognition to know if the inputed text is parsable into some kind of float. If the pattern is invalid the binded value will be set to <code>undefined</code>. This allows the luid-percentage to be compatible with <code>required</code> and <code>ng-required</code>.
+		</p>
+		<p>
+			Upon pressing enter or losing focus of the input, it will format the input into a more readable form. For example you enter <code>10.00</code> and press enter, the text will change to <code>10</code>
+		</p>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value.
+		</p>
+		<p>
+			Supports 3 formats : 
+			<ul class="lui unstyled">
+				<li><code>0.XX</code> default format. 10% in the input will be translated to 0.1 in the scope</li>
+				<li><code>XX</code> 10% in the input will be translated to 10 in the scope</li>
+				<li><code>1.XX</code> 10% in the input will be translated to 1.1 in the scope, use this format if you want to directly use the value as multiplicative coefficient</li>
+			</ul>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Supported arguments:</h4>
+		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>format</code>: "0.XX", "XX" or "1.XX". the default is "0.XX", see above</li>
+				<li><code>step</code>: when scrolling or pressing the up/down key, how many percents you want to be added. The default is 5</li>
+				<li><code>placeholder</code>: placeholder to display when the input is empty</li>
+			</ul>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-percentage ng-model="myValue"&gt;&lt;/luid-percentage&gt;
 &lt;luid-percentage ng-model="myValue" format="XX" step=25&gt;&lt;/luid-percentage&gt;</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="percentageCtrl" class="lui block round">
-				<form name="myForm">
-					<p>
-						myValue in luid-percentage: 
-						<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
-					</p>
-					<p>
-						myValue as it is in $scope: 
-						<span class="lui input">
-							<input name="myTextInput" type="text" ng-model="myValue">
-						</span>
-					</p>
-					<p>
-						number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
-					</p>
-					<hr>
-					<p>
-						myPrice: 
-						<span class="lui short input with addon">
-							<span class="lui addon">$</span>
-							<input type="number" ng-model="myPrice">
-						</span>
-						increased by myCoeff: <luid-percentage name="myTimespan" ng-model="myCoeff" format="1.XX" step=10></luid-percentage>
-					</p>
-					<p>
-						<span ng-non-bindable>{{ myCoeff * myPrice | currency }}</span> = <code>{{ myCoeff * myPrice | currency}}</code>, made using format="1.XX"
-					</p>
-				</form>
-			</div>
-		</article>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="percentageCtrl" class="lui block round">
+			<form name="myForm">
+				<p>
+					myValue in luid-percentage: 
+					<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
+				</p>
+				<p>
+					myValue as it is in $scope: 
+					<span class="lui input">
+						<input name="myTextInput" type="text" ng-model="myValue">
+					</span>
+				</p>
+				<p>
+					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
+				</p>
+				<hr>
+				<p>
+					myPrice: 
+					<span class="lui short input with addon">
+						<span class="lui addon">$</span>
+						<input type="number" ng-model="myPrice">
+					</span>
+					increased by myCoeff: <luid-percentage name="myTimespan" ng-model="myCoeff" format="1.XX" step=10></luid-percentage>
+				</p>
+				<p>
+					<span ng-non-bindable>{{ myCoeff * myPrice | currency }}</span> = <code>{{ myCoeff * myPrice | currency}}</code>, made using format="1.XX"
+				</p>
+			</form>
+		</div>
+	</article>
 
-		<article id="luid-moment">
-			<h2 class="lui divider below">luid-moment</h2>
+	<article id="luid-moment">
+		<h2 class="lui divider below">luid-moment</h2>
 
-			<p>
-				An input that display and edit a time, as does the <a href="https://angular-ui.github.io/bootstrap/#/timepicker">timepicker</a> from angular ui bootstrap but plugged to a moment or a string.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Features:</h4>
-			</div>
-			<p>
-				supports min/max, binded to the $scope. If your min or max changes, the input is notified and will work accordingly. Feature not present for the <a href="https://angular-ui.github.io/bootstrap/#/timepicker">ui bootstrap timepicker</a> as of version 0.13.4.
-			</p>
-			<p>
-				supports the change of day, meaning you can set the min to today 8AM and max to tomorrow 2 AM and the input will accept any time from 08:00 to 02:00.
-			</p>
-			<p>
-				Supports up and down key events and scroll event to increment/decrement the value.
-			</p>
-			<p>
-				supports an argument <code>format</code> if you don't want to bind to a moment but to a string.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Supported arguments:</h4>
-			</div>
-			<p>
-				<ul class="lui unstyled">
-					<li><code>ng-model</code>: the variable to bind to</li>
-					<li><code>ng-change</code>: events to launch when the value is updated</li>
-					<li><code>ng-disabled</code>: </li>
-					<li><code>format</code>: "'HH:mm:ss'" for example, if your value is a string and you still want to use the component</li>
-					<!-- <li><code>step</code>: when scrolling or pressing the up/down key, how many percents you want to be added. The default is 5</li> -->
-					<!-- <li><code>placeholder</code>: placeholder to display when the input is empty</li> -->
-				</ul>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
-			</div>
-			<p>
-				<pre ng-non-bindable>&lt;luid-moment ng-model="myValue"&gt;&lt;/luid-moment&gt;
+		<p>
+			An input that display and edit a time, as does the <a href="https://angular-ui.github.io/bootstrap/#/timepicker">timepicker</a> from angular ui bootstrap but plugged to a moment or a string.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Features:</h4>
+		</div>
+		<p>
+			supports min/max, binded to the $scope. If your min or max changes, the input is notified and will work accordingly. Feature not present for the <a href="https://angular-ui.github.io/bootstrap/#/timepicker">ui bootstrap timepicker</a> as of version 0.13.4.
+		</p>
+		<p>
+			supports the change of day, meaning you can set the min to today 8AM and max to tomorrow 2 AM and the input will accept any time from 08:00 to 02:00.
+		</p>
+		<p>
+			Supports up and down key events and scroll event to increment/decrement the value.
+		</p>
+		<p>
+			supports an argument <code>format</code> if you don't want to bind to a moment but to a string.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Supported arguments:</h4>
+		</div>
+		<p>
+			<ul class="lui unstyled">
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>ng-change</code>: events to launch when the value is updated</li>
+				<li><code>ng-disabled</code>: </li>
+				<li><code>format</code>: "'HH:mm:ss'" for example, if your value is a string and you still want to use the component</li>
+				<!-- <li><code>step</code>: when scrolling or pressing the up/down key, how many percents you want to be added. The default is 5</li> -->
+				<!-- <li><code>placeholder</code>: placeholder to display when the input is empty</li> -->
+			</ul>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Usage:</h4>
+		</div>
+		<p>
+			<pre ng-non-bindable>&lt;luid-moment ng-model="myValue"&gt;&lt;/luid-moment&gt;
 &lt;luid-moment ng-model="myValue" format="'HH:mm:ss'"&gt;&lt;/luid-moment&gt;</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="momentCtrl" class="lui block round">
-				<form name="myForm">
-					<p>
-						myValue in luid-moment: 
-						<luid-moment ng-model="myValue" ng-change="hasChanged()"></luid-moment>
-					</p>
-					<p>
-						myValue as it is in $scope: 
-						<span class="lui long input">
-							<input name="myTextInput" type="text" ng-model="myValue" readonly="readonly">
-						</span>
-					</p>
-					<p>
-						number of time ng-change on the luid-moment has been called: <code>{{updateCnt}}</code>
-					</p>
-					<hr>
-					<p>
-						myStr in luid-moment with format="'HH:mm:ss'": 
-						<luid-moment ng-model="myStr" format="'HH:mm:ss'"></luid-moment>
-					</p>
-					<p>
-						myStr as it is in $scope: 
-						<span class="lui input">
-							<input type="text" ng-model="myStr">
-						</span>
-					</p>
-					<hr>
-					<p>
-						myValue2 bounded between "08:00" and "22:00":
-						<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'"></luid-moment>
-					</p>
-					<p>
-						myValue2 as it is in $scope: 
-						<span class="lui long input">
-							<input type="text" ng-model="myValue2" readonly="readonly">
-						</span>
-					</p>
-					<hr>
-					<p>
-						myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM):
-						<luid-moment ng-model="myValue3" min="min" max="max"></luid-moment>
-					</p>
-					<p>
-						myValue2 as it is in $scope: 
-						<span class="lui long input">
-							<input type="text" ng-model="myValue3" readonly="readonly">
-						</span>
-					</p>
-				</form>
-			</div>
-		</article>
-	</section>
-</div>
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Demo:</h4>
+		</div>
+		<div ng-controller="momentCtrl" class="lui block round">
+			<form name="myForm">
+				<p>
+					myValue in luid-moment: 
+					<luid-moment ng-model="myValue" ng-change="hasChanged()"></luid-moment>
+				</p>
+				<p>
+					myValue as it is in $scope: 
+					<span class="lui long input">
+						<input name="myTextInput" type="text" ng-model="myValue" readonly="readonly">
+					</span>
+				</p>
+				<p>
+					number of time ng-change on the luid-moment has been called: <code>{{updateCnt}}</code>
+				</p>
+				<hr>
+				<p>
+					myStr in luid-moment with format="'HH:mm:ss'": 
+					<luid-moment ng-model="myStr" format="'HH:mm:ss'"></luid-moment>
+				</p>
+				<p>
+					myStr as it is in $scope: 
+					<span class="lui input">
+						<input type="text" ng-model="myStr">
+					</span>
+				</p>
+				<hr>
+				<p>
+					myValue2 bounded between "08:00" and "22:00":
+					<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'"></luid-moment>
+				</p>
+				<p>
+					myValue2 as it is in $scope: 
+					<span class="lui long input">
+						<input type="text" ng-model="myValue2" readonly="readonly">
+					</span>
+				</p>
+				<hr>
+				<p>
+					myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM):
+					<luid-moment ng-model="myValue3" min="min" max="max"></luid-moment>
+				</p>
+				<p>
+					myValue2 as it is in $scope: 
+					<span class="lui long input">
+						<input type="text" ng-model="myValue3" readonly="readonly">
+					</span>
+				</p>
+			</form>
+		</div>
+	</article>
+</section>
