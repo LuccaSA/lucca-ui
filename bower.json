@@ -31,7 +31,7 @@
 		"lucca-icons": "~1.1.0",
 		"underscore": "~1.8.3",
 		"ui-select": "angular-ui-select#~0.13.2",
-		"angular-sanitize": "~1.4.5",
+		"angular-sanitize": "~1.4.5"
 	},
 	"devDependencies": {
 		"angular-mocks": "~1.4.5",
