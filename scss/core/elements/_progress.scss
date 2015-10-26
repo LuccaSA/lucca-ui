@@ -115,7 +115,7 @@
 		// Default coloring
 		@include lui_progressbar_coloring(map-get($vars, defaultColoring));
 		// Loop colors
-		@each $name, $scheme in lui_get_component_variables(global, colors) {
+		@each $name, $scheme in lui_get_component_variables(reference, colors) {
 			&.#{map-get($scheme, class)} {
 				@include lui_progressbar_coloring($scheme);
 			}

@@ -102,7 +102,7 @@
 
 	#{$prefix}.table tr,
 	#{$prefix}.table .tr {
-		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+		@each $name, $scheme in map-gets($luiTheme, references, colors) {
 			&.#{map-get($scheme, class)} {
 				> .th:first-child:after,
 				> .td:first-child:after,

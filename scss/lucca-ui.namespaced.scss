@@ -1,7 +1,7 @@
 $prefix: '' !default;
 $namespace: "#{$prefix}.app" !default;
 
-@import "core/theming/theme";
+@import "core/utilities/theming/theming";
 
 
 // ===================================

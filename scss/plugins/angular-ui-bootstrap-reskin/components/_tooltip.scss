@@ -71,7 +71,7 @@
 
 	#{$prefix}.nguibs-tooltip {
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
-		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+		@each $name, $scheme in lui_get_component_variables(reference, colors) {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_tooltip_coloring($scheme);
 			}

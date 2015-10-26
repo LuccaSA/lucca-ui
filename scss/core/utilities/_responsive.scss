@@ -1,7 +1,7 @@
 
 @mixin lui_screens_smaller_than($breakpoint) {
-	@if map-has-key(map-gets($luiTheme, globals, breakpoints), $breakpoint) {
-		@media (max-width: #{map-gets($luiTheme, globals, breakpoints, $breakpoint, break)}) {
+	@if map-has-key(map-gets($luiTheme, references, breakpoints), $breakpoint) {
+		@media (max-width: #{map-gets($luiTheme, references, breakpoints, $breakpoint, break)}) {
 			@content;
 		}
 	} @else {
@@ -10,8 +10,8 @@
 	}
 }
 @mixin lui_screens_larger_than($breakpoint) {
-	@if map-has-key(map-gets($luiTheme, globals, breakpoints), $breakpoint) {
-		@media (min-width: #{map-gets($luiTheme, globals, breakpoints, $breakpoint, break)}) {
+	@if map-has-key(map-gets($luiTheme, references, breakpoints), $breakpoint) {
+		@media (min-width: #{map-gets($luiTheme, references, breakpoints, $breakpoint, break)}) {
 			@content;
 		}
 	} @else {

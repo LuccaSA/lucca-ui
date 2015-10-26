@@ -1,6 +1,0 @@
-@if map-get($pluginVars, enabled) {
-	[collapse] {
-		transition: height map-gets($pluginVars, collapse, transitionDuration) map-gets($pluginVars, collapse, transitionEasing);
-		&.collapse, &.collapsing { overflow: hidden; }
-	}
-}

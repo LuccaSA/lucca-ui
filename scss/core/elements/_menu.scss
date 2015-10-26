@@ -27,7 +27,7 @@
 	// Default coloring scheme
 	@include lui_menu_coloring(map-gets($vars, defaultColoring));
 	// Coloring support
-	@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+	@each $name, $scheme in map-gets($luiTheme, references, colors) {
 		&.#{map-get($scheme, class)} {
 			@include lui_menu_coloring($scheme);
 		}
@@ -460,7 +460,7 @@
 	// Container menu
 	// ===================================
 
-	@each $name, $props in map-gets($luiTheme, globals, breakpoints) {
+	@each $name, $props in lui_get_component_variables(reference, breakpoints) {
 		$breakAt: nth($props, 1);
 		$spacing: nth($props, 2);
 

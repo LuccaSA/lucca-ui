@@ -89,7 +89,7 @@
 		// Default coloring scheme
 		@include lui_label_coloring(map-gets($vars, defaultColoring));
 		// Coloring support
-		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+		@each $name, $scheme in map-gets($luiTheme, references, colors) {
 			&.#{map-get($scheme, class)} {
 				@include lui_label_coloring($scheme);
 			}

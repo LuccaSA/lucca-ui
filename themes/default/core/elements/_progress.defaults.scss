@@ -1,0 +1,23 @@
+
+// Progress
+// @type: element
+// ===================================
+
+$progress: (
+	enabled: 					true,
+
+	height: 					1.5em,
+	slimHeight: 				5px,
+	borderRadius: 				map-gets($luiTheme, adjectives, rounded, radius),
+	background: 				#EFEFEF,
+	defaultColoring: 			(color: #CCC, text: #666, lod: false),
+	verticalMargin: 			1em,
+
+	status: (
+		fontWeight:				600
+	),
+
+	indicator: (
+	)
+);
+$luiTheme: lui_set_component_variables(element, progress, $progress);

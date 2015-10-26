@@ -74,7 +74,7 @@
 
 		// Coloring support
 		// ============================================================
-		@each $name, $scheme in map-gets($luiTheme, globals, colors) {
+		@each $name, $scheme in lui_get_component_variables(reference, colors) {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_dropdown_coloring($scheme);
 			}

@@ -5,7 +5,7 @@
 @import "plugins/lucca-app-layout/theme.defaults";
 
 $myTheme: () !default;
-@import "plugins/lucca-app-layout/theme.overrides";
+@import "plugins/lucca-app-layout/plugin.overrides";
 
 $pluginVars: map-extend($pluginVars, $myTheme, true);
 $vars: $pluginVars;
