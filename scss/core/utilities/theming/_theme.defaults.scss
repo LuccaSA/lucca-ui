@@ -28,7 +28,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/colors.overrides";
-	$luiTheme: lui_set_component_variables(reference, colors, $myTheme);
+	$luiTheme: lui_set_component_variables(reference, colors, $myTheme, false);
 }
 
 
@@ -42,7 +42,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/sizes.overrides";
-	$luiTheme: lui_set_component_variables(reference, sizes, $myTheme);
+	$luiTheme: lui_set_component_variables(reference, sizes, $myTheme, false);
 }
 
 
@@ -56,7 +56,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/breakpoints.overrides";
-	$luiTheme: lui_set_component_variables(reference, breakpoints, $myTheme);
+	$luiTheme: lui_set_component_variables(reference, breakpoints, $myTheme, false);
 }
 
 

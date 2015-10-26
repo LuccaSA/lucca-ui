@@ -27,7 +27,7 @@ $namespace: "#{$prefix}.app" !default;
 
 $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, iconBaseSelector);
 
-@import "lucca-icons/src/lucca-icons";
+@import "lucca-icons";
 
 .lui.icon { @include lui_supports_sizing(); };
 

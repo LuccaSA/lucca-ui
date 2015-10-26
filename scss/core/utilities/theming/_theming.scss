@@ -47,10 +47,13 @@ $luiTheme: () !default;
 // Get / set theming variables
 // ===================================
 
-@function lui_set_component_variables($type, $name, $map) {
-	@if length($map) > 0 {
+@function lui_set_component_variables($type, $name, $map, $inherit: true) {
+	@if length($map) > 0 and $inherit {
 		$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)), true);
-		$luiTheme: $luiTheme !global; // Maske it globally known
+		$luiTheme: $luiTheme !global; // Make it globally known
+	} @else if length($map) > 0 {
+		$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)));
+		$luiTheme: $luiTheme !global; // Make it globally known
 	}
 	@return $luiTheme;
 }
