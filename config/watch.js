@@ -5,12 +5,8 @@ module.exports = function(grunt, options){
 		options: {
 			nospawn: true
 		},
-		less: {
-			files: ['src/**/*.less'],
-			tasks: ['less:dist'],
-		},
 		sass: {
-			files: ['src2/**/*.scss', 'src2/*.sass'],
+			files: ['scss/**/*.scss', 'scss/*.sass'],
 			tasks: ['sass']
 		},
 		demo: {

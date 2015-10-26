@@ -1,23 +1,29 @@
 'use strict';
 
 module.exports = function(grunt, options){
-	var luiConfig = {
-		bowerPath: 'bower_components',
-		theme: {
-			name: 'sample',
-			path: 'themes'
-		}
-	};
 	return {
 		options:{
-			// style: 'compressed',
+			style: 'compressed',
 			sourcemap: 'inline',
-		},
-		dist:{
 			loadPath: [
 				'scss',
-				luiConfig.bowerPath,
-				luiConfig.theme.path + '/' + luiConfig.theme.name
+				'themes/default',
+				'themes/sample',
+				'bower_components/lucca-icons/src'
+			],
+		},
+		dist:{
+			files: [
+				{
+					"dist/lucca-ui.global.min.css": "scss/lucca-ui.global.scss"
+				}
+			]
+		},
+		demo:{
+			files: [
+				{
+					"demo/demo.min.css": "demo/sass/demo.scss"
+				}
 			]
 		}
 	};
