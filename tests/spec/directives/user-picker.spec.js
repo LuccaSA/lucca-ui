@@ -345,23 +345,23 @@ describe('luidUserPicker', function(){
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(2);
-			expect(isolateScope.displayedProperties[0]).toBe("department.name");
-			expect(isolateScope.displayedProperties[1]).toBe("legalEntity.name");
+			expect(isolateScope.displayedProperties[0].name).toBe("department.name");
+			expect(isolateScope.displayedProperties[1].name).toBe("legalEntity.name");
 		});
 		it('should identify the first and last property as differentiating properties', function(){
 			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_3);
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(2);
-			expect(isolateScope.displayedProperties[0]).toBe("department.name");
-			expect(isolateScope.displayedProperties[1]).toBe("mail");
+			expect(isolateScope.displayedProperties[0].name).toBe("department.name");
+			expect(isolateScope.displayedProperties[1].name).toBe("mail");
 		});
 		it('should only identify the third property as differentiating', function() {
 			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_2);
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(1);
-			expect(isolateScope.displayedProperties[0]).toBe("employeeNumber");
+			expect(isolateScope.displayedProperties[0].name).toBe("employeeNumber");
 		});
 	});
 
@@ -381,24 +381,24 @@ describe('luidUserPicker', function(){
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(2);
-			expect(isolateScope.displayedProperties[0]).toBe("department.name");
-			expect(isolateScope.displayedProperties[1]).toBe("employeeNumber");
+			expect(isolateScope.displayedProperties[0].name).toBe("department.name");
+			expect(isolateScope.displayedProperties[1].name).toBe("employeeNumber");
 		});
 		it('should identify the first and second property as differentiating properties', function(){
 			$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_0_1);
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(2);
-			expect(isolateScope.displayedProperties[0]).toBe("department.name");
-			expect(isolateScope.displayedProperties[1]).toBe("legalEntity.name");
+			expect(isolateScope.displayedProperties[0].name).toBe("department.name");
+			expect(isolateScope.displayedProperties[1].name).toBe("legalEntity.name");
 		});
 		it('should identify the second and third property as differentiating properties', function(){
 			$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_1_2);
 			$httpBackend.flush();
 
 			expect(isolateScope.displayedProperties.length).toBe(2);
-			expect(isolateScope.displayedProperties[0]).toBe("legalEntity.name");
-			expect(isolateScope.displayedProperties[1]).toBe("employeeNumber");
+			expect(isolateScope.displayedProperties[0].name).toBe("legalEntity.name");
+			expect(isolateScope.displayedProperties[1].name).toBe("employeeNumber");
 		});
 	});
 
@@ -409,7 +409,17 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with homonyms and custom properties", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="birthDate,manager.name,mail"></luid-user-picker>');
+			$scope.properties= [{
+				"label": "Date de naissance",
+				"name": "birthDate"
+			}, {
+				"label": "Email",
+				"name": "mail"
+			}, {
+				"label": "Nom du manager",
+				"name": "manager.name"
+			}];
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="properties"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -418,9 +428,18 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 		});
 		it('should fetch additional info for these homonyms via the right api', function(){
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,manager.name,mail/i).respond(RESPONSE_2_homonyms_details_0_1);
-
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
 			expect($httpBackend.flush).not.toThrow();
+		});
+		it('should identify the first and third property as differentiating properties', function(){
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+
+			expect(isolateScope.displayedProperties.length).toBe(2);
+			expect(isolateScope.displayedProperties[0].name).toBe("birthDate");
+			expect(isolateScope.displayedProperties[1].name).toBe("manager.name");
+			expect(isolateScope.displayedProperties[0].label).toBe("Date de naissance");
+			expect(isolateScope.displayedProperties[1].label).toBe("Nom du manager");
 		});
 	});
 
@@ -527,6 +546,8 @@ describe('luidUserPicker', function(){
 	var RESPONSE_2_homonyms_details_0_1 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
 	var RESPONSE_2_homonyms_details_0_3 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"lbertin@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"lbertin2@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
 	var RESPONSE_2_homonyms_details_2 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}}]}};
+	// With custom homonyms properties
+	var RESPONSE_2_homonyms_details_0_2 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","manager":{"name":"Romain Vergnory"},"birthDate":"1990-12-10T00:00:00"},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","manager":{"name":"Benoît Paugam"},"birthDate":"1986-03-25T00:00:00"}]}};
 	// When 4 homonyms
 	var RESPONSE_4_homonyms_details_0_2 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Marketing"}}]}};
 	var RESPONSE_4_homonyms_details_0_1 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Sales"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
