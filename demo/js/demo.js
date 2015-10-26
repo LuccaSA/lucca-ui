@@ -10,6 +10,7 @@
 
 	angular.module('demoApp')
 	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
+		// Code from http://stackoverflow.com/questions/12295983/set-active-tab-style-with-angularjs
 		$scope.isActive = function(viewLocation) {
 			return viewLocation === $location.path();
 		};
