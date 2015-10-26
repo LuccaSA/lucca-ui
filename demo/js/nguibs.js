@@ -1,8 +1,8 @@
 
 (function(){
-	angular.module('nguibsApp',['lui', 'ngSanitize', 'ui.bootstrap', 'ui.select']);
+	'use strict';
 
-	angular.module('nguibsApp')
+	angular.module('demoApp')
 	.controller('uiselectCtrl', ['$scope', function($scope){
 		$scope.person = {};
 		$scope.people = [
@@ -20,20 +20,20 @@
 		$scope.colors = ['Blue','Red'];
 	}]);
 
-	angular.module('nguibsApp')
+	angular.module('demoApp')
 	.controller('dropdownCtrl', ['$scope', function($scope){
 	}]);
 
-	angular.module('nguibsApp')
+	angular.module('demoApp')
 	.controller('tooltipCtrl', ['$scope', function($scope){
 	}]);
 
-	angular.module('nguibsApp')
+	angular.module('demoApp')
 	.controller('popoverCtrl', ['$scope', function($scope){
 		$scope.popoverHtml="<b>Bold stuff</b> and a <span class='lui label'>lui label</span>";
 	}]);
 
-	angular.module('nguibsApp')
+	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
 	}]);
 })();

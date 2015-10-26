@@ -1,9 +1,7 @@
 (function(){
 	'use strict';
 
-	angular.module('animationApp',['ui.bootstrap']);
-
-	angular.module('animationApp')
+	angular.module('demoApp')
 	.controller("enterCtrl", ["$scope", function($scope){
 		$scope.array = [];
 		$scope.add = function(){
@@ -12,7 +10,7 @@
 		$scope.direction = "up";
 		$scope.animation = "fade in";
 	}]);
-	angular.module('animationApp')
+	angular.module('demoApp')
 	.controller("leaveCtrl", ["$scope", function($scope){
 		// $scope.fadeOut = ["zero", "one", "two", "three", "four"];
 		// $scope.remove = function(){
@@ -20,7 +18,7 @@
 		// };
 		// $scope.direction = "up";
 	}]);
-	angular.module('animationApp')
+	angular.module('demoApp')
 	.controller("staticCtrl", ["$scope", "$timeout", function($scope, $timeout){
 		$scope.applyBounce = function(){
 			$scope.bouncing = "";
