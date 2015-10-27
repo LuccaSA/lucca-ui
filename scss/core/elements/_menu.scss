@@ -251,10 +251,10 @@
 	}
 
 
-	// menu orientation
+	// Menu orientation
 	// ===================================
 
-	// Menu orientation - Horizontal (default)
+	// Horizontal (default)
 	#{$prefix}.menu:not(.vertical) {
 		@include flex-direction(row);
 	}
@@ -263,7 +263,7 @@
 		@include flex-align-items(center);
 	}
 
-	// Menu orientation - Vertical
+	// Vertical
 	#{$prefix}.menu.vertical {
 		@include flex-direction(column);
 
@@ -310,16 +310,14 @@
 		> a.item:before {
 			left: 0; right: 0;
 			margin: 0 auto;
-			width: 0; height: map-gets($vars, dividing, activeBorderWidth);
+			width: 0; height: map-gets($vars, dividing, activeDividerWidth);
 		}
 
 		// Dividing is down
-		&:not([class*="top dividing"]),
-		&[class*="bottom dividing"] {
+		&:not([class*="top dividing"]) {
 			border-bottom-width: map-gets($vars, dividing, dividerWidth);
 			border-bottom-style: solid;
 			> a.item:after {
-				margin-bottom: -(map-gets($vars, dividing, dividerWidth));
 				bottom: -(map-gets($vars, item, horizontal, verticalMargin) + map-gets($vars, verticalPadding));
 			}
 			> a.item:not(.disabled):hover:after, > a.item:active:after, > a.item.active:after { width: 100%; }
@@ -330,7 +328,6 @@
 			border-top-width: map-gets($vars, dividing, dividerWidth);
 			border-top-style: solid;
 			> a.item:before {
-				margin-top: -(map-gets($vars, dividing, dividerWidth));
 				top: -(map-gets($vars, item, horizontal, verticalMargin) + map-gets($vars, verticalPadding));
 			}
 			> a.item:not(.disabled):hover:before, > a.item:active:before, > a.item.active:before { width: 100%; }
