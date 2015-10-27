@@ -235,45 +235,36 @@ describe('luidUserPicker', function(){
 
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
 		});
-
 		it("should initialise useCustomFilter", function(){
 			expect(controller.useCustomFilter).toBe(true);
 		});
-		it("should filter the set of users", function(){
+		it("should call $scope.customFilter N times", function(){
+			spyOn($scope, 'customFilter').and.callThrough();
 			isolateScope.find();
 			$httpBackend.flush();
-
+			expect($scope.customFilter).toHaveBeenCalled();
+			expect($scope.customFilter.calls.count()).toBe(4);
+		});
+		it("should display all when customFilter returns true", function(){
+			spyOn($scope, 'customFilter').and.returnValue(true); // all users
+			isolateScope.find();
+			$httpBackend.flush();
+			expect(isolateScope.users.length).toBe(4);
+		});
+		it("should display nothing when customFilter returns false", function(){
+			spyOn($scope, 'customFilter').and.returnValue(false); // no users
+			isolateScope.find();
+			$httpBackend.flush();
+			expect(isolateScope.users.length).toBe(0);
+		});
+		it("should filter the right results", function(){
+			spyOn($scope, 'customFilter').and.callThrough();
+			isolateScope.find();
+			$httpBackend.flush();
 			expect(isolateScope.users.length).toBe(2);
 			var ids = _.chain(isolateScope.users).pluck('id').value();
 			expect(ids).toEqual([2, 4]);
 		});
-		it("should call $scope.customFilter N times", function(){
-			isolateScope.find();
-			$httpBackend.flush();
-
-			spyOn($scope, 'customFilter').and.callThrough();
-			// TODO_ANAIS make it work
-			// expect($scope.customFilter).toHaveBeenCalled();
-			// expect($scope.customFilter.calls.count()).toBe(4);
-		});
-		// it("should display all when customFilter returns true", function(){
-		// 	spyOn($scope, 'customFilter').and.returnValue(true); // all users
-		// 	isolateScope.find();
-		// 	// TODO_ANAIS make it work
-		// 	// expect(isolateScope.users.length).toBe(4);
-		// });
-		// it("should display nothing when customFilter returns false", function(){
-		// 	spyOn($scope, 'customFilter').and.returnValue(false); // no users
-		// 	isolateScope.find();
-		// 	// TODO_ANAIS make it work
-		// 	// expect(isolateScope.users.length).toBe(0);
-		// });
-		// it("should display the right results", function(){
-		// 	spyOn($scope, 'customFilter').and.callThrough(); // 2 users
-		// 	isolateScope.find();
-		// 	// TODO_ANAIS make it work
-		// 	// expect(isolateScope.users.length).toBe(the right number, i guess 2);
-		// });
 	});
 
 	// TODO
