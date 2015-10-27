@@ -1,12 +1,12 @@
 @if map-get($vars, enabled) {
-	#{$prefix}.stuck { position: fixed !important; }
+	#{$prefix}.stuck { position: fixed !important; z-index: map-gets($vars, zIndex); }
 
-	#{$prefix}[class*="top stuck"] { top: 0; left: 0; right: 0; }
-	#{$prefix}[class*="bottom stuck"] { bottom: 0; left: 0; right: 0; }
+	#{$prefix}[class*="top stuck"] { top: 0; left: 0; right: 0; overflow-x: auto; }
+	#{$prefix}[class*="bottom stuck"] { bottom: 0; left: 0; right: 0; overflow-x: auto; }
 
 	#{$prefix}[class*="middle stuck"] { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-	#{$prefix}[class*="left stuck"] { top: 0; bottom: 0; left: 0; }
-	#{$prefix}[class*="right stuck"] { top: 0; bottom: 0; right: 0; }
+	#{$prefix}[class*="left stuck"] { top: 0; bottom: 0; left: 0; overflow-y: auto; }
+	#{$prefix}[class*="right stuck"] { top: 0; bottom: 0; right: 0; overflow-y: auto; }
 
 	#{$prefix}[class*="top middle stuck"],
 	#{$prefix}[class*="top left stuck"],

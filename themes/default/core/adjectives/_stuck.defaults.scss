@@ -3,5 +3,5 @@
 // @type: adjective
 // ===================================
 
-$stuck: 						( enabled: true );
+$stuck: 						( enabled: true, zIndex: 3 );
 $luiTheme: lui_set_component_variables(adjective, stuck, $stuck);
