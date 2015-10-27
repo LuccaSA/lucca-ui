@@ -1,20 +1,20 @@
 <div>
-	<nav id="toc" class="lui vertical primary dividing menu">
+	<nav id="toc" class="lui left stuck vertical primary dividing menu">
 		<a class="item" href="#/lucca#luid-user-picker">luid-user-picker</a>
 	</nav>
 
-	<section id="main-content" class="lui container">
-		<h1 class="lui column desktop-8">Lucca UI</h1>
-		<div class="lui column desktop-4">
-			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-		</div>
+	<section id="main-content" class="lui typeset container">
+		<h1>
+			Lucca UI
+			<a class="lui regular right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+		</h1>
 		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
 		<div class="lui callout primary">
 			<p>
 				<b>Important:</b>
-				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>. 
-				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome. 
+				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
+				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome.
 				It also uses <code>underscorejs</code>, which is a Javascript library providing very usefull helpers (especially for arrays and collections). <br />
 				The luid-user-picker directive depends on <code>AngularJS ui-select</code> because it offers a large set of customizable features.
 			</p>
@@ -37,7 +37,7 @@
 		<h2 class="lui divider below">luid-user-picker</h2>
 
 		<p>
-			An input to have a ui-select plugged to <code>/api/v3/users/find</code> with a more powerful search and very amazing features. 
+			An input to have a ui-select plugged to <code>/api/v3/users/find</code> with a more powerful search and very amazing features.
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Features:</h4>
@@ -88,7 +88,7 @@
 		</div>
 		<div ng-controller="userPickerCtrl" class="lui block round">
 			<p>
-				Reroute all calls to 
+				Reroute all calls to
 				<span class="lui input with addons">
 					<span class="lui addon">http://</span>
 					<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
@@ -100,7 +100,7 @@
 			</p>
 			<p>
 				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
-				<input type="checkbox" ng-model="isChecked">Show former employees 
+				<input type="checkbox" ng-model="isChecked">Show former employees
 			</p>
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
@@ -114,7 +114,7 @@
 		</p>
 		<h5>Filter on a permission's scope</h5>
 		<p>
-			Sometimes you want to restrict the list of available options to user you can perform certain actions on. For cleemy/expenses for example i will want to limit to users for whom i can consult expenses. 
+			Sometimes you want to restrict the list of available options to user you can perform certain actions on. For cleemy/expenses for example i will want to limit to users for whom i can consult expenses.
 		</p>
 		<h5>Specific filters</h5>
 		<p>

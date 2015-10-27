@@ -1,5 +1,5 @@
 <div>
-	<nav id="toc" class="lui vertical primary dividing menu">
+	<nav id="toc" class="lui left stuck vertical primary dividing menu">
 		<a class="item" href="#/filters#luifPlaceholder">luifPlaceholder</a>
 		<a class="item" href="#/filters#luifDefaultCode">luifDefaultCode</a>
 		<a class="item" href="#/filters#luifNumber">luifNumber</a>
@@ -11,11 +11,11 @@
 		<a class="item" href="#/filters#luifHumanize">luifHumanize</a>
 	</nav>
 
-	<section id="main-content" class="lui container">
-		<h1 class="lui column desktop-8">Lucca UI</h1>
-		<div class="lui column desktop-4">
-			<a class="lui large button pull-right" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
-		</div>
+	<section id="main-content" class="lui typeset container">
+		<h1>
+			Lucca UI
+			<a class="lui regular right pulled button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
+		</h1>
 		<p class="lui sub heading">DOCUMENTATION - Getting up and running with the framework</p>
 
 		<div class="lui callout primary">
@@ -169,7 +169,7 @@
 				</div>
 			</p>
 			<p>
-				<b>Edge cases</b>, what happens when the value provided is not numeric or is <code>undefined</code>? 
+				<b>Edge cases</b>, what happens when the value provided is not numeric or is <code>undefined</code>?
 				For non numeric values it will return the value but with a margin on the right to be aligned with the integer part of the other values. For <code>undefined</code> you can provide a value for it to use instead. By default luifNumber will treat <code>undefined</code> as <code>''</code>
 				<div class="lui container">
 					<div class="lui table zebra column large-12">
@@ -323,7 +323,7 @@
 			</div>
 			<div ng-controller="momentCtrl" class="lui block round">
 				<p>
-					myValue: 
+					myValue:
 					<span class="lui long input">
 						<input type="text" ng-model="myValue">
 					</span>
@@ -490,7 +490,7 @@
 			</div>
 			<div ng-controller="durationCtrl" class="lui block round">
 				<p>
-					myValue: 
+					myValue:
 					<span class="lui input">
 						<input type="text" ng-model="myValue">
 					</span>
@@ -544,7 +544,7 @@
 			</div>
 			<div ng-controller="humanizeCtrl" class="lui block round">
 				<p>
-					myValue: 
+					myValue:
 					<span class="lui input">
 						<input type="text" ng-model="myValue">
 					</span>
