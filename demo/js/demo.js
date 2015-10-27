@@ -18,8 +18,8 @@
 	angular.module('demoApp')
 	.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
 		$routeProvider
-			.when('/less', {
-				templateUrl: 'less-framework.html',
+			.when('/sass', {
+				templateUrl: 'sass-framework.html',
 			})
 			.when('/icons', {
 				templateUrl: 'icons.html'
@@ -39,7 +39,7 @@
 			.when('/lucca', {
 				templateUrl: 'lucca-spe.html',
 			})
-			.otherwise({ redirectTo: '/less'});
+			.otherwise({ redirectTo: '/sass'});
 
 		var culture = 'en';
 		$translateProvider.use(culture);
@@ -50,7 +50,7 @@
 
 	angular.module('demoApp')
 	.run(function($httpBackend) {
-		$httpBackend.whenGET('less-framework.html').passThrough();
+		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('icons.html').passThrough();
 		$httpBackend.whenGET('animations.html').passThrough();
 		$httpBackend.whenGET('nguibs.html').passThrough();
