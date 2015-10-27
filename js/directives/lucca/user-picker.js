@@ -53,7 +53,7 @@
 				/*** HOMONYMS ***/
 				homonymsProperties: "@", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
-				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
+				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
 				operations: "=" // list of operation ids that users should have access
