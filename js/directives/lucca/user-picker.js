@@ -10,11 +10,23 @@
 
 	var MAX_COUNT = 5; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
-	var DEFAULT_HOMONYMS_PROPERTIES = ["department.name", "legalEntity.name", "employeeNumber", "mail"]; // MAGIC_STRING
+	var DEFAULT_HOMONYMS_PROPERTIES = [{
+		"label": "VAR_TRAD Service",
+		"name": "department.name"
+	}, {
+		"label": "VAR_TRAD Entité légale",
+		"name": "legalEntity.name"
+	}, {
+		"label": "VAR_TRAD Matricule",
+		"name": "employeeNumber"
+	}, {
+		"label": "VAR_TRAD Email",
+		"name": "mail"
+	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
+	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\">{{property.label}}: {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
@@ -28,7 +40,7 @@
 	var userPickerMultipleTemplate = "<ui-select multipletheme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}>{{$item.firstName}} {{$item.lastName}} " +
-	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property)}}&gt</span>" +
+	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property.name)}}&gt</span>" +
 	"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -50,7 +62,7 @@
 				/*** FORMER EMPLOYEES ***/
 				showFormerEmployees: "=", // boolean
 				/*** HOMONYMS ***/
-				homonymsProperties: "@", // list of properties to handle homonyms
+				homonymsProperties: "=", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
 				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
@@ -58,12 +70,7 @@
 				operation: "@"
 			},
 			link: function (scope, elt, attrs, ctrl) {
-				if (attrs.homonymsProperties) {
-					scope.properties = attrs.homonymsProperties.split(',');
-				}
-				else {
-					scope.properties = DEFAULT_HOMONYMS_PROPERTIES;
-				}
+				ctrl.properties = attrs.homonymsProperties ? scope.homonymsProperties : DEFAULT_HOMONYMS_PROPERTIES;
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
@@ -366,39 +373,39 @@
 						});
 
 						// Add each property to the user
-						_.each($scope.properties, function(prop) {
-							var newProp = prop.split('.')[0];
+						_.each(ctrl.properties, function(prop) {
+							var newProp = prop.name.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
 					});
 
 					// Compare properties between homonyms
-					_.each($scope.properties, function (prop1, propIndex1) {
+					_.each(ctrl.properties, function (prop1, propIndex1) {
 						if (!found) {
 							// Compare prop1 with the rest of the properties array
-							var propRest = _.rest($scope.properties, propIndex1 + 1);
+							var propRest = _.rest(ctrl.properties, propIndex1 + 1);
 							_.each(propRest, function (prop2, index) {
 								if (!found) {
 									// Build array with the two properties
 									// Each element of the array is an object with the properties that we want to compare
 									propertiesArray = [];
 									_.each(homonymsArray, function(item) {
-										var valueProp1 = $scope.getProperty(item, prop1);
-										var valueProp2 = $scope.getProperty(item, prop2);
+										var valueProp1 = $scope.getProperty(item, prop1.name);
+										var valueProp2 = $scope.getProperty(item, prop2.name);
 										properties = {};
-										properties[prop1] = valueProp1;
-										properties[prop2] = valueProp2;
+										properties[prop1.name] = valueProp1;
+										properties[prop2.name] = valueProp2;
 										propertiesArray.push(properties);
 									});
 
 									// Used to check that all values for prop1 are not equal
 									var prop1Values = _.chain(propertiesArray)
-										.pluck(prop1)
+										.pluck(prop1.name)
 										.uniq()
 										.value();
 									// Used to check that all values for prop2 are not equal
 									var prop2Values = _.chain(propertiesArray)
-										.pluck(prop2)
+										.pluck(prop2.name)
 										.uniq()
 										.value();
 
@@ -412,7 +419,7 @@
 									// There must be at least two different values
 									if ((prop1Values.length > 1) && (prop2Values.length > 1)) {
 										// Check that each couple of values is different from the other couples
-										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1] + item[prop2]); });
+										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1.name] + item[prop2.name]); });
 										// If the arrays have the same length, each couple of values is different
 										if (withoutDuplicates.length === propertiesArray.length) {
 											found = true;
@@ -463,8 +470,8 @@
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
-			_.each($scope.properties, function(prop) {
-				fields += "," + prop;
+			_.each(ctrl.properties, function(prop) {
+				fields += "," + prop.name;
 			});
 
 			_.each(homonyms, function(user) {
