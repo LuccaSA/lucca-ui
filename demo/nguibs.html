@@ -12,23 +12,23 @@
 		<div class="lui callout primary">
 			<p>
 				<b>Important:</b>
-				The js part of lucca-ui is an override of the styles of directives from <a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
+				The js part of lucca-ui is an override of the styles of directives from <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
 				For now this part only properly functions when the bootstrap css is present as well in your page. Developments are underway to remove this contraint.
 			</p>
 			<p>
 				The exact list of dependencies, which can be found in the bower.json file, is:
 				<ul class="lui unstyled">
-					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
-					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
-					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span> - this part does not use this dependency</li>
+					<li><a class="lui fancy link" href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span> - this part does not use this dependency</li>
 				</ul>
 			</p>
 
 		</div>
 		<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
 			<h2 class="lui divider below">ui-select</h2>
-			<p><a href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
+			<p><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Simple select</h4>
 			</div>
@@ -74,7 +74,7 @@
 
 	<article id="dropdown" ng-controller="dropdownCtrl">
 		<h2 class="lui divider below">Dropdown</h2>
-		<p><a href="https://angular-ui.github.io/bootstrap/#/dropdown">github.io page</a></p>
+		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">github.io page</a></p>
 		<p>
 			<div class="lui nguibs-dropdown" dropdown>
 				<button class="lui button with addon right" dropdown-toggle>
@@ -103,7 +103,7 @@
 	</article>
 	<article id="tooltip" ng-controller="tooltipCtrl">
 		<h2 class="lui divider below">Tooltip</h2>
-		<p><a href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
+		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
 		<button tooltip="Regular tooltip" tooltip-class="lui nguibs-tooltip" tooltip-placement="top" class="lui button">Hover me!</button>
 		<button tooltip="Primary tooltip" tooltip-class="lui primary nguibs-tooltip" tooltip-placement="right" class="lui button">No, Me!!!</button>
 		<button tooltip="OMG! An error!" tooltip-class="lui red nguibs-tooltip" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
@@ -116,7 +116,7 @@
 	</article>
 	<article id="popover" ng-controller="popoverCtrl">
 		<h2 class="lui divider below">Popover</h2>
-		<p><a href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
+		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
 		<button popover="some important text about stuff" popover-title="This is critical!" popover-class="lui nguibs-popover" class="lui button">Click me!</button>
 		<button popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary nguibs-popover" class="lui button">Primary tooltip</button>
 		<button popover-html="popoverHtml" popover-class="lui nguibs-popover" class="lui button">with some html</button>
@@ -139,19 +139,19 @@
 			<h4 class="lui underline">Remarks:</h4>
 		</div>
 		<p>
-			For now the argument <code>popover-title="some title"</code> is not supported but there is an <a href="https://github.com/LuccaSA/lucca-ui/issues/31">issue</a> open for it
+			For now the argument <code>popover-title="some title"</code> is not supported but there is an <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/issues/31">issue</a> open for it
 		</p>
 	</article>
 
 
 	<article id="datepicker" ng-controller="datepickerCtrl">
 		<h2 class="lui divider below">Datepicker</h2>
-		<p><a href="https://angular-ui.github.io/bootstrap/#/datepicker">github.io page</a></p>
+		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">github.io page</a></p>
 		<h4>Inline</h4>
 		<datepicker class="lui nguibs-datepicker" ng-model="dt"></datepicker>
 
 		<h4>In a popup</h4>
-		<div class="lui nguibs-datepicker">
+		<div class="lui nguibs-datepicker long">
 			<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
 		</div>
 
@@ -167,12 +167,6 @@
 &lt;div <b>class="lui nguibs-datepicker long input"</b>&gt;
 	&lt;input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Remarks:</h4>
-			</div>
-			<p>
-				There is some problem with the inline component, an icon appears in the week number. There is an <a href="https://github.com/LuccaSA/lucca-ui/issues/32">issue</a> open for it
 			</p>
 		</article>
 	</section>

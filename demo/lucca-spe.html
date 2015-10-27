@@ -8,21 +8,21 @@
 			<p>
 				<b>Important:</b>
 				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
-				It also uses <code>momentjs</code> for its manipulation of dates cuz <a href="http://momentjs.com/">momentjs</a> is super awesome.
+				It also uses <code>momentjs</code> for its manipulation of dates cuz <a class="lui fancy link" href="http://momentjs.com/">momentjs</a> is super awesome.
 				It also uses <code>underscorejs</code>, which is a Javascript library providing very usefull helpers (especially for arrays and collections). <br />
 				The luid-user-picker directive depends on <code>AngularJS ui-select</code> because it offers a large set of customizable features.
 			</p>
 			<p>
 				The exact list of dependencies which can be found in the bower.json file is:
 				<ul class="lui unstyled">
-					<li><a href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
-					<li><a href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-					<li><a href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
-					<li><a href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
-					<li><a href="http://underscorejs.org/">underscorejs</a> <span class="lui label">1.8</span></li>
-					<li><a href="https://github.com/angular-ui/ui-select">ui-select</a> <span class="lui label">0.13</span></li>
-					<li><a href="https://github.com/angular/bower-angular-sanitize">angular sanitize</a> <span class="lui label">1.4</span></li>
-					<li><a href="https://github.com/angular-translate/angular-translate">angular translate</a> <span class="lui label">2.8</span></li>
+					<li><a class="lui fancy link" href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
+					<li><a class="lui fancy link" href="http://underscorejs.org/">underscorejs</a> <span class="lui label">1.8</span></li>
+					<li><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select</a> <span class="lui label">0.13</span></li>
+					<li><a class="lui fancy link" href="https://github.com/angular/bower-angular-sanitize">angular sanitize</a> <span class="lui label">1.4</span></li>
+					<li><a class="lui fancy link" href="https://github.com/angular-translate/angular-translate">angular translate</a> <span class="lui label">2.8</span></li>
 				</ul>
 			</p>
 		</div>
@@ -48,7 +48,7 @@
 			The differentiating properties are <code>deparment.name</code> and <code>employeeNumber</code>. <code>legalEntity.name</code> is not differentiating because all values are the same among homonyms.
 		</p>
 		<p>
-			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported.
+			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a class="lui fancy link" href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported.
 		</p>
 		<p>
 			You can choose to fetch former employees. By default, only users who are still in the company are displayed. If you want to display former employees, their date of contract end will be displayed below their name.
@@ -90,7 +90,7 @@
 				</span>
 				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
 				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span><br>
-				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. For now this is only available on branch <a href="https://github.com/LuccaSA/ilucca/tree/lu.rc.users.lookup">lu.rc.users.lookup</a> but will be merged to rc soon.
+				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. This feature is available on branch <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/rc">rc</a> (since <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/pull/528#event-443784814">10/23/2015</a>) and <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/master">master</a> (since 10/30/2015).
 			</p>
 			<p>
 				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
@@ -129,7 +129,7 @@
 			<h4 class="lui underline">Side notes:</h4>
 		</div>
 		<p>
-			The directive is tested with karma (18 tests so far) and protractor (8 tests) and should be stable. Follow the release notes of each version of the <a href="https://github.com/LuccaSA/lucca-ui/releases">bower component</a> to know what feature was added and which bug was fixed.
+			The directive is tested with karma (18 tests so far) and protractor (8 tests) and should be stable. Follow the release notes of each version of the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">bower component</a> to know what feature was added and which bug was fixed.
 		</p>
 	</article>
 </section>
