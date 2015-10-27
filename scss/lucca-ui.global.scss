@@ -131,7 +131,7 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 	// Menu
 	// ===================================
 	$vars: lui_get_component_variables(element, menu);
-	// @import "core/elements/menu";
+	@import "core/elements/menu";
 }
 
 @at-root {
