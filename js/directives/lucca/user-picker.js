@@ -250,15 +250,7 @@
 			// Both attributes should be defined
 			if ($scope.appId && $scope.operations) {
 				appInstanceId = "&appinstanceid=" + $scope.appId;
-				operations = "&operations=";
-				_.each($scope.operations, function(operation) {
-					if (operation !== _.last($scope.operations)) {
-						operations += (operation + ",");
-					}
-					else {
-						operations += operation;
-					}
-				});
+				operations = "&operations=" + $scope.operations.join(',');
 			}
 			query += (appInstanceId + operations);
 
