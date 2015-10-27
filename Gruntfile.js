@@ -43,13 +43,13 @@ module.exports = function(grunt) {
 	/***********************
 	*** SINGLE RUN TASKS ***
 	***********************/
-	// this task creates the standard distribution and launches all the tests (u & e2e) in a single run
-	grunt.registerTask('dist', ['dist-lucca', 'dist-standard', 'dist-light', 'dist-ng12', 'dist-sass']);
+	// this task creates the standard distribution 
+	grunt.registerTask('dist', ['dist-lucca', 'dist-standard', 'dist-ng12', 'dist-sass']);
 
 	// this task creates the standard distribution
 	grunt.registerTask('dist-standard', ['concat:standard', 'uglify:standard']);
 	// this task creates the distribution with the code needing only moment
-	grunt.registerTask('dist-light', ['concat:light']);
+	// grunt.registerTask('dist-light', ['concat:light']); not needed
 	// this task creates the distribution with the code spe lucca
 	grunt.registerTask('dist-lucca', ['concat:spe']);
 	// This task create the distribution compatible with angular 1.2

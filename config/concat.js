@@ -8,7 +8,7 @@ module.exports = function(grunt, options){
 		},
 		standard: {
 			src: [
-				'js/lui.js',
+				'js/lui-light.js',
 				'js/directives/*.js',
 				'js/filters/*.js',
 			],
