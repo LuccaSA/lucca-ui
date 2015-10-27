@@ -222,77 +222,82 @@ describe('luidUserPicker', function(){
 	/**********************
 	** CUSTOM FILTERING  **
 	**********************/
-	// describe("with custom filtering", function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-filter="customFilter"></luid-user-picker>');
-	// 		$scope.customFilter = function(user) { // only user with even id
-	// 			return user.id % 2 === 0;
-	// 		};
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	describe("with custom filtering", function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-filter="customFilter"></luid-user-picker>');
+			$scope.customFilter = function(user) { // only user with even id
+				return user.id % 2 === 0;
+			};
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller("luidUserPicker");
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
-	// 	});
-
-	// 	it("should call $scope.customFilter N times", function(){
-	// 		spyOn($scope, 'customFilter').and.callThrough();
-	// 		isolateScope.find();
-	// 		// TODO_ANAIS make it work
-	// 		// expect($scope.customFilter).toHaveBeenCalled();
-	// 		// expect($scope.customFilter.calls.count()).toBe(4);
-	// 	});
-	// 	it("should display all when customFilter returns true", function(){
-	// 		spyOn($scope, 'customFilter').and.returnValue(true); // all users
-	// 		isolateScope.find();
-	// 		// TODO_ANAIS make it work
-	// 		// expect(isolateScope.users.length).toBe(4);
-	// 	});
-	// 	it("should display nothing when customFilter returns false", function(){
-	// 		spyOn($scope, 'customFilter').and.returnValue(false); // no users
-	// 		isolateScope.find();
-	// 		// TODO_ANAIS make it work
-	// 		// expect(isolateScope.users.length).toBe(0);
-	// 	});
-	// 	it("should display the right results", function(){
-	// 		spyOn($scope, 'customFilter').and.callThrough(); // 2 users
-	// 		isolateScope.find();
-	// 		// TODO_ANAIS make it work
-	// 		// expect(isolateScope.users.length).toBe(the right number, i guess 2);
-	// 	});
-	// });
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+		});
+		it("should initialise useCustomFilter", function(){
+			expect(controller.useCustomFilter).toBe(true);
+		});
+		it("should call $scope.customFilter N times", function(){
+			spyOn($scope, 'customFilter').and.callThrough();
+			isolateScope.find();
+			$httpBackend.flush();
+			expect($scope.customFilter).toHaveBeenCalled();
+			expect($scope.customFilter.calls.count()).toBe(4);
+		});
+		it("should display all when customFilter returns true", function(){
+			spyOn($scope, 'customFilter').and.returnValue(true); // all users
+			isolateScope.find();
+			$httpBackend.flush();
+			expect(isolateScope.users.length).toBe(4);
+		});
+		it("should display nothing when customFilter returns false", function(){
+			spyOn($scope, 'customFilter').and.returnValue(false); // no users
+			isolateScope.find();
+			$httpBackend.flush();
+			expect(isolateScope.users.length).toBe(0);
+		});
+		it("should filter the right results", function(){
+			spyOn($scope, 'customFilter').and.callThrough();
+			isolateScope.find();
+			$httpBackend.flush();
+			expect(isolateScope.users.length).toBe(2);
+			var ids = _.chain(isolateScope.users).pluck('id').value();
+			expect(ids).toEqual([2, 4]);
+		});
+	});
 
 	// TODO
 	/**********************
 	** OPERATION SCOPE   **
 	**********************/
-	// describe("with filtering on an operation scope", function(){
-	// 	var findApiWithClue = /api\/v3\/users\/find\?\&clue=/;
-	// 	var findApiWithoutClue = /api\/v3\/users\/find\?/;
-	// 	var standardFilters = /formerEmployees=false\&limit=\d*/;
-	// 	// TODO_ANAIS change regex so it works, it should look something like that
-	// 	// var standardFilters = /formerEmployees=false\&limit=\d*\&applicationId=\d*\&operations=1,2,3/;
-	// 	beforeEach(function(){
-	// 		// TODO_ANAIS change the html template
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
-	// 	});
-	// 	it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
-	// 		// no clue
-	// 		$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 		// a clue
-	// 		var clues = ['a', 'ismael', 'zanzibar'];
-	// 		_.each(clues, function(clue){
-	// 			$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source)).respond(200, RESPONSE_0_users);
-	// 			isolateScope.find(clue);
-	// 			$httpBackend.flush();
-	// 		});
-	// 	});
-	// });
+	describe("with filtering on an operation scope", function(){
+		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
+		var findApiWithoutClue = /api\/v3\/users\/find\?/;
+		var standardFilters = /formerEmployees=false\&limit=\d*\&appinstanceid=86\&operations=1,2,3/;
+		
+		beforeEach(function(){
+			$scope.ops = [1,2,3];
+			$scope.appId = 86;
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" app-id="appId" operations="ops"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+		});
+		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
+			// no clue
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
+			isolateScope.find();
+			$httpBackend.flush();
+			// a clue
+			var clues = ['a', 'ismael', 'zanzibar'];
+			_.each(clues, function(clue){
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source)).respond(200, RESPONSE_0_users);
+				isolateScope.find(clue);
+				$httpBackend.flush();
+			});
+		});
+	});
 
 	// TODO
 	/**********************
@@ -304,6 +309,7 @@ describe('luidUserPicker', function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
+			controller = elt.controller("luidUserPicker");
 			$scope.$digest();
 
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
