@@ -13,7 +13,7 @@
 			<p>
 				<b>Important:</b>
 				The js part of lucca-ui is an override of the styles of directives from <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> to be more compliant with the general aspect of lucca-ui.<br>
-				For now this part only properly functions when the bootstrap css is present as well in your page. Developments are underway to remove this contraint.
+				For this plugin to work the bootstrap.css <b>must not</b> be present in the page.
 			</p>
 			<p>
 				The exact list of dependencies is:
@@ -30,7 +30,7 @@
 				<a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">Angular ui bootstrap</a> provides a number of directives. Lucca-ui supports only part of it, some of them natively and some need a special treatment to avoid lucca-ui's style drooling everywhere on the page
 			</p>
 			<p>
-				We are currently supporting the version 0.13.x of ui-bootstrap and in the version 0.14.x they added the prefix <code>uib-</code> on a lot of their directives (see the <a class="lui fancy link" href="https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md">change log</a> for more info). For now Lucca-ui does not support the version 0.14.x but it will be added at some point
+				<b>Important note:</b> we are currently supporting the version 0.13.x of ui-bootstrap and in the version 0.14.x they added the prefix <code>uib-</code> on a lot of their directives (see the <a class="lui fancy link" href="https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md">change log</a> for more info). For now Lucca-ui does not support the version 0.14.x but it will be added at some point, see <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/issues/39">issue 39</a>.
 			</p>
 			<p>
 				Here is the list of supported angular ui bootstrap directives:
@@ -39,9 +39,10 @@
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/collapse">collapse</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> - see below for how to implement</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">dropdown</a> - see below for how to implement</li>
-					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - there are some shenanigans at work here when you have a namespanced distribution of lucca-ui, <a href="https://github.com/LuccaSA/lucca-ui/issues/46">issue 46</a> addresses this kerfuffle</li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - there are some shenanigans at work here when you have a namespanced distribution of lucca-ui, <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/issues/46">issue 46</a> addresses this kerfuffle</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/popover">popover</a> - see below for how to implement</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">tooltip</a> - see below for how to implement</li>
+					<li><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui select</a> - not part of the angular ui bootstrap suit per se but treated as such for convenience - see below for implementation details</li>
 				</ul>
 			</p>
 		</div>
@@ -49,6 +50,9 @@
 		<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
 			<h2 class="lui divider below">ui-select</h2>
 			<p><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
+			<p>
+				<b>Important:</b> do not import the select.css or else some of the styling is broken
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Simple select</h4>
 			</div>
