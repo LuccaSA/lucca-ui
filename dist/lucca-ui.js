@@ -1,21 +1,15 @@
 (function(){
 	'use strict';
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
-	angular.module('underscore', []).factory('_', function () { return window._; });
 	
-	angular.module('lui.directives', ['moment', 'underscore','ui.select']);
+	angular.module('lui.directives', ['moment']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
-
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference moment-picker.js
 	angular.module('lui.templates', ['lui.templates.momentpicker']);
-	
-	// all the translations in one module
-	angular.module('lui.translates.userpicker', []);
-	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker']);
-	
-	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates','lui.translates']);
+
+	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates']);
 })();
 ;(function(){
 	'use strict';

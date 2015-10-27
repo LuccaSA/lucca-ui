@@ -914,13 +914,13 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select ng-model=\"ngModel\" theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
-	var userPickerMultipleTemplate = "<ui-select multiple ng-model=\"selected.users\" theme=\"bootstrap\"" +
+	var userPickerMultipleTemplate = "<ui-select multipletheme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}>{{$item.firstName}} {{$item.lastName}} " +
 	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property)}}&gt</span>" +
@@ -939,7 +939,6 @@
 			// require: "luidUserPicker",
 			scope: {
 				/*** STANDARD ***/
-				ngModel: "=",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
