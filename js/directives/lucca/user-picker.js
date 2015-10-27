@@ -12,21 +12,25 @@
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = [{
 		"label": "VAR_TRAD Service",
-		"name": "department.name"
+		"name": "department.name",
+		"icon": "location"
 	}, {
 		"label": "VAR_TRAD Entité légale",
-		"name": "legalEntity.name"
+		"name": "legalEntity.name",
+		"icon": "tree list"
 	}, {
 		"label": "VAR_TRAD Matricule",
-		"name": "employeeNumber"
+		"name": "employeeNumber",
+		"icon": "user"
 	}, {
 		"label": "VAR_TRAD Email",
-		"name": "mail"
+		"name": "mail",
+		"icon": "email"
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\">{{property.label}}: {{getProperty(user, property.name)}}<br/></small>" +
+	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> {{property.label}}: {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
