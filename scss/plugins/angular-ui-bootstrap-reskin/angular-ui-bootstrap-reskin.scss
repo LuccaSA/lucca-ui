@@ -1,7 +1,7 @@
 // Import lucca-UI dependencies
 // =============================================
 // Input
-$inputVars: lui_get_component_variables(element, input);
+$inputVars: lui_theme(element, input);
 
 
 // Plugin theming

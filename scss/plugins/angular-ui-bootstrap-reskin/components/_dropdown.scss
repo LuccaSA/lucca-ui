@@ -25,11 +25,11 @@
 			width: 100%;
 			min-width: map-gets($pluginVars, dropdown, minWidth);
 
-			border: 1px solid map-gets($inputVars, borderColor);
+			border: 1px solid map-get($inputVars, borderColor);
 			border-top: none;
-			background-color: map-gets($inputVars, background);
+			background-color: map-get($inputVars, background);
 
-			box-shadow: map-gets($inputVars, shadow);
+			box-shadow: map-get($inputVars, shadow);
 
 			max-height: map-gets($pluginVars, dropdown, maxHeight);
 			overflow-x: hidden;
@@ -74,7 +74,7 @@
 
 		// Coloring support
 		// ============================================================
-		@each $name, $scheme in lui_get_component_variables(reference, colors) {
+		@each $name, $scheme in lui_theme(reference, colors) {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_dropdown_coloring($scheme);
 			}

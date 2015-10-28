@@ -457,7 +457,7 @@
 	// Container menu
 	// ===================================
 
-	@each $name, $props in lui_get_component_variables(reference, breakpoints) {
+	@each $name, $props in lui_theme(reference, breakpoints) {
 		$breakAt: nth($props, 1);
 		$spacing: nth($props, 2);
 

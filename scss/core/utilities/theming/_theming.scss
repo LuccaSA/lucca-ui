@@ -58,25 +58,35 @@ $luiTheme: () !default;
 	@return $luiTheme;
 }
 
-@function lui_get_component_variables($type, $name) {
-	@if  (map-has-key($luiTheme, "#{$type}s")) and
-		 (map-has-key(map-get($luiTheme, "#{$type}s"), $name)) {
-			@return map-gets($luiTheme, "#{$type}s", $name);
+// @function lui_get_component_variables($type, $name) {
+// 	@if  (map-has-key($luiTheme, "#{$type}s")) and
+// 		 (map-has-key(map-get($luiTheme, "#{$type}s"), $name)) {
+// 			@return map-gets($luiTheme, "#{$type}s", $name);
+// 	} @else {
+// 		@warn "Component #{$name} of type #{$type} was not found !";
+// 	}
+// }
+
+@function lui_theme($type, $keys...) {
+	@if  (map-has-key($luiTheme, "#{$type}s")) {
+		@return map-gets($luiTheme, "#{$type}s", $keys);
 	} @else {
-		@warn "Component #{$name} of type #{$type} was not found !";
+		@warn "#{$type} component type is unknown!";
 	}
+
 }
+
 
 // Shortcuts
 // ===================================
 
-@function lui_get_default_shadow() {
-	$vars: lui_get_component_variables(adjective, raised);
+@function lui_theme_shadow() {
+	$vars: lui_theme(adjective, raised);
 	@return unquote("#{map-get($vars, x)} #{map-get($vars, y)} #{map-get($vars, blur)} #{map-get($vars, spread)} #{map-get($vars, color)}");
 }
 
 @function lui_get_colorscheme($colorName, $property: all) {
-	$scheme: map-gets($luiTheme, references, colors, $colorName);
+	$scheme: lui_theme(reference, colors, $colorName);
 	@if $property != all and map-has-key($scheme, $property) {
 		@return map-get($scheme, $property);
 	} @else {
