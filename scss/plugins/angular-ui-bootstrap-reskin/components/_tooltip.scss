@@ -17,7 +17,7 @@
 };
 
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.nguibs-tooltip {
+	#{$prefix}.#{map-gets($pluginVars, prefix)}-tooltip {
 		position: absolute;
 		z-index: map-gets($pluginVars, tooltip, zIndex);
 		pointer-events: none;

@@ -1,5 +1,5 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.nguibs-modal {
+	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal {
 		display: none; overflow: hidden;
 		position: fixed;
 		top: 0; right: 0; bottom: 0; left: 0;
@@ -21,7 +21,7 @@
 		}
 	}
 
-	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.nguibs-modal-backdrop {
+	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal-backdrop {
 		@extend #{$prefix}.overlay;
 
 		visibility: hidden;
@@ -35,6 +35,6 @@
 	// Kill the scroll on the body
 	.modal-open {
 		overflow: hidden;
-		#{$prefix}#{map-gets($pluginVars, modal, prefix)}.nguibs-modal { overflow-x: hidden; overflow-y: auto; }
+		#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal { overflow-x: hidden; overflow-y: auto; }
 	}
 }

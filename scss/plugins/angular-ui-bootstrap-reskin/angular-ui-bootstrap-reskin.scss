@@ -7,7 +7,6 @@ $inputVars: lui_get_component_variables(element, input);
 // Plugin theming
 // =============================================
 
-$pluginVars: (enabled: true) !default;
 $myTheme: () !default;
 
 @import "plugins/angular-ui-bootstrap-reskin/theme.defaults";
