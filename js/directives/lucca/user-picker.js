@@ -74,10 +74,11 @@
 				operation: "@"
 			},
 			link: function (scope, elt, attrs, ctrl) {
-				ctrl.properties = attrs.homonymsProperties ? scope.homonymsProperties : DEFAULT_HOMONYMS_PROPERTIES;
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				// List of properties that will be fetched in case of homonyms
+				ctrl.properties;
 			}
 		};
 	})
@@ -367,6 +368,12 @@
 			var emergencyProperty; // used if NO couple of differentiating properties are found. In this case, only one property will be displayed
 			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
 
+			// Define properties to fetch for homonyms
+			if (!!$scope.homonymsProperties && $scope.homonymsProperties.length) {
+				ctrl.properties = $scope.homonymsProperties;
+			} else {
+				ctrl.properties = DEFAULT_HOMONYMS_PROPERTIES;
+			}
 			getHomonymsPropertiesAsync(homonyms).then(
 				function(homonymsArray) {
 					// Add fetched properties to the homonyms
