@@ -10,6 +10,8 @@
 ### New features
  - added the directive luid-user-picker. only available in distribution /dist/custom/lucca-ui-spe.js. demo page [here](http://luccasa.github.io/lucca-ui/lucca-spe.html)
  - [#31](https://github.com/LuccaSA/lucca-ui/issues/31) - support for popover-title
+ - [#46](https://github.com/LuccaSA/lucca-ui/issues/46) - nguibs-modal can have a specific prefix defined in themes
+ - The `nguibs-` class prefix for nguibs elements can now be changed (and removed!) through theming
 
 
 ### resolved issues
@@ -17,3 +19,4 @@
  - [#32](https://github.com/LuccaSA/lucca-ui/issues/32) - display bug in the nguibs-datepicker inline
  - [#29](https://github.com/LuccaSA/lucca-ui/issues/29) - absurd values in the luid-moment (such as 12:99)
  - [#28](https://github.com/LuccaSA/lucca-ui/issues/28) - fix displayed value not updating when `$viewValue` set to `undefined`
+ - `stuck` adjective now adds a default/themable z-index
