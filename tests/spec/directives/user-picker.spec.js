@@ -84,11 +84,13 @@ describe('luidUserPicker', function(){
 			expect(angular.equals(isolateScope.users, users)).toBe(true);
 		});
 		it('should handle errors', function(){
+			spyOn(console,'log');
 			$httpBackend.expectGET(findApi).respond(500, RESPONSE_ERROR_FIND);
 			isolateScope.find();
 			$httpBackend.flush();
 
 			expect(isolateScope.users[0].overflow).toEqual("LUIDUSERPICKER_ERR_GET_USERS");
+			expect(console.log).toHaveBeenCalled();
 		});
 	});
 
@@ -358,9 +360,11 @@ describe('luidUserPicker', function(){
 			expect(angular.equals(users, homonyms)).toBe(true);
 		});
 		it('should handle errors when getting homonyms details', function(){
+			spyOn(console, 'log');
 			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
 
-			// TODO_ANAIS - test the error was handled
+			$httpBackend.flush();
+			expect(console.log).toHaveBeenCalled();
 		});
 		it('should identify the first and second property as differentiating properties', function(){
 			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_1);
