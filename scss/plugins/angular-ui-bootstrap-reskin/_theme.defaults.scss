@@ -50,7 +50,8 @@ $pluginVars: map-extend($pluginVars, (uiSelect: $uiSelect));
 $modal: (
 	zIndex: 					999,
 	topMargin: 					5em,
-	bottomMargin: 				0
+	bottomMargin: 				0,
+	prefix: 					''
 );
 $pluginVars: map-extend($pluginVars, (modal: $modal));
 
