@@ -52,7 +52,7 @@
 				/*** HOMONYMS ***/
 				homonymsProperties: "@", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
-				customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
+				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "@",
 				operation: "@"
