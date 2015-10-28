@@ -423,6 +423,7 @@ describe('luidUserPicker', function(){
 			}];
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="properties"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
+			controller = elt.controller("luidUserPicker");
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
 
@@ -442,6 +443,56 @@ describe('luidUserPicker', function(){
 			expect(isolateScope.displayedProperties[1].name).toBe("manager.name");
 			expect(isolateScope.displayedProperties[0].label).toBe("Date de naissance");
 			expect(isolateScope.displayedProperties[1].label).toBe("Nom du manager");
+		});
+		it('should update isolateScope.homonymsProperties with the value in parent scope', function() {
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+			expect(controller.properties).toEqual($scope.properties)
+			$scope.properties= [{
+				"label": "Entité légale",
+				"name": "legalEntity.name"
+			}, {
+				"label": "Matricule",
+				"name": "employeeNumber"
+			}];
+			// Call find with new properties
+			isolateScope.find();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+			// Query updated with new properties
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,legalEntity.name,employeeNumber/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+			// properties in directive controller should match the new properties in parent scope
+			expect(controller.properties).toEqual($scope.properties);
+		});
+		it('should update isolateScope.homonymsProperties with default properties when we give an empty array in parent scope', function() {
+			var defaultProperties = [{
+				"label": "LUIDUSERPICKER_DEPARTMENT",
+				"name": "department.name",
+				"icon": "location"
+			}, {
+				"label": "LUIDUSERPICKER_LEGALENTITY",
+				"name": "legalEntity.name",
+				"icon": "tree list"
+			}, {
+				"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
+				"name": "employeeNumber",
+				"icon": "user"
+			}, {
+				"label": "LUIDUSERPICKER_MAIL",
+				"name": "mail",
+				"icon": "email"
+			}];
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+			$scope.properties= [];
+			// Call find with new properties
+			isolateScope.find();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+			// Query updated with default properties (since new properties are empty)
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,department.name,legalEntity.name,employeeNumber,mail/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+			// properties in directive controller should match the default properties
+			expect(controller.properties).toEqual(defaultProperties);
 		});
 	});
 
