@@ -248,7 +248,7 @@
 			var deferred = $q.defer();
 
 			// Both attributes should be defined
-			if ($scope.appId && $scope.operations) {
+			if ($scope.appId && $scope.operations && $scope.operations.length) {
 				appInstanceId = "&appinstanceid=" + $scope.appId;
 				operations = "&operations=" + $scope.operations.join(',');
 			}

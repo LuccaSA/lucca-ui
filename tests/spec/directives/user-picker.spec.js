@@ -269,7 +269,8 @@ describe('luidUserPicker', function(){
 	describe("with filtering on an operation scope", function(){
 		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
-		var standardFilters = /formerEmployees=false\&limit=\d*\&appinstanceid=86\&operations=1,2,3/;
+		var standardFilters = /formerEmployees=false\&limit=\d*/;
+		var operationsFilters = /\&appinstanceid=86\&operations=1,2,3/;
 		
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
@@ -281,7 +282,21 @@ describe('luidUserPicker', function(){
 		});
 		it('should call the api with the right filters when isolateScope.find("clue") is called', function(){
 			// no clue
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source + operationsFilters.source)).respond(200, RESPONSE_0_users);
+			isolateScope.find();
+			$httpBackend.flush();
+			// a clue
+			var clues = ['a', 'ismael', 'zanzibar'];
+			_.each(clues, function(clue){
+				$httpBackend.expectGET(new RegExp(findApiWithClue.source + clue + (/\&/).source + standardFilters.source + operationsFilters.source)).respond(200, RESPONSE_0_users);
+				isolateScope.find(clue);
+				$httpBackend.flush();
+			});
+		});
+		it('should call not use the operations filter when no operations is provided', function(){
+			// no clue
 			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + standardFilters.source)).respond(200, RESPONSE_0_users);
+			$scope.ops = [];
 			isolateScope.find();
 			$httpBackend.flush();
 			// a clue
