@@ -48,13 +48,25 @@
 			The differentiating properties are <code>deparment.name</code> and <code>employeeNumber</code>. <code>legalEntity.name</code> is not differentiating because all values are the same among homonyms.
 		</p>
 		<p>
-			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a class="lui fancy link" href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported.
-		</p>
-		<p>
 			You can choose to fetch former employees. By default, only users who are still in the company are displayed. If you want to display former employees, their date of contract end will be displayed below their name.
 		</p>
 		<p>
 			Handles pagination. By default, only 5 users are displayed in the dropdown menu. If more users match the query, a message is displayed at the end of the list indicating that there are more results, encouraging the user to specify his search.
+		</p>
+		<p>
+			Handles custom filtering. You can let the directive call the api to get all pertinent users for the search, then filter them to display only the ones you want. Let's take the example of cleemy/expenses, you might want to see in the user-picker only users who have some expenses. This filter is specific to cleemy and used in one page only so implementing it server side is not recommended.<br />
+			This function should respect the following signature: <code>function(user){ return boolean; }</code>.
+		</p>
+		<div class="lui dashed divider">
+			<h4 class="lui underline">Advanced features:</h4>
+		</div>
+		<p>
+			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list.
+			The properties are objects with a <code>name</code>, a <code>label</code> and an <code>icon</code> (optional).<br />
+			The name is the entire name of the property to retrieve. This name will be inserted into the request. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a class="lui fancy link" href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported. <br />
+		</p>
+		<p>
+			Supports an application id and a scope of operations. This feature allows you to only fetch users that have access to the specified application, with the given set of operations for that application. For example, for cleemy/expenses, I will want to limit to users for whom I can consult expenses. <b>Warning:</b> Both arguments have to be declared in order to be taken into account. If you declare only one argument, it will have no impact on the request. 
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Supported arguments:</h4>
@@ -67,6 +79,9 @@
 				<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
 				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not</li>
 				<li><code>custom-properties</code>: list of properties you want to display in case of homonyms</li>
+				<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: function(user){ return boolean; }</li>
+				<li><code>app-id</code>: the set of results should have access to the application matching this id</li>
+				<li><code>operations</code>: list of operations that the set of results should support for the given application</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -75,7 +90,7 @@
 		<p>
 			<pre ng-non-bindable>&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
 &lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-properties="manager.name,mail,birthdate"&gt;&lt;/luid-user-picker&gt;</pre>
+&lt;luid-user-picker ng-model="myUser" custom-filter="myFilter"&gt;&lt;/luid-user-picker&gt;</pre>
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Demo:</h4>
@@ -99,23 +114,26 @@
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
 			</p>
+			<hr />
+			<p>
+				Select a filter: 
+				<span class="lui buttons">
+					<button class="lui button" ng-model="customFilter" btn-radio="'hasShortName'">Users with short names (less than 15 letters)</button>
+					<button class="lui button" ng-model="customFilter" btn-radio="'beginsWithConsonant'">Users with a consonant as first letter in their first name</button>
+					<button class="lui button" ng-model="customFilter" btn-radio="'nameContainsT'">Users with a 't' in their name</button>
+				</span>
+			</p>
+			<p>
+				<luid-user-picker ng-if="customFilter === 'hasShortName'" class="lui input" ng-model="myUser.selected" custom-filter="hasShortName"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" class="lui input" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'nameContainsT'" class="lui input" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
+			</p>
 		</div>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Roadmap:</h4>
 		</div>
 		<p>
 			Here are a list of features we plan to add soon.
-		</p>
-		<h5>Filter on a permission's scope</h5>
-		<p>
-			Sometimes you want to restrict the list of available options to user you can perform certain actions on. For cleemy/expenses for example i will want to limit to users for whom i can consult expenses.
-		</p>
-		<h5>Specific filters</h5>
-		<p>
-			Let's take the example of cleemy/expenses again, you might want to see in the user-picker only users who have some expenses. This filter is specific to cleemy and used in one page only so implementing it server side is not recommended.
-		</p>
-		<p>
-			By allowing the directive to take an argument <code>customFilter = function ( user ) { return true/false; }</code> we can let the directive call the api to get all pertinent users for the search, then filter them to display only the ones you want. I'll put a demo of this feature once it is available
 		</p>
 		<h5>Multi-select</h5>
 		<p>
