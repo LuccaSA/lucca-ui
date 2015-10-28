@@ -309,7 +309,6 @@ describe('luidUserPicker', function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
-			controller = elt.controller("luidUserPicker");
 			$scope.$digest();
 
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
