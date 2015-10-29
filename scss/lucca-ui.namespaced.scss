@@ -1,26 +1,26 @@
 $prefix: '' !default;
 $namespace: "#{$prefix}.app" !default;
 
-@import "scss/core/utilities/theming/theming";
+@import "core/utilities/theming/theming";
 
 
 // ===================================
 // =========== UTILITIES =============
 // ===================================
 // IE9 support mixin
-@import "scss/core/utilities/ie9-support";
+@import "core/utilities/ie9-support";
 // Resets
-@import "scss/core/utilities/flex";
+@import "core/utilities/flex";
 // Responsive
-@import "scss/core/utilities/responsive";
+@import "core/utilities/responsive";
 // Transition & animations mixins
-@import "scss/core/utilities/transition";
+@import "core/utilities/transition";
 // Is animated (mixin)
-@import "scss/core/utilities/is-animated";
+@import "core/utilities/is-animated";
 // Sizing handler
-@import "scss/core/utilities/supports-sizing";
+@import "core/utilities/supports-sizing";
 // Loader
-@import "scss/core/utilities/loader";
+@import "core/utilities/loader";
 
 // Lucca icons
 // ===================================
@@ -43,42 +43,42 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 & {
 	// Unstyled
 	// ===================================
-	@import "scss/core/adjectives/unstyled";
+	@import "core/adjectives/unstyled";
 }
 
 & {
 	// Animated
 	// ===================================
 	$vars: lui_theme(adjective, animated);
-	@import "scss/core/adjectives/animated";
+	@import "core/adjectives/animated";
 }
 
 & {
 	// Pointing
 	// ===================================
 	$vars: lui_theme(adjective, pointing);
-	@import "scss/core/adjectives/pointing";
+	@import "core/adjectives/pointing";
 }
 
 & {
 	// Raised: subtle shadow effect
 	// ===================================
 	$vars: lui_theme(adjective, raised);
-	@import "scss/core/adjectives/raised";
+	@import "core/adjectives/raised";
 }
 
 & {
 	// Rounded
 	// ===================================
 	$vars: lui_theme(adjective, rounded);
-	@import "scss/core/adjectives/rounded";
+	@import "core/adjectives/rounded";
 }
 
 & {
 	// Stuck
 	// ===================================
 	$vars: lui_theme(adjective, stuck);
-	@import "scss/core/adjectives/stuck";
+	@import "core/adjectives/stuck";
 }
 
 
@@ -90,91 +90,91 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 	// Grid
 	// ===================================
 	$vars: lui_theme(element, grid);
-	@import "scss/core/elements/grid";
+	@import "core/elements/grid";
 }
 
 & {
 	// Typography
 	// ===================================
 	$vars: lui_theme(element, typography);
-	@import "scss/core/elements/typography";
+	@import "core/elements/typography";
 }
 
 & {
 	// Input
 	// ===================================
 	$vars: lui_theme(element, input);
-	@import "scss/core/elements/input";
+	@import "core/elements/input";
 }
 
 & {
 	// Button
 	// ===================================
 	$vars: lui_theme(element, button);
-	@import "scss/core/elements/button";
+	@import "core/elements/button";
 }
 
 & {
 	// Divider
 	// ===================================
 	$vars: lui_theme(element, divider);
-	@import "scss/core/elements/divider";
+	@import "core/elements/divider";
 }
 
 & {
 	// Table
 	// ===================================
 	$vars: lui_theme(element, table);
-	@import "scss/core/elements/table";
+	@import "core/elements/table";
 }
 
 & {
 	// Menu
 	// ===================================
 	$vars: lui_theme(element, menu);
-	@import "scss/core/elements/menu";
+	@import "core/elements/menu";
 }
 
 & {
 	// Breadcrumbs
 	// ===================================
 	$vars: lui_theme(element, breadcrumbs);
-	@import "scss/core/elements/breadcrumbs";
+	@import "core/elements/breadcrumbs";
 }
 
 & {
 	// label
 	// ===================================
 	$vars: lui_theme(element, label);
-	@import "scss/core/elements/label";
+	@import "core/elements/label";
 }
 
 & {
 	// Callout
 	// ===================================
 	$vars: lui_theme(element, callout);
-	@import "scss/core/elements/callout";
+	@import "core/elements/callout";
 }
 
 & {
 	// Block (@TODO: under construction)
 	// ===================================
 	$vars: lui_theme(element, block);
-	@import "scss/core/elements/block";
+	@import "core/elements/block";
 }
 
 & {
 	// Overlay
 	// ===================================
 	$vars: lui_theme(element, overlay);
-	@import "scss/core/elements/overlay";
+	@import "core/elements/overlay";
 }
 
 & {
 	// Progress
 	// ===================================
 	$vars: lui_theme(element, progress);
-	@import "scss/core/elements/progress";
+	@import "core/elements/progress";
 }
 
 
@@ -185,11 +185,11 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 & {
 	// Nguibs - Angular UI bootstrap reskin project
 	// ===================================
-	@import "scss/plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 }
 
 & {
 	// Lucca App Lqyout
 	// ===================================
-	@import "scss/plugins/lucca-app-layout/lucca-app-layout";
+	@import "plugins/lucca-app-layout/lucca-app-layout";
 }

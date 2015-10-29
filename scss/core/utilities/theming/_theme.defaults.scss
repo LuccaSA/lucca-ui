@@ -24,7 +24,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/references/colors.defaults";
+	@import "../../../themes/default/core/references/colors.defaults";
 
 	// Theme overrides
 	@import "core/references/colors.overrides";
@@ -38,7 +38,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/references/sizes.defaults";
+	@import "../../../themes/default/core/references/sizes.defaults";
 
 	// Theme overrides
 	@import "core/references/sizes.overrides";
@@ -52,7 +52,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/references/breakpoints.defaults";
+	@import "../../../themes/default/core/references/breakpoints.defaults";
 
 	// Theme overrides
 	@import "core/references/breakpoints.overrides";
@@ -71,7 +71,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/adjectives/animated.defaults";
+	@import "../../../themes/default/core/adjectives/animated.defaults";
 
 	// Theme overrides
 	@import "core/adjectives/animated.overrides";
@@ -85,7 +85,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/adjectives/pointing.defaults";
+	@import "../../../themes/default/core/adjectives/pointing.defaults";
 
 	// Theme overrides
 	@import "core/adjectives/pointing.overrides";
@@ -99,7 +99,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/adjectives/raised.defaults";
+	@import "../../../themes/default/core/adjectives/raised.defaults";
 
 	// Theme overrides
 	@import "core/adjectives/raised.overrides";
@@ -113,7 +113,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/adjectives/rounded.defaults";
+	@import "../../../themes/default/core/adjectives/rounded.defaults";
 
 	// Theme overrides
 	@import "core/adjectives/rounded.overrides";
@@ -127,7 +127,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/adjectives/stuck.defaults";
+	@import "../../../themes/default/core/adjectives/stuck.defaults";
 
 	// Theme overrides
 	@import "core/adjectives/stuck.overrides";
@@ -146,7 +146,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/grid.defaults";
+	@import "../../../themes/default/core/elements/grid.defaults";
 
 	// Theme overrides
 	@import "core/elements/grid.overrides";
@@ -160,7 +160,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/divider.defaults";
+	@import "../../../themes/default/core/elements/divider.defaults";
 
 	// Theme overrides
 	@import "core/elements/divider.overrides";
@@ -174,7 +174,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/typography.defaults";
+	@import "../../../themes/default/core/elements/typography.defaults";
 
 	// Theme overrides
 	@import "core/elements/typography.overrides";
@@ -188,7 +188,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/button.defaults";
+	@import "../../../themes/default/core/elements/button.defaults";
 
 	// Theme overrides
 	@import "core/elements/button.overrides";
@@ -202,7 +202,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/input.defaults";
+	@import "../../../themes/default/core/elements/input.defaults";
 
 	// Theme overrides
 	@import "core/elements/input.overrides";
@@ -217,7 +217,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/table.defaults";
+	@import "../../../themes/default/core/elements/table.defaults";
 
 	// Theme overrides
 	@import "core/elements/table.overrides";
@@ -231,7 +231,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/menu.defaults";
+	@import "../../../themes/default/core/elements/menu.defaults";
 
 	// Theme overrides
 	@import "core/elements/menu.overrides";
@@ -245,7 +245,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/breadcrumbs.defaults";
+	@import "../../../themes/default/core/elements/breadcrumbs.defaults";
 
 	// Theme overrides
 	@import "core/elements/breadcrumbs.overrides";
@@ -259,7 +259,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/label.defaults";
+	@import "../../../themes/default/core/elements/label.defaults";
 
 	// Theme overrides
 	@import "core/elements/label.overrides";
@@ -273,7 +273,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/callout.defaults";
+	@import "../../../themes/default/core/elements/callout.defaults";
 
 	// Theme overrides
 	@import "core/elements/callout.overrides";
@@ -287,7 +287,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/block.defaults";
+	@import "../../../themes/default/core/elements/block.defaults";
 
 	// Theme overrides
 	@import "core/elements/block.overrides";
@@ -301,7 +301,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/overlay.defaults";
+	@import "../../../themes/default/core/elements/overlay.defaults";
 
 	// Theme overrides
 	@import "core/elements/overlay.overrides";
@@ -315,7 +315,7 @@ $luiTheme: lui_set_component_variables(dependencie, luccaIcons, $luccaIcons);
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "themes/default/core/elements/progress.defaults";
+	@import "../../../themes/default/core/elements/progress.defaults";
 
 	// Theme overrides
 	@import "core/elements/progress.overrides";

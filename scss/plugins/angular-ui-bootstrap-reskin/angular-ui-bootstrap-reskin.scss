@@ -9,7 +9,7 @@ $inputVars: lui_theme(element, input);
 
 $myTheme: () !default;
 
-@import "scss/plugins/angular-ui-bootstrap-reskin/theme.defaults";
+@import "theme.defaults";
 
 @import "plugins/angular-ui-bootstrap-reskin/plugin.overrides";
 
@@ -20,16 +20,16 @@ $vars: $pluginVars;
 // Plugin components
 // =============================================
 // Dropdown
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/dropdown";
+@import "components/dropdown";
 // UI select
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/ui-select";
+@import "components/ui-select";
 // Tooltip
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/tooltip";
+@import "components/tooltip";
 // Datepicker
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/datepicker";
+@import "components/datepicker";
 // Popover
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/popover";
+@import "components/popover";
 // Modal
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/modal";
+@import "components/modal";
 // Collapse
-@import "scss/plugins/angular-ui-bootstrap-reskin/components/collapse";
+@import "components/collapse";

@@ -6,8 +6,7 @@ module.exports = function(grunt, options){
 			outputStyle: 'compressed',
 			sourcemap: 'inline',
 			includePaths: [
-				'bower_components',
-				'themes/sample'
+				'scss/themes/sample'
 			],
 		},
 		dist:{

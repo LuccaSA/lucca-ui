@@ -34,12 +34,12 @@
 // ============ Elements =============
 // ===================================
 
-@import "scss/core/elements/input.search";
-@import "scss/core/elements/input.switch";
-@import "scss/core/elements/input.checkbox";
+@import "input.search";
+@import "input.switch";
+@import "input.checkbox";
 //
-@import "scss/core/elements/input.timespanpicker";
-@import "scss/core/elements/input.momentpicker";
+@import "input.timespanpicker";
+@import "input.momentpicker";
 
 @if map-get($vars, enabled) {
 
