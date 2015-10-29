@@ -52,6 +52,10 @@ article {
 	@extend #{$prefix}.clear;
 }
 
+.hljs {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
 
 code {
 	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -61,6 +65,7 @@ code {
 	padding: 3px;
 	border-radius: 3px;
 }
+
 #lui-icon .icon-list {
 	padding: 0;
 	margin: 0;
