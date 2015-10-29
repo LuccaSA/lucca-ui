@@ -6,10 +6,8 @@ module.exports = function(grunt, options){
 			outputStyle: 'compressed',
 			sourcemap: 'inline',
 			includePaths: [
-				'scss',
-				'themes/default',
-				'themes/sample',
-				'bower_components/lucca-icons/src'
+				'bower_components',
+				'themes/sample'
 			],
 		},
 		dist:{

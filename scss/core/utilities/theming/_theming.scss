@@ -110,5 +110,5 @@ $luiTheme: () !default;
 // Load core defaults
 // @import "core/theming/defaults.values";
 @at-root {
-	@import "core/utilities/theming/theme.defaults";
+	@import "scss/core/utilities/theming/theme.defaults";
 }
