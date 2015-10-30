@@ -66,7 +66,7 @@ $tooltip: (
 	verticalPadding: 			0.25em,
 	horizontalPadding: 			0.5em,
 	borderRadius: 				3px,
-	defaultColoring: 			(color: #333, text: #CCC, lod: false)
+	defaultColoring: 			(color: #333, text: #CCC)
 );
 $pluginVars: map-extend($pluginVars, (tooltip: $tooltip));
 
@@ -88,7 +88,7 @@ $popover: (
 		bottomMargin: 			lui_rem(),
 	),
 
-	defaultColoring: 			(color: #FFF, text: lui_get_colorscheme(grey, color), lod: false),
+	defaultColoring: 			(color: #FFF, text: luiPalette(grey, color), lod: false),
 
 );
 $pluginVars: map-extend($pluginVars, (popover: $popover));
