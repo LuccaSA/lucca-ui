@@ -10,11 +10,27 @@
 
 	var MAX_COUNT = 5; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
-	var DEFAULT_HOMONYMS_PROPERTIES = ["department.name", "legalEntity.name", "employeeNumber", "mail"]; // MAGIC_STRING
+	var DEFAULT_HOMONYMS_PROPERTIES = [{
+		"label": "LUIDUSERPICKER_DEPARTMENT",
+		"name": "department.name",
+		"icon": "location"
+	}, {
+		"label": "LUIDUSERPICKER_LEGALENTITY",
+		"name": "legalEntity.name",
+		"icon": "tree list"
+	}, {
+		"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
+		"name": "employeeNumber",
+		"icon": "user"
+	}, {
+		"label": "LUIDUSERPICKER_MAIL",
+		"name": "mail",
+		"icon": "email"
+	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property)\" ng-repeat=\"property in displayedProperties\">{{property}}: {{getProperty(user, property)}}<br/></small>" +
+	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
@@ -28,7 +44,7 @@
 	var userPickerMultipleTemplate = "<ui-select multipletheme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}>{{$item.firstName}} {{$item.lastName}} " +
-	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property)}}&gt</span>" +
+	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property.name)}}&gt</span>" +
 	"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -50,7 +66,7 @@
 				/*** FORMER EMPLOYEES ***/
 				showFormerEmployees: "=", // boolean
 				/*** HOMONYMS ***/
-				homonymsProperties: "@", // list of properties to handle homonyms
+				homonymsProperties: "=", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
@@ -58,12 +74,6 @@
 				operations: "=" // list of operation ids that users should have access
 			},
 			link: function (scope, elt, attrs, ctrl) {
-				if (attrs.homonymsProperties) {
-					scope.properties = attrs.homonymsProperties.split(',');
-				}
-				else {
-					scope.properties = DEFAULT_HOMONYMS_PROPERTIES;
-				}
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
@@ -362,9 +372,17 @@
 			var deferred = $q.defer();
 			var propertiesArray; // Will contain each couple of properties to compare
 			var properties; // Object containing the couple of properties to compare
+			var emergencyProperty; // used if NO couple of differentiating properties are found. In this case, only one property will be displayed
+			var props; // List of properties that will be fetched in case of homonyms
 			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
 
-			getHomonymsPropertiesAsync(homonyms).then(
+			// Define properties to fetch for homonyms
+			if (!!$scope.homonymsProperties && $scope.homonymsProperties.length) {
+				props = $scope.homonymsProperties;
+			} else {
+				props = DEFAULT_HOMONYMS_PROPERTIES;
+			}
+			getHomonymsPropertiesAsync(homonyms, props).then(
 				function(homonymsArray) {
 					// Add fetched properties to the homonyms
 					_.each(homonyms, function(user) {
@@ -374,47 +392,53 @@
 						});
 
 						// Add each property to the user
-						_.each($scope.properties, function(prop) {
-							var newProp = prop.split('.')[0];
+						_.each(props, function(prop) {
+							var newProp = prop.name.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
 					});
 
 					// Compare properties between homonyms
-					_.each($scope.properties, function (prop1, propIndex1) {
+					_.each(props, function (prop1, propIndex1) {
 						if (!found) {
 							// Compare prop1 with the rest of the properties array
-							var propRest = _.rest($scope.properties, propIndex1 + 1);
+							var propRest = _.rest(props, propIndex1 + 1);
 							_.each(propRest, function (prop2, index) {
 								if (!found) {
 									// Build array with the two properties
 									// Each element of the array is an object with the properties that we want to compare
 									propertiesArray = [];
 									_.each(homonymsArray, function(item) {
-										var valueProp1 = $scope.getProperty(item, prop1);
-										var valueProp2 = $scope.getProperty(item, prop2);
+										var valueProp1 = $scope.getProperty(item, prop1.name);
+										var valueProp2 = $scope.getProperty(item, prop2.name);
 										properties = {};
-										properties[prop1] = valueProp1;
-										properties[prop2] = valueProp2;
+										properties[prop1.name] = valueProp1;
+										properties[prop2.name] = valueProp2;
 										propertiesArray.push(properties);
 									});
 
 									// Used to check that all values for prop1 are not equal
 									var prop1Values = _.chain(propertiesArray)
-										.pluck(prop1)
+										.pluck(prop1.name)
 										.uniq()
 										.value();
 									// Used to check that all values for prop2 are not equal
 									var prop2Values = _.chain(propertiesArray)
-										.pluck(prop2)
+										.pluck(prop2.name)
 										.uniq()
 										.value();
+
+									// prop1 is a differentiating property: each homonym has a different value for this property
+									// if we do not find a couple of differentiating properties, we will at least display this one
+									if ((!emergencyProperty) && (prop1Values.length === homonyms.length)) {
+										emergencyProperty = prop1;
+									}
 
 									// All values for both properties must not be equal
 									// There must be at least two different values
 									if ((prop1Values.length > 1) && (prop2Values.length > 1)) {
 										// Check that each couple of values is different from the other couples
-										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1] + item[prop2]); });
+										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1.name] + item[prop2.name]); });
 										// If the arrays have the same length, each couple of values is different
 										if (withoutDuplicates.length === propertiesArray.length) {
 											found = true;
@@ -427,7 +451,10 @@
 						}
 					});
 
-					// TODO: handle if no couple of properties allows to differentiate users
+					// If no couple of properties are differentiating, we will display the first differentiating property (values are different for all homonyms)
+					if (!found && emergencyProperty) {
+						$scope.displayedProperties.push(emergencyProperty);
+					}
 					deferred.resolve(users);
 				},
 				function(message) {
@@ -454,7 +481,7 @@
 		/***** HOMONYMS PROPERTIES *****/
 		/*******************************/
 
-		var getHomonymsPropertiesAsync = function(homonyms) {
+		var getHomonymsPropertiesAsync = function(homonyms, properties) {
 			var urlCalls = [];
 			var query = "/api/v3/users?id=";
 			var fields = "&fields=id,firstname,lastname";
@@ -462,8 +489,8 @@
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
-			_.each($scope.properties, function(prop) {
-				fields += "," + prop;
+			_.each(properties, function(prop) {
+				fields += "," + prop.name;
 			});
 
 			_.each(homonyms, function(user) {
@@ -573,6 +600,10 @@
 			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
 			"LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
+			"LUIDUSERPICKER_DEPARTMENT":"Department",
+			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
+			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
+			"LUIDUSERPICKER_MAIL":"Email"
 		});
 		$translateProvider.translations('de', {
 
@@ -583,9 +614,13 @@
 		$translateProvider.translations('fr', {
 			"LUIDUSERPICKER_FORMEREMPLOYEE":"Parti(e) le {{dtContractEnd | luifMoment : 'LL'}}",
 			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
-			"LUIDUSERPICKER_ERR_GET_USERS":"Erruer lors de la récupération des utilisateurs",
+			"LUIDUSERPICKER_ERR_GET_USERS":"Erreur lors de la récupération des utilisateurs",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
 			"LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
+			"LUIDUSERPICKER_DEPARTMENT":"Service",
+			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
+			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
+			"LUIDUSERPICKER_MAIL":"Email"
 		});
 		$translateProvider.translations('it', {
 
