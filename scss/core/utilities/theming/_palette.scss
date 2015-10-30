@@ -18,7 +18,7 @@
 // Manipulations are defined in the palettes theme variable
 // ====
 @function luiPalette($colorName, $property, $manipulation: false) {
-	$colors: luiTheme(reference, palettes, colors);
+	$colors: luiPalettes();
 	$manipulations: luiTheme(reference, palettes, manipulations);
 
 	// Color is unknown!
@@ -32,7 +32,7 @@
 	@if $property == 'lod' { @return luiLod($palette); }
 
 	// Asked property exists and it's a color
-	@if map-has-key($palette, $property) and type-of(map-get($palette, $property) == 'color') {
+	@if map-has-key($palette, $property) and type-of(map-get($palette, $property)) == 'color' {
 		$color: map-get($palette, $property);
 
 		@if not $manipulation { @return map-get($palette, $property); }
@@ -46,7 +46,7 @@
 	}
 
 	// Asked property ain't a color
-	@if map-has-key(map-get($palette, $property)) { @return map-get($palette, $property); }
+	@if map-has-key($palette, $property) { @return map-get($palette, $property); }
 
 	@warn "Property #{$property} unknown for #{$palette} palette.";
 	@return false;

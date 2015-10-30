@@ -3,8 +3,6 @@
 
 @import "palette";
 
-
-
 $luiTheme: () !default;
 
 // Get / set theming variables
@@ -27,7 +25,6 @@ $luiTheme: () !default;
 	} @else {
 		@warn "#{$type} component type is unknown!";
 	}
-
 }
 
 

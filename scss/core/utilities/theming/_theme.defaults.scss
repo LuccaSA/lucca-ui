@@ -28,7 +28,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/palettes.overrides";
-	$luiTheme: lui_set_component_variables(reference, palettes, $myTheme, false);
+	$luiTheme: luiSetTheme(reference, palettes, $myTheme);
 }
 
 
@@ -42,7 +42,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/sizes.overrides";
-	$luiTheme: lui_set_component_variables(reference, sizes, $myTheme, false);
+	$luiTheme: luiSetTheme(reference, sizes, $myTheme);
 }
 
 
@@ -56,7 +56,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/references/breakpoints.overrides";
-	$luiTheme: lui_set_component_variables(reference, breakpoints, $myTheme, false);
+	$luiTheme: luiSetTheme(reference, breakpoints, $myTheme);
 }
 
 
@@ -75,7 +75,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/adjectives/animated.overrides";
-	$luiTheme: lui_set_component_variables(adjective, animated, $myTheme);
+	$luiTheme: luiSetTheme(adjective, animated, $myTheme);
 }
 
 
@@ -89,7 +89,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/adjectives/pointing.overrides";
-	$luiTheme: lui_set_component_variables(adjective, pointing, $myTheme);
+	$luiTheme: luiSetTheme(adjective, pointing, $myTheme);
 }
 
 
@@ -103,7 +103,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/adjectives/raised.overrides";
-	$luiTheme: lui_set_component_variables(adjective, raised, $myTheme);
+	$luiTheme: luiSetTheme(adjective, raised, $myTheme);
 }
 
 
@@ -117,7 +117,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/adjectives/rounded.overrides";
-	$luiTheme: lui_set_component_variables(adjective, rounded, $myTheme);
+	$luiTheme: luiSetTheme(adjective, rounded, $myTheme);
 }
 
 
@@ -131,7 +131,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/adjectives/stuck.overrides";
-	$luiTheme: lui_set_component_variables(adjective, stuck, $myTheme);
+	$luiTheme: luiSetTheme(adjective, stuck, $myTheme);
 }
 
 
@@ -150,7 +150,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/grid.overrides";
-	$luiTheme: lui_set_component_variables(element, grid, $myTheme);
+	$luiTheme: luiSetTheme(element, grid, $myTheme);
 }
 
 
@@ -164,7 +164,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/divider.overrides";
-	$luiTheme: lui_set_component_variables(element, divider, $myTheme);
+	$luiTheme: luiSetTheme(element, divider, $myTheme);
 }
 
 
@@ -178,7 +178,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/typography.overrides";
-	$luiTheme: lui_set_component_variables(element, typography, $myTheme);
+	$luiTheme: luiSetTheme(element, typography, $myTheme);
 }
 
 
@@ -192,7 +192,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/button.overrides";
-	$luiTheme: lui_set_component_variables(element, button, $myTheme);
+	$luiTheme: luiSetTheme(element, button, $myTheme);
 }
 
 
@@ -206,7 +206,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/input.overrides";
-	$luiTheme: lui_set_component_variables(element, input, $myTheme);
+	$luiTheme: luiSetTheme(element, input, $myTheme);
 }
 
 
@@ -221,7 +221,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/table.overrides";
-	$luiTheme: lui_set_component_variables(element, table, $myTheme);
+	$luiTheme: luiSetTheme(element, table, $myTheme);
 }
 
 
@@ -235,7 +235,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/menu.overrides";
-	$luiTheme: lui_set_component_variables(element, menu, $myTheme);
+	$luiTheme: luiSetTheme(element, menu, $myTheme);
 }
 
 
@@ -249,7 +249,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/breadcrumbs.overrides";
-	$luiTheme: lui_set_component_variables(element, breadcrumbs, $myTheme);
+	$luiTheme: luiSetTheme(element, breadcrumbs, $myTheme);
 }
 
 
@@ -263,7 +263,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/label.overrides";
-	$luiTheme: lui_set_component_variables(element, label, $myTheme);
+	$luiTheme: luiSetTheme(element, label, $myTheme);
 }
 
 
@@ -277,7 +277,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/callout.overrides";
-	$luiTheme: lui_set_component_variables(element, callout, $myTheme);
+	$luiTheme: luiSetTheme(element, callout, $myTheme);
 }
 
 
@@ -291,7 +291,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/block.overrides";
-	$luiTheme: lui_set_component_variables(element, block, $myTheme);
+	$luiTheme: luiSetTheme(element, block, $myTheme);
 }
 
 
@@ -305,7 +305,7 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/overlay.overrides";
-	$luiTheme: lui_set_component_variables(element, overlay, $myTheme);
+	$luiTheme: luiSetTheme(element, overlay, $myTheme);
 }
 
 
@@ -319,5 +319,5 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 
 	// Theme overrides
 	@import "core/elements/progress.overrides";
-	$luiTheme: lui_set_component_variables(element, progress, $myTheme);
+	$luiTheme: luiSetTheme(element, progress, $myTheme);
 }
