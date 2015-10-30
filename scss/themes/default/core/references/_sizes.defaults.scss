@@ -10,4 +10,4 @@ $sizes: (
 	"large": 					1.25em,
 	"x-large": 					1.5em
 );
-$luiTheme: lui_set_component_variables(reference, sizes, $sizes);
+$luiTheme: luiSetTheme(reference, sizes, $sizes);

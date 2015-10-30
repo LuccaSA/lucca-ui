@@ -14,7 +14,7 @@ $typography: (
 		boldWeight: 			600
 	),
 
-	smallSize:	 				map-gets($luiTheme, references, sizes, small),
+	smallSize:	 				luiTheme(reference, sizes, small),
 
 	headings: (
 		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
@@ -57,7 +57,7 @@ $typography: (
 
 		sub: (
 			color: 				lighten(#666, 20),
-			fontSize: 			map-gets($luiTheme, references, sizes, small),
+			fontSize: 			luiTheme(reference, sizes, small),
 			fontWeight: 		400
 		)
 	),
@@ -80,7 +80,7 @@ $typography: (
 		border: (
 			width: 				1px,
 			style: 				solid,
-			color: 				map-gets($luiTheme, elements, divider, color)
+			color: 				luiTheme(element, divider, color)
 		),
 		margin: (
 			top: 				1em,
@@ -106,7 +106,7 @@ $typography: (
 		fontFamily: 			monospace,
 		color: 					#666,
 		background: 			#EFEFEF,
-		borderRadius: 			map-gets($luiTheme, adjectives, rounded, radius),
+		borderRadius: 			luiTheme(adjective, rounded, radius),
 		padding: (
 			top: 				0.25em,
 			right: 				0.5em,
@@ -130,4 +130,4 @@ $typography: (
 		itemVerticalSpacing: 	1em
 	)
 );
-$luiTheme: lui_set_component_variables(element, typography, $typography);
+$luiTheme: luiSetTheme(element, typography, $typography);

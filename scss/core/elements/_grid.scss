@@ -21,8 +21,8 @@ $column: 100% / map-gets($vars, columns);
 	}
 }
 
-@each $device, $props in lui_theme(reference, breakpoints) {
-	$i: index($device, lui_theme(reference, breakpoints));
+@each $device, $props in luiTheme(reference, breakpoints) {
+	$i: index($device, luiTheme(reference, breakpoints));
 	$breakAt: map-get($props, break);
 	$spacing: map-get($props, spacing);
 

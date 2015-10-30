@@ -16,4 +16,4 @@ $table: (
 
 	coloredBorderWidth: 		5px
 );
-$luiTheme: lui_set_component_variables(element, table, $table);
+$luiTheme: luiSetTheme(element, table, $table);

@@ -8,7 +8,7 @@ $progress: (
 
 	height: 					1.5em,
 	slimHeight: 				5px,
-	borderRadius: 				map-gets($luiTheme, adjectives, rounded, radius),
+	borderRadius: 				luiTheme(adjective, rounded, radius),
 	background: 				#EFEFEF,
 	defaultColoring: 			(color: #CCC, text: #666, lod: false),
 	verticalMargin: 			1em,
@@ -20,4 +20,4 @@ $progress: (
 	indicator: (
 	)
 );
-$luiTheme: lui_set_component_variables(element, progress, $progress);
+$luiTheme: luiSetTheme(element, progress, $progress);

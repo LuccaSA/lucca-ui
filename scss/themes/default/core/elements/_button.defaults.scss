@@ -50,9 +50,9 @@ $button: (
 	),
 
 	defaultBorderWidth:			1px,
-	defaultBorderColor:			map-gets($luiTheme, elements, divider, color),
+	defaultBorderColor:			luiTheme(element, divider, color),
 
 	disabledOpacity: 			0.5,
 	disabledGrayscale: 			50%,
 );
-$luiTheme: lui_set_component_variables(element, button, $button);
+$luiTheme: luiSetTheme(element, button, $button);

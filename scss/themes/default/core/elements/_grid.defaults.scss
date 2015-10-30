@@ -10,4 +10,4 @@ $grid: (
 	columns: 					12,
 	containerWidth: 			auto
 );
-$luiTheme: lui_set_component_variables(element, grid, $grid);
+$luiTheme: luiSetTheme(element, grid, $grid);

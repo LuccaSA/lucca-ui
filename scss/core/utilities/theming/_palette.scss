@@ -1,0 +1,53 @@
+
+// Color palettes helpers
+// ===================================
+
+// Retrieves all active theme palettes
+// ====
+@function luiPalettes() {
+	@return luiTheme(reference, palettes, colors);
+}
+
+// Given palette is light text over a dark background
+// ====
+@function luiIsLod($palette) {
+	@return lightness(map-get($palette, color)) < lightness(map-get($palette, text));
+}
+
+// Get a palette - manipulate colors
+// Manipulations are defined in the palettes theme variable
+// ====
+@function luiPalette($colorName, $property, $manipulation: false) {
+	$colors: luiTheme(reference, palettes, colors);
+	$manipulations: luiTheme(reference, palettes, manipulations);
+
+	// Color is unknown!
+	@if not map-has-key($colors, $colorName) {
+		@error "Color #{$colorName} was not found in theme palettes.";
+	}
+
+	$palette: 	map-get($colors, $colorName);
+
+	// Is it a 'light on dark' palette
+	@if $property == 'lod' { @return luiLod($palette); }
+
+	// Asked property exists and it's a color
+	@if map-has-key($palette, $property) and type-of(map-get($palette, $property) == 'color') {
+		$color: map-get($palette, $property);
+
+		@if not $manipulation { @return map-get($palette, $property); }
+
+		@if map-has-key($manipulations, $manipulation) {
+			$func: nth(map-get($manipulations, $manipulation), 1);
+			$param: nth(map-get($manipulations, $manipulation), 2);
+			$return: call($func, $color, $param);
+			@return $return;
+		}
+	}
+
+	// Asked property ain't a color
+	@if map-has-key(map-get($palette, $property)) { @return map-get($palette, $property); }
+
+	@warn "Property #{$property} unknown for #{$palette} palette.";
+	@return false;
+}

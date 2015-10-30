@@ -18,9 +18,9 @@ $label: (
 
 	borderRadius: 				3px,
 
-	defaultColoring: 			(color: lui_get_colorscheme(light, color), text: #666, lod: false),
+	defaultColoring: 			(color: luiPalette(light, color), text: #666),
 
 	addonBackground: 			rgba(0, 0, 0, 0.2),
 	iconMargin: 				0.25em
 );
-$luiTheme: lui_set_component_variables(element, label, $label);
+$luiTheme: luiSetTheme(element, label, $label);

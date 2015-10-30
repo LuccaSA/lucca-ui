@@ -4,4 +4,4 @@
 // ===================================
 
 $stuck: 						( enabled: true, zIndex: 3 );
-$luiTheme: lui_set_component_variables(adjective, stuck, $stuck);
+$luiTheme: luiSetTheme(adjective, stuck, $stuck);

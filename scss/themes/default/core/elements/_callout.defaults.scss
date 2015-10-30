@@ -7,7 +7,7 @@ $callout: (
 	enabled: 					true,
 
 	background: 				#FFF,
-	borderColor: 				map-gets($luiTheme, references, colors, light, color),
+	borderColor: 				luiPalette(light, color),
 	borderWidth: 				5px,
 
 	verticalPadding: 			1em,
@@ -15,6 +15,6 @@ $callout: (
 	verticalMargin: 			1em,
 	horizontalMargin: 			0,
 
-	defaultColoring: 			(color: map-gets($luiTheme, references, colors, light, color), text: #222, lod: false)
+	defaultColoring: 			(color: luiPalette(light, color), text: #222)
 );
-$luiTheme: lui_set_component_variables(element, callout, $callout);
+$luiTheme: luiSetTheme(element, callout, $callout);

@@ -9,4 +9,4 @@ $pointing: (
 	triangleColor:				lui_get_colorscheme(light, color),
 	triangleWidth:				0.5em
 );
-$luiTheme: lui_set_component_variables(adjective, pointing, $pointing);
+$luiTheme: luiSetTheme(adjective, pointing, $pointing);

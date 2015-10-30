@@ -15,10 +15,10 @@ $input: (
 		bottom:					0.66em,
 		left: 					1em
 	),
-	borderColor: 				lui_get_colorscheme(light, color),
-	focusBorderColor: 			darken(lui_get_colorscheme(light, color), 10),
-	invalidColor:  				lui_get_colorscheme(red, color),
-	shadow: 					0 2px 2px 0 map-gets($luiTheme, elements, divider, color),
+	borderColor: 				luiPalette(light, color),
+	focusBorderColor: 			luiPalette(light, color, dark),
+	invalidColor:  				luiPalette(red, color),
+	shadow: 					0 2px 2px 0 luiTheme(element, divider, color),
 
 	placeholder: (
 		color: 					rgba(0, 0, 0, 0.5),
@@ -33,7 +33,7 @@ $input: (
 	checkbox: (
 		enabled: 				true,
 
-		color: 					lui_get_colorscheme(primary, color),
+		color: 					luiPalette(primary, color),
 		size: 					1.5em
 	),
 
@@ -44,9 +44,9 @@ $input: (
 		height: 				2.25em,
 		background: 			#666,
 		color: 					darken(#666, 15),
-		activeBackground: 		lui_get_colorscheme(primary, color),
-		activeColor:			darken(lui_get_colorscheme(primary, color), 15),
-		grabLinesColor: 		lui_get_colorscheme(light, color),
+		activeBackground: 		luiPalette(primary, color),
+		activeColor:			luiPalette(primary, color, dark),
+		grabLinesColor: 		luiPalette(light, color),
 	),
 
 	search: (
@@ -69,4 +69,4 @@ $input: (
 		maxWidth: 				5.25em
 	)
 );
-$luiTheme: lui_set_component_variables(element, input, $input);
+$luiTheme: luiSetTheme(element, input, $input);

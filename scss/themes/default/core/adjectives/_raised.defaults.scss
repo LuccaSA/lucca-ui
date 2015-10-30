@@ -12,4 +12,4 @@ $raised: (
 	spread: 					0,
 	color: 						rgba(0, 0, 0, 0.2)
 );
-$luiTheme: lui_set_component_variables(adjective, raised, $raised);
+$luiTheme: luiSetTheme(adjective, raised, $raised);

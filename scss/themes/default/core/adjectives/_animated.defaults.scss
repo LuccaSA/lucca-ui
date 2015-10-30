@@ -12,4 +12,4 @@ $animated: (
 	scaleAnimationRatio: 		25,
 	bounceDistance: 			2em
 );
-$luiTheme: lui_set_component_variables(adjective, animated, $animated);
+$luiTheme: luiSetTheme(adjective, animated, $animated);

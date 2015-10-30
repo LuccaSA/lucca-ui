@@ -8,4 +8,4 @@ $breakpoints: (
 	desktop: 					(break: 992px, spacing: 3em),
 	large: 						(break: 1200px, spacing: 5em)
 );
-$luiTheme: lui_set_component_variables(reference, breakpoints, $breakpoints);
+$luiTheme: luiSetTheme(reference, breakpoints, $breakpoints);

@@ -23,7 +23,7 @@
 		pointer-events: none;
 
 		& {
-			$shadow: lui_theme(adjective, raised);
+			$shadow: luiTheme(adjective, raised);
 			-webkit-filter: drop-shadow(map-get($shadow, x) map-get($shadow, y) map-get($shadow, blur) map-get($shadow, color));
 			filter: lui_theme_shadow();
 		}
@@ -45,7 +45,7 @@
 		}
 
 		& {
-			$triangle: lui_theme(adjective, pointing);
+			$triangle: luiTheme(adjective, pointing);
 
 			&.left > [class*="arrow"], &.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
 
@@ -71,7 +71,8 @@
 
 	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
-		@each $name, $scheme in lui_theme(reference, colors) {
+		
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_tooltip_coloring($scheme);
 			}
