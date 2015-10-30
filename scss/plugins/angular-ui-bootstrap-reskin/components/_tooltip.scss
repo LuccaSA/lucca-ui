@@ -63,6 +63,36 @@
 			&.bottom { margin-bottom: - map-gets($triangle, triangleWidth); }
 			&.bottom > [class*="arrow"] { @extend #{$prefix}[class*="top pointing"]:after; bottom: 100%; }
 		}
+
+		// Extras!
+		&.topleft, &.bottomleft {
+			left: 0 !important;
+			> [class*="arrow"] {
+				left: 0; right: auto;
+				transform: translateX(50%);
+			}
+		}
+		&.topright, &.bottomright {
+			right: 0 !important;
+			> [class*="arrow"] {
+				left: auto; right: 0;
+				transform: translateX(50%);
+			}
+		}
+		&.leftTop, &.rightTop {
+			top: 0 !important;
+			> [class*="arrow"] {
+				top: 0; bottom: auto;
+				transform: translateY(50%);
+			}
+		}
+		&.leftBottom, &.rightBottom {
+			bottom: 0 !important;
+			> [class*="arrow"] {
+				bottom: 0; top: auto;
+				transform: translateY(50%);
+			}
+		}
 	}
 
 
