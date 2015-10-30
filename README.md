@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/LuccaSA/lucca-ui.svg?branch=master)](https://travis-ci.org/LuccaSA/lucca-ui)
 # Lucca-ui
-Framework Less &amp; Angular by Lucca
+Framework Sass &amp; Angular by Lucca
 [luccaSA.github.io/lucca-ui](http://luccaSA.github.io/lucca-ui)
 
 # Version 2.0
