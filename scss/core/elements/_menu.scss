@@ -458,15 +458,12 @@
 	// ===================================
 
 	@each $name, $props in luiTheme(reference, breakpoints) {
-		$breakAt: nth($props, 1);
-		$spacing: nth($props, 2);
-
-			@media (min-width: $breakAt) {
-				#{$prefix}.menu.container {
-					padding-left: $spacing;
-					padding-right: $spacing;
-				}
+		@media (min-width: map-get($props, break)) {
+			#{$prefix}.menu.container {
+				padding-left: map-get($props, spacing);
+				padding-right: map-get($props, spacing);
 			}
+		}
 	}
 
 	#{$prefix}.menu.container {
