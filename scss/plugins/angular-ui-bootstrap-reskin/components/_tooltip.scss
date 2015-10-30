@@ -20,7 +20,7 @@
 	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
 		position: absolute;
 		z-index: map-gets($pluginVars, tooltip, zIndex);
-		pointer-events: none;
+		&:not(.popover) { pointer-events: none; }
 
 		& {
 			$shadow: luiTheme(adjective, raised);
@@ -101,7 +101,7 @@
 
 	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
-		
+
 		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_tooltip_coloring($scheme);
