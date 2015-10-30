@@ -476,16 +476,4 @@
 			margin-right: 0;
 		}
 	}
-
-
-	// Supports sizing
-	// ===================================
-
-	#{$prefix}.menu {
-		@each $size, $ems in luiTheme(reference, sizes) {
-			&#{$size} {
-				font-size: $ems;
-			}
-		}
-	}
 }

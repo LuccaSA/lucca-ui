@@ -27,7 +27,8 @@ $button: (
 
 	defaultColoring: (
 		color:					#FFF,
-		text:					luiTheme(element, typography, body, color)
+		text:					luiTheme(element, typography, body, color),
+		lod:					false
 	),
 
 	inverted: (

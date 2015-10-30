@@ -49,8 +49,10 @@
 
 	h1, h2, h3, h4, h5, h6 {
 		font-family: unquote(map-gets($vars, headings, fontFamily));
+		line-height: map-gets($vars, headings, fontFamily);
+		margin: map-gets($vars, headings, fontFamily) 0;
+		font-weight: map-gets($vars, headings, fontFamily);
 		padding: 0em;
-		margin: 0;
 
 		// Icon in headings support
 		> #{$prefix}.icon:not(.button) {
@@ -110,7 +112,7 @@
 		dt {
 			width: map-gets($vars, definitionList, termWidth);
 			font-weight: map-gets($vars, definitionList, termWeight);
-			&:not(:last-of-type) { margin-bottom: map-gets($vars, definitionList, itemVerticalSpacing); }
+			margin-bottom: map-gets($vars, definitionList, itemVerticalSpacing);
 			&:after {
 				content: map-gets($vars, definitionList, divider);;
 			}
@@ -119,10 +121,7 @@
 		dd {
 			width: calc(100% - #{map-gets($vars, definitionList, termWidth)} - #{map-gets($vars, definitionList, gutter)});
 			font-weight: map-gets($vars, definitionList, definitionWeight);
-			margin: 0; margin-left: map-gets($vars, definitionList, gutter);
-			&:not(:last-of-type) {
-				margin-bottom: map-gets($vars, definitionList, itemVerticalSpacing);
-			}
+			margin: 0 0 map-gets($vars, definitionList, itemVerticalSpacing) map-gets($vars, definitionList, gutter);;
 		}
 	}
 

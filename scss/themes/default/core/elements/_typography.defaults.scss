@@ -20,6 +20,7 @@ $typography: (
 		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
 		lineHeight: 			1.25em,
 		verticalMargin:			0,
+		fontWeight: 			normal,
 
 		h1: (
 			fontSize:			2.75em,
@@ -126,7 +127,7 @@ $typography: (
 		termWidth: 				10em,
 		termWeight:				600,
 		definitionWeight:		400,
-		itemVerticalSpacing: 	0.5em
+		itemVerticalSpacing: 	1em
 	)
 );
 $luiTheme: luiSetTheme(element, typography, $typography);

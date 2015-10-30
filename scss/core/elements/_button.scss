@@ -205,7 +205,7 @@
 
 	#{$prefix}.button {
 		// Default coloring scheme
-		@include lui_button_coloring(map-get($vars, defaultColoring));
+		@include lui_button_coloring(map-gets($vars, defaultColoring));
 		// Coloring support
 		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
