@@ -23,9 +23,9 @@
 		pointer-events: none;
 
 		& {
-			$shadow: luiTheme(adjective, raised);
-			-webkit-filter: drop-shadow(map-get($shadow, x) map-get($shadow, y) map-get($shadow, blur) map-get($shadow, color));
-			filter: lui_theme_shadow();
+			$shadow: luiTheme(adjective, raised, default, filter);
+			-webkit-filter: drop-shadow($shadow);
+			filter: drop-shadow($shadow);
 		}
 
 		> [class*="-inner"] {
@@ -101,7 +101,7 @@
 
 	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
-		
+
 		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_tooltip_coloring($scheme);
