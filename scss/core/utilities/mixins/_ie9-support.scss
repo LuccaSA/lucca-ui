@@ -1,0 +1,7 @@
+@mixin lui_target_IE9 {
+	@at-root {
+		.ie9 & {
+			@content;
+		}
+	}
+}

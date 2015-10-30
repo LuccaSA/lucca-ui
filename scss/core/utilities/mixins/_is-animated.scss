@@ -1,0 +1,9 @@
+@mixin lui_is_animated($name, $loop: false) {
+	@extend %#{$cleanNamespace}-animated;
+
+	animation-name: $name;
+
+	@if $loop {
+		animation-iteration-count: infinite;
+	}
+}

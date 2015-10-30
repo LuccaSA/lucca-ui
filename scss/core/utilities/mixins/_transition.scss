@@ -1,0 +1,42 @@
+
+
+$lui_defaults-transition_duration: 0.3s !default;
+$lui_defaults-transition_easing: ease-out !default;
+$lui_defaults-transition_delay: 0.3s !default;
+
+@mixin lui_transition($prop: all, $time: $lui_defaults-transition_duration, $ease: $lui_defaults-transition_easing) {
+	-ms-transition:    $prop $time $ease;
+	transition:        $prop $time $ease;
+}
+@mixin lui_transition_properties($property...) {
+	transition-property: $property;
+	@include lui_transition_duration();
+	@include lui_transition_easing();
+}
+@mixin lui_transition_duration($duration: $lui_defaults-transition_duration) {
+	-moz-transition-duration:    $duration;
+	-o-transition-duration:      $duration;
+	-webkit-transition-duration: $duration;
+	transition-duration:         $duration;
+}
+@mixin lui_transition_easing($timing: $lui_defaults-transition_easing) {
+	-moz-transition-timing-function:    $timing;
+	-o-transition-timing-function:      $timing;
+	-webkit-transition-timing-function: $timing;
+	transition-timing-function:         $timing;
+}
+@mixin lui_transition_delay($delay: $lui_defaults-transition_delay) {
+	-moz-transition-delay:    $delay;
+	-o-transition-delay:      $delay;
+	-webkit-transition-delay: $delay;
+	transition-delay:         $delay;
+}
+
+
+@mixin lui_transform($args...) {
+	-webkit-transform: $args;
+	-moz-transform: $args;
+	-o-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
