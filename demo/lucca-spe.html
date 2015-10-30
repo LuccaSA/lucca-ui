@@ -95,8 +95,13 @@
 			<h4 class="lui underline">Demo:</h4>
 		</div>
 		<div ng-controller="userPickerCtrl" class="lui block round">
-			<h5>Basic usage</h5>
-			<p>
+			<h5 class="lui column desktop-10">Basic usage</h5>
+			<div class="lui column desktop-2">
+				<a class="lui button primary" href="#/">
+					<i class="lui icon edit"></i>Edit in Plunker
+				</a>
+			</div>
+			<p class="lui column">
 				Reroute all calls to
 				<span class="lui input with addons">
 					<span class="lui addon">http://</span>
@@ -107,11 +112,11 @@
 				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span><br>
 				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. This feature is available on branch <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/rc">rc</a> (since <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/pull/528#event-443784814">10/23/2015</a>) and <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/master">master</a> (since 10/30/2015).
 			</p>
-			<p>
+			<p class="lui column">
 				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
 				<input type="checkbox" ng-model="isChecked">Show former employees
 			</p>
-			<p>
+			<p class="lui column">
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
 			</p>
 			<hr />
