@@ -57,7 +57,7 @@
 // Application logo
 #main-navigation #app-logo {
 	box-sizing: content-box;
-	padding-top: map-gets($vars, header, topOffset);
+	padding-top: map-gets($vars, topOffset);
 
 	display: block;
 	overflow: hidden;
@@ -93,6 +93,7 @@
 			a, .navigation-toggle {
 				display: inline-block;
 				vertical-align: middle;
+				text-decoration: none;
 			}
 		}
 

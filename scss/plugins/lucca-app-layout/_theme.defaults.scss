@@ -1,7 +1,11 @@
 $pluginVars: (
+	enabled: 					true,
+
+	namespace: 					'#myApp',
 	topOffset: 					0,
 	appBackground: 				#EEE,
 	logoFontSize: 				1.75em,
+	bottomMargin: 				lui_rem(5),
 
 	header: (
 		height: 				lui_rem(5),
