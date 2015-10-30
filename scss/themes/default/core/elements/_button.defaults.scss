@@ -27,7 +27,7 @@ $button: (
 
 	defaultColoring: (
 		color:					#FFF,
-		text:					#666,
+		text:					luiTheme(element, typography, body, color),
 		lod:					false
 	),
 
