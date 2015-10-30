@@ -41,7 +41,7 @@ $luiTheme: () !default;
 
 @function lui_rem($number: 1) {
 	// Remove $number unit if specified and multiply it by bodyFontSize
-	@return (($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
+	@return round(($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
 }
 
 
