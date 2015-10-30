@@ -423,7 +423,6 @@ describe('luidUserPicker', function(){
 			}];
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="properties"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
-			controller = elt.controller("luidUserPicker");
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
 
@@ -433,6 +432,14 @@ describe('luidUserPicker', function(){
 		it('should fetch additional info for these homonyms via the right api', function(){
 			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
 			expect($httpBackend.flush).not.toThrow();
+		});
+		it('should fetch additional info for these homonyms and add the properties to the users', function(){
+			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
+			$httpBackend.flush();
+
+			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Romain Vergnory"},"birthDate":"1990-12-10T00:00:00"},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Benoît Paugam"},"birthDate":"1986-03-25T00:00:00"}];
+			var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
+			expect(angular.equals(users, homonyms)).toBe(true);
 		});
 		it('should identify the first and third property as differentiating properties', function(){
 			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
@@ -444,56 +451,57 @@ describe('luidUserPicker', function(){
 			expect(isolateScope.displayedProperties[0].label).toBe("Date de naissance");
 			expect(isolateScope.displayedProperties[1].label).toBe("Nom du manager");
 		});
-		it('should update isolateScope.homonymsProperties with the value in parent scope', function() {
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
-			$httpBackend.flush();
-			expect(controller.properties).toEqual($scope.properties)
-			$scope.properties= [{
-				"label": "Entité légale",
-				"name": "legalEntity.name"
-			}, {
-				"label": "Matricule",
-				"name": "employeeNumber"
-			}];
-			// Call find with new properties
-			isolateScope.find();
-			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
-			// Query updated with new properties
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,legalEntity.name,employeeNumber/i).respond(RESPONSE_2_homonyms_details_0_2);
-			$httpBackend.flush();
-			// properties in directive controller should match the new properties in parent scope
-			expect(controller.properties).toEqual($scope.properties);
-		});
-		it('should update isolateScope.homonymsProperties with default properties when we give an empty array in parent scope', function() {
-			var defaultProperties = [{
-				"label": "LUIDUSERPICKER_DEPARTMENT",
-				"name": "department.name",
-				"icon": "location"
-			}, {
-				"label": "LUIDUSERPICKER_LEGALENTITY",
-				"name": "legalEntity.name",
-				"icon": "tree list"
-			}, {
-				"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
-				"name": "employeeNumber",
-				"icon": "user"
-			}, {
-				"label": "LUIDUSERPICKER_MAIL",
-				"name": "mail",
-				"icon": "email"
-			}];
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
-			$httpBackend.flush();
-			$scope.properties= [];
-			// Call find with new properties
-			isolateScope.find();
-			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
-			// Query updated with default properties (since new properties are empty)
-			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,department.name,legalEntity.name,employeeNumber,mail/i).respond(RESPONSE_2_homonyms_details_0_2);
-			$httpBackend.flush();
-			// properties in directive controller should match the default properties
-			expect(controller.properties).toEqual(defaultProperties);
-		});
+
+		describe('after updating homonyms-properties', function(){
+			beforeEach(function(){
+				// flush the response related to the previous request
+				$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
+				$httpBackend.flush();
+			});
+			it('should update isolateScope.homonymsProperties with the new value and fetch additional info for the homonyms via the right api', function() {
+				// Update the properties
+				$scope.properties= [{
+					"label": "Entité légale",
+					"name": "legalEntity.name"
+				}, {
+					"label": "Matricule",
+					"name": "employeeNumber"
+				}];
+				// Call find with new properties
+				isolateScope.find();
+				$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+				// Query updated with new properties
+				$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,legalEntity.name,employeeNumber/i).respond(RESPONSE_2_homonyms_details_0_2);
+				$httpBackend.flush();
+			});
+			it('should update isolateScope.homonymsProperties with default properties and fetch additional info for the homonyms via the right api', function() {
+				var defaultProperties = [{
+					"label": "LUIDUSERPICKER_DEPARTMENT",
+					"name": "department.name",
+					"icon": "location"
+				}, {
+					"label": "LUIDUSERPICKER_LEGALENTITY",
+					"name": "legalEntity.name",
+					"icon": "tree list"
+				}, {
+					"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
+					"name": "employeeNumber",
+					"icon": "user"
+				}, {
+					"label": "LUIDUSERPICKER_MAIL",
+					"name": "mail",
+					"icon": "email"
+				}];
+				// Update the properties with an empty array
+				$scope.properties= [];
+				// Call find with new properties
+				isolateScope.find();
+				$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+				// Query updated with default properties (since new properties are empty)
+				$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,department.name,legalEntity.name,employeeNumber,mail/i).respond(RESPONSE_2_homonyms_details_0_2);
+				$httpBackend.flush();
+			});
+		})
 	});
 
 	// TODO
@@ -601,6 +609,7 @@ describe('luidUserPicker', function(){
 	var RESPONSE_2_homonyms_details_2 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}}]}};
 	// With custom homonyms properties
 	var RESPONSE_2_homonyms_details_0_2 = {header:{}, data:{items:[{"id":1,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","manager":{"name":"Romain Vergnory"},"birthDate":"1990-12-10T00:00:00"},{"id":3,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","manager":{"name":"Benoît Paugam"},"birthDate":"1986-03-25T00:00:00"}]}};
+	// With other custom properties
 	// When 4 homonyms
 	var RESPONSE_4_homonyms_details_0_2 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Marketing"}}]}};
 	var RESPONSE_4_homonyms_details_0_1 = {header:{}, data:{items:[{"id":5,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":8,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"BU Timmi/Lucca"}},{"id":13,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":163,"legalEntity":{"name":"Lucca UK"},"department":{"name":"Sales"}},{"id":16,"firstName":"Lucien","lastName":"Bertin","mail":"no-reply@lucca.fr","employeeNumber":145,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}]}};
