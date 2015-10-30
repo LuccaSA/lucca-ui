@@ -123,8 +123,6 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
-		// List of properties that will be fetched in case of homonyms
-		var props;
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -366,6 +364,7 @@
 			var propertiesArray; // Will contain each couple of properties to compare
 			var properties; // Object containing the couple of properties to compare
 			var emergencyProperty; // used if NO couple of differentiating properties are found. In this case, only one property will be displayed
+			var props; // List of properties that will be fetched in case of homonyms
 			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
 
 			// Define properties to fetch for homonyms
@@ -374,7 +373,7 @@
 			} else {
 				props = DEFAULT_HOMONYMS_PROPERTIES;
 			}
-			getHomonymsPropertiesAsync(homonyms).then(
+			getHomonymsPropertiesAsync(homonyms, props).then(
 				function(homonymsArray) {
 					// Add fetched properties to the homonyms
 					_.each(homonyms, function(user) {
@@ -473,7 +472,7 @@
 		/***** HOMONYMS PROPERTIES *****/
 		/*******************************/
 
-		var getHomonymsPropertiesAsync = function(homonyms) {
+		var getHomonymsPropertiesAsync = function(homonyms, properties) {
 			var urlCalls = [];
 			var query = "/api/v3/users?id=";
 			var fields = "&fields=id,firstname,lastname";
@@ -481,7 +480,7 @@
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
-			_.each(props, function(prop) {
+			_.each(properties, function(prop) {
 				fields += "," + prop.name;
 			});
 
