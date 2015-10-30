@@ -1,0 +1,33 @@
+
+#{$prefix}.visible {
+	visibility: visible;
+	display: block;
+}
+
+#{$prefix}.invisible {
+	visibility: hidden;
+	display: none;
+}
+
+#{$prefix}.faded {
+	opacity: 0.5;
+	&.strongly { opacity: 0.25; }
+	&.lightly { opacity: 0.75; }
+}
+
+#{$prefix}.desaturated {
+	-webkit-filter: grayscale(50%);
+	filter: grayscale(50%);
+	&.strongly {
+		-webkit-filter: grayscale(75%);
+		filter: grayscale(75%);
+	}
+	&.lightly {
+		-webkit-filter: grayscale(25%);
+		filter: grayscale(25%);
+	}
+	&.fully {
+		-webkit-filter: grayscale(100%);
+		filter: grayscale(100%);
+	}
+}
