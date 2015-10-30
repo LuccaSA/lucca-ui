@@ -77,8 +77,6 @@
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
-				// List of properties that will be fetched in case of homonyms
-				ctrl.properties;
 			}
 		};
 	})
@@ -125,6 +123,8 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		// List of properties that will be fetched in case of homonyms
+		var props;
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -370,9 +370,9 @@
 
 			// Define properties to fetch for homonyms
 			if (!!$scope.homonymsProperties && $scope.homonymsProperties.length) {
-				ctrl.properties = $scope.homonymsProperties;
+				props = $scope.homonymsProperties;
 			} else {
-				ctrl.properties = DEFAULT_HOMONYMS_PROPERTIES;
+				props = DEFAULT_HOMONYMS_PROPERTIES;
 			}
 			getHomonymsPropertiesAsync(homonyms).then(
 				function(homonymsArray) {
@@ -384,17 +384,17 @@
 						});
 
 						// Add each property to the user
-						_.each(ctrl.properties, function(prop) {
+						_.each(props, function(prop) {
 							var newProp = prop.name.split('.')[0];
 							user[newProp] = userWithProps[newProp];
 						});
 					});
 
 					// Compare properties between homonyms
-					_.each(ctrl.properties, function (prop1, propIndex1) {
+					_.each(props, function (prop1, propIndex1) {
 						if (!found) {
 							// Compare prop1 with the rest of the properties array
-							var propRest = _.rest(ctrl.properties, propIndex1 + 1);
+							var propRest = _.rest(props, propIndex1 + 1);
 							_.each(propRest, function (prop2, index) {
 								if (!found) {
 									// Build array with the two properties
@@ -481,7 +481,7 @@
 
 			// WARNING: Do not check if the properties exist!
 			// WARNING: If they do not exist, the request will fail
-			_.each(ctrl.properties, function(prop) {
+			_.each(props, function(prop) {
 				fields += "," + prop.name;
 			});
 
