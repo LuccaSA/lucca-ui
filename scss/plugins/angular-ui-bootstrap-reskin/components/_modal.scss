@@ -1,40 +1,44 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal {
-		display: none; overflow: hidden;
-		position: fixed;
-		top: 0; right: 0; bottom: 0; left: 0;
-		z-index: map-gets($pluginVars, modal, zIndex);
-		-webkit-overflow-scrolling: touch;
-		outline: 0; // Chrome fix
+	$baseSelector:  if($namespace, "#{$prefix}.#{$cleanNamespace}.#{map-get($pluginVars, prefix)}", "#{$prefix}.#{$cleanNamespace}.#{map-get($pluginVars, prefix)}");
 
-		// When fading in the modal, animate it to slide down
-		&.in .modal-dialog {
-			@include lui_is_animated("up fade in");
+	@at-root {
+		#{$baseSelector}modal {
+			display: none; overflow: hidden;
+			position: fixed;
+			top: 0; right: 0; bottom: 0; left: 0;
+			z-index: map-gets($pluginVars, modal, zIndex);
+			-webkit-overflow-scrolling: touch;
+			outline: 0; // Chrome fix
+
+			// When fading in the modal, animate it to slide down
+			&.in .modal-dialog {
+				@include lui_is_animated("up fade in");
+			}
+			&:not(.in) .modal-dialog {
+				@include lui_is_animated("up fade out");
+			}
+
+			.modal-dialog {
+				@extend %#{$cleanNamespace}-raised;
+				margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+			}
 		}
-		&:not(.in) .modal-dialog {
-			@include lui_is_animated("up fade out");
+
+		#{$baseSelector}modal-backdrop {
+			@extend #{$prefix}.overlay;
+
+			visibility: hidden;
+			opacity: 0;
+			@include lui_transition_properties(opacity);
+
+			&.in { visibility: visible; opacity: 1; }
+			&:not(.in) { visibility: visible; opacity: 0; }
 		}
 
-		.modal-dialog {
-			@extend #{$prefix}.raised;
-			margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+		// Kill the scroll on the body
+		.modal-open {
+			overflow: hidden;
+			#{$baseSelector}modal { overflow-x: hidden; overflow-y: auto; }
 		}
-	}
-
-	#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal-backdrop {
-		@extend #{$prefix}.overlay;
-
-		visibility: hidden;
-		opacity: 0;
-		@include lui_transition_properties(opacity);
-
-		&.in { visibility: visible; opacity: 1; }
-		&:not(.in) { visibility: visible; opacity: 0; }
-	}
-
-	// Kill the scroll on the body
-	.modal-open {
-		overflow: hidden;
-		#{$prefix}#{map-gets($pluginVars, modal, prefix)}.#{map-get($pluginVars, prefix)}modal { overflow-x: hidden; overflow-y: auto; }
 	}
 }

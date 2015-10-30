@@ -1,18 +1,20 @@
 @if map-get($vars, enabled) {
-	%lui_animated_base {
-		animation-easing: map-get($vars, animationEasing);
-		animation-duration: map-get($vars, animationDuration);
-		animation-fill-mode: both;
+	@at-root {
+		%#{$cleanNamespace}-animated {
+			animation-easing: map-get($vars, animationEasing);
+			animation-duration: map-get($vars, animationDuration);
+			animation-fill-mode: both;
 
-		-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
-		backface-visibility: hidden;
+			-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+			backface-visibility: hidden;
 
-		// resets
-		opacity: 1;
+			// resets
+			opacity: 1;
+		}
 	}
 
 	#{$prefix}.animated {
-		@extend %lui_animated_base;
+		@extend %#{$cleanNamespace}-animated;
 	}
 
 	#{$prefix}.infinitely.animated { animation-iteration-count: infinite; }
@@ -23,71 +25,71 @@
 
 	// Upsided fade in/out
 	@at-root {
-		@keyframes fadeInUp {
+		@keyframes upFadeIn {
 			from { opacity: 0;  transform: translate3d(0, -(map-get($vars, fadeTranslationDistance)), 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
-	#{$prefix}.animated[class*="up fade in"] { animation-name: fadeInUp; }
+	#{$prefix}.animated[class*="up fade in"] { animation-name: upFadeIn; }
 
 	@at-root {
-		@keyframes fadeOutUp {
+		@keyframes upFadeOut {
 			from { opacity: 1;  transform: none }
 			to { opacity: 0; transform: translate3d(0, -(map-get($vars, fadeTranslationDistance)), 0);; }
 		}
 	}
-	#{$prefix}.animated[class*="up fade out"] { animation-name: fadeOutUp; }
+	#{$prefix}.animated[class*="up fade out"] { animation-name: upFadeOut; }
 
 	// Downsided fade in/out
 	@at-root {
-		@keyframes fadeInDown {
+		@keyframes downFadeIn {
 			from { opacity: 0;  transform: translate3d(0, map-get($vars, fadeTranslationDistance), 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
-	#{$prefix}.animated[class*="down fade in"] { animation-name: fadeInDown; }
+	#{$prefix}.animated[class*="down fade in"] { animation-name: downFadeIn; }
 
 	@at-root {
-		@keyframes fadeOutDown {
+		@keyframes downFadeOut {
 			from { opacity: 1;  transform: none }
 			to { opacity: 0; transform: translate3d(0, map-get($vars, fadeTranslationDistance), 0);; }
 		}
 	}
-	#{$prefix}.animated[class*="down fade out"] { animation-name: fadeOutDown; }
+	#{$prefix}.animated[class*="down fade out"] { animation-name: downFadeOut; }
 
 	// Leftsided fade in/out
 	@at-root {
-		@keyframes fadeInLeft {
+		@keyframes leftFadeIn {
 			from { opacity: 0;  transform: translate3d(-(map-get($vars, fadeTranslationDistance)), 0, 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
-	#{$prefix}.animated[class*="left fade in"] { animation-name: fadeInLeft; }
+	#{$prefix}.animated[class*="left fade in"] { animation-name: leftFadeIn; }
 
 	@at-root {
-		@keyframes fadeOutLeft {
+		@keyframes leftFadeOut {
 			from { opacity: 1;  transform: none }
 			to { opacity: 0; transform: translate3d(-(map-get($vars, fadeTranslationDistance)), 0, 0);; }
 		}
 	}
-	#{$prefix}.animated[class*="left fade out"] { animation-name: fadeOutLeft; }
+	#{$prefix}.animated[class*="left fade out"] { animation-name: leftFadeOut; }
 
 	// Rightsided fade in/out
 	@at-root {
-		@keyframes fadeInRight {
+		@keyframes rightFadeIn {
 			from { opacity: 0;  transform: translate3d(map-get($vars, fadeTranslationDistance), 0, 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
-	#{$prefix}.animated[class*="right fade in"] { animation-name: fadeInRight; }
+	#{$prefix}.animated[class*="right fade in"] { animation-name: rightFadeIn; }
 
 	@at-root {
-		@keyframes fadeOutRight {
+		@keyframes rightFadeOut {
 			from { opacity: 1;  transform: none }
 			to { opacity: 0; transform: translate3d(map-get($vars, fadeTranslationDistance), 0, 0);; }
 		}
 	}
-	#{$prefix}.animated[class*="right fade out"] { animation-name: fadeOutRight; }
+	#{$prefix}.animated[class*="right fade out"] { animation-name: rightFadeOut; }
 
 
 	// Scaling animations
@@ -133,41 +135,57 @@
 
 	 // Slide vertical
 	@at-root {
-		@keyframes slideInVertical {
-			from { transform: scale(1, 0); }
-			to { transform: scale(1, 1); }
+		@keyframes upSlideIn {
+			from { transform-origin: center top; transform: scale(1, 0); }
+			to { transform-origin: center top; transform: scale(1, 1); }
+		}
+		@keyframes downSlideIn {
+			from { transform-origin: center bottom; transform: scale(1, 0); }
+			to { transform-origin: center bottom; transform: scale(1, 1); }
 		}
 	}
-	#{$prefix}.animated[class*="up slide in"] { transform-origin: center top; animation-name: slideInVertical; }
-	#{$prefix}.animated[class*="down slide in"] { transform-origin: center bottom; animation-name: slideInVertical; }
+	#{$prefix}.animated[class*="up slide in"] {  animation-name: upSlideIn; }
+	#{$prefix}.animated[class*="down slide in"] { animation-name: downSlideIn; }
 
 	@at-root {
-		@keyframes slideOutVertical {
-			from { transform: scale(1, 1); }
-			to { transform: scale(1, 0); }
+		@keyframes upSlideOut {
+			from { transform-origin: center top; transform: scale(1, 1); }
+			to { transform-origin: center top; transform: scale(1, 0); }
+		}
+		@keyframes downSlideOut {
+			from { transform-origin: center bottom; transform: scale(1, 1); }
+			to { transform-origin: center bottom; transform: scale(1, 0); }
 		}
 	}
-	#{$prefix}.animated[class*="up slide out"] { transform-origin: center top; animation-name: slideOutVertical; }
-	#{$prefix}.animated[class*="down slide out"] { transform-origin: center bottom; animation-name: slideOutVertical; }
+	#{$prefix}.animated[class*="up slide out"] { animation-name: upSlideOut; }
+	#{$prefix}.animated[class*="down slide out"] { animation-name: downSlideOut; }
 
 	// Slide horizontal
 	@at-root {
-		@keyframes slideInHorizontal {
-			from { transform: scale(0, 1); }
-			to { transform: scale(1, 1); }
+		@keyframes leftSlideIn {
+			from { transform-origin: left center; transform: scale(0, 1); }
+			to { transform-origin: left center; transform: scale(1, 1); }
+		}
+		@keyframes rightSlideIn {
+			from { transform-origin: right center; transform: scale(0, 1); }
+			to { transform-origin: right center; transform: scale(1, 1); }
 		}
 	}
-	#{$prefix}.animated[class*="left slide in"] { transform-origin: left center; animation-name: slideInHorizontal; }
-	#{$prefix}.animated[class*="right slide in"] { transform-origin: right center; animation-name: slideInHorizontal; }
+	#{$prefix}.animated[class*="left slide in"] { animation-name: leftSlideIn; }
+	#{$prefix}.animated[class*="right slide in"] { animation-name: rightSlideIn; }
 
 	@at-root {
-		@keyframes slideOutHorizontal {
-			from { transform: scale(1, 1); }
-			to { transform: scale(0, 1); }
+		@keyframes leftSlideOut {
+			from { transform-origin: left center; transform: scale(1, 1); }
+			to { transform-origin: left center; transform: scale(0, 1); }
+		}
+		@keyframes rightSlideOut {
+			from { transform-origin: right center; transform: scale(1, 1); }
+			to { transform-origin: right center; transform: scale(0, 1); }
 		}
 	}
-	#{$prefix}.animated[class*="left slide out"] { transform-origin: left center; animation-name: slideOutHorizontal; }
-	#{$prefix}.animated[class*="right slide out"] { transform-origin: right center; animation-name: slideOutHorizontal; }
+	#{$prefix}.animated[class*="left slide out"] { animation-name: leftSlideOut; }
+	#{$prefix}.animated[class*="right slide out"] { animation-name: rightSlideOut; }
 
 
 	// Static animations

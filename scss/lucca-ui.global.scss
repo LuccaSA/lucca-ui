@@ -1,29 +1,45 @@
+// Utility functions
+// ===================================
+
+@import "core/utilities/functions/maps";
+@import "core/utilities/functions/strings";
+
+
+// ===================================
+// ========= INITIALIZATION ==========
+// ===================================
+
 $prefix: '' !default;
 $namespace: false;
+$cleanNamespace: "global";
 
-@import "core/utilities/maps";
+
+// Build theme
+// ===================================
 @import "core/utilities/theming/theming";
 
 
+
 // ===================================
-// =========== UTILITIES =============
+// ============= MIXINS ==============
 // ===================================
+
 // IE9 support mixin
-@import "core/utilities/ie9-support";
+@import "core/utilities/mixins/ie9-support";
 // Resets
-@import "core/utilities/flex";
+@import "core/utilities/mixins/flex";
 // Responsive
-@import "core/utilities/responsive";
+@import "core/utilities/mixins/responsive";
 // Transition & animations mixins
-@import "core/utilities/transition";
+@import "core/utilities/mixins/transition";
 // Is animated (mixin)
-@import "core/utilities/is-animated";
+@import "core/utilities/mixins/is-animated";
 // Sizing handler
-@import "core/utilities/supports-sizing";
+@import "core/utilities/mixins/supports-sizing";
 // Loader
-@import "core/utilities/loader";
+@import "core/utilities/mixins/loader";
 // Triangle maker
-@import "core/utilities/points-towards";
+@import "core/utilities/mixins/points-towards";
 
 
 // Lucca icons
