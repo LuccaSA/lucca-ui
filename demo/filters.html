@@ -45,28 +45,35 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="placeholderCtrl" class="lui block round">
-				<p>
-					myValue:
-					<span class="lui input with addon right">
-						<input type="text" ng-model="myValue">
-						<i class="lui cross icon right addon" ng-click="myValue='';"></i>
-					</span>
-				</p>
-				<p>
-					dynamic placeholder:
-					<span class="lui input">
-						<input type="text" ng-model="myPlaceholder">
-					</span>
-				</p>
-				<p>
-					myValue: <code>{{myValue}}</code>
-				</p>
-				<p>
-					with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
-				</p>
-				<p>
-					with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
-				</p>
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myValue:
+						<span class="lui input with addon right">
+							<input type="text" ng-model="myValue">
+							<i class="lui cross icon right addon" ng-click="myValue='';"></i>
+						</span>
+					</p>
+					<p>
+						dynamic placeholder:
+						<span class="lui input">
+							<input type="text" ng-model="myPlaceholder">
+						</span>
+					</p>
+					<p>
+						myValue: <code>{{myValue}}</code>
+					</p>
+					<p>
+						with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
+					</p>
+					<p>
+						with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -86,18 +93,25 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="defaultcodeCtrl" class="lui block round">
-				<p>
-					value:
-					<span class="lui long input">
-						<input type="text" ng-model="myValue">
-					</span>
-				</p>
-				<p>
-					myValue: <code>{{myValue}}</code>
-				</p>
-				<p>
-					with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
-				</p>
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						value:
+						<span class="lui long input">
+							<input type="text" ng-model="myValue">
+						</span>
+					</p>
+					<p>
+						myValue: <code>{{myValue}}</code>
+					</p>
+					<p>
+						with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -229,21 +243,28 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="numberCtrl" class="lui block round">
-				<p>
-					value:
-					<span class="lui input">
-						<input type="number" ng-model="myValue">
-					</span>
-				</p>
-				<p>
-					myValue: <code>{{myValue}}</code>
-				</p>
-				<p>
-					with filter number: <code>{{myValue | number : 2}}</code>
-				</p>
-				<p>
-					with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
-				</p>
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						value:
+						<span class="lui input">
+							<input type="number" ng-model="myValue">
+						</span>
+					</p>
+					<p>
+						myValue: <code>{{myValue}}</code>
+					</p>
+					<p>
+						with filter number: <code>{{myValue | number : 2}}</code>
+					</p>
+					<p>
+						with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -271,25 +292,32 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="startfromCtrl" class="lui block round">
-				<p>
-					myIndex:
-					<span class="lui input">
-						<input type="number" ng-model="myIndex">
-					</span>
-				</p>
-				<p>values: <code>{{values}}</code></p>
-				<p>
-					all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
-					<ul class="lui unstyled">
-						<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
-					</ul>
-				</p>
-				<p>
-					all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
-					<ul class="lui unstyled">
-						<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
-					</ul>
-				</p>
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myIndex:
+						<span class="lui input">
+							<input type="number" ng-model="myIndex">
+						</span>
+					</p>
+					<p>values: <code>{{values}}</code></p>
+					<p>
+						all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
+						<ul class="lui unstyled">
+							<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+						</ul>
+					</p>
+					<p>
+						all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
+						<ul class="lui unstyled">
+							<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+						</ul>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -316,28 +344,34 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="momentCtrl" class="lui block round">
-				<p>
-					myValue:
-					<span class="lui long input">
-						<input type="text" ng-model="myValue">
-					</span>
-					 (enter '2015-01-01' or such like, or try something that is not parsable by moment)
-				</p>
-				<p>
-					set myValue to
-					<span class="lui button" ng-click="setToDate()">new Date()</span>
-					<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
-				</p>
-				<p>
-					myFormat:
-					<span class="lui long input">
-						<input type="text" ng-model="myFormat">
-					</span>
-				</p>
-				<p>
-					myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
-				</p>
-
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myValue:
+						<span class="lui long input">
+							<input type="text" ng-model="myValue">
+						</span>
+						 (enter '2015-01-01' or such like, or try something that is not parsable by moment)
+					</p>
+					<p>
+						set myValue to
+						<span class="lui button" ng-click="setToDate()">new Date()</span>
+						<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
+					</p>
+					<p>
+						myFormat:
+						<span class="lui long input">
+							<input type="text" ng-model="myFormat">
+						</span>
+					</p>
+					<p>
+						myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -367,30 +401,36 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="calendarCtrl" class="lui block round">
-				<p>
-					myValue:
-					<span class="lui long input">
-						<input type="text" ng-model="myValue">
-					</span>
-				</p>
-				<p>
-					set myValue to
-					<span class="lui button" ng-click="setToThisWeek()">start of week</span>
-					<span class="lui button" ng-click="setToLastWeek()">last week</span>
-				</p>
-				<p>
-					myRefDate:
-					<span class="lui long input">
-						<input type="text" ng-model="myRefDate">
-					</span>
-				</p>
-				<p>
-					myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
-				</p>
-				<p>
-					myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
-				</p>
-
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myValue:
+						<span class="lui long input">
+							<input type="text" ng-model="myValue">
+						</span>
+					</p>
+					<p>
+						set myValue to
+						<span class="lui button" ng-click="setToThisWeek()">start of week</span>
+						<span class="lui button" ng-click="setToLastWeek()">last week</span>
+					</p>
+					<p>
+						myRefDate:
+						<span class="lui long input">
+							<input type="text" ng-model="myRefDate">
+						</span>
+					</p>
+					<p>
+						myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
+					</p>
+					<p>
+						myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -422,25 +462,31 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="friendlyrangeCtrl" class="lui block round">
-				<p>
-					myBlock.start:
-					<span class="lui long input">
-						<input type="text" ng-model="myBlock.start">
-					</span>
-				</p>
-				<p>
-					myBlock.end:
-					<span class="lui long input">
-						<input type="text" ng-model="myBlock.end">
-					</span>
-				</p>
-				<p>
-					myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
-				</p>
-				<p>
-					myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
-				</p>
-
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myBlock.start:
+						<span class="lui long input">
+							<input type="text" ng-model="myBlock.start">
+						</span>
+					</p>
+					<p>
+						myBlock.end:
+						<span class="lui long input">
+							<input type="text" ng-model="myBlock.end">
+						</span>
+					</p>
+					<p>
+						myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
+					</p>
+					<p>
+						myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -483,31 +529,37 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="durationCtrl" class="lui block round">
-				<p>
-					myValue:
-					<span class="lui input">
-						<input type="text" ng-model="myValue">
-					</span>
-					 (enter '1.11:30:00' or 'PT35H30M' or such like)
-				</p>
-				<p>
-					set myValue to
-					<span class="lui button" ng-click="myValue='PT35H'">35h</span>
-					<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
-				</p>
-				<p>
-					myValue: <code>{{ myValue | luifDuration }}</code>
-				</p>
-				<p>
-					myValue with unit='day': <code>{{ myValue | luifDuration : false : 'd' }}</code> - duration under the hour won't be displayed
-				</p>
-				<p>
-					myValue with unit='day' and precision='second': <code>{{ myValue | luifDuration : false : 'd' : 's'}}</code> - duration under the second won't be displayed
-				</p>
-				<p>
-					myValue with a sign: <code>{{ myValue | luifDuration : true }}</code>
-				</p>
-
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myValue:
+						<span class="lui input">
+							<input type="text" ng-model="myValue">
+						</span>
+						 (enter '1.11:30:00' or 'PT35H30M' or such like)
+					</p>
+					<p>
+						set myValue to
+						<span class="lui button" ng-click="myValue='PT35H'">35h</span>
+						<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
+					</p>
+					<p>
+						myValue: <code>{{ myValue | luifDuration }}</code>
+					</p>
+					<p>
+						myValue with unit='day': <code>{{ myValue | luifDuration : false : 'd' }}</code> - duration under the hour won't be displayed
+					</p>
+					<p>
+						myValue with unit='day' and precision='second': <code>{{ myValue | luifDuration : false : 'd' : 's'}}</code> - duration under the second won't be displayed
+					</p>
+					<p>
+						myValue with a sign: <code>{{ myValue | luifDuration : true }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 
@@ -537,24 +589,31 @@
 				<h4 class="lui underline">Demo:</h4>
 			</div>
 			<div ng-controller="humanizeCtrl" class="lui block round">
-				<p>
-					myValue:
-					<span class="lui input">
-						<input type="text" ng-model="myValue">
-					</span>
-					 (enter '1.11:30:00' or 'PT35H30M' or such like)
-				</p>
-				<p>
-					set myValue to
-					<span class="lui button" ng-click="myValue='PT1H'">1h</span>
-					<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
-				</p>
-				<p>
-					myValue humanized: <code>{{ myValue | luifHumanize }}</code>
-				</p>
-				<p>
-					myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
-				</p>
+				<div class="lui column desktop-2 desktop-offset-10">
+					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div>
+				<div>
+					<p>
+						myValue:
+						<span class="lui input">
+							<input type="text" ng-model="myValue">
+						</span>
+						 (enter '1.11:30:00' or 'PT35H30M' or such like)
+					</p>
+					<p>
+						set myValue to
+						<span class="lui button" ng-click="myValue='PT1H'">1h</span>
+						<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
+					</p>
+					<p>
+						myValue humanized: <code>{{ myValue | luifHumanize }}</code>
+					</p>
+					<p>
+						myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
+					</p>
+				</div>
 			</div>
 		</article>
 	</section>
