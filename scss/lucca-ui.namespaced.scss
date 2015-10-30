@@ -22,6 +22,9 @@ $namespace: "#{$prefix}.app" !default;
 @import "core/utilities/supports-sizing";
 // Loader
 @import "core/utilities/loader";
+// Triangle maker
+@import "core/utilities/points-towards";
+
 
 // Lucca icons
 // ===================================
