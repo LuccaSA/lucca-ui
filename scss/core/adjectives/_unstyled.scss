@@ -1,7 +1,10 @@
 // Lists
 // ====
-ul#{$prefix}.unstyled, ol#{$prefix}.unstyled {
+%lui_unstyled_list {
 	list-style: none; padding: 0; margin: 0;
+}
+ul#{$prefix}.unstyled, ol#{$prefix}.unstyled {
+	@extend %lui_unstyled_list;
 }
 // Links
 // ====

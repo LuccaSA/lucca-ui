@@ -64,13 +64,13 @@
 	height: map-gets($vars, header, height);
 	line-height: map-gets($vars, header, height);
 
-	background-color: lui_get_colorscheme(primary, color);
+	background-color: luiPalette(primary, color);
 	text-align: center;
 	font-size: map-gets($vars, logoFontSize);
 	font-weight: lighter;
 
 	&, a {
-		color: lui_get_colorscheme(primary, text);
+		color: luiPalette(primary, text);
 	}
 
 	// Navigation mobile toggle

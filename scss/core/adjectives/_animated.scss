@@ -1,7 +1,7 @@
 @if map-get($vars, enabled) {
 	@at-root {
 		%#{$cleanNamespace}-animated {
-			animation-easing: map-get($vars, animationEasing);
+			animation-timing-function: map-get($vars, animationEasing);
 			animation-duration: map-get($vars, animationDuration);
 			animation-fill-mode: both;
 

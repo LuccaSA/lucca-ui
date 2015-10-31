@@ -23,7 +23,7 @@
 		pointer-events: none;
 
 		& {
-			$shadow: luiTheme(adjective, raised, default, filter);
+			$shadow: unquote(luiTheme(adjective, raised, default, filter));
 			-webkit-filter: drop-shadow($shadow);
 			filter: drop-shadow($shadow);
 		}

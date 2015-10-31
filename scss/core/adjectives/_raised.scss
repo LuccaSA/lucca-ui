@@ -1,7 +1,7 @@
 @if map-get($vars, enabled) {
 
-	$regular-shadow: map-gets($vars, default, box-shadow);
-	$high-shadow: map-gets($vars, high, box-shadow);
+	$regular-shadow: unquote(map-gets($vars, default, box-shadow));
+	$high-shadow: unquote(map-gets($vars, high, box-shadow));
 
 	@at-root {
 		%#{$cleanNamespace}-raised {
