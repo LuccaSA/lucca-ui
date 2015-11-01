@@ -32,8 +32,7 @@ $luiTheme: () !default;
 // ===================================
 
 @function lui_theme_shadow() {
-	$vars: luiTheme(adjective, raised);
-	@return unquote("#{map-get($vars, x)} #{map-get($vars, y)} #{map-get($vars, blur)} #{map-get($vars, spread)} #{map-get($vars, color)}");
+	@return unquote(luiTheme(adjective, raised, default, box-shadow));
 }
 
 // Get root unit size
