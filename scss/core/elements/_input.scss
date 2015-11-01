@@ -103,8 +103,11 @@
 	}
 	#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
 	#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
-	#{$prefix}.input > select, #{$prefix}.input > textarea {
+	#{$prefix}.input > textarea {
 		padding: map-gets($vars, padding, top) map-gets($vars, padding, right) map-gets($vars, padding, bottom) map-gets($vars, padding, left);
+	}
+	#{$prefix}.input > select {
+		padding: (map-gets($vars, padding, top) / 2) map-gets($vars, padding, right) (map-gets($vars, padding, bottom) / 2) map-gets($vars, padding, left);
 	}
 
 	// Fitting size
@@ -185,33 +188,76 @@
 		&.addons > input {
 			border-radius: 0 !important;
 		}
-
-		// Old browsers
-		@include lui_target_IE9 {
-			// display: inline-table;
-			// > input, > .addon { display: table-cell; }
-		}
 	}
 
 
-	// Form and fields
+	// Field
 	// ===================================
 
-	// #{$prefix}.input { // Automatic inputs styling
-	// 	margin: $field-v-margin 0;
-	// 	&:not(.inline) {
-	// 		@include flex-direction(column);
-	// 		@include flex-align-items(flex-start);
-	//
-	// 		> label, > input { display: block; }
-	// 	}
-	//
-	// 	> input[type="checkbox"] { width: auto; }
-	// 	input[type="checkbox"] + label { margin-left: 0.5em; }
-	//
-	// 	> label { font-weight: $field-label-font-weight; }
-	// }
+	#{$prefix}.field,
+	#{$prefix}.fields {
+		margin: 0.5em 0;
+	}
+	#{$prefix}.field {
+		@include display-flex(true);
+		@include flex-direction(column);
+		@include flex-align-items(flex-start);
 
+		> .input { width: 100%; }
+
+		> label + .input,
+		> .input  + label {
+			margin-top: 0.25em;
+		}
+
+		// Fitting: takes the whole available horizontal space
+		&.fitting {
+			width: 100%
+		}
+
+		// Label styling
+		// ====
+		> label {
+			white-space: pre;
+			font-weight: map-gets($vars, field, labelFontWeight);
+		}
+
+		> label, > .input {
+			display: block;
+		}
+
+		// invalid
+		// ====
+		&.invalid {
+			> label {
+				color: map-gets($vars, invalidColor);
+			}
+			> .input {
+				&,
+				> input,
+				> select,
+				> textarea { @extend %lui_invalid_input_base; }
+			}
+		}
+	}
+	#{$prefix}.fields {
+		@extend %lui_clearfix;
+
+		.field:not(:last-of-type) {
+			padding-right: 1em;
+		}
+	}
+
+	#{$prefix}.inline.field,
+	#{$prefix}.inline.fields > .field {
+		@include flex-direction(row);
+		@include flex-align-items(center);
+
+		> label + .input,
+		> .input  + label {
+			margin-left: 0.5em;
+		}
+	}
 
 
 	// Sizing support
