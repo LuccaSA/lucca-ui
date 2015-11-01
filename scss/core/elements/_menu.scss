@@ -11,7 +11,7 @@
 			background-color: map-get($scheme, color);
 		}
 	}
-	&.pills > a.item:active, &.pills > a.item.active {
+	&.pills > a.active.item {
 		background-color: map-get($scheme, color);
 		color: map-get($scheme, text);
 	}
@@ -19,7 +19,7 @@
 		background-color: lighten(map-get($scheme, color), 5);
 		color: map-get($scheme, text);
 	}
-	&.tabbed > a.item.active {
+	&.tabbed > a.active.item {
 		border-top-color: map-get($scheme, color);
 	}
 }
@@ -41,6 +41,11 @@
 
 @if map-get($vars, enabled) {
 
+	// Menu
+	// ===================================
+
+	// Base menu styling
+	// ====
 	#{$prefix}.menu {
 		position: relative;
 		@include display-flex();
@@ -58,197 +63,211 @@
 		a { @extend a#{$prefix}.unstyled; }
 	}
 
-	// Borders
-	#{$prefix}.menu.bordered {
-		border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
-		&.inverted {
-			border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
-		}
-	}
-	#{$prefix}.menu.bordered:not(.vertical) {
-		> .item, > .menu {
-			border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
-			@include flex-align-self(stretch);
-		}
-		&.inverted > .item, &.inverted > .menu {
-			border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
-		}
-		> .item:last-child {
-			border-right: none;
-		}
 
-		> .menu[class*="top dividing"] { margin-top: -1px; }
-		> .menu:not([class*="top dividing"]) { margin-bottom: -1px; }
-	}
-	#{$prefix}.menu.vertical.bordered {
-		> .item, > .menu {
-			border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
-		}
-		&.inverted > .item, &.inverted > .menu {
-			border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
-		}
-		> .item:last-child {
-			border-bottom: none;
-		}
-
-		> .menu[class*="right dividing"] { margin-right: -1px; }
-		> .menu:not([class*="right dividing"]) { margin-left: -1px; }
-	}
-
-	// Sub menu
-	#{$prefix}.menu:not(.dividing) > .menu:not(.dividing) {
+	// Menu inception
+	// ====
+	#{$prefix}.menu > .menu {
 		border-width: 0;
-		margin: 0;
-		padding: map-gets($vars, item, horizontal, verticalPadding) map-gets($vars, item, horizontal, horizontalPadding);
-		margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
+		margin: 0; padding: 0;
 	}
 	#{$prefix}.menu:not(.vertical) > .menu {
 		@include display-flex();
 	}
 
 
-	// Items - groups (horizontal menus only)
+	// Justified
+	// ====
+	#{$prefix}.justified.justified:not(.vertical) {
+		@include flex-justify-content(space-between);
+		> .item {
+			@include flex(1);
+			text-align: center;
+			margin: 0;
+			@include flex-justify-content(center);
+		}
+		&:after {
+			display: none;
+		}
+	}
+
+
+	// Bordered style menu
+	// ====
+
+	// Base
+	#{$prefix}.menu.bordered {
+		border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
+		&.inverted { border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor); }
+	}
+	// Horizontal
+	#{$prefix}.menu.bordered:not(.vertical) {
+		> .item:not([class*="right item"]),
+		> .menu:not([class*="right menu"]) {
+			border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
+		}
+		&.inverted > .item:not([class*="right item"]),
+		&.inverted > .menu:not([class*="right menu"]) {
+			border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
+		}
+	}
+	// Vertical
+	#{$prefix}.menu.vertical.bordered {
+		> .item:not([class*="bottom item"]),
+		> .menu:not([class*="bottom menu"]) {
+			border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
+		}
+		&.inverted > .item:not([class*="bottom item"]),
+		&.inverted > .menu:not([class*="bottom menu"]) {
+			border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
+		}
+	}
+	// Dividing support - horizontal
+	#{$prefix}.bordered.menu:not(.vertical) > #{$prefix}.dividing.menu,
+	#{$prefix}.dividing.menu:not(.vertical) > #{$prefix}.dividing.menu {
+		&:not([class*="top dividing"]) { border-bottom: none !important; }
+		&[class*="top dividing"] { border-top: none !important; }
+	}
+	// Dividing support - Vertical
+	#{$prefix}.bordered.vertical.menu > #{$prefix}.dividing.menu,
+	#{$prefix}.dividing.vertical.menu > #{$prefix}.dividing.menu {
+		&:not([class*="right dividing"]) { border-left: none !important; }
+		&[class*="right dividing"] { border-right: none !important; }
+	}
+
+
+	// Item(s)
 	// ===================================
 
-	// Common
+	// Common styles
+	// ====
 	#{$prefix}.menu > .item {
 		// Resets
 		position: relative;
 		line-height: 1;
 		@extend #{$prefix}.clear;
-
-		// Label support
-		> .label {
-			float: right;
-			margin-right: 0;
-			margin-top: -0.15em;
-		}
 	}
-	// Old browsers
-	#{$prefix}.menu:not(.vertical) > #{$prefix}.item:not([class*="right item"]),
-	#{$prefix}.menu:not(.vertical) > #{$prefix}.menu:not([class*="right menu"]) { float: left; }
-	#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right item"],
-	#{$prefix}.menu:not(.vertical) > #{$prefix}.menu[class*="right menu"] { float: right; }
 
+	// Link items
+	// ====
 	#{$prefix}.menu > a.item {
 		cursor: pointer;
-		&, &:hover, &:visited { color: map-gets($vars, item, color); text-decoration: none;}
+		&, &:hover, &:visited {
+			color: map-gets($vars, item, color);
+			text-decoration: none;
+		}
 	}
 	#{$prefix}.menu > .item.disabled,
-	#{$prefix}.menu > .item.ng-disabled { cursor: pointer; pointer-events: none; opacity: 0.8; }
-
-	// Active item
+	#{$prefix}.menu > .item.ng-disabled {
+		cursor: pointer;
+		pointer-events: none;
+		opacity: 0.8;
+	}
 	#{$prefix}.menu > .item.active {
 		font-weight: 600;
 	}
 
-	// Divider item
-	#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
-		border: none; padding-right: 0; margin-right: map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin);
-		border-right: 1px solid map-gets($vars, borderColor);
-	}
+
+	// Header item
+	// ====
 	#{$prefix}.menu.vertical > .item.divider:not(.header) {
 		padding-top: 0 !important;
 		padding-bottom: 0 !important;
 	}
-
-	// Header item
 	#{$prefix}.menu > .item.header {
 		font-size: map-gets($vars, item, header, fontSize);
 	}
 
-	// Horizontal menu item
-	#{$prefix}.menu:not(.vertical) > .item {
-		// Old browsers
-		float: left;
 
-		@include display-flex();
-		@include flex-align-items(center);
-
-		padding: map-gets($vars, item, horizontal, verticalPadding) map-gets($vars, item, horizontal, horizontalPadding);
-		margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
-	}
-
-	// Vertical menu item
-	#{$prefix}.menu.vertical > .item {
-		display: block;
-
-		 padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
-		 margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
-	}
-
-	// Centered item
-	#{$prefix}.menu > .centered.item,
-	#{$prefix}.menu > .centered.menu {
-		margin-left: auto !important; margin-right: auto !important;
-		text-align: center;
+	// Divider item
+	// ====
+	#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
+		border: none; padding-right: 0; margin-right: map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin);
+		border-right: 1px solid map-gets($vars, borderColor);
 	}
 
 
-	// Element support
+	// Label support
+	// ====
+	#{$prefix}.menu > .item > .label {
+		float: right;
+		margin-right: 0;
+		margin-top: -0.15em;
+	}
+
+	// Button & input support
 	#{$prefix}.item .button,
 	#{$prefix}.item.button,
+
 	#{$prefix}.item .buttons,
 	#{$prefix}.item.buttons,
+
 	#{$prefix}.item .input,
 	#{$prefix}.item.input {
 		@include flex-align-self(center);
 	}
 
 
-	// Items - groups (horizontal menus only)
-	// ===================================
-
-	// Horizontal left floated
-	#{$prefix}.menu:not(.vertical) > [class*="left item"],
-	#{$prefix}.menu:not(.vertical) > [class*="left menu"] {
+	// Item positioning
+	// ====
+	// Horizontal menus - right item
+	#{$prefix}.menu:not(.vertical) > #{$prefix}.item:not([class*="right item"]),
+	#{$prefix}.menu:not(.vertical) > #{$prefix}.menu:not([class*="right menu"]) {
 		float: left; // old browsers...
 		@include display-flex();
 		@include flex-wrap(wrap);
 		margin-right: auto;
 	}
-	// Horizontal right floated
-	#{$prefix}.menu:not(.vertical) > [class*="right item"],
-	#{$prefix}.menu:not(.vertical) > [class*="right menu"] {
+	#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right item"],
+	#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right items"],
+	#{$prefix}.menu:not(.vertical) > #{$prefix}.menu[class*="right menu"] {
 		float: right; // old browsers...
 		@include display-flex();
 		@include flex-wrap(wrap);
 		@include flex-justify-content(flex-end);
 		margin-left: auto !important;
 	}
-	// vertical
+	// Vertical menus - bottom item
+	#{$prefix}.vertical.menu > #{$prefix}.item[class*="bottom item"],
+	#{$prefix}.vertical.menu > #{$prefix}.item[class*="bottom items"],
+	#{$prefix}.vertical.menu > #{$prefix}.menu[class*="bottom menu"] {
+		margin-top: auto !important;
+	}
+	// Vertical menus - centered item
+	#{$prefix}.vertical.menu > .centered.item,
+	#{$prefix}.vertical.menu > .centered.menu {
+		margin-top: auto !important; margin-left: auto !important;
+	}
+	// Horizontal menus - centered item
+	#{$prefix}:not(.vertical).menu > .centered.item,
+	#{$prefix}:not(.vertical).menu > .centered.menu {
+		margin-left: auto !important; margin-right: auto !important;
+		text-align: center;
+	}
+
+
+	// Menu direction - Horizontal & Vertical
+	// ====
+	// Horizontal menu item
+	#{$prefix}.menu:not(.vertical) > .item {
+		// Old browsers
+		float: left;
+		@include display-flex();
+		@include flex-align-items(center);
+		padding: map-gets($vars, item, horizontal, verticalPadding) map-gets($vars, item, horizontal, horizontalPadding);
+		margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
+	}
+	// Vertical menu item
+	#{$prefix}.menu.vertical > .item {
+		display: block;
+		padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
+		margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
+	}
+	// Vertical
 	#{$prefix}.menu.vertical > .menu:not(.horizontal),
 	#{$prefix}.menu.vertical > .item {
 		@include flex-direction(column);
 	}
-	// Vertical bottom "floated"
-	#{$prefix}.menu.vertical > .bottom.item,
-	#{$prefix}.menu.vertical > .bottom.menu {
-		margin-top: auto !important;
-	}
-	// Borders
-	#{$prefix}.menu.bordered,
-	#{$prefix}.menu.bordered {
-		&.inverted:not(.vertical) {
-			> [class*="left item"], > [class*="left menu"] {
-				border-right: map-gets($vars, borderWidth) solid map-gets($vars, invertedBorderColor);
-			}
-			> [class*="right item"], > [class*="right menu"] {
-				border-left: map-gets($vars, borderWidth) solid map-gets($vars, invertedBorderColor);
-			}
-		}
-		&:not(.inverted):not(.vertical) {
-			> [class*="left item"], > [class*="left menu"] {
-				border-right: map-gets($vars, borderWidth) solid map-gets($vars, borderColor);
-			}
-			> [class*="right item"], > [class*="right menu"] {
-				border-left: map-gets($vars, borderWidth) solid map-gets($vars, borderColor);
-			}
-		}
-	}
-	#{$prefix}.menu.vertical > [class*="left item"] + [class*="right item"] {
-		border-top: none;
-	}
+
 
 
 	// Menu orientation
@@ -266,7 +285,6 @@
 	// Vertical
 	#{$prefix}.menu.vertical {
 		@include flex-direction(column);
-
 		> .menu > .item {
 			border-right: none;
 		}
@@ -276,20 +294,14 @@
 	// Menu styles
 	// ===================================
 
-	 // Dividing - Common
+	// Dividing style
+	// Dividing - Common
 	#{$prefix}.menu.dividing {
 		border-color: map-gets($vars, dividing, dividerColor);
 
 		> .item {
 			padding: map-gets($vars, item, horizontal, verticalPadding) 0;
 			margin: map-gets($vars, item, horizontal, verticalMargin) (map-gets($vars, item, horizontal, horizontalMargin) + map-gets($vars, item, horizontal, horizontalPadding));
-		}
-
-		> [class*="right item"], > [class*="right menu"] {
-			border-left: none !important;
-		}
-		> [class*="left item"], > [class*="left menu"] {
-			border-right: none !important;
 		}
 
 		> a.item:before, > a.item:after {
@@ -372,15 +384,9 @@
 		}
 	}
 
-	// Dividing menus inception
-	#{$prefix}[class*="top dividing"].menu:not(.vertical) > #{$prefix}[class*="top dividing"].menu:not(.vertical) { border-top: none; }
-	#{$prefix}.dividing.menu:not([class*="top dividing"]):not(.vertical) > #{$prefix}.dividing.menu:not([class*="top dividing"]):not(.vertical) { border-bottom: none; }
-	.lui:not([class*="right dividing"]).menu.vertical > .lui:not([class*="left dividing"]).menu.vertical { border-left: none; }
-	#{$prefix}[class*="right dividing"].menu.vertical > #{$prefix}[class*="right dividing"].menu.vertical { border-right: none; }
 
-
-
-	// Tabbed
+	// Tabbed style
+	// ====
 	#{$prefix}.menu.tabbed {
 		background: map-gets($vars, tabbed, background);
 		padding: map-gets($vars, tabbed, padding);
@@ -418,7 +424,8 @@
 		margin-bottom: map-gets($vars, tabbed, bottomSpacing);
 	}
 
-	// Pills
+	// Pills style
+	// ====
 	#{$prefix}.menu.pills {
 		> .item {
 			border-right: none !important;
@@ -439,19 +446,6 @@
 		padding: (map-gets($vars, item, vertical, verticalPadding) + map-gets($vars, item, vertical, verticalMargin)) (map-gets($vars, item, vertical, horizontalPadding) + map-gets($vars, item, vertical, horizontalMargin));
 	}
 
-	// Alignments
-	#{$prefix}.menu.justified:not(.vertical) {
-		@include flex-justify-content(space-between);
-		> .item {
-			@include flex(1);
-			text-align: center;
-			margin: 0;
-			@include flex-justify-content(center);
-		}
-		&:after {
-			display: none;
-		}
-	}
 
 
 	// Container menu
