@@ -34,13 +34,6 @@
 // ============ Elements =============
 // ===================================
 
-@import "input.search";
-@import "input.switch";
-@import "input.checkbox";
-//
-@import "input.timespanpicker";
-@import "input.momentpicker";
-
 @if map-get($vars, enabled) {
 
 	// General properties
@@ -75,7 +68,6 @@
 	%lui_input_text_field {
 		padding: 0  map-gets($vars, padding, right) 0  map-gets($vars, padding, left);
 		line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
-		height: 1 + map-gets($vars, padding, top) + map-gets($vars, padding, bottom); // For any version of IE...
 
 		// Fix for Internet Explorer
 		height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
@@ -94,6 +86,10 @@
 		> textarea,
 		> select {
 			@extend %lui_input_field_base;
+		}
+
+		> input[type="checkbox"] {
+			width: auto;
 		}
 	}
 
@@ -199,6 +195,7 @@
 		margin: 0.5em 0;
 	}
 	#{$prefix}.field {
+		vertical-align: middle;
 		@include display-flex(true);
 		@include flex-direction(column);
 		@include flex-align-items(flex-start);
@@ -246,6 +243,13 @@
 		.field:not(:last-of-type) {
 			padding-right: 1em;
 		}
+
+		@include lui_screens_smaller_than(tablet) {
+			> .field {
+				width: 100% !important;
+				padding-right: 0 !important;
+			}
+		}
 	}
 
 	#{$prefix}.inline.field,
@@ -282,4 +286,11 @@
 		> select,
 		> textarea { @extend %lui_invalid_input_base; }
 	}
+
+	@import "input.search";
+	@import "input.switch";
+	@import "input.checkbox";
+	//
+	@import "input.timespanpicker";
+	@import "input.momentpicker";
 }

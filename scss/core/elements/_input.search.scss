@@ -34,7 +34,7 @@
 				top: 50%; transform: translateY(-50%);
 			}
 			right: 1em;
-			&:before { right:  lui_rem(0.45	); margin: 0; }
+			&:before { right:  0.6em; margin: 0; }
 
 			background: map-gets($vars, borderColor);
 			color: #FFF;
