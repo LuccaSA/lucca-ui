@@ -1,0 +1,12 @@
+
+// Overlay
+// @type: element
+// ===================================
+
+$overlay: (
+	enabled: 					true,
+
+	zIndex: 					100,
+	background: 				rgba(0, 0, 0, 0.5)
+);
+$luiTheme: luiSetTheme(element, overlay, $overlay);

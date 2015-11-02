@@ -1,7 +1,7 @@
 
 #view #main-header {
 	box-sizing: content-box;
-	margin-top: map-gets($vars, header, topOffset);
+	margin-top: map-gets($vars, topOffset);
 
 	margin-bottom: map-gets($vars, header, bottomMargin);
 	min-height: map-gets($vars, header, height);
@@ -17,5 +17,8 @@
 		.item, .menu {
 			margin: auto;
 		}
+	}
+	@include lui_screens_smaller_than(tablet) {
+		margin-top: 0;
 	}
 }

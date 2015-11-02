@@ -57,20 +57,20 @@
 // Application logo
 #main-navigation #app-logo {
 	box-sizing: content-box;
-	padding-top: map-gets($vars, header, topOffset);
+	padding-top: map-gets($vars, topOffset);
 
 	display: block;
 	overflow: hidden;
 	height: map-gets($vars, header, height);
 	line-height: map-gets($vars, header, height);
 
-	background-color: lui_get_colorscheme(primary, color);
+	background-color: luiPalette(primary, color);
 	text-align: center;
 	font-size: map-gets($vars, logoFontSize);
 	font-weight: lighter;
 
 	&, a {
-		color: lui_get_colorscheme(primary, text);
+		color: luiPalette(primary, text);
 	}
 
 	// Navigation mobile toggle
@@ -93,6 +93,7 @@
 			a, .navigation-toggle {
 				display: inline-block;
 				vertical-align: middle;
+				text-decoration: none;
 			}
 		}
 

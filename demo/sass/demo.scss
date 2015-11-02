@@ -20,6 +20,17 @@ html, body {
 	width: $toc-width;
 	height: 100%;
 }
+
+#demoBlock {
+	margin: 13px 0;
+	.header {
+		padding: 0;
+		h4 {
+			padding-bottom: 17px; 
+		}
+	}
+}
+
 .dark {
 	background-color: #333;
 	padding: 1em;

@@ -1,0 +1,72 @@
+
+// Input(s)
+// @type: element
+// ===================================
+
+$input: (
+	enabled: 					true,
+
+	background: 				#FFF,
+	borderRadius: 				3px,
+	color: 						#666,
+	padding: (
+		top: 					0.66em,
+		right: 					1em,
+		bottom:					0.66em,
+		left: 					1em
+	),
+	borderColor: 				luiPalette(light, color),
+	focusBorderColor: 			luiPalette(light, color, dark),
+	invalidColor:  				luiPalette(red, color),
+	shadow: 					0 2px 2px 0 luiTheme(element, divider, color),
+
+	placeholder: (
+		color: 					rgba(0, 0, 0, 0.5),
+		style: 					italic,
+	),
+
+	field: (
+		verticalMargin: 		0.5em,
+		labelFontWeight: 		600,
+	),
+
+	checkbox: (
+		enabled: 				true,
+
+		color: 					luiPalette(primary, color),
+		size: 					1.5em
+	),
+
+	switch: (
+		enabled: 				true,
+
+		width: 					4.5em,
+		height: 				2.25em,
+		background: 			#666,
+		color: 					darken(#666, 15),
+		activeBackground: 		luiPalette(primary, color),
+		activeColor:			luiPalette(primary, color, dark),
+		grabLinesColor: 		luiPalette(light, color),
+	),
+
+	search: (
+		enabled: 				true,
+
+		paddingLeft: 			2.5em
+	),
+
+
+	timespanpicker: (
+		enabled: 				true,
+
+		width: 					5em
+	),
+
+	momentpicker: (
+		enabled: 				true,
+
+		width: 					2.2em,
+		maxWidth: 				5.25em
+	)
+);
+$luiTheme: luiSetTheme(element, input, $input);

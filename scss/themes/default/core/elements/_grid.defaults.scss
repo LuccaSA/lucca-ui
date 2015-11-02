@@ -1,0 +1,13 @@
+
+// Grid
+// @type: element
+// ===================================
+
+$grid: (
+	enabled: 					true,
+
+	gutter: 					1em,
+	columns: 					12,
+	containerWidth: 			auto
+);
+$luiTheme: luiSetTheme(element, grid, $grid);

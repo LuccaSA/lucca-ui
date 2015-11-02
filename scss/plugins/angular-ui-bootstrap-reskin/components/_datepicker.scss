@@ -55,18 +55,18 @@
 		thead tr {
 			// Month & year
 			&:first-child {
-				background-color: lui_get_colorscheme(primary, color);
+				background-color: luiPalette(primary, color);
 				border: none;
 				margin: 0;
 
 				button {
-					color: lui_get_colorscheme(primary, text);
+					color: luiPalette(primary, text);
 					padding: 1em;
 					border-radius: 0;
 					font-size: 1.1em;
 
 					&:hover, &:active, &:focus {
-						background-color: lighten(lui_get_colorscheme(primary, color), 10);
+						background-color: luiPalette(primary, color, light);
 					}
 				}
 			}
@@ -80,14 +80,14 @@
 		tbody {
 			button {
 				padding: 0.5em 1em;
-				color: lui_get_colorscheme(grey, color);
+				color: luiPalette(grey, color);
 				@include lui_transition_properties(background-color);
 
 				&:hover { background-color: #EEE; }
 
-				&.active { color: darken(lui_get_colorscheme(grey, color), 10); background-color: lighten(lui_get_colorscheme(primary, color), 30); }
+				&.active { color: luiPalette(grey, color, dark); background-color: luiPalette(primary, color, x-light); }
 			}
-			.text-muted { color: lui_get_colorscheme(light, color); }
+			.text-muted { color: luiPalette(light, color); }
 		}
 
 		li[ng-if="showButtonBar"] {

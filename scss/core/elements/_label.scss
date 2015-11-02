@@ -9,7 +9,7 @@
 	& {
 		background: map-get($scheme, color);
 		color: map-get($scheme, text);
-		@if map-get($scheme, lod) {
+		@if luiIsLod($scheme) {
 			text-shadow: 1px 0 1px darken(map-get($scheme, color), 5);
 		}
 	}
@@ -89,7 +89,7 @@
 		// Default coloring scheme
 		@include lui_label_coloring(map-gets($vars, defaultColoring));
 		// Coloring support
-		@each $name, $scheme in map-gets($luiTheme, references, colors) {
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_label_coloring($scheme);
 			}

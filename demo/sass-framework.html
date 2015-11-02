@@ -302,24 +302,63 @@
 				<input type="text" name="name" value="regular short">
 			</div>
 
-<!-- 			<div class="lui dashed divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Form</h4>
 			</div>
 
 			<div class="lui form">
-				<div class="lui field">
-					<label for="">First name</label>
-					<input type="text" name="first-name" placeholder="First name" value="">
+				<div class="lui fields">
+					<div class="lui mobile-6 column field">
+						<label for="">First name</label>
+						<div class="lui input">
+							<input type="text" name="first-name" placeholder="First name" value="">
+						</div>
+					</div>
+					<div class="lui mobile-6 column field">
+						<label for="">Last name</label>
+						<div class="lui input">
+							<input type="text" name="last-name" placeholder="Last name" value="">
+						</div>
+					</div>
 				</div>
-				<div class="lui field">
-					<label for="">Last name</label>
-					<input type="text" name="last-name" placeholder="Last name" value="">
+				<div class="lui inline fields">
+					<div class="lui field">
+						<label for="">Password</label>
+						<div class="lui input">
+							<input type="password" name="password" placeholder="Your password" value="">
+						</div>
+					</div>
+					<div class="lui invalid field">
+						<label for="">Confirm password</label>
+						<div class="lui input">
+							<input type="password" name="password" placeholder="Your password" value="">
+						</div>
+					</div>
+					<div class="lui field">
+						<label for="">How many cats?</label>
+						<div class="lui input">
+							<select class="" name="">
+								<option>1</option>
+								<option>2</option>
+								<option>5+</option>
+								<option>10+</option>
+							</select>
+						</div>
+					</div>
+					<div class="lui field">
+						<div class="lui input">
+							<input type="checkbox" name="name" value="">
+						</div>
+						<label for="">Is it lovable?</label>
+					</div>
 				</div>
-				<div class="lui field invalid">
-					<label for="">Password</label>
-					<input type="password" name="password" placeholder="password" value="">
+				<div class="lui fitting field">
+					<label for="">A fitting field takes up the whole horizontal space</label>
+					<div class="lui input">
+						<textarea name=""></textarea>
+					</div>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Search box</h4>
@@ -335,9 +374,12 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Fancy checkbox</h4>
 			</div>
-			<div class="lui input checkbox">
-				<input type="checkbox" checked />
-				<label></label>
+			<div class="lui inline field">
+				<div class="lui checkbox">
+					<input type="checkbox" id="yesno" checked />
+					<label></label>
+				</div>
+				<label for="yesno">yes or no?</label>
 			</div>
 			<div class="lui input with addon">
 				<div class="lui addon input checkbox">

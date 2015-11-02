@@ -10,11 +10,11 @@
 		background-color: map-get($scheme, color);
 		border-color: map-get($scheme, color);
 		color: map-get($scheme, text);
-		@if map-get($scheme, lod) { text-shadow: 0 1px 1px darken(map-get($scheme, color), 15); }
+		@if luiIsLod($scheme) { text-shadow: 0 1px 1px darken(map-get($scheme, color), 15); }
 	}
 }
 #{$prefix}.input {
-	@each $name, $scheme in map-gets($luiTheme, references, colors) {
+	@each $name, $scheme in luiPalettes() {
 		&.#{map-get($scheme, class)} {
 			@include lui_input_coloring($scheme);
 		}
@@ -33,13 +33,6 @@
 // ===================================
 // ============ Elements =============
 // ===================================
-
-@import "core/elements/input.search";
-@import "core/elements/input.switch";
-@import "core/elements/input.checkbox";
-//
-@import "core/elements/input.timespanpicker";
-@import "core/elements/input.momentpicker";
 
 @if map-get($vars, enabled) {
 
@@ -75,7 +68,6 @@
 	%lui_input_text_field {
 		padding: 0  map-gets($vars, padding, right) 0  map-gets($vars, padding, left);
 		line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
-		height: 1 + map-gets($vars, padding, top) + map-gets($vars, padding, bottom); // For any version of IE...
 
 		// Fix for Internet Explorer
 		height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
@@ -95,6 +87,10 @@
 		> select {
 			@extend %lui_input_field_base;
 		}
+
+		> input[type="checkbox"] {
+			width: auto;
+		}
 	}
 
 	// Text inputs
@@ -103,8 +99,11 @@
 	}
 	#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
 	#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
-	#{$prefix}.input > select, #{$prefix}.input > textarea {
+	#{$prefix}.input > textarea {
 		padding: map-gets($vars, padding, top) map-gets($vars, padding, right) map-gets($vars, padding, bottom) map-gets($vars, padding, left);
+	}
+	#{$prefix}.input > select {
+		padding: (map-gets($vars, padding, top) / 2) map-gets($vars, padding, right) (map-gets($vars, padding, bottom) / 2) map-gets($vars, padding, left);
 	}
 
 	// Fitting size
@@ -185,33 +184,84 @@
 		&.addons > input {
 			border-radius: 0 !important;
 		}
-
-		// Old browsers
-		@include lui_target_IE9 {
-			// display: inline-table;
-			// > input, > .addon { display: table-cell; }
-		}
 	}
 
 
-	// Form and fields
+	// Field
 	// ===================================
 
-	// #{$prefix}.input { // Automatic inputs styling
-	// 	margin: $field-v-margin 0;
-	// 	&:not(.inline) {
-	// 		@include flex-direction(column);
-	// 		@include flex-align-items(flex-start);
-	//
-	// 		> label, > input { display: block; }
-	// 	}
-	//
-	// 	> input[type="checkbox"] { width: auto; }
-	// 	input[type="checkbox"] + label { margin-left: 0.5em; }
-	//
-	// 	> label { font-weight: $field-label-font-weight; }
-	// }
+	#{$prefix}.field,
+	#{$prefix}.fields {
+		margin: 0.5em 0;
+	}
+	#{$prefix}.field {
+		vertical-align: middle;
+		@include display-flex(true);
+		@include flex-direction(column);
+		@include flex-align-items(flex-start);
 
+		> .input { width: 100%; }
+
+		> label + .input,
+		> .input  + label {
+			margin-top: 0.25em;
+		}
+
+		// Fitting: takes the whole available horizontal space
+		&.fitting {
+			width: 100%
+		}
+
+		// Label styling
+		// ====
+		> label {
+			white-space: pre;
+			font-weight: map-gets($vars, field, labelFontWeight);
+		}
+
+		> label, > .input {
+			display: block;
+		}
+
+		// invalid
+		// ====
+		&.invalid {
+			> label {
+				color: map-gets($vars, invalidColor);
+			}
+			> .input {
+				&,
+				> input,
+				> select,
+				> textarea { @extend %lui_invalid_input_base; }
+			}
+		}
+	}
+	#{$prefix}.fields {
+		@extend %lui_clearfix;
+
+		.field:not(:last-of-type) {
+			padding-right: 1em;
+		}
+
+		@include lui_screens_smaller_than(tablet) {
+			> .field {
+				width: 100% !important;
+				padding-right: 0 !important;
+			}
+		}
+	}
+
+	#{$prefix}.inline.field,
+	#{$prefix}.inline.fields > .field {
+		@include flex-direction(row);
+		@include flex-align-items(center);
+
+		> label + .input,
+		> .input  + label {
+			margin-left: 0.5em;
+		}
+	}
 
 
 	// Sizing support
@@ -236,4 +286,11 @@
 		> select,
 		> textarea { @extend %lui_invalid_input_base; }
 	}
+
+	@import "input.search";
+	@import "input.switch";
+	@import "input.checkbox";
+	//
+	@import "input.timespanpicker";
+	@import "input.momentpicker";
 }

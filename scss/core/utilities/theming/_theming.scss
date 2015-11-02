@@ -1,53 +1,14 @@
-
-$luiTheme: () !default;
-
 // Helpers
 // ===================================
 
-@function map-gets($map, $keys...) {
-	@each $key in $keys {
-		$map: map-get($map, $key);
-	}
+@import "palette";
 
-	@return $map;
-}
-
-@function map-extend($map, $maps.../*, $deep */) {
-	$last: nth($maps, -1);
-	$deep: $last == true;
-	$max: if($deep, length($maps) - 1, length($maps));
-
-	// Loop through all maps in $maps...
-	@for $i from 1 through $max {
-		// Store current map
-		$current: nth($maps, $i);
-
-		// If not in deep mode, simply merge current map with map
-		@if not $deep {
-			$map: map-merge($map, $current);
-		} @else {
-			// If in deep mode, loop through all tuples in current map
-			@each $key, $value in $current {
-
-				// If value is a nested map and same key from map is a nested map as well
-				@if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
-					// Recursive extend
-					$value: map-extend(map-get($map, $key), $value, true);
-				}
-
-				// Merge current tuple with map
-				$map: map-merge($map, ($key: $value));
-			}
-		}
-	}
-	@return $map;
-}
-
+$luiTheme: () !default;
 
 // Get / set theming variables
 // ===================================
 
-@function lui_set_component_variables($type, $name, $map, $inherit: true) {
+@function luiSetTheme($type, $name, $map, $inherit: true) {
 	@if length($map) > 0 and $inherit {
 		$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)), true);
 		$luiTheme: $luiTheme !global; // Make it globally known
@@ -58,22 +19,12 @@ $luiTheme: () !default;
 	@return $luiTheme;
 }
 
-// @function lui_get_component_variables($type, $name) {
-// 	@if  (map-has-key($luiTheme, "#{$type}s")) and
-// 		 (map-has-key(map-get($luiTheme, "#{$type}s"), $name)) {
-// 			@return map-gets($luiTheme, "#{$type}s", $name);
-// 	} @else {
-// 		@warn "Component #{$name} of type #{$type} was not found !";
-// 	}
-// }
-
-@function lui_theme($type, $keys...) {
+@function luiTheme($type, $keys...) {
 	@if  (map-has-key($luiTheme, "#{$type}s")) {
 		@return map-gets($luiTheme, "#{$type}s", $keys);
 	} @else {
 		@warn "#{$type} component type is unknown!";
 	}
-
 }
 
 
@@ -81,21 +32,7 @@ $luiTheme: () !default;
 // ===================================
 
 @function lui_theme_shadow() {
-	$vars: lui_theme(adjective, raised);
-	@return unquote("#{map-get($vars, x)} #{map-get($vars, y)} #{map-get($vars, blur)} #{map-get($vars, spread)} #{map-get($vars, color)}");
-}
-
-@function lui_get_colorscheme($colorName, $property: all) {
-	$scheme: lui_theme(reference, colors, $colorName);
-	@if $property != all and map-has-key($scheme, $property) {
-		@return map-get($scheme, $property);
-	} @else {
-		@return $scheme;
-	}
-}
-
-@function lui_add_colorscheme($name, $scheme) {
-	$lui_colors: map-set(map-gets($luiTheme, references, colors), $name, $scheme);
+	@return unquote(luiTheme(adjective, raised, default, box-shadow));
 }
 
 // Get root unit size
@@ -103,12 +40,12 @@ $luiTheme: () !default;
 
 @function lui_rem($number: 1) {
 	// Remove $number unit if specified and multiply it by bodyFontSize
-	@return (($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
+	@return round(($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
 }
 
 
 // Load core defaults
 // @import "core/theming/defaults.values";
 @at-root {
-	@import "core/utilities/theming/theme.defaults";
+	@import "theme.defaults";
 }
