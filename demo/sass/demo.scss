@@ -1,6 +1,7 @@
 
 $prefix: '.lui';
 @import "../../scss/lucca-ui.global.scss";
+$light: luiPalette(light, color);
 
 // Table of contents
 $toc-width: 10em;
@@ -64,7 +65,7 @@ article {
 }
 
 .hljs {
-	border: 1px solid #ccc;
+	border: 1px solid $light;
 	border-radius: 3px;
 }
 
