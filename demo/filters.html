@@ -41,230 +41,228 @@
 				<pre ng-non-bindable>{{ myValue | luifPlaceholder:"a fixed placeholder" }}
 {{ myValue | luifPlaceholder: aVarInScope }}</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="placeholderCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/XlbdTgYgxAHnIQaQMvsf?p=preview">
 						<i class="lui icon edit"></i>Edit in Plunker
 					</a>
 				</div>
-				<div>
-					<p>
-						myValue:
-						<span class="lui input with addon right">
-							<input type="text" ng-model="myValue">
-							<i class="lui cross icon right addon" ng-click="myValue='';"></i>
-						</span>
-					</p>
-					<p>
-						dynamic placeholder:
-						<span class="lui input">
-							<input type="text" ng-model="myPlaceholder">
-						</span>
-					</p>
-					<p>
-						myValue: <code>{{myValue}}</code>
-					</p>
-					<p>
-						with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
-					</p>
-					<p>
-						with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
-					</p>
-				</div>
+			</div>
+			<div ng-controller="placeholderCtrl" class="lui block round">
+				<p>
+					myValue:
+					<span class="lui input with addon right">
+						<input type="text" ng-model="myValue">
+						<i class="lui cross icon right addon" ng-click="myValue='';"></i>
+					</span>
+				</p>
+				<p>
+					dynamic placeholder:
+					<span class="lui input">
+						<input type="text" ng-model="myPlaceholder">
+					</span>
+				</p>
+				<p>
+					myValue: <code>{{myValue}}</code>
+				</p>
+				<p>
+					with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
+				</p>
+				<p>
+					with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
+				</p>
 			</div>
 		</article>
 
 		<article id="luifDefaultCode">
 			<h2 class="lui divider below">luifDefaultCode</h2>
-
 			<p>
-				A basic filter that capitalizes and replace spaces by _
+			A basic filter that capitalizes and replace spaces by _
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifDefaultCode }}</pre>
+			<pre ng-non-bindable>{{ myValue | luifDefaultCode }}</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+			<div class="lui header vertical menu">
+			<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div class="lui right item">
+			<a class="lui button primary" href="http://plnkr.co/edit/qxO9cjig53PuicG0webI?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+			</a>
+			</div>
 			</div>
 			<div ng-controller="defaultcodeCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
-				</div>
-				<div>
-					<p>
-						value:
-						<span class="lui long input">
-							<input type="text" ng-model="myValue">
-						</span>
-					</p>
-					<p>
-						myValue: <code>{{myValue}}</code>
-					</p>
-					<p>
-						with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
-					</p>
-				</div>
+				<p>
+				value:
+				<span class="lui long input">
+				<input type="text" ng-model="myValue">
+				</span>
+				</p>
+				<p>
+				myValue: <code>{{myValue}}</code>
+				</p>
+				<p>
+				with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
+				</p>
 			</div>
 		</article>
 
 		<article id="luifNumber">
 			<h2 class="lui divider below">luifNumber</h2>
-
 			<p>
-				A filter useful when displaying numbers aligned to the right in a table and some of them have non integer part but some don't and nothing is aligned and it's horrible
+			A filter useful when displaying numbers aligned to the right in a table and some of them have non integer part but some don't and nothing is aligned and it's horrible
 			</p>
 			<p>
-				It is a slight modification of the <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/number">filter number</a> provided by angular but it puts the non integral part in an invisible span if this part is zero, allowing it to be correctly aligned in a table of values with text-align: right
+			It is a slight modification of the <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/number">filter number</a> provided by angular but it puts the non integral part in an invisible span if this part is zero, allowing it to be correctly aligned in a table of values with text-align: right
 			</p>
-<!-- 			<p>
-				Also, this page uses the locale <code>FR-fr</code> for no other reason than to show that the luifNumber supports the same locale as <a class="lui fancy link" href="https://docs.angularjs.org/guide/i18n">angular i18n</a>
+			<!-- 			<p>
+			Also, this page uses the locale <code>FR-fr</code> for no other reason than to show that the luifNumber supports the same locale as <a class="lui fancy link" href="https://docs.angularjs.org/guide/i18n">angular i18n</a>
 			</p> -->
 			<p>
-				The generated html looks like this <code>integralPart&lt;span&gt;separator and decimalPart&lt;span&gt;</code>. When the decimal part is null, the span has its opacity set to 0. That means that you can apply your own style to the span with the right css selector, for example in the following table I applied <code>font-size: 90%; opacity: .6;</code> to the decimal part of te result of luifNumber by adding the class <code>luifNumberValue</code> to my cell and targetting <code>luifNumberValue &gt; span</code>.
+			The generated html looks like this <code>integralPart&lt;span&gt;separator and decimalPart&lt;span&gt;</code>. When the decimal part is null, the span has its opacity set to 0. That means that you can apply your own style to the span with the right css selector, for example in the following table I applied <code>font-size: 90%; opacity: .6;</code> to the decimal part of te result of luifNumber by adding the class <code>luifNumberValue</code> to my cell and targetting <code>luifNumberValue &gt; span</code>.
 			</p>
 			<p>
-				<b>Numeric values:</b>
-				<div class="lui container">
-					<div class="lui table zebra column mobile-12 desktop-8 large-6">
-						<div class="thead">
-							<div class="tr">
-								<div class="th lui right aligned">myValue</div>
-								<div class="th lui right aligned">myValue | number : 2</div>
-								<div class="th lui right aligned">myValue | luifNumber : 2</div>
-							</div>
-						</div>
-						<div class="tbody">
-							<div class="tr">
-								<div class="td lui right aligned">0,5</div>
-								<div class="td lui right aligned">{{0.5 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="0.5 | luifNumber : 2 "></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">10,5</div>
-								<div class="td lui right aligned">{{10.5 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="10.5 | luifNumber : 2 "></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">10</div>
-								<div class="td lui right aligned">{{10 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="10 | luifNumber : 2 "></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">10000</div>
-								<div class="td lui right aligned">{{10000 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="10000 | luifNumber : 2 "></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">1000,54368</div>
-								<div class="td lui right aligned">{{1000.54368 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="1000.54368 | luifNumber : 2 "></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">0.0001</div>
-								<div class="td lui right aligned">{{0.0001 | number : 2}}</div>
-								<div class="td lui right aligned luifNumberValue" ng-bind-html="0.0001 | luifNumber : 2 "></div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<b>Numeric values:</b>
+			<div class="lui container">
+			<div class="lui table zebra column mobile-12 desktop-8 large-6">
+			<div class="thead">
+			<div class="tr">
+				<div class="th lui right aligned">myValue</div>
+				<div class="th lui right aligned">myValue | number : 2</div>
+				<div class="th lui right aligned">myValue | luifNumber : 2</div>
+			</div>
+			</div>
+			<div class="tbody">
+			<div class="tr">
+				<div class="td lui right aligned">0,5</div>
+				<div class="td lui right aligned">{{0.5 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="0.5 | luifNumber : 2 "></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">10,5</div>
+				<div class="td lui right aligned">{{10.5 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="10.5 | luifNumber : 2 "></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">10</div>
+				<div class="td lui right aligned">{{10 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="10 | luifNumber : 2 "></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">10000</div>
+				<div class="td lui right aligned">{{10000 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="10000 | luifNumber : 2 "></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">1000,54368</div>
+				<div class="td lui right aligned">{{1000.54368 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="1000.54368 | luifNumber : 2 "></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">0.0001</div>
+				<div class="td lui right aligned">{{0.0001 | number : 2}}</div>
+				<div class="td lui right aligned luifNumberValue" ng-bind-html="0.0001 | luifNumber : 2 "></div>
+			</div>
+			</div>
+			</div>
+			</div>
 			</p>
 			<p>
-				<b>Edge cases</b>, what happens when the value provided is not numeric or is <code>undefined</code>?
-				For non numeric values it will return the value but with a margin on the right to be aligned with the integer part of the other values. For <code>undefined</code> you can provide a value for it to use instead. By default luifNumber will treat <code>undefined</code> as <code>''</code>
-				<div class="lui container">
-					<div class="lui table zebra column large-12">
-						<div class="thead">
-							<div class="tr">
-								<div class="th lui right aligned">myValue</div>
-								<div class="th lui right aligned">myValue | number : 2</div>
-								<div class="th lui right aligned">myValue | luifNumber : 2</div>
-								<div class="th lui right aligned">myValue | luifNumber : 2 : 0</div>
-								<div class="th lui right aligned">myValue | luifNumber : 2 : 3.1415</div>
-								<div class="th lui right aligned">myValue | luifNumber : 2 : '-'</div>
-							</div>
-						</div>
-						<div class="tbody">
-							<div class="tr">
-								<div class="td lui right aligned">for alignment reference: <code>40</code></div>
-								<div class="td lui right aligned">{{40 | number : 2}}</div>
-								<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 "></div>
-								<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 0"></div>
-								<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 3.1415"></div>
-								<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : '-'"></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned">for alignment reference: <code>0.5</code></div>
-								<div class="td lui right aligned">{{0.5 | number : 2}}</div>
-								<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 "></div>
-								<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 0"></div>
-								<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 3.1415"></div>
-								<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : '-'"></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned"><code>'a string'</code></div>
-								<div class="td lui right aligned">{{'a string' | number : 2}}</div>
-								<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 "></div>
-								<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 0"></div>
-								<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 3.1415"></div>
-								<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : '-'"></div>
-							</div>
-							<div class="tr">
-								<div class="td lui right aligned"><code>undefined</code></div>
-								<div class="td lui right aligned">{{undefined | number : 2}}</div>
-								<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 "></div>
-								<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 0"></div>
-								<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 3.1415"></div>
-								<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : '-'"></div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<b>Edge cases</b>, what happens when the value provided is not numeric or is <code>undefined</code>?
+			For non numeric values it will return the value but with a margin on the right to be aligned with the integer part of the other values. For <code>undefined</code> you can provide a value for it to use instead. By default luifNumber will treat <code>undefined</code> as <code>''</code>
+			<div class="lui container">
+			<div class="lui table zebra column large-12">
+			<div class="thead">
+			<div class="tr">
+				<div class="th lui right aligned">myValue</div>
+				<div class="th lui right aligned">myValue | number : 2</div>
+				<div class="th lui right aligned">myValue | luifNumber : 2</div>
+				<div class="th lui right aligned">myValue | luifNumber : 2 : 0</div>
+				<div class="th lui right aligned">myValue | luifNumber : 2 : 3.1415</div>
+				<div class="th lui right aligned">myValue | luifNumber : 2 : '-'</div>
+			</div>
+			</div>
+			<div class="tbody">
+			<div class="tr">
+				<div class="td lui right aligned">for alignment reference: <code>40</code></div>
+				<div class="td lui right aligned">{{40 | number : 2}}</div>
+				<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 "></div>
+				<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 0"></div>
+				<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 3.1415"></div>
+				<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : '-'"></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned">for alignment reference: <code>0.5</code></div>
+				<div class="td lui right aligned">{{0.5 | number : 2}}</div>
+				<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 "></div>
+				<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 0"></div>
+				<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 3.1415"></div>
+				<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : '-'"></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned"><code>'a string'</code></div>
+				<div class="td lui right aligned">{{'a string' | number : 2}}</div>
+				<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 "></div>
+				<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 0"></div>
+				<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 3.1415"></div>
+				<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : '-'"></div>
+			</div>
+			<div class="tr">
+				<div class="td lui right aligned"><code>undefined</code></div>
+				<div class="td lui right aligned">{{undefined | number : 2}}</div>
+				<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 "></div>
+				<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 0"></div>
+				<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 3.1415"></div>
+				<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : '-'"></div>
+			</div>
+			</div>
+			</div>
+			</div>
 			</p>
 			<p>
-				<strong>Important:</strong> May require <a class="lui fancy link" href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;.00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
+			<strong>Important:</strong> May require <a class="lui fancy link" href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;.00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
+			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
 &lt;ANY ng-bind-html="myValue | luifNumber : 2 : 0"&gt;&lt;/ANY&gt;
 &lt;ANY ng-bind-html="myValue | luifNumber : 2 : 'a place holder string for undefined values'"&gt;&lt;/ANY&gt;</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+			<div class="lui header vertical menu">
+			<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div class="lui right item">
+			<a class="lui button primary" href="http://plnkr.co/edit/nc1sYOJUAg1bOjrMGbvb?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+			</a>
+			</div>
 			</div>
 			<div ng-controller="numberCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
-				</div>
-				<div>
-					<p>
-						value:
-						<span class="lui input">
-							<input type="number" ng-model="myValue">
-						</span>
-					</p>
-					<p>
-						myValue: <code>{{myValue}}</code>
-					</p>
-					<p>
-						with filter number: <code>{{myValue | number : 2}}</code>
-					</p>
-					<p>
-						with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
-					</p>
-				</div>
+			<p>
+			value:
+			<span class="lui input">
+			<input type="number" ng-model="myValue">
+			</span>
+			</p>
+			<p>
+			myValue: <code>{{myValue}}</code>
+			</p>
+			<p>
+			with filter number: <code>{{myValue | number : 2}}</code>
+			</p>
+			<p>
+			with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
+			</p>
 			</div>
 		</article>
 
@@ -272,52 +270,52 @@
 			<h2 class="lui divider below">luifStartFrom</h2>
 
 			<p>
-				A filter for ng-repeat if you want to start from a certain index and don't want to use <code>ng-if="$index >= myIndex"</code>
+			A filter for ng-repeat if you want to start from a certain index and don't want to use <code>ng-if="$index >= myIndex"</code>
 			</p>
 			<p>
-				Angular provides a version of this filter but for the end, see <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/limitTo">https://docs.angularjs.org/api/ng/filter/limitTo</a>
+			Angular provides a version of this filter but for the end, see <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/limitTo">https://docs.angularjs.org/api/ng/filter/limitTo</a>
 			</p>
 			<p>
-				A typical usage is in the case of paginating a list <code>ng-repeat="item in list | luifStartFrom : myIndex | limitTo : 20"</code>
+			A typical usage is in the case of paginating a list <code>ng-repeat="item in list | luifStartFrom : myIndex | limitTo : 20"</code>
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
+			<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex | limitTo : cnt"&gt;...&lt;/ANY&gt;</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+			<div class="lui header vertical menu">
+			<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div class="lui right item">
+			<a class="lui button primary" href="http://plnkr.co/edit/B6p0jDQeZONH06JROODw?p=preview">
+				<i class="lui icon edit"></i>Edit in Plunker
+			</a>
+			</div>
 			</div>
 			<div ng-controller="startfromCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
-				</div>
-				<div>
-					<p>
-						myIndex:
-						<span class="lui input">
-							<input type="number" ng-model="myIndex">
-						</span>
-					</p>
-					<p>values: <code>{{values}}</code></p>
-					<p>
-						all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
-						<ul class="lui unstyled">
-							<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
-						</ul>
-					</p>
-					<p>
-						all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
-						<ul class="lui unstyled">
-							<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
-						</ul>
-					</p>
-				</div>
+			<p>
+			myIndex:
+			<span class="lui input">
+				<input type="number" ng-model="myIndex">
+			</span>
+			</p>
+			<p>values: <code>{{values}}</code></p>
+			<p>
+			all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
+			<ul class="lui unstyled">
+				<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+			</ul>
+			</p>
+			<p>
+			all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
+			<ul class="lui unstyled">
+				<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
+			</ul>
+			</p>
 			</div>
 		</article>
 
@@ -325,53 +323,53 @@
 			<h2 class="lui divider below">luifMoment</h2>
 
 			<p>
-				A filter to display a date, a moment or a string using the formats provided by <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/format/">momentjs</a>
+			A filter to display a date, a moment or a string using the formats provided by <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/format/">momentjs</a>
 			</p>
 			<p>
-				Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+			Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
 			</p>
 			<p>
-				if none is provided, will use the format <code>LLL</code>
+			if none is provided, will use the format <code>LLL</code>
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
+			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
 {{ myValue | luifMoment : myFormat }}</pre>
 			</p>
-			<div class="lui dashed divider">
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+			<div class="lui header vertical menu">
 				<h4 class="lui underline">Demo:</h4>
 			</div>
+			<div class="lui right item">
+				<a class="lui button primary" href="http://plnkr.co/edit/upJIOJvbWWcia1LXnBnk?p=preview">
+					<i class="lui icon edit"></i>Edit in Plunker
+				</a>
+			</div>
+			</div>
 			<div ng-controller="momentCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
-				</div>
-				<div>
-					<p>
-						myValue:
-						<span class="lui long input">
-							<input type="text" ng-model="myValue">
-						</span>
-						 (enter '2015-01-01' or such like, or try something that is not parsable by moment)
-					</p>
-					<p>
-						set myValue to
-						<span class="lui button" ng-click="setToDate()">new Date()</span>
-						<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
-					</p>
-					<p>
-						myFormat:
-						<span class="lui long input">
-							<input type="text" ng-model="myFormat">
-						</span>
-					</p>
-					<p>
-						myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
-					</p>
-				</div>
+			<p>
+				myValue:
+				<span class="lui long input">
+					<input type="text" ng-model="myValue">
+				</span>
+				(enter '2015-01-01' or such like, or try something that is not parsable by moment)
+			</p>
+			<p>
+				set myValue to
+				<span class="lui button" ng-click="setToDate()">new Date()</span>
+				<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
+			</p>
+			<p>
+				myFormat:
+				<span class="lui long input">
+					<input type="text" ng-model="myFormat">
+				</span>
+			</p>
+			<p>
+				myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
+			</p>
 			</div>
 		</article>
 
@@ -379,58 +377,58 @@
 			<h2 class="lui divider below">luifCalendar</h2>
 
 			<p>
-				A filter to display a date, a moment or a string using the function <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/calendar-time/">moment().calendar()</a>
+			A filter to display a date, a moment or a string using the function <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/calendar-time/">moment().calendar()</a>
 			</p>
 			<p>
-				Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+			Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
 			</p>
 			<p>
-				You can pass a reference date as an argument to the filter. If none is provided or moment cannot parse it, it will use today
+			You can pass a reference date as an argument to the filter. If none is provided or moment cannot parse it, it will use today
 			</p>
 			<p>
-				Does not support the formats arguments available from momentjs version 2.10.5 onwards
+			Does not support the formats arguments available from momentjs version 2.10.5 onwards
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifCalendar }}
+			<pre ng-non-bindable>{{ myValue | luifCalendar }}
 {{ myValue | luifCalendar : myRefDate }}</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="calendarCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/BUUocpfWGsvcm6lczAyc?p=preview">
 						<i class="lui icon edit"></i>Edit in Plunker
 					</a>
 				</div>
-				<div>
-					<p>
-						myValue:
-						<span class="lui long input">
-							<input type="text" ng-model="myValue">
-						</span>
-					</p>
-					<p>
-						set myValue to
-						<span class="lui button" ng-click="setToThisWeek()">start of week</span>
-						<span class="lui button" ng-click="setToLastWeek()">last week</span>
-					</p>
-					<p>
-						myRefDate:
-						<span class="lui long input">
-							<input type="text" ng-model="myRefDate">
-						</span>
-					</p>
-					<p>
-						myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
-					</p>
-					<p>
-						myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
-					</p>
-				</div>
+			</div>
+			<div ng-controller="calendarCtrl" class="lui block round">
+				<p>
+					myValue:
+					<span class="lui long input">
+						<input type="text" ng-model="myValue">
+					</span>
+				</p>
+				<p>
+					set myValue to
+					<span class="lui button" ng-click="setToThisWeek()">start of week</span>
+					<span class="lui button" ng-click="setToLastWeek()">last week</span>
+				</p>
+				<p>
+					myRefDate:
+					<span class="lui long input">
+						<input type="text" ng-model="myRefDate">
+					</span>
+				</p>
+				<p>
+					myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
+				</p>
+				<p>
+					myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
+				</p>
 			</div>
 		</article>
 
@@ -458,35 +456,35 @@
 				<pre ng-non-bindable>{{ myBlock | luifFriendlyRange }}
 {{ myBlock | luifFriendlyRange : true }}</pre>
 			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="friendlyrangeCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/pVKZqmRX4gO001JaqE0i?p=preview">
 						<i class="lui icon edit"></i>Edit in Plunker
 					</a>
 				</div>
-				<div>
-					<p>
-						myBlock.start:
-						<span class="lui long input">
-							<input type="text" ng-model="myBlock.start">
-						</span>
-					</p>
-					<p>
-						myBlock.end:
-						<span class="lui long input">
-							<input type="text" ng-model="myBlock.end">
-						</span>
-					</p>
-					<p>
-						myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
-					</p>
-					<p>
-						myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
-					</p>
-				</div>
+			</div>
+			<div ng-controller="friendlyrangeCtrl" class="lui block round">
+				<p>
+					myBlock.start:
+					<span class="lui long input">
+						<input type="text" ng-model="myBlock.start">
+					</span>
+				</p>
+				<p>
+					myBlock.end:
+					<span class="lui long input">
+						<input type="text" ng-model="myBlock.end">
+					</span>
+				</p>
+				<p>
+					myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
+				</p>
+				<p>
+					myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
+				</p>
 			</div>
 		</article>
 
@@ -524,23 +522,24 @@
 			<p>
 				<pre ng-non-bindable>{{ myValue | luifDuration }}
 {{ myValue | luifDuration : showSign : unit : precision }}</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="durationCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
+				</p>
+				<div class="lui bottom dashed divider menu" id="demoBlock">
+					<div class="lui header vertical menu">
+						<h4 class="lui underline">Demo:</h4>
+					</div>
+					<div class="lui right item">
+						<a class="lui button primary" href="http://plnkr.co/edit/2LRJVMnEA77ncwJOU3b9?p=preview">
+							<i class="lui icon edit"></i>Edit in Plunker
+						</a>
+					</div>
 				</div>
-				<div>
+				<div ng-controller="durationCtrl" class="lui block round">
 					<p>
 						myValue:
 						<span class="lui input">
 							<input type="text" ng-model="myValue">
 						</span>
-						 (enter '1.11:30:00' or 'PT35H30M' or such like)
+						(enter '1.11:30:00' or 'PT35H30M' or such like)
 					</p>
 					<p>
 						set myValue to
@@ -560,8 +559,7 @@
 						myValue with a sign: <code>{{ myValue | luifDuration : true }}</code>
 					</p>
 				</div>
-			</div>
-		</article>
+			</article>
 
 		<article id="luifHumanize">
 			<h2 class="lui divider below">luifHumanize</h2>
@@ -585,35 +583,35 @@
 				<pre ng-non-bindable>{{ myValue | luifHumanize }}
 {{ myValue | luifHumanize : usePrefix }}</pre>
 			</p>
-			<div class="lui divider">
-				<h4 class="lui underline">Demo:</h4>
-			</div>
-			<div ng-controller="humanizeCtrl" class="lui block round">
-				<div class="lui column desktop-2 desktop-offset-10">
-					<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/1XwKuVmfzH13V0Nw8fwX?p=preview">
 						<i class="lui icon edit"></i>Edit in Plunker
 					</a>
 				</div>
-				<div>
-					<p>
-						myValue:
-						<span class="lui input">
-							<input type="text" ng-model="myValue">
-						</span>
-						 (enter '1.11:30:00' or 'PT35H30M' or such like)
-					</p>
-					<p>
-						set myValue to
-						<span class="lui button" ng-click="myValue='PT1H'">1h</span>
-						<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
-					</p>
-					<p>
-						myValue humanized: <code>{{ myValue | luifHumanize }}</code>
-					</p>
-					<p>
-						myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
-					</p>
-				</div>
+			</div>
+			<div ng-controller="humanizeCtrl" class="lui block round">
+				<p>
+					myValue:
+					<span class="lui input">
+						<input type="text" ng-model="myValue">
+					</span>
+					(enter '1.11:30:00' or 'PT35H30M' or such like)
+				</p>
+				<p>
+					set myValue to
+					<span class="lui button" ng-click="myValue='PT1H'">1h</span>
+					<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
+				</p>
+				<p>
+					myValue humanized: <code>{{ myValue | luifHumanize }}</code>
+				</p>
+				<p>
+					myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
+				</p>
 			</div>
 		</article>
 	</section>
