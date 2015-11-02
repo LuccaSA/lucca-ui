@@ -6,10 +6,7 @@ module.exports = function(grunt, options){
 			outputStyle: 'compressed',
 			sourcemap: 'inline',
 			includePaths: [
-				'scss',
-				'themes/default',
-				'themes/sample',
-				'bower_components/lucca-icons/src'
+				'scss/themes/sample'
 			],
 		},
 		dist:{
@@ -20,6 +17,12 @@ module.exports = function(grunt, options){
 			]
 		},
 		demo:{
+			options: {
+				includePaths: [
+					'demo/sass/demo-theme',
+					'scss/themes/sample'
+				],
+			},
 			files: [
 				{
 					"demo/demo.min.css": "demo/sass/demo.scss"

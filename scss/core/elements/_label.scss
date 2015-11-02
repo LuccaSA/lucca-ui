@@ -9,10 +9,13 @@
 	& {
 		background: map-get($scheme, color);
 		color: map-get($scheme, text);
-		@if map-get($scheme, lod) {
+		@if luiIsLod($scheme) {
 			text-shadow: 1px 0 1px darken(map-get($scheme, color), 5);
 		}
 	}
+}
+@mixin lui_labels_coloring($scheme) {
+	.label { @include lui_label_coloring($scheme); }
 }
 
 
@@ -82,6 +85,22 @@
 		}
 	}
 
+	// Labels: label collection
+	// ===================================
+	#{$prefix}.labels {
+		padding: 0; margin: 0;
+		> .label {
+			margin: 0;
+			&:not(:last-child) { margin-right: map-get($vars, horizontalMargin); }
+		}
+		@include lui_supports_sizing();
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				@include lui_labels_coloring($scheme);
+			}
+		}
+	}
+
 	// Coloring support
 	// ===================================
 
@@ -89,10 +108,11 @@
 		// Default coloring scheme
 		@include lui_label_coloring(map-gets($vars, defaultColoring));
 		// Coloring support
-		@each $name, $scheme in map-gets($luiTheme, references, colors) {
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_label_coloring($scheme);
 			}
 		}
 	}
+
 }

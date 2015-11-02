@@ -1,7 +1,7 @@
 // Import lucca-UI dependencies
 // =============================================
 // Input
-$inputVars: lui_theme(element, input);
+$inputVars: luiTheme(element, input);
 
 
 // Plugin theming
@@ -9,7 +9,7 @@ $inputVars: lui_theme(element, input);
 
 $myTheme: () !default;
 
-@import "plugins/angular-ui-bootstrap-reskin/theme.defaults";
+@import "theme.defaults";
 
 @import "plugins/angular-ui-bootstrap-reskin/plugin.overrides";
 
@@ -20,16 +20,16 @@ $vars: $pluginVars;
 // Plugin components
 // =============================================
 // Dropdown
-@import "plugins/angular-ui-bootstrap-reskin/components/dropdown";
+@import "components/dropdown";
 // UI select
-@import "plugins/angular-ui-bootstrap-reskin/components/ui-select";
+@import "components/ui-select";
 // Tooltip
-@import "plugins/angular-ui-bootstrap-reskin/components/tooltip";
+@import "components/tooltip";
 // Datepicker
-@import "plugins/angular-ui-bootstrap-reskin/components/datepicker";
+@import "components/datepicker";
 // Popover
-@import "plugins/angular-ui-bootstrap-reskin/components/popover";
+@import "components/popover";
 // Modal
-@import "plugins/angular-ui-bootstrap-reskin/components/modal";
+@import "components/modal";
 // Collapse
-@import "plugins/angular-ui-bootstrap-reskin/components/collapse";
+@import "components/collapse";

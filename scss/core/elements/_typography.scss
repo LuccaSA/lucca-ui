@@ -49,9 +49,7 @@
 
 	h1, h2, h3, h4, h5, h6 {
 		font-family: unquote(map-gets($vars, headings, fontFamily));
-		line-height: map-gets($vars, headings, fontFamily);
-		margin: map-gets($vars, headings, fontFamily) 0;
-		font-weight: map-gets($vars, headings, fontFamily);
+		margin: 0;
 		padding: 0em;
 
 		// Icon in headings support
@@ -85,6 +83,7 @@
 			font-weight: map-gets($vars, headings, sub, fontWeight);
 			font-size: map-gets($vars, headings, sub, fontSize);
 			color: map-gets($vars, headings, sub, color);
+			margin: 0;
 		}
 		#{$prefix}.sub.inline {
 			display: inline-block;
@@ -108,7 +107,6 @@
 	dl#{$prefix}.definition-list,
 	#{$prefix}.typeset dl {
 		@extend #{$prefix}.clear;
-		dd, dt { float: left; }
 		dt {
 			width: map-gets($vars, definitionList, termWidth);
 			font-weight: map-gets($vars, definitionList, termWeight);
@@ -123,6 +121,7 @@
 			font-weight: map-gets($vars, definitionList, definitionWeight);
 			margin: 0 0 map-gets($vars, definitionList, itemVerticalSpacing) map-gets($vars, definitionList, gutter);;
 		}
+		dd, dt { float: left; &:last-of-type { margin-bottom: 0; } }
 	}
 
 

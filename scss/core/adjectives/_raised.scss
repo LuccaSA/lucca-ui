@@ -1,3 +1,15 @@
 @if map-get($vars, enabled) {
-	#{$prefix}.raised { box-shadow: map-get($vars, x) map-get($vars, y) map-get($vars, blur) map-get($vars, spread) map-get($vars, color); }
+
+	$regular-shadow: unquote(map-gets($vars, default, box-shadow));
+	$high-shadow: unquote(map-gets($vars, high, box-shadow));
+
+	@at-root {
+		%#{$cleanNamespace}-raised {
+			box-shadow: $regular-shadow;
+			&.high { box-shadow: $high-shadow; }
+		}
+	}
+
+	#{$prefix}.raised { box-shadow: $regular-shadow }
+	#{$prefix}.high.raised { box-shadow: $high-shadow }
 }

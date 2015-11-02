@@ -91,8 +91,16 @@
 &lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
 &lt;luid-user-picker ng-model="myUser" custom-filter="myFilter"&gt;&lt;/luid-user-picker&gt;</pre>
 		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Demo:</h4>
+
+		<div class="lui bottom dashed divider menu" id="demoBlock">
+			<div class="lui header vertical menu">
+				<h4 class="lui underline">Demo:</h4>
+			</div>
+			<div class="lui right item">
+				<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
+					<i class="lui icon edit"></i>Edit in Plunker
+				</a>
+			</div>
 		</div>
 		<div ng-controller="userPickerCtrl" class="lui block round">
 			<h5>Basic usage</h5>
@@ -108,7 +116,7 @@
 				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. This feature is available on branch <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/rc">rc</a> (since <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/pull/528#event-443784814">10/23/2015</a>) and <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/master">master</a> (since 10/30/2015).
 			</p>
 			<p>
-				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
+				<luid-user-picker ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
 				<input type="checkbox" ng-model="isChecked">Show former employees
 			</p>
 			<p>
@@ -126,9 +134,9 @@
 			</p>
 			<p>
 				Set of users with the selected filter applied: 
-				<luid-user-picker ng-if="customFilter === 'hasShortName'" class="lui input" ng-model="myUser.selected" custom-filter="hasShortName"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" class="lui input" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'nameContainsT'" class="lui input" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'hasShortName'" ng-model="myUser.selected" custom-filter="hasShortName"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
 			</p>
 		</div>
 		<div class="lui dashed divider">

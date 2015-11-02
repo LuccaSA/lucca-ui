@@ -1,0 +1,12 @@
+
+// Pointing
+// @type: adjective
+// ===================================
+
+$pointing: (
+	enabled: 					true,
+
+	triangleColor:				lui_get_colorscheme(light, color),
+	triangleWidth:				0.5em
+);
+$luiTheme: luiSetTheme(adjective, pointing, $pointing);

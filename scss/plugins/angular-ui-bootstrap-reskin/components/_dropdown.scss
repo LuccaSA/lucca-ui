@@ -50,6 +50,14 @@
 
 				> span { vertical-align: middle; }
 			}
+
+			.divider {
+				margin: 0;
+				padding: 0;
+				& + li a {
+					border-top: none;
+				}
+			}
 		}
 
 		// Dividers
@@ -74,7 +82,7 @@
 
 		// Coloring support
 		// ============================================================
-		@each $name, $scheme in lui_theme(reference, colors) {
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_nguibs_dropdown_coloring($scheme);
 			}

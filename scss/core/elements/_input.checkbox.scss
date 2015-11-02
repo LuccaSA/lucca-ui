@@ -8,7 +8,7 @@
 
 		input, label { margin: 0; }
 
-		input {
+		input[type="checkbox"] {
 			position: absolute;
 			left: 0; top: 0;
 			z-index: 2;
@@ -26,12 +26,16 @@
 
 			@include lui_make_icon("checkbox");
 
-			&:before,&:after { display: block; font-size:  map-gets($vars, checkbox, size); }
+			&:before,&:after { display: block; font-size:  map-gets($vars, checkbox, size); margin-right: 0 !important; }
 		}
 
 		input:checked ~ label {
 			color: map-gets($vars, checkbox, color);
 			@include lui_make_icon("checkbox checked");
+		}
+
+		& + label {
+			margin-left: 1em;
 		}
 	}
 
@@ -44,5 +48,6 @@
 	}
 	#{$prefix}.checkbox.icon.button {
 		padding: 0.25em;
+		&:before { margin: auto; }
 	}
 }

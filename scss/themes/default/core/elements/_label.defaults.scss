@@ -1,0 +1,26 @@
+
+// label
+// @type: element
+// ===================================
+
+$label: (
+	enabled: 					true,
+
+	fontSize:					0.85em,
+	lineHeight:					1,
+	textAlign: 					center,
+
+	verticalPadding: 			0.25em,
+	horizontalPadding: 			0.5em,
+
+	verticalMargin:				0,
+	horizontalMargin: 			0.5em,
+
+	borderRadius: 				3px,
+
+	defaultColoring: 			(color: luiPalette(light, color), text: #666),
+
+	addonBackground: 			rgba(0, 0, 0, 0.2),
+	iconMargin: 				0.25em
+);
+$luiTheme: luiSetTheme(element, label, $label);

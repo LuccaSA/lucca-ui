@@ -22,7 +22,7 @@
 			color: map-get($scheme, text);
 		}
 
-		@if map-get($scheme, lod) {
+		@if luiIsLod($scheme) {
 			text-shadow: 0 1px 1px darken(map-get($scheme, color), 15);
 		}
 
@@ -50,7 +50,7 @@
 		border: 1px solid map-gets($vars, borderColor);
 		background: map-gets($vars, background);
 		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-
+		
 
 		// Header
 		> .header {
@@ -121,7 +121,7 @@
 		// Default coloring scheme
 		@include lui_callout_coloring(map-gets($vars, defaultColoring));
 		// Coloring support
-		@each $name, $scheme in map-gets($luiTheme, references, colors) {
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				@include lui_callout_coloring($scheme);
 			}

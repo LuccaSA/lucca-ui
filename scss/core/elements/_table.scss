@@ -16,13 +16,17 @@
 			width: 100%;
 		}
 
+		> .thead > .tr:not(:first-child) > .th, > .tbody > .tr:not(:first-child) > .td,
+		> thead > tr:not(:first-child) > th, > tbody > tr:not(:first-child) > td {
+			border-top: map-gets($vars, border);
+		}
+
 		> .thead > .tr > .th, > .tbody > .tr > .td,
 		> thead > tr > th, > tbody > tr > td {
 			display: table-cell;
 			float: none;
 			vertical-align: top;
 			padding: map-gets($vars, padding);
-			border-top: map-gets($vars, border);
 		}
 
 		// thead
@@ -102,7 +106,7 @@
 
 	#{$prefix}.table tr,
 	#{$prefix}.table .tr {
-		@each $name, $scheme in map-gets($luiTheme, references, colors) {
+		@each $name, $scheme in luiPalettes() {
 			&.#{map-get($scheme, class)} {
 				> .th:first-child:after,
 				> .td:first-child:after,

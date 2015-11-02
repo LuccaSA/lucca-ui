@@ -7,6 +7,7 @@
 		<a class="item" href="#/less#lui-callout">Callout</a>
 		<a class="item" href="#/less#lui-table">Table</a>
 		<a class="item" href="#/less#lui-menu">Menu</a>
+		<a class="item" href="#/less#lui-progress">Progress</a>
 	</nav>
 
 	<div class="lui typeset container">
@@ -45,6 +46,9 @@
 			</p>
 			<p>
 				Use the <code class="hljs-attribute">{device}-push-x</code> and <code class="hljs-attribute">{device}-pull-x</code> classes to reorder children elements.
+			</p>
+			<p>
+				Don't want any margin on the sides of your container ? Give it the <code>fitting</code> class.
 			</p>
 			<br/>
 			<div class="lui dashed divider">
@@ -265,6 +269,14 @@
 			<span class="lui label with addon green">
 				<span class="lui addon">Users:</span> 128 <i class="lui right addon icon user"></i>
 			</span>
+
+			<span class="lui large primary labels">
+				<span class="lui label">A labels</span>
+				<span class="lui label">element</span>
+				<span class="lui label">can contain</span>
+				<span class="lui label">multiple</span>
+				<span class="lui label">label elements</span>
+			</span>
 		</article>
 
 		<article id="lui-input">
@@ -302,24 +314,63 @@
 				<input type="text" name="name" value="regular short">
 			</div>
 
-<!-- 			<div class="lui dashed divider">
+			<div class="lui dashed divider">
 				<h4 class="lui underline">Form</h4>
 			</div>
 
 			<div class="lui form">
-				<div class="lui field">
-					<label for="">First name</label>
-					<input type="text" name="first-name" placeholder="First name" value="">
+				<div class="lui fields">
+					<div class="lui mobile-6 column field">
+						<label for="">First name</label>
+						<div class="lui input">
+							<input type="text" name="first-name" placeholder="First name" value="">
+						</div>
+					</div>
+					<div class="lui mobile-6 column field">
+						<label for="">Last name</label>
+						<div class="lui input">
+							<input type="text" name="last-name" placeholder="Last name" value="">
+						</div>
+					</div>
 				</div>
-				<div class="lui field">
-					<label for="">Last name</label>
-					<input type="text" name="last-name" placeholder="Last name" value="">
+				<div class="lui inline fields">
+					<div class="lui field">
+						<label for="">Password</label>
+						<div class="lui input">
+							<input type="password" name="password" placeholder="Your password" value="">
+						</div>
+					</div>
+					<div class="lui invalid field">
+						<label for="">Confirm password</label>
+						<div class="lui input">
+							<input type="password" name="password" placeholder="Your password" value="">
+						</div>
+					</div>
+					<div class="lui field">
+						<label for="">How many cats?</label>
+						<div class="lui input">
+							<select class="" name="">
+								<option>1</option>
+								<option>2</option>
+								<option>5+</option>
+								<option>10+</option>
+							</select>
+						</div>
+					</div>
+					<div class="lui field">
+						<div class="lui input">
+							<input type="checkbox" name="name" value="">
+						</div>
+						<label for="">Is it lovable?</label>
+					</div>
 				</div>
-				<div class="lui field invalid">
-					<label for="">Password</label>
-					<input type="password" name="password" placeholder="password" value="">
+				<div class="lui fitting field">
+					<label for="">A fitting field takes up the whole horizontal space</label>
+					<div class="lui input">
+						<textarea name=""></textarea>
+					</div>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Search box</h4>
@@ -335,9 +386,12 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Fancy checkbox</h4>
 			</div>
-			<div class="lui input checkbox">
-				<input type="checkbox" checked />
-				<label></label>
+			<div class="lui inline field">
+				<div class="lui checkbox">
+					<input type="checkbox" id="yesno" checked />
+					<label></label>
+				</div>
+				<label for="yesno">yes or no?</label>
 			</div>
 			<div class="lui input with addon">
 				<div class="lui addon input checkbox">
@@ -605,6 +659,17 @@
 					<a class="lui item" href="#/">LEVEL 2.C</a>
 				</nav>
 			</nav>
+		</article>
+
+		<article id="lui-progress" class="component">
+			<h2 class="lui divider below">Progress</h2>
+
+			<div class="lui progressing progress">
+				<div class="indicator" data-percentage="75" style="width: 75%;"></div>
+			</div>
+			<div class="lui slim secondary progressing progress">
+				<div class="indicator" data-percentage="45" style="width: 45%;"></div>
+			</div>
 		</article>
 	</div>
 </div>

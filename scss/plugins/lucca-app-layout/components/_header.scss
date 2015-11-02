@@ -1,21 +1,25 @@
+@if map-get($vars, enabled) {
+	#view #main-header {
+		box-sizing: content-box;
+		margin-top: map-gets($vars, topOffset);
 
-#view #main-header {
-	box-sizing: content-box;
-	margin-top: map-gets($vars, header, topOffset);
+		margin-bottom: map-gets($vars, header, bottomMargin);
+		min-height: map-gets($vars, header, height);
 
-	margin-bottom: map-gets($vars, header, bottomMargin);
-	min-height: map-gets($vars, header, height);
+		background-color: map-gets($vars, header, background);
+	}
+	#view #main-header {
+		@include lui_screens_smaller_than(tablet) {
+			padding: 1em 0;
 
-	background-color: map-gets($vars, header, background);
-}
-#view #main-header {
-	@include lui_screens_smaller_than(tablet) {
-		padding: 1em 0;
+			@include flex-justify-content(center);
 
-		@include flex-justify-content(center);
-
-		.item, .menu {
-			margin: auto;
+			.item, .menu {
+				margin: auto;
+			}
+		}
+		@include lui_screens_smaller_than(tablet) {
+			margin-top: 0;
 		}
 	}
 }

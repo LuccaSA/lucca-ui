@@ -1,6 +1,6 @@
 @if map-get($pluginVars, enabled) {
-	[#{map-get($pluginVars, prefix)}collapse] {
+	[#{map-get($pluginVars, prefix)}uib-collapse] {
 		transition: height map-gets($pluginVars, collapse, transitionDuration) map-gets($pluginVars, collapse, transitionEasing);
-		&.collapse, &.collapsing { overflow: hidden; }
+		&.collapse:not(.in), &.collapsing { overflow: hidden; }
 	}
 }
