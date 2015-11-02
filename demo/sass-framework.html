@@ -17,7 +17,7 @@
 				This part of the framework has no dependency.
 			</p>
 			<p>
-				It is recommended to use <code class="hljs-attribute">normalize.css</code> to prevent browsers from injecting unwanted styles.
+				It is recommended to use <code>normalize.css</code> to prevent browsers from injecting unwanted styles.
 			</p>
 		</div>
 
@@ -29,23 +29,23 @@
 				By default, the lucca grid is 12 columns based. This can be overriden.
 			</p>
 			<p>
-				Container should have the <code class="hljs-attribute">lui container</code> classes. Columns must be given the <code class="hljs-attribute">lui column</code> classes.
+				Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
 			</p>
 			<p>
 				To define the size of a grid element for different devices, c being the number of columns, use
 				<ul class="lui unstyled">
-					<li><code class="hljs-attribute">lui column mobile-x</code> for mobiles phones</li>
-					<li><code class="hljs-attribute">lui column tablet-x</code> for tablets</li>
-					<li><code class="hljs-attribute">lui column desktop-x</code> for desktops</li>
-					<li><code class="hljs-attribute">lui column large-x</code> for large screens</li>
+					<li><code>lui column mobile-x</code> for mobiles phones</li>
+					<li><code>lui column tablet-x</code> for tablets</li>
+					<li><code>lui column desktop-x</code> for desktops</li>
+					<li><code>lui column large-x</code> for large screens</li>
 				</ul>
 			</p>
 
 			<p>
-				Use the <code class="hljs-attribute">{device}-offset-x</code> class to offset a specific grid child.
+				Use the <code>{device}-offset-x</code> class to offset a specific grid child.
 			</p>
 			<p>
-				Use the <code class="hljs-attribute">{device}-push-x</code> and <code class="hljs-attribute">{device}-pull-x</code> classes to reorder children elements.
+				Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
 			</p>
 			<p>
 				Don't want any margin on the sides of your container ? Give it the <code>fitting</code> class.
@@ -70,10 +70,10 @@
 				<h4 class="lui underline">Example #2: With gutter space</h4>
 			</div>
 			<p>
-				Add the <code class="hljs-attribute">spaced</code> class to give a column a gutter. Add it to the <code class="hljs-attribute">.lui.container</code> parent element to give gutters to all <code class="hljs-attribute">.lui.column</code> children.
+				Add the <code>spaced</code> class to give a column a gutter. Add it to the <code>.lui.container</code> parent element to give gutters to all <code>.lui.column</code> children.
 			</p>
 			<p>
-				Wrap <code class="hljs-attribute">.lui.column</code> elements in a <code class="hljs-attribute">.lui.columns</code> element to neutralise gutter space around the container.
+				Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
 			</p>
 			<div class="lui container spaced">
 				<div class="lui columns">
@@ -212,7 +212,7 @@
 				</div>
 				<p ng-class="{dark:inverted}">
 					<button class="lui button" ng-class="[color, style, size, status, {inverted:inverted}, {disabled:disabled}]">custom button</button>
-					<code class="hljs-attribute">class="lui {{size}} {{color}} {{style}} {{status}} {{inverted?'inverted':''}} {{disabled?'disabled':''}} button"</code>
+					<code>class="lui {{size}} {{color}} {{style}} {{status}} {{inverted?'inverted':''}} {{disabled?'disabled':''}} button"</code>
 				</p>
 				<p>
 					color :
@@ -538,8 +538,8 @@
 			<h2 class="lui divider below">Menu</h2>
 
 			<p>
-				The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code class="hljs-attribute">horizontal</code>.
-				Add the <code class="hljs-attribute">vertical</code> class to change this.
+				The menu element comes in a variety of pre-defined styles. By default, the menu is considered <code>horizontal</code>.
+				Add the <code>vertical</code> class to change this.
 			</p>
 
 			<div class="lui bordered menu">
@@ -574,7 +574,7 @@
 				<h4 class="lui underline">Dividing style</h4>
 			</div>
 			<p>
-				Add the <code class="hljs-attribute">dividing</code> class to show a border below/over/right/left of the menu.
+				Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
 				Add a color class to change the color of the active border.
 			</p>
 			<div class="lui menu green dividing center aligned">
