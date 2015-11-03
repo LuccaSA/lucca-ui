@@ -21,6 +21,17 @@
 			.modal-dialog {
 				@extend %#{$cleanNamespace}-raised;
 				margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+
+				// Sizing: lg, md & sm
+				// A large modal has the same size as a container
+				&.modal-lg {
+					@each $device, $props in luiTheme(reference, breakpoints) {
+						@media screen and (min-width: map-get($props, break)) {
+							margin-left: map-get($props, spacing);
+							margin-right: map-get($props, spacing);
+						}
+					}
+				}
 			}
 		}
 

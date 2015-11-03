@@ -83,6 +83,7 @@
 			font-weight: map-gets($vars, headings, sub, fontWeight);
 			font-size: map-gets($vars, headings, sub, fontSize);
 			color: map-gets($vars, headings, sub, color);
+			margin: 0;
 		}
 		#{$prefix}.sub.inline {
 			display: inline-block;

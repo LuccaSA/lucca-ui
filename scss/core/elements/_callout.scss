@@ -9,7 +9,7 @@
 @mixin lui_callout_coloring($scheme) {
 	// Regular style
 	&:not(.filled) {
-		&:after {
+		&:before {
 			background: map-get($scheme, color);
 		}
 	}
@@ -51,6 +51,12 @@
 		background: map-gets($vars, background);
 		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
 
+		> .header, > header,
+		> .footer, > footer {
+			width: 100%;
+			box-sizing: content-box;
+		}
+
 
 		// Header
 		> .header {
@@ -67,7 +73,7 @@
 		}
 
 		// Handle border
-		&:after {
+		&:before {
 			visibility: visible !important; // neutralise possible clearfix
 			position: absolute;
 			z-index: 2;
@@ -75,27 +81,27 @@
 			content: "";
 		}
 		// Position - defaults to left
-		&:after {
+		&:before {
 			top: 0; left: 0;
 			width: map-gets($vars, borderWidth);
 			min-height: 100%;
 		}
-		&[class*="up callout"]:after {
+		&[class*="top callout"]:before {
 			top: 0; left: 0;
 			width: 100%;
 			min-height: map-gets($vars, borderWidth);
 		}
-		&[class*="right callout"]:after {
+		&[class*="right callout"]:before {
 			top: 0; left: auto; right: 0;
 			width: map-gets($vars, borderWidth);
 			min-height: 100%;
 		}
-		&[class*="left callout"]:after {
+		&[class*="left callout"]:before {
 			top: 0; left: 0;
 			width: map-gets($vars, borderWidth);
 			min-height: 100%;
 		}
-		&[class*="down callout"]:after {
+		&[class*="bottom callout"]:before {
 			top: auto; bottom: 0; left: 0;
 			width: 100%;
 			min-height: map-gets($vars, borderWidth);
@@ -106,7 +112,7 @@
 	// Filled style
 	// =====
 	#{$prefix}.callout.filled {
-		&:after {
+		&:before {
 			display: none;
 		}
 	}

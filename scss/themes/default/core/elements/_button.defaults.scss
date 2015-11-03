@@ -18,7 +18,7 @@ $button: (
 
 	textShadow:					none,
 	borderRadius:				3px,
-	hoverShadow:				lui_get_default_shadow(),
+	hoverShadow:				lui_theme_shadow(),
 
 	addon: (
 		width: 					2.5em,
