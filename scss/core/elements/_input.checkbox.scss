@@ -48,5 +48,6 @@
 	}
 	#{$prefix}.checkbox.icon.button {
 		padding: 0.25em;
+		&:before { margin: auto; }
 	}
 }

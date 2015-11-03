@@ -55,6 +55,7 @@
 		border: 1px solid map-gets($vars, borderColor);
 		background: map-gets($vars, background);
 		color: map-gets($vars, color);
+		font-weight: normal;
 
 		&:focus, &:active {
 			outline: 0; outline: none;
@@ -209,7 +210,9 @@
 
 		// Fitting: takes the whole available horizontal space
 		&.fitting {
-			width: 100%
+			width: 100%;
+			@include display-flex();
+			display: flex !important;
 		}
 
 		// Label styling
