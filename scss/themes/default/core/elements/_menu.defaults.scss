@@ -22,14 +22,14 @@ $menu: (
 	item: (
 		color: 					luiTheme(element, typography, body, color),
 		vertical: (
-			verticalPadding: 	1em,
-			horizontalPadding: 	1.5em,
+			verticalPadding: 	lui_rem(1),
+			horizontalPadding: 	lui_rem(1.5),
 			verticalMargin: 	0,
 			horizontalMargin: 	0,
 		),
 		horizontal: (
-			verticalPadding: 	1em,
-			horizontalPadding: 	1.5em,
+		verticalPadding: 	lui_rem(1),
+		horizontalPadding: 	lui_rem(1.5),
 			verticalMargin: 	0,
 			horizontalMargin: 	0,
 		),
@@ -46,7 +46,7 @@ $menu: (
 	),
 
 	tabbed: (
-		padding: 				0 1em,
+		padding: 				0 lui_rem(1),
 		background: 			#FAFAFA,
 		activeBackground: 		#FFF,
 		borderColor: 			luiTheme(element, divider, color),

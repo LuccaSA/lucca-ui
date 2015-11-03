@@ -180,6 +180,9 @@
 
 	// Divider item
 	// ====
+	#{$prefix}.menu:not(.vertical) > .item.divider {
+		width: auto;
+	}
 	#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
 		border: none; padding-right: 0; margin-right: map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin);
 		border-right: 1px solid map-gets($vars, borderColor);
@@ -215,7 +218,6 @@
 		float: left; // old browsers...
 		@include display-flex();
 		@include flex-wrap(wrap);
-		margin-right: auto;
 	}
 	#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right item"],
 	#{$prefix}.menu:not(.vertical) > #{$prefix}.item[class*="right items"],
@@ -248,7 +250,8 @@
 	// Menu direction - Horizontal & Vertical
 	// ====
 	// Horizontal menu item
-	#{$prefix}.menu:not(.vertical) > .item {
+	#{$prefix}.menu:not(.vertical) > .item,
+	#{$prefix}.menu:not(.vertical) > .menu {
 		// Old browsers
 		float: left;
 		@include display-flex();
@@ -257,7 +260,8 @@
 		margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
 	}
 	// Vertical menu item
-	#{$prefix}.menu.vertical > .item {
+	#{$prefix}.menu.vertical > .item,
+	#{$prefix}.menu.vertical > .menu {
 		display: block;
 		padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
 		margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
@@ -295,11 +299,15 @@
 	// ===================================
 
 	// Dividing style
+	#{$prefix}.menu > .dividing.menu {
+		padding: 0; @include flex-align-self(stretch);
+	}
 	// Dividing - Common
 	#{$prefix}.menu.dividing {
 		border-color: map-gets($vars, dividing, dividerColor);
-
+		@include flex-align-content(stretch);
 		> .item {
+			@include flex-align-self(stretch);
 			padding: map-gets($vars, item, horizontal, verticalPadding) 0;
 			margin: map-gets($vars, item, horizontal, verticalMargin) (map-gets($vars, item, horizontal, horizontalMargin) + map-gets($vars, item, horizontal, horizontalPadding));
 		}
@@ -447,6 +455,17 @@
 	}
 
 
+	// Fitting menu
+	// ====
+	#{$prefix}.fitting.menu > .item:first-child,
+	#{$prefix}.fitting.menu > .menu:first-child {
+		padding-left: 0;
+	}
+	#{$prefix}.fitting.menu > .item:last-child,
+	#{$prefix}.fitting.menu > .menu:last-child {
+		padding-right: 0;
+	}
+
 
 	// Container menu
 	// ===================================
@@ -459,7 +478,6 @@
 			}
 		}
 	}
-
 	#{$prefix}.menu.container {
 		> .item:first-child {
 			padding-left: 0;
