@@ -1,6 +1,7 @@
 
 $prefix: '.lui';
 @import "../../scss/lucca-ui.global.scss";
+$light: luiPalette(light, color);
 
 // Table of contents
 $toc-width: 10em;
@@ -63,15 +64,24 @@ article {
 	@extend #{$prefix}.clear;
 }
 
-
-code {
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-	font-size: 14px;
-	color: #c7254e;
-	background-color: #f9f2f4;
-	padding: 3px;
+.hljs {
+	border: 1px solid $light;
 	border-radius: 3px;
 }
+
+// Style for default .hljs 
+// See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
+// We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
+code {
+	font-size: 13px;
+	font-weight: normal;
+	overflow-x: auto;
+	padding: 0.5em;
+	color: #d14;
+	background: #f8f8f8;
+	-webkit-text-size-adjust: none;
+}
+
 #lui-icon .icon-list {
 	padding: 0;
 	margin: 0;

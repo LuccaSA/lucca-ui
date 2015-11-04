@@ -38,7 +38,7 @@
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifPlaceholder:"a fixed placeholder" }}
+				<pre hljs no-escape language="html">{{ myValue | luifPlaceholder:"a fixed placeholder" }}
 {{ myValue | luifPlaceholder: aVarInScope }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -86,7 +86,7 @@
 			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-			<pre ng-non-bindable>{{ myValue | luifDefaultCode }}</pre>
+				<pre hljs no-escape language="html">{{ myValue | luifDefaultCode }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
@@ -233,7 +233,7 @@
 			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-			<pre ng-non-bindable>&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
+				<pre hljs no-escape language="html">&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
 &lt;ANY ng-bind-html="myValue | luifNumber : 2 : 0"&gt;&lt;/ANY&gt;
 &lt;ANY ng-bind-html="myValue | luifNumber : 2 : 'a place holder string for undefined values'"&gt;&lt;/ANY&gt;</pre>
 			</p>
@@ -282,7 +282,7 @@
 			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-			<pre ng-non-bindable>&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
+				<pre hljs no-escape language="html">&lt;ANY ng-repeat="val in values | luifStartFrom : 2"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex"&gt;...&lt;/ANY&gt;
 &lt;ANY ng-repeat="val in values | luifStartFrom : myIndex | limitTo : cnt"&gt;...&lt;/ANY&gt;</pre>
 			</p>
@@ -335,7 +335,7 @@
 			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-			<pre ng-non-bindable>{{ myValue | luifMoment : "LL" }}
+				<pre hljs no-escape language="html">{{ myValue | luifMoment : "LL" }}
 {{ myValue | luifMoment : myFormat }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -392,7 +392,7 @@
 			<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-			<pre ng-non-bindable>{{ myValue | luifCalendar }}
+				<pre hljs no-escape language="html">{{ myValue | luifCalendar }}
 {{ myValue | luifCalendar : myRefDate }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -453,7 +453,7 @@
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myBlock | luifFriendlyRange }}
+				<pre hljs no-escape language="html">{{ myBlock | luifFriendlyRange }}
 {{ myBlock | luifFriendlyRange : true }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -520,7 +520,7 @@
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifDuration }}
+				<pre hljs no-escape language="html">{{ myValue | luifDuration }}
 {{ myValue | luifDuration : showSign : unit : precision }}</pre>
 				</p>
 				<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -580,7 +580,7 @@
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre ng-non-bindable>{{ myValue | luifHumanize }}
+				<pre hljs no-escape language="html">{{ myValue | luifHumanize }}
 {{ myValue | luifHumanize : usePrefix }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">

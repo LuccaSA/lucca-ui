@@ -6,7 +6,7 @@
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 
-	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E']);
+	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E', 'hljs']);
 
 	angular.module('demoApp')
 	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
