@@ -74,11 +74,14 @@
 				operations: "=", // list of operation ids that users should have access
 				/*** SELECTED USER ***/
 				selectedUser: "=", // variable in the ng-model of ui-select
+				/*** SELECT ME OR FIRST ONE ***/
+				myId: "=" // id of the selected user (for initialisation)
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				ctrl.selectMeOrFirstOne = !! attrs.myId;
 			}
 		};
 	})
@@ -125,9 +128,10 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		var init = true; // boolean to initialise the selected user
 
-		$scope.selected = {};
-		$scope.selected.users = [];
+		// $scope.selected = {};
+		// $scope.selected.users = [];
 
 		/****************/
 		/***** FIND *****/
@@ -174,6 +178,15 @@
 								function(message) {
 									errorHandler("GET_HOMONYMS_PROPERTIES", message);
 								});
+						}
+
+						/***** INIT SELECTED USER *****/
+						if (init) {
+							initSelectedUser();
+							// Should only be executed once
+							init = false;
+							// Tell parent scope initialisation is done
+							$scope.$emit('luidUserPickerInitialised', { user: $scope.selectedUser })
 						}
 					}
 					else {
@@ -548,6 +561,21 @@
 					user.isFormerEmployee = true;
 				}
 			});
+		};
+
+		/******************************/
+		/***** INIT SELECTED USER *****/
+		/******************************/
+
+		var initSelectedUser = function() {
+			if (ctrl.selectMeOrFirstOne) {
+				$scope.selectedUser = _.find($scope.users, function(user) { return (user.id === $scope.myId); });
+				// If we do not find the given id in the array, we select the first user
+				if (!$scope.selectedUser && $scope.users.length) {
+					$scope.selectedUser = $scope.users[0];
+				}
+				// TO_DO Handle when !$scope.users.length
+			}
 		};
 
 		/*********************/

@@ -542,6 +542,43 @@ describe('luidUserPicker', function(){
 		})
 	});
 
+	/*********************************
+	** SELECTED ME OR FIRST ONE     **
+	*********************************/
+	describe("with a user to select during initialisation", function() {
+		beforeEach(function(){
+			$scope.userToSelect = 5;
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" my-id="userToSelect"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller('luidUserPicker');
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find();
+		});
+		it('should initialise selectMeOrFirstOne', function() {
+			expect(controller.selectMeOrFirstOne).toBe(true);
+		});
+		it('should select the right user', function() {
+			$httpBackend.flush();
+			// Check the selected user in directive
+			expect(isolateScope.selectedUser.id).toBe(5);
+			// Check selected user in parent scope
+			expect($scope.myUser.id).toBe(5);
+		});
+		it('should select the first user in $scope.users', function() {
+			$scope.userToSelect = 30; // id does not exist in list of users
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			// Select the first user
+			expect(isolateScope.selectedUser.id).toBe(1);
+			expect($scope.myUser.id).toBe(1);
+		});
+	});
+
 	// TODO
 	/**********************
 	** MULTISELECT       **
