@@ -35,7 +35,7 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select ng-model=\"selectedUser\" theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -71,7 +71,9 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** SELECTED USER ***/
+				selectedUser: "=", // variable in the ng-model of ui-select
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
@@ -553,9 +555,13 @@
 		/*********************/
 
 		$scope.updateSelectedUser = function(selectedUser) {
+			// Update the value of $scope.selectedUser
+			$scope.selectedUser = selectedUser;
+			// Update selectedUser in parent scope
+			// We need to do this before calling the onSelect function
+			// Otherwise, it will take the out dated value
+			$scope.$apply();
 			$scope.onSelect();
-			// Bind the selected user to the ng-model in luid-user-picker directive
-			$scope.ngModel = selectedUser;
 		};
 
 		// userPickerMultiple feature, not yet implemented

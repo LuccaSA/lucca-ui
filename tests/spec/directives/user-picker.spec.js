@@ -57,7 +57,8 @@ describe('luidUserPicker', function(){
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -92,6 +93,19 @@ describe('luidUserPicker', function(){
 			expect(isolateScope.users[0].overflow).toEqual("LUIDUSERPICKER_ERR_GET_USERS");
 			expect(console.log).toHaveBeenCalled();
 		});
+		/***************************************/
+		/***** Bi-directional data binding *****/
+		/***************************************/
+		it('should update variable linked to selectedUser in parent scope', function() {
+			isolateScope.selectedUser = { id: 5, firstName: 'Lucien', lastName: 'Bertin' };
+			isolateScope.$apply();
+			expect($scope.myUser).toBe(isolateScope.selectedUser);
+		});
+		it('should update selectedUser in luid-user-picker scope', function() {
+			$scope.myUser = { id: 5, firstName: 'Lucien', lastName: 'Bertin' };
+			$scope.$digest();
+			expect(isolateScope.selectedUser).toBe($scope.myUser);
+		});
 	});
 
 	// TODO
@@ -100,7 +114,7 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with pagination", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -193,7 +207,7 @@ describe('luidUserPicker', function(){
 		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" show-former-employees="showFE"></luid-user-picker>');
 			$scope.showFE = true;
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
@@ -226,7 +240,7 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with custom filtering", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-filter="customFilter"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" custom-filter="customFilter"></luid-user-picker>');
 			$scope.customFilter = function(user) { // only user with even id
 				return user.id % 2 === 0;
 			};
@@ -282,7 +296,7 @@ describe('luidUserPicker', function(){
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
 			$scope.appId = 86;
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" app-id="appId" operations="ops"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" app-id="appId" operations="ops"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -323,7 +337,7 @@ describe('luidUserPicker', function(){
 	/* BASIC CASE: 2 homonyms */
 	describe("with 2 homonyms", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -394,7 +408,7 @@ describe('luidUserPicker', function(){
 	/* COMPLEX CASE: more than 2 homonyms */
 	describe("with 4 homonyms", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -445,7 +459,7 @@ describe('luidUserPicker', function(){
 				"label": "Nom du manager",
 				"name": "manager.name"
 			}];
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="properties"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" homonyms-properties="properties"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
