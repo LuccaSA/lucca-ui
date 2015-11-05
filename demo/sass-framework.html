@@ -7,6 +7,7 @@
 		<a class="item" href="#/less#lui-callout">Callout</a>
 		<a class="item" href="#/less#lui-table">Table</a>
 		<a class="item" href="#/less#lui-menu">Menu</a>
+		<a class="item" href="#/less#lui-progress">Progress</a>
 	</nav>
 
 	<div class="lui typeset container">
@@ -45,6 +46,9 @@
 			</p>
 			<p>
 				Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
+			</p>
+			<p>
+				Don't want any margin on the sides of your container ? Give it the <code>fitting</code> class.
 			</p>
 			<br/>
 			<div class="lui dashed divider">
@@ -264,6 +268,14 @@
 			<span class="lui label"><i class="lui icon edit"></i>With icon</span></h3>
 			<span class="lui label with addon green">
 				<span class="lui addon">Users:</span> 128 <i class="lui right addon icon user"></i>
+			</span>
+
+			<span class="lui large primary labels">
+				<span class="lui label">A labels</span>
+				<span class="lui label">element</span>
+				<span class="lui label">can contain</span>
+				<span class="lui label">multiple</span>
+				<span class="lui label">label elements</span>
 			</span>
 		</article>
 
@@ -647,6 +659,17 @@
 					<a class="lui item" href="#/">LEVEL 2.C</a>
 				</nav>
 			</nav>
+		</article>
+
+		<article id="lui-progress" class="component">
+			<h2 class="lui divider below">Progress</h2>
+
+			<div class="lui progressing progress">
+				<div class="indicator" data-percentage="75" style="width: 75%;"></div>
+			</div>
+			<div class="lui slim secondary progressing progress">
+				<div class="indicator" data-percentage="45" style="width: 45%;"></div>
+			</div>
 		</article>
 	</div>
 </div>
