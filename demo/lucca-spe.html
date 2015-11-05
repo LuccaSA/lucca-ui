@@ -116,11 +116,11 @@
 				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. This feature is available on branch <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/rc">rc</a> (since <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/pull/528#event-443784814">10/23/2015</a>) and <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/master">master</a> (since 10/30/2015).
 			</p>
 			<p>
-				<luid-user-picker class="lui input" ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
+				<luid-user-picker class="lui input" selected-user="myUser.selected1" show-former-employees="isChecked"></luid-user-picker>
 				<input type="checkbox" ng-model="isChecked">Show former employees
 			</p>
 			<p>
-				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
+				Selected user: <code>{{myUser.selected1.firstName}} {{myUser.selected1.lastName}}</code>
 			</p>
 			<hr />
 			<h5>Custom filtering</h5>
@@ -134,9 +134,9 @@
 			</p>
 			<p>
 				Set of users with the selected filter applied: 
-				<luid-user-picker ng-if="customFilter === 'hasShortName'" class="lui input" ng-model="myUser.selected" custom-filter="hasShortName"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" class="lui input" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'nameContainsT'" class="lui input" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'hasShortName'" class="lui input" selected-user="myUser.selected2" custom-filter="hasShortName"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" class="lui input" selected-user="myUser.selected2" custom-filter="beginsWithConsonant"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'nameContainsT'" class="lui input" selected-user="myUser.selected2" custom-filter="nameContainsT"></luid-user-picker>
 			</p>
 		</div>
 		<div class="lui dashed divider">
