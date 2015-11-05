@@ -186,7 +186,7 @@
 							// Should only be executed once
 							init = false;
 							// Tell parent scope initialisation is done
-							$scope.$emit('luidUserPickerInitialised', { user: $scope.selectedUser })
+							$scope.$emit('luidUserPickerInitialised', { user: $scope.selectedUser });
 						}
 					}
 					else {
