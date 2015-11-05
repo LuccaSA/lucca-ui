@@ -61,6 +61,8 @@
 		height: map-gets($vars, height);
 		border-radius: map-gets($vars, borderRadius);
 
+		transition: width 0.3s ease-out;
+
 		&:after {
 			display: block;
 			position: absolute;
