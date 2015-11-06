@@ -138,6 +138,12 @@
 				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
 				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
 			</p>
+			<hr />
+			<h5>Custom info</h5>
+			<p>
+				Id of each user: 
+				<luid-user-picker ng-model="myUser.selected" custom-info="customInfo"></luid-user-picker>
+			</p>
 		</div>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Roadmap:</h4>
