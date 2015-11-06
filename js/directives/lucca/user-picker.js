@@ -35,7 +35,7 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select ng-model=\"selectedUser\" theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -71,12 +71,18 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** SELECTED USER ***/
+				selectedUser: "=", // variable in the ng-model of ui-select
+				/*** SELECT ME OR FIRST ONE ***/
+				myId: "=", // id of the selected user
+				selectMeFirst: "=" // boolean for initialisation
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				ctrl.selectMeOrFirstOne = (!!attrs.myId && !!attrs.selectMeFirst);
 			}
 		};
 	})
@@ -123,9 +129,10 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		var init = true; // boolean to initialise the selected user
 
-		$scope.selected = {};
-		$scope.selected.users = [];
+		// $scope.selected = {};
+		// $scope.selected.users = [];
 
 		/****************/
 		/***** FIND *****/
@@ -172,6 +179,20 @@
 								function(message) {
 									errorHandler("GET_HOMONYMS_PROPERTIES", message);
 								});
+						}
+
+						/***** INIT SELECTED USER *****/
+						if (init) {
+							initSelectedUser();
+							// Should only be executed once
+							init = false;
+							// Tell parent scope initialisation is done
+							$scope.$emit('luidUserPickerInitialised', { user: $scope.selectedUser });
+						}
+
+						// If there is no user after filtering
+						if ($scope.count === 0) {
+							$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
 						}
 					}
 					else {
@@ -548,14 +569,32 @@
 			});
 		};
 
+		/******************************/
+		/***** INIT SELECTED USER *****/
+		/******************************/
+
+		var initSelectedUser = function() {
+			if (ctrl.selectMeOrFirstOne) {
+				$scope.selectedUser = _.find($scope.users, function(user) { return (user.id === $scope.myId); });
+				// If we do not find the given id in the array, we select the first user
+				if (!$scope.selectedUser && $scope.users.length && $scope.users[0].id !== -1) {
+					$scope.selectedUser = $scope.users[0];
+				}
+			}
+		};
+
 		/*********************/
 		/***** ON-SELECT *****/
 		/*********************/
 
 		$scope.updateSelectedUser = function(selectedUser) {
+			// Update the value of $scope.selectedUser
+			$scope.selectedUser = selectedUser;
+			// Update selectedUser in parent scope
+			// We need to do this before calling the onSelect function
+			// Otherwise, it will take the out dated value
+			$scope.$apply();
 			$scope.onSelect();
-			// Bind the selected user to the ng-model in luid-user-picker directive
-			$scope.ngModel = selectedUser;
 		};
 
 		// userPickerMultiple feature, not yet implemented

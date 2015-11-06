@@ -57,7 +57,8 @@ describe('luidUserPicker', function(){
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -92,6 +93,19 @@ describe('luidUserPicker', function(){
 			expect(isolateScope.users[0].overflow).toEqual("LUIDUSERPICKER_ERR_GET_USERS");
 			expect(console.log).toHaveBeenCalled();
 		});
+		/***************************************/
+		/***** Bi-directional data binding *****/
+		/***************************************/
+		it('should update variable linked to selectedUser in parent scope', function() {
+			isolateScope.selectedUser = { id: 5, firstName: 'Lucien', lastName: 'Bertin' };
+			isolateScope.$apply();
+			expect($scope.myUser).toBe(isolateScope.selectedUser);
+		});
+		it('should update selectedUser in luid-user-picker scope', function() {
+			$scope.myUser = { id: 5, firstName: 'Lucien', lastName: 'Bertin' };
+			$scope.$digest();
+			expect(isolateScope.selectedUser).toBe($scope.myUser);
+		});
 	});
 
 	// TODO
@@ -100,7 +114,7 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with pagination", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -193,7 +207,7 @@ describe('luidUserPicker', function(){
 		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" show-former-employees="showFE"></luid-user-picker>');
 			$scope.showFE = true;
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
@@ -226,7 +240,7 @@ describe('luidUserPicker', function(){
 	**********************/
 	describe("with custom filtering", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-filter="customFilter"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" custom-filter="customFilter"></luid-user-picker>');
 			$scope.customFilter = function(user) { // only user with even id
 				return user.id % 2 === 0;
 			};
@@ -253,11 +267,13 @@ describe('luidUserPicker', function(){
 			$httpBackend.flush();
 			expect(isolateScope.users.length).toBe(4);
 		});
-		it("should display nothing when customFilter returns false", function(){
+		it("should display an error message when customFilter returns false", function(){
 			spyOn($scope, 'customFilter').and.returnValue(false); // no users
 			isolateScope.find();
 			$httpBackend.flush();
-			expect(isolateScope.users.length).toBe(0);
+			expect(isolateScope.users.length).toBe(1);
+			// id of the overflow message
+			expect(isolateScope.users[0].id).toBe(-1);
 		});
 		it("should filter the right results", function(){
 			spyOn($scope, 'customFilter').and.callThrough();
@@ -282,7 +298,7 @@ describe('luidUserPicker', function(){
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
 			$scope.appId = 86;
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" app-id="appId" operations="ops"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" app-id="appId" operations="ops"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -323,7 +339,7 @@ describe('luidUserPicker', function(){
 	/* BASIC CASE: 2 homonyms */
 	describe("with 2 homonyms", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -394,7 +410,7 @@ describe('luidUserPicker', function(){
 	/* COMPLEX CASE: more than 2 homonyms */
 	describe("with 4 homonyms", function(){
 		beforeEach(function(){
-			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -445,7 +461,7 @@ describe('luidUserPicker', function(){
 				"label": "Nom du manager",
 				"name": "manager.name"
 			}];
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" homonyms-properties="properties"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" homonyms-properties="properties"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
@@ -526,6 +542,43 @@ describe('luidUserPicker', function(){
 				$httpBackend.flush();
 			});
 		})
+	});
+
+	/*********************************
+	** SELECTED ME OR FIRST ONE     **
+	*********************************/
+	describe("with a user to select during initialisation", function() {
+		beforeEach(function(){
+			$scope.userToSelect = 5;
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" my-id="userToSelect" select-me-first="true"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller('luidUserPicker');
+			$scope.$digest();
+
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find();
+		});
+		it('should initialise selectMeOrFirstOne', function() {
+			expect(controller.selectMeOrFirstOne).toBe(true);
+		});
+		it('should select the right user', function() {
+			$httpBackend.flush();
+			// Check the selected user in directive
+			expect(isolateScope.selectedUser.id).toBe(5);
+			// Check selected user in parent scope
+			expect($scope.myUser.id).toBe(5);
+		});
+		it('should select the first user in $scope.users', function() {
+			$scope.userToSelect = 30; // id does not exist in list of users
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			// Select the first user
+			expect(isolateScope.selectedUser.id).toBe(1);
+			expect($scope.myUser.id).toBe(1);
+		});
 	});
 
 	// TODO
