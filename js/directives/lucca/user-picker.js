@@ -237,6 +237,11 @@
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
 
+			// Display a message if there is no user to display
+			if (filteredUsers.length === 0) {
+				filteredUsers = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
+			}
+
 			return filteredUsers;
 		};
 
@@ -572,10 +577,9 @@
 			if (ctrl.selectMeOrFirstOne) {
 				$scope.selectedUser = _.find($scope.users, function(user) { return (user.id === $scope.myId); });
 				// If we do not find the given id in the array, we select the first user
-				if (!$scope.selectedUser && $scope.users.length) {
+				if (!$scope.selectedUser && $scope.users.length && $scope.users[0].id !== -1) {
 					$scope.selectedUser = $scope.users[0];
 				}
-				// TO_DO Handle when !$scope.users.length
 			}
 		};
 
