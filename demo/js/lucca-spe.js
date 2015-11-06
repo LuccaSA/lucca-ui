@@ -11,7 +11,7 @@
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
 
 		$scope.auth = function(){
-			$http.post("//" + $scope.local + ".local/auth/userlogin?login=passepartout&password=")
+			$http.post("https://" + $scope.local + ".local/auth/userlogin?login=passepartout&password=")
 			.success(function(response){
 				$scope.authToken = response;
 			})
@@ -27,7 +27,7 @@
 
 			// we're forced to use a synchronous method here because whenGET().respond(function(){}) does not handle promises
 			// http://stackoverflow.com/questions/21057477/how-to-return-a-file-content-from-angulars-httpbackend
-			request.open('GET', "//" + $scope.local + ".local" + url + "&authToken=" + $scope.authToken, false);
+			request.open('GET', "https://" + $scope.local + ".local" + url + "&authToken=" + $scope.authToken, false);
 			request.send(null);
 
 			return [request.status, request.response, {}];
