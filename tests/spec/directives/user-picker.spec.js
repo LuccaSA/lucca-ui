@@ -267,11 +267,13 @@ describe('luidUserPicker', function(){
 			$httpBackend.flush();
 			expect(isolateScope.users.length).toBe(4);
 		});
-		it("should display nothing when customFilter returns false", function(){
+		it("should display an error message when customFilter returns false", function(){
 			spyOn($scope, 'customFilter').and.returnValue(false); // no users
 			isolateScope.find();
 			$httpBackend.flush();
-			expect(isolateScope.users.length).toBe(0);
+			expect(isolateScope.users.length).toBe(1);
+			// id of the overflow message
+			expect(isolateScope.users[0].id).toBe(-1);
 		});
 		it("should filter the right results", function(){
 			spyOn($scope, 'customFilter').and.callThrough();
