@@ -189,6 +189,11 @@
 							// Tell parent scope initialisation is done
 							$scope.$emit('luidUserPickerInitialised', { user: $scope.selectedUser });
 						}
+
+						// If there is no user after filtering
+						if ($scope.count === 0) {
+							$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
+						}
 					}
 					else {
 						$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
@@ -235,11 +240,6 @@
 			// Used when a custom filtering function is given
 			if (ctrl.useCustomFilter) {
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
-			}
-
-			// Display a message if there is no user to display
-			if (filteredUsers.length === 0) {
-				filteredUsers = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
 			}
 
 			return filteredUsers;
