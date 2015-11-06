@@ -29,7 +29,7 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
+	"<div>{{user.firstName}} {{user.lastName}} <span class=\"lui label secondary\" ng-if=\"user.info\">{{user.info}}</span></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
@@ -71,12 +71,15 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** CUSTOM COUNT ***/
+				customInfo: "=" // should be a function with this signature: function(user) { return string; }
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				ctrl.displayCustomInfo = !!attrs.customInfo;
 			}
 		};
 	})
@@ -172,6 +175,10 @@
 								function(message) {
 									errorHandler("GET_HOMONYMS_PROPERTIES", message);
 								});
+						}
+
+						if (ctrl.displayCustomInfo) {
+							addInfoToUsers();
 						}
 					}
 					else {
@@ -544,6 +551,24 @@
 			_.each(users, function(user) {
 				if (moment(user.dtContractEnd).isBefore(moment())) {
 					user.isFormerEmployee = true;
+				}
+			});
+		};
+
+		/************************/
+		/***** CUSTOM COUNT *****/
+		/************************/
+
+		var addInfoToUsers = function() {
+			_.each($scope.users, function(user) {
+				// We do not want customInfo to be called with overflow message
+				if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+					// Need a promise in case of api requests
+					$scope.customInfo(angular.copy(user)).then(function(info) {
+						user.info = info;
+					}, function(message) {
+						// TO_DO Handle error
+					});
 				}
 			});
 		};

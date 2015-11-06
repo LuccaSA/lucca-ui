@@ -10,13 +10,14 @@ describe('luidUserPicker', function(){
 
 	var findApi = /api\/v3\/users\/find\?.*/;
 
-	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_) {
+	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_, _$q_) {
 		_ = ___;
 		$scope = _$rootScope_.$new();
 		$httpBackend = _$httpBackend_;
 		$timeout = _$timeout_;
 		$compile = _$compile_;
 		moment = _moment_;
+		$q = _$q_;
 	}));
 
 	/**********************
@@ -526,6 +527,51 @@ describe('luidUserPicker', function(){
 				$httpBackend.flush();
 			});
 		})
+	});
+
+	/**********************
+	** CUSTOM INFO       **
+	**********************/
+	describe("with homonyms and custom properties", function(){
+		beforeEach(function(){
+			$scope.customCount= function(user) {
+				var dfd = $q.defer();
+				dfd.resolve(user.id * 2)
+				return dfd.promise;
+			};
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-info="customCount"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller('luidUserPicker');
+			$scope.$digest();
+
+			spyOn($scope, 'customCount').and.callThrough();
+			isolateScope.find();
+		});
+		it('should initialise useCustomCount', function(){
+			expect(controller.displayCustomInfo).toBe(true);
+		});
+		it("should call $scope.customCount N times when there is no overflow", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+			$httpBackend.flush();
+			expect($scope.customCount).toHaveBeenCalled();
+			expect($scope.customCount.calls.count()).toBe(4);
+		});
+		it("should call $scope.customCount 5 times when there is overflow", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect($scope.customCount).toHaveBeenCalled();
+			expect($scope.customCount.calls.count()).toBe(5);
+		});
+		it('should display the right count', function() {
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			var customInfos = _.chain(isolateScope.users)
+				.pluck('info')
+				.first(5) // we exclude the overflow message
+				.value();
+			expect(customInfos).toEqual([2,4,6,8,10]);
+		});
 	});
 
 	// TODO
