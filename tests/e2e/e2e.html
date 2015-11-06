@@ -92,13 +92,17 @@
 			<div ng-controller="luidUserPickerCtrl" class="lui block round">
 				<!-- Without former employees -->
 				<div>
-					<luid-user-picker id="luidUserPicker_myUser_select" ng-model="myUser.selected"></luid-user-picker>
-					<div id="luidUserPicker_myUser_value">{{myUser.selected.firstName}} {{myUser.selected.lastName}}
+					<luid-user-picker id="myUserPicker" ng-model="myUser.selected"></luid-user-picker>
+					<div id="myUserPicker_value">{{myUser.selected.firstName}} {{myUser.selected.lastName}}
 					</div>
 				</div>
 				<!-- With former employees -->
 				<div>
-					<luid-user-picker id="luidUserPicker_myUser_select_former_employees" ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
+					<luid-user-picker id="myUserPicker_former_employees" ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
+				</div>
+				<!-- With custom info -->
+				<div>
+					<luid-user-picker id="myUserPicker_custom_info" ng-model="myUser.selected" custom-info="customInfo"></luid-user-picker>
 				</div>
 			</div>
 		</article>

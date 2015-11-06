@@ -21,7 +21,7 @@
 	}]);
 
 	angular.module('e2eApp')
-	.controller("luidUserPickerCtrl", ['$scope', '$httpBackend', '_', function($scope, $httpBackend, _) {
+	.controller("luidUserPickerCtrl", ['$scope', '$httpBackend', '_', '$q', function($scope, $httpBackend, _, $q) {
 
 		/***** Http calls mocking *****/
 		var users = [{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Alex","lastName":"Carpentieri"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Patrick","lastName":"Dai"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Manon","lastName":"Desbordes"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}];
@@ -100,5 +100,10 @@
 
 		$scope.myUser = {};
 		$scope.myUser.selected = { firstName: 'Lucien', lastName: 'Bertin' };
+		$scope.customInfo = function(user) {
+			var dfd = $q.defer();
+			dfd.resolve(user.id * 2);
+			return dfd.promise;
+		};
 	}]);
 })();
