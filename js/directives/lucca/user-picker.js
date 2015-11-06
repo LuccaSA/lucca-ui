@@ -71,12 +71,16 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** DISPLAY ME FIRST ***/
+				displayMeFirst: "=", // boolean
+				myId: "="
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				ctrl.displayMeFirst = (!!attrs.myId && !!attrs.displayMeFirst); // Both attributes have to be given
 			}
 		};
 	})
@@ -201,6 +205,7 @@
 		/*******************/
 
 		var filterResults = function(users) {
+			var userIds;
 			var filteredUsers = users;
 
 			// userPickerMultiple feature, not yet implemented
@@ -218,7 +223,16 @@
 
 			// Used when a custom filtering function is given
 			if (ctrl.useCustomFilter) {
-				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
+				filteredUsers = _.filter(filteredUsers, function(user){ return $scope.customFilter(angular.copy(user)); });
+			}
+
+			if (ctrl.displayMeFirst) {
+				userIds = _.pluck(filteredUsers, "id")
+				if (_.contains(userIds, $scope.myId)) {
+					var partitions = _.partition(filteredUsers, function(user) { return (user.id === $scope.myId); }); // [[me], [rest]]
+					// Sort users with 'me' as first user
+					filteredUsers = _.union(partitions[0], partitions[1]);
+				}
 			}
 
 			return filteredUsers;

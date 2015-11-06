@@ -528,6 +528,52 @@ describe('luidUserPicker', function(){
 		})
 	});
 
+	/****************************/
+	/***** DISPLAY ME FIRST *****/
+	/****************************/
+	describe("display me first", function() {
+		beforeEach(function(){
+			$scope.userToSelect = 10; // not in the 5 first users --> should not be displayed if display-me-first="false"
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" my-id="userToSelect" display-me-first="true"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller('luidUserPicker');
+		});
+		it('should initialise displayMeFirst', function() {
+			expect(controller.displayMeFirst).toBe(true);
+		});
+		it('should display "me" when the current user is fetched', function() {
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			
+			var isDisplayed = _.chain(isolateScope.users)
+				.pluck('id')
+				.contains($scope.userToSelect)
+				.value();
+			expect(isDisplayed).toBe(true);
+		});
+		it('should display "me" as first user when the current user is fetched', function() {
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			// The first user has the right id
+			expect(isolateScope.users[0].id).toBe(10);
+		});
+		it('should not display "me" when the current user is not fetched', function() {
+			isolateScope.find('a');
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users); // Users without user.id = 10
+			$httpBackend.flush();
+
+			var isDisplayed = _.chain(isolateScope.users)
+				.pluck('id')
+				.contains($scope.userToSelect)
+				.value();
+			expect(isDisplayed).toBe(false);
+		});
+	});
+
 	// TODO
 	/**********************
 	** MULTISELECT       **
