@@ -549,7 +549,7 @@ describe('luidUserPicker', function(){
 		beforeEach(function(){
 			$scope.userToSelect = 5;
 			$scope.myUser = {};
-			var tpl = angular.element('<luid-user-picker selected-user="myUser" my-id="userToSelect"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker selected-user="myUser" my-id="userToSelect" select-me-first="true"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			controller = elt.controller('luidUserPicker');
