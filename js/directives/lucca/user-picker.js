@@ -75,13 +75,14 @@
 				/*** SELECTED USER ***/
 				selectedUser: "=", // variable in the ng-model of ui-select
 				/*** SELECT ME OR FIRST ONE ***/
-				myId: "=" // id of the selected user (for initialisation)
+				myId: "=", // id of the selected user
+				selectMeFirst: "=" // boolean for initialisation
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
-				ctrl.selectMeOrFirstOne = !! attrs.myId;
+				ctrl.selectMeOrFirstOne = (!!attrs.myId && !!attrs.selectMeFirst);
 			}
 		};
 	})
