@@ -17,7 +17,7 @@
 				scope.internal.startsOn = moment(ngModelCtrl.$viewValue.startsOn);
 				scope.internal.endsOn = moment(ngModelCtrl.$viewValue.endsOn);
 				if(scope.excludeEnd){
-					scope.internal.endsOn = moment(scope.internal.endsOn).add(1,'d').toDate();
+					scope.internal.endsOn = moment(scope.internal.endsOn).add(-1,'d').toDate();
 				}
 				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
 			};
