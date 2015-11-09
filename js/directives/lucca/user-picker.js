@@ -71,7 +71,9 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** DISPLAY ME FIRST ***/
+				displayMeFirst: "=", // boolean
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
@@ -123,6 +125,7 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		var init = true;
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -133,6 +136,16 @@
 
 		$scope.find = function (clue) {
 			reinit();
+
+			// Should only be executed once
+			if (init && $scope.displayMeFirst) {
+				getMeAsync().then(function(id) {
+					$scope.myId = id;
+				}, function(message) {
+					errorHandler("GET_ME", message);
+				});
+				init = false;
+			}
 			getUsersAsync(clue).then(
 				function(results) {
 						if (results.length > 0) {
@@ -201,6 +214,7 @@
 		/*******************/
 
 		var filterResults = function(users) {
+			var userIds;
 			var filteredUsers = users;
 
 			// userPickerMultiple feature, not yet implemented
@@ -218,7 +232,16 @@
 
 			// Used when a custom filtering function is given
 			if (ctrl.useCustomFilter) {
-				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
+				filteredUsers = _.filter(filteredUsers, function(user){ return $scope.customFilter(angular.copy(user)); });
+			}
+
+			if ($scope.displayMeFirst && !!$scope.myId) {
+				userIds = _.pluck(filteredUsers, "id");
+				if (_.contains(userIds, $scope.myId)) {
+					var partitions = _.partition(filteredUsers, function(user) { return (user.id === $scope.myId); }); // [[me], [rest]]
+					// Sort users with 'me' as first user
+					filteredUsers = _.union(partitions[0], partitions[1]);
+				}
 			}
 
 			return filteredUsers;
@@ -273,6 +296,21 @@
 				deferred.reject(response.Message);
 			});
 			return deferred.promise;
+		};
+
+		/**************/
+		/***** ME *****/
+		/**************/
+
+		var getMeAsync = function() {
+			var query = "/api/v3/users/me";
+			var dfd = $q.defer();
+			$http.get(query).then(function(response) {
+				dfd.resolve(response.data.data.id);
+			}, function(response) {
+				dfd.reject(response.Message);
+			});
+			return dfd.promise;
 		};
 
 		/**********************/
@@ -583,7 +621,8 @@
 					console.log({cause:cause, message:message});
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
-				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
+				case "GET_HOMONYMS_PROPERTIES": // error while trying to get the distinctive properties for homonyms
+				case "GET_ME":
 					console.log({cause:cause, message:message});
 					break;
 			}
