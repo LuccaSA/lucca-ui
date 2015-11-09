@@ -80,6 +80,11 @@
 		};
 
 	}]);
+
+
+	/**************************/
+	/***** TEMPLATEs      *****/
+	/**************************/
 	angular.module("lui.templates.daterangepicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidDaterange.html",
 			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" + 
@@ -93,5 +98,35 @@
 			"<datepicker class='lui nguibs-datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" + 
 			"<datepicker class='lui nguibs-datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" + 
 			"");
+	}]);
+
+	/**************************/
+	/***** TRANSLATIONS   *****/
+	/**************************/
+	angular.module('lui.translates.daterangepicker').config(['$translateProvider', function ($translateProvider) {
+		$translateProvider.translations('en', {
+			"LUIDDATERANGE_SINCE_YEAR_START":"Since year start",
+			"LUIDDATERANGE_LAST_MONTH":"Last month",
+			"LUIDDATERANGE_THIS_MONTH":"Current month",
+			"LUIDDATERANGE_OK":"Ok"
+		});
+		$translateProvider.translations('de', {
+
+		});
+		$translateProvider.translations('es', {
+
+		});
+		$translateProvider.translations('fr', {
+			"LUIDDATERANGE_SINCE_YEAR_START":"Depuis le debut de l'année",
+			"LUIDDATERANGE_LAST_MONTH":"Mois dernier",
+			"LUIDDATERANGE_THIS_MONTH":"Mois en cours",
+			"LUIDDATERANGE_OK":"Ok"
+		});
+		$translateProvider.translations('it', {
+
+		});
+		$translateProvider.translations('nl', {
+
+		});
 	}]);
 })();
