@@ -10,6 +10,7 @@
 		}
 
 		button { @extend button#{$prefix}.unstyled; }
+		button[disabled] { opacity: 0.5; cursor: default; }
 
 		// IE 9 fix
 		overflow: visible !important;
@@ -65,7 +66,7 @@
 					border-radius: 0;
 					font-size: 1.1em;
 
-					&:hover, &:active, &:focus {
+					&:not([disabled]):hover, &:not([disabled]):active, &:not([disabled]):focus {
 						background-color: luiPalette(primary, color, light);
 					}
 				}
