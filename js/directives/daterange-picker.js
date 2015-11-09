@@ -64,7 +64,7 @@
 			$scope.internal.startsOn = period.startsOn;
 			$scope.internal.endsOn = period.endsOn;
 			$scope.internalUpdated();
-		}
+		};
 
 		// Popover display
 		$scope.popoverOpened = false;
