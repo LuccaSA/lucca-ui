@@ -35,4 +35,10 @@
 		};
 	}]);
 
+	angular.module('demoApp')
+	.controller('daterangeCtrl', ['$scope', 'moment', function($scope, moment){
+		$scope.myPeriod = {start: moment().startOf('day'), end: moment().startOf('day').add(3, 'd')};
+
+	}]);
+
 })();

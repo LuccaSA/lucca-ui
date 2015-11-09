@@ -19,6 +19,8 @@
 			controller:'luidDaterangeController',
 			scope: {
 				disabled:'=',
+
+				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
 			restrict:'EA',

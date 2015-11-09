@@ -280,5 +280,45 @@
 				</form>
 			</div>
 		</article>
+
+		<article id="luid-daterange">
+			<h2 class="lui divider below">luid-daterange</h2>
+
+<!-- 			<p>
+				An input that display and edit a time, as does the <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/timepicker">timepicker</a> from angular ui bootstrap but plugged to a moment or a string.
+			</p> -->
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features:</h4>
+			</div>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: the variable to bind to</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;luid-moment ng-model="myValue"&gt;&lt;/luid-moment&gt;
+&lt;luid-moment ng-model="myValue" format="'HH:mm:ss'"&gt;&lt;/luid-moment&gt;</pre>
+			</p>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+<!-- 				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/o5VXhiOwSuQumJj3EuJU?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div> -->
+			</div>
+			<div ng-controller="daterangeCtrl" class="lui block round">
+				<luid-daterange ng-model="myPeriod" class="lui long input"></luid-daterange>
+			</div>
+		</article>
 	</section>
 </div>
