@@ -532,45 +532,51 @@ describe('luidUserPicker', function(){
 	/***** DISPLAY ME FIRST *****/
 	/****************************/
 	describe("display me first", function() {
+		var meApi = /api\/v3\/users\/me/;
+		var myId = 10;
 		beforeEach(function(){
-			$scope.userToSelect = 10; // not in the 5 first users --> should not be displayed if display-me-first="false"
-			$scope.myUser = {};
-			var tpl = angular.element('<luid-user-picker ng-model="myUser" my-id="userToSelect" display-me-first="true"></luid-user-picker>');
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" display-me-first="true"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
-			controller = elt.controller('luidUserPicker');
-		});
-		it('should initialise displayMeFirst', function() {
-			expect(controller.displayMeFirst).toBe(true);
-		});
-		it('should display "me" when the current user is fetched', function() {
+
 			isolateScope.find();
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
+		});
+		it('should initialise "myId"', function() {
 			$httpBackend.flush();
-			
+			expect(isolateScope.myId).toBe(myId);
+		});
+		it('should display "me" when the current user is fetched', function() {
+			$httpBackend.flush();
 			var isDisplayed = _.chain(isolateScope.users)
 				.pluck('id')
-				.contains($scope.userToSelect)
+				.contains(isolateScope.myId)
 				.value();
 			expect(isDisplayed).toBe(true);
 		});
 		it('should display "me" as first user when the current user is fetched', function() {
-			isolateScope.find();
-			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			// The first user has the right id
-			expect(isolateScope.users[0].id).toBe(10);
+			expect(isolateScope.users[0].id).toBe(myId);
 		});
 		it('should not display "me" when the current user is not fetched', function() {
+			$httpBackend.flush();
 			isolateScope.find('a');
-			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users); // Users without user.id = 10
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users); // Users without user.id = 10
 			$httpBackend.flush();
 
 			var isDisplayed = _.chain(isolateScope.users)
 				.pluck('id')
-				.contains($scope.userToSelect)
+				.contains(isolateScope.myId)
 				.value();
 			expect(isDisplayed).toBe(false);
+		});
+		it('should handle errors when getting "me"', function(){
+			spyOn(console, 'log');
+			$httpBackend.expectGET(meApi).respond(500, RESPONSE_ERROR_DETAILS);
+			$httpBackend.flush();
+			expect(console.log).toHaveBeenCalled();
 		});
 	});
 
@@ -655,6 +661,9 @@ describe('luidUserPicker', function(){
 
 
 	// TODO_ANAIS - fill the mocked api response
+	// Me
+	var RESPONSE_me = {"header":{},"data":{"id":10,"lastName":"Admin","firstName":"Lucca","name":"Lucca Admin","displayName":"Admin Lucca","login":"passepartout","mail":"no-reply@lucca.fr"}};
+
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};

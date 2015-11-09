@@ -74,13 +74,11 @@
 				operations: "=", // list of operation ids that users should have access
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
-				myId: "="
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
-				ctrl.displayMeFirst = (!!attrs.myId && !!attrs.displayMeFirst); // Both attributes have to be given
 			}
 		};
 	})
@@ -127,6 +125,7 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		var init = true;
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -137,6 +136,16 @@
 
 		$scope.find = function (clue) {
 			reinit();
+
+			// Should only be executed once
+			if (init && $scope.displayMeFirst) {
+				getMeAsync().then(function(id) {
+					$scope.myId = id;
+				}, function(message) {
+					errorHandler("GET_ME", message);
+				});
+				init = false;
+			}
 			getUsersAsync(clue).then(
 				function(results) {
 						if (results.length > 0) {
@@ -226,8 +235,8 @@
 				filteredUsers = _.filter(filteredUsers, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
 
-			if (ctrl.displayMeFirst) {
-				userIds = _.pluck(filteredUsers, "id")
+			if ($scope.displayMeFirst && !!$scope.myId) {
+				userIds = _.pluck(filteredUsers, "id");
 				if (_.contains(userIds, $scope.myId)) {
 					var partitions = _.partition(filteredUsers, function(user) { return (user.id === $scope.myId); }); // [[me], [rest]]
 					// Sort users with 'me' as first user
@@ -287,6 +296,21 @@
 				deferred.reject(response.Message);
 			});
 			return deferred.promise;
+		};
+
+		/**************/
+		/***** ME *****/
+		/**************/
+
+		var getMeAsync = function() {
+			var query = "/api/v3/users/me";
+			var dfd = $q.defer();
+			$http.get(query).then(function(response) {
+				dfd.resolve(response.data.data.id);
+			}, function(response) {
+				dfd.reject(response.Message);
+			});
+			return dfd.promise;
 		};
 
 		/**********************/
@@ -597,7 +621,8 @@
 					console.log({cause:cause, message:message});
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
-				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
+				case "GET_HOMONYMS_PROPERTIES": // error while trying to get the distinctive properties for homonyms
+				case "GET_ME":
 					console.log({cause:cause, message:message});
 					break;
 			}
