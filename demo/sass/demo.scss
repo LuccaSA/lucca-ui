@@ -73,11 +73,11 @@ article {
 // See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
 // We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
 code {
-	font-size: 13px;
+	font-size: 85%;
 	font-weight: normal;
 	overflow-x: auto;
-	padding: 0.5em;
-	color: #d14;
+	padding: 0.2em 0;
+	color: #333;
 	background: #f8f8f8;
 	-webkit-text-size-adjust: none;
 }
