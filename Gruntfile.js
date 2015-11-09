@@ -11,7 +11,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
 	grunt.loadNpmTasks('grunt-contrib-watch'); // loads watch contrib
-	grunt.loadNpmTasks('grunt-contrib-less'); // loads less compiler
 	grunt.loadNpmTasks('grunt-sass'); // loads sass compiler
 	grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
