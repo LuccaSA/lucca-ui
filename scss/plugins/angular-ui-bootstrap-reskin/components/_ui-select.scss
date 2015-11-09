@@ -1,7 +1,7 @@
 
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.#{map-gets($pluginVars, prefix)}ui-select,
-	#{$prefix}.#{map-gets($pluginVars, prefix)}ui-select-bootstrap {
+	#{$prefix}.ui-select,
+	#{$prefix}.ui-select-bootstrap {
 		@extend %lui_input_holder_base;
 		@extend %lui_nguibs_dropdown;
 

@@ -8,7 +8,7 @@
 	</nav>
 
 	<section class="lui typeset container">
-	
+
 		<div class="lui callout primary">
 			<p>
 				<a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">Angular ui bootstrap</a> provides a number of directives. Lucca-ui supports only part of it, some of them natively and some need a special treatment to avoid lucca-ui's style drooling everywhere on the page
@@ -40,14 +40,14 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Simple select</h4>
 			</div>
-			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui regular nguibs-ui-select input">
+			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui">
 				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
 				<ui-select-choices repeat="person in people | filter: $select.search">
 					<span ng-bind-html="person.name | highlight: $select.search"></span>
 				</ui-select-choices>
 			</ui-select>
 
-			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui primary regular nguibs-ui-select input">
+			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui">
 				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
 				<ui-select-choices repeat="person in people | filter: $select.search">
 					<span ng-bind-html="person.name | highlight: $select.search"></span>
@@ -61,7 +61,7 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Multi-select</h4>
 			</div>
-			<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui nguibs-ui-select long input">
+			<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui">
 				<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
 				<ui-select-choices repeat="color in availableColors | filter:$select.search">
 					{{color}}
@@ -71,10 +71,10 @@
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="html">&lt;ui-select ng-model="myVar" <b>class="lui nguibs-ui-select"</b>&gt;
+				<pre hljs no-escape language="html">&lt;ui-select ng-model="myVar" <b>class="lui"</b>&gt;
 ...
 &lt;/ui-select&gt;
-&lt;ui-select  multiple ng-model="myVar" <b>class="lui nguibs-ui-select long input"</b>&gt;
+&lt;ui-select  multiple ng-model="myVar" <b>class="lui"</b>&gt;
 ...
 &lt;/ui-select&gt;</pre>
 		</p>
@@ -84,7 +84,7 @@
 		<h2 class="lui divider below">Dropdown</h2>
 		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">github.io page</a></p>
 		<p>
-			<div class="lui nguibs-dropdown" dropdown>
+			<div class="lui" dropdown>
 				<button class="lui button with addon right" dropdown-toggle>
 					Click me!
 					<i class="lui x-small south arrow icon addon"></i>
@@ -112,9 +112,9 @@
 	<article id="tooltip" ng-controller="tooltipCtrl">
 		<h2 class="lui divider below">Tooltip</h2>
 		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-		<button tooltip="Regular tooltip" tooltip-class="lui nguibs-tooltip" tooltip-placement="top" class="lui button">Hover me!</button>
-		<button tooltip="Primary tooltip" tooltip-class="lui primary nguibs-tooltip" tooltip-placement="right" class="lui button">No, Me!!!</button>
-		<button tooltip="OMG! An error!" tooltip-class="lui red nguibs-tooltip" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
+		<button tooltip="Regular tooltip" tooltip-class="lui" tooltip-placement="top" class="lui button">Hover me!</button>
+		<button tooltip="Primary tooltip" tooltip-class="lui primary" tooltip-placement="right" class="lui button">No, Me!!!</button>
+		<button tooltip="OMG! An error!" tooltip-class="lui red" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
@@ -125,10 +125,10 @@
 	<article id="popover" ng-controller="popoverCtrl">
 		<h2 class="lui divider below">Popover</h2>
 		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-		<button popover="some important text about stuff" popover-title="This is critical!" popover-class="lui nguibs-popover" class="lui button">Click me!</button>
-		<button popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary nguibs-popover" class="lui button">Primary tooltip</button>
-		<button popover-html="popoverHtml" popover-class="lui nguibs-popover" class="lui button">with some html</button>
-		<button popover-template="'myPopoverTemplate.html'" popover-class="lui nguibs-popover" class="lui button">with a template</button>
+		<button popover="some important text about stuff" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
+		<button popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
+		<button popover-html="popoverHtml" popover-class="lui" class="lui button">with some html</button>
+		<button popover-template="'myPopoverTemplate.html'" popover-class="lui" class="lui button">with a template</button>
 
 		<script type="text/ng-template" id="myPopoverTemplate.html">
 			<h4 class="lui divider below">a title</h4>
@@ -141,7 +141,7 @@
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
-			<pre hljs no-escape language="html">&lt;button popover="Hello there!" <b>popover-class="lui nguibs-popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
+			<pre hljs no-escape language="html">&lt;button popover="Hello there!" <b>popover-class="lui popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Remarks:</h4>
@@ -156,10 +156,10 @@
 		<h2 class="lui divider below">Datepicker</h2>
 		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">github.io page</a></p>
 		<h4>Inline</h4>
-		<datepicker class="lui nguibs-datepicker" ng-model="dt"></datepicker>
+		<datepicker class="lui datepicker" ng-model="dt"></datepicker>
 
 		<h4>In a popup</h4>
-		<div class="lui nguibs-datepicker long">
+		<div class="lui long datepicker">
 			<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
 		</div>
 
@@ -168,11 +168,11 @@
 		</div>
 		<p>
 			<pre hljs no-escape language="html">&lt;!-- inline --&gt;
-&lt;div <b>class="lui nguibs-datepicker"</b>&gt;
+&lt;div <b>class="lui"</b>&gt;
 	&lt;datepicker ng-model="dt"&gt;&lt;/date-picker&gt;
 &lt;/div&gt;
 &lt;!-- popup --&gt;
-&lt;div <b>class="lui nguibs-datepicker long input"</b>&gt;
+&lt;div <b>class="lui datepicker long input"</b>&gt;
 	&lt;input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
 			</p>

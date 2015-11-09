@@ -1,5 +1,5 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.#{map-get($pluginVars, prefix)}datepicker {
+	#{$prefix}.datepicker {
 		@extend %lui_input_holder_base;
 		> input {
 			@extend %lui_input_field_base; @extend %lui_input_text_field;

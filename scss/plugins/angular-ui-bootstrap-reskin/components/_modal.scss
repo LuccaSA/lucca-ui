@@ -1,8 +1,8 @@
 @if map-get($pluginVars, enabled) {
-	$baseSelector:  if($namespace, "#{$prefix}.#{$cleanNamespace}.#{map-get($pluginVars, prefix)}", "#{$prefix}.#{$cleanNamespace}.#{map-get($pluginVars, prefix)}");
+	$baseSelector:  if($namespace, "#{$prefix}.#{$cleanNamespace}", "#{$prefix}.#{$cleanNamespace}");
 
 	@at-root {
-		#{$baseSelector}modal {
+		#{$baseSelector}.modal {
 			display: none; overflow: hidden;
 			position: fixed;
 			top: 0; right: 0; bottom: 0; left: 0;
@@ -35,7 +35,7 @@
 			}
 		}
 
-		#{$baseSelector}modal-backdrop {
+		#{$baseSelector}.modal-backdrop {
 			@extend %#{$cleanNamespace}-overlay;
 
 			visibility: hidden;

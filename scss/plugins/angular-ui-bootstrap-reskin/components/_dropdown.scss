@@ -89,7 +89,7 @@
 		}
 	}
 
-	#{$prefix}.#{map-get($pluginVars, prefix)}dropdown {
+	#{$prefix}.dropdown {
 		@extend %lui_nguibs_dropdown;
 
 		&:not(.buttons) > #{$prefix}.button { margin: 0; }

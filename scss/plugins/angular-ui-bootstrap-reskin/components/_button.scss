@@ -1,13 +1,13 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}[class*="#{map-get($pluginVars, prefix)}"] .btn { cursor: pointer; }
+	#{$prefix} .btn { cursor: pointer; }
 
-	#{$prefix}[class*="#{map-get($pluginVars, prefix)}"] .btn-primary {
+	#{$prefix} .btn-primary {
 		&, &:active, &.active, &:focus, &:hover {
 			background-color: lui_get_colorscheme(primary, color);
 			border-color: lui_get_colorscheme(primary, color);
 		}
 	}
-	#{$prefix}[class*="#{map-get($pluginVars, prefix)}"] .btn-secondary {
+	#{$prefix} .btn-secondary {
 		&, &:active, &.active, &:focus, &:hover {
 			background-color: lui_get_colorscheme(secondary, color);
 			border-color: lui_get_colorscheme(secondary, color);
