@@ -29,7 +29,7 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div>{{user.firstName}} {{user.lastName}} <span class=\"lui label secondary\" ng-if=\"user.info\">{{user.info}}</span></div>" +
+	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
@@ -613,6 +613,14 @@
 					break;
 			}
 		};
+	}])
+
+	// Filter to display custom info next to each user
+	// Highlight the search in the name of the user and display a label next to each user
+	.filter('luifHighlight', ['$filter', function($filter) {
+		return function(_input, _clue, _info) {
+			return $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
+		}
 	}]);
 	
 	/**************************/
