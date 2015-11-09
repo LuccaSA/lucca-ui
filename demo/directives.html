@@ -317,7 +317,8 @@
 				</div> -->
 			</div>
 			<div ng-controller="daterangeCtrl" class="lui block round">
-				<luid-daterange ng-model="myPeriod" class="lui long input"></luid-daterange>
+				<luid-daterange ng-model="myPeriod" class="lui long input" exclude-end="true"></luid-daterange>
+				<div>{{myPeriod.startsOn | luifMoment}} - {{myPeriod.endsOn | luifMoment}}</div>
 			</div>
 		</article>
 	</section>
