@@ -532,7 +532,7 @@ describe('luidUserPicker', function(){
 	/**********************
 	** CUSTOM INFO       **
 	**********************/
-	describe("with homonyms and custom properties", function(){
+	describe("with custom info to display next to each user", function(){
 		beforeEach(function(){
 			$scope.customCount= function(user) {
 				var dfd = $q.defer();
