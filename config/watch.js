@@ -9,9 +9,13 @@ module.exports = function(grunt, options){
 			files: ['scss/**/*.scss', 'scss/*.sass'],
 			tasks: ['sass']
 		},
-		demo: {
+		sassdemo: {
 			files: ['demo/**/*.scss'],
 			tasks: ['sass:demo'],
+		},
+		distdemo: {
+			files: ['js/**/*.js'],
+			tasks: ['dist-lucca'],
 		},
 		js: {
 			files: ['js/**/*.js'],
