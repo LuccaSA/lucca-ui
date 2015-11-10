@@ -14,20 +14,61 @@
 			var drCtrl = ctrls[0];
 			scope.internal={};
 			ngModelCtrl.$render = function(){
-				scope.internal.startsOn = moment(ngModelCtrl.$viewValue.startsOn);
-				scope.internal.endsOn = moment(ngModelCtrl.$viewValue.endsOn);
-				if(scope.excludeEnd){
-					scope.internal.endsOn = moment(scope.internal.endsOn).add(-1,'d').toDate();
-				}
+				var parsed = parse(ngModelCtrl.$viewValue);
+				scope.internal.startsOn = parsed.startsOn;
+				scope.internal.endsOn = parsed.endsOn;
 				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
 			};
 
 			drCtrl.updateValue = function(startsOn, endsOn){
+				var newValue = ngModelCtrl.$viewValue;
+				var formatted = format(startsOn,endsOn);
+				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
+				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
+				ngModelCtrl.$setViewValue(newValue);
+			};
+			var format = function(startsOn, endsOn){
+				var mstart = moment(startsOn);
+				var mend = moment(endsOn);
 				if(scope.excludeEnd){
-					ngModelCtrl.$setViewValue({startsOn: startsOn, endsOn: moment(endsOn).add(1,'day').toDate()});
-				}else{
-					ngModelCtrl.$setViewValue({startsOn: startsOn, endsOn: endsOn});
+					mend.add(1, 'd');
 				}
+				var startProperty = scope.startProperty || 'startsOn';
+				var endProperty = scope.endProperty || 'endsOn';
+				var result = {};
+				switch(scope.format || "moment"){
+					case "moment":
+						result[startProperty] = mstart;
+						result[endProperty] = mend;
+						break;
+					case "date":
+						result[startProperty] = mstart.toDate();
+						result[endProperty] = mend.toDate();
+						break;
+					default:
+						result[startProperty] = mstart.format(scope.format);
+						result[endProperty] = mend.format(scope.format);
+				}
+				return result;
+			};
+			var parse = function(viewValue){
+				var startProperty = scope.startProperty || 'startsOn';
+				var endProperty = scope.endProperty || 'endsOn';
+				var mstart, mend;
+				switch(scope.format || "moment"){
+					case "moment":
+					case "date":
+						mstart = moment(viewValue[startProperty]);
+						mend = moment(viewValue[endProperty]);
+						break;
+					default:
+						mstart = moment(viewValue[startProperty], scope.format);
+						mend = moment(viewValue[endProperty], scope.format);
+				}
+				if(scope.excludeEnd){
+					mend.add(-1, 'd');
+				}
+				return { startsOn: mstart.toDate(), endsOn:mend.toDate() };
 			};
 		}
 		return{
@@ -35,6 +76,10 @@
 			controller:'luidDaterangeController',
 			scope: {
 				disabled:'=',
+
+				format:'@', // if you want to bind to moments, dates or a string with a specific format
+				startProperty: '@',
+				endProperty: '@',
 
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
 			},
