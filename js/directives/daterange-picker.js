@@ -121,9 +121,17 @@
 
 		// datepickers stuff
 		$scope.dayClass = function(date, mode){
-			if(mode === "day" && moment(date).diff($scope.internal.startsOn) >=0 && moment(date).diff($scope.internal.endsOn) <= 0){
-				return "in-between";
+			var className = "";
+			if(mode === "day" && moment(date).diff($scope.internal.startsOn) ===0) {
+				className = "start";
 			}
+			if(mode === "day" && moment(date).diff($scope.internal.endsOn) ===0){
+				className += "end";
+			}
+			if(mode === "day" && moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) {
+				className += "in-between";
+			}
+			return className;
 		};
 
 	}]);
@@ -137,14 +145,17 @@
 			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" + 
 			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" + 
 			"popover-placement=\"{{popoverPlacement}}\"" + 
-			"popover-trigger ='none' popover-is-open='popoverOpened'" + 
-			"popover-class ='lui nguibs-popover'" + 
+			"popover-trigger ='none' popover-is-open='popoverOpened'" +
+			"popover-class ='lui daterange popover'" +
+>>>>>>> f2ad0525452c4c482a26aa3ae234e042b7abba98
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
-			"<div class='lui button' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</div>" + 
-			"<div class='lui primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</div>" + 
-			"<datepicker class='lui nguibs-datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" + 
-			"<datepicker class='lui nguibs-datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" + 
+			"<div class=\"lui vertical pills shortcuts menu\">" +
+			"	<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</a>" +
+			"</div>" +
+			"<div class='lui primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</div>" +
+			"<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"");
 	}]);
 
