@@ -17,7 +17,7 @@
 };
 
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
+	#{$prefix}.tooltip {
 		position: absolute;
 		z-index: map-gets($pluginVars, tooltip, zIndex);
 		pointer-events: none;
@@ -99,7 +99,7 @@
 	// Coloring support
 	// ============================================================
 
-	#{$prefix}.#{map-gets($pluginVars, prefix)}tooltip {
+	#{$prefix}.tooltip {
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
 
 		@each $name, $scheme in luiPalettes() {

@@ -1,6 +1,6 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.#{map-get($pluginVars, prefix)}popover {
-		@extend #{$prefix}.#{map-get($pluginVars, prefix)}tooltip;
+	#{$prefix}.popover {
+		@extend #{$prefix}.tooltip;
 		pointer-events: auto;
 		min-width: map-gets($pluginVars, popover, minWidth);
 		max-width: map-gets($pluginVars, popover, maxWidth);
