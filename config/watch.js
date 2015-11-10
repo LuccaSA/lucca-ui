@@ -10,7 +10,7 @@ module.exports = function(grunt, options){
 			tasks: ['sass']
 		},
 		sassdemo: {
-			files: ['demo/**/*.scss'],
+			files: ['scss/**/*.scss', 'scss/*.sass', 'demo/**/*.scss'],
 			tasks: ['sass:demo'],
 		},
 		distdemo: {
