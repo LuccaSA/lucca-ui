@@ -34,7 +34,7 @@
 		}
 
 		// Animations
-		&.fade:not(.in) { @include lui_is_animated("up fade out"); }
+		&:not(.in) { @include lui_is_animated("up fade out"); }
 		&.fade.in { @include lui_is_animated("up fade in"); }
 
 		// Arrow
