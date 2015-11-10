@@ -1,0 +1,49 @@
+@if map-get($pluginVars, enabled) {
+	#{$prefix}.daterange {
+		.popover-inner {
+			width: 60em;
+		}
+		.shortcuts.menu {
+			float: right;
+			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0;}
+		}
+		.datepicker { float: left; border: none; }
+		.datepicker + .datepicker { margin-left: 1em; }
+
+		.datepicker .in-between,
+		.datepicker .start,
+		.datepicker .end {
+			background-color: luiPalette(primary, color, x-light);
+			color: luiPalette(primary, text);
+		}
+
+		.datepicker td.start {
+			border-top-left-radius: 1em;
+			border-bottom-left-radius: 1em;
+		}
+		.datepicker td.end {
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+		}
+		.datepicker td.startend button,
+		.datepicker td.start button,
+		.datepicker td.end button,
+		.datepicker td button.active {
+			border-radius: 1em;
+			box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
+
+			&:hover {
+				background: #FFF;
+			}
+		}
+		.datepicker td button.active {
+			background-color: #FFF;
+		}
+
+		footer {
+			border-top: 1px solid luiTheme(element, divider, color);
+			margin-top: 1em;
+			padding-top: 0.25em;
+		}
+	}
+}

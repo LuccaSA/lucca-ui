@@ -84,7 +84,7 @@
 				color: luiPalette(grey, color);
 				@include lui_transition_properties(background-color);
 
-				&:hover { background-color: #EEE; }
+				&:not([disabled]):hover { background-color: #EEE; }
 
 				&.active { color: luiPalette(grey, color, dark); background-color: luiPalette(primary, color, x-light); }
 			}
