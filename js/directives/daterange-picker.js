@@ -96,7 +96,7 @@
 		$scope.periods = [
 			{label:"LUIDDATERANGE_SINCE_YEAR_START", startsOn: moment().startOf('year').toDate(), endsOn: moment().startOf('d').toDate()},
 			{label:"LUIDDATERANGE_LAST_MONTH", startsOn: moment().startOf('month').add(-1, 'months').toDate(), endsOn: moment().startOf('month').add(-1, 'd').toDate()},
-			{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().endOf('month').toDate()},
+			{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().startOf('month').add(1, "month").add(-1, "day").toDate()},
 		];
 
 		$scope.internalUpdated = function(){
@@ -142,20 +142,23 @@
 	/**************************/
 	angular.module("lui.templates.daterangepicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidDaterange.html",
-			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" + 
-			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" + 
-			"popover-placement=\"{{popoverPlacement}}\"" + 
+			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" +
+			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
+			"popover-placement=\"{{popoverPlacement}}\"" +
 			"popover-trigger ='none' popover-is-open='popoverOpened'" +
 			"popover-class ='lui daterange popover'" +
->>>>>>> f2ad0525452c4c482a26aa3ae234e042b7abba98
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
-			"<div class=\"lui vertical pills shortcuts menu\">" +
-			"	<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</a>" +
+			"<div class=\"lui clear\">" +
+			"	<div class=\"lui vertical pills shortcuts menu\">" +
+			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</a>" +
+			"	</div>" +
+			"	<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"</div>" +
-			"<div class='lui primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</div>" +
-			"<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"<footer>" +
+			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</a>" +
+			"</footer>" +
 			"");
 	}]);
 
