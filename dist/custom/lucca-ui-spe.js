@@ -901,6 +901,9 @@
 
 			// bind to various events - here only keypress=enter
 			luidTimespanCtrl.setupEvents(element.find('input'));
+
+			// set to given mode or to default mode
+			luidTimespanCtrl.mode = attrs.mode ? attrs.mode : "timespan";
 		}
 
 
@@ -911,7 +914,8 @@
 				step: '=', // default = 5
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
-				placeholder: '@'
+				placeholder: '@',
+				mode: "=" // 'timespan', moment.duration', default='timespan'
 			},
 			restrict: 'EA',
 			link: link,
@@ -919,6 +923,7 @@
 		};
 	}])
 	.controller('luidTimespanController', ['$scope', 'moment', function ($scope, moment) {
+		var ctrl = this;
 
 		// public methods for update
 		$scope.updateValue = function () {
@@ -983,7 +988,12 @@
 
 		// private - formatting stuff
 		var formatValue = function (duration) {
-			return Math.floor(duration.asDays()) + '.' + (duration.hours() < 10 ? '0' : '') + duration.hours() + ':' + (duration.minutes() < 10 ? '0' : '') + duration.minutes() + ':00';
+			if (ctrl.mode === "timespan") {
+				return Math.floor(duration.asDays()) + '.' + (duration.hours() < 10 ? '0' : '') + duration.hours() + ':' + (duration.minutes() < 10 ? '0' : '') + duration.minutes() + ':00';
+			}
+			else {
+				return duration;
+			}
 		};
 
 		// private - updates of some kinds
