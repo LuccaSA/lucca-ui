@@ -81,6 +81,8 @@
 				startProperty: '@',
 				endProperty: '@',
 
+				popoverPlacement:'@',
+
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
@@ -134,6 +136,7 @@
 		$templateCache.put("lui/directives/luidDaterange.html",
 			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" + 
 			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" + 
+			"popover-placement=\"{{popoverPlacement}}\"" + 
 			"popover-trigger ='none' popover-is-open='popoverOpened'" + 
 			"popover-class ='lui nguibs-popover'" + 
 			">");
