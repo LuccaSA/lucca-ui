@@ -26,11 +26,12 @@
 This directive has a ui-select plugged to /api/v3/users/find with a more powerful search.
 
 ####Features:
-- handles former employees: if you choose to fetch former employees, their date of contract end will be clearly displayed.
-- detects and handles homonyms: in case of homonyms, specific informations are displayed in order to easily differentiate them.
-- custom filtering: filter the set of results fetched by the api according to a specific need
-- pagination: by default, only 5 users are displayed in the dropdown menu. If the user you are looking for is not displayed, it encourages you to specify your search.
+ - handles former employees: if you choose to fetch former employees, their date of contract end will be clearly displayed.
+ - detects and handles homonyms: in case of homonyms, specific informations are displayed in order to easily differentiate them.
+ - custom filtering: filter the set of results fetched by the api according to a specific need
+ - pagination: by default, only 5 users are displayed in the dropdown menu. If the user you are looking for is not displayed, it encourages you to specify your search.
 
 ####Advanced features: 
-- custom properties to handle homonyms: inject custom properties to sort homonyms according to your needs.
-- application id and scope of operations: only fetch users that have access to the specified application, with the given set of operations for that application.
+ - custom properties to handle homonyms: inject custom properties to sort homonyms according to your needs.
+ - application id and scope of operations: only fetch users that have access to the specified application, with the given set of operations for that application.
+ - [#51](https://github.com/LuccaSA/lucca-ui/issues/51) possibility to pass a fuction to display custom info next to the user's name (number of apple eaten last week for example) in the dropdown. the function can be sync or async
