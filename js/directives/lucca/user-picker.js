@@ -73,13 +73,17 @@
 				appId: "=", // id of the application that users should have access
 				operations: "=", // list of operation ids that users should have access
 				/*** CUSTOM COUNT ***/
-				customInfo: "=" // should be a function with this signature: function(user) { return string; }
+				// Display a custom info in a label next to each user
+				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
+				// If you need to use a sync and an async functions, use 'customInfoAsync'
+				customInfo: "=", // should be a function with this signature: function(user) { return string; }
+				customInfoAsync: "=" // should be a function with this signature: function(user) { return promise; }
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
-				ctrl.displayCustomInfo = !!attrs.customInfo;
+				ctrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
 			}
 		};
 	})
@@ -560,17 +564,26 @@
 		/************************/
 
 		var addInfoToUsers = function() {
-			_.each($scope.users, function(user) {
-				// We do not want customInfo to be called with overflow message
-				if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
-					// Need a promise in case of api requests
-					$scope.customInfo(angular.copy(user)).then(function(info) {
-						user.info = info;
-					}, function(message) {
-						// TO_DO Handle error
-					});
-				}
-			});
+			if ($scope.customInfo) {
+				_.each($scope.users, function(user) {
+					// We do not want customInfo to be called with overflow message
+					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+						user.info = $scope.customInfo(angular.copy(user));
+					}
+				});
+			}
+			if ($scope.customInfoAsync) {
+				_.each($scope.users, function(user) {
+					// We do not want customInfoAsync to be called with overflow message
+					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+						$scope.customInfoAsync(angular.copy(user)).then(function(info) {
+							user.info = info;
+						}, function(message) {
+							// TO_DO Handle error
+						});
+					}
+				});
+			}
 		};
 
 		/*********************/
