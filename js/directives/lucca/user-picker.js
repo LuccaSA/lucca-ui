@@ -559,9 +559,9 @@
 			});
 		};
 
-		/************************/
-		/***** CUSTOM COUNT *****/
-		/************************/
+		/***********************/
+		/***** CUSTOM INFO *****/
+		/***********************/
 
 		var addInfoToUsers = function() {
 			if ($scope.customInfo) {
@@ -579,7 +579,7 @@
 						$scope.customInfoAsync(angular.copy(user)).then(function(info) {
 							user.info = info;
 						}, function(message) {
-							// TO_DO Handle error
+							errorHandler("GET_CUSTOM_INFO", message);
 						});
 					}
 				});
@@ -622,6 +622,7 @@
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
+				case "GET_CUSTOM_INFO":
 					console.log({cause:cause, message:message});
 					break;
 			}
