@@ -10,14 +10,13 @@ describe('luidUserPicker', function(){
 
 	var findApi = /api\/v3\/users\/find\?.*/;
 
-	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_, _$q_) {
+	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_) {
 		_ = ___;
 		$scope = _$rootScope_.$new();
 		$httpBackend = _$httpBackend_;
 		$timeout = _$timeout_;
 		$compile = _$compile_;
 		moment = _moment_;
-		$q = _$q_;
 	}));
 
 	/**********************
@@ -529,15 +528,13 @@ describe('luidUserPicker', function(){
 		})
 	});
 
-	/**********************
-	** CUSTOM INFO       **
+	/*********************
+	** CUSTOM INFO SYNC **
 	**********************/
 	describe("with custom info to display next to each user", function(){
 		beforeEach(function(){
-			$scope.customCount= function(user) {
-				var dfd = $q.defer();
-				dfd.resolve(user.id * 2)
-				return dfd.promise;
+			$scope.customCount = function(user) {
+				return user.id * 2;
 			};
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-info="customCount"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
