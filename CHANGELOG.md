@@ -13,6 +13,7 @@
  - [#46](https://github.com/LuccaSA/lucca-ui/issues/46) - nguibs-modal can have a specific prefix defined in themes
  - The `nguibs-` class prefix for nguibs elements can now be changed (and removed!) through theming
  - [#26](https://github.com/LuccaSA/lucca-ui/issues/26) - added a directive luid-daterange
+ - luid-timespan - added a parameter `mode` to tell if the ng-model is a timespan (default) or a moment.duration
 
 ### resolved issues
  - [#35](https://github.com/LuccaSA/lucca-ui/issues/35) - changed luifNumber filter support for `undefined`, `NaN` and `null` values.
