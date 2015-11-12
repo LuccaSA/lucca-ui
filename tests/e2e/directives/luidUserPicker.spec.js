@@ -9,15 +9,18 @@ describe('luidUserPicker', function() {
 	var myUserPickerContainer;
 
 	beforeEach(function() {
-		myUserDiv = element(by.id('luidUserPicker_myUser_value'));
-		myUserPicker = element(by.id('luidUserPicker_myUser_select'));
+		myUserDiv = element(by.id('myUserPicker_value'));
+		myUserPicker = element(by.id('myUserPicker'));
 		myUserPickerInput = myUserPicker.all(by.tagName('input')).first();
 		myUserPickerContainer = myUserPicker.element(by.className('ui-select-container'));
 		myUserPickerChoices = myUserPicker.all(by.className('ui-select-choices-row'));
 		/* luid-user-picker with former employees */
-		myUserPickerFormerEmployees = element(by.id('luidUserPicker_myUser_select_former_employees'));
+		myUserPickerFormerEmployees = element(by.id('myUserPicker_former_employees'));
 		myUserPickerChoicesFormerEmployees = myUserPickerFormerEmployees.all(by.className('ui-select-choices-row'));
 		myUserPickerInputFormerEmployees = myUserPickerFormerEmployees.all(by.tagName('input')).first();
+		/* luid-user-picker with custom info */
+		myUserPickerCustomInfo = element(by.id('myUserPicker_custom_info'));
+		myUserPickerChoicesCustomInfo = myUserPickerCustomInfo.all(by.className('ui-select-choices-row'));
 	});
 
 	/*****************/
@@ -90,5 +93,17 @@ describe('luidUserPicker', function() {
 		// Check that the last user in the dropdown menu is displayed as 'former employee' and 'homonym' (it has 3 'small' tags as children)
 		var smallTag = myUserPickerChoicesFormerEmployees.get(1).all(by.tagName('small'));
 		expect(smallTag.count()).toBe(3);
+		// In order to close the dropdown menu
+		myUserPickerChoicesFormerEmployees.get(0).getWebElement().click();
+	});
+
+	/***********************/
+	/***** CUSTOM INFO *****/
+	/***********************/
+	it('should display custom info for each user', function() {
+		myUserPickerCustomInfo.click();
+		// Check that the label is displayed
+		var label = myUserPickerChoicesCustomInfo.get(2).element(by.tagName('span'));
+		expect(label.getAttribute('class')).toMatch('label');
 	});
 });

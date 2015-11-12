@@ -1,6 +1,6 @@
 (function(){
 	angular.module('demoApp')
-	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', function($scope, $httpBackend, _, $http) {
+	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', '$q', function($scope, $httpBackend, _, $http, $q) {
 
 		$scope.isChecked = false;
 		$scope.getCnt = 0;
@@ -9,6 +9,12 @@
 		$scope.local = "lucca";
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
+
+		$scope.customInfo = function(user) {
+			var dfd = $q.defer();
+			dfd.resolve(user.id);
+			return dfd.promise;
+		}
 
 		$scope.auth = function(){
 			$http.post("https://" + $scope.local + ".local/auth/userlogin?login=passepartout&password=")

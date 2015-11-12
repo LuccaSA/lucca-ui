@@ -29,7 +29,7 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | highlight: $select.search\" ng-if=\"!user.overflow\"></div>" +
+	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
 	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
@@ -71,12 +71,19 @@
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
-				operations: "=" // list of operation ids that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** CUSTOM COUNT ***/
+				// Display a custom info in a label next to each user
+				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
+				// If you need to use a sync and an async functions, use 'customInfoAsync'
+				customInfo: "=", // should be a function with this signature: function(user) { return string; }
+				customInfoAsync: "=" // should be a function with this signature: function(user) { return promise; }
 			},
 			link: function (scope, elt, attrs, ctrl) {
 				ctrl.isMultipleSelect = false;
 				ctrl.asyncPagination = false;
 				ctrl.useCustomFilter = !!attrs.customFilter;
+				ctrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
 			}
 		};
 	})
@@ -172,6 +179,10 @@
 								function(message) {
 									errorHandler("GET_HOMONYMS_PROPERTIES", message);
 								});
+						}
+
+						if (ctrl.displayCustomInfo) {
+							addInfoToUsers();
 						}
 					}
 					else {
@@ -548,6 +559,33 @@
 			});
 		};
 
+		/***********************/
+		/***** CUSTOM INFO *****/
+		/***********************/
+
+		var addInfoToUsers = function() {
+			if ($scope.customInfo) {
+				_.each($scope.users, function(user) {
+					// We do not want customInfo to be called with overflow message
+					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+						user.info = $scope.customInfo(angular.copy(user));
+					}
+				});
+			}
+			if ($scope.customInfoAsync) {
+				_.each($scope.users, function(user) {
+					// We do not want customInfoAsync to be called with overflow message
+					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+						$scope.customInfoAsync(angular.copy(user)).then(function(info) {
+							user.info = info;
+						}, function(message) {
+							errorHandler("GET_CUSTOM_INFO", message);
+						});
+					}
+				});
+			}
+		};
+
 		/*********************/
 		/***** ON-SELECT *****/
 		/*********************/
@@ -584,10 +622,19 @@
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
+				case "GET_CUSTOM_INFO":
 					console.log({cause:cause, message:message});
 					break;
 			}
 		};
+	}])
+
+	// Filter to display custom info next to each user
+	// Highlight the search in the name of the user and display a label next to each user
+	.filter('luifHighlight', ['$filter', function($filter) {
+		return function(_input, _clue, _info) {
+			return $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
+		}
 	}]);
 	
 	/**************************/
