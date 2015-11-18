@@ -7,7 +7,8 @@
 	angular.module('lui.services', []);
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference moment-picker.js
-	angular.module('lui.templates', ['lui.templates.momentpicker']);
+	angular.module("lui.templates.daterangepicker", []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
+	angular.module('lui.templates', ['lui.templates.momentpicker', "lui.templates.daterangepicker"]);
 
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates']);
 })();
@@ -26,19 +27,32 @@
 			var ngModelCtrl = ctrls[1];
 			var drCtrl = ctrls[0];
 			scope.internal={};
+
+			scope.hasPeriods = !!attrs.periods;
+
 			ngModelCtrl.$render = function(){
+				if(!ngModelCtrl.$viewValue){ 
+					scope.internal.startsOn = undefined;
+					scope.internal.endsOn = undefined;
+					scope.internal.strFriendly = undefined;
+					return; 
+				}
+
 				var parsed = parse(ngModelCtrl.$viewValue);
 				scope.internal.startsOn = parsed.startsOn;
 				scope.internal.endsOn = parsed.endsOn;
 				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
 			};
-
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function(){ ngModelCtrl.$render(); });
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function(){ ngModelCtrl.$render(); });
+			
 			drCtrl.updateValue = function(startsOn, endsOn){
 				var newValue = ngModelCtrl.$viewValue;
 				var formatted = format(startsOn,endsOn);
 				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
 				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
 				ngModelCtrl.$setViewValue(newValue);
+				// ngModelCtrl.$render();
 			};
 			var format = function(startsOn, endsOn){
 				var mstart = moment(startsOn);
@@ -81,7 +95,8 @@
 				if(scope.excludeEnd){
 					mend.add(-1, 'd');
 				}
-				return { startsOn: mstart.toDate(), endsOn:mend.toDate() };
+				var parsed = { startsOn: mstart.toDate(), endsOn:mend.toDate() };
+				return parsed;
 			};
 		}
 		return{
@@ -97,6 +112,8 @@
 				popoverPlacement:'@',
 
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
+
+				periods:'=', // an array like that [{label:'this month', startsOn:<Date or moment or string parsable by moment>, endsOn:idem}, {...}]
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
 			restrict:'EA',
@@ -106,23 +123,22 @@
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
 
-		$scope.periods = [
-			{label:"LUIDDATERANGE_SINCE_YEAR_START", startsOn: moment().startOf('year').toDate(), endsOn: moment().startOf('d').toDate()},
-			{label:"LUIDDATERANGE_LAST_MONTH", startsOn: moment().startOf('month').add(-1, 'months').toDate(), endsOn: moment().startOf('month').add(-1, 'd').toDate()},
-			{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().startOf('month').add(1, "month").add(-1, "day").toDate()},
-		];
-
 		$scope.internalUpdated = function(){
 			if(moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0){
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
 			}
+
+			// HACKS
+			$scope.hackRefresh = !$scope.hackRefresh;
+
 			ctrl.updateValue($scope.internal.startsOn, $scope.internal.endsOn);
 			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
 		};
 
 		$scope.goToPeriod = function(period){
-			$scope.internal.startsOn = period.startsOn;
-			$scope.internal.endsOn = period.endsOn;
+			$scope.internal.startsOn = moment(period.startsOn).toDate();
+			$scope.internal.endsOn = moment(period.endsOn).toDate();
+			if($scope.excludeEnd){ $scope.internal.endsOn = moment(period.endsOn).add(-1,'day').toDate(); }
 			$scope.internalUpdated();
 		};
 
@@ -135,10 +151,10 @@
 		// datepickers stuff
 		$scope.dayClass = function(date, mode){
 			var className = "";
-			if(mode === "day" && moment(date).diff($scope.internal.startsOn) ===0) {
+			if(mode === "day" && moment(date).diff($scope.internal.startsOn) === 0) {
 				className = "start";
 			}
-			if(mode === "day" && moment(date).diff($scope.internal.endsOn) ===0){
+			if(mode === "day" && moment(date).diff($scope.internal.endsOn) === 0){
 				className += "end";
 			}
 			if(mode === "day" && moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) {
@@ -159,50 +175,22 @@
 			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
 			"popover-placement=\"{{popoverPlacement}}\"" +
 			"popover-trigger ='none' popover-is-open='popoverOpened'" +
-			"popover-class ='lui daterange popover'" +
+			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
 			"<div class=\"lui clear\">" +
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
-			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</a>" +
+			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"	<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"</div>" +
 			"<footer>" +
-			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</a>" +
+			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
 			"</footer>" +
 			"");
-	}]);
-
-	/**************************/
-	/***** TRANSLATIONS   *****/
-	/**************************/
-	angular.module('lui.translates.daterangepicker').config(['$translateProvider', function ($translateProvider) {
-		$translateProvider.translations('en', {
-			"LUIDDATERANGE_SINCE_YEAR_START":"Since year start",
-			"LUIDDATERANGE_LAST_MONTH":"Last month",
-			"LUIDDATERANGE_THIS_MONTH":"Current month",
-			"LUIDDATERANGE_OK":"Ok"
-		});
-		$translateProvider.translations('de', {
-
-		});
-		$translateProvider.translations('es', {
-
-		});
-		$translateProvider.translations('fr', {
-			"LUIDDATERANGE_SINCE_YEAR_START":"Depuis le debut de l'année",
-			"LUIDDATERANGE_LAST_MONTH":"Mois dernier",
-			"LUIDDATERANGE_THIS_MONTH":"Mois en cours",
-			"LUIDDATERANGE_OK":"Ok"
-		});
-		$translateProvider.translations('it', {
-
-		});
-		$translateProvider.translations('nl', {
-
-		});
 	}]);
 })();
 ;(function(){
@@ -907,7 +895,7 @@
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
 				placeholder: '@',
-				mode: "=" // 'timespan', moment.duration', default='timespan'
+				mode: "=" // 'timespan', 'moment.duration', default='timespan'
 			},
 			restrict: 'EA',
 			link: link,
@@ -938,7 +926,11 @@
 			updateWithoutRender(newValue);
 		};
 		var format = function (dur) {
-			return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+			if (ctrl.mode === 'timespan') {
+				return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+			} else {
+				return dur;
+			}
 		};
 		var parse = function (strInput) {
 			var newDuration;
