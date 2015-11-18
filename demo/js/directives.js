@@ -38,11 +38,11 @@
 	angular.module('demoApp')
 	.controller('daterangeCtrl', ['$scope', 'moment', function($scope, moment){
 		$scope.myPeriod = {
-			startsOn: moment().startOf('day').toDate(), 
-			endsOn: moment().startOf('day').add(3, 'd').toDate(), 
+			startsOn: moment().startOf('day'), 
+			endsOn: moment().startOf('day').add(3, 'd'), 
 
-			momentStart: moment().startOf('month'),
-			momentEnd: moment().startOf('d'),
+			dateStart: moment().startOf('month').toDate(),
+			dateEnd: moment().startOf('d').toDate(),
 
 			stringStart: "2015/01/01",
 			stringEnd: "2015/03/05",

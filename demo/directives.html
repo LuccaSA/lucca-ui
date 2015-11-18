@@ -283,28 +283,41 @@
 
 		<article id="luid-daterange">
 			<h2 class="lui divider below">luid-daterange</h2>
-
-<!-- 			<p>
-				An input that display and edit a time, as does the <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/timepicker">timepicker</a> from angular ui bootstrap but plugged to a moment or a string.
-			</p> -->
+			<p>
+				An input to chose a range between to dates.
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Features:</h4>
 			</div>
-
+			<p>
+				Uses the <a href="#filters#luifFrindlyRange">luifFriendlyRange</a> filter to display the information.
+			</p>
+			<p>
+				Can be mapped to js' Dates, momentjs' moments or a string with a specified format.
+			</p>
+			<p>
+				The range September 1st to 30th can be seen as "Sep 1st to 30th included" or "Sep 1st to Oct 1st excluded". This input allows you to specify if the end is excluded, the user will choose Sep 1st to 30th" but in your scope you will have "Sep 1st to Oct 1st".
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Supported arguments:</h4>
 			</div>
 			<p>
 				<ul class="lui unstyled">
 					<li><code>ng-model</code>: the variable to bind to</li>
+					<li><code>format</code>: allows you to specify if you want to bind to a a date, a moment or a string. supported values: <code>moment</code>(default), <code>date</code>, any valid <a href="http://momentjs.com/docs/#/parsing/string-format/">momentjs format</a></li>
+					<li><code>start-property</code>: the property to bind the start of the range to, default <code>startsOn</code></li>
+					<li><code>end-property</code>: the property to bind the end of the range to, default <code>endsOn</code></li>
+					<li><code>exclude-end</code>: if you want the end of the range in your scope to be excluded, default <code>false</code></li>
+					<li><code>popover-placement</code>: the position of the popover with both datepickers in it. supported values: <code>top</code>(default), <code>bottom</code>, <code>left</code>, <code>right</code></li>
+
 				</ul>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="html">&lt;luid-moment ng-model="myValue"&gt;&lt;/luid-moment&gt;
-&lt;luid-moment ng-model="myValue" format="'HH:mm:ss'"&gt;&lt;/luid-moment&gt;</pre>
+				<pre hljs no-escape language="html">&lt;luid-daterange ng-model="myRange" class="lui long input"&gt;&lt;/luid-daterange&gt;
+&lt;luid-daterange ng-model="myRange" format="date" start-property="start" end-property="end" exclude-end="true" class="lui long input"&gt;&lt;/luid-daterange&gt;</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
@@ -317,12 +330,36 @@
 				</div> -->
 			</div>
 			<div ng-controller="daterangeCtrl" class="lui block round">
-				<luid-daterange ng-model="myPeriod" class="lui long input" exclude-end="true" data-format='date' popover-placement="right"></luid-daterange>
-				<div>{{myPeriod.startsOn | luifMoment}} - {{myPeriod.endsOn | luifMoment}}</div>
-				<luid-daterange ng-model="myPeriod" class="lui long input" start-property="momentStart" end-property="momentEnd"></luid-daterange>
-				<div>{{myPeriod.momentStart | luifMoment}} - {{myPeriod.momentEnd | luifMoment}}</div>
-				<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD"></luid-daterange>
-				<div>{{myPeriod.stringStart}} - {{myPeriod.stringEnd}}</div>
+				<p>
+					Basic usage, binded to moments, end is included, nothing fancy.
+				</p>
+				<luid-daterange ng-model="myPeriod" class="lui long input"></luid-daterange>
+				<p>start: {{myPeriod.startsOn | luifMoment}} - end: {{myPeriod.endsOn | luifMoment}}</p>
+				<hr>
+				<p>
+					Binded to dates, end excluded
+				</p>
+				<p>
+				<luid-daterange ng-model="myPeriod" class="lui long input" start-property="dateStart" end-property="dateEnd" format="date" exclude-end="true"></luid-daterange>
+				</p>
+				<p>
+					start: 
+					<span class="lui input datepicker">
+						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
+					</span>
+					end: 
+					<span class="lui input datepicker">
+						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
+					</span>
+				</p>
+				<hr>
+				<p>
+					Binded to strings with format <code>YYYY/MM/DD</code>
+				</p>
+				<p>
+					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD"></luid-daterange>
+				</p>
+				<p>start: {{myPeriod.stringStart}} - end: {{myPeriod.stringEnd}}</p>
 			</div>
 		</article>
 	</section>
