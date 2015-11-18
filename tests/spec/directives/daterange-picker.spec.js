@@ -203,4 +203,47 @@ describe('luidDaterange', function(){
 			expect(moment(isolateScope.internal.endsOn).diff($scope.myPeriod.customEnd)).toEqual(0);
 		});
 	});
+
+	// attr periods
+	describe('with custom periods', function(){
+		beforeEach(function(){
+			$scope.myPeriod = {};
+			$scope.myPeriods = [];
+			var tpl = angular.element('<luid-daterange ng-model="myPeriod" data-periods="myPeriods"></luid-daterange>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should know it has custom periods', function(){
+			expect(isolateScope.hasPeriods).toBe(true);
+		});
+		it('should set the start and end dates when going to a period', function(){
+			isolateScope.goToPeriod({startsOn: moment("1515-09-13"), endsOn: moment("1515-09-14")}); // marignan
+
+			expect(moment(isolateScope.internal.startsOn).format("YYYY-MM-DD")).toBe("1515-09-13");
+			expect(moment(isolateScope.internal.endsOn).format("YYYY-MM-DD")).toBe("1515-09-14");
+			expect(moment($scope.myPeriod.startsOn).format("YYYY-MM-DD")).toBe("1515-09-13");
+			expect(moment($scope.myPeriod.endsOn).format("YYYY-MM-DD")).toBe("1515-09-14");
+		});
+	});
+
+	// attr periods + exclude-end
+	describe('with custom periods and exclude-end', function(){
+		beforeEach(function(){
+			$scope.myPeriod = {};
+			$scope.myPeriods = [];
+			var tpl = angular.element('<luid-daterange ng-model="myPeriod" data-periods="myPeriods" exclude-end="true"></luid-daterange>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should set the start and end dates when going to a period', function(){
+			isolateScope.goToPeriod({startsOn: moment("1515-09-13"), endsOn: moment("1515-09-15")}); // marignan, end excluded
+
+			expect(moment(isolateScope.internal.startsOn).format("YYYY-MM-DD")).toBe("1515-09-13");
+			expect(moment(isolateScope.internal.endsOn).format("YYYY-MM-DD")).toBe("1515-09-14");
+			expect(moment($scope.myPeriod.startsOn).format("YYYY-MM-DD")).toBe("1515-09-13");
+			expect(moment($scope.myPeriod.endsOn).format("YYYY-MM-DD")).toBe("1515-09-15");
+		});
+	});
 });
