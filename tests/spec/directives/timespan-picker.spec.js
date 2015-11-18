@@ -129,4 +129,94 @@ describe('luidTimespan', function(){
 			expect(isolateScope.strDuration).toEqual('01h10');
 		});
 	});
+	describe('with mode="moment.duration"', function() {
+		beforeEach(function(){
+			var tpl = angular.element('<luid-timespan ng-model="myTimespan" mode="moment.duration"></luid-timespan>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update strDuration when myTimespan changes', function() {
+			$scope.myTimespan = moment.duration('00:00:00');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('0m');
+			$scope.myTimespan = moment.duration(1, 'minutes');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('1m');
+			$scope.myTimespan = moment.duration(2, 'hours');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('02h00');
+			$scope.myTimespan = moment.duration('2:01:00');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('02h01');
+			$scope.myTimespan = moment.duration('P1DT11H');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('35h00');
+			$scope.myTimespan = moment.duration('P4DT10H');
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('106h00');
+		});
+		it('should update myTimespan when strDuration changes', function(){
+			isolateScope.strDuration = '0m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual(moment.duration('P0D'));
+			isolateScope.strDuration = '35';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual(moment.duration('PT35M'));
+			isolateScope.strDuration = '35m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual(moment.duration('PT35M'));
+			isolateScope.strDuration = '1h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual(moment.duration('PT1H'));
+			isolateScope.strDuration = '12h30';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual(moment.duration('PT12H30M'));
+		});
+	});
+describe('with mode="timespan"', function() {
+		beforeEach(function(){
+			var tpl = angular.element('<luid-timespan ng-model="myTimespan" mode="timespan"></luid-timespan>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update strDuration when myTimespan changes', function(){
+			$scope.myTimespan = '00:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('0m');
+			$scope.myTimespan = '00:01:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('1m');
+			$scope.myTimespan = '02:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('02h00');
+			$scope.myTimespan = '02:01:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('02h01');
+			$scope.myTimespan = '1.11:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('35h00');
+			$scope.myTimespan = '4.10:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('106h00');
+		});
+		it('should update myTimespan when strDuration changes', function(){
+			isolateScope.strDuration = '0m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('00:00:00');
+			isolateScope.strDuration = '35';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('00:35:00');
+			isolateScope.strDuration = '35m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('00:35:00');
+			isolateScope.strDuration = '1h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('01:00:00');
+			isolateScope.strDuration = '12h30';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('12:30:00');
+		});
+	});
 });
