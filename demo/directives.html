@@ -53,6 +53,7 @@
 				<li><code>unit</code>: 'hour' or 'minute', tells the directive that typing 10 in the input means 10 minutes or 10 hours. The default is 'minute'</li>
 				<li><code>step</code>: when scrolling or pressing the up/down key, how many minutes you want to be added. The default is 5</li>
 				<li><code>placeholder</code>: placeholder to display when the input is empty</li>
+				<li><code>mode</code>: to tell if you want the directive to give you a timespan or a <a href="http://momentjs.com/docs/#/durations/" class="lui fancy link">moment.duration</a>. Supported values: <code>timespan</code> (default) and <code>moment.duration</code></li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -75,17 +76,27 @@
 			<form name="myForm">
 				<p>
 					myValue in luid-timespan (required):
-					<luid-timespan name="myTimespan" ng-model="myValue" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
+					<luid-timespan name="myTimespan" ng-model="myTimespan" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
 					<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
 				</p>
 				<p>
 					myValue as it is in $scope:
 					<span class="lui input">
-						<input name="myTextInput" type="text" ng-model="myValue">
+						<input name="myTextInput" type="text" ng-model="myTimespan">
 					</span>
 				</p>
 				<p>
 					number of time ng-change on the luid-timespan has been called: <code>{{updateCnt}}</code>
+				</p>
+				<hr>
+				<p>
+					With <code>mode="moment.duration"</code>
+				</p>
+				<p>
+					<luid-timespan ng-model="myDuration" mode="moment.duration"></luid-timespan>
+				</p>
+				<p>
+					myDuration in the $scope: {{myDuration}} and with a <a href="#/filters#luifDuration" class="lui fancy link">luifDuration</a> filter: {{myDuration | luifDuration}}
 				</p>
 			</form>
 		</div>
@@ -290,7 +301,7 @@
 				<h4 class="lui underline">Features:</h4>
 			</div>
 			<p>
-				Uses the <a href="#filters#luifFrindlyRange">luifFriendlyRange</a> filter to display the information.
+				Uses the <a class="lui fancy link" href="#filters#luifFrindlyRange">luifFriendlyRange</a> filter to display the information.
 			</p>
 			<p>
 				Can be mapped to js' Dates, momentjs' moments or a string with a specified format.
@@ -304,7 +315,7 @@
 			<p>
 				<ul class="lui unstyled">
 					<li><code>ng-model</code>: the variable to bind to</li>
-					<li><code>format</code>: allows you to specify if you want to bind to a a date, a moment or a string. supported values: <code>moment</code>(default), <code>date</code>, any valid <a href="http://momentjs.com/docs/#/parsing/string-format/">momentjs format</a></li>
+					<li><code>format</code>: allows you to specify if you want to bind to a a date, a moment or a string. supported values: <code>moment</code>(default), <code>date</code>, any valid <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs format</a></li>
 					<li><code>start-property</code>: the property to bind the start of the range to, default <code>startsOn</code></li>
 					<li><code>end-property</code>: the property to bind the end of the range to, default <code>endsOn</code></li>
 					<li><code>exclude-end</code>: if you want the end of the range in your scope to be excluded, default <code>false</code></li>

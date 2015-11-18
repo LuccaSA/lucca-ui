@@ -3,11 +3,12 @@
 
 	angular.module('demoApp')
 	.controller('timespanCtrl', ['$scope', function($scope){
-		$scope.myValue = "1.11:00:00";
+		$scope.myTimespan = "1.11:00:00";
 		$scope.updateCnt = 0;
 		$scope.hasChanged = function(){
 			$scope.updateCnt++;
 		};
+		$scope.myDuration = moment.duration(2, 'hours');
 	}]);
 
 	angular.module('demoApp')

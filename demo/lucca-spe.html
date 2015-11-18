@@ -89,7 +89,9 @@
 		<p>
 			<pre hljs no-escape language="html">&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
 &lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-filter="myFilter"&gt;&lt;/luid-user-picker&gt;</pre>
+&lt;luid-user-picker ng-model="myUser" custom-filter="myFilterFunction"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" custom-info="myInfoFunction"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" custom-info-async="myInfoAsyncFunction"&gt;&lt;/luid-user-picker&gt;</pre>
 		</p>
 
 		<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -103,7 +105,6 @@
 			</div>
 		</div>
 		<div ng-controller="userPickerCtrl" class="lui block round">
-			<h5>Basic usage</h5>
 			<p>
 				Reroute all calls to
 				<span class="lui input with addons">
@@ -112,12 +113,20 @@
 					<span class="lui addon">.local</span>
 				</span>
 				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
-				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span><br>
-				<b>Important:</b> your local website must implpement the api <code>/api/v3/users/find</code> for it to work. This feature is available on branch <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/rc">rc</a> (since <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/pull/528#event-443784814">10/23/2015</a>) and <a class="lui fancy link" href="https://github.com/LuccaSA/ilucca/tree/master">master</a> (since 10/30/2015).
+				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
 			</p>
+			<hr>
+			<h5>Basic usage</h5>
 			<p>
 				<luid-user-picker ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
-				<input type="checkbox" ng-model="isChecked">Show former employees
+				<div class="lui checkbox">
+					<input type="checkbox" ng-model="isChecked">
+				</div>
+				<span class="lui checkbox">
+					<input type="checkbox"  ng-model="isChecked"/>
+					<label></label>
+				</span>
+				Show former employees
 			</p>
 			<p>
 				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
@@ -125,25 +134,46 @@
 			<hr />
 			<h5>Custom filtering</h5>
 			<p>
+				Filters the list of users normally displayed with a function you can define, for example the first filter is defined this way in the controller.
+			</p>
+			<pre hljs no-escape language="js">$scope.hasShortName = function(user) {
+	return user.firstName.length &lt;= 6;
+};</pre>
+			<p>
 				Select a filter: 
+			</p>
+			<p>
 				<span class="lui buttons">
-					<button class="lui button" ng-model="customFilter" btn-radio="'hasShortName'">Users with short names (less than 15 letters)</button>
+					<button class="lui button" ng-model="customFilter" btn-radio="'hasShortName'">Users with short firstname (less than 6 letters)</button>
 					<button class="lui button" ng-model="customFilter" btn-radio="'beginsWithConsonant'">Users with a consonant as first letter in their first name</button>
 					<button class="lui button" ng-model="customFilter" btn-radio="'nameContainsT'">Users with a 't' in their name</button>
 				</span>
 			</p>
 			<p>
 				Set of users with the selected filter applied: 
-				<luid-user-picker ng-if="customFilter === 'hasShortName'" ng-model="myUser.selected" custom-filter="hasShortName"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.selected" custom-filter="beginsWithConsonant"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.selected" custom-filter="nameContainsT"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'hasShortName'" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
 			</p>
 			<hr />
 			<h5>Custom info</h5>
 			<p>
-				Id of each user: 
-				<luid-user-picker ng-model="myUser.selected" custom-info="customInfo"></luid-user-picker>
+				Number of letters in their first name: 
+				<luid-user-picker ng-model="myUser.filtered" custom-info="firstNameLength"></luid-user-picker>, this info is computed synchronously
 			</p>
+			<p>
+				Year of contract start: <luid-user-picker ng-model="myUser.selected" custom-info-async="yearOfArrivalAsync"></luid-user-picker>, this info needs an ajax call for each displayed user
+			</p>
+			<pre hljs no-escape language="js">$scope.firstNameLength = function(user) { return user.firstName.length; };
+$scope.yearOfArrivalAsync = function(user){
+	var dfd = $q.defer();
+	$http.get("/api/v3/users/" + user.id + "?fields=dtContractStart")
+	.success(function(response){
+		var year = moment(response.data.dtContractStart).year();
+		dfd.resolve(year);
+	})
+	return dfd.promise;
+};</pre>
 		</div>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Roadmap:</h4>

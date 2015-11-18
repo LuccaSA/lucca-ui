@@ -1,6 +1,6 @@
 (function(){
 	angular.module('demoApp')
-	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', '$q', function($scope, $httpBackend, _, $http, $q) {
+	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', '$q', 'moment', function($scope, $httpBackend, _, $http, $q, moment) {
 
 		$scope.isChecked = false;
 		$scope.getCnt = 0;
@@ -10,10 +10,20 @@
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
 
-		$scope.customInfo = function(user) {
+		$scope.yearOfArrivalAsync = function(user) {
 			var dfd = $q.defer();
-			dfd.resolve(user.id);
+			$http.get("/api/v3/users/" + user.id + "?fields=dtContractStart")
+			.success(function(response){
+				var year = moment(response.data.dtContractStart).year();
+				dfd.resolve(year);
+			})
+			.error(function(response){
+				dfd.reject(response.Message)
+			})
 			return dfd.promise;
+		}
+		$scope.firstNameLength = function(user) {
+			return user.firstName.length;
 		}
 
 		$scope.auth = function(){
@@ -48,7 +58,7 @@
 
 		/* Custom filters */
 		$scope.hasShortName = function(user) {
-			return ((user.lastName.length + user.firstName.length) <= 15);
+			return user.firstName.length <= 6;
 		};
 
 		$scope.beginsWithConsonant = function(user) {
@@ -64,7 +74,7 @@
 		};
 
 		$scope.nameContainsT = function(user) {
-			return (!_.contains(user.firstName.toLowerCase(), 't') && !_.contains(user.lastName.toLowerCase(), 't'));
+			return _.contains(user.firstName.toLowerCase() + user.lastName.toLowerCase(), 't') ;
 		}
 	}]);
 })();
