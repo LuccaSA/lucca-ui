@@ -4,6 +4,7 @@
 		overflow: hidden;
 		width: 100%;
 		min-height: 100%; min-height: 100vh;
+		box-sizing: border-box;
 		position: relative;
 		top: 0; left: 0;
 
@@ -13,7 +14,7 @@
 		// There can be only one <main> element (http://www.w3schools.com/tags/tag_main.asp)
 		// This is your current app view (main-sidebar excluded)
 		main {
-			min-height: 100%; min-height: 100vh;
+			// min-height: 100%; min-height: 100vh;
 			position: relative;
 			margin-left: map-gets($vars, navigation, width);
 		}
