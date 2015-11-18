@@ -14,12 +14,21 @@
 			var drCtrl = ctrls[0];
 			scope.internal={};
 			ngModelCtrl.$render = function(){
+				if(!ngModelCtrl.$viewValue){ 
+					scope.internal.startsOn = undefined;
+					scope.internal.endsOn = undefined;
+					scope.internal.strFriendly = undefined;
+					return; 
+				}
+
 				var parsed = parse(ngModelCtrl.$viewValue);
 				scope.internal.startsOn = parsed.startsOn;
 				scope.internal.endsOn = parsed.endsOn;
 				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
 			};
-
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function(){ ngModelCtrl.$render(); });
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function(){ ngModelCtrl.$render(); });
+			
 			drCtrl.updateValue = function(startsOn, endsOn){
 				var newValue = ngModelCtrl.$viewValue;
 				var formatted = format(startsOn,endsOn);
@@ -68,7 +77,8 @@
 				if(scope.excludeEnd){
 					mend.add(-1, 'd');
 				}
-				return { startsOn: mstart.toDate(), endsOn:mend.toDate() };
+				var parsed = { startsOn: mstart.toDate(), endsOn:mend.toDate() };
+				return parsed;
 			};
 		}
 		return{
