@@ -13,6 +13,9 @@
 			var ngModelCtrl = ctrls[1];
 			var drCtrl = ctrls[0];
 			scope.internal={};
+
+			scope.hasPeriods = !!attrs.periods;
+
 			ngModelCtrl.$render = function(){
 				if(!ngModelCtrl.$viewValue){ 
 					scope.internal.startsOn = undefined;
@@ -94,6 +97,8 @@
 				popoverPlacement:'@',
 
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
+
+				periods:'=', // an array like that [{label:'this month', startsOn:<Date or moment or string parsable by moment>, endsOn:idem}, {...}]
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
 			restrict:'EA',
@@ -103,11 +108,11 @@
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
 
-		$scope.periods = [
-			{label:"LUIDDATERANGE_SINCE_YEAR_START", startsOn: moment().startOf('year').toDate(), endsOn: moment().startOf('d').toDate()},
-			{label:"LUIDDATERANGE_LAST_MONTH", startsOn: moment().startOf('month').add(-1, 'months').toDate(), endsOn: moment().startOf('month').add(-1, 'd').toDate()},
-			{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().startOf('month').add(1, "month").add(-1, "day").toDate()},
-		];
+		// $scope.periods = [
+		// 	{label:"LUIDDATERANGE_SINCE_YEAR_START", startsOn: moment().startOf('year').toDate(), endsOn: moment().startOf('d').toDate()},
+		// 	{label:"LUIDDATERANGE_LAST_MONTH", startsOn: moment().startOf('month').add(-1, 'months').toDate(), endsOn: moment().startOf('month').add(-1, 'd').toDate()},
+		// 	{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().startOf('month').add(1, "month").add(-1, "day").toDate()},
+		// ];
 
 		$scope.internalUpdated = function(){
 			if(moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0){
@@ -118,8 +123,9 @@
 		};
 
 		$scope.goToPeriod = function(period){
-			$scope.internal.startsOn = period.startsOn;
-			$scope.internal.endsOn = period.endsOn;
+			$scope.internal.startsOn = moment(period.startsOn).toDate();
+			$scope.internal.endsOn = moment(period.endsOn).toDate();
+			if($scope.excludeEnd){ $scope.internal.endsOn = moment(period.endsOn).add(-1,'day').toDate(); }
 			$scope.internalUpdated();
 		};
 
@@ -156,49 +162,19 @@
 			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
 			"popover-placement=\"{{popoverPlacement}}\"" +
 			"popover-trigger ='none' popover-is-open='popoverOpened'" +
-			"popover-class ='lui daterange popover'" +
+			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
 			"<div class=\"lui clear\">" +
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
-			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label | translate}}</a>" +
+			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
 			"	<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"	<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"</div>" +
 			"<footer>" +
-			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>{{'LUIDDATERANGE_OK'|translate}}</a>" +
+			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
 			"</footer>" +
 			"");
-	}]);
-
-	/**************************/
-	/***** TRANSLATIONS   *****/
-	/**************************/
-	angular.module('lui.translates.daterangepicker').config(['$translateProvider', function ($translateProvider) {
-		$translateProvider.translations('en', {
-			"LUIDDATERANGE_SINCE_YEAR_START":"Since year start",
-			"LUIDDATERANGE_LAST_MONTH":"Last month",
-			"LUIDDATERANGE_THIS_MONTH":"Current month",
-			"LUIDDATERANGE_OK":"Ok"
-		});
-		$translateProvider.translations('de', {
-
-		});
-		$translateProvider.translations('es', {
-
-		});
-		$translateProvider.translations('fr', {
-			"LUIDDATERANGE_SINCE_YEAR_START":"Depuis le debut de l'année",
-			"LUIDDATERANGE_LAST_MONTH":"Mois dernier",
-			"LUIDDATERANGE_THIS_MONTH":"Mois en cours",
-			"LUIDDATERANGE_OK":"Ok"
-		});
-		$translateProvider.translations('it', {
-
-		});
-		$translateProvider.translations('nl', {
-
-		});
 	}]);
 })();

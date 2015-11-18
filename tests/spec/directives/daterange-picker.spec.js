@@ -203,5 +203,4 @@ describe('luidDaterange', function(){
 			expect(moment(isolateScope.internal.endsOn).diff($scope.myPeriod.customEnd)).toEqual(0);
 		});
 	});
-
 });
