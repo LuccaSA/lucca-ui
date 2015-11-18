@@ -1,25 +1,61 @@
 (function(){
 	'use strict';
-	var colors = ['none', 'primary', 'secondary', 'success', 'warning', 'error', 'grey', 'light', 'yellow', 'green', 'orange', 'red'];
-	
+
 	// we use underscore cuz it's awesome
 	// http://underscorejs.org/
 	angular.module('underscore', []).factory('_', function () { return window._; });
+	angular.module('moment', []).factory('moment', function () { return window.moment; });
 
-	angular.module('demoApp',['ui.bootstrap']);
+	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E', 'hljs']);
 
 	angular.module('demoApp')
-	.controller('buttonsCtrl', ['$scope', function($scope){
-		$scope.colors = colors;
-		$scope.styles = ['default', 'flat', 'wired', 'filling'];
-		$scope.sizes = ['small', 'default', 'large', 'x-large'];
-
-		$scope.color = '';
-		$scope.style = '';
-		$scope.size = '';
-		$scope.status = '';
-		$scope.inverted = false;
-		$scope.disabled = false;
-
+	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
+		$scope.isActive = function(viewLocation) {
+			return viewLocation === $location.path();
+		};
 	}]);
+
+	angular.module('demoApp')
+	.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
+		$routeProvider
+			.when('/sass', {
+				templateUrl: 'sass-framework.html',
+			})
+			.when('/icons', {
+				templateUrl: 'icons.html'
+			})
+			.when('/animations', {
+				templateUrl: 'animations.html',
+			})
+			.when('/nguibs', {
+				templateUrl: 'nguibs.html',
+			})
+			.when('/filters', {
+				templateUrl: 'filters.html',
+			})
+			.when('/directives', {
+				templateUrl: 'directives.html',
+			})
+			.when('/lucca', {
+				templateUrl: 'lucca-spe.html',
+			})
+			.otherwise({ redirectTo: '/sass'});
+
+		var culture = 'en';
+		$translateProvider.use(culture);
+		$translateProvider.preferredLanguage(culture);
+		$translateProvider.fallbackLanguage(['en', 'fr']);
+		moment.locale(culture)
+	}]);
+
+	angular.module('demoApp')
+	.run(function($httpBackend) {
+		$httpBackend.whenGET('sass-framework.html').passThrough();
+		$httpBackend.whenGET('icons.html').passThrough();
+		$httpBackend.whenGET('animations.html').passThrough();
+		$httpBackend.whenGET('nguibs.html').passThrough();
+		$httpBackend.whenGET('filters.html').passThrough();
+		$httpBackend.whenGET('directives.html').passThrough();
+		$httpBackend.whenGET('lucca-spe.html').passThrough();
+	});
 })();
