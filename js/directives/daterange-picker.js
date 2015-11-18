@@ -38,6 +38,7 @@
 				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
 				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
 				ngModelCtrl.$setViewValue(newValue);
+				// ngModelCtrl.$render();
 			};
 			var format = function(startsOn, endsOn){
 				var mstart = moment(startsOn);
@@ -108,16 +109,14 @@
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
 
-		// $scope.periods = [
-		// 	{label:"LUIDDATERANGE_SINCE_YEAR_START", startsOn: moment().startOf('year').toDate(), endsOn: moment().startOf('d').toDate()},
-		// 	{label:"LUIDDATERANGE_LAST_MONTH", startsOn: moment().startOf('month').add(-1, 'months').toDate(), endsOn: moment().startOf('month').add(-1, 'd').toDate()},
-		// 	{label:"LUIDDATERANGE_THIS_MONTH", startsOn: moment().startOf('month').toDate(), endsOn: moment().startOf('month').add(1, "month").add(-1, "day").toDate()},
-		// ];
-
 		$scope.internalUpdated = function(){
 			if(moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0){
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
 			}
+
+			// HACKS
+			$scope.hackRefresh = !$scope.hackRefresh;
+
 			ctrl.updateValue($scope.internal.startsOn, $scope.internal.endsOn);
 			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
 		};
@@ -138,10 +137,10 @@
 		// datepickers stuff
 		$scope.dayClass = function(date, mode){
 			var className = "";
-			if(mode === "day" && moment(date).diff($scope.internal.startsOn) ===0) {
+			if(mode === "day" && moment(date).diff($scope.internal.startsOn) === 0) {
 				className = "start";
 			}
-			if(mode === "day" && moment(date).diff($scope.internal.endsOn) ===0){
+			if(mode === "day" && moment(date).diff($scope.internal.endsOn) === 0){
 				className += "end";
 			}
 			if(mode === "day" && moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) {
@@ -169,8 +168,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<datepicker class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"	<datepicker class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
+			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"</div>" +
 			"<footer>" +
 			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
