@@ -1,12 +1,10 @@
-
-#{$prefix}.visible {
-	visibility: visible;
-	display: block;
-}
+#{$prefix}.shown { display: block; }
+#{$prefix}.hidden { display: none; }
 
 #{$prefix}.invisible {
+	pointer-events: none;
 	visibility: hidden;
-	display: none;
+	opacity: 0;
 }
 
 #{$prefix}.faded {
