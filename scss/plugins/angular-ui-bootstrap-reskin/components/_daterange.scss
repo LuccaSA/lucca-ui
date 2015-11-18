@@ -1,11 +1,14 @@
 @if map-get($pluginVars, enabled) {
+	$popoverWidth: 50em;
+	$shortcutsWidth: 15em;
+
 	#{$prefix}.daterange {
-		.popover-inner {
-			width: 60em;
-		}
+		.popover-inner { width: $popoverWidth; }
+		&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
 		.shortcuts.menu {
+			width: $shortcutsWidth;
 			float: right;
-			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0;}
+			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
 		}
 		.datepicker { float: left; border: none; }
 		.datepicker + .datepicker { margin-left: 1em; }
