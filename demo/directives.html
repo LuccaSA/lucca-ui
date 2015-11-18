@@ -309,6 +309,7 @@
 					<li><code>end-property</code>: the property to bind the end of the range to, default <code>endsOn</code></li>
 					<li><code>exclude-end</code>: if you want the end of the range in your scope to be excluded, default <code>false</code></li>
 					<li><code>popover-placement</code>: the position of the popover with both datepickers in it. supported values: <code>top</code>(default), <code>bottom</code>, <code>left</code>, <code>right</code></li>
+					<li><code>periods</code>: a list of preset dateranges, must look like this <code>[{label:"this month", startsOn: #anything parsable by moment#, endsOn: #same as startsOn#}, {...}]</code>. <b>Remark: </b> when you use both <code>periods</code> and <code>exclude-end</code>, the end of the periods is excluded</li>
 
 				</ul>
 			</p>
@@ -317,6 +318,7 @@
 			</div>
 			<p>
 				<pre hljs no-escape language="html">&lt;luid-daterange ng-model="myRange" class="lui long input"&gt;&lt;/luid-daterange&gt;
+&lt;luid-daterange ng-model="myRange" class="lui long input" data-periods="myPeriods"&gt;&lt;/luid-daterange&gt;
 &lt;luid-daterange ng-model="myRange" format="date" start-property="start" end-property="end" exclude-end="true" class="lui long input"&gt;&lt;/luid-daterange&gt;</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -354,10 +356,10 @@
 				</p>
 				<hr>
 				<p>
-					Binded to strings with format <code>YYYY/MM/DD</code>
+					Binded to strings with format <code>YYYY/MM/DD</code>, with custom periods
 				</p>
 				<p>
-					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD"></luid-daterange>
+					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD" data-periods="myPeriods"></luid-daterange>
 				</p>
 				<p>start: {{myPeriod.stringStart}} - end: {{myPeriod.stringEnd}}</p>
 			</div>
