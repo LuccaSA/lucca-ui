@@ -14,6 +14,7 @@
  - The `nguibs-` class prefix for nguibs elements can now be changed (and removed!) through theming
  - [#26](https://github.com/LuccaSA/lucca-ui/issues/26) - added a directive luid-daterange see below for detailed features
  - luid-timespan - added a parameter `mode` to tell if the ng-model is a `timespan` (default) or a `moment.duration`
+ - visibilty classes to affect `display` and `opacity`. `hidden`, `show` affect display ; `invisible`, `faded`, `faded lightly` and `faded stringly` affect opacity and visibility.
 
 ### Resolved issues
  - [#35](https://github.com/LuccaSA/lucca-ui/issues/35) - changed luifNumber filter support for `undefined`, `NaN` and `null` values.
