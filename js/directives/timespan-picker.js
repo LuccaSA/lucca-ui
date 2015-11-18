@@ -57,7 +57,7 @@
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
 				placeholder: '@',
-				mode: "=" // 'timespan', moment.duration', default='timespan'
+				mode: "=" // 'timespan', 'moment.duration', default='timespan'
 			},
 			restrict: 'EA',
 			link: link,
@@ -88,7 +88,11 @@
 			updateWithoutRender(newValue);
 		};
 		var format = function (dur) {
-			return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+			if (ctrl.mode === 'timespan') {
+				return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+			} else {
+				return dur;
+			}
 		};
 		var parse = function (strInput) {
 			var newDuration;
