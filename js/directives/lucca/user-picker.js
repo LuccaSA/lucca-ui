@@ -634,7 +634,7 @@
 	.filter('luifHighlight', ['$filter', function($filter) {
 		return function(_input, _clue, _info) {
 			return $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
-		}
+		};
 	}]);
 	
 	/**************************/
