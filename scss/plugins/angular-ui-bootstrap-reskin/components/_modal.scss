@@ -49,7 +49,7 @@
 		// Kill the scroll on the body
 		.modal-open {
 			overflow: hidden;
-			#{$baseSelector}modal { overflow-x: hidden; overflow-y: auto; }
+			#{$baseSelector}.modal { overflow-x: hidden; overflow-y: auto; }
 		}
 	}
 }

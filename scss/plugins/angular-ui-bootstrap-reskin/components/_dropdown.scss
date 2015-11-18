@@ -40,8 +40,7 @@
 			@include lui_target_IE9 { box-sizing: content-box; }
 
 			.active a,
-			div:not(.disabled) a:hover { background: #EEE; }
-			.disabled a { cursor: default; }
+			a:hover { background: #EEE; }
 			a {
 				color: map-gets($luiTheme, elements, typography, body, color);
 				text-decoration: none;
