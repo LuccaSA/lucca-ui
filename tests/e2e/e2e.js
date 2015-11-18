@@ -100,10 +100,13 @@
 
 		$scope.myUser = {};
 		$scope.myUser.selected = { firstName: 'Lucien', lastName: 'Bertin' };
-		$scope.customInfo = function(user) {
+		$scope.customInfoAsync = function(user) {
 			var dfd = $q.defer();
 			dfd.resolve(user.id * 2);
 			return dfd.promise;
+		};
+		$scope.customInfo = function(user) {
+			return user.id * 2;
 		};
 	}]);
 })();

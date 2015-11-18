@@ -20,7 +20,9 @@ describe('luidUserPicker', function() {
 		myUserPickerInputFormerEmployees = myUserPickerFormerEmployees.all(by.tagName('input')).first();
 		/* luid-user-picker with custom info */
 		myUserPickerCustomInfo = element(by.id('myUserPicker_custom_info'));
+		myUserPickerCustomInfoAsync = element(by.id('myUserPicker_custom_info_async'));
 		myUserPickerChoicesCustomInfo = myUserPickerCustomInfo.all(by.className('ui-select-choices-row'));
+		myUserPickerChoicesCustomInfoAsync = myUserPickerCustomInfoAsync.all(by.className('ui-select-choices-row'));
 	});
 
 	/*****************/
@@ -104,6 +106,12 @@ describe('luidUserPicker', function() {
 		myUserPickerCustomInfo.click();
 		// Check that the label is displayed
 		var label = myUserPickerChoicesCustomInfo.get(2).element(by.tagName('span'));
+		expect(label.getAttribute('class')).toMatch('label');
+	});
+	it('should display custom info async for each user', function() {
+		myUserPickerCustomInfoAsync.click();
+		// Check that the label is displayed
+		var label = myUserPickerChoicesCustomInfoAsync.get(2).element(by.tagName('span'));
 		expect(label.getAttribute('class')).toMatch('label');
 	});
 });
