@@ -162,10 +162,10 @@
 			}
 			// Check min/max values
 			if (!checkMin(newDur)) {
-				var newDur = getMin();
+				newDur = getMin();
 			}
 			if (!checkMax(newDur)) {
-				var newDur = getMax();
+				newDur = getMax();
 			}
 			var newValue = formatValue(newDur);
 			update(newValue);
