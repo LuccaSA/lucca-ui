@@ -57,7 +57,10 @@
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
 				placeholder: '@',
-				mode: "=" // 'timespan', 'moment.duration', default='timespan'
+				mode: "=", // 'timespan', 'moment.duration', default='timespan'
+				// Min/max values
+				min: '=',
+				max: '=',
 			},
 			restrict: 'EA',
 			link: link,
@@ -69,6 +72,7 @@
 
 		// public methods for update
 		$scope.updateValue = function () {
+			console.log('update value called');
 			// is only fired when pattern is valid or when it goes from valid to invalid
 			// improvement possible - check the pattern and set the validity of the all directive via ngModelCtrl.$setValidity
 			// currently when pattern invalid, the viewValue is set to '00:00:00'
@@ -80,6 +84,12 @@
 
 			// parse the strDuration to build newDuration
 			newDuration = parse($scope.strDuration);
+
+			console.log(newDuration);
+			if (!checkMin(newDuration)) {
+				console.log('not ok');
+				newDuration = getMin();
+			}
 
 			// transform this duration into a string
 			newValue = format(newDuration);
@@ -145,11 +155,20 @@
 		// private - updates of some kinds
 		// incr value by `step` minutes
 		var incr = function (step) {
+			console.log('incr called');
 			var newDur = moment.duration(currentValue()).add(step, 'minutes');
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
 			}
-			var newValue = formatValue(newDur);
+			if (checkMin(newDur)) {
+				var newValue = formatValue(newDur);
+				console.log('ok');
+				console.log(newValue);
+			} else {
+				var newValue = getMin();
+				console.log('not ok');
+				console.log(newValue);
+			}
 			update(newValue);
 		};
 
@@ -219,6 +238,20 @@
 					e.preventDefault();
 				}
 			});
+		};
+
+		/* */
+		var checkMin = function(newValue) {
+			var min = getMin();
+			console.log(min);
+			return !min || min <= newValue;
+		};
+
+		var getMin = function() {
+			if (!$scope.min) {
+				return undefined;
+			}
+			return moment.duration($scope.min);
 		};
 	}]);
 })();
