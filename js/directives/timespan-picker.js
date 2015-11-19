@@ -161,13 +161,13 @@
 				newDur = moment.duration();
 			}
 			// Check min/max values
-			if (checkMin(newDur) && checkMax(newDur)) {
-				var newValue = formatValue(newDur);
-			} else if (!checkMin(newDur)) {
-				var newValue = getMin();
-			} else {
-				var newValue = getMax();
+			if (!checkMin(newDur)) {
+				var newDur = getMin();
 			}
+			if (!checkMax(newDur)) {
+				var newDur = getMax();
+			}
+			var newValue = formatValue(newDur);
 			update(newValue);
 		};
 
