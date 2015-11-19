@@ -85,10 +85,12 @@
 			// parse the strDuration to build newDuration
 			newDuration = parse($scope.strDuration);
 
-			console.log(newDuration);
+			// Check min/max values
 			if (!checkMin(newDuration)) {
-				console.log('not ok');
 				newDuration = getMin();
+			}
+			if (!checkMax(newDuration)) {
+				newDuration = getMax();
 			}
 
 			// transform this duration into a string
@@ -160,14 +162,13 @@
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
 			}
-			if (checkMin(newDur)) {
+			// Check min/max values
+			if (checkMin(newDur) && checkMax(newDur)) {
 				var newValue = formatValue(newDur);
-				console.log('ok');
-				console.log(newValue);
-			} else {
+			} else if (!checkMin(newDur)) {
 				var newValue = getMin();
-				console.log('not ok');
-				console.log(newValue);
+			} else {
+				var newValue = getMax();
 			}
 			update(newValue);
 		};
@@ -240,18 +241,27 @@
 			});
 		};
 
-		/* */
+		// Handle min/max values
 		var checkMin = function(newValue) {
 			var min = getMin();
 			console.log(min);
 			return !min || min <= newValue;
 		};
-
+		var checkMax = function(newValue) {
+			var max = getMax();
+			return !max || max >= newValue;
+		};
 		var getMin = function() {
 			if (!$scope.min) {
 				return undefined;
 			}
 			return moment.duration($scope.min);
+		};
+		var getMax = function() {
+			if (!$scope.max) {
+				return undefined;
+			}
+			return moment.duration($scope.max);
 		};
 	}]);
 })();
