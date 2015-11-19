@@ -72,7 +72,6 @@
 
 		// public methods for update
 		$scope.updateValue = function () {
-			console.log('update value called');
 			// is only fired when pattern is valid or when it goes from valid to invalid
 			// improvement possible - check the pattern and set the validity of the all directive via ngModelCtrl.$setValidity
 			// currently when pattern invalid, the viewValue is set to '00:00:00'
@@ -157,7 +156,6 @@
 		// private - updates of some kinds
 		// incr value by `step` minutes
 		var incr = function (step) {
-			console.log('incr called');
 			var newDur = moment.duration(currentValue()).add(step, 'minutes');
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
@@ -244,7 +242,6 @@
 		// Handle min/max values
 		var checkMin = function(newValue) {
 			var min = getMin();
-			console.log(min);
 			return !min || min <= newValue;
 		};
 		var checkMax = function(newValue) {
