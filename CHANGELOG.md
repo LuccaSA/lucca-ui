@@ -3,10 +3,11 @@
 ## 2.0.1
 
 ### Breaking changes
- 
+none
 
 ### New features
  - [#70](https://github.com/LuccaSA/lucca-ui/issues/70) - luid-timespan supports min/max attributes
+ - [#71](https://github.com/LuccaSA/lucca-ui/issues/71) - luid-daterange the popover closes when clicking outside the popover
 
 
 ### Resolved issues
