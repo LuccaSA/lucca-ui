@@ -98,6 +98,17 @@
 				<p>
 					myDuration in the $scope: {{myDuration}} and with a <a href="#/filters#luifDuration" class="lui fancy link">luifDuration</a> filter: {{myDuration | luifDuration}}
 				</p>
+				<hr>
+				<p>
+					myValue2 bounded between "10m" and "11h":
+					<luid-timespan ng-model="myTimespan2" placeholder="--m" min="min" max="max"></luid-timespan>
+				</p>
+				<p>
+					myValue2 as it is in $scope:
+					<span class="lui input">
+						<input type="text" ng-model="myTimespan2">
+					</span>
+				</p>
 			</form>
 		</div>
 	</article>

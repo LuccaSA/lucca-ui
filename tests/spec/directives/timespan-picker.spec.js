@@ -174,7 +174,7 @@ describe('luidTimespan', function(){
 			expect($scope.myTimespan).toEqual(moment.duration('PT12H30M'));
 		});
 	});
-describe('with mode="timespan"', function() {
+	describe('with mode="timespan"', function() {
 		beforeEach(function(){
 			var tpl = angular.element('<luid-timespan ng-model="myTimespan" mode="timespan"></luid-timespan>');
 			elt = $compile(tpl)($scope);
@@ -217,6 +217,74 @@ describe('with mode="timespan"', function() {
 			isolateScope.strDuration = '12h30';
 			isolateScope.updateValue();
 			expect($scope.myTimespan).toEqual('12:30:00');
+		});
+	});
+	describe('with a min', function() {
+		beforeEach(function(){
+			$scope.min = '2:01';
+			var tpl = angular.element('<luid-timespan ng-model="myTimespan" min="min"></luid-timespan>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update myTimespan = min if strDuration < min', function() {
+			isolateScope.strDuration = '2h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:01:00");
+		});
+		it('should update myTimespan if strDuration > min', function() {
+			isolateScope.strDuration = '2h05';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:05:00");
+		});
+		it('should update myTimespan = min while strDuration < min', function() {
+			isolateScope.strDuration = '1';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:01:00");
+
+			isolateScope.strDuration = '12';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:01:00");
+
+			isolateScope.strDuration = '125';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:05:00");
+		});
+	});
+	describe('with a max', function() {
+		beforeEach(function(){
+			$scope.max = '2:01';
+			var tpl = angular.element('<luid-timespan ng-model="myTimespan" max="max"></luid-timespan>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update myTimespan = max if strDuration > max', function() {
+			isolateScope.strDuration = '3h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:01:00");
+		});
+		it('should update myTimespan if strDuration < max', function() {
+			isolateScope.strDuration = '1h50';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("01:50:00");
+		});
+		it('should update myTimespan = max as soon as strDuration > max', function() {
+			isolateScope.strDuration = '1';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("00:01:00");
+
+			isolateScope.strDuration = '12';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("00:12:00");
+
+			isolateScope.strDuration = '120';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:00:00");
+
+			isolateScope.strDuration = '120h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual("02:01:00");
 		});
 	});
 });
