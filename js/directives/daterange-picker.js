@@ -8,7 +8,7 @@
 	**/
 
 	angular.module('lui.directives')
-	.directive('luidDaterange', ['moment', '$filter', function(moment, $filter){
+	.directive('luidDaterange', ['moment', '$filter', '$document', '$timeout', function(moment, $filter, $document, $timeout){
 		function link(scope, element, attrs, ctrls){
 			var ngModelCtrl = ctrls[1];
 			var drCtrl = ctrls[0];
@@ -84,6 +84,17 @@
 				var parsed = { startsOn: mstart.toDate(), endsOn:mend.toDate() };
 				return parsed;
 			};
+			var unpin = function(){
+				scope.popoverOpened = false;
+				drCtrl.unpinPopover();
+				scope.$apply(); // commits changes to popoverOpened and hide the popover
+			};
+			drCtrl.pinPopover = function () {
+				$timeout(function(){ $document.on("click", unpin); }, 10)
+			};
+			drCtrl.unpinPopover = function () {
+				$document.off("click", unpin);
+			};
 		}
 		return{
 			require:['luidDaterange','^ngModel'],
@@ -132,6 +143,15 @@
 		$scope.popoverOpened = false;
 		$scope.togglePopover = function(){
 			$scope.popoverOpened = !$scope.popoverOpened;
+			if($scope.popoverOpened){
+				ctrl.pinPopover();
+			}else{
+				ctrl.unpinPopover();
+			}
+		};
+		$scope.clickInside = function(e){
+			e.preventDefault();
+			e.stopPropagation();
 		};
 
 		// datepickers stuff
@@ -164,7 +184,7 @@
 			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
-			"<div class=\"lui clear\">" +
+			"<div class=\"lui clear\" ng-click=\"clickInside($event)\">" +
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
@@ -172,10 +192,9 @@
 			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
 			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"</div>" +
-			"<footer>" +
+			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
-			"</footer>" +
+			"</div>" +
 			"");
 	}]);
 })();
