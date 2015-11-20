@@ -1,6 +1,6 @@
 # Change log
 
-## 2.0.1
+## 2.0.1 - not released yet
 
 ### Breaking changes
 none
@@ -13,7 +13,7 @@ none
 ### Resolved issues
 
 
-## 2.0.0
+## 2.0.0 [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.0)
 
 ### Breaking changes
  - migration to sass due to a missing feature in less
