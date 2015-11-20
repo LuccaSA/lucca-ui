@@ -21,6 +21,11 @@
 	}]);
 
 	angular.module('e2eApp')
+	.controller("luidDaterangeCtrl",['$scope', function($scope){
+		$scope.myRange = {};
+	}]);
+
+	angular.module('e2eApp')
 	.controller("luidUserPickerCtrl", ['$scope', '$httpBackend', '_', '$q', function($scope, $httpBackend, _, $q) {
 
 		/***** Http calls mocking *****/
