@@ -90,7 +90,7 @@
 				scope.$apply(); // commits changes to popoverOpened and hide the popover
 			};
 			drCtrl.pinPopover = function () {
-				$timeout(function(){ $document.on("click", unpin); }, 10)
+				$timeout(function(){ $document.on("click", unpin); }, 10);
 			};
 			drCtrl.unpinPopover = function () {
 				$document.off("click", unpin);
