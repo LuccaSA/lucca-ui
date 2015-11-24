@@ -1,9 +1,9 @@
 # Change log
 
-## 2.0.1 - not released yet
+## 2.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.1)
 
-### Breaking changes
-none
+### Updated dependencies
+ - [#39](https://github.com/LuccaSA/lucca-ui/issues/39) - angularlar-bootstrap from 0.13.x to 0.14.x
 
 ### New features
  - [#70](https://github.com/LuccaSA/lucca-ui/issues/70) - luid-timespan supports min/max attributes
