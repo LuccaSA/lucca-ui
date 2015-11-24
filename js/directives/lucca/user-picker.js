@@ -29,9 +29,12 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
-	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	"<div ng-class=\"{dividing: user.isSelected,selected: user.isSelected}\">" +
+		"<div ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_SELECTED'\"></div>" +
+		"<div ng-if=\"!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
+		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
+		"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	"</div>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
@@ -134,11 +137,15 @@
 		$scope.selected = {};
 		$scope.selected.users = [];
 
+		var selectedUserId;
+		var lastClue;
+
 		/****************/
 		/***** FIND *****/
 		/****************/
 
 		$scope.find = function (clue) {
+			lastClue = clue;
 			reinit();
 			getUsersAsync(clue).then(
 				function(results) {
@@ -231,6 +238,9 @@
 			if (ctrl.useCustomFilter) {
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
+
+			// If the set of results contains the selected user, we will display him as first result
+			filteredUsers = displaySelectedUserFirst(filteredUsers);
 
 			return filteredUsers;
 		};
@@ -586,14 +596,56 @@
 			}
 		};
 
+		/*************************/
+		/***** DISPLAY USERS *****/
+		/*************************/
+
+		var displaySelectedUserFirst = function(users) {
+			var selectedUser = _.find(users, function(user) { return user.id === selectedUserId; });
+
+			// Remove 'selected' and 'dividing' class from all users
+			_.each(users, function(user) {
+				if (user.isSelected) {
+					user.isSelected = false;
+				}
+			});
+
+			if (selectedUser) {
+				// The class 'dividing' and 'selected' will be applied to the user
+				selectedUser.isSelected = true;
+			}
+			return sortUsers(selectedUserId, users);
+		};
+
+		// Display the user with the given id as first result
+		var sortUsers = function(id, users) {
+			var sortedUsers = users;
+			var userIds = _.pluck(users, "id");
+
+			if (_.contains(userIds, id)) {
+				var partitions = _.partition(users, function(user) { return (user.id === id); }); // [[user], [rest]]
+				// Sort users with 'user' as first result
+				sortedUsers = _.union(partitions[0], partitions[1]);
+			}
+			return sortedUsers;
+		};
+
 		/*********************/
 		/***** ON-SELECT *****/
 		/*********************/
 
 		$scope.updateSelectedUser = function(selectedUser) {
 			$scope.onSelect();
-			// Bind the selected user to the ng-model in luid-user-picker directive
-			$scope.ngModel = selectedUser;
+
+			selectedUserId = selectedUser.id;
+			// By default, 'reset-search-input' attribute is set to true
+			// This means that after selecting a user, the input is cleared, and find() is called with no clue
+			// The selected user will then be displayed first
+			// But if you have selected one of the 5 first users (didn't write a clue), find() will not be called automatically
+			// This is why we invoke find() if no clue is given
+			if (!lastClue || !lastClue.length) {
+				$scope.find();
+			}
 		};
 
 		// userPickerMultiple feature, not yet implemented
@@ -631,9 +683,9 @@
 
 	// Filter to display custom info next to each user
 	// Highlight the search in the name of the user and display a label next to each user
-	.filter('luifHighlight', ['$filter', function($filter) {
-		return function(_input, _clue, _info) {
-			return $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
+	.filter('luifHighlight', ['$filter', '$translate', function($filter, $translate) {
+		return function(_input, _clue, _info, _key) {
+			return (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
 		};
 	}]);
 	
@@ -650,7 +702,8 @@
 			"LUIDUSERPICKER_DEPARTMENT":"Department",
 			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
-			"LUIDUSERPICKER_MAIL":"Email"
+			"LUIDUSERPICKER_MAIL":"Email",
+			"LUIDUSERPICKER_SELECTED":"Selected:",
 		});
 		$translateProvider.translations('de', {
 
@@ -667,7 +720,8 @@
 			"LUIDUSERPICKER_DEPARTMENT":"Service",
 			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
-			"LUIDUSERPICKER_MAIL":"Email"
+			"LUIDUSERPICKER_MAIL":"Email",
+			"LUIDUSERPICKER_SELECTED":"Sélectionné :",
 		});
 		$translateProvider.translations('it', {
 

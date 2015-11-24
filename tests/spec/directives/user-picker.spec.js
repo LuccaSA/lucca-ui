@@ -571,6 +571,66 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/********************************
+	** DISPLAY SELECTED USER FIRST **
+	********************************/
+	describe("with selected user", function(){
+		beforeEach(function(){
+			var user1 = { id:3,
+				firstName:"Chloé",
+				lastName:"Azibert Yekdah"
+			};
+			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			spyOn(isolateScope, 'find').and.callThrough();
+			isolateScope.updateSelectedUser(user1);
+		});
+		it('should call find() when a user is selected', function(){
+			expect(isolateScope.find).toHaveBeenCalled();
+		});
+		it("should display the selected user as first user and flag him as selected", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect(isolateScope.users[0].id).toBe(3);
+			expect(isolateScope.users[0].isSelected).toBe(true);
+		});
+		it("should update the selected user when the user is in the 5 first users", function(){
+			var user2 = { id:4,
+				firstName:"Clément",
+				lastName:"Barbotin"
+			};
+			isolateScope.updateSelectedUser(user2);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect(isolateScope.users[0].id).toBe(4);
+			expect(isolateScope.users[0].isSelected).toBe(true);
+		});
+		it('should update the selected user when the user is not in the 5 first users', function() {
+			var user3 = { id:11,
+				firstName:"Sandrine",
+				lastName:"Conraux"
+			};
+			isolateScope.updateSelectedUser(user3);
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect(isolateScope.users[0].id).toBe(11);
+			expect(isolateScope.users[0].isSelected).toBe(true);
+
+			describe('and call find() with a clue', function() {
+				isolateScope.find('a');
+				$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
+				it('should not display the selected user if he is not in the set of result', function() {
+					$httpBackend.flush();
+					var selectedUser = _.find(isolateScope.users, function(user) { return user.id === user3.id; });
+					expect(selectedUser).not.toBeDefined();
+				});
+			});
+		});
+	});
+
 	// TODO
 	/**********************
 	** MULTISELECT       **

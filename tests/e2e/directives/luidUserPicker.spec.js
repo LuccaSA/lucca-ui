@@ -62,6 +62,17 @@ describe('luidUserPicker', function() {
 		expect(myUserPickerChoices.count()).toBe(2);
 	});
 
+	/***************************************/
+	/***** DISPLAY SELECTED USER FIRST *****/
+	/***************************************/
+	it('should display the selected user with "selected" class', function() {
+		myUserPickerChoices.get(1).getWebElement().click();
+		myUserPicker.click();
+		var firstChoice = myUserPickerChoices.get(0).all(by.tagName('div')).first();
+		expect(firstChoice.getAttribute('class')).toMatch('selected');
+		expect(firstChoice.getAttribute('class')).toMatch('dividing');
+	});
+
 	/********************/
 	/***** HOMONYMS *****/
 	/********************/
