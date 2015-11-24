@@ -22,7 +22,7 @@
 	**/
 
 	angular.module('lui.directives')
-	.directive('luidDaterange', ['moment', '$filter', function(moment, $filter){
+	.directive('luidDaterange', ['moment', '$filter', '$document', '$timeout', function(moment, $filter, $document, $timeout){
 		function link(scope, element, attrs, ctrls){
 			var ngModelCtrl = ctrls[1];
 			var drCtrl = ctrls[0];
@@ -98,6 +98,17 @@
 				var parsed = { startsOn: mstart.toDate(), endsOn:mend.toDate() };
 				return parsed;
 			};
+			var unpin = function(){
+				scope.popoverOpened = false;
+				drCtrl.unpinPopover();
+				scope.$apply(); // commits changes to popoverOpened and hide the popover
+			};
+			drCtrl.pinPopover = function () {
+				$timeout(function(){ $document.on("click", unpin); }, 10);
+			};
+			drCtrl.unpinPopover = function () {
+				$document.off("click", unpin);
+			};
 		}
 		return{
 			require:['luidDaterange','^ngModel'],
@@ -146,6 +157,15 @@
 		$scope.popoverOpened = false;
 		$scope.togglePopover = function(){
 			$scope.popoverOpened = !$scope.popoverOpened;
+			if($scope.popoverOpened){
+				ctrl.pinPopover();
+			}else{
+				ctrl.unpinPopover();
+			}
+		};
+		$scope.clickInside = function(e){
+			e.preventDefault();
+			e.stopPropagation();
 		};
 
 		// datepickers stuff
@@ -172,24 +192,23 @@
 	angular.module("lui.templates.daterangepicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidDaterange.html",
 			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" +
-			"popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
+			"uib-popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
 			"popover-placement=\"{{popoverPlacement}}\"" +
 			"popover-trigger ='none' popover-is-open='popoverOpened'" +
 			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
 			">");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
-			"<div class=\"lui clear\">" +
+			"<div class=\"lui clear\" ng-click=\"clickInside($event)\">" +
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"	<datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"	<datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></datepicker>" +
-			"</div>" +
-			"<footer>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
-			"</footer>" +
+			"</div>" +
 			"");
 	}]);
 })();
@@ -895,7 +914,10 @@
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
 				placeholder: '@',
-				mode: "=" // 'timespan', 'moment.duration', default='timespan'
+				mode: "=", // 'timespan', 'moment.duration', default='timespan'
+				// Min/max values
+				min: '=',
+				max: '=',
 			},
 			restrict: 'EA',
 			link: link,
@@ -918,6 +940,14 @@
 
 			// parse the strDuration to build newDuration
 			newDuration = parse($scope.strDuration);
+
+			// Check min/max values
+			if (!checkMin(newDuration)) {
+				newDuration = getMin();
+			}
+			if (!checkMax(newDuration)) {
+				newDuration = getMax();
+			}
 
 			// transform this duration into a string
 			newValue = format(newDuration);
@@ -986,6 +1016,13 @@
 			var newDur = moment.duration(currentValue()).add(step, 'minutes');
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
+			}
+			// Check min/max values
+			if (!checkMin(newDur)) {
+				newDur = getMin();
+			}
+			if (!checkMax(newDur)) {
+				newDur = getMax();
 			}
 			var newValue = formatValue(newDur);
 			update(newValue);
@@ -1057,6 +1094,28 @@
 					e.preventDefault();
 				}
 			});
+		};
+
+		// Handle min/max values
+		var checkMin = function(newValue) {
+			var min = getMin();
+			return !min || min <= newValue;
+		};
+		var checkMax = function(newValue) {
+			var max = getMax();
+			return !max || max >= newValue;
+		};
+		var getMin = function() {
+			if (!$scope.min) {
+				return undefined;
+			}
+			return moment.duration($scope.min);
+		};
+		var getMax = function() {
+			if (!$scope.max) {
+				return undefined;
+			}
+			return moment.duration($scope.max);
 		};
 	}]);
 })();

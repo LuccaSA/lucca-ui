@@ -243,7 +243,10 @@
 				unit: '=', // 'hours', 'hour', 'h' or 'm', default='m'
 				ngDisabled: '=',
 				placeholder: '@',
-				mode: "=" // 'timespan', 'moment.duration', default='timespan'
+				mode: "=", // 'timespan', 'moment.duration', default='timespan'
+				// Min/max values
+				min: '=',
+				max: '=',
 			},
 			restrict: 'EA',
 			link: link,
@@ -266,6 +269,14 @@
 
 			// parse the strDuration to build newDuration
 			newDuration = parse($scope.strDuration);
+
+			// Check min/max values
+			if (!checkMin(newDuration)) {
+				newDuration = getMin();
+			}
+			if (!checkMax(newDuration)) {
+				newDuration = getMax();
+			}
 
 			// transform this duration into a string
 			newValue = format(newDuration);
@@ -334,6 +345,13 @@
 			var newDur = moment.duration(currentValue()).add(step, 'minutes');
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
+			}
+			// Check min/max values
+			if (!checkMin(newDur)) {
+				newDur = getMin();
+			}
+			if (!checkMax(newDur)) {
+				newDur = getMax();
 			}
 			var newValue = formatValue(newDur);
 			update(newValue);
@@ -405,6 +423,28 @@
 					e.preventDefault();
 				}
 			});
+		};
+
+		// Handle min/max values
+		var checkMin = function(newValue) {
+			var min = getMin();
+			return !min || min <= newValue;
+		};
+		var checkMax = function(newValue) {
+			var max = getMax();
+			return !max || max >= newValue;
+		};
+		var getMin = function() {
+			if (!$scope.min) {
+				return undefined;
+			}
+			return moment.duration($scope.min);
+		};
+		var getMax = function() {
+			if (!$scope.max) {
+				return undefined;
+			}
+			return moment.duration($scope.max);
 		};
 	}]);
 })();
