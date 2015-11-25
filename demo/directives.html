@@ -357,8 +357,9 @@
 				<p>
 					Basic usage, binded to moments, end is included, nothing fancy.
 				</p>
-				<luid-daterange ng-model="myPeriod" class="lui long input"></luid-daterange>
+				<luid-daterange ng-model="myPeriod" class="lui long input" ng-change="hasChanged()"></luid-daterange>
 				<p>start: {{myPeriod.startsOn | luifMoment}} - end: {{myPeriod.endsOn | luifMoment}}</p>
+				<p>number of time ng-change on the luid-daterange has been called: <code>{{updateCnt}}</code></p>
 				<hr>
 				<p>
 					Binded to dates, end excluded

@@ -41,6 +41,10 @@
 
 	angular.module('demoApp')
 	.controller('daterangeCtrl', ['$scope', 'moment', function($scope, moment){
+		$scope.updateCnt = 0;
+		$scope.hasChanged = function(){
+			$scope.updateCnt++;
+		};
 		$scope.myPeriod = {
 			startsOn: moment().startOf('day'), 
 			endsOn: moment().startOf('day').add(3, 'd'), 
