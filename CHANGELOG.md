@@ -2,6 +2,8 @@
 
 ## 2.0.2
 
+### New features
+ - [#54](https://github.com/LuccaSA/lucca-ui/issues/54) - directive luid-keydown, se the [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-keydown) for more infos.
 
 ## 2.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.1)
 
@@ -20,10 +22,10 @@
 ### Breaking changes
  - migration to sass due to a missing feature in less
  - removed dependency to bootstrap.css - now having bootstrap.css in your page will break the nguibs plugin.
- - [#25](https://github.com/LuccaSA/lucca-ui/issues/25) - changed luifDuration arguments to take `mainUnit` and `precision` and not `format`. See the [demo page](http://luccasa.github.io/lucca-ui/filters.html#luifDuration) for more info
+ - [#25](https://github.com/LuccaSA/lucca-ui/issues/25) - changed luifDuration arguments to take `mainUnit` and `precision` and not `format`. See the [demo page](http://luccasa.github.io/lucca-ui/#/filters#luifDuration) for more info
 
 ### New features
- - added the directive luid-user-picker. only available in distribution /dist/custom/lucca-ui-spe.js. demo page [here](http://luccasa.github.io/lucca-ui/lucca-spe.html)
+ - added the directive luid-user-picker. only available in distribution /dist/custom/lucca-ui-spe.js. demo page [here](http://luccasa.github.io/lucca-ui/#/lucca-spe)
  - [#31](https://github.com/LuccaSA/lucca-ui/issues/31) - support for popover-title
  - [#46](https://github.com/LuccaSA/lucca-ui/issues/46) - nguibs-modal can have a specific prefix defined in themes
  - The `nguibs-` class prefix for nguibs elements can now be changed (and removed!) through theming
