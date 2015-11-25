@@ -5,6 +5,23 @@
 	**  - none
 	**/
 	angular.module('lui.directives')
+	.directive('luidKeydown', function () {
+		return {
+			restrict: 'A',
+			scope:{
+				mappings: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('keydown', function (e) {
+					if ( !!scope.mappings && !!scope.mappings[e.which] ){
+						scope.mappings[e.which]();
+						e.preventDefault();
+					}
+				});
+			}
+		};
+	});
+	angular.module('lui.directives')
 	.directive('luidSelectOnClick', function () {
 		return {
 			restrict: 'A',
