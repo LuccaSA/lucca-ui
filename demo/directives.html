@@ -4,6 +4,7 @@
 		<a class="item" href="#/directives#luid-percentage">luid-percentage</a>
 		<a class="item" href="#/directives#luid-moment">luid-moment</a>
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
+		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -384,6 +385,82 @@
 					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD" data-periods="myPeriods"></luid-daterange>
 				</p>
 				<p>start: {{myPeriod.stringStart}} - end: {{myPeriod.stringEnd}}</p>
+			</div>
+		</article>
+
+		<article id="luid-keydown">
+			<h2 class="lui divider below">luid-keydown</h2>
+			<p>
+				An attribute directive to listen to keydown events
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features:</h4>
+			</div>
+			<p>
+				An easy synthax to bind yourself to the keydown event.
+			</p>
+			<p>
+				You can use <a class="lui fancy link" href="http://keycode.info/">this page</a> to know the correspondance between key and code.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>mappings</code>: the functions to call when the right key is pressed, see usage section for synthax</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;input ng-model="myValue" class="lui input" luid-keydown mappings="myMappings"&gt;</pre>
+				<pre hljs no-escape language="js">var enterPressed = function(){ ... };
+var escPressed = function(){ ... };
+$scope.myMappings = { 13: enterPressed, 27: escPressed, keyCode: fun };</pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Remarks:</h4>
+			</div>
+			<p>
+				If in the function called you change a variable in the <code>$scope</code>, you <b>have to</b> call <code>$scope.$apply();</code> for this modification to take effect.
+			</p>
+			<p>
+			<pre hljs no-escape language="js">$scope.enterCnt = 0;
+var enterPressed = function(){ 
+	$scope.enterCnt++; 
+	$scope.$apply(); 
+};
+$scope.myMappings = { 13: enterPressed };</pre>
+			</p>
+
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo:</h4>
+				</div>
+<!-- 				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/o5VXhiOwSuQumJj3EuJU?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div> -->
+			</div>
+			<div ng-controller="keydownCtrl" class="lui block round">
+			<p>
+				Will count the number of times keys <code>enter</code>, <code>esc</code> and the letter <code>z</code> are pressed, will also listen to arrow keys and append an array. 
+			</p>
+			<p>
+				<span class="lui input">
+					<input luid-keydown data-mappings="myMappings" placeholder="Type here">
+				</span>
+			</p>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>{{enterCnt}}</code> keydown of key <code>enter</code></li>
+					<li><code>{{escCnt}}</code> keydown of key <code>esc</code></li>
+					<li><code>{{zCnt}}</code> keydown of key <code>z</code></li>
+					<li>arrows sequence: <code>{{arrows.join(" ")}}</code></li>
+				</ul>
+			</p>
 			</div>
 		</article>
 	</section>
