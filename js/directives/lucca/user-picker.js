@@ -60,7 +60,7 @@
 			restrict: 'E',
 			controller: "luidUserPickerController",
 			template: userPickerTemplate,
-			// require: "luidUserPicker",
+			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
 				onSelect: "&",
@@ -82,11 +82,27 @@
 				customInfo: "=", // should be a function with this signature: function(user) { return string; }
 				customInfoAsync: "=" // should be a function with this signature: function(user) { return promise; }
 			},
-			link: function (scope, elt, attrs, ctrl) {
-				ctrl.isMultipleSelect = false;
-				ctrl.asyncPagination = false;
-				ctrl.useCustomFilter = !!attrs.customFilter;
-				ctrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
+			link: function (scope, elt, attrs, ctrls) {
+				var upCtrl = ctrls[0];
+				var ngModelCtrl = ctrls[1];
+				upCtrl.isMultipleSelect = false;
+				upCtrl.asyncPagination = false;
+				upCtrl.useCustomFilter = !!attrs.customFilter;
+				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
+
+				ngModelCtrl.$render = function(){
+					scope.find();
+				};
+
+				scope.getSelectedUser = function(){
+					return ngModelCtrl.$viewValue;
+				};
+				scope.getSelectedUserId = function(){
+					if(!!ngModelCtrl.$viewValue){
+						return ngModelCtrl.$viewValue.id;
+					}
+					return undefined;
+				};
 			}
 		};
 	})
@@ -137,22 +153,21 @@
 		$scope.selected = {};
 		$scope.selected.users = [];
 
-		var selectedUserId;
-		var lastClue;
-
 		/****************/
 		/***** FIND *****/
 		/****************/
+		var filteredUsers;
 
 		$scope.find = function (clue) {
-			lastClue = clue;
 			reinit();
 			getUsersAsync(clue).then(
 				function(results) {
 						if (results.length > 0) {
 						var users = results;
-						var filteredUsers = filterResults(users);
-
+						filteredUsers = filterResults(users);
+						// set the first user to be the selectedOne if there is
+						filteredUsers = displaySelectedUserFirst(filteredUsers);
+						
 						if (hasPagination(filteredUsers)) {
 							handlePagination(filteredUsers);
 							// asyncPagination feature, not yet implemented
@@ -238,9 +253,6 @@
 			if (ctrl.useCustomFilter) {
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
-
-			// If the set of results contains the selected user, we will display him as first result
-			filteredUsers = displaySelectedUserFirst(filteredUsers);
 
 			return filteredUsers;
 		};
@@ -601,32 +613,39 @@
 		/*************************/
 
 		var displaySelectedUserFirst = function(users) {
-			var selectedUser = _.find(users, function(user) { return user.id === selectedUserId; });
+			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
 
 			// Remove 'selected' and 'dividing' class from all users
 			_.each(users, function(user) {
-				if (user.isSelected) {
-					user.isSelected = false;
-				}
+				user.isSelected = false;
 			});
 
-			if (selectedUser) {
+			if (!!selectedUser) {
 				// The class 'dividing' and 'selected' will be applied to the user
-				selectedUser.isSelected = true;
+				return displayThisUserFirst(selectedUser, users);
 			}
-			return sortUsers(selectedUserId, users);
+			return users;
 		};
 
-		// Display the user with the given id as first result
-		var sortUsers = function(id, users) {
+		// Display the user first
+		var displayThisUserFirst = function(user, users) {
 			var sortedUsers = users;
-			var userIds = _.pluck(users, "id");
-
-			if (_.contains(userIds, id)) {
-				var partitions = _.partition(users, function(user) { return (user.id === id); }); // [[user], [rest]]
-				// Sort users with 'user' as first result
-				sortedUsers = _.union(partitions[0], partitions[1]);
+			if(!users || !users.length){ return; }
+			// do the users have an original order
+			// this is in case we select different choices without calling find()
+			if(users[0].originalPosition !== undefined){
+				// if so reorder them first
+				sortedUsers = _.sortBy(users, 'originalPosition');
+			}else{
+				// this is the original order we have to save
+				_.each(users, function(u, index){ u.originalPosition = index; });
 			}
+			var partitions = _.partition(sortedUsers, function(u) { return (u.id === user.id); }); // [[user], [rest]]
+			
+			// Sort users with 'user' as first result
+			sortedUsers = _.union(partitions[0], partitions[1]);
+			sortedUsers[0].isSelected = true;
+
 			return sortedUsers;
 		};
 
@@ -637,14 +656,10 @@
 		$scope.updateSelectedUser = function(selectedUser) {
 			$scope.onSelect();
 
-			selectedUserId = selectedUser.id;
-			// By default, 'reset-search-input' attribute is set to true
-			// This means that after selecting a user, the input is cleared, and find() is called with no clue
-			// The selected user will then be displayed first
-			// But if you have selected one of the 5 first users (didn't write a clue), find() will not be called automatically
-			// This is why we invoke find() if no clue is given
-			if (!lastClue || !lastClue.length) {
-				$scope.find();
+			// reorder the list of results with the selected one first
+			filteredUsers = displaySelectedUserFirst(filteredUsers);
+			if (hasPagination(filteredUsers)) {
+				handlePagination(filteredUsers);
 			}
 		};
 

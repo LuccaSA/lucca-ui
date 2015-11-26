@@ -80,8 +80,8 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			$httpBackend.flush();
 
-			users = [{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}];
-			expect(angular.equals(isolateScope.users, users)).toBe(true);
+			usersIds = [1,2,3,4];
+			expect(angular.equals(_.pluck(isolateScope.users, 'id'), usersIds)).toBe(true);
 		});
 		it('should handle errors', function(){
 			spyOn(console,'log');
@@ -355,9 +355,9 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_2_homonyms_details_0_1);
 			$httpBackend.flush();
 
-			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":87,"legalEntity":{"name":"Lucca UK"},"department":{"name":"BU Timmi/Lucca"}},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","employeeNumber":110,"legalEntity":{"name":"Lucca"},"department":{"name":"Sales"}}];
 			var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
-			expect(angular.equals(users, homonyms)).toBe(true);
+			expect(angular.equals(RESPONSE_2_homonyms_details_0_1.data.items[0].legalEntity, homonyms[0].legalEntity)).toBe(true);
+			// has added the LE to the first homonym
 		});
 		it('should handle errors when getting homonyms details', function(){
 			spyOn(console, 'log');
@@ -461,9 +461,9 @@ describe('luidUserPicker', function(){
 			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
 			$httpBackend.flush();
 
-			users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Romain Vergnory"},"birthDate":"1990-12-10T00:00:00"},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Benoît Paugam"},"birthDate":"1986-03-25T00:00:00"}];
+			// users = [{"id":1,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Romain Vergnory"},"birthDate":"1990-12-10T00:00:00"},{"id":3,"firstName":"Lucien","lastName":"Bertin","hasHomonyms":true,"mail":"no-reply@lucca.fr","manager":{"name":"Benoît Paugam"},"birthDate":"1986-03-25T00:00:00"}];
 			var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
-			expect(angular.equals(users, homonyms)).toBe(true);
+			expect(angular.equals(RESPONSE_2_homonyms_details_0_2.data.items[0].birthDate, homonyms[0].birthDate)).toBe(true);
 		});
 		it('should identify the first and third property as differentiating properties', function(){
 			$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
@@ -576,59 +576,56 @@ describe('luidUserPicker', function(){
 	********************************/
 	describe("with selected user", function(){
 		beforeEach(function(){
-			var user1 = { id:3,
-				firstName:"Chloé",
-				lastName:"Azibert Yekdah"
-			};
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
-
-			spyOn(isolateScope, 'find').and.callThrough();
-			isolateScope.updateSelectedUser(user1);
 		});
-		it('should call find() when a user is selected', function(){
+		it("should call find() when myUser is updated", function(){
+			spyOn(isolateScope, 'find');
+			var user1 = { id:3,
+				firstName:"Chloé",
+				lastName:"Azibert Yekdah"
+			};
+			$scope.myUser = user1;
+			$scope.$digest();
+
 			expect(isolateScope.find).toHaveBeenCalled();
+			// $httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			// $httpBackend.flush();
 		});
-		it("should display the selected user as first user and flag him as selected", function(){
-			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
-			$httpBackend.flush();
-			expect(isolateScope.users[0].id).toBe(3);
-			expect(isolateScope.users[0].isSelected).toBe(true);
-		});
-		it("should update the selected user when the user is in the 5 first users", function(){
-			var user2 = { id:4,
-				firstName:"Clément",
-				lastName:"Barbotin"
+		it("should flag if the list of users returned by find contains the current myUser", function(){
+			var user1 = { id:3,
+				firstName:"Chloé",
+				lastName:"Azibert Yekdah"
 			};
-			isolateScope.updateSelectedUser(user2);
+			$scope.myUser = user1;
+			$scope.$digest();
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
-			expect(isolateScope.users[0].id).toBe(4);
-			expect(isolateScope.users[0].isSelected).toBe(true);
+			expect(_.where(isolateScope.users, {selected:true}).length).toBe(1);
 		});
-		it('should update the selected user when the user is not in the 5 first users', function() {
-			var user3 = { id:11,
-				firstName:"Sandrine",
-				lastName:"Conraux"
-			};
-			isolateScope.updateSelectedUser(user3);
-			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
-			$httpBackend.flush();
-			expect(isolateScope.users[0].id).toBe(11);
-			expect(isolateScope.users[0].isSelected).toBe(true);
+		// it('should update the selected user when the user is not in the 5 first users', function() {
+		// 	var user3 = { id:11,
+		// 		firstName:"Sandrine",
+		// 		lastName:"Conraux"
+		// 	};
+		// 	isolateScope.updateSelectedUser(user3);
+		// 	$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+		// 	$httpBackend.flush();
+		// 	expect(isolateScope.users[0].id).toBe(11);
+		// 	expect(isolateScope.users[0].isSelected).toBe(true);
 
-			describe('and call find() with a clue', function() {
-				isolateScope.find('a');
-				$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
-				it('should not display the selected user if he is not in the set of result', function() {
-					$httpBackend.flush();
-					var selectedUser = _.find(isolateScope.users, function(user) { return user.id === user3.id; });
-					expect(selectedUser).not.toBeDefined();
-				});
-			});
-		});
+		// 	describe('and call find() with a clue', function() {
+		// 		isolateScope.find('a');
+		// 		$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
+		// 		it('should not display the selected user if he is not in the set of result', function() {
+		// 			$httpBackend.flush();
+		// 			var selectedUser = _.find(isolateScope.users, function(user) { return user.id === user3.id; });
+		// 			expect(selectedUser).not.toBeDefined();
+		// 		});
+		// 	});
+		// });
 	});
 
 	// TODO
