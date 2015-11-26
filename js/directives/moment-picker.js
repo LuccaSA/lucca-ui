@@ -47,9 +47,7 @@
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$viewChangeListeners.push(function() {
-				scope.$eval(attrs.ngChange);
-			});
+
 			ngModelCtrl.$validators.min = function(modelValue,viewValue){
 				return mpCtrl.checkMin(modelValue);
 			};

@@ -257,6 +257,23 @@
 			display: inline-table;
 			> .button { display: table-cell; }
 		}
+
+		// Vertical buttons
+		&.vertical {
+			@include flex-direction(column);
+			> .button {
+				float: none;
+				display: block;
+				border-radius: 0;
+				margin-top: -(map-get($vars, defaultBorderWidth));
+				&:first-child {
+					border-radius: (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0 0;
+				}
+				&:last-child {
+					border-radius: 0 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius));
+				}
+			}
+		}
 	}
 
 	// Squared button
