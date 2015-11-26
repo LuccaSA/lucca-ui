@@ -64,7 +64,7 @@
 		</article>
 
 		<article id="luid-daterange">
-			<h2 class="lui divider below">luidUserPicker</h2>
+			<h2 class="lui divider below">luidDaterange</h2>
 			<p>
 				We're just testing the js events here, clicking the input shows the popover, clicking agian hides it.
 			</p>
@@ -91,6 +91,15 @@
 					<luid-user-picker id="myUserPicker_custom_info" ng-model="myUser.selected" custom-info="customInfo"></luid-user-picker>
 					<luid-user-picker id="myUserPicker_custom_info_async" ng-model="myUser.selected" custom-info-async="customInfoAsync"></luid-user-picker>
 				</div>
+			</div>
+		</article>
+
+		<article id="luid-keydown">
+			<h2 class="lui divider below">luidKeydown</h2>
+			<div ng-controller="luidKeydownCtrl" class="lui block round">
+				<!-- Without former employees -->
+				<span class="lui input"><input luid-keydown mappings="mappings" id="myKeydown_input"></span>
+				<span id="myKeydown_span">{{text}}</span>
 			</div>
 		</article>
 	</section>

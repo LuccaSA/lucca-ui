@@ -114,4 +114,16 @@
 			return user.id * 2;
 		};
 	}]);
+
+	angular.module('e2eApp')
+	.controller("luidKeydownCtrl",['$scope', function($scope){
+		$scope.text = "";
+		$scope.mappings = {
+			13: function(){ $scope.text = "enter";  $scope.$apply(); }, 
+			27: function(){ $scope.text = "esc";    $scope.$apply(); }, 
+			37: function(){ $scope.text = "left";   $scope.$apply(); }, 
+			90: function(){ $scope.text = "z";      $scope.$apply(); }, 
+		};
+	}]);
+
 })();
