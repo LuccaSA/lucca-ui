@@ -575,57 +575,53 @@ describe('luidUserPicker', function(){
 	** DISPLAY SELECTED USER FIRST **
 	********************************/
 	describe("with selected user", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var sandrine = { id:11,
+			firstName:"Sandrine",
+			lastName:"Conraux"
+		};
 		beforeEach(function(){
+			$scope.myUser = chloe;
 			var tpl = angular.element('<luid-user-picker ng-model="myUser"></luid-user-picker>');
 			elt = $compile(tpl)($scope);
 			isolateScope = elt.isolateScope();
 			$scope.$digest();
-		});
-		it("should call find() when myUser is updated", function(){
-			spyOn(isolateScope, 'find');
-			var user1 = { id:3,
-				firstName:"Chloé",
-				lastName:"Azibert Yekdah"
-			};
-			$scope.myUser = user1;
-			$scope.$digest();
-
-			expect(isolateScope.find).toHaveBeenCalled();
-			// $httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
-			// $httpBackend.flush();
-		});
-		it("should flag if the list of users returned by find contains the current myUser", function(){
-			var user1 = { id:3,
-				firstName:"Chloé",
-				lastName:"Azibert Yekdah"
-			};
-			$scope.myUser = user1;
-			$scope.$digest();
+			isolateScope.find();
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
-			expect(_.where(isolateScope.users, {selected:true}).length).toBe(1);
 		});
-		// it('should update the selected user when the user is not in the 5 first users', function() {
-		// 	var user3 = { id:11,
-		// 		firstName:"Sandrine",
-		// 		lastName:"Conraux"
-		// 	};
-		// 	isolateScope.updateSelectedUser(user3);
-		// 	$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
-		// 	$httpBackend.flush();
-		// 	expect(isolateScope.users[0].id).toBe(11);
-		// 	expect(isolateScope.users[0].isSelected).toBe(true);
+		it("should call reorderUsers() when myUser is updated", function(){
+			spyOn(isolateScope, 'reorderUsers');
+			$scope.myUser = sandrine;
+			$scope.$digest();
 
-		// 	describe('and call find() with a clue', function() {
-		// 		isolateScope.find('a');
-		// 		$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
-		// 		it('should not display the selected user if he is not in the set of result', function() {
-		// 			$httpBackend.flush();
-		// 			var selectedUser = _.find(isolateScope.users, function(user) { return user.id === user3.id; });
-		// 			expect(selectedUser).not.toBeDefined();
-		// 		});
-		// 	});
-		// });
+			expect(isolateScope.reorderUsers).toHaveBeenCalled();
+		});
+		it("should flag if the list of users returned by find contains the current myUser", function(){
+			expect(_.where(isolateScope.users, {isSelected:true}).length).toBe(1);
+			expect(_.first(isolateScope.users).isSelected).toBe(true);
+			expect(_.where(isolateScope.users, {isSelected:true})[0].id).toBe(chloe.id);
+		});
+		it("should have the right order of displayed users", function(){
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([3,1,2,4,5,-1]); // the -1 is because of the overflow
+		});
+		it("should update the selected one ", function(){
+			$scope.myUser = sandrine;
+			$scope.$digest();
+			expect(_.where(isolateScope.users, {isSelected:true}).length).toBe(1);
+			expect(_.first(isolateScope.users).isSelected).toBe(true);
+			expect(_.where(isolateScope.users, {isSelected:true})[0].id).toBe(sandrine.id);
+		});
+		it("should update the order of users ", function(){
+			$scope.myUser = sandrine;
+			$scope.$digest();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([11,1,2,3,4,-1]); // the -1 is because of the overflow
+		});
 	});
 
 	// TODO
