@@ -4,6 +4,7 @@
 
 ### New features
  - [#54](https://github.com/LuccaSA/lucca-ui/issues/54) - directive luid-keydown, se the [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-keydown) for more infos.
+ - [#73](https://github.com/LuccaSA/lucca-ui/issues/73) - luid-user-picker displays selected user first
 
 ## 2.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.1)
 

@@ -29,14 +29,17 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
-	"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
-	"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	"<div ng-class=\"{dividing: user.isSelected,selected: user.isSelected}\">" +
+		"<div ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_SELECTED'\"></div>" +
+		"<div ng-if=\"!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
+		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
+		"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	"</div>" +
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
@@ -57,7 +60,7 @@
 			restrict: 'E',
 			controller: "luidUserPickerController",
 			template: userPickerTemplate,
-			// require: "luidUserPicker",
+			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
 				onSelect: "&",
@@ -79,11 +82,30 @@
 				customInfo: "=", // should be a function with this signature: function(user) { return string; }
 				customInfoAsync: "=" // should be a function with this signature: function(user) { return promise; }
 			},
-			link: function (scope, elt, attrs, ctrl) {
-				ctrl.isMultipleSelect = false;
-				ctrl.asyncPagination = false;
-				ctrl.useCustomFilter = !!attrs.customFilter;
-				ctrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
+			link: function (scope, elt, attrs, ctrls) {
+				var upCtrl = ctrls[0];
+				var ngModelCtrl = ctrls[1];
+				upCtrl.isMultipleSelect = false;
+				upCtrl.asyncPagination = false;
+				upCtrl.useCustomFilter = !!attrs.customFilter;
+				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
+
+				scope.$watch(function(){ 
+					return (ngModelCtrl.$viewValue || {}).id; 
+				}, function(){ 
+					scope.reorderUsers(); 
+				});
+
+
+				scope.getSelectedUser = function(){
+					return ngModelCtrl.$viewValue;
+				};
+				scope.getSelectedUserId = function(){
+					if(!!ngModelCtrl.$viewValue){
+						return ngModelCtrl.$viewValue.id;
+					}
+					return undefined;
+				};
 			}
 		};
 	})
@@ -137,6 +159,7 @@
 		/****************/
 		/***** FIND *****/
 		/****************/
+		var filteredUsers;
 
 		$scope.find = function (clue) {
 			reinit();
@@ -144,8 +167,11 @@
 				function(results) {
 						if (results.length > 0) {
 						var users = results;
-						var filteredUsers = filterResults(users);
-
+						filteredUsers = filterResults(users) || [];
+						// save the order we got from the api
+						filteredUsers = originalOrder(filteredUsers);
+						// set the first user to be the selectedOne if there is
+						filteredUsers = displaySelectedUserFirst(filteredUsers);
 						if (hasPagination(filteredUsers)) {
 							handlePagination(filteredUsers);
 							// asyncPagination feature, not yet implemented
@@ -291,10 +317,7 @@
 		/**********************/
 
 		var hasPagination = function(users) {
-			if (users.length > MAX_COUNT) {
-				return true;
-			}
-			return false;
+			return !!users && users.length > MAX_COUNT;
 		};
 
 		var handlePagination = function(users) {
@@ -586,14 +609,68 @@
 			}
 		};
 
-		/*********************/
-		/***** ON-SELECT *****/
-		/*********************/
+		/*************************/
+		/***** DISPLAY USERS *****/
+		/*************************/
 
-		$scope.updateSelectedUser = function(selectedUser) {
-			$scope.onSelect();
-			// Bind the selected user to the ng-model in luid-user-picker directive
-			$scope.ngModel = selectedUser;
+		var originalOrder = function(users){
+			if (!users || users.length === 0){ return users; }
+			// do the users have an original order
+			// this is in case we select different choices without calling find()
+			if(users[0].originalPosition !== undefined){
+				// if so reorder them first
+				users = _.sortBy(users, 'originalPosition');
+			}else{
+				// this is the original order we have to save
+				_.each(users, function(u, index){ u.originalPosition = index; });
+			}
+			return users;
+		};
+
+		var displaySelectedUserFirst = function(users) {
+			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
+
+			// Remove 'selected' and 'dividing' class from all users
+			_.each(users, function(user) {
+				user.isSelected = false;
+			});
+
+			if (!!selectedUser) {
+				// The class 'dividing' and 'selected' will be applied to the user
+				return displayThisUserFirst(selectedUser, users);
+			}
+			return users;
+		};
+
+		// Display the user first
+		var displayThisUserFirst = function(user, users) {
+			var sortedUsers = users;
+			if(!users || !users.length){ return; }
+			// do the users have an original order
+			// this is in case we select different choices without calling find()
+
+			var partitions = _.partition(users, function(u) { return (u.id === user.id); }); // [[user], [rest]]
+			
+			// Sort users with 'user' as first result
+			sortedUsers = _.union(partitions[0], partitions[1]);
+			sortedUsers[0].isSelected = true;
+
+			return sortedUsers;
+		};
+
+		// this function is called when the filter results must be reordered for some reason
+		// when the selected user changes for example, he has to be displayed as first result
+		$scope.reorderUsers = function(){
+			// reorder them to their original order
+			filteredUsers = originalOrder(filteredUsers);
+			// display the selected one first
+			filteredUsers = displaySelectedUserFirst(filteredUsers);
+			if (hasPagination(filteredUsers)) {
+				handlePagination(filteredUsers);
+			}else{
+				$scope.users = filteredUsers;
+				$scope.count = ($scope.users||[]).length;
+			}
 		};
 
 		// userPickerMultiple feature, not yet implemented
@@ -631,9 +708,9 @@
 
 	// Filter to display custom info next to each user
 	// Highlight the search in the name of the user and display a label next to each user
-	.filter('luifHighlight', ['$filter', function($filter) {
-		return function(_input, _clue, _info) {
-			return $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
+	.filter('luifHighlight', ['$filter', '$translate', function($filter, $translate) {
+		return function(_input, _clue, _info, _key) {
+			return (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
 		};
 	}]);
 	
@@ -650,7 +727,8 @@
 			"LUIDUSERPICKER_DEPARTMENT":"Department",
 			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
-			"LUIDUSERPICKER_MAIL":"Email"
+			"LUIDUSERPICKER_MAIL":"Email",
+			"LUIDUSERPICKER_SELECTED":"Selected:",
 		});
 		$translateProvider.translations('de', {
 
@@ -667,7 +745,8 @@
 			"LUIDUSERPICKER_DEPARTMENT":"Service",
 			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
-			"LUIDUSERPICKER_MAIL":"Email"
+			"LUIDUSERPICKER_MAIL":"Email",
+			"LUIDUSERPICKER_SELECTED":"Sélectionné :",
 		});
 		$translateProvider.translations('it', {
 
