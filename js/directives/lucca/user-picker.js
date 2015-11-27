@@ -39,7 +39,7 @@
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"updateSelectedUser($select.selected)\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
@@ -90,9 +90,12 @@
 				upCtrl.useCustomFilter = !!attrs.customFilter;
 				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
 
-				ngModelCtrl.$render = function(){
-					scope.find();
-				};
+				scope.$watch(function(){ 
+					return (ngModelCtrl.$viewValue || {}).id; 
+				}, function(){ 
+					scope.reorderUsers(); 
+				});
+
 
 				scope.getSelectedUser = function(){
 					return ngModelCtrl.$viewValue;
@@ -164,10 +167,11 @@
 				function(results) {
 						if (results.length > 0) {
 						var users = results;
-						filteredUsers = filterResults(users);
+						filteredUsers = filterResults(users) || [];
+						// save the order we got from the api
+						filteredUsers = originalOrder(filteredUsers);
 						// set the first user to be the selectedOne if there is
 						filteredUsers = displaySelectedUserFirst(filteredUsers);
-						
 						if (hasPagination(filteredUsers)) {
 							handlePagination(filteredUsers);
 							// asyncPagination feature, not yet implemented
@@ -313,10 +317,7 @@
 		/**********************/
 
 		var hasPagination = function(users) {
-			if (users.length > MAX_COUNT) {
-				return true;
-			}
-			return false;
+			return !!users && users.length > MAX_COUNT;
 		};
 
 		var handlePagination = function(users) {
@@ -612,6 +613,20 @@
 		/***** DISPLAY USERS *****/
 		/*************************/
 
+		var originalOrder = function(users){
+			if (!users || users.length === 0){ return users; }
+			// do the users have an original order
+			// this is in case we select different choices without calling find()
+			if(users[0].originalPosition !== undefined){
+				// if so reorder them first
+				users = _.sortBy(users, 'originalPosition');
+			}else{
+				// this is the original order we have to save
+				_.each(users, function(u, index){ u.originalPosition = index; });
+			}
+			return users;
+		};
+
 		var displaySelectedUserFirst = function(users) {
 			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
 
@@ -633,14 +648,8 @@
 			if(!users || !users.length){ return; }
 			// do the users have an original order
 			// this is in case we select different choices without calling find()
-			if(users[0].originalPosition !== undefined){
-				// if so reorder them first
-				sortedUsers = _.sortBy(users, 'originalPosition');
-			}else{
-				// this is the original order we have to save
-				_.each(users, function(u, index){ u.originalPosition = index; });
-			}
-			var partitions = _.partition(sortedUsers, function(u) { return (u.id === user.id); }); // [[user], [rest]]
+
+			var partitions = _.partition(users, function(u) { return (u.id === user.id); }); // [[user], [rest]]
 			
 			// Sort users with 'user' as first result
 			sortedUsers = _.union(partitions[0], partitions[1]);
@@ -649,17 +658,18 @@
 			return sortedUsers;
 		};
 
-		/*********************/
-		/***** ON-SELECT *****/
-		/*********************/
-
-		$scope.updateSelectedUser = function(selectedUser) {
-			$scope.onSelect();
-
-			// reorder the list of results with the selected one first
+		// this function is called when the filter results must be reordered for some reason
+		// when the selected user changes for example, he has to be displayed as first result
+		$scope.reorderUsers = function(){
+			// reorder them to their original order
+			filteredUsers = originalOrder(filteredUsers);
+			// display the selected one first
 			filteredUsers = displaySelectedUserFirst(filteredUsers);
 			if (hasPagination(filteredUsers)) {
 				handlePagination(filteredUsers);
+			}else{
+				$scope.users = filteredUsers;
+				$scope.count = ($scope.users||[]).length;
 			}
 		};
 
