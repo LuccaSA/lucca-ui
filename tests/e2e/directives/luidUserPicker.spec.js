@@ -44,7 +44,7 @@ describe('luidUserPicker', function() {
 		expect(lastChoice.getAttribute('class')).toMatch('disabled');
 	});
 	it('should update the selected user and close the dropdown menu on click on the choice', function() {
-		myUserPickerChoices.get(1).getWebElement().click();
+		myUserPickerChoices.get(2).getWebElement().click();
 		expect(myUserPickerContainer.getAttribute('class')).not.toMatch('open');
 		myUserPicker.getText().then(function(userPickerText) {
 			// Check that the text in the input is the name of the selected user
@@ -94,7 +94,7 @@ describe('luidUserPicker', function() {
 	it('should display former employees', function() {
 		myUserPickerFormerEmployees.click();
 		// Check that the last user in the dropdown menu is displayed as 'former employee' (it has a 'small' tag as child)
-		var smallTag = myUserPickerChoicesFormerEmployees.get(4).all(by.tagName('small'));
+		var smallTag = myUserPickerChoicesFormerEmployees.get(3).all(by.tagName('small'));
 		expect(smallTag.count()).toBe(1);
 	});
 
