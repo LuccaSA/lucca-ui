@@ -29,9 +29,10 @@
 	}]; // MAGIC LIST OF PROPERTIES
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-class=\"{dividing: user.isSelected,selected: user.isSelected}\">" +
+	"<div ng-class=\"{dividing: user.isDisplayedFirst}\">" +
 		"<div ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_SELECTED'\"></div>" +
-		"<div ng-if=\"!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
+		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
+		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
 		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 		"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</div>" +
@@ -80,7 +81,9 @@
 				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
 				// If you need to use a sync and an async functions, use 'customInfoAsync'
 				customInfo: "=", // should be a function with this signature: function(user) { return string; }
-				customInfoAsync: "=" // should be a function with this signature: function(user) { return promise; }
+				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
+				/*** DISPLAY ME FIRST ***/
+				displayMeFirst: "=", // boolean
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -152,6 +155,8 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
+		var init = true; // boolean to initialise the connected user
+		var myId; // used for 'display me first' feature
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -163,33 +168,18 @@
 
 		$scope.find = function (clue) {
 			reinit();
+			// Should only be executed once --> fetch 'me'
+			initMe();
 			getUsersAsync(clue).then(
 				function(results) {
 						if (results.length > 0) {
 						var users = results;
 						filteredUsers = filterResults(users) || [];
-						// save the order we got from the api
-						filteredUsers = originalOrder(filteredUsers);
-						// set the first user to be the selectedOne if there is
-						filteredUsers = displaySelectedUserFirst(filteredUsers);
-						if (hasPagination(filteredUsers)) {
-							handlePagination(filteredUsers);
-							// asyncPagination feature, not yet implemented
-							// if (ctrl.asyncPagination) {
-							// 	handlePaginationAsync(clue, filteredUsers).catch(
-							// 		function(message) {
-							// 			errorHandler("GET_COUNT", message);
-							// 		}
-							// 	);
-							// }
-							// else {
-							// 	handlePagination(filteredUsers);
-							// }
-						}
-						else {
-							$scope.users = filteredUsers;
-							$scope.count = $scope.users.length;
-						}
+
+						// Save the order we got from the api
+						// Set first users if they belong to the set of results
+						// Handle pagination
+						$scope.reorderUsers();
 
 						/***** POST FILTERS *****/
 						if (hasFormerEmployees(filteredUsers)) {
@@ -609,6 +599,34 @@
 			}
 		};
 
+		/**************/
+		/***** ME *****/
+		/**************/
+
+		var initMe = function() {
+			if (init && $scope.displayMeFirst) {
+				getMeAsync().then(function(id) {
+					myId = id;
+				}, function(message) {
+					errorHandler("GET_ME", message);
+				});
+				init = false;
+			}
+		};
+
+		var getMeAsync = function() {
+			var query = "/api/v3/users/me?fields=id";
+			var dfd = $q.defer();
+			$http.get(query)
+			.success(function(response) {
+				dfd.resolve(response.data.id);
+			})
+			.error(function(response) {
+				dfd.reject(response.Message);
+			});
+			return dfd.promise;
+		};
+
 		/*************************/
 		/***** DISPLAY USERS *****/
 		/*************************/
@@ -627,19 +645,22 @@
 			return users;
 		};
 
-		var displaySelectedUserFirst = function(users) {
+		var displaySomeUsersFirst = function(users) {
+			var sortedUsers = users;
 			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
+			var me = _.find(users, function(user) { return user.id === myId; });
 
-			// Remove 'selected' and 'dividing' class from all users
-			_.each(users, function(user) {
-				user.isSelected = false;
-			});
-
-			if (!!selectedUser) {
-				// The class 'dividing' and 'selected' will be applied to the user
-				return displayThisUserFirst(selectedUser, users);
+			// Display me first
+			if (!!me && (!selectedUser || me.id !== selectedUser.id)) {
+				me.isMe = true;
+				sortedUsers = displayThisUserFirst(me, sortedUsers);
 			}
-			return users;
+			// Display selected user first
+			if (!!selectedUser) {
+				selectedUser.isSelected = true;
+				sortedUsers = displayThisUserFirst(selectedUser, sortedUsers);
+			}
+			return sortedUsers;
 		};
 
 		// Display the user first
@@ -650,12 +671,21 @@
 			// this is in case we select different choices without calling find()
 
 			var partitions = _.partition(users, function(u) { return (u.id === user.id); }); // [[user], [rest]]
-			
+
 			// Sort users with 'user' as first result
 			sortedUsers = _.union(partitions[0], partitions[1]);
-			sortedUsers[0].isSelected = true;
+			sortedUsers[0].isDisplayedFirst = true;
 
 			return sortedUsers;
+		};
+
+		var removeDisplayProperties = function(users) {
+			// Set display properties to false
+			_.each(users, function(user) {
+				user.isDisplayedFirst = false;
+				user.isSelected = false;
+				user.isMe = false;
+			});
 		};
 
 		// this function is called when the filter results must be reordered for some reason
@@ -663,8 +693,10 @@
 		$scope.reorderUsers = function(){
 			// reorder them to their original order
 			filteredUsers = originalOrder(filteredUsers);
-			// display the selected one first
-			filteredUsers = displaySelectedUserFirst(filteredUsers);
+			removeDisplayProperties(filteredUsers);
+			// display some users first
+			filteredUsers = displaySomeUsersFirst(filteredUsers);
+			// Handle pagination
 			if (hasPagination(filteredUsers)) {
 				handlePagination(filteredUsers);
 			}else{
@@ -699,7 +731,8 @@
 					break;
 				case "GET_COUNT": // error while trying to get the total number of users matching the query
 				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
-				case "GET_CUSTOM_INFO":
+				case "GET_CUSTOM_INFO": // error while executing the customInfoAsync() function
+				case "GET_ME": // error while trying to get the connected user
 					console.log({cause:cause, message:message});
 					break;
 			}
@@ -729,6 +762,7 @@
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
 			"LUIDUSERPICKER_MAIL":"Email",
 			"LUIDUSERPICKER_SELECTED":"Selected:",
+			"LUIDUSERPICKER_ME":"Me:",
 		});
 		$translateProvider.translations('de', {
 
@@ -747,6 +781,7 @@
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
 			"LUIDUSERPICKER_MAIL":"Email",
 			"LUIDUSERPICKER_SELECTED":"Sélectionné :",
+			"LUIDUSERPICKER_ME":"Moi :",
 		});
 		$translateProvider.translations('it', {
 

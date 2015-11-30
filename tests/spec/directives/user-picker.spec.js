@@ -624,6 +624,66 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/***********************
+	** DISPLAY ME FIRST   **
+	***********************/
+	describe("with 'display-me-first' set to true", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var orion = { id:10,
+			firstName:"Orion",
+			lastName:"Charlier"
+		};
+		var meApi = /api\/v3\/users\/me/;
+		var myId = 10;
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" display-me-first="true"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
+		});
+		it('should flag if the list of users returned by find contains "me"', function() {
+			$httpBackend.flush();
+			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(1);
+			expect(_.first(isolateScope.users).isMe).toBe(true);
+			expect(_.where(isolateScope.users, {isMe:true})[0].id).toBe(myId);
+		});
+		it("should have the right order of displayed users when no user is selected", function(){
+			$httpBackend.flush();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+		});
+		it('should update the order of users when a user is selected', function() {
+			$httpBackend.flush();
+			$scope.myUser = chloe;
+			$scope.$digest();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([3,10,1,2,4,-1]); // the -1 is because of the overflow
+		});
+		it('should not display "me" when the selected user is "me"', function() {
+			$httpBackend.flush();
+			$scope.myUser = orion;
+			$scope.$digest();
+			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(0);
+		});
+		it('should not display "me" when the current user is not fetched', function() {
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users); // Users without user.id = 10
+			$httpBackend.flush();
+			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(0);
+		});
+		it('should handle errors when getting "me"', function(){
+			spyOn(console, 'log');
+			$httpBackend.expectGET(meApi).respond(500, RESPONSE_ERROR_DETAILS);
+			$httpBackend.flush();
+			expect(console.log).toHaveBeenCalled();
+		});
+	});
+
 	// TODO
 	/**********************
 	** MULTISELECT       **
@@ -705,6 +765,8 @@ describe('luidUserPicker', function(){
 
 
 	// TODO_ANAIS - fill the mocked api response
+	// Me
+	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};
