@@ -156,6 +156,7 @@
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 		var init = true; // boolean to initialise the connected user
+		var myId; // used for 'display me first' feature
 
 		$scope.selected = {};
 		$scope.selected.users = [];
@@ -605,7 +606,7 @@
 		var initMe = function() {
 			if (init && $scope.displayMeFirst) {
 				getMeAsync().then(function(id) {
-					$scope.myId = id;
+					myId = id;
 				}, function(message) {
 					errorHandler("GET_ME", message);
 				});
@@ -614,7 +615,7 @@
 		};
 
 		var getMeAsync = function() {
-			var query = "/api/v3/users/me";
+			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
 			$http.get(query)
 			.success(function(response) {
@@ -647,7 +648,7 @@
 		var displaySomeUsersFirst = function(users) {
 			var sortedUsers = users;
 			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
-			var me = _.find(users, function(user) { return user.id === $scope.myId; });
+			var me = _.find(users, function(user) { return user.id === myId; });
 
 			// Display me first
 			if (!!me && (!selectedUser || me.id !== selectedUser.id)) {
