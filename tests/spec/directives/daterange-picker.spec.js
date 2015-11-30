@@ -107,16 +107,16 @@ describe('luidDaterange', function(){
 			isolateScope = elt.isolateScope();
 		});
 		it('updating $scope.myPeriod with dates should be understood by the controller', function(){
-			$scope.myPeriod.startsOn = moment().startOf('d').add(1,'d').format("MM-DD");
-			$scope.myPeriod.endsOn = moment().startOf('d').add(3,'months').format("MM-DD");
+			$scope.myPeriod.startsOn = moment().startOf('month').add(1,'d').format("MM-DD");
+			$scope.myPeriod.endsOn = moment().startOf('month').add(3,'months').format("MM-DD");
 			$scope.$digest();
 			expect(moment(isolateScope.internal.startsOn).format("MM-DD")).toEqual($scope.myPeriod.startsOn);
 			expect(moment(isolateScope.internal.endsOn).format("MM-DD")).toEqual($scope.myPeriod.endsOn);
 			expect(isolateScope.internal.strFriendly).toEqual($filter("luifFriendlyRange")(isolateScope.internal));
 		});
 		it('updating internalScope should set new dates in the $scope', function(){
-			isolateScope.internal.startsOn = moment().startOf('d').add(2,'months').toDate();
-			isolateScope.internal.endsOn = moment().startOf('d').add(3,'months').toDate();
+			isolateScope.internal.startsOn = moment().startOf('month').add(2,'months').toDate();
+			isolateScope.internal.endsOn = moment().startOf('month').add(3,'months').toDate();
 			isolateScope.internalUpdated();
 			expect($scope.myPeriod.startsOn).toEqual(moment(isolateScope.internal.startsOn).format("MM-DD"));
 			expect($scope.myPeriod.endsOn).toEqual(moment(isolateScope.internal.endsOn).format("MM-DD"));
