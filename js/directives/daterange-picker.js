@@ -38,7 +38,7 @@
 				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
 				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
 				ngModelCtrl.$setViewValue(newValue);
-				scope.$eval(attrs.ngChange);
+				scope.$parent.$eval(attrs.ngChange);
 			};
 			var format = function(startsOn, endsOn){
 				var mstart = moment(startsOn);
