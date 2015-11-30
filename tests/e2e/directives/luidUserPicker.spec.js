@@ -23,6 +23,9 @@ describe('luidUserPicker', function() {
 		myUserPickerCustomInfoAsync = element(by.id('myUserPicker_custom_info_async'));
 		myUserPickerChoicesCustomInfo = myUserPickerCustomInfo.all(by.className('ui-select-choices-row'));
 		myUserPickerChoicesCustomInfoAsync = myUserPickerCustomInfoAsync.all(by.className('ui-select-choices-row'));
+		/* luid-user-picker with display-me-first="true" */
+		myUserPickerDisplayMeFirst = element(by.id('myUserPicker_display_me_first'));
+		myUserPickerChoicesDisplayMeFirst = myUserPickerDisplayMeFirst.all(by.className('ui-select-choices-row'));
 	});
 
 	/*****************/
@@ -69,7 +72,6 @@ describe('luidUserPicker', function() {
 		myUserPickerChoices.get(1).getWebElement().click();
 		myUserPicker.click();
 		var firstChoice = myUserPickerChoices.get(0).all(by.tagName('div')).first();
-		expect(firstChoice.getAttribute('class')).toMatch('selected');
 		expect(firstChoice.getAttribute('class')).toMatch('dividing');
 	});
 
@@ -124,5 +126,14 @@ describe('luidUserPicker', function() {
 		// Check that the label is displayed
 		var label = myUserPickerChoicesCustomInfoAsync.get(2).element(by.tagName('span'));
 		expect(label.getAttribute('class')).toMatch('label');
+	});
+
+	/****************************/
+	/***** DISPLAY ME FIRST *****/
+	/****************************/
+	it('should display "me" with "dividing" class', function() {
+		myUserPickerDisplayMeFirst.click();
+		var firstChoice = myUserPickerChoicesDisplayMeFirst.get(0).all(by.tagName('div')).first();
+		expect(firstChoice.getAttribute('class')).toMatch('dividing');
 	});
 });
