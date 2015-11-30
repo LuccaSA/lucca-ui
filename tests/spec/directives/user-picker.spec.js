@@ -647,10 +647,6 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
 		});
-		it('should initialise "myId"', function() {
-			$httpBackend.flush();
-			expect(isolateScope.myId).toBe(myId);
-		});
 		it('should flag if the list of users returned by find contains "me"', function() {
 			$httpBackend.flush();
 			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(1);
@@ -770,7 +766,7 @@ describe('luidUserPicker', function(){
 
 	// TODO_ANAIS - fill the mocked api response
 	// Me
-	var RESPONSE_me = {"header":{},"data":{"id":10,"firstName":"Orion","lastName":"Charlier"}};
+	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};

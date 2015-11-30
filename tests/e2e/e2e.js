@@ -55,7 +55,7 @@
 		var RESPONSE_3_users_homonyms_FE = {header:{}, data:{items:_.first(homonyms_FE,3)}};
 		var RESPONSE_homonyms_properties_FE = {header:{},data:{items:[{id:421,firstName:"Lucien",lastName:"Bertin",department:{name:"BU Timmi/Lucca"},legalEntity:{name:"Lucca"},employeeNumber:"00068",mail:"no-reply@lucca.fr"},{id:449,firstName:"Lucien",lastName:"Bertin",department:{name:"Sales"},legalEntity:{name:"Lucca"},employeeNumber:"00099",mail:"no-reply@lucca.fr"},{id:450,firstName:"Lucien",lastName:"Bertin",department:{name:"Marketing"},legalEntity:{name:"Lucca"},employeeNumber:"00110",mail:"no-reply@lucca.fr"}]}};
 		/***** With display-me-first="true" *****/
-		var RESPONSE_me = {"header":{},"data":{"id":10,"firstName":"Orion","lastName":"Charlier"}};
+		var RESPONSE_me = {"header":{},"data":{"id":10}};
 
 		/********************************/
 		/******    NO HOMONYMS      *****/
