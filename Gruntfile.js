@@ -50,12 +50,9 @@ module.exports = function(grunt) {
 	// this task creates the distribution with the code needing only moment
 	// grunt.registerTask('dist-light', ['concat:light']); not needed
 	// this task creates the distribution with the code spe lucca
-	grunt.registerTask('dist-lucca', ['concat:spe']);
+	grunt.registerTask('dist-lucca', ['concat:spe', 'uglify:spe']);
 	// This task create the distribution compatible with angular 1.2
-	grunt.registerTask('dist-ng12', ['concat:ng12']);
-
-	// This task create the distribution cof the less framework
-	grunt.registerTask('dist-less', ['less:dist']);
+	grunt.registerTask('dist-ng12', ['concat:ng12', 'uglify:ng12']);
 
 	// This task create the distribution cof the less framework
 	grunt.registerTask('dist-sass', ['sass:dist']);
