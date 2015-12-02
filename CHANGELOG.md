@@ -1,5 +1,11 @@
 # Change log
 
+## 2.0.3 - in dev
+
+### New features
+
+### Resolved issues
+
 ## 2.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.2)
 
 ### New features
