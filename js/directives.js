@@ -9,6 +9,9 @@
 			$scope.updateCnt++;
 		};
 		$scope.myDuration = moment.duration(2, 'hours');
+		$scope.myTimespan2 = "02:05:00";
+		$scope.min = '0:10';
+		$scope.max = '11:00';
 	}]);
 
 	angular.module('demoApp')
@@ -38,6 +41,10 @@
 
 	angular.module('demoApp')
 	.controller('daterangeCtrl', ['$scope', 'moment', function($scope, moment){
+		$scope.updateCnt = 0;
+		$scope.hasChanged = function(){
+			$scope.updateCnt++;
+		};
 		$scope.myPeriod = {
 			startsOn: moment().startOf('day'), 
 			endsOn: moment().startOf('day').add(3, 'd'), 
@@ -54,6 +61,34 @@
 			{label:"World cup 2014", startsOn:moment("2014-06-12"), endsOn:moment("2014-07-13")},
 			{label:"TI5 main event", startsOn:moment("2015-08-03"), endsOn:moment("2015-08-08")},
 		]
+	}]);
+
+	angular.module('demoApp')
+	.controller('keydownCtrl', ['$scope', function($scope){
+		$scope.enterCnt = 0;
+		$scope.escCnt = 0;
+		$scope.zCnt = 0;
+		$scope.arrows = [];
+		
+		var enterPressed = function(){ 
+			$scope.enterCnt++;
+			$scope.$apply();
+		};
+		var escPressed = function(){ 
+			$scope.escCnt++;
+			$scope.$apply();
+		};
+		var zPressed = function(){ 
+			$scope.zCnt++;
+			$scope.$apply();
+		};
+		
+		var leftPressed = function(){ $scope.arrows.push("left"); $scope.$apply(); };
+		var upPressed = function(){ $scope.arrows.push("up"); $scope.$apply(); };
+		var rightPressed = function(){ $scope.arrows.push("right"); $scope.$apply(); };
+		var downPressed = function(){ $scope.arrows.push("down"); $scope.$apply(); };
+
+		$scope.myMappings = { 13: enterPressed, 27: escPressed, 90: zPressed, 37: leftPressed, 38: upPressed, 39: rightPressed, 40: downPressed };
 	}]);
 
 })();

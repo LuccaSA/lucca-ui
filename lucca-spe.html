@@ -56,6 +56,9 @@
 			Handles custom filtering. You can let the directive call the api to get all pertinent users for the search, then filter them to display only the ones you want. Let's take the example of cleemy/expenses, you might want to see in the user-picker only users who have some expenses. This filter is specific to cleemy and used in one page only so implementing it server side is not recommended.<br />
 			This function should respect the following signature: <code>function(user){ return boolean; }</code>.
 		</p>
+		<p>
+			Displays the selected user first. When the currently selected user is in the set of results, he is displayed as first result.
+		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Advanced features:</h4>
 		</div>
@@ -66,6 +69,15 @@
 		</p>
 		<p>
 			Supports an application id and a scope of operations. This feature allows you to only fetch users that have access to the specified application, with the given set of operations for that application. For example, for cleemy/expenses, I will want to limit to users for whom I can consult expenses. <b>Warning:</b> Both arguments have to be declared in order to be taken into account. If you declare only one argument, it will have no impact on the request.
+		</p>
+		<p>
+			Displays a custom information next to each user. For example, in Timmi, you might want to display the number of timesheets pending approval next to each user. This feature can take either a synchronous or an asynchronous function to fetch the information to display.
+		</p>
+		<p>
+			Displays the connected user as first result when he appears in the set of results.
+		</p>
+		<p>
+			Displays the option "All users". This option is displayed when the search input is empty.
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Supported arguments:</h4>
@@ -78,9 +90,13 @@
 				<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
 				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not</li>
 				<li><code>custom-properties</code>: list of properties you want to display in case of homonyms</li>
-				<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: function(user){ return boolean; }</li>
+				<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
 				<li><code>app-id</code>: the set of results should have access to the application matching this id</li>
 				<li><code>operations</code>: list of operations that the set of results should support for the given application</li>
+				<li><code>custom-info</code>: function that will return the information to display next to each user. It should respect the following signature: <code>function(user) { return string; }</code></li>
+				<li><code>custom-info-async</code>: same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
+				<li><code>display-me-first</code>: boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
+				<li><code>display-all-users</code>: boolean indication if you want to display the option "All users" when the search input is empty</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -91,7 +107,9 @@
 &lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
 &lt;luid-user-picker ng-model="myUser" custom-filter="myFilterFunction"&gt;&lt;/luid-user-picker&gt;
 &lt;luid-user-picker ng-model="myUser" custom-info="myInfoFunction"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-info-async="myInfoAsyncFunction"&gt;&lt;/luid-user-picker&gt;</pre>
+&lt;luid-user-picker ng-model="myUser" custom-info-async="myInfoAsyncFunction"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" display-me-first="true"&gt;&lt;/luid-user-picker&gt;
+&lt;luid-user-picker ng-model="myUser" display-all-users="true"&gt;&lt;/luid-user-picker&gt;</pre>
 		</p>
 
 		<div class="lui bottom dashed divider menu" id="demoBlock">
@@ -107,10 +125,9 @@
 		<div ng-controller="userPickerCtrl" class="lui block round">
 			<p>
 				Reroute all calls to
-				<span class="lui input with addons">
-					<span class="lui addon">http://</span>
+				<span class="lui input with addon">
+					<span class="lui addon">https://</span>
 					<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
-					<span class="lui addon">.local</span>
 				</span>
 				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
 				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
@@ -174,6 +191,14 @@ $scope.yearOfArrivalAsync = function(user){
 	})
 	return dfd.promise;
 };</pre>
+			<hr />
+			<h5>Option "All users"</h5>
+			<p>
+				This option is displayed when the search input is empty.
+			</p>
+			<p>
+				<luid-user-picker ng-model="myUser.withAllUsers" display-all-users="true"></luid-user-picker>
+			</p>
 		</div>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Roadmap:</h4>
@@ -193,7 +218,7 @@ $scope.yearOfArrivalAsync = function(user){
 			<h4 class="lui underline">Side notes:</h4>
 		</div>
 		<p>
-			The directive is tested with karma (25 tests so far) and protractor (8 tests) and should be stable. Follow the release notes of each version of the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">bower component</a> to know what feature was added and which bug was fixed.
+			The directive is tested with karma (52 tests so far) and protractor (13 tests) and should be stable. Follow the release notes of each version of the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">bower component</a> to know what feature was added and which bug was fixed.
 		</p>
 	</article>
 </section>
