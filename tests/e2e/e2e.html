@@ -84,16 +84,20 @@
 				</div>
 				<!-- With former employees -->
 				<div>
-					<luid-user-picker id="myUserPicker_former_employees" ng-model="myUser.selected" show-former-employees="true"></luid-user-picker>
+					<luid-user-picker id="myUserPicker_former_employees" ng-model="myUser.withFormerEmployees" show-former-employees="true"></luid-user-picker>
 				</div>
 				<!-- With custom info -->
 				<div>
-					<luid-user-picker id="myUserPicker_custom_info" ng-model="myUser.selected" custom-info="customInfo"></luid-user-picker>
-					<luid-user-picker id="myUserPicker_custom_info_async" ng-model="myUser.selected" custom-info-async="customInfoAsync"></luid-user-picker>
+					<luid-user-picker id="myUserPicker_custom_info" ng-model="myUser.withCustomInfo" custom-info="customInfo"></luid-user-picker>
+					<luid-user-picker id="myUserPicker_custom_info_async" ng-model="myUser.withCustomInfoAsync" custom-info-async="customInfoAsync"></luid-user-picker>
 				</div>
 				<!-- With 'display-me-first' set to true -->
 				<div>
-					<luid-user-picker id="myUserPicker_display_me_first" ng-model="myUser.selected" display-me-first="true"></luid-user-picker>
+					<luid-user-picker id="myUserPicker_display_me_first" ng-model="myUser.displayMeFirst" display-me-first="true"></luid-user-picker>
+				</div>
+				<!-- With 'display-all-users' set to true -->
+				<div>
+					<luid-user-picker id="myUserPicker_display_all_users" ng-model="myUser.displayAllUsers" display-all-users="true"></luid-user-picker>
 				</div>
 			</div>
 		</article>

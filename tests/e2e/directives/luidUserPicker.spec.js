@@ -26,6 +26,9 @@ describe('luidUserPicker', function() {
 		/* luid-user-picker with display-me-first="true" */
 		myUserPickerDisplayMeFirst = element(by.id('myUserPicker_display_me_first'));
 		myUserPickerChoicesDisplayMeFirst = myUserPickerDisplayMeFirst.all(by.className('ui-select-choices-row'));
+		/* luid-user-picker with display-all-users="true" */
+		myUserPickerDisplayAllUsers = element(by.id('myUserPicker_display_all_users'));
+		myUserPickerChoicesDisplayAllUsers = myUserPickerDisplayAllUsers.all(by.className('ui-select-choices-row'));
 	});
 
 	/*****************/
@@ -96,7 +99,7 @@ describe('luidUserPicker', function() {
 	it('should display former employees', function() {
 		myUserPickerFormerEmployees.click();
 		// Check that the last user in the dropdown menu is displayed as 'former employee' (it has a 'small' tag as child)
-		var smallTag = myUserPickerChoicesFormerEmployees.get(3).all(by.tagName('small'));
+		var smallTag = myUserPickerChoicesFormerEmployees.get(2).all(by.tagName('small'));
 		expect(smallTag.count()).toBe(1);
 	});
 
@@ -134,6 +137,17 @@ describe('luidUserPicker', function() {
 	it('should display "me" with "dividing" class', function() {
 		myUserPickerDisplayMeFirst.click();
 		var firstChoice = myUserPickerChoicesDisplayMeFirst.get(0).all(by.tagName('div')).first();
+		expect(firstChoice.getAttribute('class')).toMatch('dividing');
+		// In order to close the dropdown menu
+		myUserPickerChoicesDisplayMeFirst.get(0).getWebElement().click();
+	});
+
+	/*****************************/
+	/***** DISPLAY ALL USERS *****/
+	/*****************************/
+	it('should display "all users" with "dividing" class', function() {
+		myUserPickerDisplayAllUsers.click();
+		var firstChoice = myUserPickerChoicesDisplayAllUsers.get(0).all(by.tagName('div')).first();
 		expect(firstChoice.getAttribute('class')).toMatch('dividing');
 	});
 });
