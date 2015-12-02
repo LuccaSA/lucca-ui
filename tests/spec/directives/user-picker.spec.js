@@ -94,7 +94,6 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** PAGINATION        **
 	**********************/
@@ -185,7 +184,6 @@ describe('luidUserPicker', function(){
 	// 	});
 	// });
 
-	// TODO
 	/**********************
 	** FORMER EMPLOYEES  **
 	**********************/
@@ -220,7 +218,6 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** CUSTOM FILTERING  **
 	**********************/
@@ -269,7 +266,6 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** OPERATION SCOPE   **
 	**********************/
@@ -316,7 +312,6 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** HOMONYMS          **
 	**********************/
@@ -428,7 +423,6 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** HOMONYMS WITH     **
 	** CUSTOM PROPERTIES **
@@ -684,6 +678,93 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/************************
+	** DISPLAY ALL USERS   **
+	************************/
+	describe("with 'display-all-users' set to true", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var allUsers = { id:-1,
+			isAll: true
+		};
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" display-all-users="true"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+		});
+		it('should display "all users" when find() is called', function() {
+			expect(_.where(isolateScope.users, {isAll:true}).length).toBe(1);
+			expect(_.first(isolateScope.users).isAll).toBe(true);
+		});
+		it("should have the right order of displayed users when no user is selected", function() {
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([-1,1,2,3,4,-1]); // the -1 is because of "all users" and overflow
+		});
+		it('should update the order of users when a user is selected', function() {
+			$scope.myUser = chloe;
+			$scope.$digest();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(_.where(isolateScope.users, {isAll:true}).length).toBe(1);
+			expect(isolateScope.users[1].isAll).toBe(true);
+			expect(userIds).toEqual([3,-1,1,2,4,-1]); // the -1 is because of "all users" and overflow
+		});
+		it('should not display "selected" when we select "all users"', function() {
+			$scope.myUser = allUsers;
+			$scope.$digest();
+			expect(_.where(isolateScope.users, {isSelected:true}).length).toBe(0);
+		});
+		it('should not display "all users" when find() is called with a clue', function() {
+			isolateScope.find('a');
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
+			$httpBackend.flush();
+			expect(_.where(isolateScope.users, {isAll:true}).length).toBe(0);
+		});
+	});
+
+	/****************************
+	** WITH DISPLAY ME FIRST   **
+	** AND DISPLAY ALL USERS   **
+	*****************************/
+	// Only check the order of displayed users with "display-me-first" and "display-all-users"
+	// It should be [selected, all, me, rest of users]
+	describe("with 'display-me-first' and 'display-all-users' set to true", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var allUsers = { id:-1,
+			isAll: true
+		};
+		var meApi = /api\/v3\/users\/me/;
+		var myId = 10;
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" display-me-first="true" display-all-users="true"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
+			$httpBackend.flush();
+		});
+		it('should display "all users" and "me" when find() is called and "me" is fetched', function() {
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([-1,10,1,2,3,-1]); // the -1 is because of "all users" and overflow
+		});
+		it('should update the order of users when a user is selected', function() {
+			$scope.myUser = chloe;
+			$scope.$digest();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([3,-1,10,1,2,-1]); // the -1 is because of "all users" and overflow
+		});
+	});
+
 	// TODO
 	/**********************
 	** MULTISELECT       **
@@ -761,10 +842,7 @@ describe('luidUserPicker', function(){
 	var RESPONSE_userWhoseNameBeginsWithBe = {"header":{},"data":{"items":[{"id":401,"firstName":"Jean-Baptiste","lastName":"Beuzelin","employeeNumber":"3","mail":"no-reply@lucca.fr","dtContractEnd":null},{"id":416,"firstName":"Benoit","lastName":"Paugam","employeeNumber":"00057","mail":"no-reply@lucca.fr","dtContractEnd":null},{"id":421,"firstName":"Lucien","lastName":"Bertin","employeeNumber":"00068","mail":"no-reply@lucca.fr","dtContractEnd":null}]}};
 	var RESPONSE_initWithoutFormerEmployees = {"header":{},"data":{"items":[{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"id":353,"name":"Guillaume Allain","firstName":"Guillaume","lastName":"Allain"}]}};
 	var RESPONSE_initCount = {"header":{},"data":{"count":51,"items":[]}};
-	//var RESPONSE_initWithFormerEmployees = {"header":{},"data":{"items":[{"id":0,"name":"Lucca Admin","firstName":"Lucca","lastName":"Admin"},{"id":324,"name":"Administrateur Administrateur","firstName":"Administrateur","lastName":"Administrateur"},{"id":328,"name":"Gilles Satgé","firstName":"Gilles","lastName":"Satgé"},{"id":329,"name":"Frédéric Pot","firstName":"Frédéric","lastName":"Pot"},{"id":330,"name":"Catherine Foliot","firstName":"Catherine","lastName":"Foliot"},{"id":331,"name":"Catherine Lenzi","firstName":"Catherine","lastName":"Lenzi"},{"id":338,"name":"Bruno Catteau","firstName":"Bruno","lastName":"Catteau"},{"id":340,"name":"Olivier Ducros","firstName":"Olivier","lastName":"Ducros"},{"id":342,"name":"Olivier Ducros","firstName":"Olivier","lastName":"Ducros"},{"id":344,"name":"Nicolas Faugout","firstName":"Nicolas","lastName":"Faugout"},{"id":348,"name":"Aurélien Bottazini","firstName":"Aurélien","lastName":"Bottazini"},{"id":352,"name":"Régis de Germay","firstName":"Régis","lastName":"de Germay"}]}};
 
-
-	// TODO_ANAIS - fill the mocked api response
 	// Me
 	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
