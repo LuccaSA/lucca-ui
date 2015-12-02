@@ -31,6 +31,7 @@
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-class=\"{dividing: user.isDisplayedFirst}\">" +
 		"<div ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_SELECTED'\"></div>" +
+		"<div ng-if=\"!!user.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
 		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
 		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
 		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
@@ -41,7 +42,10 @@
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</ui-select-match>" +
+	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
+		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
+		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
+	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
@@ -84,6 +88,8 @@
 				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
+				/*** DISPLAY ALL USERS ***/
+				displayAllUsers: "=", // boolean
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -175,6 +181,11 @@
 						if (results.length > 0) {
 						var users = results;
 						filteredUsers = filterResults(users) || [];
+
+						// If no clue, add 'all users' to the set of results
+						if ($scope.displayAllUsers && (!clue || !clue.length)) {
+							filteredUsers.push({ id: -1, isAll: true });
+						}
 
 						// Save the order we got from the api
 						// Set first users if they belong to the set of results
@@ -382,8 +393,11 @@
 
 		var hasHomonyms = function(users) {
 			// Should latinise names and take into account composite names
-			var usersWithoutHomonyms = _.uniq(users, function(user) { return (user.firstName.toLowerCase() + user.lastName.toLowerCase()); });
-
+			var usersWithoutHomonyms = _.uniq(users, function(user) {
+				if (user.firstName && user.lastName) {
+					return (user.firstName.toLowerCase() + user.lastName.toLowerCase()); 
+				}
+			});
 			if (usersWithoutHomonyms.length < users.length) {
 				return true;
 			}
@@ -490,14 +504,18 @@
 
 		var tagHomonyms = function(users) {
 			_.each(users, function(user, index) {
-				var rest = _.rest(users, index + 1);
-				_.each(rest, function(otherUser) {
-					// Should latinise names and take into account composite names
-					if ((user.firstName.toLowerCase() === otherUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === otherUser.lastName.toLowerCase())) {
-						user.hasHomonyms = true;
-						otherUser.hasHomonyms = true;
-					}
-				});
+				if (user.firstName && user.lastName) {
+					var rest = _.rest(users, index + 1);
+					_.each(rest, function(otherUser) {
+						if (otherUser.firstName && otherUser.lastName) {
+							// Should latinise names and take into account composite names
+							if ((user.firstName.toLowerCase() === otherUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === otherUser.lastName.toLowerCase())) {
+								user.hasHomonyms = true;
+								otherUser.hasHomonyms = true;
+							}
+						}
+					});
+				}
 			});
 		};
 
@@ -566,8 +584,10 @@
 
 		var handleFormerEmployees = function(users) {
 			_.each(users, function(user) {
-				if (moment(user.dtContractEnd).isBefore(moment())) {
-					user.isFormerEmployee = true;
+				if (user.id !== -1) {
+					if (moment(user.dtContractEnd).isBefore(moment())) {
+						user.isFormerEmployee = true;
+					}
 				}
 			});
 		};
@@ -579,16 +599,16 @@
 		var addInfoToUsers = function() {
 			if ($scope.customInfo) {
 				_.each($scope.users, function(user) {
-					// We do not want customInfo to be called with overflow message
-					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+					// We do not want customInfo to be called with overflow message or 'all users'
+					if (user.id !== -1) {
 						user.info = $scope.customInfo(angular.copy(user));
 					}
 				});
 			}
 			if ($scope.customInfoAsync) {
 				_.each($scope.users, function(user) {
-					// We do not want customInfoAsync to be called with overflow message
-					if (($scope.users.length < 6) || (user !== _.last($scope.users))) {
+					// We do not want customInfoAsync to be called with overflow message or 'all users'
+					if (user.id !== -1) {
 						$scope.customInfoAsync(angular.copy(user)).then(function(info) {
 							user.info = info;
 						}, function(message) {
@@ -649,14 +669,19 @@
 			var sortedUsers = users;
 			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
 			var me = _.find(users, function(user) { return user.id === myId; });
+			var all = _.findWhere(users, { isAll: true });
 
 			// Display me first
 			if (!!me && (!selectedUser || me.id !== selectedUser.id)) {
 				me.isMe = true;
 				sortedUsers = displayThisUserFirst(me, sortedUsers);
 			}
+			// Display "all users" first
+			if (!!all) {
+				sortedUsers = displayThisUserFirst(all, sortedUsers);
+			}
 			// Display selected user first
-			if (!!selectedUser) {
+			if (!!selectedUser && (!all || selectedUser.id !== all.id)) {
 				selectedUser.isSelected = true;
 				sortedUsers = displayThisUserFirst(selectedUser, sortedUsers);
 			}
@@ -763,6 +788,7 @@
 			"LUIDUSERPICKER_MAIL":"Email",
 			"LUIDUSERPICKER_SELECTED":"Selected:",
 			"LUIDUSERPICKER_ME":"Me:",
+			"LUIDUSERPICKER_ALL":"All users",
 		});
 		$translateProvider.translations('de', {
 
@@ -782,6 +808,7 @@
 			"LUIDUSERPICKER_MAIL":"Email",
 			"LUIDUSERPICKER_SELECTED":"Sélectionné :",
 			"LUIDUSERPICKER_ME":"Moi :",
+			"LUIDUSERPICKER_ALL":"Tous les utilisateurs",
 		});
 		$translateProvider.translations('it', {
 
