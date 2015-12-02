@@ -52,7 +52,7 @@
 				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
 				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
 				ngModelCtrl.$setViewValue(newValue);
-				// ngModelCtrl.$render();
+				scope.$parent.$eval(attrs.ngChange);
 			};
 			var format = function(startsOn, endsOn){
 				var mstart = moment(startsOn);
@@ -219,6 +219,23 @@
 	**  - none
 	**/
 	angular.module('lui.directives')
+	.directive('luidKeydown', function () {
+		return {
+			restrict: 'A',
+			scope:{
+				mappings: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('keydown', function (e) {
+					if ( !!scope.mappings && !!scope.mappings[e.which] ){
+						scope.mappings[e.which]();
+						e.preventDefault();
+					}
+				});
+			}
+		};
+	});
+	angular.module('lui.directives')
 	.directive('luidSelectOnClick', function () {
 		return {
 			restrict: 'A',
@@ -319,9 +336,7 @@
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$viewChangeListeners.push(function() {
-				scope.$eval(attrs.ngChange);
-			});
+
 			ngModelCtrl.$validators.min = function(modelValue,viewValue){
 				return mpCtrl.checkMin(modelValue);
 			};
@@ -892,11 +907,6 @@
 					scope.strDuration = (hours < 10 ? '0' : '') + hours + 'h' + (minutes < 10 ? '0' : '') + minutes;
 				}
 			};
-
-			// call the ng-change
-			ngModelCtrl.$viewChangeListeners.push(function () {
-				scope.$eval(attrs.ngChange);
-			});
 
 			// bind to various events - here only keypress=enter
 			luidTimespanCtrl.setupEvents(element.find('input'));

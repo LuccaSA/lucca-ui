@@ -222,11 +222,6 @@
 				}
 			};
 
-			// call the ng-change
-			ngModelCtrl.$viewChangeListeners.push(function () {
-				scope.$eval(attrs.ngChange);
-			});
-
 			// bind to various events - here only keypress=enter
 			luidTimespanCtrl.setupEvents(element.find('input'));
 
