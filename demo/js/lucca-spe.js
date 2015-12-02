@@ -6,7 +6,7 @@
 		$scope.getCnt = 0;
 		$scope.apiCalls = [];
 		$scope.myUser = {};
-		$scope.local = "lucca";
+		$scope.local = "lucca.local";
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
 
@@ -27,7 +27,7 @@
 		}
 
 		$scope.auth = function(){
-			$http.post("https://" + $scope.local + ".local/auth/userlogin?login=passepartout&password=")
+			$http.post("https://" + $scope.local + "/auth/userlogin?login=passepartout&password=")
 			.success(function(response){
 				$scope.authToken = response;
 			})

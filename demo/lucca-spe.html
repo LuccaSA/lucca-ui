@@ -125,10 +125,9 @@
 		<div ng-controller="userPickerCtrl" class="lui block round">
 			<p>
 				Reroute all calls to
-				<span class="lui input with addons">
-					<span class="lui addon">http://</span>
+				<span class="lui input with addon">
+					<span class="lui addon">https://</span>
 					<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
-					<span class="lui addon">.local</span>
 				</span>
 				<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
 				<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
