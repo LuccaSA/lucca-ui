@@ -91,6 +91,8 @@
 		min-width: map-gets($vars, minWidth);
 		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
 		margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+
+		white-space: nowrap;
 	}
 
 	%lui_basic_button {

@@ -155,8 +155,7 @@
 	// Addon
 	// ===================================
 
-	#{$prefix}.input[class*="with addon"],
-	#{$prefix}.input[class*="with addons"] {
+	#{$prefix}.input[class*="with addon"] {
 		> .addon {
 			display: inline-block;
 			position: relative; z-index: 2;
@@ -184,6 +183,20 @@
 
 		&.addons > input {
 			border-radius: 0 !important;
+		}
+	}
+
+	// Button addon
+	#{$prefix}.input[class*="with addon"] .addon.button {
+		border: 0;
+		min-width: inherit;
+		&:not(.right) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		&.right {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
 		}
 	}
 
