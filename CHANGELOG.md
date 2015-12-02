@@ -3,6 +3,7 @@
 ## 2.0.3 - in dev
 
 ### New features
+- You can now use a nutton as an input addon
 
 ### Resolved issues
 
