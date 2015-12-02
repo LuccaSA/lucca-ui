@@ -13,6 +13,7 @@
  - [#73](https://github.com/LuccaSA/lucca-ui/issues/73) - luid-user-picker displays selected user first
  - [#50](https://github.com/LuccaSA/lucca-ui/issues/50) - luid-user-picker displays "me" first
  - [#79](https://github.com/LuccaSA/lucca-ui/issues/79) - luid-user-picker displays option "all users"
+ - vertical buttons group - se the [demo page](http://luccasa.github.io/lucca-ui/#/sass#lui-button) for more info
 
 ### Custom distributions
  - the custom js distributions are available in minified form
