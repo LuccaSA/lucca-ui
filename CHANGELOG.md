@@ -1,12 +1,16 @@
 # Change log
 
-## 2.0.2
+## 2.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.2)
 
 ### New features
  - [#54](https://github.com/LuccaSA/lucca-ui/issues/54) - directive luid-keydown, se the [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-keydown) for more infos.
  - [#73](https://github.com/LuccaSA/lucca-ui/issues/73) - luid-user-picker displays selected user first
  - [#50](https://github.com/LuccaSA/lucca-ui/issues/50) - luid-user-picker displays "me" first
  - [#79](https://github.com/LuccaSA/lucca-ui/issues/79) - luid-user-picker displays option "all users"
+
+### Custom distributions
+ - the custom js distributions are available in minified form
+ - custom distribution lucca-ui-light is no more
 
 ## 2.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.1)
 
