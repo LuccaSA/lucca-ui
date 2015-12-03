@@ -111,6 +111,9 @@
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
 
 				periods:'=', // an array like that [{label:'this month', startsOn:<Date or moment or string parsable by moment>, endsOn:idem}, {...}]
+
+				closeLabel: '@',
+				closeAction:'&',
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
 			restrict:'EA',
@@ -149,6 +152,12 @@
 				ctrl.unpinPopover();
 			}
 		};
+		$scope.doCloseAction = function(){
+			$scope.togglePopover();
+			if(!!$scope.closeAction){
+				$scope.closeAction();
+			}
+		}
 		$scope.clickInside = function(e){
 			e.preventDefault();
 			e.stopPropagation();
@@ -193,7 +202,7 @@
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
-			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
+			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
 			"");
 	}]);
