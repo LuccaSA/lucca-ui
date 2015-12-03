@@ -69,7 +69,9 @@
 				We're just testing the js events here, clicking the input shows the popover, clicking agian hides it.
 			</p>
 			<div ng-controller="luidDaterangeCtrl" class="lui block round">
-				<luid-daterange ng-model="myRange" id="myDaterange" class="lui long input"></luid-daterange>
+				<luid-daterange ng-model="myRange" id="luidDaterange_input_1" class="lui long input"></luid-daterange>
+				<luid-daterange ng-model="myRange" id="luidDaterange_input_2" close-label="Close" close-action="doClosePopover(22)" class="lui long input"></luid-daterange>
+				<div id="luidDaterange_div_2">{{ someStuff }}</div>
 			</div>
 		</article>
 

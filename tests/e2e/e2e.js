@@ -23,6 +23,9 @@
 	angular.module('e2eApp')
 	.controller("luidDaterangeCtrl",['$scope', function($scope){
 		$scope.myRange = {};
+		$scope.doClosePopover = function(i){
+			$scope.someStuff = i;
+		}
 	}]);
 
 	angular.module('e2eApp')
