@@ -30,8 +30,8 @@
 		}
 
 		input:checked ~ label {
-			color: map-gets($vars, checkbox, color);
 			@include lui_make_icon("checkbox checked");
+			&:before { color: map-gets($vars, checkbox, color); }
 		}
 
 		& + label {
