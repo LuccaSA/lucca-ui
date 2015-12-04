@@ -5,6 +5,7 @@
 ### New features
  - [#83](https://github.com/LuccaSA/lucca-ui/issues/83) - You can now use a button as an input addon.
  - [#84](https://github.com/LuccaSA/lucca-ui/issues/84) - luid-daterange, added `close-label` and `close-action` attributes, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-daterange) for more info
+ - [#85](https://github.com/LuccaSA/lucca-ui/issues/85) - .dividing class is now supported for nguibs dropdown items
 
 ### Resolved issues
 
