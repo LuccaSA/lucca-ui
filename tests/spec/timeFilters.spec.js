@@ -202,6 +202,12 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(90061001, false, 'd', 's')).toEqual('1d 1h01m01s'); 
 			expect(luifDuration(90061001, false, 'd', 'ms')).toEqual('1d 1h01m01.001s'); 
 
+			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1d ');
+			expect(luifDuration(600000, false, 'd', 'd')).toEqual('0d ');
+			expect(luifDuration(36000000, false, 'd', 'd')).toEqual('0.4d ');
+			expect(luifDuration(129600000, false, 'd', 'd')).toEqual('1.5d ');
+			expect(luifDuration(259200000, false, 'd', 'd')).toEqual('3d ');
+
 			expect(luifDuration(90061001, false, 'h', 'd')).toEqual(''); 
 			expect(luifDuration(90061001, false, 'h', 'h')).toEqual('25h'); 
 			expect(luifDuration(90061001, false, 'h', 'm')).toEqual('25h01'); 
