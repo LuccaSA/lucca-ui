@@ -96,9 +96,16 @@
 				case 'days':
 					_precision = !!_precision ? _precision : 'h'; // if no precision is provided, we take the next unit
 
-					// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
-					unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
-					values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
+					if ((_precision === 'd' || _precision === 'day' || _precision === 'days') && d.asDays() > 0) {
+						unit = 0;
+						// Display duration in days, with only one decimal
+						// Hack: I don't want to use basic 'number' filter because I don't want decimal if decimal part is 0
+						values[0] = Math.round(d.asDays()*10)/10;
+					} else {
+						// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
+						unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
+						values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
+					}
 					break;
 				case undefined:
 				case '': // if no _unit is provided, use hour
