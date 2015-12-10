@@ -8,6 +8,7 @@
  - [#85](https://github.com/LuccaSA/lucca-ui/issues/85) - .dividing class is now supported for nguibs dropdown items
 
 ### Resolved issues
+ - [#89](https://github.com/LuccaSA/lucca-ui/issues/83) - luifDuration displayed nothing when it had to display 48h
 
 ## 2.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.2)
 
