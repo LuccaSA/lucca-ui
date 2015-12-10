@@ -77,4 +77,9 @@
 			return _.contains(user.firstName.toLowerCase() + user.lastName.toLowerCase(), 't') ;
 		}
 	}]);
+
+	angular.module("demoApp")
+	.controller("translationsCtrl", ["$scope", function($scope){
+		$scope.myTrads = {en: "some stuff", fr: "des bidules"};
+	}]);
 })();
