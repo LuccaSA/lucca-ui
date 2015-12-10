@@ -196,15 +196,16 @@ describe('luif.timefilters', function(){
 		});
 		it('should produce the right results when a unit and a precision are provided', function(){
 			moment.locale('en');
-			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1d '); 
+			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1.04d '); 
 			expect(luifDuration(90061001, false, 'd', 'h')).toEqual('1d 1h'); 
 			expect(luifDuration(90061001, false, 'd', 'm')).toEqual('1d 1h01'); 
 			expect(luifDuration(90061001, false, 'd', 's')).toEqual('1d 1h01m01s'); 
 			expect(luifDuration(90061001, false, 'd', 'ms')).toEqual('1d 1h01m01.001s'); 
 
-			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1d ');
-			expect(luifDuration(600000, false, 'd', 'd')).toEqual('0d ');
-			expect(luifDuration(36000000, false, 'd', 'd')).toEqual('0.4d ');
+			expect(luifDuration(86400000, false, 'd', 'd')).toEqual('1d ');
+			expect(luifDuration(3600000, false, 'd', 'd')).toEqual('0.04d ');
+			expect(luifDuration(21600000, false, 'd', 'd')).toEqual('0.25d ');
+			expect(luifDuration(36000000, false, 'd', 'd')).toEqual('0.42d ');
 			expect(luifDuration(129600000, false, 'd', 'd')).toEqual('1.5d ');
 			expect(luifDuration(259200000, false, 'd', 'd')).toEqual('3d ');
 

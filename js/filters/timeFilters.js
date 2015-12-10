@@ -78,7 +78,7 @@
 		};
 	})
 	// this filter is very ugly and i'm sorry - i'll add lots of comments
-	.filter('luifDuration', function () {
+	.filter('luifDuration', ['$filter', function ($filter) {
 		return function (_duration, _sign, _unit, _precision) {  //expects a duration, returns the duration in the given unit with the given precision
 			var d = moment.duration(_duration);
 
@@ -98,9 +98,15 @@
 
 					if ((_precision === 'd' || _precision === 'day' || _precision === 'days') && d.asDays() > 0) {
 						unit = 0;
-						// Display duration in days, with only one decimal
-						// Hack: I don't want to use basic 'number' filter because I don't want decimal if decimal part is 0
-						values[0] = Math.round(d.asDays()*10)/10;
+						// Determine the number of decimals to display
+						var decimals = 2;
+						var days = d.asDays();
+						if ((days * 10) % 10 === 0) {
+							decimals = 0;
+						} else if ((days * 100) % 10 === 0) {
+							decimals = 1;
+						}
+						values[0] = $filter("number")(days, decimals);
 					} else {
 						// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
 						unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
@@ -213,7 +219,7 @@
 
 			return prefix + result;
 		};
-	})
+	}])
 	.filter('luifHumanize', function () {
 		return function (_duration, suffix) {
 			suffix = !!suffix;
