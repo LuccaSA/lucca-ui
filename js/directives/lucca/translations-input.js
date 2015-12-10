@@ -92,6 +92,7 @@
 			},
 			templateUrl:"lui/directives/luidTranslations.html",
 			restrict:'EA',
+			replace:true,
 			link:link
 		};
 	}])
@@ -135,7 +136,7 @@
 			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
 			"	</div>" +
-			"	<div class=\"lui luid-translations-dropdown\" ng-class=\"{hidden: !focused && !hovered}\">" +
+			"	<div class=\"lui luid-translations-dropdown\">" +
 			"		<div class=\"lui {{size}} input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"			<span class=\"lui right addon\">{{culture}}</span>" +

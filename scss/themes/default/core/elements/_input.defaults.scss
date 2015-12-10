@@ -30,6 +30,13 @@ $input: (
 		labelFontWeight: 		600,
 	),
 
+	lengths: (
+		short: 					8em,
+		medium:					15em,
+		long: 					20em,
+		x-long: 				25em
+	),
+
 	checkbox: (
 		enabled: 				true,
 
@@ -69,11 +76,9 @@ $input: (
 		maxWidth: 				5.25em
 	),
 
-	lengths: (
-		short: 					8em,
-		medium:					15em,
-		long: 					20em,
-		x-long: 				25em
+	translations: (
+		background: 			#FFF,
+		dropdownPadding: 		0.5em
 	)
 );
 $luiTheme: luiSetTheme(element, input, $input);
