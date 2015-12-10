@@ -132,6 +132,9 @@
 				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
 
 				periods:'=', // an array like that [{label:'this month', startsOn:<Date or moment or string parsable by moment>, endsOn:idem}, {...}]
+
+				closeLabel: '@',
+				closeAction:'&',
 			},
 			templateUrl:"lui/directives/luidDaterange.html",
 			restrict:'EA',
@@ -170,6 +173,12 @@
 				ctrl.unpinPopover();
 			}
 		};
+		$scope.doCloseAction = function(){
+			$scope.togglePopover();
+			if(!!$scope.closeAction){
+				$scope.closeAction();
+			}
+		}
 		$scope.clickInside = function(e){
 			e.preventDefault();
 			e.stopPropagation();
@@ -214,7 +223,7 @@
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
-			"	<a class='lui right pulled primary button' ng-click='togglePopover()'>Ok</a>" +
+			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
 			"");
 	}]);
@@ -2150,7 +2159,7 @@
 				case 'hour':
 				case 'hours':
 					_precision = _precision || 'm';
-					unit = values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0) ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[1] = Math.abs(d.asHours() >= 0 ? Math.floor(d.asHours()) : Math.ceil(d.asHours()));
 					break;
 				case 'm':
@@ -2159,7 +2168,7 @@
 				case 'minute':
 				case 'minutes':
 					_precision = _precision || 's';
-					unit = values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0) ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[2] = Math.abs(d.asMinutes() >= 0 ? Math.floor(d.asMinutes()) : Math.ceil(d.asMinutes()));
 					break;
 				case 's':
@@ -2167,7 +2176,7 @@
 				case 'second':
 				case 'seconds':
 					_precision = _precision || 's';
-					unit = values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0 || values[3] !== 0) ? 3 : 4; // the first unit with a not nul member
 					values[3] = Math.abs(d.asSeconds() >= 0 ? Math.floor(d.asSeconds()) : Math.ceil(d.asSeconds()));
 					break;
 				case 'ms':
