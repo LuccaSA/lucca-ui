@@ -1,0 +1,25 @@
+.luid-translations {
+
+	.translations-dropdown {
+		visibility: hidden;
+	}
+	&.open .translations-dropdown {
+		visibility: visible;
+		@include lui_is_animated("up slide in");
+		@include lui_target_IE9 {
+			display: block;
+			opacity: 1;
+			height: auto;
+		}
+	}
+
+	// Inputs length (horizontal sizing)
+	@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+		&.#{$sizeName} input { min-width: $sizeEms !important; }
+	}
+	&.fitting .input {
+		width: 100%;
+		@include display-flex();
+		display: flex !important;
+	}
+}

@@ -14,7 +14,7 @@
 
 			var cultures = ['en', 'de', 'es', 'fr', 'it', 'nl'];
 			scope.cultures = cultures;
-			// need the current culture to 
+			// need the current culture to
 			var currentCulture = $translate.preferredLanguage() || "en";
 			scope.currentCulture = currentCulture;
 
@@ -130,20 +130,20 @@
 	/**************************/
 	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" + 
+			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
 			"	<div class=\"lui {{size}} input with addon\">" +
-			"		<span class=\"lui addon\">{{currentCulture}}</span>" + 
-			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" + 
-			"	</div>" + 
-			"	<div class=\"lui luid-translations-dropdown\" ng-class=\"{hidden: !focused && !hovered}\">" + 
+			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
+			"	</div>" +
+			"	<div class=\"lui luid-translations-dropdown\" ng-class=\"{hidden: !focused && !hovered}\">" +
 			"		<div class=\"lui {{size}} input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
-			"			<span class=\"lui addon\">{{culture}}</span>" + 
-			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" + 
-			"		</div>" + 
+			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"			<span class=\"lui right addon\">{{culture}}</span>" +
+			"		</div>" +
 			// "		<hr>" +
 			// "		<div class=\"lui button right pulled\" ng-click=\"close()\">Ok</div>" +
-			" </div>" + 
-			"</div>" + 
+			"	</div>" +
+			"</div>" +
 		"");
 
 	}]);
