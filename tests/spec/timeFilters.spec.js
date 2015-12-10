@@ -139,6 +139,7 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(3600000)).toEqual('1h');
 			expect(luifDuration(3960000)).toEqual('1h06');
 			expect(luifDuration(36000000)).toEqual('10h');
+			expect(luifDuration(172800000)).toEqual('48h');
 			expect(luifDuration(360000000)).toEqual('100h');
 			expect(luifDuration(360000005)).toEqual('100h');
 			expect(luifDuration(360001005)).toEqual('100h');
@@ -180,6 +181,7 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(61001, false, 'mins')).toEqual('1m01'); 
 			expect(luifDuration(61001, false, 'minute')).toEqual('1m01'); 
 			expect(luifDuration(61001, false, 'minutes')).toEqual('1m01'); 
+			expect(luifDuration(3600000, false, 'minutes')).toEqual('60m'); 
 
 			expect(luifDuration(0, false, 's')).toEqual(''); 
 			expect(luifDuration(999, false, 's')).toEqual(''); 
@@ -187,12 +189,14 @@ describe('luif.timefilters', function(){
 			expect(luifDuration(1001, false, 'sec')).toEqual('1s'); 
 			expect(luifDuration(1001, false, 'second')).toEqual('1s'); 
 			expect(luifDuration(1001, false, 'seconds')).toEqual('1s'); 
+			expect(luifDuration(60000, false, 'seconds')).toEqual('60s'); 
 
 			expect(luifDuration(0, false, 'ms')).toEqual(''); 
 			expect(luifDuration(10, false, 'ms')).toEqual('10ms'); 
 			expect(luifDuration(10, false, 'millisec')).toEqual('10ms'); 
 			expect(luifDuration(10, false, 'millisecond')).toEqual('10ms'); 
 			expect(luifDuration(10, false, 'milliseconds')).toEqual('10ms'); 
+			expect(luifDuration(1000, false, 'milliseconds')).toEqual('1000ms'); 
 		});
 		it('should produce the right results when a unit and a precision are provided', function(){
 			moment.locale('en');

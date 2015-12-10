@@ -106,7 +106,7 @@
 				case 'hour':
 				case 'hours':
 					_precision = _precision || 'm';
-					unit = values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0) ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[1] = Math.abs(d.asHours() >= 0 ? Math.floor(d.asHours()) : Math.ceil(d.asHours()));
 					break;
 				case 'm':
@@ -115,7 +115,7 @@
 				case 'minute':
 				case 'minutes':
 					_precision = _precision || 's';
-					unit = values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0) ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[2] = Math.abs(d.asMinutes() >= 0 ? Math.floor(d.asMinutes()) : Math.ceil(d.asMinutes()));
 					break;
 				case 's':
@@ -123,7 +123,7 @@
 				case 'second':
 				case 'seconds':
 					_precision = _precision || 's';
-					unit = values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0 || values[3] !== 0) ? 3 : 4; // the first unit with a not nul member
 					values[3] = Math.abs(d.asSeconds() >= 0 ? Math.floor(d.asSeconds()) : Math.ceil(d.asSeconds()));
 					break;
 				case 'ms':
