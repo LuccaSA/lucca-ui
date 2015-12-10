@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.3 - in dev
+## 2.0.4 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.3)
 
 ### New features
  - [#83](https://github.com/LuccaSA/lucca-ui/issues/83) - You can now use a button as an input addon.
