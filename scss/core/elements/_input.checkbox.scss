@@ -39,6 +39,13 @@
 		}
 	}
 
+	// Read only state
+	// ====
+	&.readonly {
+		label, input { cursor: default; }
+		input { display: none; }
+	}
+
 	// Icon version
 	// ====
 	#{$prefix}.checkbox.icon {
