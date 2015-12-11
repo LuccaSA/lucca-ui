@@ -19,7 +19,7 @@
 		}
 
 		label {
-			color: map-gets($vars, borderColor);
+			color: luiTheme(element, typography, body, color);
 			display: block;
 			position: relative;
 			padding: 0;
