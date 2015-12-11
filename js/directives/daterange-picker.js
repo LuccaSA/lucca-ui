@@ -157,7 +157,7 @@
 			if(!!$scope.closeAction){
 				$scope.closeAction();
 			}
-		}
+		};
 		$scope.clickInside = function(e){
 			e.preventDefault();
 			e.stopPropagation();
