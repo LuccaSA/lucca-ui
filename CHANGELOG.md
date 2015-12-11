@@ -3,6 +3,7 @@
 ## 2.0.4 - in dev
 
 ### New features
+ - [sass] Checkboxes now support '.readonly' state
 
 ### Resolved issues
 
