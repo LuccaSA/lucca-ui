@@ -78,7 +78,8 @@ $input: (
 
 	translations: (
 		background: 			#FFF,
-		dropdownPadding: 		0.5em
+		dropdownPadding: 		0.5em,
+		zIndex: 				3
 	)
 );
 $luiTheme: luiSetTheme(element, input, $input);
