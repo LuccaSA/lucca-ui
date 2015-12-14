@@ -50,5 +50,10 @@
 			margin-top: 1em;
 			padding-top: 0.25em;
 		}
+
+		hr {
+			clear: both;
+			@extend %lui_divider_base;
+		}
 	}
 }

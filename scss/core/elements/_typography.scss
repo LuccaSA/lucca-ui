@@ -97,6 +97,7 @@
 	// ===================================
 
 	#{$prefix}.typeset hr {
+		clear: both;
 		@extend %lui_divider_base;
 	}
 
