@@ -23,9 +23,9 @@
 			if(!!attrs.mode){
 				mode = scope.mode;
 			}
-			if(mode === 'dictionary' && !!ngModelCtrl.$viewValue){
+			if(mode === 'dictionary' && ngModelCtrl.$viewValue !== undefined){
 				_.each(cultures, function(c){
-					$scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
+					scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
 				});
 			}
 
@@ -81,7 +81,7 @@
 					return {};
 				}
 				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
-				var translations = value.split["|"];
+				var translations = value.split("|");
 				var result = {};
 				_.each(translations, function(t){
 					var key = t.substring(0,2);
