@@ -43,9 +43,12 @@
 	@each $sizeName, $sizeEms in map-gets($vars, lengths) {
 		&.#{$sizeName} input { min-width: $sizeEms !important; }
 	}
-	&.fitting .input {
-		width: 100%;
-		@include display-flex();
-		display: flex !important;
+	&.fitting {
+		display: block;
+		& > .input {
+			width: 100%;
+			@include display-flex();
+			display: flex !important;
+		}
 	}
 }
