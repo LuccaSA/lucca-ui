@@ -30,8 +30,7 @@
 		}
 		.datepicker td.startend button,
 		.datepicker td.start button,
-		.datepicker td.end button,
-		.datepicker td button.active {
+		.datepicker td.end button {
 			border-radius: 1em;
 			box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
 
@@ -39,9 +38,12 @@
 				background: #FFF;
 			}
 		}
-		.datepicker td button.active {
+		.datepicker.start-date td.start button,
+		.datepicker.end-date td.end button {
 			background-color: #FFF;
 		}
+
+		tbody button.active { background-color: transparent; }
 
 		footer {
 			border-top: 1px solid luiTheme(element, divider, color);

@@ -17,11 +17,11 @@
 			scope.hasPeriods = !!attrs.periods;
 
 			ngModelCtrl.$render = function(){
-				if(!ngModelCtrl.$viewValue){ 
+				if(!ngModelCtrl.$viewValue){
 					scope.internal.startsOn = undefined;
 					scope.internal.endsOn = undefined;
 					scope.internal.strFriendly = undefined;
-					return; 
+					return;
 				}
 
 				var parsed = parse(ngModelCtrl.$viewValue);
@@ -31,7 +31,7 @@
 			};
 			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function(){ ngModelCtrl.$render(); });
 			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function(){ ngModelCtrl.$render(); });
-			
+
 			drCtrl.updateValue = function(startsOn, endsOn){
 				var newValue = ngModelCtrl.$viewValue;
 				var formatted = format(startsOn,endsOn);
@@ -197,10 +197,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
