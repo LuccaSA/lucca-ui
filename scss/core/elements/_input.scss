@@ -111,10 +111,10 @@
 	#{$prefix}.fitting.input { width: 100%; }
 
 	// Inputs length (horizontal sizing)
-	#{$prefix}.input.short > input, #{$prefix}.field.short > input { min-width: 0; width: 8em !important; }
-	#{$prefix}.input.medium > input, #{$prefix}.field.medium > input { min-width: 0; width: 15em !important; }
-	#{$prefix}.input.long > input, #{$prefix}.field.long > input { min-width: 0; width: 20em !important; }
-	#{$prefix}.input.x-long > input, #{$prefix}.field.x-long > input { min-width: 0; width: 25em !important; }
+	@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+		#{$prefix}.#{$sizeName}.input > input,
+		#{$prefix}.#{$sizeName}.field > input { min-width: 0; width: $sizeEms !important; }
+	}
 
 
 	// Icon
@@ -309,4 +309,5 @@
 	//
 	@import "input.timespanpicker";
 	@import "input.momentpicker";
+	@import "input.translations";
 }

@@ -1,0 +1,54 @@
+.luid-translations {
+	display: inline-block;
+	position: relative;
+
+	.luid-translations-dropdown {
+		position: absolute; z-index: map-gets($vars, translations, zIndex);
+		top: 100%; left: -1px; right: -1px;
+		@include display-flex(true);
+		@include flex-direction(column);
+		visibility: hidden;
+
+		> .input:not(:last-child) {
+			margin-bottom: 0.5em;
+		}
+	}
+
+	&.open,
+	.luid-translations-dropdown {
+		background-color: map-gets($vars, translations, background);
+		padding: map-gets($vars, translations, dropdownPadding);
+		border: 1px solid luiPalette(light, color);
+		@extend #{$prefix}.raised;
+	}
+
+	&.open {
+		margin: calc(-#{map-gets($vars, translations, dropdownPadding)} - 1px);
+		border-bottom: none;
+
+		.luid-translations-dropdown {
+			border-top: none;
+
+			visibility: visible;
+			@include lui_is_animated("up slide in");
+			@include lui_target_IE9 {
+				display: block;
+				opacity: 1;
+				height: auto;
+			}
+		}
+	}
+
+	// Inputs length (horizontal sizing)
+	@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+		&.#{$sizeName} input { min-width: $sizeEms !important; }
+	}
+	&.fitting {
+		display: block;
+		& > .input {
+			width: 100%;
+			@include display-flex();
+			display: flex !important;
+		}
+	}
+}

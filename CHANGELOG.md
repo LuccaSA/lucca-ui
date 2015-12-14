@@ -4,6 +4,7 @@
 
 ### New features
  - [sass] Checkboxes now support '.readonly' state
+ - [#86](https://github.com/LuccaSA/lucca-ui/issues/86) - `spe-lucca` directive `luid-translations`, see [demo page](http://luccasa.github.io/lucca-ui/#/lucca-spe#luid-translations) for more info
 
 ### Resolved issues
 
