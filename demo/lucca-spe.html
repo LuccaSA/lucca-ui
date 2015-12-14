@@ -1,6 +1,7 @@
 <div id="main-content">
 	<nav id="toc" class="lui left stuck vertical primary dividing menu">
 		<a class="item" href="#/lucca#luid-user-picker">luid-user-picker</a>
+		<a class="item" href="#/lucca#luid-translations">luid-translations</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -233,13 +234,13 @@ $scope.yearOfArrivalAsync = function(user){
 			<h4 class="lui underline">Features:</h4>
 		</div>
 		<p>
-			
+			As with the other directives, it inherits from the ng-model controller and as such can be integrated to forms like any other input
 		</p>
 		<p>
 			Supports 3 modes :
 			<ul class="lui unstyled">
 				<li><code>dictionary</code> default mode, the ng-model will have this form <code>{"en": "some stuff", "fr": "des bidules"}</code></li>
-				<li><code>|</code> the ng-model will be a string looking like this <code>"en:some stuff|fr:des bidules"</code></li>
+				<li><code>|</code> or <code>pipe</code> the ng-model will be a string looking like this <code>"en:some stuff|fr:des bidules"</code></li>
 				<!-- <li><code>[]</code> the ng-model will be a string looking like this <code>"[en][some stuff][fr][des bidules]"</code></li> -->
 			</ul>
 		</p>
@@ -250,8 +251,8 @@ $scope.yearOfArrivalAsync = function(user){
 			<ul class="lui unstyled">
 				<li><code>ng-model</code>: the variable to bind to</li>
 				<li><code>ng-change</code>: events to launch when the value is updated</li>
-				<li><code>ng-disabled</code>: </li>
-				<li><code>mode</code>: "0.XX", "XX" or "1.XX". the default is "0.XX", see above</li>
+				<!-- <li><code>ng-disabled</code>: </li> -->
+				<li><code>mode</code>: "dictionary", "|" or "pipe"</li>
 				</ul>
 			</p>
 			<div class="lui dashed divider">
@@ -259,7 +260,7 @@ $scope.yearOfArrivalAsync = function(user){
 			</div>
 			<p>
 				<pre hljs no-escape language="html">&lt;luid-translations ng-model="myTrads"&gt;&lt;/luid-translations&gt;
-luid-translations ng-model="myTrads" mode="|" ng-change="changed()"&gt;&lt;/luid-translations&gt;</pre>
+&lt;luid-translations ng-model="myTrads" mode="|" ng-change="changed()" size="x-long"&gt;&lt;/luid-translations&gt;</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
@@ -272,8 +273,25 @@ luid-translations ng-model="myTrads" mode="|" ng-change="changed()"&gt;&lt;/luid
 				</div> -->
 			</div>
 			<div ng-controller="translationsCtrl" class="lui block round">
-				{{myTrads.fr}} - {{myTrads.en}}
-				<luid-translations ng-model="myTrads"></luid-translations>
+			<h5>Mode dictionary</h5>
+			<p>
+				<luid-translations ng-model="myTrads" ng-change="changed()"></luid-translations>
+			</p>
+			<p>
+				myTrads: <code>{{myTrads}}</code>
+			</p>
+			<hr>
+				<h5>mode pipe</h5>
+			<p>
+				<luid-translations ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
+			</p>
+			<p>
+				myTradsPipe: <code>{{myTradsPipe}}</code>
+			</p>
+			<hr>
+			<p>
+				Number of times <code>ng-change</code> has been called: <code>{{count}}</code>
+			</p>
 			</div>
 		</article>
 </section>
