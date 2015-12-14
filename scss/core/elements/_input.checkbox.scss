@@ -19,14 +19,14 @@
 		}
 
 		label {
-			color: map-gets($vars, borderColor);
+			color: luiTheme(element, typography, body, color);
 			display: block;
 			position: relative;
 			padding: 0;
 
 			@include lui_make_icon("checkbox");
 
-			&:before, &:after { display: inline-block; font-size:  map-gets($vars, checkbox, size); }
+			&:before, &:after { display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
 		}
 
 		input:checked ~ label {
@@ -37,6 +37,13 @@
 		& + label {
 			margin-left: 1em;
 		}
+	}
+
+	// Read only state
+	// ====
+	&.readonly {
+		label, input { cursor: default; }
+		input { display: none; }
 	}
 
 	// Icon version

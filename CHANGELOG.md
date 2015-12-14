@@ -1,14 +1,23 @@
 # Change log
 
-## 2.0.3 - in dev
+## 2.0.4 - in dev
+
+### New features
+ - [sass] Checkboxes now support '.readonly' state
+ - [#86](https://github.com/LuccaSA/lucca-ui/issues/86) - `spe-lucca` directive `luid-translations`, see [demo page](http://luccasa.github.io/lucca-ui/#/lucca-spe#luid-translations) for more info
+
+### Resolved issues
+
+## 2.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.3)
 
 ### New features
  - [#83](https://github.com/LuccaSA/lucca-ui/issues/83) - You can now use a button as an input addon.
  - [#84](https://github.com/LuccaSA/lucca-ui/issues/84) - luid-daterange, added `close-label` and `close-action` attributes, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-daterange) for more info
  - [#85](https://github.com/LuccaSA/lucca-ui/issues/85) - .dividing class is now supported for nguibs dropdown items
- - [#86](https://github.com/LuccaSA/lucca-ui/issues/86) - `spe-lucca` directive `luid-translations`, see [demo page](http://luccasa.github.io/lucca-ui/#/lucca-spe#luid-translations) for more info
+ - [#87](https://github.com/LuccaSA/lucca-ui/issues/87) - luifDuration, improved support of `unit="day"` and `precision="day"`
 
 ### Resolved issues
+ - [#89](https://github.com/LuccaSA/lucca-ui/issues/83) - luifDuration displayed nothing when it had to display 48h
 
 ## 2.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.2)
 

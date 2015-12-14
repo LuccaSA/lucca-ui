@@ -39,7 +39,7 @@
 
 		// Multiselect mode
 		&.ui-select-multiple {
-			> div { padding: 0 map-gets($inputVars, padding, right) 0 map-gets($inputVars, padding, right) !important; height: auto !important; }
+			> div { padding: 0 map-gets($inputVars, padding, right) 0 map-gets($inputVars, padding, right) !important; height: auto !important; max-width: 100%; }
 
 			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 

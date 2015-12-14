@@ -78,7 +78,7 @@
 		};
 	})
 	// this filter is very ugly and i'm sorry - i'll add lots of comments
-	.filter('luifDuration', function () {
+	.filter('luifDuration', ['$filter', function ($filter) {
 		return function (_duration, _sign, _unit, _precision) {  //expects a duration, returns the duration in the given unit with the given precision
 			var d = moment.duration(_duration);
 
@@ -96,9 +96,22 @@
 				case 'days':
 					_precision = !!_precision ? _precision : 'h'; // if no precision is provided, we take the next unit
 
-					// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
-					unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
-					values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
+					if ((_precision === 'd' || _precision === 'day' || _precision === 'days') && d.asDays() > 0) {
+						unit = 0;
+						// Determine the number of decimals to display
+						var decimals = 2;
+						var days = d.asDays();
+						if ((days * 10) % 10 === 0) {
+							decimals = 0;
+						} else if ((days * 100) % 10 === 0) {
+							decimals = 1;
+						}
+						values[0] = $filter("number")(days, decimals);
+					} else {
+						// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
+						unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
+						values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
+					}
 					break;
 				case undefined:
 				case '': // if no _unit is provided, use hour
@@ -106,7 +119,7 @@
 				case 'hour':
 				case 'hours':
 					_precision = _precision || 'm';
-					unit = values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0) ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[1] = Math.abs(d.asHours() >= 0 ? Math.floor(d.asHours()) : Math.ceil(d.asHours()));
 					break;
 				case 'm':
@@ -115,7 +128,7 @@
 				case 'minute':
 				case 'minutes':
 					_precision = _precision || 's';
-					unit = values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0) ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
 					values[2] = Math.abs(d.asMinutes() >= 0 ? Math.floor(d.asMinutes()) : Math.ceil(d.asMinutes()));
 					break;
 				case 's':
@@ -123,7 +136,7 @@
 				case 'second':
 				case 'seconds':
 					_precision = _precision || 's';
-					unit = values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
+					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0 || values[3] !== 0) ? 3 : 4; // the first unit with a not nul member
 					values[3] = Math.abs(d.asSeconds() >= 0 ? Math.floor(d.asSeconds()) : Math.ceil(d.asSeconds()));
 					break;
 				case 'ms':
@@ -206,7 +219,7 @@
 
 			return prefix + result;
 		};
-	})
+	}])
 	.filter('luifHumanize', function () {
 		return function (_duration, suffix) {
 			suffix = !!suffix;
