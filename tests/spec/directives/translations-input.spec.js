@@ -1,5 +1,4 @@
-describe('luidDaterange', function(){
-	beforeEach(module('moment'));
+describe('luidTranslations', function(){
 	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
@@ -53,7 +52,7 @@ describe('luidDaterange', function(){
 			expect(isolateScope.internal.fr).toEqual($scope.myTrads.fr);
 			expect(isolateScope.internal.en).toEqual($scope.myTrads.en);
 		});
-		it('should update myTrads when internalScope  changes', function(){
+		it('should update myTrads when internalScope changes', function(){
 			isolateScope.internal.fr = "du français";
 			isolateScope.internal.en = "some english";
 			isolateScope.update();
@@ -77,7 +76,7 @@ describe('luidDaterange', function(){
 			expect(isolateScope.internal.fr).toEqual("french");
 			expect(isolateScope.internal.en).toEqual("english");
 		});
-		it("should return srting at the correct format", function(){
+		it("should return string at the correct format", function(){
 			isolateScope.internal.fr = "français";
 			isolateScope.update();
 			expect($scope.myTrads).toEqual("en:|de:|es:|fr:français|it:|nl:");
