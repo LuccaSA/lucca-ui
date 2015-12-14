@@ -36,9 +36,11 @@
 				switch(mode){
 					case "dictionary":
 						return updateDictionary(scope.internal);
-					case "|", "pipe":
+					case "|":
+					case "pipe":
 						return updatePipe(scope.internal);
-					case "[]", "brackets":
+					case "[]":
+					case "brackets":
 						return updateBrackets(scope.internal);
 				}
 			};
@@ -47,9 +49,11 @@
 				switch(mode){
 					case "dictionary":
 						return parseDictionary(value);
-					case "|", "pipe":
+					case "|":
+					case "pipe":
 						return parsePipe(value);
-					case "[]", "brackets":
+					case "[]":
+					case "brackets":
 						return parseBrackets(value);
 					default:
 						return {};
@@ -70,10 +74,32 @@
 				ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
 				scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
 			};
+
 			// mode pipe
 			var parsePipe = function(value){
-				return {};
+				if(!value){
+					return {};
+				}
+				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
+				var translations = value.split["|"];
+				var result = {};
+				_.each(translations, function(t){
+					var key = t.substring(0,2);
+					var val = t.substring(3);
+					result[key] = val;
+				});
+				return _.pick(result, cultures);
 			};
+			var updatePipe = function(value){
+				var newVal = _.map(cultures, function(c){
+					if(!!value[c]){
+						return c + ":" + value[c];
+					}
+					return c + ":";
+				}).join("|");
+				ngModelCtrl.$setViewValue(newVal);
+			};
+
 			// mode brackets
 			var parseBrackets = function(value){
 				return {};
