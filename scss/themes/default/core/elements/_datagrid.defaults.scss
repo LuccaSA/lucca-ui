@@ -1,0 +1,34 @@
+
+// Datagrid
+// @type: element
+// ===================================
+
+$datagrid: (
+	background: 				#FFF,
+	textAlignment: 				left,
+
+	header: (
+		background: 			luiPalette(primary, color),
+		text: 					luiPalette(primary, text),
+		cellPaddingTop: 		2em
+	),
+
+	rows: (
+		zebraColor: 				luiPalette(light, color, light),
+		hoverColor: 				luiPalette(primary, color, x-light)
+	),
+
+	cell: (
+		minWidth: 				5em,
+		padding: 				0.5em 1em,
+
+		sizes: (
+			wide: 				15em,
+			narrow: 			5em
+		)
+	),
+
+	locked: (
+	)
+);
+$luiTheme: luiSetTheme(element, datagrid, $datagrid);

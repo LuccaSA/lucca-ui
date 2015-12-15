@@ -156,6 +156,13 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 }
 
 @at-root {
+	// Datagrid
+	// ===================================
+	$vars: luiTheme(element, datagrid);
+	@import "core/elements/datagrid";
+}
+
+@at-root {
 	// Menu
 	// ===================================
 	$vars: luiTheme(element, menu);

@@ -1,0 +1,131 @@
+#{$prefix}.datagrid {
+	background-color: map-gets($vars, background);
+	text-align: map-gets($vars, textAlignment);
+	@extend #{$prefix}.raised;
+
+	[colspan] { text-align: center; }
+
+
+	// Columns
+	// =====
+	.columns {
+		display: inline-block;
+		vertical-align: top;
+
+		table {
+			width: 100%;
+		}
+
+		// Merged columns
+		table table {
+			tr:not(:first-child) .cell {
+				padding: map-gets($vars, cell, padding);
+			}
+			tr:not(:last-child) .cell {
+				border-bottom: 1px dashed darken(map-gets($vars, header, background), 7);
+			}
+			.cell:not(:last-child) {
+				border-right-style: dashed;
+			}
+		}
+	}
+
+
+	// Cell
+	// =====
+	.cell {
+		min-width: map-gets($vars, cell, minWidth);
+		padding: map-gets($vars, cell, padding);
+
+		border-right: 1px solid #CCC;
+
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		// Sizes (width)
+		&.wide {
+			max-width: map-gets($vars, cell, sizes, wide);
+			min-width: map-gets($vars, cell, sizes, wide);
+		}
+
+		&.narrow {
+			max-width: map-gets($vars, cell, sizes, narrow);
+			min-width: map-gets($vars, cell, sizes, narrow);
+		}
+	}
+
+	.sortable {
+		cursor: pointer;
+		&.asc {
+			@include lui_make_icon("south arrow", right);
+		}
+		&.desc {
+			@include lui_make_icon("north arrow", right);
+		}
+		&:after {
+			font-size: 0.6em;
+		}
+	}
+
+	// Header
+	// =====
+	> .header {
+		overflow: hidden;
+		background-color: map-gets($vars, header, background);
+		color: map-gets($vars, header, text);
+		a {
+			color: map-gets($vars, header, text);
+			&:hover { text-decoration: none; }
+		}
+
+		.columns {
+			vertical-align: bottom;
+			overflow: hidden;
+		}
+
+		.cell {
+			border-right-color: darken(map-gets($vars, header, background), 7);
+			padding-top: map-gets($vars, header, cellPaddingTop);
+		}
+	}
+
+
+	// Content
+	// =====
+	> .content {
+		overflow: hidden;
+
+		.columns:not(.locked) {
+			overflow: scroll;
+		}
+	}
+
+
+	// Locked columns
+	// =====
+	.locked.columns {
+		overflow: hidden;
+		th, td {
+			&:not(.wide):not(.narrow) {
+				min-width: 10em;
+				max-width: 10em;
+			}
+		}
+	}
+
+	// Rows
+	// =====
+
+	// Zebra support
+	&.zebra {
+		> .content > .columns > table > tbody > tr:nth-child(2n) {
+			background-color: map-gets($vars, rows, zebraColor);
+		}
+	}
+
+	// Hover color
+	tr.hovering {
+		background-color: map-gets($vars, rows, hoverColor) !important;
+	}
+}
