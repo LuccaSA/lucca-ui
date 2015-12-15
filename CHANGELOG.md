@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.4 - in dev
+## 2.0.5 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.4)
 
 ### New features
  - [sass] Checkboxes now support '.readonly' state
