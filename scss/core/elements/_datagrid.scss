@@ -13,11 +13,16 @@
 		vertical-align: top;
 
 		table {
-			width: 100%;
+			table-layout: fixed;
+			// width: 100%;
+			td, th {
+				vertical-align: top;
+			}
 		}
 
 		// Merged columns
 		table table {
+			width: 100%;
 			tr:not(:first-child) .cell {
 				padding: map-gets($vars, cell, padding);
 			}
@@ -34,14 +39,9 @@
 	// Cell
 	// =====
 	.cell {
-		min-width: map-gets($vars, cell, minWidth);
 		padding: map-gets($vars, cell, padding);
 
 		border-right: 1px solid #CCC;
-
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 
 		// Sizes (width)
 		&.wide {
@@ -56,23 +56,40 @@
 	}
 
 	.sortable {
+		display: block;
 		cursor: pointer;
 		&.asc {
-			@include lui_make_icon("south arrow", right);
+			@include lui_make_icon("south arrow");
 		}
 		&.desc {
-			@include lui_make_icon("north arrow", right);
+			@include lui_make_icon("north arrow");
 		}
-		&:after {
+		&:before {
+			float: right;
 			font-size: 0.6em;
+			padding: 0.5em;
+			line-height: 1;
+			@extend #{$prefix}.rounded;
+			color: map-gets($vars, header, background);
+			background-color: map-gets($vars, header, text);
 		}
 	}
+
+
+	// Toolbar
+	// =====
+	.toolbar {
+		background-color: map-gets($vars, toolbar, background);
+		color: map-gets($vars, toolbar, text);
+	}
+
 
 	// Header
 	// =====
 	> .header {
-		overflow: hidden;
 		background-color: map-gets($vars, header, background);
+
+		overflow: hidden;
 		color: map-gets($vars, header, text);
 		a {
 			color: map-gets($vars, header, text);
@@ -80,8 +97,8 @@
 		}
 
 		.columns {
-			vertical-align: bottom;
 			overflow: hidden;
+			vertical-align: bottom;
 		}
 
 		.cell {
@@ -98,6 +115,12 @@
 
 		.columns:not(.locked) {
 			overflow: scroll;
+		}
+
+		.cell {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 	}
 

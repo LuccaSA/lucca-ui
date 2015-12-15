@@ -7,6 +7,11 @@ $datagrid: (
 	background: 				#FFF,
 	textAlignment: 				left,
 
+	toolbar: (
+		background: 			luiPalette(grey, color),
+		text: 					luiPalette(grey, text)
+	),
+
 	header: (
 		background: 			luiPalette(primary, color),
 		text: 					luiPalette(primary, text),
