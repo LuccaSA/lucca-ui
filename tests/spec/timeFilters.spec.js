@@ -200,6 +200,8 @@ describe('luif.timefilters', function(){
 		});
 		it('should produce the right results when a unit and a precision are provided', function(){
 			moment.locale('en');
+			expect(luifDuration(86400000, false, 'd', 'd')).toEqual('1d '); 
+			expect(luifDuration(86400010, false, 'd', 'd')).toEqual('1d '); 
 			expect(luifDuration(90061001, false, 'd', 'd')).toEqual('1.04d '); 
 			expect(luifDuration(90061001, false, 'd', 'h')).toEqual('1d 1h'); 
 			expect(luifDuration(90061001, false, 'd', 'm')).toEqual('1d 1h01'); 

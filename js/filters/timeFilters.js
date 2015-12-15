@@ -101,9 +101,9 @@
 						// Determine the number of decimals to display
 						var decimals = 2;
 						var days = d.asDays();
-						if ((days * 10) % 10 === 0) {
+						if ( Math.floor((days * 10) % 10) === 0 && Math.floor((days * 100) % 10) === 0 ) {
 							decimals = 0;
-						} else if ((days * 100) % 10 === 0) {
+						} else if ( Math.floor((days * 100) % 10) === 0) {
 							decimals = 1;
 						}
 						values[0] = $filter("number")(days, decimals);
