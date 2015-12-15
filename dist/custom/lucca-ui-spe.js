@@ -3,14 +3,15 @@
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	
-	angular.module('lui.directives', ['moment', 'underscore', 'ui.select', 'ui.bootstrap']);
+	angular.module('lui.directives', ['pascalprecht.translate', 'moment', 'underscore', 'ui.select', 'ui.bootstrap']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
 
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
 	angular.module("lui.templates.daterangepicker", []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
-	angular.module('lui.templates', ['lui.templates.momentpicker', "lui.templates.daterangepicker"]);
+	angular.module("lui.templates.translationsinput", []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
+	angular.module('lui.templates', ['lui.templates.momentpicker', "lui.templates.daterangepicker", "lui.templates.translationsinput"]);
 	
 	// all the translations in one module
 	angular.module('lui.translates.userpicker', []);
@@ -38,11 +39,11 @@
 			scope.hasPeriods = !!attrs.periods;
 
 			ngModelCtrl.$render = function(){
-				if(!ngModelCtrl.$viewValue){ 
+				if(!ngModelCtrl.$viewValue){
 					scope.internal.startsOn = undefined;
 					scope.internal.endsOn = undefined;
 					scope.internal.strFriendly = undefined;
-					return; 
+					return;
 				}
 
 				var parsed = parse(ngModelCtrl.$viewValue);
@@ -52,7 +53,7 @@
 			};
 			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function(){ ngModelCtrl.$render(); });
 			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function(){ ngModelCtrl.$render(); });
-			
+
 			drCtrl.updateValue = function(startsOn, endsOn){
 				var newValue = ngModelCtrl.$viewValue;
 				var formatted = format(startsOn,endsOn);
@@ -218,10 +219,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
@@ -1166,6 +1167,183 @@
 			'	</ui-select-choices>' + 
 			'</ui-select>'
 		};
+	}]);
+})();
+;(function(){
+	'use strict';
+		/**
+	** DEPENDENCIES
+	**  - angular translate
+	**  - underscore
+	**/
+
+	angular.module('lui.directives')
+	.directive('luidTranslations', ['$translate', '_', '$filter', '$timeout', function($translate, _, $filter,  $timeout){
+		function link(scope, element, attrs, ctrls){
+			var ngModelCtrl = ctrls[1];
+			var translateCtrl = ctrls[0];
+
+			var cultures = ['en', 'de', 'es', 'fr', 'it', 'nl'];
+			scope.cultures = cultures;
+			// need the current culture to
+			var currentCulture = $translate.preferredLanguage() || "en";
+			scope.currentCulture = currentCulture;
+
+			// default mode is dictionary
+			var mode = 'dictionary';
+			if(!!attrs.mode){
+				mode = scope.mode;
+			}
+			if(mode === 'dictionary' && ngModelCtrl.$viewValue !== undefined){
+				_.each(cultures, function(c){
+					scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
+				});
+			}
+
+			ngModelCtrl.$render = function(){
+				scope.internal = parse(ngModelCtrl.$viewValue);
+			};
+			translateCtrl.updateViewValue = function(){
+				switch(mode){
+					case "dictionary":
+						return updateDictionary(scope.internal);
+					case "|":
+					case "pipe":
+						return updatePipe(scope.internal);
+					case "[]":
+					case "brackets":
+						return updateBrackets(scope.internal);
+				}
+			};
+
+			var parse = function(value){
+				switch(mode){
+					case "dictionary":
+						return parseDictionary(value);
+					case "|":
+					case "pipe":
+						return parsePipe(value);
+					case "[]":
+					case "brackets":
+						return parseBrackets(value);
+					default:
+						return {};
+				}
+			};
+
+			// mode dictionary
+			var parseDictionary = function(value){
+				return _.reduce(cultures, function(memo, c){
+					memo[c] = value[c];
+					return memo;
+				}, {});
+			};
+			var updateDictionary = function(value){
+				_.each(cultures, function(c){
+					ngModelCtrl.$viewValue[c] = value[c];
+				});
+				ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+				scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
+			};
+
+			// mode pipe
+			var parsePipe = function(value){
+				if(!value){
+					return {};
+				}
+				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
+				var translations = value.split("|");
+				var result = {};
+				_.each(translations, function(t){
+					var key = t.substring(0,2);
+					var val = t.substring(3);
+					result[key] = val;
+				});
+				return _.pick(result, cultures);
+			};
+			var updatePipe = function(value){
+				var newVal = _.map(cultures, function(c){
+					if(!!value[c]){
+						return c + ":" + value[c];
+					}
+					return c + ":";
+				}).join("|");
+				ngModelCtrl.$setViewValue(newVal);
+			};
+
+			// mode brackets
+			var parseBrackets = function(value){
+				return {};
+			};
+
+		}
+		return{
+			require:['luidTranslations','^ngModel'],
+			controller:'luidTranslationsController',
+			scope: {
+				// disabled:'=',
+
+				mode:'@', // allowed values: "|" "pipe", "[]" "brackets", "dictionary"
+
+				size:"@", // the size of the input (short, long, x-long, fitting)
+			},
+			templateUrl:"lui/directives/luidTranslations.html",
+			restrict:'EA',
+			replace:true,
+			link:link
+		};
+	}])
+	.controller('luidTranslationsController', ['$scope', '$translate', '$timeout', function($scope, $filter, $timeout){
+		var ctrl = this;
+		/******************
+		* UPDATE          *
+		******************/
+		$scope.update = function(){
+			ctrl.updateViewValue();
+		};
+
+
+		/******************
+		* FOCUS & BLUR    *
+		******************/
+		var blurTimeout;
+		$scope.focusInput = function(){
+			if(!!blurTimeout){
+				$timeout.cancel(blurTimeout);
+				blurTimeout = undefined;
+			}
+			$scope.focused = true;
+		};
+		$scope.blurInput = function(){
+			blurTimeout = $timeout(function(){
+				$scope.focused = false;
+			}, 500);
+		};
+
+	}]);
+
+
+	/**************************/
+	/***** TEMPLATEs      *****/
+	/**************************/
+	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
+		$templateCache.put("lui/directives/luidTranslations.html",
+			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"	<div class=\"lui {{size}} input with addon\">" +
+			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
+			"	</div>" +
+			"	<div class=\"lui luid-translations-dropdown\">" +
+			"		<div class=\"lui {{size}} input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
+			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"			<span class=\"lui right addon\">{{culture}}</span>" +
+			"		</div>" +
+			// "		<hr>" +
+			// "		<div class=\"lui button right pulled\" ng-click=\"close()\">Ok</div>" +
+			"	</div>" +
+			"</div>" +
+		"");
+
 	}]);
 })();
 ;(function(){
