@@ -333,6 +333,8 @@
 					<li><code>exclude-end</code>: if you want the end of the range in your scope to be excluded, default <code>false</code></li>
 					<li><code>popover-placement</code>: the position of the popover with both datepickers in it. supported values: <code>top</code>(default), <code>bottom</code>, <code>left</code>, <code>right</code></li>
 					<li><code>periods</code>: a list of preset dateranges, must look like this <code>[{label:"this month", startsOn: #anything parsable by moment#, endsOn: #same as startsOn#}, {...}]</code>. <b>Remark: </b> when you use both <code>periods</code> and <code>exclude-end</code>, the end of the periods is excluded</li>
+					<li><code>close-label</code>: The label you want instead of "Ok"
+					<li><code>close-action</code>: an action that will be called when the user closes the popover by clicking on the close button
 
 				</ul>
 			</p>
@@ -380,10 +382,15 @@
 				</p>
 				<hr>
 				<p>
-					Binded to strings with format <code>YYYY/MM/DD</code>, with custom periods
+					Binded to strings with format <code>YYYY/MM/DD</code>, with custom periods and a custom close label and action
 				</p>
 				<p>
-					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD" data-periods="myPeriods"></luid-daterange>
+					<luid-daterange ng-model="myPeriod" class="lui long input" 
+					start-property="stringStart" end-property="stringEnd" 
+					format="YYYY/MM/DD" 
+					data-periods="myPeriods"
+					close-label="clicking here calls window.alert(myPeriod.start) and closes the popover"
+					close-action="doAlert()"></luid-daterange>
 				</p>
 				<p>start: {{myPeriod.stringStart}} - end: {{myPeriod.stringEnd}}</p>
 			</div>
