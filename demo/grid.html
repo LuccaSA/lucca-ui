@@ -1216,6 +1216,17 @@
 				scrollableContent.style.width = datagrid.offsetWidth - lockedContent.offsetWidth + "px";
 				scrollableHeader.style.width = datagrid.offsetWidth - lockedContent.offsetWidth - scrollbarWidth + "px";
 			}
+			function wheelSupport(event) {
+				var fontSize = parseFloat(window.getComputedStyle(datagrid, null).fontSize),
+					deltaY = (event.deltaMode == 1) ? event.deltaY * fontSize : event.deltaY,
+					deltaX = (event.deltaMode == 1) ? event.deltaX * fontSize : event.deltaX;
+					
+				lockedContent.scrollTop += deltaY;
+				scrollableContent.scrollTop += deltaY;
+
+				scrollableHeader.scrollLeft += deltaX;
+				scrollableContent.scrollLeft += deltaX;
+			}
 			init();
 
 			// Event bindings
@@ -1223,10 +1234,12 @@
 				resize();
 			});
 			// Scroll handling
-			scrollableContent.addEventListener('scroll', function() {
+			scrollableContent.addEventListener('scroll', function(event) {
 				scrollableHeader.scrollLeft = scrollableContent.scrollLeft;
 				lockedContent.scrollTop = scrollableContent.scrollTop;
 			});
+			lockedContent.addEventListener('wheel', wheelSupport);
+			datagridHeader.addEventListener('wheel', wheelSupport);
 		});
 	</script>
 </body>
