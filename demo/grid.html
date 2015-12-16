@@ -72,7 +72,7 @@
 											<a class="sortable">Account 1</a>
 										</td>
 										<td class="cell">
-											<a class="sortable">Mouvement sur l'account 2 - tralala</a>
+											<a class="sortable">Account 2</a>
 										</td>
 									</tr>
 								</table>
@@ -1141,12 +1141,57 @@
 	</div>
 
 	<script type="text/javascript">
+	/**
+
+	fields = {
+		{
+			name: "departmentName"
+			type: "string",
+			sortable: true,
+			width: "15em"
+		}
+
+		{
+			name: "userName"
+			type: "string",
+			sortable: true,
+			width: "10em"
+		},
+
+		{
+			name: "Semaine 35",
+			type: "array",
+			sortable: false,
+			fields: [
+				{
+					name: "Account 1",
+					type: "duration|hours",
+					width: "15em"
+				},
+				{
+					name: "Account 2",
+					type: "duration|hours",
+					width: "15em"
+				}
+			]
+		}
+	}
+
+	*/
+
+
+
 		$(document).ready(function() {
 			var datagrid = $('.lui.datagrid'),
 				scrollableArea = $(".lui.datagrid .scrollable.columns"),
 				headerUnlocked = $(".lui.datagrid > .header .columns:not(.locked)"),
 				contentLocked = $(".lui.datagrid > .content .locked.columns"),
 				scrollbarWidth = scrollbarWidth();
+
+			function init() {
+				resize();
+				$('.lui.datagrid > .header th.cell').outerHeight($('.lui.datagrid > .header').height());
+			}
 
 			// Sizing handling
 			function scrollbarWidth() {
@@ -1169,7 +1214,7 @@
 				scrollableArea.width(totalWidth - contentLocked.width());
 				headerUnlocked.width(totalWidth - contentLocked.width() - scrollbarWidth);
 			}
-			resize();
+			setTimeout(init, 1000);
 
 			window.onresize = function() {
 				resize();

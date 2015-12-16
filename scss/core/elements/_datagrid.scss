@@ -4,6 +4,7 @@
 	@extend #{$prefix}.raised;
 
 	[colspan] { text-align: center; }
+	[rowspan] { vertical-align: top; }
 
 
 	// Columns
@@ -14,10 +15,6 @@
 
 		table {
 			table-layout: fixed;
-			// width: 100%;
-			td, th {
-				vertical-align: top;
-			}
 		}
 
 		// Merged columns
@@ -40,6 +37,7 @@
 	// =====
 	.cell {
 		padding: map-gets($vars, cell, padding);
+		box-sizing: border-box;
 
 		border-right: 1px solid #CCC;
 
