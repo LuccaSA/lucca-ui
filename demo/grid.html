@@ -1214,7 +1214,7 @@
 				scrollableArea.width(totalWidth - contentLocked.width());
 				headerUnlocked.width(totalWidth - contentLocked.width() - scrollbarWidth);
 			}
-			setTimeout(init, 1000);
+			init();
 
 			window.onresize = function() {
 				resize();
