@@ -13,9 +13,12 @@ $datagrid: (
 	),
 
 	header: (
-		background: 			luiPalette(primary, color),
-		text: 					luiPalette(primary, text),
-		cellPaddingTop: 		2em
+		background: 			luiPalette(light, color, light),
+		borderColor: 			luiPalette(light, color),
+		text: 					luiPalette(light, text, light),
+		cellPaddingTop: 		2em,
+		fontWeight: 			normal,
+		textAlignment: 			left
 	),
 
 	rows: (

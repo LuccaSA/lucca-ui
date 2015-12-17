@@ -14,22 +14,20 @@
 		vertical-align: top;
 
 		table {
+			width: inherit;
+			height: 100%;
 			table-layout: fixed;
 			border-collapse: separate;
+			border-spacing: 0;
 		}
+	}
 
-		// Merged columns
-		table table {
-			width: 100%;
-			tr:not(:first-child) .cell {
-				padding: map-gets($vars, cell, padding);
-			}
-			tr:not(:last-child) .cell {
-				border-bottom: 1px dashed darken(map-gets($vars, header, background), 7);
-			}
-			.cell:not(:last-child) {
-				border-right-style: dashed;
-			}
+
+	// Rows
+	// =====
+	tr[rows] {
+		td, th {
+			line-height: attr(data-rows);
 		}
 	}
 
@@ -40,7 +38,12 @@
 		padding: map-gets($vars, cell, padding);
 		box-sizing: border-box;
 
-		border-right: 1px solid #CCC;
+		border: none;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-right-width: 1px;
+		border-right-style: solid;
+		border-color: luiPalette(light, color);
 
 		// Sizes (width)
 		&.wide {
@@ -86,6 +89,8 @@
 	// Header
 	// =====
 	> .header {
+		position: relative; z-index: 2;
+		margin-bottom: -1px;
 		background-color: map-gets($vars, header, background);
 
 		overflow: hidden;
@@ -100,8 +105,18 @@
 			vertical-align: bottom;
 		}
 
+		td {
+			vertical-align: bottom;
+			font-weight: map-gets($vars, header, fontWeight);
+			text-align: map-gets($vars, header, textAlignment);
+		}
 		.cell {
-			border-right-color: darken(map-gets($vars, header, background), 7);
+			border-color: map-gets($vars, header, borderColor);
+		}
+		tr.filters .cell, .cell[colspan] {
+			vertical-align: middle;
+		}
+		tr:not(.filters) .cell:not([colspan]) {
 			padding-top: map-gets($vars, header, cellPaddingTop);
 		}
 	}
@@ -114,6 +129,10 @@
 
 		.columns:not(.locked) {
 			overflow: scroll;
+			.cell {
+				border-left: none;
+				border-right: none;
+			}
 		}
 
 		.cell {
