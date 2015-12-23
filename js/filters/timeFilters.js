@@ -6,11 +6,7 @@
 	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
 		var m = moment(_moment);
-		if (m.isValid()) {
-			return m.format(_format);
-		} else {
-			return _moment;
-		}
+		return m.isValid() ? m.format(_format) : _moment;
 	};
 
 	angular.module('lui.filters')
@@ -70,153 +66,145 @@
 			var m = moment(_moment);
 			var refDate = (_refDate && moment(_refDate).isValid()) ? moment(_refDate) : moment();
 
-			if (m.isValid()) {
-				return m.calendar(_refDate);
-			} else {
-				return _moment;
-			}
+			return m.isValid() ? m.calendar(_refDate) : _moment;
 		};
 	})
-	// this filter is very ugly and i'm sorry - i'll add lots of comments
 	.filter('luifDuration', ['$filter', function ($filter) {
-		return function (_duration, _sign, _unit, _precision) {  //expects a duration, returns the duration in the given unit with the given precision
+		//expects a duration, returns the duration in the given unit with the given precision			
+		return function (_duration, _sign, _unit, _precision) {
+			function getConfigIndex(expectedUnit){
+				switch(expectedUnit){
+					case 'd':
+					case 'day':
+					case 'days': return 0;
+					case undefined:
+					case '': 
+					case 'h':
+					case 'hour':
+					case 'hours': return 1;// default
+					case 'm':
+					case 'min':
+					case 'mins':
+					case 'minute':
+					case 'minutes': return 2;
+					case 's':
+					case 'sec':
+					case 'second':
+					case 'seconds': return 3;
+					case 'ms':
+					case 'millisec':
+					case 'millisecond':
+					case 'milliseconds': return 4;
+				}
+			}
+
+			function getNextNotNull(array, startIndex){
+				return startIndex === 4 ? 4 : array[startIndex] !== 0 ? startIndex : getNextNotNull(array, startIndex + 1);
+			}
+
+			function getPrevNotNull(array, startIndex){
+				return startIndex === 0 ? 0 : array[startIndex] !== 0 ? startIndex : getPrevNotNull(array, startIndex - 1);
+			}
+
+			function getDecimalNumber(days){
+				switch(true){
+					case (Math.floor((days * 10) % 10) === 0 && Math.floor((days * 100) % 10) === 0):	return 0;
+					case (Math.floor((days * 100) % 10) === 0):											return 1;
+					default: 																			return 2;
+				}
+			}
+
+			function formatValue (value, u, expectedUnit){
+				switch(u){
+					case expectedUnit :	return value;
+					case 2 :
+					case 3 : 			return (value < 10 ? '0' + value : value);
+					case 4 : 			return (value < 10 ? '00' + value : value < 100 ? '0' + value : value);
+					default : 			return value;
+				}
+			}
+
+			function getPrefix(sign, duration){
+				if (sign) {
+					if (duration.asMilliseconds() > 0) { return '+'; } 
+					else if (duration.asMilliseconds() < 0) { return '-'; }
+				}
+				return '';
+			}
+
+			// some localisation shenanigans
+			function getUnitSymbols(unit, precision){
+				var result = ['d ', 'h', 'm', 's', 'ms'];
+				switch(moment.locale()){
+					case "fr": result[0] = 'j '; break;
+				}
+
+				// if precision = ms and unit bigger than s we want to display 12.525s and not 12s525ms
+				if(unit <= 3 && precision === 4) { result[3] = '.'; result[4] = 's'; }
+				if(unit <= 1 && precision === 2) { result[2] = ''; }
+				if(unit === 2 && precision === 3) { result[3] = ''; }
+
+				return result;
+			}
+
+			var unitConfigs = [
+				{
+					index: 0,
+					unit: 'd',
+					dateConversion : 'asDays',
+					expectedPrecision : 'h'
+				},
+				{
+					index: 1,
+					unit: 'h',
+					dateConversion : 'asHours',
+					expectedPrecision :'m'
+				},
+				{
+					index: 2,
+					unit: 'm',
+					dateConversion : 'asMinutes',
+					expectedPrecision : 's'
+				},
+				{
+					index: 3,
+					unit: 's',
+					dateConversion : 'asSeconds',
+					expectedPrecision : 's'
+				},
+				{
+					index: 4,
+					unit: 'ms',
+					dateConversion : 'asMilliseconds',
+					expectedPrecision : 'ms'
+				},
+			];
+
 			var d = moment.duration(_duration);
 
-			if(d.asMilliseconds() === 0){ return ''; }
+			if (d.asMilliseconds() === 0) { return ''; }
 
-			// parse duration
 			var values = [Math.abs(d.days()), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
-			var units = ['d ', 'h', 'm', 's', 'ms'];
-			var unit;
+			var config = unitConfigs[getConfigIndex(_unit)];
+			var minimumUnit = Math.max(config.index, getNextNotNull(values, 0));
+			values[config.index] = Math.abs(d[config.dateConversion]() >= 0 ? Math.floor(d[config.dateConversion]()) : Math.ceil(d[config.dateConversion]()));
 
-			// First we get the floor part of the unit of the duration : 1d11h = 1.x day or 35 hours or 2100 minutes depending on your unit
-			switch(_unit){
-				case 'd':
-				case 'day':
-				case 'days':
-					_precision = !!_precision ? _precision : 'h'; // if no precision is provided, we take the next unit
-
-					if ((_precision === 'd' || _precision === 'day' || _precision === 'days') && d.asDays() > 0) {
-						unit = 0;
-						// Determine the number of decimals to display
-						var decimals = 2;
-						var days = d.asDays();
-						if ( Math.floor((days * 10) % 10) === 0 && Math.floor((days * 100) % 10) === 0 ) {
-							decimals = 0;
-						} else if ( Math.floor((days * 100) % 10) === 0) {
-							decimals = 1;
-						}
-						values[0] = $filter("number")(days, decimals);
-					} else {
-						// the first unit with a not nul member, if you want 15 minutes expressed in days it will respond 15m
-						unit = values[0] !== 0 ? 0 : values[1] !== 0 ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4;
-						values[0] = Math.abs(d.asDays() >= 0 ? Math.floor(d.asDays()) : Math.ceil(d.asDays()));
-					}
-					break;
-				case undefined:
-				case '': // if no _unit is provided, use hour
-				case 'h':
-				case 'hour':
-				case 'hours':
-					_precision = _precision || 'm';
-					unit = (values[0] !== 0 || values[1] !== 0) ? 1 : values[2] !== 0 ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
-					values[1] = Math.abs(d.asHours() >= 0 ? Math.floor(d.asHours()) : Math.ceil(d.asHours()));
-					break;
-				case 'm':
-				case 'min':
-				case 'mins':
-				case 'minute':
-				case 'minutes':
-					_precision = _precision || 's';
-					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0) ? 2 : values[3] !== 0 ? 3 : 4; // the first unit with a not nul member
-					values[2] = Math.abs(d.asMinutes() >= 0 ? Math.floor(d.asMinutes()) : Math.ceil(d.asMinutes()));
-					break;
-				case 's':
-				case 'sec':
-				case 'second':
-				case 'seconds':
-					_precision = _precision || 's';
-					unit = (values[0] !== 0 || values[1] !== 0 || values[2] !== 0 || values[3] !== 0) ? 3 : 4; // the first unit with a not nul member
-					values[3] = Math.abs(d.asSeconds() >= 0 ? Math.floor(d.asSeconds()) : Math.ceil(d.asSeconds()));
-					break;
-				case 'ms':
-				case 'millisec':
-				case 'millisecond':
-				case 'milliseconds':
-					_precision = _precision || 'ms';
-					unit = 4;
-					values[4] = Math.abs(d.asMilliseconds() >= 0 ? Math.floor(d.asMilliseconds()) : Math.ceil(d.asMilliseconds()));
-					break;
-			}
-			var precision; // if you want 1h as minutes, precision milliseconds you want the result to be 60m and not 60m 00.000s
-			switch(_precision){
-				case 'd':
-				case 'day':
-				case 'days':
-					precision = 0;
-					break;
-				case 'h':
-				case 'hour':
-				case 'hours':
-					precision = values[1] !== 0 ? 1 : 0;
-					break;
-				case 'm':
-				case 'min':
-				case 'mins':
-				case 'minute':
-				case 'minutes':
-					precision = values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
-					break;
-				case 's':
-				case 'sec':
-				case 'second':
-				case 'seconds':
-					precision = values[3] !== 0 ? 3 : values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
-					break;
-				case 'ms':
-				case 'millisec':
-				case 'millisecond':
-				case 'milliseconds':
-					precision = values[4] !== 0 ? 4 : values[3] !== 0 ? 3 : values[2] !== 0 ? 2 : values[1] !== 0 ? 1 : 0;
-					break;
-			}
-			// some localisation shenanigans
-			switch(moment.locale()){
-				case "fr": units[0] = 'j '; break;
+			if (config.index === 0 && getConfigIndex(_precision) === 0 && d.asDays() > 0){
+				var myDays = d.asDays();
+				var decimalNumber = getDecimalNumber(myDays);
+				minimumUnit = 0;
+				values[0] = $filter("number")(myDays, decimalNumber);
 			}
 
-			// if precision = ms and unit bigger than s we want to display 12.525s and not 12s525ms
-			if(unit <= 3 && precision === 4){ units[3] = '.'; units[4] = 's'; }
-			if(unit <= 1 && precision === 2){ units[2] = ''; }
-			if(unit === 2 && precision === 3){ units[3] = ''; }
+			var precision = getPrevNotNull(values, getConfigIndex(_precision || config.expectedPrecision));
+			var units = getUnitSymbols(minimumUnit, precision);
 
-			var format = function(value, u){
-				if (u === unit){
-					return value + units[u];
-				}
-				if (u === 2 || u === 3){
-					return (value < 10 ? '0' + value : value) + units[u];
-				}
-				if (u === 4){
-					return (value < 10 ? '00' + value : value < 100 ? '0' + value : value) + units[u];
-				}
-				return value + units[u];
-			};
 			var result = '';
-			for(var i = unit; i <= precision; i++){
-				result += format(values[i],i);
+			for(var i = minimumUnit; i <= precision; i++){
+				result += formatValue(values[i], i, minimumUnit) + units[i];
 			}
 
-			// add prefix
-			var prefix = '';
-			if (_sign && !!result) {
-				if (d.asMilliseconds() > 0) {
-					prefix = '+';
-				} else if (d.asMilliseconds() < 0) {
-					prefix = '-';
-				}
-			}
-
+			var prefix = !!result ? getPrefix(_sign, d) : '';
 			return prefix + result;
 		};
 	}])
