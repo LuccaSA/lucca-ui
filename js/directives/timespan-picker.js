@@ -6,8 +6,8 @@
 	**/
 	
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
-		function link(scope, element, attrs, ctrls) {
 
+		function link(scope, element, attrs, ctrls) {
 			var ngModelCtrl = ctrls[1];
 			var luidTimespanCtrl = ctrls[0];
 			scope.pattern = /^([0-9]+)((h([0-9]{2})?)?(m(in)?)?)?$/i;
@@ -53,9 +53,8 @@
 				ngDisabled: '=',
 				placeholder: '@',
 				mode: "=", // 'timespan', 'moment.duration', default='timespan'
-				// Min/max values
-				min: '=',
-				max: '=',
+				min: '=', //min value
+				max: '=', //max value
 			},
 			restrict: 'EA',
 			link: link,
@@ -63,197 +62,164 @@
 		};
 	}])
 	.controller('luidTimespanController', ['$scope', 'moment', function ($scope, moment) {
-		var ctrl = this;
 
-		// public methods for update
-		$scope.updateValue = function () {
-			// is only fired when pattern is valid or when it goes from valid to invalid
-			// improvement possible - check the pattern and set the validity of the all directive via ngModelCtrl.$setValidity
-			// currently when pattern invalid, the viewValue is set to '00:00:00'
-			if (!$scope.strDuration) { return updateWithoutRender(undefined); } // empty input => 00:00:00
-
-			// temp variables
-			var newDuration; // the duration of the parsed strDuration
-			var newValue;
-
-			// parse the strDuration to build newDuration
-			newDuration = parse($scope.strDuration);
-
-			// Check min/max values
-			if (!checkMin(newDuration)) {
-				newDuration = getMin();
-			}
-			if (!checkMax(newDuration)) {
-				newDuration = getMax();
+		function parse(strInput) {
+			// parsing str to moment.duration
+			function parseHoursAndMinutes(strInput) {
+				var d = moment.duration();
+				var splitted = strInput.split(/h/i);
+				d.add(parseInt(splitted[0]), 'hours');
+				var strMin = splitted[1];
+				if (!!strMin && strMin.length >= 2) {
+					d.add(parseInt(strMin.substring(0, 2)), 'minutes');
+				}
+				return d;
 			}
 
-			// transform this duration into a string
-			newValue = format(newDuration);
+			function parseMinutes(strInput) {
+				var d = moment.duration();
+				var splitted = strInput.split(/m/i);
+				d.add(parseInt(splitted[0]), 'minutes');
+				return d;
+			}
 
-			// update viewvalue
-			updateWithoutRender(newValue);
-		};
-		var format = function (dur) {
-			if (ctrl.mode === 'timespan') {
-				return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
-			} else {
-				return dur;
+			function parseHours(strInput) {
+				var d = moment.duration();
+				var splitted = strInput.split(/h/i);
+				d.add(parseInt(splitted[0]), 'hours');
+				return d;
 			}
-		};
-		var parse = function (strInput) {
-			var newDuration;
-			if (/h/i.test(strInput)) {
-				newDuration = parseHoursAndMinutes(strInput);
-			} else if (/m/i.test(strInput)) {
-				newDuration = parseMinutes(strInput);
-			} else if ($scope.useHours) {
-				newDuration = parseHours(strInput);
-			} else {
-				newDuration = parseMinutes(strInput);
-			}
-			return newDuration;
-		};
 
-		// private - parsing str to moment.duration
-		var parseHoursAndMinutes = function (strInput) {
-			var d = moment.duration();
-			var splitted = strInput.split(/h/i);
-			d.add(parseInt(splitted[0]), 'hours');
-			var strMin = splitted[1];
-			if (!!strMin && strMin.length >= 2) {
-				d.add(parseInt(strMin.substring(0, 2)), 'minutes');
+			switch(true){
+				case (/h/i.test(strInput)) : 	return parseHoursAndMinutes(strInput);
+				case (/m/i.test(strInput)) : 	return parseMinutes(strInput);
+				case ($scope.useHours) : 		return parseHours(strInput);
+				default : 						return parseMinutes(strInput);
 			}
-			return d;
-		};
-		var parseMinutes = function (strInput) {
-			var d = moment.duration();
-			var splitted = strInput.split(/m/i);
-			d.add(parseInt(splitted[0]), 'minutes');
-			return d;
-		};
-		var parseHours = function (strInput) {
-			var d = moment.duration();
-			var splitted = strInput.split(/h/i);
-			d.add(parseInt(splitted[0]), 'hours');
-			return d;
-		};
+		}
 
-		// private - formatting stuff
-		var formatValue = function (duration) {
-			if (ctrl.mode === "timespan") {
-				return Math.floor(duration.asDays()) + '.' + (duration.hours() < 10 ? '0' : '') + duration.hours() + ':' + (duration.minutes() < 10 ? '0' : '') + duration.minutes() + ':00';
-			}
-			else {
-				return duration;
-			}
-		};
-
-		// private - updates of some kinds
+		// updates of some kinds
 		// incr value by `step` minutes
-		var incr = function (step) {
+		function incr(step) {
 			var newDur = moment.duration(currentValue()).add(step, 'minutes');
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
 			}
-			// Check min/max values
-			if (!checkMin(newDur)) {
-				newDur = getMin();
-			}
-			if (!checkMax(newDur)) {
-				newDur = getMax();
-			}
-			var newValue = formatValue(newDur);
 			update(newValue);
-		};
+		}
 
 		// sets viewValue and renders
-		var update = function (newValue) {
-			$scope.ngModelCtrl.$setViewValue(newValue);
+		function update(newDuration) {
+			updateWithoutRender(newDuration);
 			$scope.ngModelCtrl.$render();
+		}
+
+		function updateWithoutRender(newDuration, mode) {
+			// Handle min/max values
+			function correctValue(newValue){
+				function correctedMinValue(newValue) {
+					function getMin() {	return !$scope.min ? undefined : moment.duration($scope.min); }
+
+					var min = getMin();
+					return (!min || min <= newValue) ? newValue : min;
+				}
+
+				function correctedMaxValue(newValue) {
+					function getMax() {	return !$scope.max ? undefined : moment.duration($scope.max); }
+
+					var max = getMax();
+					return (!max || max >= newValue) ?  newValue : max;
+				}
+
+				return correctedMaxValue(correctedMinValue(newValue));
+			}
+
+			function format(dur, mode) {
+				if (mode === 'timespan') {
+					return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+				}
+				return dur;
+			}
+
+			// Check min/max values
+			newDuration = correctValue(newDuration);
+			var formattedValue = format(newDuration, mode);
+
+			$scope.ngModelCtrl.$setViewValue(formattedValue);
+		}
+
+		function currentValue() {
+			return $scope.ngModelCtrl.$viewValue;
+		}
+
+		var ctrl = this;
+
+		// events - key 'enter'
+		this.setupEvents = function (elt) {
+			function getStep(){ return isNaN(parseInt($scope.step)) ? 5 : parseInt($scope.step);}
+			function setupKeyEvents(elt) {
+				var step = getStep();
+				elt.bind('keydown', function (e) {
+					switch(e.which){
+						case 38:// up
+							e.preventDefault();
+							incr(step);
+							$scope.$apply();
+						break;
+						case 40:// down
+							e.preventDefault();
+							incr(-step);
+							$scope.$apply();
+						break;
+						case 13:// enter
+							e.preventDefault();
+							$scope.formatInputValue();
+							$scope.$apply();
+						break;
+					}
+				});
+			}
+
+			function setupMousewheelEvents(elt) {
+				function isScrollingUp(e) {
+					e = e.originalEvent ? e.originalEvent : e;
+					//pick correct delta variable depending on event
+					var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
+					return (e.detail || delta > 0);
+				}
+
+				var step = getStep();
+				elt.bind('mousewheel wheel', function (e) {
+					if (this === document.activeElement) {
+						$scope.$apply(incr((isScrollingUp(e)) ? step : -step));
+						e.preventDefault();
+					}
+				});
+			}
+
+			setupKeyEvents(elt);
+			setupMousewheelEvents(elt);
 		};
-		var updateWithoutRender = function (newValue) {
-			$scope.ngModelCtrl.$setViewValue(newValue);
+
+		// public methods for update
+		$scope.updateValue = function () {
+
+			// is only fired when pattern is valid or when it goes from valid to invalid
+			// improvement possible - check the pattern and set the validity of the all directive via ngModelCtrl.$setValidity
+			// currently when pattern invalid, the viewValue is set to '00:00:00'
+			if (!$scope.strDuration) { return updateWithoutRender(undefined, ctrl.mode); } // empty input => 00:00:00
+
+			// parse the strDuration to build newDuration
+			// the duration of the parsed strDuration
+			var newDuration = parse($scope.strDuration);
+
+			// update viewvalue
+			updateWithoutRender(newDuration, ctrl.mode);
 		};
 
 		// display stuff
 		$scope.formatInputValue = function () {
 			$scope.ngModelCtrl.$render();
-		};
-
-		var currentValue = function () {
-			return $scope.ngModelCtrl.$viewValue;
-		};
-
-		// events - key 'enter'
-		this.setupEvents = function (elt) {
-			setupKeyEvents(elt);
-			setupMousewheelEvents(elt);
-		};
-
-		var setupKeyEvents = function (elt) {
-			var step = 5;
-			if (!isNaN(parseInt($scope.step))) {
-				step = parseInt($scope.step);
-			}
-			elt.bind('keydown', function (e) {
-				if (e.which === 38) { // up
-					e.preventDefault();
-					incr(step);
-					$scope.$apply();
-				} else if (e.which === 40) { // down
-					e.preventDefault();
-					incr(-step);
-					$scope.$apply();
-				}
-				if (e.which === 13) { // enter
-					e.preventDefault();
-					$scope.formatInputValue();
-					$scope.$apply();
-				}
-			});
-		};
-		var setupMousewheelEvents = function (elt) {
-			var step = 5;
-			if (!isNaN(parseInt($scope.step))) {
-				step = parseInt($scope.step);
-			}
-			var isScrollingUp = function (e) {
-				if (e.originalEvent) {
-					e = e.originalEvent;
-				}
-				//pick correct delta variable depending on event
-				var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
-				return (e.detail || delta > 0);
-			};
-
-			elt.bind('mousewheel wheel', function (e) {
-				if (this === document.activeElement) {
-					$scope.$apply(incr((isScrollingUp(e)) ? step : -step));
-					e.preventDefault();
-				}
-			});
-		};
-
-		// Handle min/max values
-		var checkMin = function(newValue) {
-			var min = getMin();
-			return !min || min <= newValue;
-		};
-		var checkMax = function(newValue) {
-			var max = getMax();
-			return !max || max >= newValue;
-		};
-		var getMin = function() {
-			if (!$scope.min) {
-				return undefined;
-			}
-			return moment.duration($scope.min);
-		};
-		var getMax = function() {
-			if (!$scope.max) {
-				return undefined;
-			}
-			return moment.duration($scope.max);
 		};
 	}]);
 })();
