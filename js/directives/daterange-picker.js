@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-		/**
+	/**
 	** DEPENDENCIES
 	**  - moment
 	**  - ui bootstrap datepicker
@@ -9,10 +9,64 @@
 
 	angular.module('lui.directives')
 	.directive('luidDaterange', ['moment', '$filter', '$document', '$timeout', function(moment, $filter, $document, $timeout){
-		function link(scope, element, attrs, ctrls){
+		function link(scope, element, attrs, ctrls) {
+			function format(startsOn, endsOn) {
+				var startProperty = scope.startProperty || 'startsOn';
+				var endProperty = scope.endProperty || 'endsOn';
+				var result = {};
+				var mstart = moment(startsOn);
+				var mend = moment(endsOn);
+				if (scope.excludeEnd) {	mend.add(1, 'd'); }
+
+				switch (scope.format || "moment"){
+					case "moment":
+						result[startProperty] = mstart;
+						result[endProperty] = mend;
+						break;
+					case "date":
+						result[startProperty] = mstart.toDate();
+						result[endProperty] = mend.toDate();
+						break;
+					default:
+						result[startProperty] = mstart.format(scope.format);
+						result[endProperty] = mend.format(scope.format);
+						break;
+				}
+
+				return result;
+			}
+
+			function parse (viewValue){
+				var mstart, mend;
+				var startProperty = scope.startProperty || 'startsOn';
+				var endProperty = scope.endProperty || 'endsOn';
+
+				switch(scope.format || "moment"){
+					case "moment":
+					case "date":
+						mstart = moment(viewValue[startProperty]);
+						mend = moment(viewValue[endProperty]);
+						break;
+					default:
+						mstart = moment(viewValue[startProperty], scope.format);
+						mend = moment(viewValue[endProperty], scope.format);
+						break;
+				}
+
+				if (scope.excludeEnd){ mend.add(-1, 'd'); }
+
+				return { startsOn: mstart.toDate(), endsOn:mend.toDate() };
+			}
+
+			function unpin(){
+				scope.popoverOpened = false;
+				drCtrl.unpinPopover();
+				scope.$apply(); // commits changes to popoverOpened and hide the popover
+			}
+
 			var ngModelCtrl = ctrls[1];
 			var drCtrl = ctrls[0];
-			scope.internal={};
+			scope.internal = {};
 
 			scope.hasPeriods = !!attrs.periods;
 
@@ -29,8 +83,8 @@
 				scope.internal.endsOn = parsed.endsOn;
 				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
 			};
-			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function(){ ngModelCtrl.$render(); });
-			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function(){ ngModelCtrl.$render(); });
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function() { ngModelCtrl.$render(); });
+			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function() { ngModelCtrl.$render(); });
 
 			drCtrl.updateValue = function(startsOn, endsOn){
 				var newValue = ngModelCtrl.$viewValue;
@@ -40,63 +94,11 @@
 				ngModelCtrl.$setViewValue(newValue);
 				scope.$parent.$eval(attrs.ngChange);
 			};
-			var format = function(startsOn, endsOn){
-				var mstart = moment(startsOn);
-				var mend = moment(endsOn);
-				if(scope.excludeEnd){
-					mend.add(1, 'd');
-				}
-				var startProperty = scope.startProperty || 'startsOn';
-				var endProperty = scope.endProperty || 'endsOn';
-				var result = {};
-				switch(scope.format || "moment"){
-					case "moment":
-						result[startProperty] = mstart;
-						result[endProperty] = mend;
-						break;
-					case "date":
-						result[startProperty] = mstart.toDate();
-						result[endProperty] = mend.toDate();
-						break;
-					default:
-						result[startProperty] = mstart.format(scope.format);
-						result[endProperty] = mend.format(scope.format);
-				}
-				return result;
-			};
-			var parse = function(viewValue){
-				var startProperty = scope.startProperty || 'startsOn';
-				var endProperty = scope.endProperty || 'endsOn';
-				var mstart, mend;
-				switch(scope.format || "moment"){
-					case "moment":
-					case "date":
-						mstart = moment(viewValue[startProperty]);
-						mend = moment(viewValue[endProperty]);
-						break;
-					default:
-						mstart = moment(viewValue[startProperty], scope.format);
-						mend = moment(viewValue[endProperty], scope.format);
-				}
-				if(scope.excludeEnd){
-					mend.add(-1, 'd');
-				}
-				var parsed = { startsOn: mstart.toDate(), endsOn:mend.toDate() };
-				return parsed;
-			};
-			var unpin = function(){
-				scope.popoverOpened = false;
-				drCtrl.unpinPopover();
-				scope.$apply(); // commits changes to popoverOpened and hide the popover
-			};
-			drCtrl.pinPopover = function () {
-				$timeout(function(){ $document.on("click", unpin); }, 10);
-			};
-			drCtrl.unpinPopover = function () {
-				$document.off("click", unpin);
-			};
+			drCtrl.pinPopover = function () { $timeout(function(){ $document.on("click", unpin); }, 10); };
+			drCtrl.unpinPopover = function () { $document.off("click", unpin); };
 		}
-		return{
+
+		return {
 			require:['luidDaterange','^ngModel'],
 			controller:'luidDaterangeController',
 			scope: {
@@ -124,7 +126,7 @@
 		var ctrl = this;
 
 		$scope.internalUpdated = function(){
-			if(moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0){
+			if (moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0) {
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
 			}
 
@@ -135,47 +137,44 @@
 			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
 		};
 
-		$scope.goToPeriod = function(period){
+		$scope.goToPeriod = function(period) {
 			$scope.internal.startsOn = moment(period.startsOn).toDate();
 			$scope.internal.endsOn = moment(period.endsOn).toDate();
-			if($scope.excludeEnd){ $scope.internal.endsOn = moment(period.endsOn).add(-1,'day').toDate(); }
+			if ($scope.excludeEnd){ $scope.internal.endsOn = moment(period.endsOn).add(-1,'day').toDate(); }
 			$scope.internalUpdated();
 		};
 
 		// Popover display
 		$scope.popoverOpened = false;
-		$scope.togglePopover = function(){
+		$scope.togglePopover = function() {
 			$scope.popoverOpened = !$scope.popoverOpened;
 			if($scope.popoverOpened){
 				ctrl.pinPopover();
-			}else{
+			} else {
 				ctrl.unpinPopover();
 			}
 		};
-		$scope.doCloseAction = function(){
+
+		$scope.doCloseAction = function() {
 			$scope.togglePopover();
-			if(!!$scope.closeAction){
-				$scope.closeAction();
-			}
+			if(!!$scope.closeAction){ $scope.closeAction(); }
 		};
-		$scope.clickInside = function(e){
+
+		$scope.clickInside = function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 		};
 
 		// datepickers stuff
-		$scope.dayClass = function(date, mode){
-			var className = "";
-			if(mode === "day" && moment(date).diff($scope.internal.startsOn) === 0) {
-				className = "start";
+		$scope.dayClass = function(date, mode) {
+			if (mode == 'day') {
+				switch(true){
+					case(moment(date).diff($scope.internal.startsOn) === 0) : return 'start';
+					case(moment(date).diff($scope.internal.endsOn) === 0) : return 'end';
+					case(moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) : return 'in-between';
+				}				
 			}
-			if(mode === "day" && moment(date).diff($scope.internal.endsOn) === 0){
-				className += "end";
-			}
-			if(mode === "day" && moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) {
-				className += "in-between";
-			}
-			return className;
+			return '';
 		};
 
 	}]);
