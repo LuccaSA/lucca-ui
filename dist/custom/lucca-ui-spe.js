@@ -188,15 +188,14 @@
 		};
 
 		// datepickers stuff
-		$scope.dayClass = function(date, mode) {
+		$scope.dayClass = function(date, mode){
+ 			var className = '';
 			if (mode == 'day') {
-				switch(true){
-					case(moment(date).diff($scope.internal.startsOn) === 0) : return 'start';
-					case(moment(date).diff($scope.internal.endsOn) === 0) : return 'end';
-					case(moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) : return 'in-between';
-				}				
+				if (moment(date).diff($scope.internal.startsOn) === 0) { className = 'start'; }
+				if (moment(date).diff($scope.internal.endsOn) === 0) { className += 'end'; }
+				if (moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) { className += 'in-between'; }
 			}
-			return '';
+			return className;
 		};
 
 	}]);
@@ -612,7 +611,7 @@
 
 				function subscription(e, incrStep){
 					if(!$scope.disabled){
-						$scope.$apply( incr((isScrollingUp(e)) ? 60 : -60 ));
+						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
 					}				
 				}
@@ -909,16 +908,12 @@
 			// Handle min/max values
 			function correctValue(newValue){
 				function correctedMinValue(newValue) {
-					function getMin() {	return !$scope.min ? undefined : moment.duration($scope.min); }
-
-					var min = getMin();
+					var min = !$scope.min ? undefined : moment.duration($scope.min);
 					return (!min || min <= newValue) ? newValue : min;
 				}
 
 				function correctedMaxValue(newValue) {
-					function getMax() {	return !$scope.max ? undefined : moment.duration($scope.max); }
-
-					var max = getMax();
+					var max = !$scope.max ? undefined : moment.duration($scope.max);
 					return (!max || max >= newValue) ?  newValue : max;
 				}
 
