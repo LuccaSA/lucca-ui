@@ -105,7 +105,7 @@
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
 			}
-			update(newValue);
+			update(newDur);
 		}
 
 		// sets viewValue and renders
@@ -118,16 +118,12 @@
 			// Handle min/max values
 			function correctValue(newValue){
 				function correctedMinValue(newValue) {
-					function getMin() {	return !$scope.min ? undefined : moment.duration($scope.min); }
-
-					var min = getMin();
+					var min = !$scope.min ? undefined : moment.duration($scope.min);
 					return (!min || min <= newValue) ? newValue : min;
 				}
 
 				function correctedMaxValue(newValue) {
-					function getMax() {	return !$scope.max ? undefined : moment.duration($scope.max); }
-
-					var max = getMax();
+					var max = !$scope.max ? undefined : moment.duration($scope.max);
 					return (!max || max >= newValue) ?  newValue : max;
 				}
 

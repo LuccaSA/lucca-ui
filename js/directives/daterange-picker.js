@@ -166,15 +166,14 @@
 		};
 
 		// datepickers stuff
-		$scope.dayClass = function(date, mode) {
+		$scope.dayClass = function(date, mode){
+ 			var className = '';
 			if (mode == 'day') {
-				switch(true){
-					case(moment(date).diff($scope.internal.startsOn) === 0) : return 'start';
-					case(moment(date).diff($scope.internal.endsOn) === 0) : return 'end';
-					case(moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) : return 'in-between';
-				}				
+				if (moment(date).diff($scope.internal.startsOn) === 0) { className = 'start'; }
+				if (moment(date).diff($scope.internal.endsOn) === 0) { className += 'end'; }
+				if (moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) { className += 'in-between'; }
 			}
-			return '';
+			return className;
 		};
 
 	}]);

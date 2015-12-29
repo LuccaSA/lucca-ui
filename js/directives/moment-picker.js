@@ -308,7 +308,7 @@
 
 				function subscription(e, incrStep){
 					if(!$scope.disabled){
-						$scope.$apply( incr((isScrollingUp(e)) ? 60 : -60 ));
+						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
 					}				
 				}
