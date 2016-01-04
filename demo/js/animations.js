@@ -12,11 +12,6 @@
 	}]);
 	angular.module('demoApp')
 	.controller("leaveCtrl", ["$scope", function($scope){
-		// $scope.fadeOut = ["zero", "one", "two", "three", "four"];
-		// $scope.remove = function(){
-		// 	$scope.fadeOut.pop();
-		// };
-		// $scope.direction = "up";
 	}]);
 	angular.module('demoApp')
 	.controller("staticCtrl", ["$scope", "$timeout", function($scope, $timeout){

@@ -32,9 +32,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('dev-sass', ['watch:sass']);
 	// use this task when you're working on the less framework or the js one, will do both the tasks from above concurrently
 	grunt.registerTask('dev', ['concurrent:dev']);
-	// use this when you are working on the demo pages, it will do devjs and devless but also transpile transpile demo.min.css if any .less file under /src or /demo is changed
+	// use this when you are working on the demo pages, it will do devjs and devless but also transpile demo.min.css if any .less file under /src or /demo is changed
 	grunt.registerTask('dev-demo', ['concurrent:demo']);
-	// use this when you are working on the demo pages, it will do devjs and devless but also transpile transpile demo.min.css if any .less file under /src or /demo is changed
+	// use this when you are working on the demo pages, it will do devjs and devless but also transpile demo.min.css if any .less file under /src or /demo is changed
 	grunt.registerTask('dev-e2e', ['concurrent:e2e']);
 
 

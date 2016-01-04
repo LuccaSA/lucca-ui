@@ -16,7 +16,7 @@
 			<p>
 				<b>Important:</b>
 				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
-				It also uses <code>momentjs</code> for its manipulation of dates cuz <a class="lui fancy link" href="http://momentjs.com/">momentjs</a> is super awesome
+				It also uses <code>moment.js</code> for its manipulation of dates as <a class="lui fancy link" href="http://momentjs.com/">moment.js</a> is super awesome.
 			</p>
 			<p>
 				The exact list of dependencies which can be found in the bower.json file is:
@@ -35,7 +35,7 @@
 				A basic filter that display a placeholder if the value is <code>undefined</code> or <code>""</code>
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifPlaceholder:"a fixed placeholder" }}
@@ -43,7 +43,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo:</h4>
+					<h4 class="lui underline">Demo</h4>
 				</div>
 				<div class="lui right item">
 					<a class="lui button primary" href="http://plnkr.co/edit/XlbdTgYgxAHnIQaQMvsf?p=preview">
@@ -60,19 +60,19 @@
 					</span>
 				</p>
 				<p>
-					dynamic placeholder:
+					Dynamic placeholder :
 					<span class="lui input">
 						<input type="text" ng-model="myPlaceholder">
 					</span>
 				</p>
 				<p>
-					myValue: <code>{{myValue}}</code>
+					MyValue : <code>{{myValue}}</code>
 				</p>
 				<p>
-					with fixed luifPlaceholder: <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
+					With fixed luifPlaceholder : <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
 				</p>
 				<p>
-					with dynamic luifPlaceholder: <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
+					With dynamic luifPlaceholder : <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
 				</p>
 			</div>
 		</article>
@@ -83,14 +83,14 @@
 			A basic filter that capitalizes and replace spaces by _
 			</p>
 			<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifDefaultCode }}</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
-			<h4 class="lui underline">Demo:</h4>
+			<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui right item">
 			<a class="lui button primary" href="http://plnkr.co/edit/qxO9cjig53PuicG0webI?p=preview">
@@ -100,16 +100,16 @@
 			</div>
 			<div ng-controller="defaultcodeCtrl" class="lui block round">
 				<p>
-				value:
+				Value :
 				<span class="lui long input">
 				<input type="text" ng-model="myValue">
 				</span>
 				</p>
 				<p>
-				myValue: <code>{{myValue}}</code>
+				MyValue : <code>{{myValue}}</code>
 				</p>
 				<p>
-				with luifDefaultCode: <code>{{ myValue | luifDefaultCode }}</code>
+				With luifDefaultCode : <code>{{ myValue | luifDefaultCode }}</code>
 				</p>
 			</div>
 		</article>
@@ -117,7 +117,7 @@
 		<article id="luifNumber">
 			<h2 class="lui divider below">luifNumber</h2>
 			<p>
-			A filter useful when displaying numbers aligned to the right in a table and some of them have non integer part but some don't and nothing is aligned and it's horrible
+			A interesting filter when displaying numbers aligned to the right in a table when some of them have a non integer part and some don't and nothing is aligned and it's horrible.
 			</p>
 			<p>
 			It is a slight modification of the <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/number">filter number</a> provided by angular but it puts the non integral part in an invisible span if this part is zero, allowing it to be correctly aligned in a table of values with text-align: right
@@ -230,7 +230,7 @@
 			<strong>Important:</strong> May require <a class="lui fancy link" href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;.00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
 			</p>
 			<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
@@ -239,7 +239,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
-			<h4 class="lui underline">Demo:</h4>
+			<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui right item">
 			<a class="lui button primary" href="http://plnkr.co/edit/nc1sYOJUAg1bOjrMGbvb?p=preview">
@@ -249,19 +249,19 @@
 			</div>
 			<div ng-controller="numberCtrl" class="lui block round">
 			<p>
-			value:
+			Value :
 			<span class="lui input">
 			<input type="number" ng-model="myValue">
 			</span>
 			</p>
 			<p>
-			myValue: <code>{{myValue}}</code>
+			MyValue : <code>{{myValue}}</code>
 			</p>
 			<p>
-			with filter number: <code>{{myValue | number : 2}}</code>
+			With filter number : <code>{{myValue | number : 2}}</code>
 			</p>
 			<p>
-			with luifNumber: <code ng-bind-html="myValue | luifNumber : 2"></code>
+			With luifNumber : <code ng-bind-html="myValue | luifNumber : 2"></code>
 			</p>
 			</div>
 		</article>
@@ -288,7 +288,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
-			<h4 class="lui underline">Demo:</h4>
+			<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui right item">
 			<a class="lui button primary" href="http://plnkr.co/edit/B6p0jDQeZONH06JROODw?p=preview">
@@ -298,20 +298,22 @@
 			</div>
 			<div ng-controller="startfromCtrl" class="lui block round">
 			<p>
-			myIndex:
+			MyIndex :
 			<span class="lui input">
 				<input type="number" ng-model="myIndex">
 			</span>
 			</p>
-			<p>values: <code>{{values}}</code></p>
 			<p>
-			all the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
+			Values: <code>{{values}}</code>
+			</p>
+			<p>
+			All the values starting from myIndex <code>ng-repeat="val in values | luifStartFrom : myIndex"</code>
 			<ul class="lui unstyled">
 				<li ng-repeat="val in values | luifStartFrom : myIndex">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
 			</ul>
 			</p>
 			<p>
-			all the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
+			All the values starting from myIndex  paginated to display only five elements <code>ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5"</code>
 			<ul class="lui unstyled">
 				<li ng-repeat="val in values | luifStartFrom : myIndex | limitTo : 5">$index: <code>{{$index}}</code> - value: <code>{{val}}</code></li>
 			</ul>
@@ -329,10 +331,10 @@
 			Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
 			</p>
 			<p>
-			if none is provided, will use the format <code>LLL</code>
+			If none is provided, will use the format <code>LLL</code>
 			</p>
 			<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifMoment : "LL" }}
@@ -340,7 +342,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
-				<h4 class="lui underline">Demo:</h4>
+				<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui right item">
 				<a class="lui button primary" href="http://plnkr.co/edit/upJIOJvbWWcia1LXnBnk?p=preview">
@@ -350,25 +352,25 @@
 			</div>
 			<div ng-controller="momentCtrl" class="lui block round">
 			<p>
-				myValue:
+				myValue :
 				<span class="lui long input">
 					<input type="text" ng-model="myValue">
 				</span>
 				(enter '2015-01-01' or such like, or try something that is not parsable by moment)
 			</p>
 			<p>
-				set myValue to
+				Set myValue to : 
 				<span class="lui button" ng-click="setToDate()">new Date()</span>
 				<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
 			</p>
 			<p>
-				myFormat:
+				MyFormat :
 				<span class="lui long input">
 					<input type="text" ng-model="myFormat">
 				</span>
 			</p>
 			<p>
-				myValue formatted: <code>{{ myValue | luifMoment : myFormat }}</code>
+				Formatted MyValue  : <code>{{ myValue | luifMoment : myFormat }}</code>
 			</p>
 			</div>
 		</article>
@@ -389,7 +391,7 @@
 			Does not support the formats arguments available from momentjs version 2.10.5 onwards
 			</p>
 			<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifCalendar }}
@@ -397,7 +399,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo:</h4>
+					<h4 class="lui underline">Demo</h4>
 				</div>
 				<div class="lui right item">
 					<a class="lui button primary" href="http://plnkr.co/edit/BUUocpfWGsvcm6lczAyc?p=preview">
@@ -413,21 +415,21 @@
 					</span>
 				</p>
 				<p>
-					set myValue to
+					Set myValue to
 					<span class="lui button" ng-click="setToThisWeek()">start of week</span>
 					<span class="lui button" ng-click="setToLastWeek()">last week</span>
 				</p>
 				<p>
-					myRefDate:
+					myRefDate :
 					<span class="lui long input">
 						<input type="text" ng-model="myRefDate">
 					</span>
 				</p>
 				<p>
-					myValue relative to today: <code>{{ myValue | luifCalendar }}</code>
+					myValue relative to today : <code>{{ myValue | luifCalendar }}</code>
 				</p>
 				<p>
-					myValue relative to myRefDate: <code>{{ myValue | luifCalendar : myRefDate }}</code>
+					myValue relative to myRefDate : <code>{{ myValue | luifCalendar : myRefDate }}</code>
 				</p>
 			</div>
 		</article>
@@ -450,7 +452,7 @@
 				Example : september is from September 1st included to October 1st excluded or from Septembre 1st included to September 30th included
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myBlock | luifFriendlyRange }}
@@ -458,7 +460,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo:</h4>
+					<h4 class="lui underline">Demo</h4>
 				</div>
 				<div class="lui right item">
 					<a class="lui button primary" href="http://plnkr.co/edit/pVKZqmRX4gO001JaqE0i?p=preview">
@@ -468,22 +470,22 @@
 			</div>
 			<div ng-controller="friendlyrangeCtrl" class="lui block round">
 				<p>
-					myBlock.start:
+					myBlock.start :
 					<span class="lui long input">
 						<input type="text" ng-model="myBlock.start">
 					</span>
 				</p>
 				<p>
-					myBlock.end:
+					myBlock.end :
 					<span class="lui long input">
 						<input type="text" ng-model="myBlock.end">
 					</span>
 				</p>
 				<p>
-					myBlock: <code>{{ myBlock | luifFriendlyRange }}</code>
+					myBlock : <code>{{ myBlock | luifFriendlyRange }}</code>
 				</p>
 				<p>
-					myBlock with end excluded: <code>{{ myBlock | luifFriendlyRange : true }}</code>
+					myBlock with end excluded : <code>{{ myBlock | luifFriendlyRange : true }}</code>
 				</p>
 			</div>
 		</article>
@@ -498,7 +500,7 @@
 				Will try to transform the input to a moment.duration, if the resulting duration is not valid, it will return nothing
 			</p>
 			<p>
-				The arguments for this filter are:
+				The arguments for this filter are :
 				<ul class="lui unstyled">
 					<li><code>showSign</code>: do you want 00h30 to appear as 30m or +30m</li>
 					<li><code>unit</code>: when displaying 1h30, do you want it to appear as 1h30 or 90m. See below for supported units</li>
@@ -517,7 +519,7 @@
 				</ul>
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifDuration }}
@@ -525,7 +527,7 @@
 				</p>
 				<div class="lui bottom dashed divider menu" id="demoBlock">
 					<div class="lui header vertical menu">
-						<h4 class="lui underline">Demo:</h4>
+						<h4 class="lui underline">Demo</h4>
 					</div>
 					<div class="lui right item">
 						<a class="lui button primary" href="http://plnkr.co/edit/2LRJVMnEA77ncwJOU3b9?p=preview">
@@ -535,19 +537,19 @@
 				</div>
 				<div ng-controller="durationCtrl" class="lui block round">
 					<p>
-						myValue:
+						myValue :
 						<span class="lui input">
 							<input type="text" ng-model="myValue">
 						</span>
 						(enter '1.11:30:00' or 'PT35H30M' or such like)
 					</p>
 					<p>
-						set myValue to
+						Set myValue to
 						<span class="lui button" ng-click="myValue='PT35H'">35h</span>
 						<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
 					</p>
 					<p>
-						myValue: <code>{{ myValue | luifDuration }}</code>
+						myValue : <code>{{ myValue | luifDuration }}</code>
 					</p>
 					<p>
 						myValue with unit='day': <code>{{ myValue | luifDuration : false : 'd' }}</code> - duration under the hour won't be displayed
@@ -565,19 +567,19 @@
 			<h2 class="lui divider below">luifHumanize</h2>
 
 			<p>
-				A filter to cast the input to a <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/humanize/">humanize</a> on it
+				A filter to cast the input to a <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/humanize/">humanize</a> on it.
 			</p>
 			<p>
-				the first argument is to use the suffix in the humanize function
+				The first argument is to use the suffix in the humanize function
 				<ul class="lui unstyled">
-					<li><code>moment.duration(-3,'m').humanize()</code>: 3 minutes</li>
-					<li><code>moment.duration(3,'m').humanize()</code>: 3 minutes</li>
-					<li><code>moment.duration(-3,'m').humanize(true)</code>: 3 minutes <b>ago</b></li>
-					<li><code>moment.duration(3,'m').humanize(true)</code>: <b>in</b> 3 minutes</li>
+					<li><code>moment.duration(-3,'m').humanize()</code> : 3 minutes</li>
+					<li><code>moment.duration(3,'m').humanize()</code> : 3 minutes</li>
+					<li><code>moment.duration(-3,'m').humanize(true)</code> : 3 minutes <b>ago</b></li>
+					<li><code>moment.duration(3,'m').humanize(true)</code> : <b>in</b> 3 minutes</li>
 				</ul>
 			</p>
 			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage:</h4>
+				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
 				<pre hljs no-escape language="html">{{ myValue | luifHumanize }}
@@ -585,7 +587,7 @@
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo:</h4>
+					<h4 class="lui underline">Demo</h4>
 				</div>
 				<div class="lui right item">
 					<a class="lui button primary" href="http://plnkr.co/edit/1XwKuVmfzH13V0Nw8fwX?p=preview">
@@ -595,22 +597,22 @@
 			</div>
 			<div ng-controller="humanizeCtrl" class="lui block round">
 				<p>
-					myValue:
+					myValue :
 					<span class="lui input">
 						<input type="text" ng-model="myValue">
 					</span>
 					(enter '1.11:30:00' or 'PT35H30M' or such like)
 				</p>
 				<p>
-					set myValue to
+					Set myValue to
 					<span class="lui button" ng-click="myValue='PT1H'">1h</span>
 					<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
 				</p>
 				<p>
-					myValue humanized: <code>{{ myValue | luifHumanize }}</code>
+					myValue humanized : <code>{{ myValue | luifHumanize }}</code>
 				</p>
 				<p>
-					myValue humanized with a suffix: <code>{{ myValue | luifHumanize : true }}</code>
+					myValue humanized with a suffix : <code>{{ myValue | luifHumanize : true }}</code>
 				</p>
 			</div>
 		</article>

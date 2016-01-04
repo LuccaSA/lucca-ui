@@ -55,111 +55,95 @@
 	})
 	.controller('luidPercentageController', ['$scope', function ($scope) {
 
+		// private - updates of some kinds
+		// incr value by `step` minutes
+		function incr(step) {
+			update(parseFloat($scope.intPct) + step);
+		}
+
+		// sets viewValue and renders
+		function update(duration) {
+			updateWithoutRender(duration);
+			$scope.ngModelCtrl.$render();
+		}
+
+		function updateWithoutRender(duration) {
+			function format(pct) {
+				switch($scope.format || "0.XX"){
+					case "XX" :		return pct;
+					case "0.XX" :	return pct/100;
+					case "1.XX" :	return (pct/100) + 1;
+					default : 		return 0;
+				}
+			}
+
+			var newValue = duration === undefined ? undefined : format(duration);
+			$scope.ngModelCtrl.$setViewValue(newValue);
+		}		
+
+		// events - key 'enter'
+		this.setupEvents = function (elt) {
+			function getStep(){ return isNaN(parseInt($scope.step)) ? 5 : parseInt($scope.step);}
+			function setupKeyEvents(elt) {
+				var step = getStep();
+				elt.bind('keydown', function (e) {
+					switch(e.which){
+						case 38:// up
+							e.preventDefault();
+							incr(step);
+							$scope.$apply();
+						break;
+						case 40:// down
+							e.preventDefault();
+							incr(-step);
+							$scope.$apply();
+						break;
+						case 13:// enter
+							e.preventDefault();
+							$scope.formatInputValue();
+							$scope.$apply();
+						break;
+					}
+				});
+			}
+			function setupMousewheelEvents(elt) {
+				function isScrollingUp(e) {
+					e = e.originalEvent ? e.originalEvent : e;
+					//pick correct delta variable depending on event
+					var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
+					return (e.detail || delta > 0);
+				}
+
+				var step = getStep();
+				elt.bind('mousewheel wheel', function (e) {
+					if (this === document.activeElement) {
+						$scope.$apply(incr((isScrollingUp(e)) ? step : -step));
+						e.preventDefault();
+					}
+				});
+			}
+
+			setupKeyEvents(elt);
+			setupMousewheelEvents(elt);
+		};
+
 		// public methods for update
 		$scope.updateValue = function () {
-			if ($scope.intPct === undefined) { return updateWithoutRender(undefined); } 
-
-			// transform this duration into a string
-			var newValue = format($scope.intPct);
-
-			// update viewvalue
-			updateWithoutRender(newValue);
-		};
-		var format = function (pct) {
-			// should support deifferents formats
-			switch($scope.format || "0.XX"){
-				case "XX":
-					return pct;
-				case "0.XX":
-					return pct/100;
-				case "1.XX":
-					return pct/100 + 1;
-			}
-			return 0;
+			updateWithoutRender($scope.intPct);
 		};
 
 		$scope.parse = function (intInput) {
-			// should support deifferents formats
 			switch($scope.format || "0.XX"){
-				case "XX":
-					return intInput;
-				case "0.XX":
-					return Math.round(10000 * intInput) / 100;
-				case "1.XX":
-					return Math.round((intInput-1) * 10000) / 100;
+				case "XX":		return intInput;
+				case "0.XX":	return Math.round(10000 * intInput) / 100;
+				case "1.XX":	return Math.round((intInput-1) * 10000) / 100;
+				default : 		return 0;
 			}
-			return 0;
-		};
-
-		// private - updates of some kinds
-		// incr value by `step` minutes
-		var incr = function (step) {
-			var newValue = format(parseFloat($scope.intPct) + step);
-			update(newValue);
-		};
-
-		// sets viewValue and renders
-		var update = function (newValue) {
-			$scope.ngModelCtrl.$setViewValue(newValue);
-			$scope.ngModelCtrl.$render();
-		};
-		var updateWithoutRender = function (newValue) {
-			$scope.ngModelCtrl.$setViewValue(newValue);
 		};
 
 		// display stuff
 		$scope.formatInputValue = function () {
 			$scope.ngModelCtrl.$render();
-		};
-
-		// events - key 'enter'
-		this.setupEvents = function (elt) {
-			setupKeyEvents(elt);
-			setupMousewheelEvents(elt);
-		};
-
-		var setupKeyEvents = function (elt) {
-			var step = 5;
-			if (!isNaN(parseInt($scope.step))) {
-				step = parseInt($scope.step);
-			}
-			elt.bind('keydown', function (e) {
-				if (e.which === 38) { // up
-					e.preventDefault();
-					incr(step);
-					$scope.$apply();
-				} else if (e.which === 40) { // down
-					e.preventDefault();
-					incr(-step);
-					$scope.$apply();
-				}
-				if (e.which === 13) { // enter
-					e.preventDefault();
-					$scope.formatInputValue();
-					$scope.$apply();
-				}
-			});
-		};
-		var setupMousewheelEvents = function (elt) {
-			var step = 5;
-			if (!isNaN(parseInt($scope.step))) {
-				step = parseInt($scope.step);
-			}
-			var isScrollingUp = function (e) {
-				if (e.originalEvent) {
-					e = e.originalEvent;
-				}
-				//pick correct delta variable depending on event
-				var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
-				return (e.detail || delta > 0);
-			};
-
-			elt.bind('mousewheel wheel', function (e) {
-				if (this === document.activeElement) {
-					$scope.$apply(incr((isScrollingUp(e)) ? step : -step));
-					e.preventDefault();
-				}
-			});
 		};
 	}]);
 })();
