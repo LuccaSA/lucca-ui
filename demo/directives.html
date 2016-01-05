@@ -465,49 +465,80 @@ $scope.myMappings = { 13: enterPressed };</pre>
         <article id="luid-day-block">
             <h2 class="lui divider below">luid-day-block</h2>
 			<p>
-				An element directive to to draw a calendar 
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Features</h4>
-			</div>
-			<p>
-				Features Features Features Features Features Features. 
+				An element directive to to draw a day block calendar.
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Supported arguments</h4>
 			</div>
 			<p>
 				<ul class="lui unstyled">
-					<li><code>argument1</code> :descriptions descriptions description sdescriptionsdescriptionsdescriptions</li>
-				</ul>
+					<li><code>show-day</code> : this argument must be a boolean, if true the directive shows the name of the day on top.</li>
+                    <li><code>first-color</code> : this color is used to fill the day number background. </li>
+                    <li><code>second-color</code> : this color is used to fill the month and year background.</li>
+				    <li><code>date</code> : this argument must be a moment. </li>
+				
+                </ul>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="html">&lt;input ng-model="myValue" class="lui input" luid-keydown mappings="myMappings"&gt;</pre>
-				<pre hljs no-escape language="js">var enterPressed = function(){ ... };
-var escPressed = function(){ ... };
-$scope.myMappings = { 13: enterPressed, 27: escPressed, keyCode: fun };</pre>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Remarks</h4>
-			</div>
-			<p>
-				remark remark remark <code>$scope</code>, remark <b> important important</b> remark.
-			</p>
-			<p>
-			<pre hljs no-escape language="js"> function(){ code javascript;}</pre>
-			</p>
+				<pre hljs no-escape language="html">
+&lt;input type="text" ng-model="firstColor"&gt;
+&lt;input type="text" ng-model="secondColor"&gt;
+&lt;input type="checkbox" ng-model = "showDay"&gt; show day 
+&lt;span class="lui input datepicker"&gt;
+    &lt;input type="text" 
+        datepicker-popup="yyyy-MM-dd" 
+        ng-model="date" 
+        is-open="opened"
+        close-text="Close" 
+        ng-click="opened=true"
+    /&gt;
+&lt;/span&gt;
 
+
+&lt;luid-day-block 
+    show-day = "showDay" 
+    first-color = "firstColor" 
+    second-color = "secondColor" 
+    date = "date" 
+/&gt;  
+
+                
+                </pre>
+			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
 					<h4 class="lui underline">Demo</h4>
 				</div>
 			</div>
 			<div ng-controller="dayBlockCtrl" class="lui block round">
-			     {{test}}
-                 <luid-day-block></luid-day-block>
+                <p>
+                    date: <span class="lui input datepicker">
+                        <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="date" is-open="opened" close-text="Close" ng-click="opened=true"/>
+                    </span>
+                </p>
+                <p>
+                    first color: 
+                    <span class="lui short input with addon">
+                        <input type="text" ng-model="firstColor" class="ng-pristine ng-valid ng-touched">
+                    </span>
+                </p>
+                <p>
+                    second color: 
+                    <span class="lui short input with addon">
+                        <input type="text" ng-model="secondColor" class="ng-pristine ng-valid ng-touched">
+                    </span>
+                </p>
+                <p>
+                    <input type="checkbox" ng-model = "showDay"> show day 
+                </p>
+                 <luid-day-block
+                 show-day = "showDay"
+                 first-color = "firstColor"
+                 second-color = "secondColor"
+                 date = "date"/>
 			</div>
             
         </article>

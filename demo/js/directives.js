@@ -96,7 +96,8 @@
     
     angular.module('demoApp')
 	.controller('dayBlockCtrl', ['$scope', function($scope){
-        $scope.test = "toto";
+        $scope.firstColor = "red";
+        $scope.secondColor = "lightyellow";
     }]);
 
 })();

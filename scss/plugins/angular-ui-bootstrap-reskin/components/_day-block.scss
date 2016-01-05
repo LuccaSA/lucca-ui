@@ -2,13 +2,13 @@ div.day-bloc{
   height: 130px;
   text-align: center;
   border: 0;
-  border-color: $positive;
+  border-color: black;
   margin:10px auto;
   text-transform: uppercase;
 }
 .day-bloc div{
   display: block;
-  color: $positive;
+  color: black;
   margin:auto;
 }
 div .day-bloc>.weekday {
@@ -18,11 +18,12 @@ div .day-bloc>.day {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   width: 65px;
-  color: $white;
-  background-color: $positive;
+  color: white;
+  background-color: black;
   font-size: 40px;
   font-weight: bold;
   line-height: 45px;
+  border: 1px solid black;
 }
 div .day-bloc>.month {
   width: 65px;
