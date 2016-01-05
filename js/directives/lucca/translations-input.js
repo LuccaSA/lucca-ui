@@ -158,12 +158,12 @@
 	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
 			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
-			"	<div class=\"lui {{size}} input with addon\">" +
+			"	<div class=\"lui fitting input with addon\">" +
 			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"lui luid-translations-dropdown\">" +
-			"		<div class=\"lui {{size}} input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
+			"		<div class=\"lui fitting input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"			<span class=\"lui right addon\">{{culture}}</span>" +
 			"		</div>" +
