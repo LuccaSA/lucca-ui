@@ -5,6 +5,8 @@
 		<a class="item" href="#/directives#luid-moment">luid-moment</a>
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
+        <a class="item" href="#/directives#luid-day-block">luid-day-block</a>
+	</nav>
 	</nav>
 
 	<section class="lui typeset container">
@@ -459,5 +461,55 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</p>
 			</div>
 		</article>
+        
+        <article id="luid-day-block">
+            <h2 class="lui divider below">luid-day-block</h2>
+			<p>
+				An element directive to to draw a calendar 
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<p>
+				Features Features Features Features Features Features. 
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>argument1</code> :descriptions descriptions description sdescriptionsdescriptionsdescriptions</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;input ng-model="myValue" class="lui input" luid-keydown mappings="myMappings"&gt;</pre>
+				<pre hljs no-escape language="js">var enterPressed = function(){ ... };
+var escPressed = function(){ ... };
+$scope.myMappings = { 13: enterPressed, 27: escPressed, keyCode: fun };</pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Remarks</h4>
+			</div>
+			<p>
+				remark remark remark <code>$scope</code>, remark <b> important important</b> remark.
+			</p>
+			<p>
+			<pre hljs no-escape language="js"> function(){ code javascript;}</pre>
+			</p>
+
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo</h4>
+				</div>
+			</div>
+			<div ng-controller="dayBlockCtrl" class="lui block round">
+			     {{test}}
+                 <luid-day-block></luid-day-block>
+			</div>
+            
+        </article>
 	</section>
 </div>

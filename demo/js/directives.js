@@ -93,5 +93,10 @@
 
 		$scope.myMappings = { 13: enterPressed, 27: escPressed, 90: zPressed, 37: leftPressed, 38: upPressed, 39: rightPressed, 40: downPressed };
 	}]);
+    
+    angular.module('demoApp')
+	.controller('dayBlockCtrl', ['$scope', function($scope){
+        $scope.test = "toto";
+    }]);
 
 })();
