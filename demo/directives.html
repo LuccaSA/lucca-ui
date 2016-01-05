@@ -482,6 +482,25 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
+            <p>
+				<pre hljs no-escape language="html">
+&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/lui.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/filters/timeFilters.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/directives/day-block.js'&gt;&lt;/script&gt;  
+                </pre>
+            </p>
+            <p>
+				<pre hljs no-escape language="js">
+angular.module('yourApp', [
+...
+'ui.bootstrap',
+'lui.directives',
+'lui.filters'
+])
+                    
+                </pre>
+            </p>
+            
 			<p>
 				<pre hljs no-escape language="html">
 &lt;input type="text" ng-model="firstColor"&gt;

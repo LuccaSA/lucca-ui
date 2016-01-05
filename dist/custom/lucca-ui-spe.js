@@ -284,9 +284,7 @@
     angular
     .module('lui.directives')
     .directive('luidDayBlock', DayBlockDirective)
-    .controller('DayBlockController', function(){
-        console.log(this);
-    });
+    .controller('DayBlockController', function(){});
     
 })();
 
