@@ -3,6 +3,7 @@
 ## 2.0.5 - in dev
 - Better css layout for checkbox inputs: now adopts a table-style layout
 - Adds support for pulse "up" and "down" animations
+- nguibs-datepicker calendar icon is now displayed on the right of the input
 
 ### New features
 
