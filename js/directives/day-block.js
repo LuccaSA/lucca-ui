@@ -1,63 +1,80 @@
 /* global angular */
 (function(){
-    'use strict';
-    var DayBlockDirective = function () {
-        return {
-            template : 
-            '<div class="day-bloc">'+
-            
-            '<div ng-style = \'{'+
-            'color: controller.firstColor'+
-            '}\' '+
-            'ng-if = "controller.showDay" class="weekday">{{controller.date | luifMoment: \'dddd\'}}'+
-            '</div>'+
-            
-            '<div ng-style = \'{ '+
-            'border: "1px solid " + controller.firstColor, '+
-            '"background-color": controller.firstColor, '+
-            '"color": controller.secondColor '+
-            '}\' class="day">{{controller.date | luifMoment:\'DD\'}}'+
-            '</div>'+
-            
-            '<div ng-style = \'{'+
-            '"background-color": controller.secondColor, '+
-            ' "border-left" : "1px solid " + controller.firstColor,'+
-            ' "border-right" : "1px solid " + controller.firstColor, '+
-            ' color: controller.firstColor '+
-            '}\' class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
-            '</div>'+
-            
-            '<div ng-style = \'{'+
-            '"background-color": controller.secondColor, '+
-            ' "border-left" : "1px solid " + controller.firstColor,'+
-            ' "border-right" : "1px solid " + controller.firstColor, '+
-            ' "border-bottom" : "1px solid " + controller.firstColor, '+
-            ' color: controller.firstColor '+
-            '}\'  class="year">{{controller.date | luifMoment: \'YYYY\'}}'+
-            '</div>'+
-            
-            '</div>',
+	'use strict';
+	var DayBlockDirective = function () {
+		return {
+			template : 
+			'<div>'+
 
-            scope : {
-                date: '=',
-                showDay: '=',
-                firstColor: '=',
-                secondColor: '='
-            },
-            
-            restrict : 'E',
-            bindToController : true,
-            controllerAs : 'controller',
-            controller : 'DayBlockController'
-        };
-    };
+			'<div ng-style="controller.weekdayStyleOverride()" '+
+			'ng-if = "controller.showDay" class="weekday">{{controller.date | luifMoment: \'dddd\'}}'+
+			'</div>'+
+
+			'<div ng-style="controller.dayStyleOverride()" ' +
+			'class="day">{{controller.date | luifMoment:\'DD\'}}'+
+			'</div>'+
+
+			'<div ng-style="controller.monthStyleOverride()" ' +
+			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'</div>'+
+
+			'<div ng-style="controller.yearStyleOverride()" ' +
+			'class="year">{{controller.date | luifMoment: \'YYYY\'}}'+
+			'</div>'+
+
+			'</div>',
+
+			scope : {
+				date: '=',
+				showDay: '=',
+				customForegroundColor: '=',
+				customBackgroundColor: '='
+			},
+
+			restrict : 'E',
+			bindToController : true,
+			controllerAs : 'controller',
+			controller : 'luidDayBlockController'
+		};
+	};
 
 
-    angular
-    .module('lui.directives')
-    .directive('luidDayBlock', DayBlockDirective)
-    .controller('DayBlockController', function(){});
-    
+	angular
+	.module('lui.directives')
+	.directive('luidDayBlock', DayBlockDirective)
+	.controller('luidDayBlockController', function(){
+		var controller = this;
+
+		controller.weekdayStyleOverride = function() {
+			return { 
+				color: controller.customForegroundColor, 
+			};
+		};
+		controller.dayStyleOverride = function() {
+			return { 
+				"background-color": controller.customForegroundColor, 
+				"border-color": controller.customForegroundColor, 
+				"color": controller.customBackgroundColor, 
+			};
+		};
+		controller.monthStyleOverride = function() {
+			return { 
+				"background-color": controller.customBackgroundColor, 
+				"border-color": controller.customForegroundColor, 
+				"color": controller.customForegroundColor, 
+			};
+		};
+		controller.yearStyleOverride = function() {
+			return { 
+				"background-color": controller.customBackgroundColor, 
+				"border-color": controller.customForegroundColor, 
+				"color": controller.customForegroundColor, 
+			};
+		};
+
+
+	});
+
 })();
 
 
