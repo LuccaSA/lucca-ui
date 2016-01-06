@@ -1,0 +1,33 @@
+
+// Day block
+// @type: element
+// ===================================
+
+$dayblock: (
+	width: 					5em,
+	verticalMargin: 		1em,
+	horizontalMargin: 		0,
+
+	textTransform: 			uppercase,
+	textAlign: 				center,
+
+	borderRadius: 			luiTheme(adjective, rounded, radius),
+	borderWidth: 			1px,
+
+	day: (
+		verticalPadding:	0.25em,
+		fontSize: 			3em,
+		fontWeight: 		600
+	),
+	month: (
+		verticalPadding:	0,
+		fontSize: 			1.5em,
+		fontWeight: 		600
+	),
+	year: (
+		verticalPadding:	0.1em,
+		fontSize: 			1em,
+		fontWeight: 		400
+	)
+);
+$luiTheme: luiSetTheme(element, dayblock, $dayblock);

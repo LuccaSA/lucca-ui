@@ -205,6 +205,13 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 	@import "core/elements/progress";
 }
 
+& {
+	// Day block
+	// ===================================
+	$vars: luiTheme(element, dayblock);
+	@import "core/elements/day-block";
+}
+
 
 // ===================================
 // ============= PLUGINS =============
