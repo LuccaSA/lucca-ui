@@ -5,7 +5,7 @@
 		<a class="item" href="#/directives#luid-moment">luid-moment</a>
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
-        <a class="item" href="#/directives#luid-day-block">luid-day-block</a>
+		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
 	</nav>
 	</nav>
 
@@ -461,9 +461,9 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</p>
 			</div>
 		</article>
-        
-        <article id="luid-day-block">
-            <h2 class="lui divider below">luid-day-block</h2>
+		
+		<article id="luid-day-block">
+			<h2 class="lui divider below">luid-day-block</h2>
 			<p>
 				An element directive to to draw a day block calendar.
 			</p>
@@ -472,60 +472,19 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</div>
 			<p>
 				<ul class="lui unstyled">
+					<li><code>date</code> : The date you want to display, see <a class="lui fancy link" href="#filters#luifMoment">luifMoment</a> for supported values. </li>
 					<li><code>show-day</code> : this argument must be a boolean, if true the directive shows the name of the day on top.</li>
-                    <li><code>first-color</code> : this color is used to fill the day number background. </li>
-                    <li><code>second-color</code> : this color is used to fill the month and year background.</li>
-				    <li><code>date</code> : this argument must be a moment. </li>
-				
-                </ul>
+					<li><code>primary-color</code> : use these two arguments to have your own color palette. </li>
+					<li><code>secondary-color</code> : see above</li>
+				</ul>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
-            <p>
-				<pre hljs no-escape language="html">
-&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/lui.js'&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/filters/timeFilters.js'&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src='../../bower_components/lucca-ui/js/directives/day-block.js'&gt;&lt;/script&gt;  
-                </pre>
-            </p>
-            <p>
-				<pre hljs no-escape language="js">
-angular.module('yourApp', [
-...
-'ui.bootstrap',
-'lui.directives',
-'lui.filters'
-])
-                    
-                </pre>
-            </p>
-            
 			<p>
-				<pre hljs no-escape language="html">
-&lt;input type="text" ng-model="firstColor"&gt;
-&lt;input type="text" ng-model="secondColor"&gt;
-&lt;input type="checkbox" ng-model = "showDay"&gt; show day 
-&lt;span class="lui input datepicker"&gt;
-    &lt;input type="text" 
-        datepicker-popup="yyyy-MM-dd" 
-        ng-model="date" 
-        is-open="opened"
-        close-text="Close" 
-        ng-click="opened=true"
-    /&gt;
-&lt;/span&gt;
-
-
-&lt;luid-day-block 
-    show-day = "showDay" 
-    first-color = "firstColor" 
-    second-color = "secondColor" 
-    date = "date" 
-/&gt;  
-
-                
-                </pre>
+				<pre hljs no-escape language="html">&lt;luid-day-block date="myDate"&gt;&lt;/luid-day-block&gt;
+&lt;luid-day-block date="myDate" class="lui primary large"&gt;&lt;/luid-day-block&gt;
+&lt;luid-day-block date="myDate" show-day="showDay" custom-foreground-color="customFGColor" custom-background-color="customBGColor"&gt;&lt;/luid-day-block&gt;</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
@@ -533,33 +492,63 @@ angular.module('yourApp', [
 				</div>
 			</div>
 			<div ng-controller="dayBlockCtrl" class="lui block round">
-                <p>
-                    date: <span class="lui input datepicker">
-                        <input type="text" datepicker-popup="yyyy-MM-dd" ng-model="date" is-open="opened" close-text="Close" ng-click="opened=true"/>
-                    </span>
-                </p>
-                <p>
-                    first color: 
-                    <span class="lui short input with addon">
-                        <input type="text" ng-model="firstColor" class="ng-pristine ng-valid ng-touched">
-                    </span>
-                </p>
-                <p>
-                    second color: 
-                    <span class="lui short input with addon">
-                        <input type="text" ng-model="secondColor" class="ng-pristine ng-valid ng-touched">
-                    </span>
-                </p>
-                <p>
-                    <input type="checkbox" ng-model = "showDay"> show day 
-                </p>
-                 <luid-day-block
-                 show-day = "showDay"
-                 first-color = "firstColor"
-                 second-color = "secondColor"
-                 date = "date"/>
+				<p>
+					date: <span class="lui input datepicker">
+						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myDate" is-open="opened" close-text="Close" ng-click="opened=true"/>
+					</span>
+				</p>
+				<p>
+					Palette :
+					<div class="lui buttons">
+						<div class="lui button" ng-model="palette" uib-btn-radio="''">none</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'primary'">primary</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'secondary'">secondary</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'grey'">grey</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'light'">light</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'green'">green</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'yellow'">yellow</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'orange'">orange</div>
+						<div class="lui button" ng-model="palette" uib-btn-radio="'red'">red</div>
+					</div>
+				</p>
+				<p>
+					Sizing :
+					<div class="lui buttons">
+						<div class="lui button" ng-model="sizing" uib-btn-radio="'x-small'">x-small</div>
+						<div class="lui button" ng-model="sizing" uib-btn-radio="'small'">small</div>
+						<div class="lui button" ng-model="sizing" uib-btn-radio="''">default</div>
+						<div class="lui button" ng-model="sizing" uib-btn-radio="'large'">large</div>
+						<div class="lui button" ng-model="sizing" uib-btn-radio="'x-large'">x-large</div>
+					</div>
+				</p>
+				<p>
+					primary color: 
+					<span class="lui short input with addon">
+						<input type="text" ng-model="foregroundColor" class="ng-pristine ng-valid ng-touched">
+					</span>
+				</p>
+				<p>
+					secondary color: 
+					<span class="lui short input with addon">
+						<input type="text" ng-model="backgroundColor" class="ng-pristine ng-valid ng-touched">
+					</span>
+				</p>
+				<p>
+					<div class="lui checkbox">
+						<input type="checkbox" id="showDay" checked ng-model="showDay" />
+						<label for="showDay">Show day label</label>
+					</div>
+				</p>
+				<luid-day-block
+				class="lui"
+				ng-class="[palette, sizing]"
+				show-day="showDay"
+				primary-color="foregroundColor"
+				secondary-color="backgroundColor"
+				date="myDate">
+				</luid-day-block>
 			</div>
-            
-        </article>
+			
+		</article>
 	</section>
 </div>
