@@ -2,6 +2,7 @@
 
 ## 2.0.5 - in dev
 - Better css layout for checkbox inputs: now adopts a table-style layout
+- Adds support for pulse "up" and "down" animations
 
 ### New features
 
