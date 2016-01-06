@@ -27,8 +27,8 @@
 			scope : {
 				date: '=',
 				showDay: '=',
-				customForegroundColor: '=',
-				customBackgroundColor: '='
+				primaryColor: '=',
+				secondaryColor: '='
 			},
 
 			restrict : 'E',
@@ -47,28 +47,28 @@
 
 		controller.weekdayStyleOverride = function() {
 			return { 
-				color: controller.customForegroundColor, 
+				color: controller.primaryColor, 
 			};
 		};
 		controller.dayStyleOverride = function() {
 			return { 
-				"background-color": controller.customForegroundColor, 
-				"border-color": controller.customForegroundColor, 
-				"color": controller.customBackgroundColor, 
+				"background-color": controller.primaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.secondaryColor, 
 			};
 		};
 		controller.monthStyleOverride = function() {
 			return { 
-				"background-color": controller.customBackgroundColor, 
-				"border-color": controller.customForegroundColor, 
-				"color": controller.customForegroundColor, 
+				"background-color": controller.secondaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.primaryColor, 
 			};
 		};
 		controller.yearStyleOverride = function() {
 			return { 
-				"background-color": controller.customBackgroundColor, 
-				"border-color": controller.customForegroundColor, 
-				"color": controller.customForegroundColor, 
+				"background-color": controller.secondaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.primaryColor, 
 			};
 		};
 

@@ -21,20 +21,20 @@ describe('luidDayBlock', function(){
 describe('most basic-est use', function(){
 	beforeEach(function(){
 		$scope.date = moment();
-		$scope.foregroundC = "red";
-		$scope.backgroundC = "yellow";
+		$scope.primaryColor = "red";
+		$scope.secondaryColor = "yellow";
 		$scope.showDay = true;
-		var tpl = angular.element(' <luid-day-block show-day = "showDay" custom-foreground-color = "foregroundC" custom-background-color = "backgroundC" date = "date"/>');
+		var tpl = angular.element(' <luid-day-block show-day = "showDay" primary-color = "primaryColor" secondary-color = "secondaryColor" date = "date"/>');
 		elt = $compile(tpl)($scope);
 		$scope.$digest();
 		isolateScope = elt.isolateScope();
 	});
 
 	it('should compute ng-style overrides', function(){
-		expect(isolateScope.controller.weekdayStyleOverride()).toEqual({ color: $scope.foregroundC });
-		expect(isolateScope.controller.dayStyleOverride()).toEqual({ color: $scope.backgroundC, "background-color": $scope.foregroundC, "border-color": $scope.foregroundC });
-		expect(isolateScope.controller.monthStyleOverride()).toEqual({ color: $scope.foregroundC, "background-color": $scope.backgroundC, "border-color": $scope.foregroundC });
-		expect(isolateScope.controller.yearStyleOverride()).toEqual({ color: $scope.foregroundC, "background-color": $scope.backgroundC, "border-color": $scope.foregroundC });
+		expect(isolateScope.controller.weekdayStyleOverride()).toEqual({ color: $scope.primaryColor });
+		expect(isolateScope.controller.dayStyleOverride()).toEqual({ color: $scope.secondaryColor, "background-color": $scope.primaryColor, "border-color": $scope.primaryColor });
+		expect(isolateScope.controller.monthStyleOverride()).toEqual({ color: $scope.primaryColor, "background-color": $scope.secondaryColor, "border-color": $scope.primaryColor });
+		expect(isolateScope.controller.yearStyleOverride()).toEqual({ color: $scope.primaryColor, "background-color": $scope.secondaryColor, "border-color": $scope.primaryColor });
 	});
 });
 });
