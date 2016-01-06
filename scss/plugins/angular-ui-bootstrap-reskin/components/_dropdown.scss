@@ -62,11 +62,12 @@
 
 		// Dividers
 		.dividing {
-			border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color);
-			padding-bottom: 0.5em;
-			margin-bottom: 0.5em;
-
-			& + li a { border-top: none; }
+			position: relative;
+			&:after {
+				display: block; content: "";
+				position: absolute; top: 100%; left: 0; right: 0;
+				border-bottom: 2px solid #EEE;
+			}
 		}
 		.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
 		.dropdown-header {
