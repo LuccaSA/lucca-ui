@@ -1,13 +1,13 @@
 # Change log
 
 ## 2.0.5 - in dev
-- Better css layout for checkbox inputs: now adopts a table-style layout
-- Adds support for pulse "up" and "down" animations
-- nguibs-datepicker calendar icon is now displayed on the right of the input
-- Adds support for progress bars attached to callouts.
 
 ### New features
  - directive `luid-day-block` that displays a date in a bloc like fashion, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-luid-day-block) for more info
+ - Better css layout for checkbox inputs: now adopts a table-style layout
+ - Adds support for pulse "up" and "down" animations
+ - nguibs-datepicker calendar icon is now displayed on the right of the input
+ - Adds support for progress bars attached to callouts.
 
 ### Resolved issues
  - bug with luifDuration when trying to dislay `1.0005d` with unit = day and precision = day - should have displayed `1d` but displayed `1.00d`
