@@ -97,7 +97,7 @@
 	angular.module('demoApp')
 	.controller('dayBlockCtrl', ['$scope', function($scope){
 		$scope.myDate = new Date();
-		$scope.palette = "primary";
+		$scope.palette = "";
 		$scope.sizing = "";
 	}]);
 
