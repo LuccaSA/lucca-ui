@@ -1,3 +1,39 @@
+// Sizing support
+// ===================================
+luid-day-block#{$prefix} {
+	@include lui_supports_sizing();
+}
+
+
+
+// Coloring support
+// ===================================
+
+@mixin lui_datestamp_coloring($scheme) {
+	& {
+		.day {
+			background-color: map-get($scheme, color);
+			border-color: map-get($scheme, color);
+			color: map-get($scheme, text);
+		}
+		.month, .year {
+			border-color: map-get($scheme, color);
+			color: map-get($scheme, color);
+
+			@if not (luiIsLod($scheme)) {
+				color: map-get($scheme, text);
+			}
+		}
+	}
+}
+luid-day-block#{$prefix} {
+	@each $name, $scheme in luiPalettes() {
+		&.#{map-get($scheme, class)} {
+			@include lui_datestamp_coloring($scheme);
+		}
+	}
+}
+
 luid-day-block {
 	display: inline-block;
 	width: map-gets($vars, width);
@@ -39,46 +75,13 @@ luid-day-block {
 
 		border-width: map-gets($vars, borderWidth);
 		border-style: solid;
+
 		border-top: none;
 
 		font-size: map-gets($vars, year, fontSize);
 		font-weight: map-gets($vars, year, fontWeigh);
 	}
-}
 
-
-// Sizing support
-// ===================================
-luid-day-block#{$prefix} {
-	@include lui_supports_sizing();
-}
-
-
-
-// Coloring support
-// ===================================
-
-@mixin lui_datestamp_coloring($scheme) {
-	& {
-		.day {
-			background-color: map-get($scheme, color);
-			border-color: map-get($scheme, color);
-			color: map-get($scheme, text);
-		}
-		.month, .year {
-			border-color: map-get($scheme, color);
-			color: map-get($scheme, color);
-
-			@if not (luiIsLod($scheme)) {
-				color: map-get($scheme, text);
-			}
-		}
-	}
-}
-luid-day-block#{$prefix} {
-	@each $name, $scheme in luiPalettes() {
-		&.#{map-get($scheme, class)} {
-			@include lui_datestamp_coloring($scheme);
-		}
-	}
+	@include lui_datestamp_coloring(luiTheme(reference, palettes, colors, light));
+	// @include lui_datestamp_coloring((text: map-gets($vars, textColor), color: map-gets($vars, borderColor)));
 }

@@ -10,9 +10,11 @@ $dayblock: (
 
 	textTransform: 			uppercase,
 	textAlign: 				center,
+	textColor: luiTheme(element, typography, body, color),
 
 	borderRadius: 			luiTheme(adjective, rounded, radius),
 	borderWidth: 			1px,
+	borderColor:			luiTheme(element, divider, color),
 
 	day: (
 		verticalPadding:	0.25em,
