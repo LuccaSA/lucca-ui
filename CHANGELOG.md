@@ -7,6 +7,7 @@
 - Adds support for progress bars attached to callouts.
 
 ### New features
+ - directive `luid-day-block` that displays a date in a bloc like fashion, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-luid-day-block) for more info
 
 ### Resolved issues
  - bug with luifDuration when trying to dislay `1.0005d` with unit = day and precision = day - should have displayed `1d` but displayed `1.00d`
