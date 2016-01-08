@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.5 - in dev
+## 2.0.6 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.5)
 
 ### New features
  - directive `luid-day-block` that displays a date in a bloc like fashion, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-luid-day-block) for more info
