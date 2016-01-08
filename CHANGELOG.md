@@ -11,6 +11,7 @@
 
 ### Resolved issues
  - bug with luifDuration when trying to dislay `1.0005d` with unit = day and precision = day - should have displayed `1d` but displayed `1.00d`
+ - luid-timespan now supports `undefined` as value, before default value was 0 sec
 
 ## 2.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.4)
 
