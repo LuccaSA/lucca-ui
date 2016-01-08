@@ -1,8 +1,6 @@
 (function(){
 	'use strict';
 
-	// we use underscore cuz it's awesome
-	// http://underscorejs.org/
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 

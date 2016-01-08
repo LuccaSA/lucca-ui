@@ -25,7 +25,7 @@
 				Just append/prepend a <code>&lt;i class="lui icon {icon-name}"&gt;&lt;/i&gt;</code> element.
 			</p>
 			<p>
-				<b>Important:</b> the order of the words is important in the icon-name: <code>lui icon arrow south</code> is not the same as <code>lui icon south arrow</code>
+				<b>Important:</b> the words order is important in the icon-name : <code>lui icon arrow south</code> is not the same that <code>lui icon south arrow</code>
 			</p>
 			<p>
 				Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
@@ -39,9 +39,6 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline" id="arrows">Arrows</h4>
 			</div>
-			<p>
-				Self explanatory.
-			</p>
 			<ul class="icon-list lucca-input-group" ng-repeat="list in arrowIcons">
 				<li ng-repeat="item in list">
 					<i class="lui icon {{item}}"></i>
@@ -61,10 +58,10 @@
 				<div class="lui small buttons"><button class="lui button"><i class="check icon lui"></i> ok</button><button class="lui button">cancel</button></div><br>
 				does not convey the same information as this
 				<ul>
-					<li>some stuff, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
-					<li>other stuff, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
-					<li>a third thing, status: <span class="lui red label with addon">failure <i class="lui icon warning right addon"></i></span></li>
-					<li>you get the idea, status: <span class="lui green label with addon">success <i class="lui icon check right addon"></i></span></li>
+					<li>Some stuff, status: <span class="lui green label with addon">Success <i class="lui icon check right addon"></i></span></li>
+					<li>Other stuff, status: <span class="lui green label with addon">Commit <i class="lui icon check right addon"></i></span></li>
+					<li>A third thing, status: <span class="lui red label with addon">Failure <i class="lui icon warning right addon"></i></span></li>
+					<li>You get the idea, status: <span class="lui green label with addon">Miracle <i class="lui icon check right addon"></i></span></li>
 				</ul>
 				In both cases <i class="lui icon check"></i> put emphasis on the information next to it but the information reinforced is not the same
 			</p>
@@ -97,13 +94,13 @@
 
 
 			<div class="lui dashed divider">
-				<h4 class="lui underline" id="mouse">Mouse interractions</h4>
+				<h4 class="lui underline" id="mouse">Mouse interactions</h4>
 			</div>
 			<p>
-				Here are the icons that either tell the user there is a mouse interraction possible or that appear when the user does a mouse interraction.
+				Here are the icons that either tell the user there is a mouse interaction possible or that appear when the user interacts using his/her mouse.
 			</p>
 			<p>
-				This <i class="lui drag icon"></i> tells the user he can drag n drop the element, when he does his mouse cursor is changed to <i class="lui icon move"></i> to tell him he is moving something.
+				This <i class="lui drag icon"></i> tells the user he can drag n drop the element. By doing so, his mouse cursor is changed to <i class="lui icon move"></i> to confirm he is moving something.
 			</p>
 			<ul class="icon-list lucca-input-group" ng-repeat="list in mouseIcons">
 				<li ng-repeat="item in list">
@@ -114,7 +111,7 @@
 
 
 			<div class="lui dashed divider">
-				<h4 class="lui underline" id="specific">Spécific icons</h4>
+				<h4 class="lui underline" id="specific">Specific icons</h4>
 			</div>
 			<p>
 				Icons that represent one thing and one thing only
