@@ -157,10 +157,10 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 }
 
 & {
-	// Datagrid
+	// Tablegrid
 	// ===================================
-	$vars: luiTheme(element, datagrid);
-	@import "core/elements/datagrid";
+	$vars: luiTheme(element, tablegrid);
+	@import "core/elements/tablegrid";
 }
 
 & {

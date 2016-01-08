@@ -1,4 +1,4 @@
-#{$prefix}.datagrid {
+#{$prefix}.tablegrid {
 	background-color: map-gets($vars, background);
 	text-align: map-gets($vars, textAlignment);
 	@extend #{$prefix}.raised;

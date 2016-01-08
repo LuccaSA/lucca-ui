@@ -1,9 +1,9 @@
 
-// Datagrid
+// Tablegrid
 // @type: element
 // ===================================
 
-$datagrid: (
+$tablegrid: (
 	background: 				#FFF,
 	textAlignment: 				left,
 
@@ -39,4 +39,4 @@ $datagrid: (
 	locked: (
 	)
 );
-$luiTheme: luiSetTheme(element, datagrid, $datagrid);
+$luiTheme: luiSetTheme(element, tablegrid, $tablegrid);
