@@ -334,3 +334,17 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 	@import "core/elements/progress.overrides";
 	$luiTheme: luiSetTheme(element, progress, $myTheme);
 }
+
+
+// Day block
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/day-block.defaults";
+
+	// Theme overrides
+	@import "core/elements/day-block.overrides";
+	$luiTheme: luiSetTheme(element, dayblock, $myTheme);
+}

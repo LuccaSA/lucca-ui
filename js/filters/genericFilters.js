@@ -34,6 +34,13 @@
 	})
 	.filter('luifNumber', ['$sce', '$filter', function($sce, $filter) {
 		return function(_input, _precision, _placeholder) {
+
+			function getRightSpan(decimalPart, separator) {
+				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; } 
+				if (parseInt(decimalPart) === 0) { return "<span style=\"opacity:0\">" + separator + decimalPart + "</span>"; }
+				return "<span>" + separator + decimalPart + "</span>";
+			}
+
 			var placeholder = _placeholder === undefined ? '' : _placeholder;
 			// alert(_input + " " + (!!_input.isNaN && _input.isNaN()));
 			var input = _input === undefined || _input === null || _input === "" || _input != _input ? placeholder : _input; // the last check is to check if _input is NaN
@@ -42,16 +49,9 @@
 
 			var text = $filter("number")(input, precision);
 			var decimalPart = (text || $filter("number")(0, precision)).split(separator)[1];
-			var rightSpan;
+			var rightSpan = getRightSpan(decimalPart, separator);
 
-			if(decimalPart === undefined){
-				rightSpan = "<span style=\"opacity:0\"></span>";
-			}else if(parseInt(decimalPart) === 0){
-				rightSpan = "<span style=\"opacity:0\">" + separator + decimalPart + "</span>";
-			}else{
-				rightSpan = "<span>" + separator + decimalPart + "</span>";
-			}
-			if(input === '' || !text){
+			if (input === '' || !text){
 				// the _input or the _placeholder was not parsable by the number $filter, just return input but trusted as html
 				return $sce.trustAsHtml(input + rightSpan);
 			}

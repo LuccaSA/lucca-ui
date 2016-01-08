@@ -17,6 +17,11 @@ describe('luidPercentage', function(){
 			$scope.$digest();
 			isolateScope = elt.isolateScope();
 		});
+		it('should manage undefined values', function(){
+			$scope.myPct = undefined;
+			$scope.$digest();
+			expect(isolateScope.intPct).toEqual(undefined);
+		});
 		it('should update intPct when myPct changes', function(){
 			$scope.myPct = 0.5;
 			$scope.$digest();

@@ -112,6 +112,28 @@
 				<span id="myKeydown_span">{{text}}</span>
 			</div>
 		</article>
+        
+        <article id="luid-day-block">
+			<h2 class="lui divider below">luidDayBlock</h2>
+			<div ng-controller="luidDayBlockCtrl" class="lui block round">
+				<!-- With day name -->
+				<luid-day-block
+                 id = "myDayBlock" 
+                 show-day = "showDay"
+                 first-color = "firstColor"
+                 second-color = "secondColor"
+                 date = "date"/> 
+			</div>
+            <div ng-controller="luidDayBlockCtrl" class="lui block round">
+                 <!-- Without day name -->
+				<luid-day-block
+                 id = "myDayBlockWithout" 
+                 show-day = "false"
+                 first-color = "firstColor"
+                 second-color = "secondColor"
+                 date = "date"/> 
+			</div>
+		</article>
 	</section>
 </body>
 </html>

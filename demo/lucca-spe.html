@@ -9,8 +9,8 @@
 			<p>
 				<b>Important:</b>
 				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
-				It also uses <code>momentjs</code> for its manipulation of dates cuz <a class="lui fancy link" href="http://momentjs.com/">momentjs</a> is super awesome.
-				It also uses <code>underscorejs</code>, which is a Javascript library providing very usefull helpers (especially for arrays and collections). <br />
+				It also uses <code>moment.js</code> for its manipulation of dates as <a class="lui fancy link" href="http://momentjs.com/">moment.js</a> is super awesome.
+				It also uses <code>underscore.js</code>, which is a Javascript library providing very useful helpers (especially for arrays and collections). <br />
 				The luid-user-picker directive depends on <code>AngularJS ui-select</code> because it offers a large set of customizable features.
 			</p>
 			<p>
@@ -34,7 +34,7 @@
 			An input to have a ui-select plugged to <code>/api/v3/users/find</code> with a more powerful search and very amazing features.
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Features:</h4>
+			<h4 class="lui underline">Features</h4>
 		</div>
 		<p>
 			Supports up and down key events to select a value.
@@ -61,7 +61,7 @@
 			Displays the selected user first. When the currently selected user is in the set of results, he is displayed as first result.
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Advanced features:</h4>
+			<h4 class="lui underline">Advanced features</h4>
 		</div>
 		<p>
 			Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list.
@@ -81,27 +81,27 @@
 			Displays the option "All users". This option is displayed when the search input is empty.
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Supported arguments:</h4>
+			<h4 class="lui underline">Supported arguments</h4>
 		</div>
 		<p>
 			<ul class="lui unstyled">
-				<li><code>ng-model</code>: the variable to bind to</li>
-				<li><code>on-select</code>: function to execute when an item is selected</li>
-				<li><code>on-remove</code>: function to execute when an item is removed</li>
-				<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
-				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not</li>
-				<li><code>custom-properties</code>: list of properties you want to display in case of homonyms</li>
-				<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
-				<li><code>app-id</code>: the set of results should have access to the application matching this id</li>
-				<li><code>operations</code>: list of operations that the set of results should support for the given application</li>
-				<li><code>custom-info</code>: function that will return the information to display next to each user. It should respect the following signature: <code>function(user) { return string; }</code></li>
-				<li><code>custom-info-async</code>: same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
-				<li><code>display-me-first</code>: boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
-				<li><code>display-all-users</code>: boolean indication if you want to display the option "All users" when the search input is empty</li>
+				<li><code>ng-model</code> : the variable to bind to</li>
+				<li><code>on-select</code> : function to execute when an item is selected</li>
+				<li><code>on-remove</code> : function to execute when an item is removed (multi-select or emptying the input)</li>
+				<li><code>control-disabled</code> : boolean indicating if you want the control to be disabled</li>
+				<li><code>show-former-employees</code> : boolean indicating if you want to fetch former employees or not (default:false)</li>
+				<li><code>custom-properties</code> : list of properties you want to display in case of homonyms</li>
+				<li><code>custom-filter</code> : function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
+				<li><code>app-id</code> : the set of results should have access to the application matching this id</li>
+				<li><code>operations</code> : list of operations that the set of results should support for the given application</li>
+				<li><code>custom-info</code> : function that will return the information to display next to each user. It should respect the following signature : <code>function(user) { return string; }</code></li>
+				<li><code>custom-info-async</code> : same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
+				<li><code>display-me-first</code> : boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
+				<li><code>display-all-users</code> : boolean indication if you want to display the option "All users" when the search input is empty</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
+			<h4 class="lui underline">Usage</h4>
 		</div>
 		<p>
 			<pre hljs no-escape language="html">&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
@@ -115,7 +115,7 @@
 
 		<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
-				<h4 class="lui underline">Demo:</h4>
+				<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui right item">
 				<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
@@ -147,7 +147,7 @@
 				Show former employees
 			</p>
 			<p>
-				Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
+				Selected user : <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
 			</p>
 			<hr />
 			<h5>Custom filtering</h5>
@@ -158,7 +158,7 @@
 	return user.firstName.length &lt;= 6;
 };</pre>
 			<p>
-				Select a filter: 
+				Select a filter : 
 			</p>
 			<p>
 				<span class="lui buttons">
@@ -168,7 +168,7 @@
 				</span>
 			</p>
 			<p>
-				Set of users with the selected filter applied: 
+				Set of users with the selected filter applied : 
 				<luid-user-picker ng-if="customFilter === 'hasShortName'" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
 				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
 				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
@@ -176,11 +176,11 @@
 			<hr />
 			<h5>Custom info</h5>
 			<p>
-				Number of letters in their first name: 
+				Number of letters in their first name : 
 				<luid-user-picker ng-model="myUser.filtered" custom-info="firstNameLength"></luid-user-picker>, this info is computed synchronously
 			</p>
 			<p>
-				Year of contract start: <luid-user-picker ng-model="myUser.selected" custom-info-async="yearOfArrivalAsync"></luid-user-picker>, this info needs an ajax call for each displayed user
+				Year of contract start : <luid-user-picker ng-model="myUser.selected" custom-info-async="yearOfArrivalAsync"></luid-user-picker>, this info needs an ajax call for each displayed user
 			</p>
 			<pre hljs no-escape language="js">$scope.firstNameLength = function(user) { return user.firstName.length; };
 $scope.yearOfArrivalAsync = function(user){
@@ -202,7 +202,7 @@ $scope.yearOfArrivalAsync = function(user){
 			</p>
 		</div>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Roadmap:</h4>
+			<h4 class="lui underline">Roadmap</h4>
 		</div>
 		<p>
 			Here are a list of features we plan to add soon.
@@ -216,10 +216,10 @@ $scope.yearOfArrivalAsync = function(user){
 			We don't really know how heavy this directive is for the server or for the client. We already have some leads on how to optimize certain aspects (the pagination for example) but we don't know if it is really necessary to focus on that now
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Side notes:</h4>
+			<h4 class="lui underline">Side notes</h4>
 		</div>
 		<p>
-			The directive is tested with karma (52 tests so far) and protractor (13 tests) and should be stable. Follow the release notes of each version of the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">bower component</a> to know what feature was added and which bug was fixed.
+			The directive is tested with karma (52 tests so far) and protractor (13 tests) and will be stable. Follow the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">release notes of each version of the bower component</a> to know what feature was added and which bug was fixed.
 		</p>
 	</article>
 
@@ -231,13 +231,13 @@ $scope.yearOfArrivalAsync = function(user){
 			An input that display and edit a text available in different languages
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Features:</h4>
+			<h4 class="lui underline">Features</h4>
 		</div>
 		<p>
-			As with the other directives, it inherits from the ng-model controller and as such can be integrated to forms like any other input
+			As with the other directives, it inherits from the ng-model controller and as such can be integrated to forms like any other input.
 		</p>
 		<p>
-			Supports 3 modes :
+			Supports 2 modes :
 			<ul class="lui unstyled">
 				<li><code>dictionary</code> default mode, the ng-model will have this form <code>{"en": "some stuff", "fr": "des bidules"}</code></li>
 				<li><code>|</code> or <code>pipe</code> the ng-model will be a string looking like this <code>"en:some stuff|fr:des bidules"</code></li>
@@ -245,7 +245,7 @@ $scope.yearOfArrivalAsync = function(user){
 			</ul>
 		</p>
 		<div class="lui dashed divider">
-			<h4 class="lui underline">Supported arguments:</h4>
+			<h4 class="lui underline">Supported arguments</h4>
 		</div>
 		<p>
 			<ul class="lui unstyled">
@@ -264,13 +264,8 @@ $scope.yearOfArrivalAsync = function(user){
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo:</h4>
+					<h4 class="lui underline">Demo</h4>
 				</div>
-<!-- 				<div class="lui right item">
-					<a class="lui button primary" href="http://plnkr.co/edit/iTiGgz8E7uFezvoPPMa6?p=preview">
-						<i class="lui icon edit"></i>Edit in Plunker
-					</a>
-				</div> -->
 			</div>
 			<div ng-controller="translationsCtrl" class="lui block round">
 			<h5>Mode dictionary</h5>
@@ -281,16 +276,16 @@ $scope.yearOfArrivalAsync = function(user){
 				myTrads: <code>{{myTrads}}</code>
 			</p>
 			<hr>
-				<h5>mode pipe</h5>
+				<h5>Mode pipe</h5>
 			<p>
 				<luid-translations ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
 			</p>
 			<p>
-				myTradsPipe: <code>{{myTradsPipe}}</code>
+				myTradsPipe : <code>{{myTradsPipe}}</code>
 			</p>
 			<hr>
 			<p>
-				Number of times <code>ng-change</code> has been called: <code>{{count}}</code>
+				Number of times <code>ng-change</code> has been called : <code>{{count}}</code>
 			</p>
 			</div>
 		</article>

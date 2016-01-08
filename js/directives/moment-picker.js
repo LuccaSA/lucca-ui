@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-		/**
+	/**
 	** DEPENDENCIES
 	**  - moment
 	**/
@@ -11,55 +11,42 @@
 			var ngModelCtrl = ctrls[1];
 			var mpCtrl = ctrls[0];
 
-			scope.hasButtons = attrs.showButtons!==undefined;
+			scope.hasButtons = attrs.showButtons !== undefined;
 
 			// display the value i on two chars
 			if(!!attrs.format){ // allows to have a ng-model of type string, not moment
 				var format = scope.$eval(attrs.format);
-				ngModelCtrl.$render = function(){
-					if(this.$viewValue && moment(this.$viewValue, format).isValid()){
-						var momentValue = moment(this.$viewValue, format);
-						scope.hours = momentValue.format('HH');
-						scope.mins = momentValue.format('mm');
-					}else{
-						scope.hours = undefined;
-						scope.mins = undefined;
-					}
+
+				ngModelCtrl.$render = function() {
+					var momentValue = moment(this.$viewValue, format);
+					var condition = this.$viewValue && momentValue.isValid();
+
+					scope.hours = condition ? momentValue.format('HH') : undefined;
+					scope.mins = condition ? momentValue.format('mm') : undefined;
 				};
-				ngModelCtrl.setValue = function(newMomentValue){
-					if(!newMomentValue){
-						ngModelCtrl.$setViewValue(undefined);
-					}else{
-						ngModelCtrl.$setViewValue(newMomentValue.format(format));
-					}
+
+				ngModelCtrl.setValue = function(newMomentValue) {
+					ngModelCtrl.$setViewValue(!newMomentValue ? undefined : newMomentValue.format(format));
 				};
-			}else{
-				ngModelCtrl.$render = function(){
-					if(this.$viewValue && !!this.$viewValue.isValid && this.$viewValue.isValid()){
-						scope.hours = this.$viewValue.format('HH');
-						scope.mins = this.$viewValue.format('mm');
-					}else{
-						scope.hours = undefined;
-						scope.mins = undefined;
-					}
+			} else {
+				ngModelCtrl.$render = function() {
+					var condition = this.$viewValue && !!this.$viewValue.isValid && this.$viewValue.isValid();
+					scope.hours = condition ? this.$viewValue.format('HH') : undefined;
+					scope.mins = condition ? this.$viewValue.format('mm') : undefined;
 				};
-				ngModelCtrl.setValue = function(newMomentValue){ ngModelCtrl.$setViewValue(newMomentValue); };
+				ngModelCtrl.setValue = function(newMomentValue) { ngModelCtrl.$setViewValue(newMomentValue); };
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
 
-			ngModelCtrl.$validators.min = function(modelValue,viewValue){
-				return mpCtrl.checkMin(modelValue);
-			};
-			ngModelCtrl.$validators.max = function(modelValue,viewValue){
-				return mpCtrl.checkMax(modelValue);
-			};
+			ngModelCtrl.$validators.min = function (modelValue,viewValue) { return mpCtrl.checkMin(modelValue); };
+			ngModelCtrl.$validators.max = function (modelValue,viewValue) { return mpCtrl.checkMax(modelValue); };
+
 			var inputs = element.find('input');
-			var hoursInput = angular.element(inputs[0]);
-			var minsInput = angular.element(inputs[1]);
-			mpCtrl.setupEvents(hoursInput,minsInput);
+			mpCtrl.setupEvents(angular.element(inputs[0]), angular.element(inputs[1]));
 		}
-		return{
+
+		return {
 			require:['luidMoment','^ngModel'],
 			controller:'luidMomentController',
 			scope: {
@@ -82,326 +69,261 @@
 			link:link
 		};
 	}])
-	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment){
-		$scope.pattern = /^([0-9]{0,2})?$/;
-		var specialSteps = [5,10,15,20,30];
-		var mpCtrl = this;
+	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment) {
 
-		// private utility methods
-		// we dont want a reference to _ that is used just for a _.contains once so we just recode it with an angular.forEach
-		var contains = function(array, value){
-			var b = false;
-			angular.forEach(array,function(v){
-				b = b || v === value;
-			});
-			return b;
-		};
+		function incr(step) {
+			function calculateNewValue() {
+				function contains(array, value) { return array.indexOf(value) !== -1; }
 
-		// private methods for update
-		var incr = function (step) {
+				var curr = moment(currentValue());
+				if (!curr || !curr.isValid()) { curr = getRefDate().startOf('day'); }
+				if (contains(specialSteps, Math.abs(step)) && curr.minutes() % step !== 0) {
+					step = step < 0 ? - (curr.minutes() % step) : -curr.minutes() % step + step;
+				}
+
+				var newValue = curr.add(step,'m');
+				newValue.seconds(0);
+				return newValue;
+			}
+
 			if ($scope.disabled) { return; }
-			enableButtons();
 			$scope.ngModelCtrl.$setValidity('pattern', true);
 
-			var curr = moment(currentValue());
-			if(!curr || !curr.isValid()){curr = getRefDate().startOf('day');}
-			if(contains(specialSteps, Math.abs(step)) && curr.minutes()%step!==0){
-				step = step<0? -(curr.minutes()%step) : -curr.minutes()%step + step;
+			update(calculateNewValue());
+		}
+
+		function update(newValue) {
+			updateWithoutRender(newValue);
+			$scope.ngModelCtrl.$render();
+		}
+
+		function updateWithoutRender(newValue) {
+			function correctedValue(newValue, min, max) {
+				switch(true){
+					case (!newValue) : return newValue;
+					case (min && min.diff(newValue) > 0) : return min;
+					case (max && max.diff(newValue) < 0) : return max;
+					default : return newValue;
+				}
 			}
-			var newValue = curr.add(step,'m');
-			// check if it before min or after max
-			if(!mpCtrl.checkMin(newValue)){
-				$scope.mined = true;
-				newValue = getMin();
-			}else if(!mpCtrl.checkMax(newValue)){
-				$scope.maxed = true;
-				newValue = getMax();
+			var min = getMin(); 
+			var max = getMax(); 
+			newValue = correctedValue(newValue, min, max);
+			$scope.maxed = newValue && max && max.diff(newValue) === 0;
+			$scope.mined = newValue && min && min.diff(newValue) === 0;
+
+			$scope.ngModelCtrl.setValue(newValue);
+		}
+
+		// translate between string values and viewvalue
+		function getInputedTime() {
+			var intHours = parseInt($scope.hours);
+			var intMinutes = parseInt($scope.mins);
+			if (intHours != intHours) { intHours = 0; } // intHour isNaN
+			if (intMinutes != intMinutes) { intMinutes = 0; } // intMins isNaN
+			if (intMinutes > 60) { intMinutes = 59; $scope.mins = "59"; }
+
+			return getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
+		}
+
+		function cancelTimeouts() {
+			function cancel(timeout){
+				if (!!timeout) {
+					$timeout.cancel(timeout);
+					timeout = undefined;
+				}				
+			}
+			cancel(hoursFocusTimeout);
+			cancel(minsFocusTimeout);
+		}
+
+		function correctValue() {
+			if ($scope.enforceValid) {
+				$scope.ngModelCtrl.$setValidity('pattern', true);
+				if ($scope.ngModelCtrl.$error.min || $scope.ngModelCtrl.$error.max) {
+					update(currentValue());
+				}
+			}
+		}
+
+		function getStep() { return isNaN(parseInt($scope.step)) ? 5 : parseInt($scope.step); }
+
+		function getRefDate() {
+			function toMoment(value) { return (!!value && moment(value).isValid()) ? moment(value) : undefined; }
+
+			return toMoment($scope.referenceDate) || toMoment($scope.min) || toMoment($scope.max) || moment();
+		}
+
+		function getExtremum(extremum, offset, checkMidnight) {
+			function rawExtremum(){
+				switch(true){
+					// check if min/max is a valid moment
+					case (!!extremum.isValid && !!extremum.isValid()) : return moment(extremum);
+					// check if min/max is parsable by moment
+					case (moment(extremum,'YYYY-MM-DD HH:mm').isValid()) : return moment(extremum,'YYYY-MM-DD HH:mm');
+					// check if min/max is like '23:15'
+					case (moment(extremum, 'HH:mm').isValid()) :
+						var refDate = getRefDate();
+						var extrem = moment(extremum, 'HH:mm').year(refDate.year()).month(refDate.month()).date(refDate.date());
+						// a min/max time of '00:00' means midnight tomorrow
+						if (checkMidnight && extrem.hours() + extrem.minutes() === 0) { extrem.add(1,'d');	}
+						return extrem;
+				}
 			}
 
-			newValue.seconds(0);
-			// update
-			update(newValue);
-		};
-		var update = function(newValue){
-			$scope.ngModelCtrl.setValue(newValue);
-			$scope.ngModelCtrl.$render();
-		};
-		var updateWithoutRender = function(newValue){
-			enableButtons(newValue);
-			$scope.ngModelCtrl.setValue(newValue);
-		};
-		var enableButtons = function(newValue){
-			$scope.maxed=false;
-			$scope.mined=false;
-			if(!newValue){return;}
-			if(getMin() && getMin().diff(newValue)===0){
-				$scope.mined = true;
-			}else if(getMax() && getMax().diff(newValue)===0){
-				$scope.maxed = true;
+			// min/max attr not specified
+			if (!extremum) { return undefined; } 
+			var extrem = rawExtremum();
+			extrem.add(moment.duration(offset));
+			return extrem;
+		}
+
+		function getMin() {	return getExtremum($scope.min, $scope.minOffset, false); }
+		function getMax() {	return getExtremum($scope.max, $scope.maxOffset, true);	}
+
+		function currentValue() { return !$scope.format ? $scope.ngModelCtrl.$viewValue : moment($scope.ngModelCtrl.$viewValue, $scope.format); }
+
+		function incrementEvent(eventName, value) {
+			cancelTimeouts();
+			incr(value);
+			$scope.$broadcast(eventName);
+		}
+
+		function focusEvent(isMinute) {
+			cancelTimeouts();
+			$scope.minsFocused = !!isMinute;
+			$scope.hoursFocused = !isMinute;			
+		}
+
+		function changeInput(field, validator) {
+			if (field === undefined){
+				$scope.ngModelCtrl.$setValidity('pattern', false);
+				return update(undefined);
 			}
-		};
+			$scope.ngModelCtrl.$setValidity('pattern', true);
+
+			validator();
+
+			updateWithoutRender(getInputedTime());			
+		}
+
+		function blurEvent(timeout, isFocused){
+			timeout = $timeout(function(){
+					timeout = false;
+					correctValue();
+			}, 200);			
+		}
+
+		var hoursFocusTimeout, minsFocusTimeout;
+		var specialSteps = [5, 10, 15, 20, 30];
+		var mpCtrl = this;
+		$scope.pattern = /^([0-9]{0,2})?$/;
+
+		// stuff to control the focus of the different elements and the clicky bits on the + - buttons
+		// what we want is show the + - buttons if one of the inputs is displayed
+		// and we want to be able to click on said buttons without loosing focus (obv)
+		$scope.incrHours = function() {	incrementEvent('focusHours', 60); };
+		$scope.decrHours = function() {	incrementEvent('focusHours', -60); };
+		$scope.incrMins = function() {	incrementEvent('focusMinutes', getStep()); };
+		$scope.decrMins = function() {	incrementEvent('focusMinutes', -getStep()); };
 
 		// string value changed
 		$scope.changeHours = function(){
-			// if hours does not satisfy the pattern [0-9]{0,2}
-			if($scope.hours === undefined){
-				$scope.ngModelCtrl.$setValidity('pattern', false);
-				return update(undefined);
-			}
-			$scope.ngModelCtrl.$setValidity('pattern', true);
+			// if this does not satisfy the pattern [0-9]{0,2}
+			function validateHours(){
+				if ($scope.hours === "") { return update(undefined); }
 
-			if($scope.hours === ""){
-				return update(undefined);
+				if ($scope.hours.length == 2) {
+					if (parseInt($scope.hours) > 23) { $scope.hours = '23'; }
+					$scope.$broadcast('focusMinutes');
+				} else if ($scope.hours.length == 1 && parseInt($scope.hours) > 2) {
+					$scope.hours = 0 + $scope.hours;
+					$scope.$broadcast('focusMinutes');
+				}
 			}
 
-			if($scope.hours.length == 2){
-				if(parseInt($scope.hours)>23){ $scope.hours = '23'; }
-				$scope.$broadcast('focusMinutes');
-			}else if($scope.hours.length == 1 && parseInt($scope.hours)>2){
-				$scope.hours = 0 + $scope.hours;
-				$scope.$broadcast('focusMinutes');
-			}
-			updateWithoutRender(getInputedTime());
-		};
-		$scope.changeMins = function(){
-			if($scope.mins === undefined){
-				$scope.ngModelCtrl.$setValidity('pattern', false);
-				return update(undefined);
-			}
-			$scope.ngModelCtrl.$setValidity('pattern', true);
-
-			updateWithoutRender(getInputedTime());
+			changeInput($scope.hours, validateHours);
 		};
 
-		// private method to translate between string values and viewvalue
-		var getInputedTime = function(){
-			var intHours = parseInt($scope.hours);
-			var intMinutes = parseInt($scope.mins);
-			if(intHours!=intHours){intHours = 0;} // intHour isNaN
-			if(intMinutes!=intMinutes){intMinutes = 0;} // intMins isNaN
-			if(intMinutes > 60){ intMinutes = 59; $scope.mins = "59"; }
-
-			return getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
-		};
+		$scope.changeMins = function() { changeInput($scope.mins, function(){}); };
 
 		// display stuff
-		$scope.formatInputValue = function(){
-			$scope.ngModelCtrl.$render();
-		};
+		$scope.formatInputValue = function() { $scope.ngModelCtrl.$render(); };
+
 		$scope.getDayGap = function(){
 			var refDate = getRefDate().startOf('day');
 			return moment.duration(moment(currentValue()).startOf('d').diff(refDate)).asDays();
 		};
 
-		// stuff to control the focus of the different elements and the clicky bits on the + - buttons
-		// what we want is show the + - buttons if one of the inputs is displayed
-		// and we want to be able to click on said buttons without loosing focus (obv)
-		$scope.incrHours = function(){
-			cancelTimeouts();
-			incr(60);
-			$scope.$broadcast('focusHours');
-		};
-		$scope.decrHours = function(){
-			cancelTimeouts();
-			incr(-60);
-			$scope.$broadcast('focusHours');
-		};
-		$scope.incrMins = function(){
-			cancelTimeouts();
-			$scope.$broadcast('focusMinutes');
-			incr(getStep());
-		};
-		$scope.decrMins = function(){
-			cancelTimeouts();
-			$scope.$broadcast('focusMinutes');
-			incr(-getStep());
-		};
+		$scope.blurHours = function() { blurEvent(hoursFocusTimeout, $scope.hoursFocused); };
+		$scope.blurMins = function() { blurEvent(minsFocusTimeout, $scope.minsFocused); };
 
-		var hoursFocusTimeout,minsFocusTimeout;
-		$scope.blurHours = function(){
-			hoursFocusTimeout = $timeout(function(){
-					$scope.hoursFocused = false;
-					correctValue();
-			},200);
-		};
-		$scope.blurMins = function(){
-			minsFocusTimeout = $timeout(function(){
-					$scope.minsFocused = false;
-					correctValue();
-			},200);
-		};
-		$scope.focusHours = function(){
-			cancelTimeouts();
-			$scope.minsFocused = false;
-			$scope.hoursFocused = true;
-		};
-		$scope.focusMins = function(){
-			cancelTimeouts();
-			$scope.minsFocused = true;
-			$scope.hoursFocused = false;
-		};
+		$scope.focusHours = function() { focusEvent(false); };
+		$scope.focusMins = function() { focusEvent(true); };
 
-		var cancelTimeouts = function(){
-			if(!!hoursFocusTimeout){
-				$timeout.cancel(hoursFocusTimeout);
-				hoursFocusTimeout = undefined;
-			}
-			if(!!minsFocusTimeout){
-				$timeout.cancel(minsFocusTimeout);
-				minsFocusTimeout = undefined;
-			}
-		};
-		var correctValue = function(){
-			if($scope.enforceValid){
-				$scope.ngModelCtrl.$setValidity('pattern', true);
-				if($scope.ngModelCtrl.$error.min){
-					update(getMin());
-				}else if($scope.ngModelCtrl.$error.max){
-					update(getMax());
-				}
-			}
-		};
-
-		// internal machinery - getStuff
-		var getStep = function(){
-			var step = 5;
-			if(!isNaN(parseInt($scope.step))){
-				step = parseInt($scope.step);
-			}
-			return step;
-		};
-		var getRefDate = function(){
-			var refDate = moment();
-			if(!!$scope.referenceDate && moment($scope.referenceDate).isValid()){
-				refDate = moment($scope.referenceDate);
-			}else if (!!$scope.min && moment($scope.min).isValid()){
-				refDate = moment($scope.min);
-			}else if (!!$scope.max && moment($scope.max).isValid()){
-				refDate = moment($scope.max);
-			}
-			return refDate;
-		};
-		var getMin = function(){
-			var min;
-			var offset;
-			if(!$scope.min){ return undefined; } // min attr not specified
-			if(!!$scope.min.isValid && !!$scope.min.isValid()){ // check if min is a valid moment
-				min = moment($scope.min);
-			}else if(moment($scope.min,'YYYY-MM-DD HH:mm').isValid()){ // check if min is parsable by moment
-				min = moment($scope.min,'YYYY-MM-DD HH:mm');
-			}else if(moment($scope.min, 'HH:mm').isValid()){ // check if min is leke '23:15'
-				var refDate = getRefDate();
-				min = moment($scope.min, 'HH:mm').year(refDate.year()).month(refDate.month()).date(refDate.date());
-			}
-			offset = moment.duration($scope.minOffset);
-			min.add(offset);
-			return min;
-		};
-		var getMax = function(){
-			var max;
-			var offset;
-			if(!$scope.max){ return undefined; } // max attr not specified
-			if(!!$scope.max.isValid && !!$scope.max.isValid()){ // check if max is a valid moment
-				max = moment($scope.max);
-			}else if(moment($scope.max,'YYYY-MM-DD HH:mm').isValid()){ // check if max is parsable by moment
-				max = moment($scope.max,'YYYY-MM-DD HH:mm');
-			}else if(moment($scope.max, 'HH:mm').isValid()){ // check if max is leke '23:15'
-				var refDate = getRefDate();
-				max = moment($scope.max, 'HH:mm').year(refDate.year()).month(refDate.month()).date(refDate.date());
-				if (max.hours() + max.minutes() === 0){ // a max time of '00:00' means midnight tomorrow
-					max.add(1,'d');
-				}
-			}
-			offset = moment.duration($scope.maxOffset);
-			max.add(offset);
-			return max;
-		};
-		var currentValue = function(){
-			if(!$scope.format){
-				return $scope.ngModelCtrl.$viewValue;
-			}else{
-				return moment($scope.ngModelCtrl.$viewValue, $scope.format);
-			}
-		};
-
-		// internal machinery - checkSomethin
-		this.checkMin = function(newValue){
+		this.checkMin = function(newValue) {
 			var min = getMin();
-			return !min || min.diff(newValue)<=0;
+			return !min || min.diff(newValue) <= 0;
 		};
-		this.checkMax = function(newValue){
+
+		this.checkMax = function(newValue) {
 			var max = getMax();
-			return !max || max.diff(newValue)>=0;
+			return !max || max.diff(newValue) >= 0;
 		};
 
 		// events - mousewheel and arrowkeys
-		this.setupEvents = function( hoursInput, minsInput){
-			// setupMousewheelEvents(elt);
+		this.setupEvents = function(hoursInput, minsInput){
+			function setupArrowkeyEvents(hoursInput, minsInput) {
+				function subscription(e, step){
+					switch(e.which){
+						case 38:// up
+							e.preventDefault();
+							incr(step);
+							$scope.$apply();
+						break;
+						case 40:// down
+							e.preventDefault();
+							incr(-step);
+							$scope.$apply();
+						break;
+						case 13:// enter
+							e.preventDefault();
+							$scope.formatInputValue();
+							$scope.$apply();
+						break;
+					}				
+				}
+				var step = getStep();
+				hoursInput.bind('keydown', function(e) { subscription(e, 60); });
+				minsInput.bind('keydown', function(e) { subscription(e, step); });
+			}
+
+			function setupMousewheelEvents(hoursInput, minsInput) {
+				function isScrollingUp(e) {
+					e = e.originalEvent ? e.originalEvent : e;
+					//pick correct delta variable depending on event
+					var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
+					return (e.detail || delta > 0);
+				}
+
+				function subscription(e, incrStep){
+					if(!$scope.disabled){
+						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
+						e.preventDefault();
+					}				
+				}
+				var step = getStep();
+
+				hoursInput.bind('mousewheel wheel', function(e) { subscription(e, 60); });
+				minsInput.bind('mousewheel wheel', function(e) { subscription(e, step); });
+			}
+
 			setupArrowkeyEvents( hoursInput, minsInput);
 			setupMousewheelEvents( hoursInput, minsInput);
 		};
-		var setupArrowkeyEvents = function( hoursInput, minsInput ) {
-			var step = getStep();
-			hoursInput.bind('keydown', function(e) {
-				if ( e.which === 38 ) { // up
-					e.preventDefault();
-					incr(60);
-					$scope.$apply();
-				}
-				else if ( e.which === 40 ) { // down
-					e.preventDefault();
-					incr(-60);
-					$scope.$apply();
-				}
-				else if ( e.which === 13 ) { // enter
-					e.preventDefault();
-					$scope.formatInputValue();
-					$scope.$apply();
-				}
-			});
-			minsInput.bind('keydown', function(e) {
-				if ( e.which === 38 ) { // up
-					e.preventDefault();
-					incr(step);
-					$scope.$apply();
-				}
-				else if ( e.which === 40 ) { // down
-					e.preventDefault();
-					incr(-step);
-					$scope.$apply();
-				}
-				else if ( e.which === 13 ) { // enter
-					e.preventDefault();
-					$scope.formatInputValue();
-					$scope.$apply();
-				}
-			});
-		};
-		var setupMousewheelEvents = function(  hoursInput, minsInput ) {
-			var step = getStep();
-			var isScrollingUp = function(e) {
-				if (e.originalEvent) {
-					e = e.originalEvent;
-				}
-				//pick correct delta variable depending on event
-				var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
-				return (e.detail || delta > 0);
-			};
-			hoursInput.bind('mousewheel wheel', function(e) {
-				if(!$scope.disabled){
-					$scope.$apply( incr((isScrollingUp(e)) ? 60 : -60 ));
-					e.preventDefault();
-				}
-			});
-			minsInput.bind('mousewheel wheel', function(e) {
-				if(!$scope.disabled){
-					$scope.$apply( incr((isScrollingUp(e)) ? step : -step ));
-					e.preventDefault();
-				}
-			});
-		};
 
 	}]);
+
 	angular.module("lui.templates.momentpicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
 			"<div class='luid-moment' ng-class='{disabled:disabled}'>" +

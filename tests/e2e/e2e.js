@@ -135,5 +135,13 @@
 			90: function(){ $scope.text = "z";      $scope.$apply(); }, 
 		};
 	}]);
+    
+    angular.module('e2eApp')
+	.controller('luidDayBlockCtrl', ['$scope', function($scope){
+        $scope.firstColor = "red";
+        $scope.secondColor = "lightyellow";
+        $scope.showDay = true;
+        $scope.date = moment('2014-12-12');
+    }]);
 
 })();
