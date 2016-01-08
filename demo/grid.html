@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Demo</title>
+
+	<link rel="icon" type="image/png" href="/img/favicon.png" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"/>
+	<link rel="stylesheet" href="demo.min.css"/>
+
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	<div class="lui datagrid">
+
+		<!-- Data Header !-->
+		<header class="header">
+			<div class="locked columns">
+				<table>
+					<colgroup>
+						<col style="width: 15em"></col>
+						<col style="width: 10em"></col>
+					</colgroup>
+
+					<tbody>
+						<tr role="row">
+							<td class="cell" rowspan="2" role="columnheader">
+								<a class="sortable sorting asc">Department</a>
+							</td>
+							<td class="cell" rowspan="2" role="columnheader">
+								<a class="sortable">User</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div><!--
+			!--><div class="columns"><!-- We remove 17px for the scrollbar, must be calculated through JS !-->
+				<table>
+					<colgroup>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+					</colgroup>
+
+					<tbody>
+						<tr role="row">
+							<td class="cell" rowspan="2" role="columnheader">
+								<a class="sortable">Matricule</a>
+							</td>
+							<td class="cell" rowspan="2" role="columnheader">
+								<a class="sortable">Date de début de contrat</a>
+							</td>
+
+							<td class="cell" role="columnheader" colspan="2">Semaine 35</td>
+							<td class="cell" role="columnheader" colspan="2">Semaine 36</td>
+							<td class="cell" role="columnheader" colspan="2">Semaine 37</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="columnheader">Compte 1</td>
+							<td class="cell" role="columnheader">Compte 2</td>
+
+							<td class="cell" role="columnheader">Compte 1</td>
+							<td class="cell" role="columnheader">Compte 2</td>
+
+							<td class="cell" role="columnheader">Compte 1</td>
+							<td class="cell" role="columnheader">Compte 2</td>
+						</tr>
+						<tr class="filters" role="row">
+							<td class="cell" role="filter">
+								<div class="lui fitting input">
+									<input type="text" name="name" value="">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input">
+									<input type="text" name="name" value="">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+							<td class="cell" role="filter">
+								<div class="lui fitting input with addon">
+									<a class="lui addon button">>=</a>
+									<input type="number" name="name" value="1">
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</header>
+
+		<!-- Data grid lines !-->
+		<div class="content">
+			<div class="locked columns">
+				<table>
+					<colgroup>
+						<col style="width: 15em"></col>
+						<col style="width: 10em"></col>
+					</colgroup>
+
+					<tbody>
+						<tr role="row">
+							<td class="cell" role="cell">Marketing & Communication</td>
+							<td class="cell" role="cell">John Dope 2</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Marketing & Communication</td>
+							<td class="cell" role="cell">John Dope</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Sales</td>
+							<td class="cell" role="cell">John Dope 2</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Sales</td>
+							<td class="cell" role="cell">John Dope</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Sales</td>
+							<td class="cell" role="cell">John Dope 2</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Sales</td>
+							<td class="cell" role="cell">John Dope</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Consulting</td>
+							<td class="cell" role="cell">John Dope 2</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">Consulting</td>
+							<td class="cell" role="cell">John Dope</td>
+						</tr>
+					</tbody>
+				</table>
+			</div><!--
+			!--><div class="scrollable columns" style="width: 600px;"><!-- We add 17px for the scrollbar, must be calculated through JS !-->
+				<table>
+					<colgroup>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+						<col style="width: 15em"></col>
+					</colgroup>
+
+					<tbody>
+						<tr role="row">
+							<td class="cell" role="cell">000000000001</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000002</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000003</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000004</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000005</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000006</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000007</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+						<tr role="row">
+							<td class="cell" role="cell">000000000008</td>
+							<td class="cell" role="cell">01/01/2015</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+							<td class="cell" role="cell">2h</td>
+							<td class="cell" role="cell">1h30</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<footer class="footer">
+		</footer>
+	</div>
+
+	<script type="text/javascript">
+	/**
+
+	fields = {
+		{
+			name: "departmentName"
+			type: "string",
+			sortable: true,
+			width: "15em"
+		}
+
+		{
+			name: "userName"
+			type: "string",
+			sortable: true,
+			width: "10em"
+		},
+
+		{
+			name: "Semaine 35",
+			type: "array",
+			sortable: false,
+			fields: [
+				{
+					name: "Account 1",
+					type: "duration|hours",
+					width: "15em"
+				},
+				{
+					name: "Account 2",
+					type: "duration|hours",
+					width: "15em"
+				}
+			]
+		}
+	}
+
+	*/
+
+
+
+		$(document).ready(function() {
+			// Options
+			var options = {
+				height: 200
+			};
+
+			// Elements
+			var datagrid = document.querySelector('.lui.datagrid'),
+
+				datagridHeader = datagrid.querySelector('.header'),
+				lockedHeader = datagridHeader.querySelector('.locked.columns'),
+				scrollableHeader = datagridHeader.querySelector('.columns:not(.locked)'),
+
+				datagridContent = datagrid.querySelector('.content'),
+				lockedContent = datagrid.querySelector('.content .locked.columns'),
+				scrollableContent = datagrid.querySelector('.scrollable'),
+
+				scrollbarWidth = scrollableContent.offsetWidth - scrollableContent.clientWidth;
+
+
+			function init() {
+				resize();
+
+				datagridContent.style.height = options.height + "px";
+				lockedContent.style.height = options.height - scrollbarWidth + 'px';
+				scrollableContent.style.height = options.height + 'px';
+
+				// headers heights
+
+				Array.prototype.slice.call(datagridHeader.querySelectorAll('.columns')).forEach(function(el) {
+					el.style.height = datagridHeader.offsetHeight + "px";
+				});
+			}
+			function resize() {
+				scrollableContent.style.width = datagrid.offsetWidth - lockedContent.offsetWidth + "px";
+				scrollableHeader.style.width = datagrid.offsetWidth - lockedContent.offsetWidth - scrollbarWidth + "px";
+			}
+			function wheelSupport(event) {
+				var fontSize = parseFloat(window.getComputedStyle(datagrid, null).fontSize),
+					deltaY = (event.deltaMode == 1) ? event.deltaY * fontSize : event.deltaY,
+					deltaX = (event.deltaMode == 1) ? event.deltaX * fontSize : event.deltaX;
+
+				lockedContent.scrollTop += deltaY;
+				scrollableContent.scrollTop += deltaY;
+
+				scrollableHeader.scrollLeft += deltaX;
+				scrollableContent.scrollLeft += deltaX;
+			}
+			init();
+
+			// Event bindings
+			window.addEventListener('resize', function() {
+				resize();
+			});
+			// Scroll handling
+			scrollableContent.addEventListener('scroll', function(event) {
+				scrollableHeader.scrollLeft = scrollableContent.scrollLeft;
+				lockedContent.scrollTop = scrollableContent.scrollTop;
+			});
+			lockedContent.addEventListener('wheel', wheelSupport);
+			datagridHeader.addEventListener('wheel', wheelSupport);
+		});
+	</script>
+</body>
+</html>

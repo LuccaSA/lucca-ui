@@ -7,10 +7,6 @@ $light: luiPalette(light, color);
 $toc-width: 10em;
 $banner-height: 4em;
 
-html, body {
-	min-height: 100%;
-	width: 100%;
-}
 
 #banner {
 	background: #FFF;
@@ -27,7 +23,7 @@ html, body {
 	.header {
 		padding: 0;
 		h4 {
-			padding-bottom: 17px; 
+			padding-bottom: 17px;
 		}
 	}
 }
@@ -69,7 +65,7 @@ article {
 	border-radius: 3px;
 }
 
-// Style for default .hljs 
+// Style for default .hljs
 // See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
 // We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
 code {
