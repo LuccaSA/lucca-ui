@@ -50,7 +50,7 @@
 		border: 1px solid map-gets($vars, borderColor);
 		background: map-gets($vars, background);
 		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-		
+
 
 		// Header
 		> .header {
@@ -143,3 +143,18 @@
 		}
 	}
 }
+
+// Attached progress support
+// ===================================
+#{$prefix}.callout .progress.attached {
+	margin: 0;
+	position: absolute; z-index: 3;
+	left: 0; right: 0; top: 0;
+
+	> .indicator {
+		min-height: map-gets($vars, borderWidth);
+		border-radius: 0;
+		&:after { content: ""; }
+	}
+}
+#{$prefix}[class*="down callout"] .progress.attached { top: auto; bottom: 0; }

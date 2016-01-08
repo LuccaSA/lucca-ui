@@ -39,14 +39,15 @@
 
 			@include lui_target_IE9 { box-sizing: content-box; }
 
-			.active a,
-			a:hover { background: #EEE; }
+			a:hover { background-color: map-gets($pluginVars, dropdown, hoverBackground); }
+			.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
+
 			a {
-				color: map-gets($luiTheme, elements, typography, body, color);
+				color: luiTheme(element, typography, body, color);
 				text-decoration: none;
 				display: block;
-				padding: 0.5em map-gets($inputVars, padding, right) 0.5em map-gets($inputVars, padding, left);
-				border-top: 1px solid #EEE;
+				padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
+				border-top: 1px solid map-get($inputVars, borderColor);
 
 				> span { vertical-align: middle; }
 			}
@@ -62,11 +63,12 @@
 
 		// Dividers
 		.dividing {
-			border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color);
-			padding-bottom: 0.5em;
-			margin-bottom: 0.5em;
-
-			& + li a { border-top: none; }
+			position: relative;
+			&:after {
+				display: block; content: "";
+				position: absolute; top: 100%; left: 0; right: 0;
+				border-bottom: 2px solid map-get($inputVars, borderColor);
+			}
 		}
 		.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
 		.dropdown-header {

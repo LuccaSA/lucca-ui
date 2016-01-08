@@ -4,9 +4,14 @@
 
 ### New features
  - directive `luid-day-block` that displays a date in a bloc like fashion, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-luid-day-block) for more info
+ - Better css layout for checkbox inputs: now adopts a table-style layout
+ - Adds support for pulse "up" and "down" animations
+ - nguibs-datepicker calendar icon is now displayed on the right of the input
+ - Adds support for progress bars attached to callouts.
 
 ### Resolved issues
  - bug with luifDuration when trying to dislay `1.0005d` with unit = day and precision = day - should have displayed `1d` but displayed `1.00d`
+ - luid-timespan now supports `undefined` as value, before default value was 0 sec
 
 ## 2.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.4)
 
@@ -86,7 +91,7 @@ This directive has a ui-select plugged to `/api/v3/users/find` with a more power
  - custom filtering: filter the set of results fetched by the api according to a specific need
  - pagination: by default, only 5 users are displayed in the dropdown menu. If the user you are looking for is not displayed, it encourages you to specify your search.
 
-#### Advanced features: 
+#### Advanced features:
  - custom properties to handle homonyms: inject custom properties to sort homonyms according to your needs.
  - application id and scope of operations: only fetch users that have access to the specified application, with the given set of operations for that application.
  - [#51](https://github.com/LuccaSA/lucca-ui/issues/51) possibility to pass a fuction to display custom info next to the user's name (number of apple eaten last week for example) in the dropdown. the function can be sync or async

@@ -137,6 +137,10 @@
 				return dur;
 			}
 
+			if (newDuration === undefined) {
+				return $scope.ngModelCtrl.$setViewValue(undefined);
+			}
+
 			// Check min/max values
 			newDuration = correctValue(newDuration);
 			var formattedValue = format(newDuration, mode);

@@ -136,7 +136,7 @@
 			<hr>
 			<h5>Basic usage</h5>
 			<p>
-				<luid-user-picker ng-model="myUser.selected" show-former-employees="isChecked"></luid-user-picker>
+				<luid-user-picker ng-model="myUser.selected" show-former-employees="isChecked" ng-if="!!authToken"></luid-user-picker>
 				<div class="lui checkbox">
 					<input type="checkbox" ng-model="isChecked">
 				</div>
@@ -169,18 +169,18 @@
 			</p>
 			<p>
 				Set of users with the selected filter applied : 
-				<luid-user-picker ng-if="customFilter === 'hasShortName'" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant'" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
-				<luid-user-picker ng-if="customFilter === 'nameContainsT'" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'hasShortName' && !! authToken" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'beginsWithConsonant' && !! authToken" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
+				<luid-user-picker ng-if="customFilter === 'nameContainsT' && !! authToken" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
 			</p>
 			<hr />
 			<h5>Custom info</h5>
 			<p>
 				Number of letters in their first name : 
-				<luid-user-picker ng-model="myUser.filtered" custom-info="firstNameLength"></luid-user-picker>, this info is computed synchronously
+				<luid-user-picker ng-if="!!authToken" ng-model="myUser.filtered" custom-info="firstNameLength"></luid-user-picker>, this info is computed synchronously
 			</p>
 			<p>
-				Year of contract start : <luid-user-picker ng-model="myUser.selected" custom-info-async="yearOfArrivalAsync"></luid-user-picker>, this info needs an ajax call for each displayed user
+				Year of contract start : <luid-user-picker ng-if="!!authToken" ng-model="myUser.selected" custom-info-async="yearOfArrivalAsync"></luid-user-picker>, this info needs an ajax call for each displayed user
 			</p>
 			<pre hljs no-escape language="js">$scope.firstNameLength = function(user) { return user.firstName.length; };
 $scope.yearOfArrivalAsync = function(user){
@@ -198,7 +198,7 @@ $scope.yearOfArrivalAsync = function(user){
 				This option is displayed when the search input is empty.
 			</p>
 			<p>
-				<luid-user-picker ng-model="myUser.withAllUsers" display-all-users="true"></luid-user-picker>
+				<luid-user-picker ng-if="!!authToken" ng-model="myUser.withAllUsers" display-all-users="true"></luid-user-picker>
 			</p>
 		</div>
 		<div class="lui dashed divider">
