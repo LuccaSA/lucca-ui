@@ -10,6 +10,7 @@
 		// Displays the arrow icon
 		@include lui_make_icon("south arrow");
 		&:before {
+			pointer-events: none;
 			font-size: lui_rem(0.6);
 			position: absolute;
 			z-index: 4;
