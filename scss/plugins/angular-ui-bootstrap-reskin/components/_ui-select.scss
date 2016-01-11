@@ -106,6 +106,16 @@
 		.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
 
 		.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
+
+		// Supports sizing
+		@each $class, $length in luiTheme(element, input, lengths) {
+			&.#{$class} {
+				width: $length;
+			}
+		}
+		&.fitting {
+			width: 100%;
+		}
 	}
 
 
