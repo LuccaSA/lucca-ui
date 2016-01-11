@@ -5,7 +5,8 @@
 ### New features
 
 ### Resolved issues
- - [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
+- [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
+- [#100](https://github.com/LuccaSA/lucca-ui/issues/100) & [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - multiple ui-select is no longer resized when adding new items if a size has been set
 
 ## 2.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.5)
 
