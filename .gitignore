@@ -2,3 +2,4 @@ node_modules
 /bower_components
 .sass-cache
 /test-karma-admin-results.xml
+/coverage
