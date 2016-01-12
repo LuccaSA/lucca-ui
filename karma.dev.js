@@ -49,7 +49,7 @@ module.exports = function(config) {
 		browsers: ['PhantomJS'],
 		reporters: ['progress', 'coverage'],
 		junitReporter: {
-			outputFile: 'test-karma-admin-results.xml',
+			outputFile: 'karma-results.xml',
 			suite: 'Lucca-ui'
 		},
 		coverageReporter: {
