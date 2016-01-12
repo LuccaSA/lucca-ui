@@ -27,4 +27,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('dist', ['concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'concat:ng12', 'uglify:ng12', 'sass:dist']);
 	// this updates the dists and tests it, creates karma coverage
 	grunt.registerTask('test', ['dist', 'karma:spe', 'karma:ng12', 'karma:coverage', 'protractor:singlerun', 'jshint']);
+
+
+	// used for travis integration
+	grunt.registerTask('travis', ['karma:travis']);
 };

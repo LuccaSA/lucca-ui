@@ -11,6 +11,9 @@ module.exports = function(grunt, options){
 			singleRun: false,
 			autoWatch: true,
 		},
+		travis: {
+			configFile: 'karma.dev.js',
+		},
 		coverage: {
 			configFile: 'karma.dev.js',
 			reporters: ['junit', 'coverage'],
