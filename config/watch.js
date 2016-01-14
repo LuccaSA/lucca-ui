@@ -13,17 +13,13 @@ module.exports = function(grunt, options){
 			files: ['scss/**/*.scss', 'scss/*.sass', 'demo/**/*.scss'],
 			tasks: ['sass:demo'],
 		},
-		distdemo: {
-			files: ['js/**/*.js'],
-			tasks: ['dist-lucca'],
-		},
 		js: {
 			files: ['js/**/*.js'],
-			tasks: ['jshint'], // minify is put before jshint because if jshint finds an error, it will not launch any tasks after that so the minification was not done
+			tasks: ['dist', 'jshint'],
 		},
 		e2ejs: {
 			files: ['js/**/*.js'],
-			tasks: ['dist-lucca', 'protractor:singlerun']
+			tasks: ['dist', 'protractor:singlerun']
 		},
 		e2espec: {
 			files: ['tests/e2e/**/*.spec.js'],

@@ -5,9 +5,7 @@ module.exports = function(grunt, options){
 		options: {
 			logConcurrentOutput: true
 		},
-		js: ['watch:js','karma:dev'],
-		dev: ['watch:js','watch:sass','karma:dev'],
-		demo: ['watch:js','watch:distdemo', 'watch:sassdemo','karma:dev'],
+		debug: ['watch:js','watch:sassdemo','karma:debug'],
 		e2e: ['watch:e2ejs', 'watch:e2espec'],
 	};
 };
