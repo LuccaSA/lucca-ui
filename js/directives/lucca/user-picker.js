@@ -105,15 +105,17 @@
 					scope.reorderUsers(); 
 				});
 
-
-				scope.getSelectedUser = function(){
-					return ngModelCtrl.$viewValue;
-				};
-				scope.getSelectedUserId = function(){
-					if(!!ngModelCtrl.$viewValue){
-						return ngModelCtrl.$viewValue.id;
+				upCtrl.getSelectedUsers = function() {
+					if (!!ngModelCtrl.$viewValue) {
+						return [ngModelCtrl.$viewValue];
 					}
-					return undefined;
+					return [];
+				};
+				upCtrl.getSelectedUserIds = function() {
+					if(!!ngModelCtrl.$viewValue) {
+						return [ngModelCtrl.$viewValue.id];
+					}
+					return [];
 				};
 			}
 		};
@@ -667,7 +669,7 @@
 
 		var displaySomeUsersFirst = function(users) {
 			var sortedUsers = users;
-			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
+			var selectedUser = _.find(users, function(user) { return user.id === ctrl.getSelectedUserIds()[0]; });
 			var me = _.find(users, function(user) { return user.id === myId; });
 			var all = _.findWhere(users, { isAll: true });
 
