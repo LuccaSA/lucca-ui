@@ -9,6 +9,7 @@ describe('luidUserPicker', function(){
 	var users;
 
 	var findApi = /api\/v3\/users\/find\?.*/;
+	var findApiWithClue = /api\/v3\/users\/find\?clue=.*/;
 
 	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_) {
 		_ = ___;
@@ -53,7 +54,6 @@ describe('luidUserPicker', function(){
 	** BASIC             **
 	**********************/
 	describe("no pagination, no former employees, no homonyms", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		beforeEach(function(){
@@ -188,7 +188,6 @@ describe('luidUserPicker', function(){
 	** FORMER EMPLOYEES  **
 	**********************/
 	describe("with former employees", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var standardFilters = /\&formerEmployees=true\&limit=\d*/;
 		beforeEach(function(){
 			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFE"></luid-user-picker>');
@@ -270,7 +269,6 @@ describe('luidUserPicker', function(){
 	** OPERATION SCOPE   **
 	**********************/
 	describe("with filtering on an operation scope", function(){
-		var findApiWithClue = /api\/v3\/users\/find\?clue=/;
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		var operationsFilters = /\&appinstanceid=86\&operations=1,2,3/;
@@ -765,77 +763,183 @@ describe('luidUserPicker', function(){
 		});
 	});
 
-	// TODO
 	/**********************
 	** MULTISELECT       **
 	**********************/
-	// describe("handling multi-select", function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
-	// 		// TODO_ANAIS fill this with some of the users from RESPONSE_4_users and one from another response
-	// 		$scope.users = [];
+	describe("with multi-select", function() {
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+			$scope.myUsers = [];
 
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	it("should have removed from isolateScope.users the ones from $scope.users to avoid displaying an already selected user", function(){
-	// 		// TODO_ANAIS
-	// 		// _.each($scope.users, function(user){
-	// 		// 	expect(_.findWhere(isolateScope.users, {id:user.id})).not.toBeTruthy();
-	// 		// });
-	// 	});
-	// });
-	// describe("handling multi-select interracting with", function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
-	// 		$scope.users = [];
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it("should have removed from isolateScope.users the ones from $scope.myUsers to avoid displaying an already selected user", function() {
+			$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"}, {"id":7,"firstName":"Kevin","lastName":"Brochet"});
+			$scope.$digest();
+			_.each($scope.myUsers, function(user){
+				expect(_.findWhere(isolateScope.users, {id:user.id})).not.toBeTruthy();
+			});
+		});
 
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+		it("should call reorderUsers when selected users changed", function() {
+			spyOn(isolateScope, "reorderUsers");
+			$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"});
+			$scope.$digest();
+			expect(isolateScope.reorderUsers).toHaveBeenCalled();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	describe("the list of displayed users", function(){
-	// 		it("onSelect should update isolateScope.users to always display 5 choices or less", function(){});
-	// 		it("onRemove should update isolateScope.users to always display 5 choices or less", function(){});
-	// 	});
-	// 	describe("pagination", function(){
-	// 		it("onSelect should update the pagination label", function(){});
-	// 		it("onRemove should update the pagination label", function(){});
-	// 	});
-	// });
+			$scope.myUsers = [];
+			$scope.$digest();
+			expect(isolateScope.reorderUsers).toHaveBeenCalled();
+		});
 
-	// TODO
+		describe("when selecting among the 5 first users", function() {
+			it("should update displayed users", function() {
+				$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"});
+				$scope.$digest();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+
+				$scope.myUsers.push({"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"});
+				$scope.$digest();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 5, 6, 7, -1]);
+
+				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 3)
+				$scope.$digest();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 4, 5, 6, -1]);
+			});
+		});
+
+		describe("when calling find() between each selected user", function() {
+			beforeEach(function() {
+				isolateScope.find('a');
+				$httpBackend.expectGET(findApiWithClue).respond(200, RESPONSE_4_users_end);
+				$httpBackend.flush();
+				$scope.$digest();
+			});
+			it("should update displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([17, 18, 19, 20]);
+				$scope.myUsers.push({"id":18,"firstName":"Brice","lastName":"Francois"});
+
+				isolateScope.find('a');
+				$httpBackend.expectGET(findApiWithClue).respond(200, RESPONSE_4_users_end);
+				$httpBackend.flush();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([17, 19, 20]);
+
+				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 18)
+				isolateScope.find('a');
+				$httpBackend.expectGET(findApiWithClue).respond(200, RESPONSE_4_users_end);
+				$httpBackend.flush();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([17, 18, 19, 20]);
+			});
+		});
+
+		describe("when selecting one of the 5 first users and calling find() after", function() {
+			beforeEach(function() {
+				$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"});
+				$scope.$digest;
+			});
+			it("should update displayed users", function() {
+				isolateScope.find('a');
+				$httpBackend.expectGET(findApiWithClue).respond(200, RESPONSE_4_users_end);
+				$httpBackend.flush();
+				$scope.myUsers.push({"id":18,"firstName":"Brice","lastName":"Francois"});
+
+				isolateScope.find();
+				$httpBackend.flush();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+
+				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 18)
+				$scope.$digest();
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+			});
+		});
+	});
+
 	/**********************
 	** MULTISELECT WITH  **
 	** HOMONYMS SELECTED **
 	**********************/
-	// describe("handling multi select with some homonyms thrown in the mix", function(){
-	// 	beforeEach(function(){
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
-	// 		// TODO_ANAIS fill this with some of the homonyms (not all) from RESPONSE_4_users_homonyms and one from another response
-	// 		// what we want to test here is that the directive can identify homonyms when some are in the response and some in the selected users
-	// 		$scope.users = [];
+	describe("with multi-select and homonyms", function() {
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+			$scope.myUsers = [];
 
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_homonyms);
-	// 		isolateScope.find();
-	// 		$httpBackend.flush();
-	// 	});
-	// 	it("should flag homonyms from $scope.users union isolateScope.users ", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
+			$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(200, RESPONSE_2_homonyms_details_0_1);
+			isolateScope.find();
+			$httpBackend.flush();
+		});
+		it("should flag homonyms from $scope.users union isolateScope.users", function(){
+			// Check that the homonyms sent back in the api response are flagged as homonyms
+			var homonymIds = _.chain(isolateScope.users)
+			.where({hasHomonyms:true}) // keep only the one having an homonym
+			.pluck('id') // just keep their id
+			.value();
+			expect(homonymIds).toEqual([1, 3]);
 
-	// 	});
+			// Select first user
+			$scope.myUsers.push(_.findWhere(isolateScope.users, {id: 1}));
+			$scope.$digest();
+
+			// Still display homonyms properties for selected users
+			expect($scope.myUsers[0].hasHomonyms).toBe(true);
+			var homonymIds = _.chain(isolateScope.users)
+			.where({hasHomonyms:true}) // keep only the one having an homonym
+			.pluck('id') // just keep their id
+			.value();
+			expect(homonymIds).toEqual([3]);
+		});
+	});
+
+	/***********************
+	** MULTISELECT WITH   **
+	** DISPLAY ME FIRST   **
+	***********************/
+	describe("with multi-select and 'display-me-first' set to true", function() {
+		var orion = { id:10,
+			firstName:"Orion",
+			lastName:"Charlier"
+		};
+		var meApi = /api\/v3\/users\/me/;
+		var myId = 10;
+		beforeEach(function(){
+			var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers" display-me-first="true"></luid-user-picker-multiple>');
+
+			$scope.myUsers = [];
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			isolateScope.find();
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
+		});
+		it("should have the right order of displayed users when no user is selected", function(){
+			$httpBackend.flush();
+			var userIds = _.pluck(isolateScope.users, 'id');
+			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+		});
+		it('should not display "me" when "me" is selected', function() {
+			$httpBackend.flush();
+			$scope.myUsers.push(orion);
+			$scope.$digest();
+			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(0);
+		});
+	});
+
+	// Not implemented yet
+	// describe("pagination", function(){
+	// 	it("onSelect should update the pagination label", function(){});
+	// 	it("onRemove should update the pagination label", function(){});
 	// });
 
 	// responses from api
@@ -849,6 +953,7 @@ describe('luidUserPicker', function(){
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};
 	var RESPONSE_20_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Alex","lastName":"Carpentieri"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Patrick","lastName":"Dai"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Manon","lastName":"Desbordes"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
+	var RESPONSE_4_users_end = {"header":{},"data":{"items":[{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
 
 	// N users, SOME former employees, no homonyms
 	var RESPONSE_4_users_FE = {header:{}, data:{items:[{"id": 1,"firstName": "Frédéric","lastName": "Pot","dtContractEnd": null},{"id": 2,"firstName": "Catherine","lastName": "Foliot","dtContractEnd": "2003-06-30T00:00:00"},{"id": 3,"firstName": "Catherine","lastName": "Lenzi","dtContractEnd": "2003-04-28T00:00:00"},{"id": 4,"firstName": "Bruno","lastName": "Catteau","dtContractEnd": null}]}};
