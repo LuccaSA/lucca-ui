@@ -782,9 +782,9 @@ describe('luidUserPicker', function(){
 		it("should have removed from isolateScope.users the ones from $scope.myUsers to avoid displaying an already selected user", function() {
 			$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"}, {"id":7,"firstName":"Kevin","lastName":"Brochet"});
 			$scope.$digest();
-			_.each($scope.myUsers, function(user){
-				expect(_.findWhere(isolateScope.users, {id:user.id})).not.toBeTruthy();
-			});
+			expect(_.every($scope.myUsers, function(selectedUser) {
+				return !_.contains(_.pluck(isolateScope.users, "id"), selectedUser.id);
+			})).toBe(true);
 		});
 
 		it("should call reorderUsers when selected users changed", function() {
@@ -932,7 +932,9 @@ describe('luidUserPicker', function(){
 			$httpBackend.flush();
 			$scope.myUsers.push(orion);
 			$scope.$digest();
-			expect(_.where(isolateScope.users, {isMe:true}).length).toBe(0);
+			expect(_.every(isolateScope.users, function(user) {
+				return !user.isMe;
+			})).toBe(true);
 		});
 	});
 
