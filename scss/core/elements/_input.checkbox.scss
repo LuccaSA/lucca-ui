@@ -28,7 +28,7 @@
 
 			@include lui_make_icon("checkbox");
 
-			&:before, &:after { position: absolute; left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
+			&:before, &:after { position: absolute; top: 50%; transform: translateY(-50%); left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
 		}
 
 		input:checked ~ label {
