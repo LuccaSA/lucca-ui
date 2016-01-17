@@ -112,4 +112,10 @@
 
 		&:not(.aligned) { text-align: left; }
 	}
+
+	#{$prefix}.inline.field {
+		label + #{$prefix}.dropdown {
+			margin-left: 0.5em;
+		}
+	}
 }
