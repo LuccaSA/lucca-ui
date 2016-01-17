@@ -19,45 +19,16 @@ module.exports = function(grunt) {
 	var configs = require('load-grunt-configs')(grunt);
 	grunt.initConfig(configs);
 
+	// use this tasks when you are developping
+	grunt.registerTask('debug', ['concurrent:debug']);
+	// use this one when you're coding e2e tests
+	grunt.registerTask('e2e', ['concurrent:e2e']);
+	// this task updates all distributions - launch it once before each release
+	grunt.registerTask('dist', ['concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'concat:ng12', 'uglify:ng12', 'sass:dist']);
+	// this updates the dists and tests it, creates karma coverage
+	grunt.registerTask('test', ['dist', 'karma:spe', 'karma:ng12', 'karma:coverage', 'protractor:singlerun', 'jshint']);
 
 
-	/***********************
-	*** CONTINUOUS TASKS ***
-	***********************/
-	// use this task when you're working on the js framework, it will launch the karma testus and launch jshint on each modif of a .js file
-	grunt.registerTask('dev-js', ['concurrent:js']);
-	// use this task when you're working on the less framework, it will transpile automatically on each modif of a .less file
-	grunt.registerTask('dev-less', ['watch:less']);
-	// use this task when you're working on the less framework, it will transpile automatically on each modif of a .less file
-	grunt.registerTask('dev-sass', ['watch:sass']);
-	// use this task when you're working on the less framework or the js one, will do both the tasks from above concurrently
-	grunt.registerTask('dev', ['concurrent:dev']);
-	// use this when you are working on the demo pages, it will do devjs and devless but also transpile demo.min.css if any .less file under /src or /demo is changed
-	grunt.registerTask('dev-demo', ['concurrent:demo']);
-	// use this when you are working on the demo pages, it will do devjs and devless but also transpile demo.min.css if any .less file under /src or /demo is changed
-	grunt.registerTask('dev-e2e', ['concurrent:e2e']);
-
-
-
-	/***********************
-	*** SINGLE RUN TASKS ***
-	***********************/
-	// this task creates the standard distribution 
-	grunt.registerTask('dist', ['dist-lucca', 'dist-standard', 'dist-ng12', 'dist-sass']);
-
-	// this task creates the standard distribution
-	grunt.registerTask('dist-standard', ['concat:standard', 'uglify:standard']);
-	// this task creates the distribution with the code needing only moment
-	// grunt.registerTask('dist-light', ['concat:light']); not needed
-	// this task creates the distribution with the code spe lucca
-	grunt.registerTask('dist-lucca', ['concat:spe', 'uglify:spe']);
-	// This task create the distribution compatible with angular 1.2
-	grunt.registerTask('dist-ng12', ['concat:ng12', 'uglify:ng12']);
-
-	// This task create the distribution cof the less framework
-	grunt.registerTask('dist-sass', ['sass:dist']);
-
-	// this task creates the tested distributions and launches associated tests
-	grunt.registerTask('test', ['jshint', 'dist-lucca', 'dist-standard', 'dist-ng12', 'karma:spe', 'karma:ng12', 'protractor:singlerun']);
-
+	// used for travis integration
+	grunt.registerTask('travis', ['karma:travis']);
 };
