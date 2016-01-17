@@ -6,6 +6,7 @@
 - Adds support for timespanpicker, dropdown and momentpicker inside an `.inline.field`
 - Datepicker now has a leaving animation
 - Adds support for headings inside breadcrumbs item
+- Adds sizing support for nguibs-dropdown and nguibs-ui-select
 
 ### Resolved issues
 - [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
