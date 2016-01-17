@@ -61,4 +61,10 @@
 		@extend %lui_invalid_input_base;
 		.mp-button { background-color: map-gets($vars, invalidColor) !important; }
 	}
+
+	#{$prefix}.inline.field {
+		label + luid-moment {
+			margin-left: 0.5em;
+		}
+	}
 }

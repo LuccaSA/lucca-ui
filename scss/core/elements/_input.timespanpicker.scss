@@ -13,4 +13,10 @@
 	luid-timespan.ng-invalid > input {
 		@extend %lui_invalid_input_base;
 	}
+
+	#{$prefix}.inline.field {
+		label + luid-timespan {
+			margin-left: 0.5em;
+		}
+	}
 }
