@@ -76,6 +76,7 @@ body, html { width: 100%; height: 100%; }
 	// Spaced container
 	// Adds gutter
 	#{$prefix}.container.spaced #{$prefix}.column,
+	#{$prefix}.columns.spaced #{$prefix}.column,
 	#{$prefix}.container #{$prefix}.column.spaced { padding: 0 map-get($vars, gutter); }
 
 	#{$prefix}.container.spaced .columns { margin: 0 (-(map-get($vars, gutter))); }

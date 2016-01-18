@@ -3,10 +3,18 @@
 ## 2.0.6 - in dev
 
 ### New features
+- Adds support for timespanpicker, dropdown and momentpicker inside an `.inline.field`
+- Datepicker now has a leaving animation
+- Adds support for headings inside breadcrumbs item
+- Adds sizing support for nguibs-dropdown and nguibs-ui-select
 
 ### Resolved issues
 - [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
 - [#100](https://github.com/LuccaSA/lucca-ui/issues/100) & [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - multiple ui-select is no longer resized when adding new items if a size has been set
+- Fixes some issues with nested menus + adds support for dotted and dashed divider style as well as for `.centered` menu style
+- Fixes a minor checkbox position issue
+- Adds support for `.spaced.columns`
+- Small changes over how menu color is handled in themes
 
 ## 2.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.5)
 

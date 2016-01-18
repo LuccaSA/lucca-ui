@@ -20,7 +20,6 @@ $menu: (
 	borderWidth: 				1px,
 
 	item: (
-		color: 					luiTheme(element, typography, body, color),
 		vertical: (
 			verticalPadding: 	lui_rem(1),
 			horizontalPadding: 	lui_rem(1.5),
@@ -39,6 +38,7 @@ $menu: (
 	),
 
 	dividing: (
+		itemColor:				luiTheme(element, typography, body, color),
 		dividerColor: 			luiTheme(element, divider, color),
 		dividerWidth: 			1px,
 		activeDividerWidth: 	luiTheme(element, divider, fatWidth),

@@ -14,6 +14,8 @@
 		display: inline-block;
 		overflow: visible !important; // IE fix
 
+		.btn { cursor: pointer; }
+
 		.dropdown-menu {
 			box-sizing: border-box;
 			visibility: hidden;
@@ -88,7 +90,6 @@
 			}
 		}
 
-
 		// Coloring support
 		// ============================================================
 		@each $name, $scheme in luiPalettes() {
@@ -96,6 +97,10 @@
 				@include lui_nguibs_dropdown_coloring($scheme);
 			}
 		}
+
+		// Sizing support
+		// ============================================================
+		@include lui_supports_sizing();
 	}
 
 	#{$prefix}.dropdown {
@@ -111,5 +116,11 @@
 		a { cursor: pointer; }
 
 		&:not(.aligned) { text-align: left; }
+	}
+
+	#{$prefix}.inline.field {
+		label + #{$prefix}.dropdown {
+			margin-left: 0.5em;
+		}
 	}
 }

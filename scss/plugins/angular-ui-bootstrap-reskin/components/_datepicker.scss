@@ -44,7 +44,12 @@
 			left: 0; top: 100%;
 			margin-top: -1px;
 
-			@include lui_is_animated("down fade in");
+			&:not(.ng-leave) {
+				@include lui_is_animated("down fade in");
+			}
+			&.ng-leave {
+				@include lui_is_animated("down fade out");
+			}
 			@extend #{$prefix}.raised;
 		}
 

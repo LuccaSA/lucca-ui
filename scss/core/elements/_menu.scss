@@ -64,20 +64,9 @@
 	}
 
 
-	// Menu inception
-	// ====
-	#{$prefix}.menu > .menu {
-		border-width: 0;
-		margin: 0; padding: 0;
-	}
-	#{$prefix}.menu:not(.vertical) > .menu {
-		@include display-flex();
-	}
-
-
 	// Justified
 	// ====
-	#{$prefix}.justified.justified:not(.vertical) {
+	#{$prefix}.justified.menu:not(.vertical) {
 		@include flex-justify-content(space-between);
 		> .item {
 			@include flex(1);
@@ -88,6 +77,13 @@
 		&:after {
 			display: none;
 		}
+
+	}
+
+	// centered
+	// ====
+	#{$prefix}.centered.menu:not(.vertical) {
+		@include flex-justify-content(center);
 	}
 
 
@@ -121,6 +117,13 @@
 			border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
 		}
 	}
+
+	#{$prefix}.dividing.menu > a.item,
+	#{$prefix}.tabbed.menu > a.item,
+	#{$prefix}.pills.menu > a.item {
+		&, &:hover, &.active, &:visited { color: map-gets($vars, dividing, itemColor); text-decoration: none; }
+	}
+
 	// Dividing support - horizontal
 	#{$prefix}.bordered.menu:not(.vertical) > #{$prefix}.dividing.menu,
 	#{$prefix}.dividing.menu:not(.vertical) > #{$prefix}.dividing.menu {
@@ -152,8 +155,10 @@
 	#{$prefix}.menu > a.item {
 		cursor: pointer;
 		&, &:hover, &:visited {
-			color: map-gets($vars, item, color);
-			text-decoration: none;
+			color: luiTheme(element, typography, links, color);
+		}
+		&:hover, &.active {
+			text-decoration: underline;
 		}
 	}
 	#{$prefix}.menu > .item.disabled,
@@ -165,7 +170,6 @@
 	#{$prefix}.menu > .item.active {
 		font-weight: 600;
 	}
-
 
 	// Header item
 	// ====
@@ -186,6 +190,8 @@
 	#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
 		border: none; padding-right: 0; margin-right: map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin);
 		border-right: 1px solid map-gets($vars, borderColor);
+		&.dashed { border-right-style: dashed; }
+		&.dotted { border-right-style: dotted; }
 	}
 
 
@@ -260,8 +266,7 @@
 		margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
 	}
 	// Vertical menu item
-	#{$prefix}.menu.vertical > .item,
-	#{$prefix}.menu.vertical > .menu {
+	#{$prefix}.menu.vertical > .item {
 		display: block;
 		padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
 		margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
@@ -392,6 +397,9 @@
 		}
 	}
 
+	#{$prefix}.menu.vertical[class*="right dividing"] .menu[class*="right dividing"] { border-right: none !important; }
+	#{$prefix}.menu.vertical:not([class*="right dividing"]) .menu:not([class*="right dividing"]) { border-left: none !important; }
+
 
 	// Tabbed style
 	// ====
@@ -466,6 +474,15 @@
 		padding-right: 0;
 	}
 
+	// Menu inception
+	// ====
+	#{$prefix}.menu > .menu {
+		border-width: 0;
+		margin: 0; padding: 0;
+	}
+	#{$prefix}.menu:not(.vertical) > .menu {
+		@include display-flex();
+	}
 
 	// Container menu
 	// ===================================
