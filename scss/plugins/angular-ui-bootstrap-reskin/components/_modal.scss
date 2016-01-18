@@ -1,55 +1,54 @@
 @if map-get($pluginVars, enabled) {
-	$baseSelector:  if($namespace, "#{$prefix}.#{$cleanNamespace}", "#{$prefix}.#{$cleanNamespace}");
 
-	@at-root {
-		#{$baseSelector}.modal {
-			display: none; overflow: hidden;
-			position: fixed;
-			top: 0; right: 0; bottom: 0; left: 0;
-			z-index: map-gets($pluginVars, modal, zIndex);
-			-webkit-overflow-scrolling: touch;
-			outline: 0; // Chrome fix
+	#{$prefix}.modal {
+		display: none; overflow: hidden;
+		position: fixed;
+		top: 0; right: 0; bottom: 0; left: 0;
+		z-index: map-gets($pluginVars, modal, zIndex);
+		-webkit-overflow-scrolling: touch;
+		outline: 0; // Chrome fix
 
-			// When fading in the modal, animate it to slide down
-			&.in .modal-dialog {
-				@include lui_is_animated("up fade in");
-			}
-			&:not(.in) .modal-dialog {
-				@include lui_is_animated("up fade out");
-			}
+		// When fading in the modal, animate it to slide down
+		&.in .modal-dialog {
+			@include lui_is_animated("up fade in");
+		}
+		&:not(.in) .modal-dialog {
+			@include lui_is_animated("up fade out");
+		}
 
-			.modal-dialog {
-				@extend %#{$cleanNamespace}-raised;
-				margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+		.modal-dialog {
+			@extend #{$prefix}.raised;
+			margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
 
-				// Sizing: lg, md & sm
-				// A large modal has the same size as a container
-				&.modal-lg {
-					@each $device, $props in luiTheme(reference, breakpoints) {
-						@media screen and (min-width: map-get($props, break)) {
-							margin-left: map-get($props, spacing);
-							margin-right: map-get($props, spacing);
-						}
+			// Sizing: lg, md & sm
+			// A large modal has the same size as a container
+			&.modal-lg {
+				@each $device, $props in luiTheme(reference, breakpoints) {
+					@media screen and (min-width: map-get($props, break)) {
+						margin-left: map-get($props, spacing);
+						margin-right: map-get($props, spacing);
 					}
 				}
 			}
 		}
+	}
 
-		#{$baseSelector}.modal-backdrop {
-			@extend %#{$cleanNamespace}-overlay;
+	#{$prefix}.modal-backdrop {
+		@extend #{$prefix}.overlay;
 
-			visibility: hidden;
-			opacity: 0;
-			@include lui_transition_properties(opacity);
+		visibility: hidden;
+		opacity: 0;
+		@include lui_transition_properties(opacity);
 
-			&.in { visibility: visible; opacity: 1; }
-			&:not(.in) { visibility: visible; opacity: 0; }
-		}
+		&.in { visibility: visible; opacity: 1; }
+		&:not(.in) { visibility: visible; opacity: 0; }
+	}
 
+	@at-root {
 		// Kill the scroll on the body
 		.modal-open {
 			overflow: hidden;
-			#{$baseSelector}.modal { overflow-x: hidden; overflow-y: auto; }
+			& #{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
 		}
 	}
 }
