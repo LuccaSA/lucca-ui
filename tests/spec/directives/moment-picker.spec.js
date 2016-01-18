@@ -355,4 +355,190 @@ describe('luidMoment', function(){
 			expect(isolateScope.ngModelCtrl.$error.min).toBe(true);
 		});
 	});
+	describe("$validators", function() {
+		describe(".hours", function(){
+			beforeEach(function() {
+				$scope.test = { value: moment('2016-01-01 12:30:00') };
+				var tpl = angular.element('<luid-moment ng-model="test.value"></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+
+			});
+			it("should be valid when hours is and int between 0 ad 23", function() {
+				_.each(_.range(24), function(i){
+					isolateScope.hours = "" + i;
+					isolateScope.changeHours();
+					expect(isolateScope.ngModelCtrl.$error.hours).not.toBeTruthy();
+				});
+			});
+			it("should be invalid when hours is empty", function() {
+				isolateScope.hours = "";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.hours).toBeTruthy();
+			});
+			it("should be invalid when hours is undefined", function() {
+				isolateScope.hours = "";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.hours).toBeTruthy();
+			});
+			it("should be invalid when hours is not an int", function() {
+				isolateScope.hours = "asd";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.hours).toBeTruthy();
+			});
+		});
+		describe(".minutes", function(){
+			beforeEach(function() {
+				$scope.test = { value: moment('2016-01-01 12:30:00') };
+				var tpl = angular.element('<luid-moment ng-model="test.value"></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+
+			});
+			it("should be valid when minutes is and int between 0 ad 60", function() {
+				_.each(_.range(60), function(i){
+					isolateScope.mins = "" + i;
+					isolateScope.changeMins();
+					expect(isolateScope.ngModelCtrl.$error.minutes).not.toBeTruthy();
+				});
+			});
+			it("should be invalid when mins is empty", function() {
+				isolateScope.mins = "";
+				isolateScope.changeMins();
+				expect(isolateScope.ngModelCtrl.$error.minutes).toBeTruthy();
+			});
+			it("should be invalid when mins is undefined", function() {
+				isolateScope.mins = "";
+				isolateScope.changeMins();
+				expect(isolateScope.ngModelCtrl.$error.minutes).toBeTruthy();
+			});
+			it("should be invalid when mins is not an int", function() {
+				isolateScope.mins = "asd";
+				isolateScope.changeMins();
+				expect(isolateScope.ngModelCtrl.$error.minutes).toBeTruthy();
+			});
+		});
+		describe(".min with fixed min", function(){
+			beforeEach(function() {
+				$scope.test = { value: undefined };
+				var tpl = angular.element('<luid-moment ng-model="test.value" min="\'08:00:00\'" format="\'HH:mm\'"></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+
+			});
+			it("should be valid when viewvalue is undefined", function() {
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be valid when viewValue is > min", function() {
+				$scope.test.value = "12:00";
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be valid when we change isolateScope.hours to something > min", function() {
+				isolateScope.hours = "12";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be invalid when viewValue is < min", function() {
+				$scope.test.value = moment('2016-01-01 04:00:00');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.min).toBeTruthy();
+			});
+			it("should be invalid when we change isolateScope.hours to something < min", function() {
+				isolateScope.hours = "03";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.min).toBeTruthy();
+			});
+		});
+		describe(".min with changing min", function(){
+			beforeEach(function() {
+				$scope.test = { value: moment().startOf('day').add(12, 'h'), min: moment().startOf('day').add(8, 'hours') };
+				var tpl = angular.element('<luid-moment ng-model="test.value" min="test.min""></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+			});
+			it("should be valid when viewvalue is undefined", function() {
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be valid when viewValue is > min", function() {
+				$scope.test.value = moment().startOf('day').add(12, 'hours');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be valid when we change isolateScope.hours to something > min", function() {
+				isolateScope.hours = "12";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.min).not.toBeTruthy();
+			});
+			it("should be invalid when min goes over current value", function() {
+				$scope.test.min = moment().startOf('d').add(16, 'h');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.min).toBeTruthy();
+			});
+		});
+		describe(".max with fixed max", function(){
+			beforeEach(function() {
+				$scope.test = { value: undefined };
+				var tpl = angular.element('<luid-moment ng-model="test.value" max="\'16:00:00\'"></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+
+			});
+			it("should be valid when viewvalue is undefined", function() {
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be valid when viewValue is < max", function() {
+				$scope.test.value = moment().startOf('day').add(12, 'h');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be valid when we change isolateScope.hours to something < max", function() {
+				isolateScope.hours = "12";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be invalid when viewValue is > max", function() {
+				$scope.test.value = moment().startOf('day').add(23, 'h');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.max).toBeTruthy();
+			});
+			it("should be invalid when we change isolateScope.hours to something > max", function() {
+				isolateScope.hours = "21";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.max).toBeTruthy();
+			});
+		});
+		describe(".max with changing max", function(){
+			beforeEach(function() {
+				$scope.test = { value: moment().startOf('day').add(12, 'h'), max: moment().startOf('day').add(16, 'hours') };
+				var tpl = angular.element('<luid-moment ng-model="test.value" max="test.max""></luid-moment>');
+				elt = $compile(tpl)($scope);
+				$scope.$digest();
+				isolateScope = elt.isolateScope();
+			});
+			it("should be valid when viewvalue is undefined", function() {
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be valid when viewValue is < max", function() {
+				$scope.test.value = moment().startOf('day').add(12, 'hours');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be valid when we change isolateScope.hours to something < max", function() {
+				isolateScope.hours = "12";
+				isolateScope.changeHours();
+				expect(isolateScope.ngModelCtrl.$error.max).not.toBeTruthy();
+			});
+			it("should be invalid when max goes over current value", function() {
+				$scope.test.max = moment().startOf('d').add(8, 'h');
+				$scope.$digest();
+				expect(isolateScope.ngModelCtrl.$error.max).toBeTruthy();
+			});
+		});
+	});
 });
