@@ -368,11 +368,11 @@
 				<p>
 					Start : 
 					<span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
 					</span>
 					End : 
 					<span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
 					</span>
 				</p>
 				<hr>
@@ -511,7 +511,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			<div ng-controller="dayBlockCtrl" class="lui block round">
 				<p>
 					date: <span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myDate" is-open="opened" close-text="Close" ng-click="opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myDate" is-open="opened" close-text="Close" ng-click="opened=true"/>
 					</span>
 				</p>
 				<p>
