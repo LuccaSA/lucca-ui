@@ -15,7 +15,8 @@
 - Fixes a minor checkbox position issue
 - Adds support for `.spaced.columns`
 - Small changes over how menu color is handled in themes
-- [#105](https://github.com/LuccaSA/lucca-ui/issues/105) - `luid-moment` values manually type over max were not properly handled, as a result there was a desynch between ng-model and isolate scope
+- [#105](https://github.com/LuccaSA/lucca-ui/issues/105) - `luid-moment` values manually entered over max were not properly handled, as a result there was a desynch between ng-model and isolate scope
+- [#104](https://github.com/LuccaSA/lucca-ui/issues/104) - `luid-moment` reworked validators for better utilisation in forms
 
 ## 2.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.5)
 
