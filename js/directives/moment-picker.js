@@ -93,11 +93,11 @@
 		}
 
 		function update(newValue) {
-			updateWithoutRender(newValue);
+			updateWithoutRender(newValue, true);
 			$scope.ngModelCtrl.$render();
 		}
 
-		function updateWithoutRender(newValue) {
+		function updateWithoutRender(newValue, autoCorrect) {
 			function correctedValue(newValue, min, max) {
 				switch(true){
 					case (!newValue) : return newValue;
@@ -106,11 +106,13 @@
 					default : return newValue;
 				}
 			}
-			var min = getMin(); 
-			var max = getMax(); 
-			newValue = correctedValue(newValue, min, max);
-			$scope.maxed = newValue && max && max.diff(newValue) === 0;
-			$scope.mined = newValue && min && min.diff(newValue) === 0;
+			var min = getMin();
+			var max = getMax();
+			if(autoCorrect){
+				newValue = correctedValue(newValue, min, max);
+			}
+			$scope.maxed = newValue && max && max.diff(newValue) <= 0;
+			$scope.mined = newValue && min && min.diff(newValue) >= 0;
 
 			$scope.ngModelCtrl.setValue(newValue);
 		}
@@ -192,7 +194,7 @@
 		function focusEvent(isMinute) {
 			cancelTimeouts();
 			$scope.minsFocused = !!isMinute;
-			$scope.hoursFocused = !isMinute;			
+			$scope.hoursFocused = !isMinute;
 		}
 
 		function changeInput(field, validator) {
@@ -204,14 +206,14 @@
 
 			validator();
 
-			updateWithoutRender(getInputedTime());			
+			updateWithoutRender(getInputedTime());
 		}
 
 		function blurEvent(timeout, isFocused){
 			timeout = $timeout(function(){
 					timeout = false;
 					correctValue();
-			}, 200);			
+			}, 200);
 		}
 
 		var hoursFocusTimeout, minsFocusTimeout;
