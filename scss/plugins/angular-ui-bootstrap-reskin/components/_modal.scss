@@ -18,7 +18,9 @@
 
 		.modal-dialog {
 			@extend #{$prefix}.raised;
+			@extend #{$prefix}.rounded;
 			margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+			background: map-gets($pluginVars, modal, background);
 
 			// Sizing: lg, md & sm
 			// A large modal has the same size as a container
@@ -31,6 +33,11 @@
 				}
 			}
 		}
+
+		.modal-content { padding: map-gets($pluginVars, modal, padding); }
+		.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($pluginVars, modal, padding)}"); padding: map-gets($pluginVars, modal, padding); }
+		.modal-header { border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+		.modal-footer { border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
 	}
 
 	#{$prefix}.modal-backdrop {
