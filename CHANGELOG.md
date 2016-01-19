@@ -8,6 +8,7 @@
 - Adds support for headings inside breadcrumbs item
 - Adds sizing support for nguibs-dropdown and nguibs-ui-select
 - [#108](https://github.com/LuccaSA/lucca-ui/issues/108) - upd dependency of [angular-ui-bootstrap](https://angular-ui.github.io/bootstrap/) from 0.14.x to 1.0.x
+- angular ui bootstrap's [modal](http://angular-ui.github.io/bootstrap/#/modal) is now properly supported by the angyular reskin plugin, see [demo page](http://luccasa.github.io/lucca-ui/#/nguibs#luid-modal) for more info
 
 ### Resolved issues
 - [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
