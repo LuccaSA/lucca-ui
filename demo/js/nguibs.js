@@ -36,4 +36,36 @@
 	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
 	}]);
+
+	angular.module('demoApp')
+	.controller('modalCtrl', function ($scope, $uibModal) {
+
+		$scope.openInNamespace = function (size) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdropClass: 'lui',
+				windowClass: 'lui',
+				templateUrl: 'myModalContent.html',
+				controller: 'ModalInstanceCtrl',
+				appendTo: angular.element(document.getElementById("demo")),
+				size: 'lg'
+			});
+		};
+		$scope.openInBody = function (size) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'myModalContent.html',
+				controller: 'ModalInstanceCtrl',
+			});
+		};
+	});
+	angular.module('demoApp')
+	.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+		$scope.ok = function () {
+			$uibModalInstance.close();
+		};
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+	});
 })();

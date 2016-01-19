@@ -42,22 +42,24 @@
 	<script type="text/javascript" src="js/directives.js"></script>
 	<script type="text/javascript" src="js/lucca-spe.js"></script>
 </head>
-<body ng-app="demoApp">
-	<nav id="banner" class="lui top stuck primary dividing menu" ng-controller="bannerCtrl">
-		<h4 class="header item">
-			<i class="lui icon jumping cc"></i>Lucca UI 2.0
-		</h4>
-		<a class="item" href="https://github.com/LuccaSA/lucca-ui/wiki">Github documentation</a>
-		<a class="item" href="#/sass" ng-class="{ active: isActive('/sass') }">Sass framework</a>
-		<a class="item" href="#/icons" ng-class="{ active: isActive('/icons') }">Lucca Icons</a>
-		<a class="item" href="#/animations" ng-class="{ active: isActive('/animations') }">Animations</a>
-		<a class="item" href="#/nguibs" ng-class="{ active: isActive('/nguibs') }">Bootstrap components</a>
-		<a class="item" href="#/filters" ng-class="{ active: isActive('/filters') }">Lucca Filters</a>
-		<a class="item" href="#/directives" ng-class="{ active: isActive('/directives') }">Lucca Directives</a>
+<body ng-app="demoApp" >
+	<div id="demo">
+		<nav id="banner" class="lui top stuck primary dividing menu" ng-controller="bannerCtrl">
+			<h4 class="header item">
+				<i class="lui icon jumping cc"></i>Lucca UI 2.0
+			</h4>
+			<a class="item" href="https://github.com/LuccaSA/lucca-ui/wiki">Github documentation</a>
+			<a class="item" href="#/sass" ng-class="{ active: isActive('/sass') }">Sass framework</a>
+			<a class="item" href="#/icons" ng-class="{ active: isActive('/icons') }">Lucca Icons</a>
+			<a class="item" href="#/animations" ng-class="{ active: isActive('/animations') }">Animations</a>
+			<a class="item" href="#/nguibs" ng-class="{ active: isActive('/nguibs') }">Bootstrap components</a>
+			<a class="item" href="#/filters" ng-class="{ active: isActive('/filters') }">Lucca Filters</a>
+			<a class="item" href="#/directives" ng-class="{ active: isActive('/directives') }">Lucca Directives</a>
 
-		<a class="right item" href="#/lucca" ng-class="{ active: isActive('/lucca') }">Lucca Specific</a>
-	</nav>
+			<a class="right item" href="#/lucca" ng-class="{ active: isActive('/lucca') }">Lucca Specific</a>
+		</nav>
 
-	<div ng-view class="lui container"></div>
+		<div ng-view class="lui container"></div>
+	</div>
 </body>
 </html>
