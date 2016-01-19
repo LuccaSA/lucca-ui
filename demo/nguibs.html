@@ -184,19 +184,42 @@
 				If you are using a namespaced distribution of lucca-ui, you have to use the <code>appendTo</code> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <code>body</code> and lucca-ui's styles wont apply
 			</p>
 			<p>
-				<div class="lui button" ng-click="openInNamespace()">Open in namespace</div>
-				<div class="lui button" ng-click="openInBody()">Open in body</div>
+				If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
+			</p>
+			<p>
+				<div class="lui button" ng-click="open()">Open in namespace with prefix</div>
+				The styles of lucca-ui will be applied to the modal window, inside the modal window and to the background
+			</p>
+			<p>
+				<div class="lui button" ng-click="openWithoutPrefix()">Open without prefix</div>
+				Because the prefix is missing for the <code>modal-window</code> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work
+			</p>
+			<p>
+				<div class="lui button" ng-click="openWithoutNamespace()">Open without namespace</div>
+				The modal is appended out off the namespace, as a result none of lucca-ui's styles are applied to the modal, its backdrop or its content
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="html">&lt;!-- inline --&gt;
-&lt;uib-datepicker ng-model="dt" class="lui datepicker"&gt;&lt;/date-picker&gt;
-&lt;!-- popup --&gt;
-&lt;div <b>class="lui datepicker long input"</b>&gt;
-&lt;input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
-&lt;/div&gt;</pre>
+				<pre hljs no-escape language="js">// global distribution
+var modalInstance = $uibModal.open({
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+});
+// namespaced distribution
+var modalInstance = $uibModal.open({
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+	appendTo: angular.element(document.getElementById("myNamespace")),
+});
+// prefixed distribution
+var modalInstance = $uibModal.open({
+	backdropClass: 'myPrefix',
+	windowClass: 'myPrefix',
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+});</pre>
 			</p>
 		</article>
 	</section>
@@ -206,6 +229,8 @@
 <script type="text/ng-template" id="myModalContent.html">
 	<h1>Modal</h1>
 	<p>
-		<span class="lui label">some lui label</span>
+		<div class="lui callout">
+			<span class="lui label">some label</span> inside a callout and omg an icon <i class="lui jumping cc icon"></i>
+		</div>
 	</p>
 </script>

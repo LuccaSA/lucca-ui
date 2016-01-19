@@ -40,9 +40,8 @@
 	angular.module('demoApp')
 	.controller('modalCtrl', function ($scope, $uibModal) {
 
-		$scope.openInNamespace = function (size) {
+		$scope.open = function () {
 			var modalInstance = $uibModal.open({
-				animation: true,
 				backdropClass: 'lui',
 				windowClass: 'lui',
 				templateUrl: 'myModalContent.html',
@@ -51,11 +50,19 @@
 				size: 'lg'
 			});
 		};
-		$scope.openInBody = function (size) {
+		$scope.openWithoutNamespace = function () {
 			var modalInstance = $uibModal.open({
-				animation: true,
+				backdropClass: 'lui',
+				windowClass: 'lui',
 				templateUrl: 'myModalContent.html',
 				controller: 'ModalInstanceCtrl',
+			});
+		};
+		$scope.openWithoutPrefix = function () {
+			var modalInstance = $uibModal.open({
+				templateUrl: 'myModalContent.html',
+				controller: 'ModalInstanceCtrl',
+				appendTo: angular.element(document.getElementById("demo")),
 			});
 		};
 	});
