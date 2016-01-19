@@ -1,112 +1,112 @@
-
-$prefix: '.lui';
-@import "../../scss/lucca-ui.global.scss";
-$light: luiPalette(light, color);
-
-// Table of contents
-$toc-width: 10em;
-$banner-height: 4em;
-
 html, body {
 	min-height: 100%;
 	width: 100%;
 }
+#demo{
+	$prefix: '.lui';
+	@import "../../scss/lucca-ui.namespaced.scss";
+	$light: luiPalette(light, color);
+	// Table of contents
+	$toc-width: 10em;
+	$banner-height: 4em;
 
-#banner {
-	background: #FFF;
-	height: $banner-height;
-}
-#toc {
-	margin-top: $banner-height + 1;
-	width: $toc-width;
-	height: 100%;
-}
 
-#demoBlock {
-	margin: 13px 0;
-	.header {
-		padding: 0;
-		h4 {
-			padding-bottom: 17px; 
-		}
+	#banner {
+		background: #FFF;
+		height: $banner-height;
 	}
-}
-
-.dark {
-	background-color: #333;
-	padding: 1em;
-	&.inline {
-		display: inline-block;
+	#toc {
+		margin-top: $banner-height + 1;
+		width: $toc-width;
+		height: 100%;
 	}
-}
 
-#main-content {
-	margin-top: $banner-height;
-	margin-left: $toc-width;
-	padding: 2em;
-}
-
-#lui-grid .column {
-	p {
-		height: 2em;
-		margin: 0.5em 0;
-		border-radius: 2em;
-	}
-	&:nth-child(2n) p {
-		background: grey;
-	}
-	&:nth-child(2n+1) p {
-		background: black;
-	}
-}
-
-article {
-	@extend #{$prefix}.clear;
-}
-
-.hljs {
-	border: 1px solid $light;
-	border-radius: 3px;
-}
-
-// Style for default .hljs 
-// See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
-// We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
-code {
-	font-size: 85%;
-	font-weight: normal;
-	overflow-x: auto;
-	padding: 0.2em 0;
-	color: #333;
-	background: #f8f8f8;
-	-webkit-text-size-adjust: none;
-}
-
-#lui-icon .icon-list {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	li {
-		margin: 0 2em 3em 2em;
-		padding: 0;
-		display: inline-block;
-		text-align: center;
-		i {
-			color: #162a36;
-			font-size: 24px;
-			margin-bottom: 1em;
-		}
-		.lui.input {
-			display: block;
-			input {
-				display: block;
-				text-align: center;
-				margin-bottom: 0.5em;
+	#demoBlock {
+		margin: 13px 0;
+		.header {
+			padding: 0;
+			h4 {
+				padding-bottom: 17px; 
 			}
 		}
 	}
-}
-.luifNumberValue > span {
-	font-size:90%;
-	opacity: .6;
+
+	.dark {
+		background-color: #333;
+		padding: 1em;
+		&.inline {
+			display: inline-block;
+		}
+	}
+
+	#main-content {
+		margin-top: $banner-height;
+		margin-left: $toc-width;
+		padding: 2em;
+	}
+
+	#lui-grid .column {
+		p {
+			height: 2em;
+			margin: 0.5em 0;
+			border-radius: 2em;
+		}
+		&:nth-child(2n) p {
+			background: grey;
+		}
+		&:nth-child(2n+1) p {
+			background: black;
+		}
+	}
+
+	article {
+		@extend #{$prefix}.clear;
+	}
+
+	.hljs {
+		border: 1px solid $light;
+		border-radius: 3px;
+	}
+
+	// Style for default .hljs 
+	// See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
+	// We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
+	code {
+		font-size: 85%;
+		font-weight: normal;
+		overflow-x: auto;
+		padding: 0.2em 0;
+		color: #333;
+		background: #f8f8f8;
+		-webkit-text-size-adjust: none;
+	}
+
+	#lui-icon .icon-list {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			margin: 0 2em 3em 2em;
+			padding: 0;
+			display: inline-block;
+			text-align: center;
+			i {
+				color: #162a36;
+				font-size: 24px;
+				margin-bottom: 1em;
+			}
+			.lui.input {
+				display: block;
+				input {
+					display: block;
+					text-align: center;
+					margin-bottom: 0.5em;
+				}
+			}
+		}
+	}
+	.luifNumberValue > span {
+		font-size:90%;
+		opacity: .6;
+	}
 }
