@@ -56,7 +56,8 @@ $modal: (
 	zIndex: 					999,
 	topMargin: 					5em,
 	bottomMargin: 				0,
-	prefix: 					''
+	background: 				#FFF,
+	padding: 					1.5em
 );
 $pluginVars: map-extend($pluginVars, (modal: $modal));
 

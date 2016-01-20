@@ -1,16 +1,10 @@
 @if map-get($vars, enabled) {
-	@at-root {
-		%#{$cleanNamespace}-overlay {
-			position: fixed;
-			top: 0; left: 0;
-			height: 100%;
-			width: 100%;
-			z-index: map-gets($vars, zIndex);
-			background-color: map-gets($vars, background);
-		}
-	}
-
 	#{$prefix}.overlay {
-		@extend %#{$cleanNamespace}-overlay;
+		position: fixed;
+		top: 0; left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: map-gets($vars, zIndex);
+		background-color: map-gets($vars, background);
 	}
 }
