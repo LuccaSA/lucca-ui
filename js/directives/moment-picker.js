@@ -23,27 +23,57 @@
 
 					scope.hours = condition ? momentValue.format('HH') : undefined;
 					scope.mins = condition ? momentValue.format('mm') : undefined;
+					ngModelCtrl.$validate();
 				};
 
 				ngModelCtrl.setValue = function(newMomentValue) {
 					ngModelCtrl.$setViewValue(!newMomentValue ? undefined : newMomentValue.format(format));
+				};
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
+					return !viewValue || mpCtrl.checkMin(moment(modelValue, format));
+				};
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
+					return !viewValue || mpCtrl.checkMax(moment(modelValue, format));
 				};
 			} else {
 				ngModelCtrl.$render = function() {
 					var condition = this.$viewValue && !!this.$viewValue.isValid && this.$viewValue.isValid();
 					scope.hours = condition ? this.$viewValue.format('HH') : undefined;
 					scope.mins = condition ? this.$viewValue.format('mm') : undefined;
+					ngModelCtrl.$validate();
 				};
-				ngModelCtrl.setValue = function(newMomentValue) { ngModelCtrl.$setViewValue(newMomentValue); };
+				ngModelCtrl.setValue = function(newMomentValue) { 
+					ngModelCtrl.$setViewValue(newMomentValue); 
+				};
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
+					return !viewValue || mpCtrl.checkMin(modelValue); 
+				};
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
+					return !viewValue || mpCtrl.checkMax(modelValue); 
+				};
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
 
-			ngModelCtrl.$validators.min = function (modelValue,viewValue) { return mpCtrl.checkMin(modelValue); };
-			ngModelCtrl.$validators.max = function (modelValue,viewValue) { return mpCtrl.checkMax(modelValue); };
+			ngModelCtrl.$validators.hours = function (modelValue,viewValue) { 
+				return scope.hours !== undefined && scope.hours !== "" && !isNaN(parseInt(scope.hours));
+			};
+			ngModelCtrl.$validators.minutes = function (modelValue,viewValue) { 
+				return scope.mins !== undefined && scope.mins !== "" && parseInt(scope.mins) < 60;
+			};
 
 			var inputs = element.find('input');
 			mpCtrl.setupEvents(angular.element(inputs[0]), angular.element(inputs[1]));
+
+			// reexecute validators if min or max change
+			// will not be reexecuted if min is a moment and something like `min.add(3, 'h')` is called
+			scope.$watch('min', function(){
+				ngModelCtrl.$validate();
+			});
+			scope.$watch('max', function(){
+				ngModelCtrl.$validate();
+			});
+		
 		}
 
 		return {
@@ -70,7 +100,6 @@
 		};
 	}])
 	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment) {
-
 		function incr(step) {
 			function calculateNewValue() {
 				function contains(array, value) { return array.indexOf(value) !== -1; }
@@ -87,17 +116,17 @@
 			}
 
 			if ($scope.disabled) { return; }
-			$scope.ngModelCtrl.$setValidity('pattern', true);
+			// $scope.ngModelCtrl.$setValidity('pattern', true);
 
-			update(calculateNewValue());
+			update(calculateNewValue(), true);
 		}
 
-		function update(newValue) {
-			updateWithoutRender(newValue);
+		function update(newValue, autoCorrect) {
+			updateWithoutRender(newValue, autoCorrect);
 			$scope.ngModelCtrl.$render();
 		}
 
-		function updateWithoutRender(newValue) {
+		function updateWithoutRender(newValue, autoCorrect) {
 			function correctedValue(newValue, min, max) {
 				switch(true){
 					case (!newValue) : return newValue;
@@ -106,21 +135,31 @@
 					default : return newValue;
 				}
 			}
-			var min = getMin(); 
-			var max = getMax(); 
-			newValue = correctedValue(newValue, min, max);
-			$scope.maxed = newValue && max && max.diff(newValue) === 0;
-			$scope.mined = newValue && min && min.diff(newValue) === 0;
+			var min = getMin();
+			var max = getMax();
+			if(autoCorrect){
+				newValue = correctedValue(newValue, min, max);
+			}
+			$scope.maxed = newValue && max && max.diff(newValue) <= 0;
+			$scope.mined = newValue && min && min.diff(newValue) >= 0;
 
 			$scope.ngModelCtrl.setValue(newValue);
 		}
 
 		// translate between string values and viewvalue
+		function undefinedHoursOrMinutes() {
+			return $scope.hours === undefined || $scope.hours === "" || $scope.mins === undefined || $scope.mins === "";
+		}
+
 		function getInputedTime() {
+			if (undefinedHoursOrMinutes()) {
+				return undefined;
+			}
+
 			var intHours = parseInt($scope.hours);
 			var intMinutes = parseInt($scope.mins);
-			if (intHours != intHours) { intHours = 0; } // intHour isNaN
-			if (intMinutes != intMinutes) { intMinutes = 0; } // intMins isNaN
+			// if (intHours != intHours) { intHours = 0; } // intHour isNaN
+			// if (intMinutes != intMinutes) { intMinutes = 0; } // intMins isNaN
 			if (intMinutes > 60) { intMinutes = 59; $scope.mins = "59"; }
 
 			return getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
@@ -131,19 +170,14 @@
 				if (!!timeout) {
 					$timeout.cancel(timeout);
 					timeout = undefined;
-				}				
+				}
 			}
 			cancel(hoursFocusTimeout);
 			cancel(minsFocusTimeout);
 		}
 
 		function correctValue() {
-			if ($scope.enforceValid) {
-				$scope.ngModelCtrl.$setValidity('pattern', true);
-				if ($scope.ngModelCtrl.$error.min || $scope.ngModelCtrl.$error.max) {
-					update(currentValue());
-				}
-			}
+			update(currentValue(), $scope.enforceValid);
 		}
 
 		function getStep() { return isNaN(parseInt($scope.step)) ? 5 : parseInt($scope.step); }
@@ -166,7 +200,7 @@
 						var refDate = getRefDate();
 						var extrem = moment(extremum, 'HH:mm').year(refDate.year()).month(refDate.month()).date(refDate.date());
 						// a min/max time of '00:00' means midnight tomorrow
-						if (checkMidnight && extrem.hours() + extrem.minutes() === 0) { extrem.add(1,'d');	}
+						if (checkMidnight && extrem.hours() + extrem.minutes() === 0) { extrem.add(1,'d');}
 						return extrem;
 				}
 			}
@@ -192,26 +226,18 @@
 		function focusEvent(isMinute) {
 			cancelTimeouts();
 			$scope.minsFocused = !!isMinute;
-			$scope.hoursFocused = !isMinute;			
+			$scope.hoursFocused = !isMinute;
 		}
 
 		function changeInput(field, validator) {
-			if (field === undefined){
-				$scope.ngModelCtrl.$setValidity('pattern', false);
-				return update(undefined);
-			}
-			$scope.ngModelCtrl.$setValidity('pattern', true);
-
-			validator();
-
-			updateWithoutRender(getInputedTime());			
+			updateWithoutRender(getInputedTime());
 		}
 
 		function blurEvent(timeout, isFocused){
 			timeout = $timeout(function(){
 					timeout = false;
 					correctValue();
-			}, 200);			
+			}, 200);
 		}
 
 		var hoursFocusTimeout, minsFocusTimeout;
@@ -227,25 +253,34 @@
 		$scope.incrMins = function() {	incrementEvent('focusMinutes', getStep()); };
 		$scope.decrMins = function() {	incrementEvent('focusMinutes', -getStep()); };
 
+		function isUndefinedOrEmpty(val) {
+			return val === undefined || val === "";
+		}
+
 		// string value changed
 		$scope.changeHours = function(){
-			// if this does not satisfy the pattern [0-9]{0,2}
-			function validateHours(){
-				if ($scope.hours === "") { return update(undefined); }
-
-				if ($scope.hours.length == 2) {
-					if (parseInt($scope.hours) > 23) { $scope.hours = '23'; }
-					$scope.$broadcast('focusMinutes');
-				} else if ($scope.hours.length == 1 && parseInt($scope.hours) > 2) {
-					$scope.hours = 0 + $scope.hours;
-					$scope.$broadcast('focusMinutes');
-				}
+			if(isUndefinedOrEmpty($scope.hours)){
+				return updateWithoutRender(undefined);
 			}
 
-			changeInput($scope.hours, validateHours);
+			if(isUndefinedOrEmpty($scope.mins)){
+				$scope.mins = "00";
+			}
+
+			if ($scope.hours.length == 2) {
+				if (parseInt($scope.hours) > 23) { $scope.hours = '23'; }
+				$scope.$broadcast('focusMinutes');
+			} else if ($scope.hours.length == 1 && parseInt($scope.hours) > 2) {
+				$scope.hours = 0 + $scope.hours;
+				$scope.$broadcast('focusMinutes');
+			}
+			updateWithoutRender(getInputedTime());
 		};
 
-		$scope.changeMins = function() { changeInput($scope.mins, function(){}); };
+		$scope.changeMins = function() { 
+			updateWithoutRender(getInputedTime());
+			// changeInput($scope.mins, function(){});
+		};
 
 		// display stuff
 		$scope.formatInputValue = function() { $scope.ngModelCtrl.$render(); };
@@ -256,7 +291,16 @@
 		};
 
 		$scope.blurHours = function() { blurEvent(hoursFocusTimeout, $scope.hoursFocused); };
-		$scope.blurMins = function() { blurEvent(minsFocusTimeout, $scope.minsFocused); };
+		$scope.blurMins = function() { 
+			if(!$scope.mins) {
+				if($scope.hours === "" || $scope.hours === undefined){
+					$scope.mins = undefined;
+				} else {
+					$scope.mins = "00";
+				}
+			}
+			blurEvent(minsFocusTimeout, $scope.minsFocused); 
+		};
 
 		$scope.focusHours = function() { focusEvent(false); };
 		$scope.focusMins = function() { focusEvent(true); };
