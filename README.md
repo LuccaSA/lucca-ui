@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/LuccaSA/lucca-ui.png?label=ready&title=Ready)](https://waffle.io/LuccaSA/lucca-ui)
 [![Build Status](https://travis-ci.org/LuccaSA/lucca-ui.svg?branch=master)](https://travis-ci.org/LuccaSA/lucca-ui)
 # Lucca-ui
 Framework Sass &amp; Angular by Lucca
