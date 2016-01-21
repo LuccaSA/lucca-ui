@@ -1,0 +1,59 @@
+#{$prefix}.user.card {
+	$vars: (
+		border: (
+			width: 				1px,
+			style: 				solid,
+			color: 				luiTheme(element, divider, color)
+		),
+		figure: (
+			maxWidth: 			10em
+		),
+		caption: (
+			padding: 			2em
+		)
+	);
+
+	&:not(.vertical) {
+		display: table;
+		table-layout: fixed;
+
+		border-width: map-gets($vars, border, width);
+		border-style: map-gets($vars, border, style);
+		border-color: map-gets($vars, border, color);
+
+		figure.picture { margin: 0; }
+
+		> figure.picture, > figcaption {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		> figure.picture {
+			img { max-width: map-gets($vars, figure, maxWidth); height: auto; vertical-align: top; }
+
+			&.circular img {
+				border-radius: 50%;
+				margin: map-gets($vars, caption, padding);
+				margin-right: 0;
+			}
+
+			&.fitting {
+				width: 25%;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+		}
+
+		> figcaption {
+			padding: map-gets($vars, caption, padding);
+
+			.name {
+				margin: 0 0 1em 0;
+			}
+
+			dl {
+				@extend #{$prefix}.definition-list;
+			}
+		}
+	}
+}
