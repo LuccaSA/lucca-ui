@@ -2,10 +2,12 @@
 	angular.module('demoApp')
 	.controller("userPickerCtrl", ["$scope", "$httpBackend", '_', '$http', '$q', 'moment', function($scope, $httpBackend, _, $http, $q, moment) {
 
+		$scope.showMultipleUserPicker = false
 		$scope.isChecked = false;
 		$scope.getCnt = 0;
 		$scope.apiCalls = [];
 		$scope.myUser = {};
+		$scope.myUsers = [];
 		$scope.local = "lucca.local";
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
