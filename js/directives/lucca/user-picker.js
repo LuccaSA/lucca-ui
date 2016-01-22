@@ -50,7 +50,7 @@
 	"</ui-select>";
 
 	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
