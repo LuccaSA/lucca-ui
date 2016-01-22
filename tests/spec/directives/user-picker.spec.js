@@ -562,6 +562,24 @@ describe('luidUserPicker', function(){
 				.value();
 			expect(customInfos).toEqual([2,4,6,8,10]);
 		});
+		it('should call $scope.customInfo to fetch one more info when we do not select one of the first 5 users and we unselect him', function() {
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_end);
+			$httpBackend.flush();
+			expect($scope.customCount).toHaveBeenCalled();
+			expect($scope.customCount.calls.count()).toBe(4);
+
+			$scope.myUser = _.findWhere(isolateScope.users, {id: 18});
+			isolateScope.find();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect($scope.customCount).toHaveBeenCalled();
+			expect($scope.customCount.calls.count()).toBe(9);
+
+			$scope.myUser = _.findWhere($scope.users, {id: 3});
+			$scope.$digest();
+			expect($scope.customCount).toHaveBeenCalled();
+			expect($scope.customCount.calls.count()).toBe(10); // fetch info for the 5th user
+		});
 	});
 
 	/**********************
