@@ -201,13 +201,22 @@
 	#{$prefix}.animated[class*="bounce"] { animation-name: bounce; }
 
 	@at-root {
-		@keyframes pulse {
+		@keyframes pulseUp {
+			0% { transform: scale(1); opacity: 1; }
+			50% { transform: scale(1.25); opacity: 0.75; }
+			100% { transform: scale(1); opacity: 1; }
+		}
+	}
+	#{$prefix}.animated[class*="pulse"]:not([class*="pulse down"]),
+	#{$prefix}.animated[class*="pulse up"] { animation-name: pulseUp; }
+	@at-root {
+		@keyframes pulseDown {
 			0% { transform: scale(1); opacity: 1; }
 			50% { transform: scale(0.85); opacity: 0.75; }
 			100% { transform: scale(1); opacity: 1; }
 		}
 	}
-	#{$prefix}.animated[class*="pulse"] { animation-name: pulse; }
+	#{$prefix}.animated[class*="pulse down"] { animation-name: pulseDown; }
 
 	@at-root {
 		@keyframes spin {

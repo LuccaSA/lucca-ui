@@ -6,4 +6,4 @@ before_script:
   - npm install
   - bower install
 
-script: grunt karma:continuous
+script: grunt travis

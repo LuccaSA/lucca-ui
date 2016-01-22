@@ -23,10 +23,12 @@
 			display: block;
 			position: relative;
 			padding: 0;
+			padding-left: map-gets($vars, checkbox, size) + 1em;
+			line-height: map-gets($vars, checkbox, size);
 
 			@include lui_make_icon("checkbox");
 
-			&:before, &:after { display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
+			&:before, &:after { position: absolute; top: 50%; transform: translateY(-50%); left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
 		}
 
 		input:checked ~ label {

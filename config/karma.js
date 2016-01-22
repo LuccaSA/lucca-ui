@@ -6,13 +6,17 @@ module.exports = function(grunt, options){
 			singleRun: true,
 			autoWatch: false,
 		},
-		dev: {
+		debug: {
 			configFile: 'karma.dev.js',
 			singleRun: false,
 			autoWatch: true,
 		},
-		continuous: {
+		travis: {
 			configFile: 'karma.dev.js',
+		},
+		coverage: {
+			configFile: 'karma.dev.js',
+			reporters: ['junit', 'coverage'],
 		},
 		spe: {
 			configFile: 'karma.spe.js',

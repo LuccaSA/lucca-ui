@@ -26,7 +26,12 @@ module.exports = function(config) {
 
 			'tests/spec/**/*.js'
 		],
-
+		preprocessors: {
+			'js/lui.js': ['coverage'],
+			'js/filters/*.js': ['coverage'],
+			'js/directives/*.js': ['coverage'],
+			'js/directives/lucca/*.js': ['coverage'],
+		},
 		// web server port
 		port: 9876,
 
@@ -42,10 +47,16 @@ module.exports = function(config) {
 		],
 
 		browsers: ['PhantomJS'],
-		reporters: ['progress'],
+		reporters: ['progress', 'coverage'],
 		junitReporter: {
-			outputFile: 'test-karma-admin-results.xml',
+			outputFile: 'karma-results.xml',
 			suite: 'Lucca-ui'
+		},
+		coverageReporter: {
+			type : 'html',
+			dir : 'coverage/',
+			subdir: '.',
+			// file : 'coverage-final.json'
 		}
 	});
 };

@@ -28,7 +28,10 @@ $pluginVars: map-extend($pluginVars, (datepicker: $datepicker));
 
 $dropdown: (
 	minWidth: 					15em,
-	maxHeight: 					15em
+	maxHeight: 					15em,
+
+	hoverBackground: 			luiPalette(light, color, light),
+	activeBackground: 			luiPalette(light, color)
 );
 $pluginVars: map-extend($pluginVars, (dropdown: $dropdown));
 
@@ -53,7 +56,8 @@ $modal: (
 	zIndex: 					999,
 	topMargin: 					5em,
 	bottomMargin: 				0,
-	prefix: 					''
+	background: 				#FFF,
+	padding: 					1.5em
 );
 $pluginVars: map-extend($pluginVars, (modal: $modal));
 

@@ -16,13 +16,13 @@
 		overflow: visible !important;
 
 		&:not([role="application"]) {
-			@include lui_make_icon("calendar");
-			> input { padding-left: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
+			@include lui_make_icon("calendar", right);
+			> input { padding-right: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
 			&:before, &:after {
 				cursor: text;
 				display: inline-block;
 				position: absolute;
-				top: 50%; left: 1em;
+				top: 50%; right: 1em;
 				-ms-transform: translate(0, -50%);
 				transform: translate(0, -50%);
 				@extend %lui_user_select_none;
@@ -44,7 +44,12 @@
 			left: 0; top: 100%;
 			margin-top: -1px;
 
-			@include lui_is_animated("down fade in");
+			&:not(.ng-leave) {
+				@include lui_is_animated("down fade in");
+			}
+			&.ng-leave {
+				@include lui_is_animated("down fade out");
+			}
 			@extend #{$prefix}.raised;
 		}
 

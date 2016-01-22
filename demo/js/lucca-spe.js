@@ -56,7 +56,9 @@
 		});
 		
 		$httpBackend.whenGET(/\/\/\w*.local\/.*/).passThrough();
+		$httpBackend.whenGET(/\/\/\w*.local.dev\/.*/).passThrough();
 		$httpBackend.whenPOST(/\/\/\w*.local\/.*/).passThrough();
+		$httpBackend.whenPOST(/\/\/\w*.local.dev\/.*/).passThrough();
 
 		/* Custom filters */
 		$scope.hasShortName = function(user) {

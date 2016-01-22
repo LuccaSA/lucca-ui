@@ -1,11 +1,35 @@
 # Change log
 
-## 2.0.5 - in dev
+## 2.0.6 - in dev
 
 ### New features
+- Adds support for timespanpicker, dropdown and momentpicker inside an `.inline.field`
+- Datepicker now has a leaving animation
+- Adds support for headings inside breadcrumbs item
+- Adds sizing support for nguibs-dropdown and nguibs-ui-select
+- [#108](https://github.com/LuccaSA/lucca-ui/issues/108) - upd dependency of [angular-ui-bootstrap](https://angular-ui.github.io/bootstrap/) from 0.14.x to 1.0.x
+- angular ui bootstrap's [modal](http://angular-ui.github.io/bootstrap/#/modal) is now properly supported by the angyular reskin plugin, see [demo page](http://luccasa.github.io/lucca-ui/#/nguibs#luid-modal) for more info
+
+### Resolved issues
+- [#101](https://github.com/LuccaSA/lucca-ui/issues/101) - ui-select, clicking on the arrow did not open the dropdown
+- [#100](https://github.com/LuccaSA/lucca-ui/issues/100) & [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - multiple ui-select is no longer resized when adding new items if a size has been set
+- Fixes some issues with nested menus + adds support for dotted and dashed divider style as well as for `.centered` menu style
+- Fixes a minor checkbox position issue
+- Adds support for `.spaced.columns`
+- Small changes over how menu color is handled in themes
+
+## 2.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.5)
+
+### New features
+ - directive `luid-day-block` that displays a date in a bloc like fashion, see [demo page](http://luccasa.github.io/lucca-ui/#/directives#luid-luid-day-block) for more info
+ - Better css layout for checkbox inputs: now adopts a table-style layout
+ - Adds support for pulse "up" and "down" animations
+ - nguibs-datepicker calendar icon is now displayed on the right of the input
+ - Adds support for progress bars attached to callouts.
 
 ### Resolved issues
  - bug with luifDuration when trying to dislay `1.0005d` with unit = day and precision = day - should have displayed `1d` but displayed `1.00d`
+ - luid-timespan now supports `undefined` as value, before default value was 0 sec
 
 ## 2.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.4)
 
@@ -85,7 +109,7 @@ This directive has a ui-select plugged to `/api/v3/users/find` with a more power
  - custom filtering: filter the set of results fetched by the api according to a specific need
  - pagination: by default, only 5 users are displayed in the dropdown menu. If the user you are looking for is not displayed, it encourages you to specify your search.
 
-#### Advanced features: 
+#### Advanced features:
  - custom properties to handle homonyms: inject custom properties to sort homonyms according to your needs.
  - application id and scope of operations: only fetch users that have access to the specified application, with the given set of operations for that application.
  - [#51](https://github.com/LuccaSA/lucca-ui/issues/51) possibility to pass a fuction to display custom info next to the user's name (number of apple eaten last week for example) in the dropdown. the function can be sync or async

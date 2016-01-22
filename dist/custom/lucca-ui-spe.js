@@ -226,7 +226,87 @@
 			"</div>" +
 			"");
 	}]);
-})();;(function(){
+})();;/* global angular */
+(function(){
+	'use strict';
+	var DayBlockDirective = function () {
+		return {
+			template : 
+			'<div>'+
+
+			'<div ng-style="controller.weekdayStyleOverride()" '+
+			'ng-if = "controller.showDay" class="weekday">{{controller.date | luifMoment: \'dddd\'}}'+
+			'</div>'+
+
+			'<div ng-style="controller.dayStyleOverride()" ' +
+			'class="day">{{controller.date | luifMoment:\'DD\'}}'+
+			'</div>'+
+
+			'<div ng-style="controller.monthStyleOverride()" ' +
+			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'</div>'+
+
+			'<div ng-style="controller.yearStyleOverride()" ' +
+			'class="year">{{controller.date | luifMoment: \'YYYY\'}}'+
+			'</div>'+
+
+			'</div>',
+
+			scope : {
+				date: '=',
+				showDay: '=',
+				primaryColor: '=',
+				secondaryColor: '='
+			},
+
+			restrict : 'E',
+			bindToController : true,
+			controllerAs : 'controller',
+			controller : 'luidDayBlockController'
+		};
+	};
+
+
+	angular
+	.module('lui.directives')
+	.directive('luidDayBlock', DayBlockDirective)
+	.controller('luidDayBlockController', function(){
+		var controller = this;
+
+		controller.weekdayStyleOverride = function() {
+			return { 
+				color: controller.primaryColor, 
+			};
+		};
+		controller.dayStyleOverride = function() {
+			return { 
+				"background-color": controller.primaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.secondaryColor, 
+			};
+		};
+		controller.monthStyleOverride = function() {
+			return { 
+				"background-color": controller.secondaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.primaryColor, 
+			};
+		};
+		controller.yearStyleOverride = function() {
+			return { 
+				"background-color": controller.secondaryColor, 
+				"border-color": controller.primaryColor, 
+				"color": controller.primaryColor, 
+			};
+		};
+
+
+	});
+
+})();
+
+
+;(function(){
 	'use strict';
 		/**
 	** DEPENDENCIES
@@ -895,7 +975,7 @@
 			if (newDur.asMilliseconds() < 0) {
 				newDur = moment.duration();
 			}
-			update(newValue);
+			update(newDur);
 		}
 
 		// sets viewValue and renders
@@ -925,6 +1005,10 @@
 					return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
 				}
 				return dur;
+			}
+
+			if (newDuration === undefined) {
+				return $scope.ngModelCtrl.$setViewValue(undefined);
 			}
 
 			// Check min/max values
@@ -1191,12 +1275,12 @@
 	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
 			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
-			"	<div class=\"lui {{size}} input with addon\">" +
+			"	<div class=\"lui fitting input with addon\">" +
 			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"lui luid-translations-dropdown\">" +
-			"		<div class=\"lui {{size}} input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
+			"		<div class=\"lui fitting input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"			<span class=\"lui right addon\">{{culture}}</span>" +
 			"		</div>" +

@@ -60,11 +60,11 @@
 			{label:"Battle of Marignan", startsOn:moment("1515-09-13"), endsOn:moment("1515-09-14")},
 			{label:"World cup 2014", startsOn:moment("2014-06-12"), endsOn:moment("2014-07-13")},
 			{label:"TI5 main event", startsOn:moment("2015-08-03"), endsOn:moment("2015-08-08")},
-		];
-		$scope.doAlert = function(){
-			alert($scope.myPeriod.stringStart);
-		}
-	}]);
+			];
+			$scope.doAlert = function(){
+				alert($scope.myPeriod.stringStart);
+			}
+		}]);
 
 	angular.module('demoApp')
 	.controller('keydownCtrl', ['$scope', function($scope){
@@ -92,6 +92,13 @@
 		var downPressed = function(){ $scope.arrows.push("down"); $scope.$apply(); };
 
 		$scope.myMappings = { 13: enterPressed, 27: escPressed, 90: zPressed, 37: leftPressed, 38: upPressed, 39: rightPressed, 40: downPressed };
+	}]);
+
+	angular.module('demoApp')
+	.controller('dayBlockCtrl', ['$scope', function($scope){
+		$scope.myDate = new Date();
+		$scope.palette = "";
+		$scope.sizing = "";
 	}]);
 
 })();
