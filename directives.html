@@ -21,7 +21,7 @@
 				<ul class="lui unstyled">
 					<li><a class="lui fancy link" href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
 					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">0.13</span></li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">1.1</span></li>
 					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
 				</ul>
 			</p>
@@ -255,8 +255,9 @@
 			<div ng-controller="momentCtrl" class="lui block round">
 				<form name="myForm">
 					<p>
-						myValue in luid-moment :
-						<luid-moment ng-model="myValue" ng-change="hasChanged()"></luid-moment>
+						myValue in luid-moment (required) :
+						<luid-moment ng-model="myValue" name="myInput" ng-change="hasChanged()" required></luid-moment>
+						<span class="lui red label" ng-repeat="(key, value) in myForm.myInput.$error">ng-invalid-{{key}}</span>
 					</p>
 					<p>
 						myValue as it is in $scope :
@@ -270,7 +271,8 @@
 					<hr>
 					<p>
 						myStr in luid-moment with format="'HH:mm:ss'" :
-						<luid-moment ng-model="myStr" format="'HH:mm:ss'"></luid-moment>
+						<luid-moment ng-model="myStr" format="'HH:mm:ss'" name="myInputStr" min="'08:00:00'"></luid-moment>
+						<span class="lui red label" ng-repeat="(key, value) in myForm.myInputStr.$error">ng-invalid-{{key}}</span>
 					</p>
 					<p>
 						myStr as it is in $scope:
@@ -281,7 +283,8 @@
 					<hr>
 					<p>
 						myValue2 bounded between "08:00" and "22:00" :
-						<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'"></luid-moment>
+						<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'" name="myInput2"></luid-moment>
+						<span class="lui red label" ng-repeat="(key, value) in myForm.myInput2.$error">ng-invalid-{{key}}</span>
 					</p>
 					<p>
 						myValue2 as it is in $scope :
@@ -292,7 +295,8 @@
 					<hr>
 					<p>
 						myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM) :
-						<luid-moment ng-model="myValue3" min="min" max="max"></luid-moment>
+						<luid-moment ng-model="myValue3" min="min" max="max" name="myInput3"></luid-moment>
+						<span class="lui red label" ng-repeat="(key, value) in myForm.myInput3.$error">ng-invalid-{{key}}</span>
 					</p>
 					<p>
 						myValue2 as it is in $scope :
@@ -368,11 +372,11 @@
 				<p>
 					Start : 
 					<span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
 					</span>
 					End : 
 					<span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
 					</span>
 				</p>
 				<hr>
@@ -511,7 +515,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			<div ng-controller="dayBlockCtrl" class="lui block round">
 				<p>
 					date: <span class="lui input datepicker">
-						<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="myDate" is-open="opened" close-text="Close" ng-click="opened=true"/>
+						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myDate" is-open="opened" close-text="Close" ng-click="opened=true"/>
 					</span>
 				</p>
 				<p>

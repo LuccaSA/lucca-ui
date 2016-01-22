@@ -5,6 +5,7 @@
 		<a class="item" href="#/nguibs#tooltip">tooltip</a>
 		<a class="item" href="#/nguibs#popover">popover</a>
 		<a class="item" href="#/nguibs#datepicker">datepicker</a>
+		<a class="item" href="#/nguibs#modal">modal</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -14,16 +15,13 @@
 				<a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">Angular ui bootstrap</a> provides a number of directives. Lucca-ui supports only part of it, some of them natively and some need a special treatment to avoid lucca-ui's style drooling everywhere on the page
 			</p>
 			<p>
-				<b>Important note:</b> we are currently supporting the version 0.13.x of ui-bootstrap and in the version 0.14.x they added the prefix <code>uib-</code> on a lot of their directives (see the <a class="lui fancy link" href="https://github.com/angular-ui/bootstrap/blob/master/CHANGELOG.md">change log</a> for more info). For now Lucca-ui support the version 0.14.x from version 2.1.0 onwards, see <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/issues/39">issue 39</a>.
-			</p>
-			<p>
 				Here is the list of supported angular ui bootstrap directives:
 				<ul class="lui unstyled">
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/buttons">buttons</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/collapse">collapse</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">dropdown</a> - see below for implementation</li>
-					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - there are some shenanigans at work here when you have a namespanced distribution of lucca-ui, <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/issues/46">issue 46</a> addresses this kerfuffle</li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - see below for implemantation <b>especially</b> if you have a namespaced or prefixed distribution</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/popover">popover</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">tooltip</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui select</a> - not part of the angular ui bootstrap suit per se but treated as such for convenience - see below for implementation details</li>
@@ -31,6 +29,7 @@
 			</p>
 		</div>
 
+		<!-- UI-SELECT -->
 		<article id="ui-select" ng-controller="uiselectCtrl" class="lui form">
 			<h2 class="lui divider below">ui-select</h2>
 			<p><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
@@ -77,97 +76,158 @@
 &lt;ui-select  multiple ng-model="myVar" <b>class="lui"</b>&gt;
 ...
 &lt;/ui-select&gt;</pre>
-		</p>
-	</article>
+			</p>
+		</article>
 
-	<article id="dropdown" ng-controller="dropdownCtrl">
-		<h2 class="lui divider below">Dropdown</h2>
-		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">github.io page</a></p>
-		<p>
-			<div class="lui" dropdown>
-				<button class="lui button with addon right" dropdown-toggle>
-					Click me!
-					<i class="lui x-small south arrow icon addon"></i>
-				</button>
-				<ul class="dropdown-menu">
-					<li class="dividing"><a>action</a></li>
-					<li class="disabled"><a>disabled action</a></li>
-					<li><a>another action</a></li>
-				</ul>
-			</div>
-		</p>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-			</div>
+		<!-- DROPDOWN -->
+		<article id="dropdown" ng-controller="dropdownCtrl">
+			<h2 class="lui divider below">Dropdown</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">github.io page</a></p>
 			<p>
-				<pre hljs no-escape language="html">&lt;div <b>class="lui nguibs-dropdown input"</b> dropdown dropdown-toggle&gt;
-	&lt;button class="lui button" dropdow-toggle&gt;click me&lt;/button&gt;
-	&lt;ul class="dropdown-menu"&gt;
+				<div class="lui" uib-dropdown>
+					<button class="lui button with addon right" uib-dropdown-toggle>
+						Click me!
+						<i class="lui x-small south arrow icon addon"></i>
+					</button>
+					<ul uib-dropdown-menu class="dropdown-menu">
+						<li class="dividing"><a>action</a></li>
+						<li class="disabled"><a>disabled action</a></li>
+						<li><a>another action</a></li>
+					</ul>
+				</div>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+				</div>
+				<p>
+					<pre hljs no-escape language="html">&lt;div <b>class="lui"</b> uib-dropdown&gt;
+	&lt;button class="lui button" uib-dropdow-toggle&gt;click me&lt;/button&gt;
+	&lt;ul class="uib-dropdown-menu"&gt;
 		&lt;li&gt;&lt;a&gt;action&lt;/a&gt;&lt;/li&gt;
 		&lt;li class="disabled"&gt;&lt;a&gt;disabled&lt;/a&gt;&lt;/li&gt;
 	&lt;/ul&gt;
 &lt;/div&gt;</pre>
-		</p>
-	</article>
-	<article id="tooltip" ng-controller="tooltipCtrl">
-		<h2 class="lui divider below">Tooltip</h2>
-		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-		<button tooltip="Regular tooltip" tooltip-class="lui" tooltip-placement="top" class="lui button">Hover me!</button>
-		<button tooltip="Primary tooltip" tooltip-class="lui primary" tooltip-placement="right" class="lui button">No, Me!!!</button>
-		<button tooltip="OMG! An error!" tooltip-class="lui red" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre hljs no-escape language="html">&lt;button tooltip="Hello there!" <b>tooltip-class="lui nguibs-tooltip"</b> class="lui button"&gt;Hover me!&lt;/button&gt;</pre>
-		</p>
-	</article>
-	<article id="popover" ng-controller="popoverCtrl">
-		<h2 class="lui divider below">Popover</h2>
-		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-		<button popover="some important text about stuff" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
-		<button popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
-		<button popover-html="popoverHtml" popover-class="lui" class="lui button">with some html</button>
-		<button popover-template="'myPopoverTemplate.html'" popover-class="lui" class="lui button">with a template</button>
+			</p>
+		</article>
 
-		<script type="text/ng-template" id="myPopoverTemplate.html">
-			<h4 class="lui divider below">a title</h4>
-			<div class="lui input with addon">
-				<i class="lui timer addon icon"></i>
-				<input placeholder="some input">
-			</input>
-		</script>
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre hljs no-escape language="html">&lt;button popover="Hello there!" <b>popover-class="lui popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
-		</p>
-	</article>
+		<!-- TOOLTIP -->
+		<article id="tooltip" ng-controller="tooltipCtrl">
+			<h2 class="lui divider below">Tooltip</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
+			<button uib-tooltip="Regular tooltip" tooltip-class="lui" tooltip-placement="top" class="lui button">Hover me!</button>
+			<button uib-tooltip="Primary tooltip" tooltip-class="lui primary" tooltip-placement="right" class="lui button">No, Me!!!</button>
+			<button uib-tooltip="OMG! An error!" tooltip-class="lui red" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;button uib-tooltip="Hello there!" <b>tooltip-class="lui nguibs-tooltip"</b> class="lui button"&gt;Hover me!&lt;/button&gt;</pre>
+			</p>
+		</article>
+		<article id="popover" ng-controller="popoverCtrl">
+			<h2 class="lui divider below">Popover</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
+			<button uib-popover="some important text about stuff" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
+			<button uib-popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
+			<button uib-popover-html="popoverHtml" popover-class="lui" class="lui button">with some html</button>
+			<button uib-popover-template="'myPopoverTemplate.html'" popover-class="lui" class="lui button">with a template</button>
 
+			<script type="text/ng-template" id="myPopoverTemplate.html">
+				<h4 class="lui divider below">a title</h4>
+				<div class="lui input with addon">
+					<i class="lui timer addon icon"></i>
+					<input placeholder="some input">
+				</input>
+			</script>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;button uib-popover="Hello there!" <b>popover-class="lui popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
+			</p>
+		</article>
 
-	<article id="datepicker" ng-controller="datepickerCtrl">
-		<h2 class="lui divider below">Datepicker</h2>
-		<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">github.io page</a></p>
-		<h4>Inline</h4>
-		<datepicker class="lui datepicker" ng-model="dt"></datepicker>
+		<!-- DATEPICKER -->
+		<article id="datepicker" ng-controller="datepickerCtrl">
+			<h2 class="lui divider below">Datepicker</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">github.io page</a></p>
+			<h4>Inline</h4>
+			<uib-datepicker class="lui datepicker" ng-model="dt"></uib-datepicker>
 
-		<h4>In a popup</h4>
-		<div class="lui long datepicker">
-			<input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
-		</div>
+			<h4>In a popup</h4>
+			<div class="lui datepicker">
+				<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
+			</div>
 
-		<div class="lui dashed divider">
-			<h4 class="lui underline">Usage:</h4>
-		</div>
-		<p>
-			<pre hljs no-escape language="html">&lt;!-- inline --&gt;
-&lt;datepicker ng-model="dt" class="lui nguibs-datepicker"&gt;&lt;/date-picker&gt;
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;!-- inline --&gt;
+&lt;uib-datepicker ng-model="dt" class="lui datepicker"&gt;&lt;/date-picker&gt;
 &lt;!-- popup --&gt;
 &lt;div <b>class="lui datepicker long input"</b>&gt;
-	&lt;input type="text" datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
+	&lt;input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
+			</p>
+		</article>
+
+		<!-- MODAL -->
+		<article id="modal" ng-controller="modalCtrl">
+			<h2 class="lui divider below">Modal</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">github.io page</a></p>
+			<h4>Important</h4>
+			<p>
+				If you are using a namespaced distribution of lucca-ui, you have to use the <code>appendTo</code> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <code>body</code> and lucca-ui's styles wont apply
+			</p>
+			<p>
+				If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
+			</p>
+			<p>
+				<div class="lui button" ng-click="open()">Open in namespace with prefix</div>
+				The styles of lucca-ui will be applied to the modal window, inside the modal window and to the background
+			</p>
+			<p>
+				<div class="lui button" ng-click="openWithoutPrefix()">Open without prefix</div>
+				Because the prefix is missing for the <code>modal-window</code> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work
+			</p>
+			<p>
+				<div class="lui button" ng-click="openWithoutNamespace()">Open without namespace</div>
+				The modal is appended out off the namespace, as a result none of lucca-ui's styles are applied to the modal, its backdrop or its content
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="js">// global distribution
+var modalInstance = $uibModal.open({
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+});
+// namespaced distribution
+var modalInstance = $uibModal.open({
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+	appendTo: angular.element(document.getElementById("myNamespace")),
+});
+// prefixed distribution
+var modalInstance = $uibModal.open({
+	backdropClass: 'myPrefix',
+	windowClass: 'myPrefix',
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+});</pre>
 			</p>
 		</article>
 	</section>
 </div>
+
+
+<script type="text/ng-template" id="myModalContent.html">
+	<h1>Modal</h1>
+	<p>
+		<div class="lui callout">
+			<span class="lui label">some label</span> inside a callout and omg an icon <i class="lui jumping cc icon"></i>
+		</div>
+	</p>
+</script>
