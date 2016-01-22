@@ -233,10 +233,6 @@
 								errorHandler("GET_HOMONYMS_PROPERTIES", message);
 							});
 					}
-
-					if (ctrl.displayCustomInfo) {
-						addInfoToUsers();
-					}
 				} else {
 					$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
 				}
@@ -598,7 +594,8 @@
 			if ($scope.customInfo) {
 				_.each($scope.users, function(user) {
 					// We do not want customInfo to be called with overflow message or 'all users'
-					if (user.id !== -1) {
+					// And we do not call customInfo if an info is already displayed
+					if (user.id !== -1 && !user.info) {
 						user.info = $scope.customInfo(angular.copy(user));
 					}
 				});
@@ -606,7 +603,8 @@
 			if ($scope.customInfoAsync) {
 				_.each($scope.users, function(user) {
 					// We do not want customInfoAsync to be called with overflow message or 'all users'
-					if (user.id !== -1) {
+					// And we do not call customInfo if an info is already displayed
+					if (user.id !== -1 && !user.info) {
 						$scope.customInfoAsync(angular.copy(user))
 						.then(function(info) {
 							user.info = info;
@@ -735,6 +733,10 @@
 			} else {
 				$scope.users = filteredUsers;
 				$scope.count = ($scope.users||[]).length;
+			}
+
+			if (ctrl.displayCustomInfo) {
+				addInfoToUsers();
 			}
 		};
 
