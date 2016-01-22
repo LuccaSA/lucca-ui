@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.6 - in dev
+## 2.0.7 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.6 -[release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.6)
 
 ### New features
 - Adds support for timespanpicker, dropdown and momentpicker inside an `.inline.field`
