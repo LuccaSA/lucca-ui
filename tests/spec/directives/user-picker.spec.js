@@ -5,19 +5,20 @@ describe('luidUserPicker', function(){
 	beforeEach(module('lui'));
 	beforeEach(module('lui.directives'));
 
-	var _, $scope, isolateScope, $compile, elt, $httpBackend, controller, moment, $timeout;
+	var _, $scope, isolateScope, $compile, elt, $httpBackend, controller, moment, $timeout, $q;
 	var users;
 
 	var findApi = /api\/v3\/users\/find\?.*/;
 	var findApiWithClue = /api\/v3\/users\/find\?clue=.*/;
 
-	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_) {
+	beforeEach(inject(function (_$rootScope_, _$compile_, ___, _$httpBackend_, _moment_, _$timeout_, _$q_) {
 		_ = ___;
 		$scope = _$rootScope_.$new();
 		$httpBackend = _$httpBackend_;
 		$timeout = _$timeout_;
 		$compile = _$compile_;
 		moment = _moment_;
+		$q = _$q_;
 	}));
 
 	/**********************
@@ -560,6 +561,58 @@ describe('luidUserPicker', function(){
 				.first(5) // we exclude the overflow message
 				.value();
 			expect(customInfos).toEqual([2,4,6,8,10]);
+		});
+	});
+
+	/**********************
+	** CUSTOM INFO ASYNC **
+	***********************/
+	describe("with custom info async to display next to each user", function(){
+		beforeEach(function(){
+			$scope.customCountAsync = function(user) {
+			};
+			$scope.myUser = {};
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" custom-info-async="customCountAsync"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			controller = elt.controller('luidUserPicker');
+			$scope.$digest();
+
+			spyOn($scope, 'customCountAsync').and.returnValue($q.when({}));
+			isolateScope.find();
+		});
+		it('should initialise useCustomCount', function(){
+			expect(controller.displayCustomInfo).toBe(true);
+		});
+		it("should call $scope.customCountAsync N times when there is no overflow", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
+			$httpBackend.flush();
+			expect($scope.customCountAsync).toHaveBeenCalled();
+			expect($scope.customCountAsync.calls.count()).toBe(4);
+		});
+		it("should call $scope.customCountAsync 5 times when there is overflow", function(){
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect($scope.customCountAsync).toHaveBeenCalled();
+			expect($scope.customCountAsync.calls.count()).toBe(5);
+		});
+		it('should call $scope.customInfoAsync to fetch one more info when we do not select one of the first 5 users and we unselect him', function() {
+			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_end);
+			$httpBackend.flush();
+			expect($scope.customCountAsync).toHaveBeenCalled();
+			expect($scope.customCountAsync.calls.count()).toBe(4);
+
+			$scope.myUser = _.findWhere(isolateScope.users, {id: 18});
+			isolateScope.find();
+			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
+			$httpBackend.flush();
+			expect($scope.customCountAsync).toHaveBeenCalled();
+			expect($scope.customCountAsync.calls.count()).toBe(9); // 4 previous call + 5 calls in find()
+
+			$scope.myUser = _.findWhere($scope.users, {id: 3});
+			$scope.$digest();
+			expect($scope.customCountAsync).toHaveBeenCalled();
+			expect($scope.customCountAsync.calls.count()).toBe(10); // fetch info for the 5th user
 		});
 	});
 
