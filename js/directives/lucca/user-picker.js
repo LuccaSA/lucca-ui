@@ -309,11 +309,10 @@
 
 			getUsersPromise = $http.get(query);
 			getUsersPromise
-			.success(function(response) {
-				deferred.resolve(response.data.items);
-			})
-			.error(function(response) {
-				deferred.reject(response.Message);
+			.then(function(response) {
+				deferred.resolve(response.data.data.items);
+			}, function(response) {
+				deferred.reject(response.data.Message);
 			});
 			return deferred.promise;
 		};
@@ -541,10 +540,9 @@
 
 			$http.get(query)
 			.then(function(response) {
-				var homonyms = response.data.data.items;
-				deferred.resolve(homonyms);
-			}, function(message) {
-				deferred.reject(message);
+				deferred.resolve(response.data.data.items);
+			}, function(response) {
+				deferred.reject(response.data.Message);
 			});
 			return deferred.promise;
 		};
@@ -635,11 +633,10 @@
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
 			$http.get(query)
-			.success(function(response) {
-				dfd.resolve(response.data.id);
-			})
-			.error(function(response) {
-				dfd.reject(response.Message);
+			.then(function(response) {
+				dfd.resolve(response.data.data.id);
+			}, function(response) {
+				dfd.reject(response.data.Message);
 			});
 			return dfd.promise;
 		};
