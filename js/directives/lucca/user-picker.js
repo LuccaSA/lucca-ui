@@ -135,7 +135,7 @@
 				/*** FORMER EMPLOYEES ***/
 				showFormerEmployees: "=", // boolean
 				/*** HOMONYMS ***/
-				homonymsProperties: "@", // list of properties to handle homonyms
+				homonymsProperties: "=", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
 				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
 				/*** OPERATION SCOPE ***/
