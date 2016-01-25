@@ -158,8 +158,8 @@
 				upCtrl.useCustomFilter = !!attrs.customFilter;
 				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
 
-				scope.$watch(function() {
-					return (ngModelCtrl.$viewValue || []).length;
+				scope.$watchCollection(function() {
+					return ngModelCtrl.$viewValue;
 				}, function() {
 					scope.reorderUsers();
 				});
