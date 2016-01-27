@@ -7,7 +7,8 @@
 - added `size` attribute to `luid-user-picker` and `luid-user-picker-multiple`
 
 ### Resolved issues
-- [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - sizing for ui-select
+ - [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - sizing for ui-select
+ - [#118](https://github.com/LuccaSA/lucca-ui/issues/118) - use moments locale instead of angular i18n to define the first day of the week in the datepickers inside luid-daterange
 
 ## 2.0.6 -[release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.6)
 
