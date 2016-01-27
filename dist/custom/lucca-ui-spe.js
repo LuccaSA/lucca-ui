@@ -146,7 +146,7 @@
 	}])
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
-
+		$scope.startingDay = moment.localeData().firstDayOfWeek();
 		$scope.internalUpdated = function(){
 			if (moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0) {
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
@@ -217,10 +217,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
@@ -1379,7 +1379,7 @@
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui {{size}} input \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
 		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
 		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
@@ -1387,11 +1387,11 @@
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
-	var userPickerMultipleTemplate = "<ui-select multipletheme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"addSelectedUser()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}>{{$item.firstName}} {{$item.lastName}} " +
-	"<span ng-if=\"$item.hasHomonyms\" ng-repeat=\"property in displayedProperties\">&lt{{getProperty($item, property.name)}}&gt</span>" +
-	"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
+	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
+	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
+	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{$item.firstName}} {{$item.lastName}} " +
+		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
+		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
@@ -1406,6 +1406,7 @@
 			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
+				size: "@", // x-short, short, long, x-long
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -1437,61 +1438,84 @@
 				upCtrl.useCustomFilter = !!attrs.customFilter;
 				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
 
-				scope.$watch(function(){ 
-					return (ngModelCtrl.$viewValue || {}).id; 
-				}, function(){ 
-					scope.reorderUsers(); 
+				scope.$watch(function() {
+					return (ngModelCtrl.$viewValue || {}).id;
+				}, function() {
+					scope.reorderUsers();
 				});
 
-
-				scope.getSelectedUser = function(){
-					return ngModelCtrl.$viewValue;
-				};
-				scope.getSelectedUserId = function(){
-					if(!!ngModelCtrl.$viewValue){
-						return ngModelCtrl.$viewValue.id;
+				upCtrl.getSelectedUsers = function() {
+					if (!!ngModelCtrl.$viewValue) {
+						return [ngModelCtrl.$viewValue];
 					}
-					return undefined;
+					return [];
+				};
+				upCtrl.getSelectedUserIds = function() {
+					if(!!ngModelCtrl.$viewValue) {
+						return [ngModelCtrl.$viewValue.id];
+					}
+					return [];
 				};
 			}
 		};
 	})
 
-	// user-picker-multiple feature, not yet implemented
-	// .directive('luidUserPickerMultiple', function () {
-	// 	return {
-	// 		restrict: 'E',
-	// 		controller: "luidUserPickerController",
-	// 		template: userPickerMultipleTemplate,
-	// 		// require: "luidUserPicker",
-	// 		scope: {
-	// 			/*** STANDARD ***/
-	// 			onSelect: "&",
-	// 			onRemove: "&",
-	// 			controlDisabled: "=",
-	// 			/*** FORMER EMPLOYEES ***/
-	// 			showFormerEmployees: "=", // boolean
-	// 			/*** HOMONYMS ***/
-	// 			homonymsProperties: "@", // list of properties to handle homonyms
-	// 			/*** CUSTOM FILTER ***/
-	// 			customFilter: "&", // should be a function with this signature: function(user){ return boolean; } 
-	// 			/*** OPERATION SCOPE ***/
-	// 			appId: "@",
-	// 			operations: "@"
-	// 		},
-	// 		link: function (scope, elt, attrs, ctrl) {
-	// 			if (attrs.homonymsProperties) {
-	// 				scope.properties = attrs.homonymsProperties.split(',');
-	// 			}
-	// 			else {
-	// 				scope.properties = DEFAULT_HOMONYMS_PROPERTIES;
-	// 			}
-	// 			ctrl.isMultipleSelect = true;
-	// 			ctrl.asyncPagination = false;
-	// 			ctrl.useCustomFilter = !!attrs.customFilter;
-	// 		}
-	// 	};
-	// })
+	.directive('luidUserPickerMultiple', function () {
+		return {
+			restrict: 'E',
+			controller: "luidUserPickerController",
+			template: userPickerMultipleTemplate,
+			require: ["luidUserPickerMultiple", "^ngModel"],
+			scope: {
+				/*** STANDARD ***/
+				size: "@", // x-small, small, long, x-long
+				onSelect: "&",
+				onRemove: "&",
+				controlDisabled: "=",
+				/*** FORMER EMPLOYEES ***/
+				showFormerEmployees: "=", // boolean
+				/*** HOMONYMS ***/
+				homonymsProperties: "=", // list of properties to handle homonyms
+				/*** CUSTOM FILTER ***/
+				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
+				/*** OPERATION SCOPE ***/
+				appId: "=", // id of the application that users should have access
+				operations: "=", // list of operation ids that users should have access
+				/*** CUSTOM COUNT ***/
+				// Display a custom info in a label next to each user
+				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
+				// If you need to use a sync and an async functions, use 'customInfoAsync'
+				customInfo: "=", // should be a function with this signature: function(user) { return string; }
+				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
+				/*** DISPLAY ME FIRST ***/
+				displayMeFirst: "=", // boolean
+			},
+			link: function (scope, elt, attrs, ctrls) {
+				var upCtrl = ctrls[0];
+				var ngModelCtrl = ctrls[1];
+				upCtrl.isMultipleSelect = true;
+				upCtrl.asyncPagination = false;
+				upCtrl.useCustomFilter = !!attrs.customFilter;
+				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
+
+				scope.$watchCollection(function() {
+					return ngModelCtrl.$viewValue;
+				}, function() {
+					scope.reorderUsers();
+				});
+
+				upCtrl.getSelectedUsers = function() {
+					return (ngModelCtrl.$viewValue || []);
+				};
+				upCtrl.getSelectedUserIds = function() {
+					if(!!ngModelCtrl.$viewValue){
+						return _.pluck(ngModelCtrl.$viewValue, "id");
+					}
+					return [];
+				};
+			}
+		};
+	})
 
 	.controller("luidUserPickerController", ['$scope', '$http', 'moment', '$timeout', '$q', function ($scope, $http, moment, $timeout, $q) {
 		var ctrl = this;
@@ -1502,62 +1526,59 @@
 		var init = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
 
-		$scope.selected = {};
-		$scope.selected.users = [];
-
 		/****************/
 		/***** FIND *****/
 		/****************/
 		var filteredUsers;
+		var indexedUsers; // fetched users with their original position
 
 		$scope.find = function (clue) {
 			reinit();
 			// Should only be executed once --> fetch 'me'
 			initMe();
-			getUsersAsync(clue).then(
-				function(results) {
-						if (results.length > 0) {
-						var users = results;
-						filteredUsers = filterResults(users) || [];
+			getUsersAsync(clue)
+			.then(function(results) {
+				if (results.length > 0) {
+					var users = results;
+					filteredUsers = filterResults(users) || [];
 
-						// If no clue, add 'all users' to the set of results
-						if ($scope.displayAllUsers && (!clue || !clue.length)) {
-							filteredUsers.push({ id: -1, isAll: true });
-						}
-
-						// Save the order we got from the api
-						// Set first users if they belong to the set of results
-						// Handle pagination
-						$scope.reorderUsers();
-
-						/***** POST FILTERS *****/
-						if (hasFormerEmployees(filteredUsers)) {
-							handleFormerEmployees(filteredUsers);
-						}
-
-						if (hasHomonyms(filteredUsers)) {
-							tagHomonyms(filteredUsers);
-							handleHomonymsAsync(filteredUsers).then(
-								function(usersWithHomonymsProperties) {
-									filteredUsers = usersWithHomonymsProperties;
-								},
-								function(message) {
-									errorHandler("GET_HOMONYMS_PROPERTIES", message);
-								});
-						}
-
-						if (ctrl.displayCustomInfo) {
-							addInfoToUsers();
-						}
+					// If no clue, add 'all users' to the set of results
+					if (!!$scope.displayAllUsers && (!clue || !clue.length)) {
+						filteredUsers.push({ id: -1, isAll: true });
 					}
-					else {
-						$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
+
+					// Useful with user-picker-multiple
+					// Store original position of fetched users to handle unselected users and replace them at their original position
+					indexedUsers = filteredUsers;
+					originalOrder(indexedUsers);
+
+					// Save the order we got from the api
+					// Set first users if they belong to the set of results
+					// Handle pagination
+					$scope.reorderUsers();
+
+					/***** POST FILTERS *****/
+					// Execute post filters on indexedUsers to include selected users if it is a user-picker-multiple
+					if (hasFormerEmployees(indexedUsers)) {
+						handleFormerEmployees(indexedUsers);
 					}
-				}, 
-				function(message) {
-					errorHandler("GET_USERS", message);
+
+					if (hasHomonyms(indexedUsers)) {
+						tagHomonyms(indexedUsers);
+						handleHomonymsAsync(indexedUsers).then(
+							function(usersWithHomonymsProperties) {
+								indexedUsers = usersWithHomonymsProperties;
+							},
+							function(message) {
+								errorHandler("GET_HOMONYMS_PROPERTIES", message);
+							});
+					}
+				} else {
+					$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
 				}
-			);
+			}, function(message) {
+				errorHandler("GET_USERS", message);
+			});
 		};
 
 		var getUsersPromise; // store the current get request to fetch users
@@ -1579,24 +1600,10 @@
 		var filterResults = function(users) {
 			var filteredUsers = users;
 
-			// userPickerMultiple feature, not yet implemented
-			// // Remove duplicates between results and selected users (for UserPickerMultiple)
-			// if (ctrl.isMultipleSelect) {
-			// 	// Remove duplicates between results and selected users
-			// 	_.each($scope.selected.users, function(selectedUser) {
-			// 		filteredUsers = _.reject(users, function(user) {
-			// 			return (user.id === selectedUser.id);
-			// 		});
-			// 		// Add selected user: it will not be displayed, but will be used for homonyms detection
-			// 		filteredUsers.push(selectedUser);
-			// 	});
-			// }
-
 			// Used when a custom filtering function is given
 			if (ctrl.useCustomFilter) {
 				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
 			}
-
 			return filteredUsers;
 		};
 
@@ -1642,11 +1649,10 @@
 
 			getUsersPromise = $http.get(query);
 			getUsersPromise
-			.success(function(response) {
-				deferred.resolve(response.data.items);
-			})
-			.error(function(response) {
-				deferred.reject(response.Message);
+			.then(function(response) {
+				deferred.resolve(response.data.data.items);
+			}, function(response) {
+				deferred.reject(response.data.Message);
 			});
 			return deferred.promise;
 		};
@@ -1717,14 +1723,6 @@
 			$scope.users.push({ overflow: "LUIDUSERPICKER_OVERFLOW", cnt:MAX_COUNT, all:$scope.count,  id:-1 });
 		};
 
-		// userPickerMultiple feature, not yet implemented
-		// We probably won't have to use this
-		/*
-		var updateOverflowMessage = function(maxNbUsers) {
-			_.last($scope.users).overflow = MAX_COUNT + "/" + maxNbUsers;
-		};
-		*/
-
 		/********************/
 		/***** HOMONYMS *****/
 		/********************/
@@ -1758,8 +1756,8 @@
 			} else {
 				props = DEFAULT_HOMONYMS_PROPERTIES;
 			}
-			getHomonymsPropertiesAsync(homonyms, props).then(
-				function(homonymsArray) {
+			getHomonymsPropertiesAsync(homonyms, props)
+			.then(function(homonymsArray) {
 					// Add fetched properties to the homonyms
 					_.each(homonyms, function(user) {
 						// Get the user returned by the api
@@ -1795,14 +1793,14 @@
 
 									// Used to check that all values for prop1 are not equal
 									var prop1Values = _.chain(propertiesArray)
-										.pluck(prop1.name)
-										.uniq()
-										.value();
+									.pluck(prop1.name)
+									.uniq()
+									.value();
 									// Used to check that all values for prop2 are not equal
 									var prop2Values = _.chain(propertiesArray)
-										.pluck(prop2.name)
-										.uniq()
-										.value();
+									.pluck(prop2.name)
+									.uniq()
+									.value();
 
 									// prop1 is a differentiating property: each homonym has a different value for this property
 									// if we do not find a couple of differentiating properties, we will at least display this one
@@ -1832,11 +1830,9 @@
 						$scope.displayedProperties.push(emergencyProperty);
 					}
 					deferred.resolve(users);
-				},
-				function(message) {
-					deferred.reject(message);
-				}
-			);
+			}, function(message) {
+				deferred.reject(message);
+			});
 			return deferred.promise;
 		};
 
@@ -1882,14 +1878,12 @@
 				}
 			});
 
-			$http.get(query).then(
-				function(response) {
-					var homonyms = response.data.data.items;
-					deferred.resolve(homonyms);
-				}, function(message) {
-					deferred.reject(message);
-				}
-			);
+			$http.get(query)
+			.then(function(response) {
+				deferred.resolve(response.data.data.items);
+			}, function(response) {
+				deferred.reject(response.data.Message);
+			});
 			return deferred.promise;
 		};
 
@@ -1938,7 +1932,8 @@
 			if ($scope.customInfo) {
 				_.each($scope.users, function(user) {
 					// We do not want customInfo to be called with overflow message or 'all users'
-					if (user.id !== -1) {
+					// And we do not call customInfo if an info is already displayed
+					if (user.id !== -1 && !user.info) {
 						user.info = $scope.customInfo(angular.copy(user));
 					}
 				});
@@ -1946,8 +1941,10 @@
 			if ($scope.customInfoAsync) {
 				_.each($scope.users, function(user) {
 					// We do not want customInfoAsync to be called with overflow message or 'all users'
-					if (user.id !== -1) {
-						$scope.customInfoAsync(angular.copy(user)).then(function(info) {
+					// And we do not call customInfo if an info is already displayed
+					if (user.id !== -1 && !user.info) {
+						$scope.customInfoAsync(angular.copy(user))
+						.then(function(info) {
 							user.info = info;
 						}, function(message) {
 							errorHandler("GET_CUSTOM_INFO", message);
@@ -1962,7 +1959,7 @@
 		/**************/
 
 		var initMe = function() {
-			if (init && $scope.displayMeFirst) {
+			if (init && !!$scope.displayMeFirst) {
 				getMeAsync().then(function(id) {
 					myId = id;
 				}, function(message) {
@@ -1976,11 +1973,10 @@
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
 			$http.get(query)
-			.success(function(response) {
-				dfd.resolve(response.data.id);
-			})
-			.error(function(response) {
-				dfd.reject(response.Message);
+			.then(function(response) {
+				dfd.resolve(response.data.data.id);
+			}, function(response) {
+				dfd.reject(response.data.Message);
 			});
 			return dfd.promise;
 		};
@@ -1990,13 +1986,13 @@
 		/*************************/
 
 		var originalOrder = function(users){
-			if (!users || users.length === 0){ return users; }
+			if (!users || users.length === 0) { return users; }
 			// do the users have an original order
 			// this is in case we select different choices without calling find()
-			if(users[0].originalPosition !== undefined){
+			if (users[0].originalPosition !== undefined) {
 				// if so reorder them first
 				users = _.sortBy(users, 'originalPosition');
-			}else{
+			} else {
 				// this is the original order we have to save
 				_.each(users, function(u, index){ u.originalPosition = index; });
 			}
@@ -2005,11 +2001,12 @@
 
 		var displaySomeUsersFirst = function(users) {
 			var sortedUsers = users;
-			var selectedUser = _.find(users, function(user) { return user.id === $scope.getSelectedUserId(); });
+			var selectedUser = !ctrl.isMultipleSelect ? _.find(users, function(user) { return user.id === ctrl.getSelectedUserIds()[0]; }) : null;
 			var me = _.find(users, function(user) { return user.id === myId; });
 			var all = _.findWhere(users, { isAll: true });
 
 			// Display me first
+			// Only if it is not a multiple user picker
 			if (!!me && (!selectedUser || me.id !== selectedUser.id)) {
 				me.isMe = true;
 				sortedUsers = displayThisUserFirst(me, sortedUsers);
@@ -2053,7 +2050,15 @@
 
 		// this function is called when the filter results must be reordered for some reason
 		// when the selected user changes for example, he has to be displayed as first result
-		$scope.reorderUsers = function(){
+		$scope.reorderUsers = function() {
+			if (ctrl.isMultipleSelect) {
+				// Compute ids to display from indexedUsers in order to handle unselected users
+				var idsToDisplay = _.difference(_.pluck(indexedUsers, "id"), ctrl.getSelectedUserIds());
+				filteredUsers = _.filter(indexedUsers, function(user) {
+					return _.contains(idsToDisplay, user.id);
+				});
+			}
+
 			// reorder them to their original order
 			filteredUsers = originalOrder(filteredUsers);
 			removeDisplayProperties(filteredUsers);
@@ -2062,24 +2067,15 @@
 			// Handle pagination
 			if (hasPagination(filteredUsers)) {
 				handlePagination(filteredUsers);
-			}else{
+			} else {
 				$scope.users = filteredUsers;
 				$scope.count = ($scope.users||[]).length;
 			}
-		};
 
-		// userPickerMultiple feature, not yet implemented
-		// // Used by UserPickerMultiple
-		// // Function executed when onSelect is fired
-		// $scope.addSelectedUser = function () {
-		// 	$scope.onSelect();
-		// 	selectedUsersCount++;
-		// 	// Update overflow message
-		// 	if ($scope.count > MAX_COUNT) {
-		// 		// Should always display MAX_COUNT users!
-		// 		//$scope.users = updateOverflowMessage($scope.users, MAX_COUNT - selectedUsersCount, $scope.count);
-		// 	}
-		// };
+			if (ctrl.displayCustomInfo) {
+				addInfoToUsers();
+			}
+		};
 
 		/**************************/
 		/***** ERROR HANDLING *****/

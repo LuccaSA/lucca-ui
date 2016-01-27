@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.7 - in dev
+## 2.0.8 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.7)
 
 ### New features
 - Directive `luid-user-picker-multiple`to handle multiple selection. See [demo](http://lucca.ui/demo/index.html#/lucca#luid-user-picker)
