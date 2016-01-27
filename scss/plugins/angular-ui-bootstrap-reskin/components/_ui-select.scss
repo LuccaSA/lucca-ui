@@ -40,11 +40,13 @@
 
 		// Multiselect mode
 		&.ui-select-multiple {
-			> div { padding: 0 map-gets($inputVars, padding, right) 0 map-gets($inputVars, padding, right) !important; height: auto !important; max-width: 100%; }
+			> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
 
 			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 
-			.ui-select-match { display: inline-block; line-height: 1; &:empty { display: none; } }
+			.ui-select-match { display: inline; line-height: 1; &:empty { display: none; } }
+
+			span { display: inline-block; }
 
 			.ui-select-match-item {
 				display: inline-block;
