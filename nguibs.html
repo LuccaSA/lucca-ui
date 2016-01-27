@@ -60,7 +60,7 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Multi-select</h4>
 			</div>
-			<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui">
+			<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
 				<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
 				<ui-select-choices repeat="color in availableColors | filter:$select.search">
 					{{color}}
