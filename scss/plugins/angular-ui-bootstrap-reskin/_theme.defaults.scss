@@ -42,6 +42,7 @@ $pluginVars: map-extend($pluginVars, (dropdown: $dropdown));
 $uiSelect: (
 	minWidth: 					15em,
 	thumbSize: 					1.5em,
+	horizontalPadding: 			5px,
 	multiple: (
 		closeSize: 				1.5em
 	)
