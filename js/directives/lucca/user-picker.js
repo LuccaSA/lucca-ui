@@ -41,7 +41,7 @@
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui {{size}} input \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
 		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
 		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
@@ -50,7 +50,7 @@
 	"</ui-select>";
 
 	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
-	"class=\"lui regular nguibs-ui-select\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
+	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
@@ -68,6 +68,7 @@
 			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
+				size: "@", // x-short, short, long, x-long
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -129,6 +130,7 @@
 			require: ["luidUserPickerMultiple", "^ngModel"],
 			scope: {
 				/*** STANDARD ***/
+				size: "@", // x-small, small, long, x-long
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
