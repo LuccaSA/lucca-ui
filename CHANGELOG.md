@@ -4,8 +4,10 @@
 
 ### New features
 - Directive `luid-user-picker-multiple`to handle multiple selection. See [demo](http://lucca.ui/demo/index.html#/lucca#luid-user-picker)
+- added `size` attribute to `luid-user-picker` and `luid-user-picker-multiple`
 
 ### Resolved issues
+- [#91](https://github.com/LuccaSA/lucca-ui/issues/91) - sizing for ui-select
 
 ## 2.0.6 -[release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.6)
 
