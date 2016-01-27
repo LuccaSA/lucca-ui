@@ -86,6 +86,7 @@
 		<p>
 			<ul class="lui unstyled">
 				<li><code>ng-model</code> : the variable to bind to</li>
+				<li><code>size</code> : the size of the input, supports <code>x-small</code>, <code>small</code>, <code>long</code>, <code>x-long</code>, <code>fitting</code></li>
 				<li><code>on-select</code> : function to execute when an item is selected</li>
 				<li><code>on-remove</code> : function to execute when an item is removed (multi-select or emptying the input)</li>
 				<li><code>control-disabled</code> : boolean indicating if you want the control to be disabled</li>
@@ -217,9 +218,9 @@ $scope.yearOfArrivalAsync = function(user){
 			<div ng-if="showMultipleUserPicker">
 				<h5>Basic usage</h5>
 				<p>
-					<span class="lui long input">
-						<luid-user-picker-multiple class="lui fitting" ng-model="myUsers" show-former-employees="isChecked" ng-if="!!authToken"></luid-user-picker-multiple>
-					</span>
+					<!-- <span class="lui long input"> -->
+						<luid-user-picker-multiple size="x-long" ng-model="myUsers" show-former-employees="isChecked" ng-if="!!authToken"></luid-user-picker-multiple>
+					<!-- </span> -->
 					<div class="lui checkbox">
 						<input type="checkbox" ng-model="isChecked">
 					</div>
