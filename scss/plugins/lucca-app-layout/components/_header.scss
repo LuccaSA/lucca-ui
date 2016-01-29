@@ -1,7 +1,7 @@
 @if map-get($vars, enabled) {
 	#view #main-header {
 		box-sizing: content-box;
-		margin-top: map-gets($vars, topOffset);
+		padding-top: map-gets($vars, topOffset);
 
 		margin-bottom: map-gets($vars, header, bottomMargin);
 		min-height: map-gets($vars, header, height);

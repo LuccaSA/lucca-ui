@@ -4,4 +4,13 @@
 		top: map-gets($vars, header, height) + map-gets($vars, header, bottomMargin);
 		bottom: map-gets($vars, header, bottomMargin); left: 0; right: 0;
 	}
+
+	.lui.full-height.appview {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		> div:last-child {
+			flex: 1 100%;
+		}
+	}
 }
