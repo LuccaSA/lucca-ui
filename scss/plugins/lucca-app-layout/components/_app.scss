@@ -15,8 +15,9 @@
 		// This is your current app view (main-sidebar excluded)
 		main {
 			// min-height: 100%; min-height: 100vh;
+			box-sizing: border-box;
 			position: relative;
-			margin-left: map-gets($vars, navigation, width);
+			padding-left: map-gets($vars, navigation, width);
 		}
 
 		padding-bottom: map-gets($vars, bottomMargin);
