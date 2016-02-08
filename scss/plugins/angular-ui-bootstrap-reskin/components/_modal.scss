@@ -17,27 +17,23 @@
 		}
 
 		.modal-dialog {
-			@extend #{$prefix}.raised;
+			@extend #{$prefix}.high.raised;
 			@extend #{$prefix}.rounded;
 			margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
 			background: map-gets($pluginVars, modal, background);
+			max-width: map-gets($pluginVars, modal, maxWidth);
 
-			// Sizing: lg, md & sm
-			// A large modal has the same size as a container
-			&.modal-lg {
-				@each $device, $props in luiTheme(reference, breakpoints) {
-					@media screen and (min-width: map-get($props, break)) {
-						margin-left: map-get($props, spacing);
-						margin-right: map-get($props, spacing);
-					}
+			@each $size, $width in map-gets($pluginVars, sizes) {
+				&.modal-#{$size} {
+					width: $width;
 				}
 			}
 		}
 
 		.modal-content { padding: map-gets($pluginVars, modal, padding); }
 		.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($pluginVars, modal, padding)}"); padding: map-gets($pluginVars, modal, padding); }
-		.modal-header { border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
-		.modal-footer { border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+		.modal-header { margin-bottom: unquote("#{map-gets($pluginVars, modal, padding)}"); border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+		.modal-footer { margin-top: unquote("#{map-gets($pluginVars, modal, padding)}"); border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
 	}
 
 	#{$prefix}.modal-backdrop {
@@ -51,11 +47,9 @@
 		&:not(.in) { visibility: visible; opacity: 0; }
 	}
 
-	@at-root {
-		// Kill the scroll on the body
-		.modal-open {
-			overflow: hidden;
-			& #{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
-		}
+	// Kill the scroll on the "body"
+	&.modal-open {
+		overflow: hidden;
+		#{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
 	}
 }

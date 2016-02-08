@@ -5,6 +5,8 @@
 ### New features
 
 ### Resolved issues
+- Nguibs/Modals: Support for all modal sizes. Header and footer margin fix.
+
 
 ## 2.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.7)
 
