@@ -58,7 +58,15 @@ $modal: (
 	topMargin: 					5em,
 	bottomMargin: 				0,
 	background: 				#FFF,
-	padding: 					1.5em
+	padding: 					1.5em,
+
+	maxWidth: 					90%,
+
+	sizes: (
+		sm: 					15em,
+		md:						30em,
+		lg: 					90%
+	)
 );
 $pluginVars: map-extend($pluginVars, (modal: $modal));
 
