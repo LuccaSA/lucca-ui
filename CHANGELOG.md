@@ -6,7 +6,7 @@
 
 ### Resolved issues
 - Nguibs/Modals: Support for all modal sizes. Header and footer margin fix.
-
+- Scss/Table: the bottom border of theads on .lui.table comes back from the dead
 
 ## 2.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.7)
 

@@ -35,7 +35,6 @@
 			display: table-header-group;
 			padding: map-gets($vars, padding);
 			border: map-gets($vars, border);
-			border-bottom: none;
 		}
 		> .thead > .tr > .th, > thead > tr > th {
 			font-weight: 600;
