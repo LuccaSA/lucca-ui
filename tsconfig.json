@@ -3,7 +3,7 @@
 		"target": "ES5",
 		"module": "commonjs",
 		"removeComments": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true
 	},
