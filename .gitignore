@@ -4,3 +4,4 @@ node_modules
 /test-karma-admin-results.xml
 karma-results.xml
 /coverage
+/typings
