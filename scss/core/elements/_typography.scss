@@ -41,7 +41,7 @@
 	#{$prefix}.italic { font-style: italic; }
 
 	#{$prefix}.bold,
-	b, strong { font-style: map-gets($vars, body, boldWeight); }
+	b, strong { font-weight: map-gets($vars, body, boldWeight); }
 
 
 	// Headings
