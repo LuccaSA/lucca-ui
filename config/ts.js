@@ -4,10 +4,14 @@ module.exports = function(grunt, options){
 		options:{
 			experimentalDecorators: true,
 			emitDecoratorMetadata: true,
+			sourceMap: false,
 		},
 		dist:{
 			src: ["ts/**/*.ts", "!ts/**/*.spec.ts"],
-			dest: ".temp/lucca-ui-ts.js"
+			dest: ".temp/lucca-ui-ts.js",
+			options: {
+				declaration: true,
+			},
 		},
 		tests:{
 			src: ["ts/**/*.spec.ts"], 

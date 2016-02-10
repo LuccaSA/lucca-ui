@@ -19,11 +19,22 @@ module.exports = function(config) {
 
 			'bower_components/angular-mocks/angular-mocks.js',
 
-			'dist/custom/lucca-ui-spe.js',
+			// 'js/lui.js',
+			// 'js/filters/*.js',
+			// 'js/directives/*.js',
+			// 'js/directives/lucca/*.js',
+			"dist/custom/lucca-ui-spe.js",
 
-			'tests/spec/**/*.js'
+			'tests/spec/**/*.js',
+			".tests/**/*.js",
 		],
-
+		preprocessors: {
+			"dist/custom/lucca-ui-spe.js": ['coverage'],
+			// 'js/lui.js': ['coverage'],
+			// 'js/filters/*.js': ['coverage'],
+			// 'js/directives/*.js': ['coverage'],
+			// 'js/directives/lucca/*.js': ['coverage'],
+		},
 		// web server port
 		port: 9876,
 
@@ -39,10 +50,16 @@ module.exports = function(config) {
 		],
 
 		browsers: ['PhantomJS'],
-		reporters: ['progress'],
+		reporters: ['progress', 'coverage'],
 		junitReporter: {
-			outputFile: 'test-karma-admin-results.xml',
+			outputFile: 'karma-results.xml',
 			suite: 'Lucca-ui'
+		},
+		coverageReporter: {
+			type : 'html',
+			dir : 'coverage/',
+			subdir: '.',
+			// file : 'coverage-final.json'
 		}
 	});
 };
