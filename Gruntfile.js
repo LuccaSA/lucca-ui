@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 	grunt.initConfig(configs);
 
 	// use this tasks when you are developping
-	grunt.registerTask('debug', ['concurrent:debug']);
+	grunt.registerTask('debug', ["dist", "ts:spec", 'concurrent:debug']);
 	// use this one when you're coding e2e tests
 	grunt.registerTask('e2e', ['concurrent:e2e']);
 	// this task updates all distributions - launch it once before each release
@@ -31,5 +31,5 @@ module.exports = function(grunt) {
 
 
 	// used for travis integration
-	grunt.registerTask('travis', ['karma:travis']);
+	grunt.registerTask('travis', ["dist", "ts:spec", 'karma:travis']);
 };
