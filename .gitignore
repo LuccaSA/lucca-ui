@@ -1,8 +1,15 @@
 /node_modules
 /bower_components
 /typings
+
 /.sass-cache
-/.tscache
 /.temp
+/.tests
+/.tscache
+
 /coverage
+
 karma-results.xml
+
+**/.baseDir.ts
+**/.baseDir.js
