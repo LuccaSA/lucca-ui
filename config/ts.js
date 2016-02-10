@@ -13,7 +13,7 @@ module.exports = function(grunt, options){
 				declaration: true,
 			},
 		},
-		tests:{
+		test:{
 			src: ["ts/**/*.spec.ts"], 
 			outDir: ".tests",
 			options: {

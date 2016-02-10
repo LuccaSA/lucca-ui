@@ -31,11 +31,11 @@ module.exports = function(grunt, options){
 		},
 		ts: {
 			files: ["ts/**/*.ts", "!ts/**/*.spec.ts"],
-			tasks: ["dist", "ts:tests", "karma:debug"]
+			tasks: ["dist", "ts:tests", "karma:debug", "tslint"]
 		},
 		tsspec: {
 			files: ["ts/**/*.spec.ts"],
-			tasks: ["ts:tests", "karma:debug"]
+			tasks: ["ts:test", "karma:debug"]
 		},
 
 	};
