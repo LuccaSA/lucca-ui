@@ -21,18 +21,18 @@ describe('luif.timefilters', function(){
 			// same day
 			end = moment(start);
 			moment.locale('en');
-			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('dddd, LL'));
 			moment.locale('fr');
-			expect(luifFriendlyRange({start:start, end:end})).toEqual('le ' + start.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('le ' + start.format('dddd LL'));
 			
 			// day after - test that _excludeEnd works
 			end = moment(start).add(1,'d');
 			moment.locale('en');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('MMMM Do') + ' - ' + end.format('Do\, YYYY'));
-			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual(start.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual(start.format('dddd, LL'));
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('Do') + ' au ' + end.format('LL'));
-			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('le ' + start.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('le ' + start.format('dddd LL'));
 			
 			// same month
 			end = moment(start).add(10,'d');
@@ -65,18 +65,18 @@ describe('luif.timefilters', function(){
 			// same day
 			end = moment(start);
 			moment.locale('en');
-			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('MMMM Do'));
+			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('dddd, MMMM Do'));
 			moment.locale('fr');
-			expect(luifFriendlyRange({start:start, end:end})).toEqual('le ' + start.format('Do MMMM'));
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('le ' + start.format('dddd Do MMMM'));
 			
 			// day after - test that _excludeEnd works
 			end = moment(start).add(1,'d');
 			moment.locale('en');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('MMMM Do') + ' - ' + end.format('Do'));
-			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual(start.format('MMMM Do'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual(start.format('dddd, MMMM Do'));
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('Do') + ' au ' + end.format('Do MMMM'));
-			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('le ' + start.format('Do MMMM'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('le ' + start.format('dddd Do MMMM'));
 			
 			// same month
 			end = moment(start).add(10,'d');
