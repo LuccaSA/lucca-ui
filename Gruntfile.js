@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass'); // loads sass compiler
 	grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
+	grunt.loadNpmTasks('grunt-ts'); // loads the file minifier
 
 	// load the configs of all tasks defined under /config
 	var configs = require('load-grunt-configs')(grunt);

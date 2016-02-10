@@ -5,3 +5,4 @@ node_modules
 karma-results.xml
 /coverage
 /typings
+/.tscache
