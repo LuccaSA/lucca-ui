@@ -24,9 +24,9 @@ module.exports = function(grunt) {
 	// use this one when you're coding e2e tests
 	grunt.registerTask('e2e', ['concurrent:e2e']);
 	// this task updates all distributions - launch it once before each release
-	grunt.registerTask('dist', ['concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'concat:ng12', 'uglify:ng12', 'sass:dist']);
+	grunt.registerTask('dist', ['concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'sass:dist']);
 	// this updates the dists and tests it, creates karma coverage
-	grunt.registerTask('test', ['dist', 'karma:spe', 'karma:ng12', 'karma:coverage', 'protractor:singlerun', 'jshint']);
+	grunt.registerTask('test', ['dist', 'karma:spe', 'karma:coverage', 'protractor:singlerun', 'jshint']);
 
 
 	// used for travis integration

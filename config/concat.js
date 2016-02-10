@@ -25,14 +25,5 @@ module.exports = function(grunt, options){
 			// the location of the resulting JS file
 			dest: 'dist/custom/lucca-ui-spe.js'
 		},
-		ng12:{
-			src:[
-				'js/lui.js',
-				'js/directives/percentage-picker.js',
-				'js/directives/timespan-picker.js',
-				'js/filters/*.js',
-			],
-			dest: 'dist/custom/lucca-ui-compat-ng-1-2.js'
-		},
 	};
 }

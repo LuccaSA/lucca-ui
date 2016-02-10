@@ -21,8 +21,5 @@ module.exports = function(grunt, options){
 		spe: {
 			configFile: 'karma.spe.js',
 		},
-		ng12:{
-			configFile: 'karma.ng12.js',
-		}
 	};
 }
