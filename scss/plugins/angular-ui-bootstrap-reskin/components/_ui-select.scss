@@ -104,7 +104,14 @@
 		// Search disabled
 		&[search-enabled="false"] {
 			&.open {
-				.ui-select-match { display: block !important; }
+				.ui-select-match {
+					display: block !important;
+					> .btn {
+						border-bottom-left-radius: 0;
+						border-bottom-right-radius: 0;
+						border-bottom-color: transparent;
+					}
+				}
 			}
 		}
 
