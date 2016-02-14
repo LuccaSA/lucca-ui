@@ -101,6 +101,14 @@
 			margin-right: 0.5em;
 		}
 
+		// Search disabled
+		&[search-enabled="false"] {
+			&.open {
+				.ui-select-match { display: block !important; }
+			}
+		}
+
+
 		// Highlighting support
 		.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
 
