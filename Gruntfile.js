@@ -14,21 +14,23 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass'); // loads sass compiler
 	grunt.loadNpmTasks('grunt-contrib-concat'); // loads the file concatener
 	grunt.loadNpmTasks('grunt-contrib-uglify'); // loads the file minifier
+	grunt.loadNpmTasks('grunt-ts'); 
+	grunt.loadNpmTasks('grunt-tslint');
 
 	// load the configs of all tasks defined under /config
 	var configs = require('load-grunt-configs')(grunt);
 	grunt.initConfig(configs);
 
 	// use this tasks when you are developping
-	grunt.registerTask('debug', ['concurrent:debug']);
+	grunt.registerTask('debug', ["dist", "ts:test", 'concurrent:debug']);
 	// use this one when you're coding e2e tests
 	grunt.registerTask('e2e', ['concurrent:e2e']);
 	// this task updates all distributions - launch it once before each release
-	grunt.registerTask('dist', ['concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'concat:ng12', 'uglify:ng12', 'sass:dist']);
+	grunt.registerTask('dist', ["ts:dist", 'concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'sass:dist']);
 	// this updates the dists and tests it, creates karma coverage
-	grunt.registerTask('test', ['dist', 'karma:spe', 'karma:ng12', 'karma:coverage', 'protractor:singlerun', 'jshint']);
+	grunt.registerTask('test', ['dist', "ts:test", 'karma:debug', 'karma:coverage', 'protractor:singlerun', 'jshint']);
 
 
 	// used for travis integration
-	grunt.registerTask('travis', ['karma:travis']);
+	grunt.registerTask('travis', ["dist", "ts:test", 'karma:travis']);
 };

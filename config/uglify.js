@@ -16,10 +16,5 @@ module.exports = function(grunt, options){
 				'dist/custom/lucca-ui-spe.min.js': ['dist/custom/lucca-ui-spe.js']
 			}
 		},
-		ng12 :{
-			files: {
-				'dist/custom/lucca-ui-compat-ng-1-2.min.js': ['dist/custom/lucca-ui-compat-ng-1-2.js']
-			}
-		}
 	};
 }
