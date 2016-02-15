@@ -223,6 +223,7 @@
 		@include flex-wrap(wrap);
 		@include flex-justify-content(flex-end);
 		margin-left: auto !important;
+		margin-right: 0 !important;
 	}
 	// Vertical menus - bottom item
 	#{$prefix}.vertical.menu > #{$prefix}.item[class*="bottom item"],

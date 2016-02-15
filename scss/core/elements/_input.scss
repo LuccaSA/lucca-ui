@@ -71,7 +71,7 @@
 		line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
 
 		// Fix for Internet Explorer
-		height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+		min-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
 		display: inline-block;
 		@include flex();
 
