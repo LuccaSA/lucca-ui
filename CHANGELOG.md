@@ -5,6 +5,7 @@
 ### New features
 
 ### Resolved issues
+- [#115](https://github.com/LuccaSA/lucca-ui/issues/115)Switch input: fixes sizing and offset in Firefox
 
 ## 2.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.8)
 
