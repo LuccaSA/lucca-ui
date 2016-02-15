@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.8 - in dev
+## 2.0.9 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.8)
 
 ### New features
 - [#123](https://github.com/LuccaSA/lucca-ui/issues/123)luifFriendlyRange : Now shows day of week when range is one day
