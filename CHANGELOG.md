@@ -3,6 +3,7 @@
 ## 2.0.9 - in dev
 
 ### New features
+- [#132](https://github.com/LuccaSA/lucca-ui/issues/132) - luifTimespan - supports negative values
 
 ### Resolved issues
 
