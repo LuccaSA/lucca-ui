@@ -80,6 +80,75 @@ describe('luidTimespan', function(){
 			expect(isolateScope.strDuration).toEqual('01h10');
 		});
 	});
+	describe('most basic-est use with negative values', function(){
+		beforeEach(function(){
+			var tpl = angular.element('<luid-timespan ng-model="myTimespan"></luid-timespan>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+		});
+		it('should update strDuration when myTimespan changes', function(){
+			$scope.myTimespan = '-00:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('0m');
+			$scope.myTimespan = '-00:01:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('-1m');
+			$scope.myTimespan = '-02:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('-02h00');
+			$scope.myTimespan = '-02:01:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('-02h01');
+			$scope.myTimespan = '-1.11:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('-35h00');
+			$scope.myTimespan = '-4.10:00:00';
+			$scope.$digest();
+			expect(isolateScope.strDuration).toEqual('-106h00');
+		});
+		it('should update myTimespan when strDuration changes', function(){
+			isolateScope.strDuration = '-0m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('00:00:00');
+			isolateScope.strDuration = '-35';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('-00:35:00');
+			isolateScope.strDuration = '-35m';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('-00:35:00');
+			isolateScope.strDuration = '-1h';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('-01:00:00');
+			isolateScope.strDuration = '-12h30';
+			isolateScope.updateValue();
+			expect($scope.myTimespan).toEqual('-12:30:00');
+		});
+		it('should format strDuration to xm or xxhxx', function(){
+			isolateScope.strDuration = '0';
+			isolateScope.updateValue();
+			expect(isolateScope.strDuration).toEqual('0');
+			isolateScope.formatInputValue();
+			expect(isolateScope.strDuration).toEqual('0m');
+			isolateScope.strDuration = '-35';
+			isolateScope.updateValue();
+			expect(isolateScope.strDuration).toEqual('-35');
+			isolateScope.formatInputValue();
+			expect(isolateScope.strDuration).toEqual('-35m');
+			isolateScope.strDuration = '-70';
+			isolateScope.updateValue();
+			isolateScope.formatInputValue();
+			expect(isolateScope.strDuration).toEqual('-01h10');
+			isolateScope.strDuration = '-1h';
+			isolateScope.updateValue();
+			isolateScope.formatInputValue();
+			expect(isolateScope.strDuration).toEqual('-01h00');
+			isolateScope.strDuration = '-1h10';
+			isolateScope.updateValue();
+			isolateScope.formatInputValue();
+			expect(isolateScope.strDuration).toEqual('-01h10');
+		});
+	});
 	describe('with unit=hour', function(){
 		beforeEach(function(){
 			var tpl = angular.element('<luid-timespan ng-model="myTimespan" unit="\'hour\'"></luid-timespan>');
