@@ -5,6 +5,7 @@
 		<a class="item" href="#/nguibs#tooltip">tooltip</a>
 		<a class="item" href="#/nguibs#popover">popover</a>
 		<a class="item" href="#/nguibs#datepicker">datepicker</a>
+		<a class="item" href="#/nguibs#pagination">pagination</a>
 		<a class="item" href="#/nguibs#modal">modal</a>
 	</nav>
 
@@ -20,6 +21,7 @@
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/buttons">buttons</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/collapse">collapse</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> - see below for implementation</li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">pagination</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">dropdown</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - see below for implemantation <b>especially</b> if you have a namespaced or prefixed distribution</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/popover">popover</a> - see below for implementation</li>
@@ -170,6 +172,21 @@
 	&lt;input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/&gt;
 &lt;/div&gt;</pre>
 			</p>
+		</article>
+
+		<!-- PAGINATION -->
+		<article id="pagination" ng-controller="paginationCtrl">
+			<h2 class="lui divider below">Pagination</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/pagination">github.io page</a></p>
+
+			<h4 class="lui center aligned">Default</h4>
+			<uib-pagination class="lui" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Bordered style</h4>
+			<uib-pagination class="lui bordered" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Dividing style</h4>
+			<uib-pagination class="lui dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Bordered top dividing</h4>
+			<uib-pagination class="lui bordered top dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
 		</article>
 
 		<!-- MODAL -->

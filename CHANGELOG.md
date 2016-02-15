@@ -3,6 +3,7 @@
 ## 2.0.9 - in dev
 
 ### New features
+- Adds support for uib-pagination styling ([issue #47](https://github.com/LuccaSA/lucca-ui/issues/47))
 
 ### Resolved issues
 - [#115](https://github.com/LuccaSA/lucca-ui/issues/115)Switch input: fixes sizing and offset in Firefox

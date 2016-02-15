@@ -105,3 +105,21 @@ $popover: (
 
 );
 $pluginVars: map-extend($pluginVars, (popover: $popover));
+
+
+// Pagination
+// =============================================
+
+$pagination: (
+	verticalMargin: 			0.5em,
+	horizontalMargin: 			auto,
+	background: 				#FFF,
+	defaultColoring: (
+		color: 					luiPalette(primary, color),
+		text: 					luiPalette(primary, text)
+	),
+	dividing: (
+		borderWidth: 			3px
+	)
+);
+$pluginVars: map-extend($pluginVars, (pagination: $pagination));
