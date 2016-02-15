@@ -7,7 +7,13 @@
 
 ### Resolved issues
 - Nguibs/Modals: Support for all modal sizes. Header and footer margin fix.
-- Scss/Table: the bottom border of theads on .lui.table comes back from the dead
+- Nguibs/UI-Select: now supports search-enabled="false"
+- Table: the bottom border of theads on .lui.table comes back from the dead
+- Input: adds support for the "x-short" length in default theme
+- Input: replaces `height` with `min-height`
+- Menus: adds opacity effect on dividing menus + fixes the default color of active items in default color pills menus
+- Menus: right items no longer have any right margin
+- Typography: fixes the ".lui.bold / .strong" class
 
 ## 2.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.7)
 

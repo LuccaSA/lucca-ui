@@ -9,24 +9,32 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.min.js',
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-mocks.js',
-			'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-sanitize.js',
-
+			'bower_components/angular/angular.js',
 			'bower_components/angular-translate/angular-translate.js',
+			'bower_components/angular-sanitize/angular-sanitize.js',
 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/ui-select/dist/select.js',
 			'bower_components/moment/min/moment-with-locales.js',
 			'bower_components/underscore/underscore-min.js',
-			
-			'dist/custom/lucca-ui-compat-ng-1-2.js',
 
-			'tests/spec/genericFilters.spec.js',
-			'tests/spec/timeFilters.spec.js',
-			'tests/spec/directives/timespan-picker.spec.js',
-			'tests/spec/directives/percentage-picker.spec.js',
+			'bower_components/angular-mocks/angular-mocks.js',
+
+			// 'js/lui.js',
+			// 'js/filters/*.js',
+			// 'js/directives/*.js',
+			// 'js/directives/lucca/*.js',
+			"dist/custom/lucca-ui-spe.js",
+
+			'tests/spec/**/*.js',
+			".tests/**/*.js",
 		],
-
+		preprocessors: {
+			"dist/custom/lucca-ui-spe.js": ['coverage'],
+			// 'js/lui.js': ['coverage'],
+			// 'js/filters/*.js': ['coverage'],
+			// 'js/directives/*.js': ['coverage'],
+			// 'js/directives/lucca/*.js': ['coverage'],
+		},
 		// web server port
 		port: 9876,
 
@@ -42,10 +50,16 @@ module.exports = function(config) {
 		],
 
 		browsers: ['PhantomJS'],
-		reporters: ['progress'],
+		reporters: ['progress', 'coverage'],
 		junitReporter: {
-			outputFile: 'test-karma-admin-results.xml',
+			outputFile: 'karma-results.xml',
 			suite: 'Lucca-ui'
+		},
+		coverageReporter: {
+			type : 'html',
+			dir : 'coverage/',
+			subdir: '.',
+			// file : 'coverage-final.json'
 		}
 	});
 };

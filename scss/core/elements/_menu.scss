@@ -23,16 +23,6 @@
 		border-top-color: map-get($scheme, color);
 	}
 }
-#{$prefix}.menu {
-	// Default coloring scheme
-	@include lui_menu_coloring(map-gets($vars, defaultColoring));
-	// Coloring support
-	@each $name, $scheme in luiPalettes() {
-		&.#{map-get($scheme, class)} {
-			@include lui_menu_coloring($scheme);
-		}
-	}
-}
 
 
 // ===================================
@@ -233,6 +223,7 @@
 		@include flex-wrap(wrap);
 		@include flex-justify-content(flex-end);
 		margin-left: auto !important;
+		margin-right: 0 !important;
 	}
 	// Vertical menus - bottom item
 	#{$prefix}.vertical.menu > #{$prefix}.item[class*="bottom item"],
@@ -299,6 +290,17 @@
 		}
 	}
 
+	// Coloring
+	#{$prefix}.menu {
+		// Default coloring scheme
+		@include lui_menu_coloring(map-gets($vars, defaultColoring));
+		// Coloring support
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				@include lui_menu_coloring($scheme);
+			}
+		}
+	}
 
 	// Menu styles
 	// ===================================
@@ -316,6 +318,8 @@
 			padding: map-gets($vars, item, horizontal, verticalPadding) 0;
 			margin: map-gets($vars, item, horizontal, verticalMargin) (map-gets($vars, item, horizontal, horizontalMargin) + map-gets($vars, item, horizontal, horizontalPadding));
 		}
+
+		> a.item:not(.active):not(:hover) { opacity: 0.75; }
 
 		> a.item:before, > a.item:after {
 			visibility: visible;

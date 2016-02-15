@@ -7,22 +7,14 @@ module.exports = function(grunt, options){
 			autoWatch: false,
 		},
 		debug: {
-			configFile: 'karma.dev.js',
-			singleRun: false,
-			autoWatch: true,
+			configFile: 'karma.conf.js',
 		},
 		travis: {
-			configFile: 'karma.dev.js',
+			configFile: 'karma.conf.js',
 		},
 		coverage: {
-			configFile: 'karma.dev.js',
+			configFile: 'karma.conf.js',
 			reporters: ['junit', 'coverage'],
 		},
-		spe: {
-			configFile: 'karma.spe.js',
-		},
-		ng12:{
-			configFile: 'karma.ng12.js',
-		}
 	};
 }

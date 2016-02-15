@@ -25,9 +25,6 @@
 		.btn { box-sizing: border-box; }
 		> .ui-select-match { width: 100%; }
 
-		// Input fields lookalikes
-		.ui-select-match { height: 2.32em; }
-
 		.ui-select-match > .btn,
 		> .ui-select-search,
 		&.ui-select-multiple > div {
@@ -103,6 +100,21 @@
 			vertical-align: middle;
 			margin-right: 0.5em;
 		}
+
+		// Search disabled
+		&[search-enabled="false"] {
+			&.open {
+				.ui-select-match {
+					display: block !important;
+					> .btn {
+						border-bottom-left-radius: 0;
+						border-bottom-right-radius: 0;
+						border-bottom-color: transparent;
+					}
+				}
+			}
+		}
+
 
 		// Highlighting support
 		.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
