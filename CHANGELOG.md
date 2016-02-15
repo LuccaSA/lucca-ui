@@ -3,6 +3,7 @@
 ## 2.0.8 - in dev
 
 ### New features
+- [#123](https://github.com/LuccaSA/lucca-ui/issues/123)luifFriendlyRange : Now shows day of week when range is one day
 
 ### Resolved issues
 - Nguibs/Modals: Support for all modal sizes. Header and footer margin fix.

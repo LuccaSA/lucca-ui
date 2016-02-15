@@ -13,13 +13,13 @@
 	.filter('luifFriendlyRange', function () {
 		var traductions = {
 			'en': {
-				sameDay: 'start(LL)',
+				sameDay: 'start(dddd, LL)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
 				sameYear: 'start(MMMM Do) - end(LL)',
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
-				sameDay: 'le start(LL)',
+				sameDay: 'le start(dddd LL)',
 				sameMonth: 'du start(Do) au end(LL)',
 				sameYear: 'du start(Do MMMM) au end(LL)',
 				other: 'du start(LL) au end(LL)'
@@ -27,13 +27,13 @@
 		};
 		var currentYearTraductions = {
 			'en': {
-				sameDay: 'start(MMMM Do)',
+				sameDay: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do)',
 				sameYear: 'start(MMMM Do) - end(MMMM Do)',
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
-				sameDay: 'le start(Do MMMM)',
+				sameDay: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(Do MMMM)',
 				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
 				other: 'du start(LL) au end(LL)'
