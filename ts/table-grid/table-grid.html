@@ -1,0 +1,121 @@
+<div class="lui tablegrid">
+	<header class="header">
+		<div class="locked columns">
+			<table>
+				<colgroup>
+					<col style="width: 0em"></col>
+					<col ng-repeat="header in fixedRowDefinition track by $index" style="width: {{header.width}}em"></col>
+				</colgroup>
+				<tbody>
+					<tr
+					role="row"
+					ng-repeat="row in fixedHeaderRows track by $index"
+					ng-if="$index !== 0">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						class="sortable cell"
+						ng-class="{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
+						role="columnheader"
+						ng-repeat="header in row track by $index"
+						rowspan="{{header.rowspan}}"
+						colspan="{{header.colspan}}"
+						ng-click="updateOrderBy(header)">{{header.label}}
+						</td>
+					</tr>
+					<tr role="row">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						ng-repeat="header in fixedRowDefinition track by $index"
+						ng-if="header.filterable"
+						colspan="1"
+						rowspan="1"
+						class="filtering cell">
+							<div class="lui fitting search input">
+								<input type="text" ng-change="updateFilterBy(header, $index)" ng-model="leftFilters[$index].value" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div><!--
+		--><div class="columns">
+			<table>
+				<colgroup>
+					<col style="width: 0em"></col>
+					<col ng-repeat="header in scrollableRowDefinition track by $index" style="width: {{header.width}}em"></col>
+				</colgroup>
+				<tbody>
+					<tr
+					role="row"
+					ng-repeat="row in scrollableHeaderRows track by $index"
+					ng-if="$index !== 0">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						class="sortable cell"
+						ng-class="{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
+						role="columnheader"
+						ng-repeat="header in row track by $index"
+						rowspan="{{header.rowspan}}"
+						colspan="{{header.colspan}}"
+						ng-click="updateOrderBy(header)">{{ header.label }}</td>
+					</tr>
+					<tr role="row">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						ng-repeat="header in scrollableRowDefinition track by $index"
+						ng-if="header.filterable"
+						colspan="1"
+						rowspan="1"
+						class="filtering cell">
+							<div class="lui fitting search input">
+								<input type="text" ng-change="updateFilterBy(header, $index)" ng-model="rightFilters[$index].value" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</header>
+
+	<div class="content">
+		<div class="locked columns">
+			<table>
+				<colgroup>
+					<col style="width: 0em"></col>
+					<col ng-repeat="header in fixedRowDefinition track by $index" style="width: {{header.width}}em"></col>
+				</colgroup>
+				<tbody>
+					<tr role="row" ng-repeat="row in datas | filter:customFilterBy | orderBy:customOrderBy:selected.reverse">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						class="cell"
+						role="cell"
+						ng-repeat="cell in fixedRowDefinition track by $index"
+						ng-bind-html="cell.getValue(row)"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div><!--
+		--><div class="scrollable columns">
+			<table>
+				<colgroup>
+					<col style="width: 0em"></col>
+					<col ng-repeat="header in scrollableRowDefinition track by $index" style="width: {{header.width}}em"></col>
+				</colgroup>
+
+				<tbody>
+					<tr role="row" ng-repeat="row in datas | filter:customFilterBy | orderBy:customOrderBy:selected.reverse">
+						<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+						<td
+						class="cell"
+						role="cell"
+						ng-repeat="cell in scrollableRowDefinition track by $index"
+						ng-bind-html="cell.getValue(row)"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer class="footer">
+	</footer>
+</div>
