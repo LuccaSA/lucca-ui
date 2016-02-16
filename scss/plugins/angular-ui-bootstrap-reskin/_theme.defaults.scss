@@ -63,8 +63,8 @@ $modal: (
 	maxWidth: 					90%,
 
 	sizes: (
-		sm: 					15em,
-		md:						30em,
+		sm: 					35em,
+		md:						60em,
 		lg: 					90%
 	)
 );
@@ -105,3 +105,21 @@ $popover: (
 
 );
 $pluginVars: map-extend($pluginVars, (popover: $popover));
+
+
+// Pagination
+// =============================================
+
+$pagination: (
+	verticalMargin: 			0.5em,
+	horizontalMargin: 			auto,
+	background: 				#FFF,
+	defaultColoring: (
+		color: 					luiPalette(primary, color),
+		text: 					luiPalette(primary, text)
+	),
+	dividing: (
+		borderWidth: 			3px
+	)
+);
+$pluginVars: map-extend($pluginVars, (pagination: $pagination));

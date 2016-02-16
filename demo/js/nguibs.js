@@ -34,20 +34,38 @@
 	}]);
 
 	angular.module('demoApp')
+	.controller('paginationCtrl', ['$scope', '$log', function($scope, $log){
+		$scope.totalItems = 64;
+		$scope.currentPage = 4;
+
+		$scope.setPage = function (pageNo) {
+		  $scope.currentPage = pageNo;
+		};
+
+		$scope.pageChanged = function() {
+		  $log.log('Page changed to: ' + $scope.currentPage);
+		};
+
+		$scope.maxSize = 5;
+		$scope.bigTotalItems = 175;
+		$scope.bigCurrentPage = 1;
+	}]);
+
+	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
 	}]);
 
 	angular.module('demoApp')
 	.controller('modalCtrl', function ($scope, $uibModal) {
-
+		$scope.size = "desktop";
 		$scope.open = function () {
 			var modalInstance = $uibModal.open({
+				size: $scope.size,
 				backdropClass: 'lui',
 				windowClass: 'lui',
 				templateUrl: 'myModalContent.html',
 				controller: 'ModalInstanceCtrl',
 				appendTo: angular.element(document.getElementById("demo")),
-				size: 'lg'
 			});
 		};
 		$scope.openWithoutNamespace = function () {

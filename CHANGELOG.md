@@ -3,9 +3,12 @@
 ## 2.0.9 - in dev
 
 ### New features
+- [issue #47](https://github.com/LuccaSA/lucca-ui/issues/47) - Adds support for uib-pagination styling
 - [#132](https://github.com/LuccaSA/lucca-ui/issues/132) - luifTimespan - supports negative values 
 
 ### Resolved issues
+- [#115](https://github.com/LuccaSA/lucca-ui/issues/115) - Switch input: fixes sizing and offset in Firefox
+- [#120](https://github.com/LuccaSA/lucca-ui/issues/120) - Fixes modal sizing, also supports sizes defined in your theme's breakpoints
 
 ## 2.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.8)
 

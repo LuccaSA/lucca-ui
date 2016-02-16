@@ -23,9 +23,14 @@
 			background: map-gets($pluginVars, modal, background);
 			max-width: map-gets($pluginVars, modal, maxWidth);
 
-			@each $size, $width in map-gets($pluginVars, sizes) {
+			@each $size, $width in map-gets($pluginVars, modal, sizes) {
 				&.modal-#{$size} {
 					width: $width;
+				}
+			}
+			@each $size, $props in luiTheme(reference, breakpoints) {
+				&.modal-#{$size} {
+					width: map-get($props, break);
 				}
 			}
 		}
