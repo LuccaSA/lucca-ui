@@ -5,6 +5,5 @@ before_script:
   - npm install karma-jasmine karma-chrome-launcher
   - npm install
   - bower install
-  - tsd install
 
 script: grunt travis
