@@ -10,7 +10,7 @@
 		function link(scope, element, attrs, ctrls) {
 			var ngModelCtrl = ctrls[1];
 			var luidTimespanCtrl = ctrls[0];
-			scope.pattern = /^([0-9]+)((h([0-9]{2})?)?(m(in)?)?)?$/i;
+			scope.pattern = /^\-?([0-9]+)((h([0-9]{2})?)?(m(in)?)?)?$/i;
 			if (!!attrs.unit) {
 				var unit = scope.$eval(attrs.unit);
 				if (unit == 'h' || unit == 'hour' || unit == 'hours') {
@@ -21,18 +21,21 @@
 			scope.ngModelCtrl = ngModelCtrl;
 
 			ngModelCtrl.$render = function () {
+				scope.strDuration = '';
 				if (!this.$viewValue) {
-					scope.strDuration = '';
 					return;
 				}
-
 				var currentDuration = moment.duration(this.$viewValue);
+				if (currentDuration < 0) {
+					scope.strDuration += "-";
+					currentDuration = moment.duration(-currentDuration);
+				}
 				var hours = Math.floor(currentDuration.asHours());
 				var minutes = currentDuration.minutes();
 				if (hours === 0) {
-					scope.strDuration = minutes + 'm';
+					scope.strDuration += minutes + 'm';
 				} else {
-					scope.strDuration = (hours < 10 ? '0' : '') + hours + 'h' + (minutes < 10 ? '0' : '') + minutes;
+					scope.strDuration += (hours < 10 ? '0' : '') + hours + 'h' + (minutes < 10 ? '0' : '') + minutes;
 				}
 			};
 
@@ -68,10 +71,15 @@
 			function parseHoursAndMinutes(strInput) {
 				var d = moment.duration();
 				var splitted = strInput.split(/h/i);
+				var isPositive = parseInt(splitted[0]) >= 0;
 				d.add(parseInt(splitted[0]), 'hours');
 				var strMin = splitted[1];
 				if (!!strMin && strMin.length >= 2) {
-					d.add(parseInt(strMin.substring(0, 2)), 'minutes');
+					if (isPositive){
+						d.add(parseInt(strMin.substring(0, 2)), 'minutes');
+					} else {
+						d.subtract(parseInt(strMin.substring(0, 2)), 'minutes');
+					}
 				}
 				return d;
 			}
@@ -132,7 +140,13 @@
 
 			function format(dur, mode) {
 				if (mode === 'timespan') {
-					return (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+					var timespan = "";
+					if (dur.asMilliseconds() < 0){
+						timespan += "-";
+						dur = moment.duration(-dur);
+					}
+					timespan += (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+					return timespan;
 				}
 				return dur;
 			}
