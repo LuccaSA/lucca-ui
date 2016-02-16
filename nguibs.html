@@ -5,6 +5,7 @@
 		<a class="item" href="#/nguibs#tooltip">tooltip</a>
 		<a class="item" href="#/nguibs#popover">popover</a>
 		<a class="item" href="#/nguibs#datepicker">datepicker</a>
+		<a class="item" href="#/nguibs#pagination">pagination</a>
 		<a class="item" href="#/nguibs#modal">modal</a>
 	</nav>
 
@@ -20,6 +21,7 @@
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/buttons">buttons</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/collapse">collapse</a></li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> - see below for implementation</li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/pagination">pagination</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/dropdown">dropdown</a> - see below for implementation</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">modal</a> - see below for implemantation <b>especially</b> if you have a namespaced or prefixed distribution</li>
 					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/popover">popover</a> - see below for implementation</li>
@@ -172,6 +174,21 @@
 			</p>
 		</article>
 
+		<!-- PAGINATION -->
+		<article id="pagination" ng-controller="paginationCtrl">
+			<h2 class="lui divider below">Pagination</h2>
+			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/pagination">github.io page</a></p>
+
+			<h4 class="lui center aligned">Default</h4>
+			<uib-pagination class="lui" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Bordered style</h4>
+			<uib-pagination class="lui bordered" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Dividing style</h4>
+			<uib-pagination class="lui dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<h4 class="lui center aligned">Bordered top dividing</h4>
+			<uib-pagination class="lui green bordered top dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+		</article>
+
 		<!-- MODAL -->
 		<article id="modal" ng-controller="modalCtrl">
 			<h2 class="lui divider below">Modal</h2>
@@ -182,6 +199,25 @@
 			</p>
 			<p>
 				If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
+			</p>
+			<p>
+				You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>): 
+				<span class="lui buttons">
+					<button class="lui button" ng-model="size" uib-btn-radio="'mobile'">mobile</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'tablet'">tablet</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'desktop'">desktop</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'large'">large</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="''">none</button>
+				</span>
+				providing no size will make the modal take 90% of the width
+			</p>
+			<p>
+				Or you can use the sizes supported by angular-ui-bootstrap: 
+				<span class="lui buttons">
+					<button class="lui button" ng-model="size" uib-btn-radio="'sm'">sm</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'md'">md</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'lg'">lg</button>
+				</span>
 			</p>
 			<p>
 				<div class="lui button" ng-click="open()">Open in namespace with prefix</div>
@@ -203,12 +239,14 @@
 var modalInstance = $uibModal.open({
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
 });
 // namespaced distribution
 var modalInstance = $uibModal.open({
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
 	appendTo: angular.element(document.getElementById("myNamespace")),
+	size: 'desktop',
 });
 // prefixed distribution
 var modalInstance = $uibModal.open({
@@ -216,6 +254,7 @@ var modalInstance = $uibModal.open({
 	windowClass: 'myPrefix',
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
 });</pre>
 			</p>
 		</article>
