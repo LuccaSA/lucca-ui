@@ -186,7 +186,7 @@
 			<h4 class="lui center aligned">Dividing style</h4>
 			<uib-pagination class="lui dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
 			<h4 class="lui center aligned">Bordered top dividing</h4>
-			<uib-pagination class="lui bordered top dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+			<uib-pagination class="lui green bordered top dividing" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
 		</article>
 
 		<!-- MODAL -->
@@ -199,6 +199,25 @@
 			</p>
 			<p>
 				If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
+			</p>
+			<p>
+				You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>): 
+				<span class="lui buttons">
+					<button class="lui button" ng-model="size" uib-btn-radio="'mobile'">mobile</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'tablet'">tablet</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'desktop'">desktop</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'large'">large</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="''">none</button>
+				</span>
+				providing no size will make the modal take 90% of the width
+			</p>
+			<p>
+				Or you can use the sizes supported by angular-ui-bootstrap: 
+				<span class="lui buttons">
+					<button class="lui button" ng-model="size" uib-btn-radio="'sm'">sm</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'md'">md</button>
+					<button class="lui button" ng-model="size" uib-btn-radio="'lg'">lg</button>
+				</span>
 			</p>
 			<p>
 				<div class="lui button" ng-click="open()">Open in namespace with prefix</div>
@@ -220,12 +239,14 @@
 var modalInstance = $uibModal.open({
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
 });
 // namespaced distribution
 var modalInstance = $uibModal.open({
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
 	appendTo: angular.element(document.getElementById("myNamespace")),
+	size: 'desktop',
 });
 // prefixed distribution
 var modalInstance = $uibModal.open({
@@ -233,6 +254,7 @@ var modalInstance = $uibModal.open({
 	windowClass: 'myPrefix',
 	templateUrl: 'myModalContent.html',
 	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
 });</pre>
 			</p>
 		</article>
