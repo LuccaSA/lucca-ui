@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.9 - in dev
+## 2.0.10 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.9)
 
 ### New features
 - [issue #47](https://github.com/LuccaSA/lucca-ui/issues/47) - Adds support for uib-pagination styling
