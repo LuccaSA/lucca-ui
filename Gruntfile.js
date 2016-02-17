@@ -7,6 +7,7 @@ module.exports = function(grunt) {
 
 	// Loads the different modules used by this gruntfile
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-angular-templates');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-concurrent'); // loads concurrent runner
