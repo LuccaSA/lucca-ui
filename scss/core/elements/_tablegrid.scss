@@ -50,17 +50,6 @@
 			padding-right: 0;
 			border: none;
 		}
-
-		// Sizes (width)
-		&.wide {
-			max-width: map-gets($vars, cell, sizes, wide);
-			min-width: map-gets($vars, cell, sizes, wide);
-		}
-
-		&.narrow {
-			max-width: map-gets($vars, cell, sizes, narrow);
-			min-width: map-gets($vars, cell, sizes, narrow);
-		}
 	}
 
 	.sortable {
@@ -88,15 +77,6 @@
 			background-color: map-gets($vars, header, text);
 		}
 	}
-
-
-	// Toolbar
-	// =====
-	.toolbar {
-		background-color: map-gets($vars, toolbar, background);
-		color: map-gets($vars, toolbar, text);
-	}
-
 
 	// Header
 	// =====
