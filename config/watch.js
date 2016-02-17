@@ -5,6 +5,7 @@ module.exports = function(grunt, options){
 		options: {
 			nospawn: true
 		},
+
 		sass: {
 			files: ['scss/**/*.scss', 'scss/*.sass'],
 			tasks: ['sass']
@@ -13,6 +14,7 @@ module.exports = function(grunt, options){
 			files: ['scss/**/*.scss', 'scss/*.sass', 'demo/**/*.scss'],
 			tasks: ['sass:demo'],
 		},
+
 		js: {
 			files: ['js/**/*.js'],
 			tasks: ['dist', 'karma:debug', 'jshint'],
@@ -21,25 +23,28 @@ module.exports = function(grunt, options){
 			files: ['tests/spec/**/*.js'],
 			tasks: ['karma:debug'],
 		},
-		e2ejs: {
-			files: ['js/**/*.js'],
-			tasks: ['dist', 'protractor:singlerun']
-		},
-		e2espec: {
-			files: ['tests/e2e/**/*.spec.js'],
-			tasks: ['protractor:singlerun']
-		},
+
 		ts: {
-			files: ["ts/**/*.ts", "!ts/**/*.spec.ts"],
+			files: ["ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
 			tasks: ["dist", "ts:tests", "karma:debug", "tslint"]
 		},
 		tsspec: {
 			files: ["ts/**/*.spec.ts"],
 			tasks: ["ts:test", "karma:debug"]
 		},
+
 		html: {
 			files: ["ts/**/*.html"],
 			tasks: ["dist"]
-		}
+		},
+
+		e2esrc: {
+			files: ['js/**/*.js', "ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
+			tasks: ['dist', 'protractor:singlerun']
+		},
+		e2espec: {
+			files: ['tests/e2e/**/*.spec.js', "ts/**/*.e2e.ts"],
+			tasks: ["ts:e2e", 'protractor:singlerun']
+		},
 	};
 }
