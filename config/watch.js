@@ -37,6 +37,9 @@ module.exports = function(grunt, options){
 			files: ["ts/**/*.spec.ts"],
 			tasks: ["ts:test", "karma:debug"]
 		},
-
+		html: {
+			files: ["ts/**/*.html"],
+			tasks: ["dist"]
+		}
 	};
 }
