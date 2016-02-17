@@ -11,46 +11,39 @@
 
 	angular.module('lui.filters')
 	.filter('luifFriendlyRange', function () {
-		var traductions = {
+		var translations = {
 			'en': {
 				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
+				sameMonthThisYear: 'start(MMMM Do) - end(Do)',
 				sameYear: 'start(MMMM Do) - end(LL)',
+				sameYearThisYear: 'start(MMMM Do) - end(MMMM Do)',
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
 				sameDay: 'le start(dddd LL)',
+				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
+				sameMonthThisYear: 'du start(Do) au end(Do MMMM)',
 				sameYear: 'du start(Do MMMM) au end(LL)',
+				sameYearThisYear: 'du start(Do MMMM) au end(Do MMMM)',
 				other: 'du start(LL) au end(LL)'
 			}
 		};
-		var currentYearTraductions = {
-			'en': {
-				sameDay: 'start(dddd, MMMM Do)',
-				sameMonth: 'start(MMMM Do) - end(Do)',
-				sameYear: 'start(MMMM Do) - end(MMMM Do)',
-				other: 'start(LL) - end(LL)'
-			},
-			'fr': {
-				sameDay: 'le start(dddd Do MMMM)',
-				sameMonth: 'du start(Do) au end(Do MMMM)',
-				sameYear: 'du start(Do MMMM) au end(Do MMMM)',
-				other: 'du start(LL) au end(LL)'
-			}
-		};
-		return function (_block, _excludeEnd) {
+		return function (_block, _excludeEnd, _ampm, _translations) {
 			if(!_block){ return; }
 			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
 			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
 			if(_excludeEnd){
-				end.add(-1,'d');
+				end.add(-1,'minutes');
 			}
-			var trads = traductions[moment.locale()] || traductions.en;
-			if(moment().year() === start.year() && moment().year() === end.year()){
-				trads = currentYearTraductions[moment.locale()] || currentYearTraductions.en;
-			}
+			var trads = translations[moment.locale()] || traductions.en;
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
+			if(moment().year() === start.year() && moment().year() === end.year()){
+				format += "ThisYear";
+			}
+
 			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
 			return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
 		};
