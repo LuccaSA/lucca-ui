@@ -65,6 +65,7 @@
 		};
 	}])
 	.controller('luidTimespanController', ['$scope', 'moment', function ($scope, moment) {
+		var ctrl = this;
 
 		function parse(strInput) {
 			// parsing str to moment.duration
@@ -122,7 +123,7 @@
 			$scope.ngModelCtrl.$render();
 		}
 
-		function updateWithoutRender(newDuration, mode) {
+		function updateWithoutRender(newDuration) {
 			// Handle min/max values
 			function correctValue(newValue){
 				function correctedMinValue(newValue) {
@@ -138,8 +139,8 @@
 				return correctedMaxValue(correctedMinValue(newValue));
 			}
 
-			function format(dur, mode) {
-				if (mode === 'timespan') {
+			function format(dur) {
+				if (ctrl.mode === 'timespan') {
 					var timespan = "";
 					if (dur.asMilliseconds() < 0){
 						timespan += "-";
@@ -157,7 +158,7 @@
 
 			// Check min/max values
 			newDuration = correctValue(newDuration);
-			var formattedValue = format(newDuration, mode);
+			var formattedValue = format(newDuration);
 
 			$scope.ngModelCtrl.$setViewValue(formattedValue);
 		}
@@ -165,8 +166,6 @@
 		function currentValue() {
 			return $scope.ngModelCtrl.$viewValue;
 		}
-
-		var ctrl = this;
 
 		// events - key 'enter'
 		this.setupEvents = function (elt) {
@@ -221,14 +220,14 @@
 			// is only fired when pattern is valid or when it goes from valid to invalid
 			// improvement possible - check the pattern and set the validity of the all directive via ngModelCtrl.$setValidity
 			// currently when pattern invalid, the viewValue is set to '00:00:00'
-			if (!$scope.strDuration) { return updateWithoutRender(undefined, ctrl.mode); } // empty input => 00:00:00
+			if (!$scope.strDuration) { return updateWithoutRender(undefined); } // empty input => 00:00:00
 
 			// parse the strDuration to build newDuration
 			// the duration of the parsed strDuration
 			var newDuration = parse($scope.strDuration);
 
 			// update viewvalue
-			updateWithoutRender(newDuration, ctrl.mode);
+			updateWithoutRender(newDuration);
 		};
 
 		// display stuff
