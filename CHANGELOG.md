@@ -1,10 +1,15 @@
 # Change log
 
-## 2.0.10 - in dev
+## 2.0.11 - in dev
 
 ### New features
 
 ### Resolved issues
+
+## 2.0.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.10)
+
+### Hotfix
+- luid-timespan was behaving differently when incrementing with the mouse wheel or keyboard arrows and directly editing the value
 
 ## 2.0.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.9)
 
