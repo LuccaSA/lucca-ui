@@ -52,7 +52,7 @@
 	%lui_input_field_base {
 		width: 100%;
 		border-radius: map-gets($vars, borderRadius);
-		border: 1px solid map-gets($vars, borderColor);
+		border: map-gets($vars, borderWidth) solid map-gets($vars, borderColor);
 		background: map-gets($vars, background);
 		color: map-gets($vars, color);
 		font-weight: normal;

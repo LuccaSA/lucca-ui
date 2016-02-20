@@ -15,6 +15,7 @@ $input: (
 		bottom:					0.66em,
 		left: 					1em
 	),
+	borderWidth: 				1px,
 	borderColor: 				luiPalette(light, color),
 	focusBorderColor: 			luiPalette(light, color, dark),
 	invalidColor:  				luiPalette(red, color),

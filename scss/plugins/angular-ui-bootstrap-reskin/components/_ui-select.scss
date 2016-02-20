@@ -23,6 +23,7 @@
 		}
 
 		.btn { box-sizing: border-box; }
+		.ui-select-toggle { vertical-align: top; }
 		> .ui-select-match { width: 100%; }
 
 		.ui-select-match > .btn,
@@ -131,6 +132,8 @@
 			width: 100%;
 		}
 	}
+
+	#{$prefix}.field:not(.inline) > label + #{$prefix}.ui-select-bootstrap { margin-top: 0.5em; }
 
 
 	luid-user-picker {
