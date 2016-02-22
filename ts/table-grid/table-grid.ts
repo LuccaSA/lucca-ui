@@ -31,18 +31,18 @@ module Lui.Directives {
 
 	"use strict";
 
-	export interface ILuiTableGridAttributes extends ng.IAttributes {
+	export interface ILuidTableGridAttributes extends ng.IAttributes {
 		height: number;
 	}
 	let defaultHeight = 20;
 
-	export class LuiTableGrid implements angular.IDirective {
-		public static IID = "luiTableGrid";
-		public controller = "luiTableGridController";
+	export class LuidTableGrid implements angular.IDirective {
+		public static IID = "luidTableGrid";
+		public controller = "luidTableGridController";
 		public scope = { tree: "=", height: "@", datas: "=" };
 		public restrict = "AE";
 		public templateUrl = "/table-grid/table-grid.html";
-		public link: ng.IDirectiveLinkFn = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ILuiTableGridAttributes): void => {
+		public link: ng.IDirectiveLinkFn = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
 
 				this.$timeout(() => {
 
@@ -128,7 +128,7 @@ module Lui.Directives {
 		constructor(private $timeout: ng.ITimeoutService) { return; };
 
 		public static Factory(): angular.IDirectiveFactory {
-			let directive = ($timeout: ng.ITimeoutService) => { return new LuiTableGrid($timeout); };
+			let directive = ($timeout: ng.ITimeoutService) => { return new LuidTableGrid($timeout); };
 			directive.$inject = ["$timeout"];
 			return directive;
 		}
@@ -151,8 +151,8 @@ module Lui.Directives {
 		updateOrderBy(header: TableGrid.Header): void;
 	}
 
-	export class LuiTableGridController {
-		public static IID: string = "luiTableGridController";
+	export class LuidTableGridController {
+		public static IID: string = "luidTableGridController";
 		public static $inject: Array<string> = ["$filter", "$scope", "$translate", "_", "moment"];
 		private $filter: Lui.ILuiFilters;
 		private $scope: IDataGridScope;
@@ -295,6 +295,6 @@ module Lui.Directives {
 	}
 
 	angular.module("lui.directives")
-	.controller(LuiTableGridController.IID, LuiTableGridController)
-	.directive(LuiTableGrid.IID, LuiTableGrid.Factory());
+	.controller(LuidTableGridController.IID, LuidTableGridController)
+	.directive(LuidTableGrid.IID, LuidTableGrid.Factory());
 }
