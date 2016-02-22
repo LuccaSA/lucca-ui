@@ -30,7 +30,8 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "load-grunt-configs": "^0.4.3",
     "node-sass": "^3.4.0",
-    "tsd": "^0.6.5"
+    "tsd": "^0.6.5",
+    "tslint": "^3.4.0"
   },
   "author": "Lucca",
   "license": "ISC",
