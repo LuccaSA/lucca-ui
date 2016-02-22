@@ -13,3 +13,4 @@ karma-results.xml
 
 **/.baseDir.ts
 **/.baseDir.js
+.vscode/
