@@ -3,6 +3,7 @@
 ## 2.0.11 - in dev
 
 ### New features
+- tagged search input : mimicks ui-select in multiple mode. There's probably a sizing issue with IE9.
 
 ### Resolved issues
 
@@ -15,7 +16,7 @@
 
 ### New features
 - [issue #47](https://github.com/LuccaSA/lucca-ui/issues/47) - Adds support for uib-pagination styling
-- [#132](https://github.com/LuccaSA/lucca-ui/issues/132) - luifTimespan - supports negative values 
+- [#132](https://github.com/LuccaSA/lucca-ui/issues/132) - luifTimespan - supports negative values
 
 ### Resolved issues
 - [#115](https://github.com/LuccaSA/lucca-ui/issues/115) - Switch input: fixes sizing and offset in Firefox

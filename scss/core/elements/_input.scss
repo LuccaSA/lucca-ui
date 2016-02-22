@@ -188,7 +188,7 @@
 
 	// Button addon
 	#{$prefix}.input[class*="with addon"] .addon.button {
-		border: 0;
+		border: 0; margin: 0;
 		min-width: inherit;
 		&:not(.right) {
 			border-top-right-radius: 0;
