@@ -37,13 +37,13 @@
 
 		// Multiselect mode
 		&.ui-select-multiple {
-			> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
+			> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; padding-right: 2.5em !important; height: auto !important; max-width: 100%; }
 
 			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 
 			.ui-select-match { display: inline; line-height: 1; &:empty { display: none; } }
 
-			span { display: inline-block; }
+			span { display: inline-block; max-width: 100%; word-wrap: break-word; }
 
 			.ui-select-match-item {
 				display: inline-block;
