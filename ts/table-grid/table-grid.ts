@@ -41,7 +41,7 @@ module Lui.Directives {
 		public controller = "luidTableGridController";
 		public scope = { tree: "=", height: "@", datas: "=" };
 		public restrict = "AE";
-		public templateUrl = "/table-grid/table-grid.html";
+		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		public link: ng.IDirectiveLinkFn = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
 
 				this.$timeout(() => {
