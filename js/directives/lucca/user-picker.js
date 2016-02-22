@@ -77,7 +77,7 @@
 				/*** HOMONYMS ***/
 				homonymsProperties: "=", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
-				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
+				customFilter: "=", // should be a function with this signature: function(user){ return boolean; }
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
 				operations: "=", // list of operation ids that users should have access
@@ -139,7 +139,7 @@
 				/*** HOMONYMS ***/
 				homonymsProperties: "=", // list of properties to handle homonyms
 				/*** CUSTOM FILTER ***/
-				customFilter: "=", // should be a function with this signature: function(user){ return boolean; } 
+				customFilter: "=", // should be a function with this signature: function(user){ return boolean; }
 				/*** OPERATION SCOPE ***/
 				appId: "=", // id of the application that users should have access
 				operations: "=", // list of operation ids that users should have access
@@ -347,7 +347,7 @@
 		// 	// Only select the X first users and display a message to the user to indicate that there are more results
 		// 	handlePagination(users);
 
-		// 	// launch new timeout 
+		// 	// launch new timeout
 		// 	timeout.count = $timeout(function() {
 		// 		getCountAsync(input).then(
 		// 			function(count) {
@@ -393,7 +393,7 @@
 			// Should latinise names and take into account composite names
 			var usersWithoutHomonyms = _.uniq(users, function(user) {
 				if (user.firstName && user.lastName) {
-					return (user.firstName.toLowerCase() + user.lastName.toLowerCase()); 
+					return (user.firstName.toLowerCase() + user.lastName.toLowerCase());
 				}
 			});
 			if (usersWithoutHomonyms.length < users.length) {
@@ -767,7 +767,7 @@
 			return (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
 		};
 	}]);
-	
+
 	/**************************/
 	/***** TRANSLATIONS   *****/
 	/**************************/
@@ -787,7 +787,18 @@
 			"LUIDUSERPICKER_ALL":"All users",
 		});
 		$translateProvider.translations('de', {
-
+			"LUIDUSERPICKER_FORMEREMPLOYEE":"Verließ die {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS":"Keine Ergebnisse",
+			"LUIDUSERPICKER_ERR_GET_USERS":"Fehler",
+			"LUIDUSERPICKER_OVERFLOW":"Es werden {{cnt}} auf {{all}} Benutzernamen",
+			"LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
+			"LUIDUSERPICKER_DEPARTMENT":"Abteilung",
+			"LUIDUSERPICKER_LEGALENTITY":"Rechtsträger",
+			"LUIDUSERPICKER_EMPLOYEENUMBER":"Betriebsnummer",
+			"LUIDUSERPICKER_MAIL":"E-mail",
+			"LUIDUSERPICKER_SELECTED":"Ausgewählt:",
+			"LUIDUSERPICKER_ME":"Mir:",
+			"LUIDUSERPICKER_ALL":"Alle Benutzer",
 		});
 		$translateProvider.translations('es', {
 
@@ -814,4 +825,3 @@
 		});
 	}]);
 })();
-

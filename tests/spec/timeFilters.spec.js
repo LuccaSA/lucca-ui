@@ -24,6 +24,8 @@ describe('luif.timefilters', function(){
 			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('dddd, LL'));
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('le ' + start.format('dddd LL'));
+			moment.locale('de');
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('der ' + start.format('dddd LL'));
 			
 			// day after - test that _excludeEnd works
 			end = moment(start).add(1,'d');
@@ -33,6 +35,9 @@ describe('luif.timefilters', function(){
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('Do') + ' au ' + end.format('LL'));
 			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('le ' + start.format('dddd LL'));
+			moment.locale('de');
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('von ' + start.format('Do') + ' bis ' + end.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('der ' + start.format('dddd LL'));
 			
 			// same month
 			end = moment(start).add(10,'d');
@@ -42,6 +47,9 @@ describe('luif.timefilters', function(){
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('Do') + ' au ' + end.format('LL'));
 			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('du ' + start.format('Do') + ' au ' +  moment(end).add(-1, 'd').format('LL'));
+			moment.locale('de');
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('von ' + start.format('Do') + ' bis ' + end.format('LL'));
+			expect(luifFriendlyRange({start:start, end:end}, true)).toEqual('von ' + start.format('Do') + ' bis ' +  moment(end).add(-1, 'd').format('LL'));
 			
 			// same year
 			end = moment(start).add(3,'months');
@@ -49,6 +57,8 @@ describe('luif.timefilters', function(){
 			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('MMMM Do') + ' - ' + end.format('LL'));
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('Do MMMM') + ' au ' + end.format('LL'));
+			moment.locale('de');
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('von ' + start.format('Do MMMM') + ' bis ' + end.format('LL'));
 			
 			// other
 			end = moment(start).add(14,'months');
@@ -56,6 +66,8 @@ describe('luif.timefilters', function(){
 			expect(luifFriendlyRange({start:start, end:end})).toEqual(start.format('LL') + ' - ' + end.format('LL'));
 			moment.locale('fr');
 			expect(luifFriendlyRange({start:start, end:end})).toEqual('du ' + start.format('LL') + ' au ' + end.format('LL'));
+			moment.locale('de');
+			expect(luifFriendlyRange({start:start, end:end})).toEqual('von ' + start.format('LL') + ' bis ' + end.format('LL'));
 		});
 		it('should not display the year when both dates are in the current year', function(){
 
