@@ -1,9 +1,16 @@
 # Change log
 
-## 2.0.11 - in dev
+## 2.0.12 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.11)
 
 ### New features
 - tagged search input : mimicks ui-select in multiple mode. There's probably a sizing issue with IE9.
+- deutsche support for `luifFriendlyRange` and the user picker
 
 ### Resolved issues
 
