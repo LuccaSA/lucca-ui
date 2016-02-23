@@ -184,23 +184,30 @@
 	/**************************/
 	angular.module("lui.templates.daterangepicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidDaterange.html",
-			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" +
-			"uib-popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
-			"popover-placement=\"{{popoverPlacement}}\"" +
-			"popover-trigger ='none' popover-is-open='popoverOpened'" +
-			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
-			">");
+			"<div class=\"lui buttons\" ng-class=\"{'open': popoverOpened}\">" +
+			"	<a class=\"lui west arrow icon button\"></a>" +
+			"	<a class=\"lui button\"" +
+			"		uib-popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
+			"		popover-placement=\"{{popoverPlacement}}\"" +
+			"		popover-trigger=\"click\"" +
+			"		popover-is-open=\"popoverOpened\"" +
+			"		popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
+			"		>{{ internal.strFriendly }}</a>" +
+			"	<a class=\"lui east arrow icon button\"></a>" +
+			"	<div class=\"dates\">" +
+			"		<a ng-click=\"\" ng-class=\"{'active': true}\">{{ internal.startsOn | date : 'MM/dd/yyyy' }}</a>" +
+			"		<a ng-click=\"\" ng-class=\"{'active': false}\">{{ internal.endsOn | date : 'MM/dd/yyyy' }}</a>" +
+			"	</div>" +
+			"</div>");
 		$templateCache.put("lui/directives/luidDaterangePopover.html",
 			"<div class=\"lui clear\" ng-click=\"clickInside($event)\">" +
-			"	<div class=\"lui vertical pills shortcuts menu\">" +
-			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
-			"	</div>" +
 			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<hr>" +
-			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
+			"</div>" +
+			"<div class=\"shortcuts\">" +
+			"	<a ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"</div>" +
 			"");
 	}]);

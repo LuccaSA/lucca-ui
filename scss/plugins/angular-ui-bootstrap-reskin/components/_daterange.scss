@@ -1,59 +1,80 @@
 @if map-get($pluginVars, enabled) {
-	$popoverWidth: 50em;
-	$shortcutsWidth: 15em;
+	luid-daterange {
+		> .buttons {
+			position: relative;
+			min-width: map-gets($pluginVars, daterange, minWidth);
 
-	#{$prefix}.daterange {
-		.popover-inner { width: $popoverWidth; }
-		&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
-		.shortcuts.menu {
-			width: $shortcutsWidth;
-			float: right;
-			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
+			> .dates {
+				visibility: hidden;
+				opacity: 0;
+
+				position: absolute;
+				top: map-gets($pluginVars, daterange, borderWidth);
+				bottom: map-gets($pluginVars, daterange, borderWidth);
+				left: map-gets($pluginVars, daterange, borderWidth);
+				right: map-gets($pluginVars, daterange, borderWidth);
+				border-radius: luiTheme(element, button, borderRadius);
+				background-color: #FFF;
+
+				@include lui_make_icon("move horizontally");
+				transition: opacity luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+
+				> a, &:before {
+					@extend a#{$prefix}.unstyled;
+					position: absolute;
+					top: 50%; transform: translateY(-50%); line-height: 1;
+					padding: map-gets($pluginVars, daterange, padding);
+					border-radius: luiTheme(element, button, borderRadius);
+
+					&:first-child { left: 0.5em; }
+					&:last-child { right: 0.5em; }
+				}
+				a.active {
+					background-color: luiPalette(primary, color);
+					color: luiPalette(primary, text);
+				}
+				&:before {
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+			&.open {
+				> .dates {
+					visibility: visible;
+					opacity: 1;
+				}
+			}
 		}
+
+
+		.popover-inner { width: 1 + 2 * map-gets($pluginVars, datepicker, width); }
+
 		.datepicker { float: left; border: none; }
 		.datepicker + .datepicker { margin-left: 1em; }
 
-		.datepicker .in-between,
-		.datepicker .start,
-		.datepicker .end {
-			background-color: luiPalette(primary, color, x-light);
+		.datepicker.start-date thead tr:first-child th:last-child button,
+		.datepicker.end-date thead tr:first-child th:first-child button { display: none; }
+
+		// Calendars coloring
+		td.in-between, td.start, td.end { border: 1px solid darken(luiPalette(primary, color), 5) !important; }
+		td.start, td.end, td.in-between button:hover {
+			background-color: luiPalette(primary, color) !important;
 			color: luiPalette(primary, text);
 		}
+		td.in-between { background-color: luiPalette(primary, color, x-light); }
 
-		.datepicker td.start {
-			border-top-left-radius: 1em;
-			border-bottom-left-radius: 1em;
-		}
-		.datepicker td.end {
-			border-top-right-radius: 1em;
-			border-bottom-right-radius: 1em;
-		}
-		.datepicker td.startend button,
-		.datepicker td.start button,
-		.datepicker td.end button {
-			border-radius: 1em;
-			box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
+		// Shortcuts
+		.has-periods .shortcuts {
+			background-color: map-gets($pluginVars, daterange, shortcuts, background);
 
-			&:hover {
-				background: #FFF;
-			}
-		}
-		.datepicker.start-date td.start button,
-		.datepicker.end-date td.end button {
-			background-color: #FFF;
-		}
-
-		tbody button.active { background-color: transparent; }
-
-		footer {
+			margin: 1em unquote("-#{map-gets($pluginVars, popover, innerHorizontalPadding)}") unquote("-#{map-gets($pluginVars, popover, innerVerticalPadding)}") unquote("-#{map-gets($pluginVars, popover, innerHorizontalPadding)}");
+			padding: 1em map-gets($pluginVars, popover, innerHorizontalPadding);
 			border-top: 1px solid luiTheme(element, divider, color);
-			margin-top: 1em;
-			padding-top: 0.25em;
-		}
 
-		hr {
-			clear: both;
-			@extend %lui_divider_base;
+			a {
+				padding: 0.5em;
+				margin: 0.5em;
+			}
 		}
 	}
 }

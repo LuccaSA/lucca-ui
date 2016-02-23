@@ -16,11 +16,26 @@ $pluginVars: map-extend($pluginVars, (collapse: $collapse));
 
 $datepicker: (
 	background: 				#FFF,
-	minWidth: 					24em,
+	width: 						20em,
 	inputWidth: 				10em,
 	dropdownZindex: 			100
 );
 $pluginVars: map-extend($pluginVars, (datepicker: $datepicker));
+
+
+// Daterange
+// =============================================
+
+$daterange: (
+	minWidth: 					15em,
+	borderWidth: 				luiTheme(element, divider, width),
+	padding: 					0.25em 0.5em,
+
+	shortcuts: (
+		background: 			#FAFAFA
+	)
+);
+$pluginVars: map-extend($pluginVars, (daterange: $daterange));
 
 
 // Dropdown
@@ -91,14 +106,14 @@ $popover: (
 	minWidth: 					15em,
 	maxWidth: 					25em,
 
-	innerVerticalPadding: 		lui_rem(),
-	innerHorizontalPadding: 	lui_rem(),
+	innerVerticalPadding: 		lui_rem(1),
+	innerHorizontalPadding: 	lui_rem(1),
 
 	title: (
 		fontSize: 				1.25em,
 		background: 			rgba(0, 0, 0, 0.1),
 		dividerColor: 			rgba(0, 0, 0, 0.1),
-		bottomMargin: 			lui_rem(),
+		bottomMargin: 			lui_rem(1),
 	),
 
 	defaultColoring: 			(color: #FFF, text: luiPalette(grey, color)),
