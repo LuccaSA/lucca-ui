@@ -16,6 +16,7 @@ module Lui.Directives.TableGrid {
 		public fixed: boolean;
 		public colspan: number;
 		public rowspan: number;
+		public textAlign: string;
 		public getValue: (object: any) => string;
 		public getOrderByValue: (object: any) => any;
 	}

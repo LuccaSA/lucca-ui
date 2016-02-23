@@ -198,6 +198,7 @@
 							colspan: null,
 							hidden: false,
 							rowspan: null,
+							textAlign: "right",
 						},
 						children: [],
 					},
@@ -212,6 +213,7 @@
 							colspan: null,
 							hidden: false,
 							rowspan: null,
+							textAlign: "left",
 						},
 						children: [
 
@@ -226,6 +228,7 @@
 									colspan: null,
 									hidden: false,
 									rowspan: null,
+									textAlign: "left",
 								},
 								children: [],
 							},
@@ -240,6 +243,7 @@
 									colspan: null,
 									hidden: false,
 									rowspan: null,
+									textAlign: "left",
 								},
 								children: [],
 							},
@@ -254,6 +258,7 @@
 									colspan: null,
 									hidden: false,
 									rowspan: null,
+									textAlign: "right",
 								},
 								children: [
 									{
@@ -267,6 +272,7 @@
 											colspan: null,
 											hidden: false,
 											rowspan: null,
+											textAlign: "right",
 										},
 										children: [],
 									},
@@ -281,6 +287,7 @@
 											colspan: null,
 											hidden: false,
 											rowspan: null,
+											textAlign: "center",
 										},
 										children: [],
 									},
