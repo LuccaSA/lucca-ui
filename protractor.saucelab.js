@@ -1,7 +1,7 @@
 // A reference configuration file. - don't touch it except for baseUrl
 exports.config = {
 	seleniumArgs: [],
-	baseUrl: 'http://localhost:' + (process.env.HTTP_PORT || '9001') + '/tests/e2e/e2e.html',
+	baseUrl: 'http://localhost:9001/tests/e2e/e2e.html',
 	sauceUser: process.env.SAUCE_USERNAME,
 	sauceKey: process.env.SAUCE_ACCESS_KEY,
 

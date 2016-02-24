@@ -4,8 +4,8 @@ node_js:
 
 env:
   global:
-    - SAUCE_USERNAME= "lucienbertin"
-    - SAUCE_ACCESS_KEY= "b9f7a3b7-2e33-4ca3-9c65-a00e59e37d1b"
+    - SAUCE_USERNAME=lucienbertin
+    - SAUCE_ACCESS_KEY=b9f7a3b7-2e33-4ca3-9c65-a00e59e37d1b
 
 addons:
   sauce_connect: true
