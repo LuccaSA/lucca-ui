@@ -279,7 +279,7 @@ module Lui.Directives {
 				let filters = $scope.leftFilters.concat($scope.rightFilters);
 				filters.forEach((filter: { header: TableGrid.Header, value: string }) => {
 					if (filter.header && filter.value && filter.value !== "") {
-						let prop = filter.header.getValue(row).toLowerCase();
+						let prop = (filter.header.getValue(row) + "").toLowerCase();
 						if (prop.indexOf(filter.value.toLowerCase()) === -1) {
 							result = false;
 						}
