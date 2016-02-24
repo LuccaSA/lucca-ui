@@ -1,5 +1,6 @@
-env: 
-  - TRAVIS_NODE_VERSION="4.1"
+language: node
+node_js:
+  - "5.1"
 
 before_script:
   - npm install -g grunt grunt-cli bower
