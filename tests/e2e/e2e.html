@@ -13,7 +13,7 @@
 	<script src="../../bower_components/angular/angular.min.js"></script>
 	<script src="../../bower_components/angular-mocks/angular-mocks.js"></script>
 	<script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.min.js"></script>
+	<script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
 
 	<script src="../../bower_components/moment/min/moment.min.js"></script>
 	<script src="../../bower_components/underscore/underscore-min.js"></script>
@@ -32,6 +32,9 @@
 		<div class="lui callout warning">
 			<p>
 				<b>Important:</b> this page is used for all them e2e tests
+			</p>
+			<p>
+				This <span class="lui input"><input id="outside" placeholder="input"></span> is used to spoof a click on the body as the new versions of protractor dont want to click on not clickable elements
 			</p>
 		</div>
 
@@ -82,7 +85,6 @@
 			<div ng-controller="luidDaterangeCtrl" class="lui block round">
 				<luid-daterange ng-model="myRange" id="luidDaterange_input_1" class="lui long input"></luid-daterange>
 				<luid-daterange ng-model="myRange" id="luidDaterange_input_2" close-label="Close" close-action="doClosePopover(22)" class="lui long input"></luid-daterange>
-				<input id="luidDaterange_bogus_input">
 				<div id="luidDaterange_div_2">{{ someStuff }}</div>
 			</div>
 		</article>

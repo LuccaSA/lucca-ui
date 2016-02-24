@@ -6,9 +6,9 @@ describe('luidDaterange', function() {
 	var outside;
 
 	beforeEach(function() {
+		outside = element(by.id('outside'));
 		myDaterangeInput1 = element(by.id('luidDaterange_input_1'));
 		myDaterangeInput2 = element(by.id('luidDaterange_input_2'));
-		outside = element(by.id('luidDaterange_bogus_input'));
 		myDaterangeDiv2 = element(by.id('luidDaterange_div_2'));
 	});
 
