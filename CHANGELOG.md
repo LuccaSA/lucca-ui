@@ -4,6 +4,23 @@
 
 ### New features
 
+### luid-table-grid
+The demo of this directive is [here](https://luccasa.github.io/lucca-ui/#/directives#luid-table-grid)
+
+#### Features:
+ - show datas as a table.
+ - handles fixed colums and scrollable columns.
+ - can take any form of data as a n input.
+ - filtering and order by supported.
+
+#### Advanced features:
+ - show custom html in cells.
+ - handles nested headers.
+ - text alignment property : left/center/right
+
+#### Dependencies
+ - [angular](https://github.com/angular/angular.js) - obv
+
 ### Resolved issues
 
 ## 2.0.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.11)

@@ -5,7 +5,7 @@ module.exports = function(grunt, options){
 			configuration: "tslint-options.json",
 		},
 		files: {
-			src: ["ts/**/*.ts", "!ts/**/*.spec.ts"],
+			src: ["ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
 		}
 	};
 };
