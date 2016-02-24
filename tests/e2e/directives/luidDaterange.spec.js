@@ -3,13 +3,13 @@ describe('luidDaterange', function() {
 	var myDaterangeInput2;
 	var myDaterangeDiv2;
 	var myDaterangePopover;
-	var body;
+	var outside;
 
 	beforeEach(function() {
 		myDaterangeInput1 = element(by.id('luidDaterange_input_1'));
 		myDaterangeInput2 = element(by.id('luidDaterange_input_2'));
+		outside = element(by.id('luidDaterange_bogus_input'));
 		myDaterangeDiv2 = element(by.id('luidDaterange_div_2'));
-		body = element(by.tagName('body'));
 	});
 
 	/*****************/
@@ -33,7 +33,7 @@ describe('luidDaterange', function() {
 		expect(myDaterangePopover.isDisplayed()).toBeTruthy();
 	});
 	it("should hide popover when clicked outside the popover", function() {
-		body.click();
+		outside.click();
 		myDaterangePopover = element.all(by.css("luid-daterange .popover"));
 		expect(myDaterangePopover.count()).toBe(0);
 	});

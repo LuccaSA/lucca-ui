@@ -22,7 +22,7 @@
 	<script src="../../dist/custom/lucca-ui-spe.js"></script>
 	<script src="e2e.js"></script>
 </head>
-<body ng-app="e2eApp">
+<body ng-app="e2eApp" id="demo">
 
 	<section id="main-content" class="lui container">
 		<a class="lui large button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
@@ -71,6 +71,7 @@
 			<div ng-controller="luidDaterangeCtrl" class="lui block round">
 				<luid-daterange ng-model="myRange" id="luidDaterange_input_1" class="lui long input"></luid-daterange>
 				<luid-daterange ng-model="myRange" id="luidDaterange_input_2" close-label="Close" close-action="doClosePopover(22)" class="lui long input"></luid-daterange>
+				<input id="luidDaterange_bogus_input">
 				<div id="luidDaterange_div_2">{{ someStuff }}</div>
 			</div>
 		</article>
