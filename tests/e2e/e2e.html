@@ -13,7 +13,7 @@
 	<script src="../../bower_components/angular/angular.min.js"></script>
 	<script src="../../bower_components/angular-mocks/angular-mocks.js"></script>
 	<script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.min.js"></script>
+	<script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
 
 	<script src="../../bower_components/moment/min/moment.min.js"></script>
 	<script src="../../bower_components/underscore/underscore-min.js"></script>
@@ -24,7 +24,6 @@
 	<script src="../../dist/custom/lucca-ui-spe.js"></script>
 	<script src="e2e.js"></script>
 </head>
-
 <body ng-app="e2eApp" id="demo">
 
 	<section id="main-content" class="lui container">
@@ -33,6 +32,9 @@
 		<div class="lui callout warning">
 			<p>
 				<b>Important:</b> this page is used for all them e2e tests
+			</p>
+			<p>
+				This <span class="lui input"><input id="outside" placeholder="input"></span> is used to spoof a click on the body as the new versions of protractor dont want to click on not clickable elements
 			</p>
 		</div>
 

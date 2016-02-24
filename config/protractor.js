@@ -18,6 +18,13 @@ module.exports = function(grunt, options){
 			}
 		},
 		singlerun: {
-		}
+		},
+		saucelab: {
+			configFile: "protractor.saucelab.js",
+			args: {
+				sauceUser: process.env.SAUCE_USERNAME,
+				sauceKey: process.env.SAUCE_ACCESS_KEY
+			}
+		},
 	};
 }

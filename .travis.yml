@@ -1,10 +1,21 @@
+language: node_js
+node_js:
+  - "5.4"
+
+env:
+  global:
+    - SAUCE_USERNAME=lucienbertin
+    - SAUCE_ACCESS_KEY=b9f7a3b7-2e33-4ca3-9c65-a00e59e37d1b
+
+addons:
+  sauce_connect: true
+
 before_script:
-  - npm install -g grunt
-  - npm install -g bower
-  - npm install -g grunt-cli
-  - npm install karma-jasmine karma-chrome-launcher
-  - npm install
+  - npm install -g grunt grunt-cli bower tsd --progress=false
   - bower install
   - tsd install
 
-script: grunt travis
+script: 
+  - grunt dist
+  - grunt travis-karma
+  - grunt travis-protractor
