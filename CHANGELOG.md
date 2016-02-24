@@ -22,6 +22,7 @@ The demo of this directive is [here](https://luccasa.github.io/lucca-ui/#/direct
  - [angular](https://github.com/angular/angular.js) - obv
 
 ### Resolved issues
+- Tablegrid: fixes table width
 
 ## 2.0.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.11)
 
