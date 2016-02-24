@@ -37,5 +37,5 @@ module.exports = function(grunt) {
 
 
 	// used for travis integration
-	grunt.registerTask('travis', ["dist", "ts:test", 'karma:travis', "connect", "protractor:singlerun"]);
+	grunt.registerTask('travis', ["dist", "ts:test", 'karma:travis', "ts:e2e", "connect", "protractor:saucelab"]);
 };
