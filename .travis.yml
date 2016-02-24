@@ -1,8 +1,8 @@
+node_js:
+  - "5.4"
+
 before_script:
-  - rm -rf node_modules/
-  - npm install -g grunt
-  - npm install -g bower
-  - npm install -g grunt-cli
+  - npm install -g grunt grunt-cli bower
   - npm install
   - bower install
   - tsd install
