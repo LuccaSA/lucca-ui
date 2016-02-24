@@ -40,7 +40,7 @@ module Lui.Directives {
 	export class LuidTableGrid implements angular.IDirective {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
-		public scope = { tree: "=", height: "@", datas: "=" };
+		public scope = { header: "=", height: "@", datas: "=" };
 		public restrict = "AE";
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		public link: ng.IDirectiveLinkFn = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
@@ -145,7 +145,7 @@ module Lui.Directives {
 		scrollableHeaderRows: TableGrid.Header[][];
 		scrollableRowDefinition: TableGrid.Header[];
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
-		tree: TableGrid.Tree;
+		header: TableGrid.Tree;
 
 		customFilterBy(row: any): boolean;
 		customOrderBy(row: any): string;
@@ -155,19 +155,15 @@ module Lui.Directives {
 
 	export class LuidTableGridController {
 		public static IID: string = "luidTableGridController";
-		public static $inject: Array<string> = ["$filter", "$scope", "$translate", "_", "moment"];
+		public static $inject: Array<string> = ["$filter", "$scope", "$translate"];
 		private $filter: Lui.ILuiFilters;
 		private $scope: IDataGridScope;
 		private $translate: angular.translate.ITranslateService;
-		private _: UnderscoreStatic;
-		private moment: moment.MomentStatic;
 
-		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService, _: UnderscoreStatic, moment: moment.MomentStatic) {
+		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService) {
 			this.$filter = $filter;
 			this.$scope = $scope;
 			this.$translate = $translate;
-			this._ = _;
-			this.moment = moment;
 
 			let maxDepth = 0;
 			let getTreeDepth = (tree: TableGrid.Tree): number => {
@@ -221,9 +217,9 @@ module Lui.Directives {
 				$scope.scrollableHeaderRows = [];
 				$scope.scrollableRowDefinition = [];
 
-				maxDepth = getTreeDepth($scope.tree);
+				maxDepth = getTreeDepth($scope.header);
 
-				browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.tree });
+				browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
 
 				let diff = $scope.fixedHeaderRows.length - $scope.scrollableHeaderRows.length;
 				if (diff > 0) {
