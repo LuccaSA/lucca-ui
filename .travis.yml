@@ -12,7 +12,6 @@ addons:
 
 before_script:
   - npm install -g grunt grunt-cli bower tsd --progress=false
-  - npm install --progress=false
   - bower install
   - tsd install
 
