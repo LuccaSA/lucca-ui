@@ -1,8 +1,8 @@
 before_script:
+  - rm -rf node_modules/
   - npm install -g grunt
   - npm install -g bower
   - npm install -g grunt-cli
-  - npm install karma-jasmine karma-chrome-launcher
   - npm install
   - bower install
   - tsd install
