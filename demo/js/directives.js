@@ -46,8 +46,8 @@
 			$scope.updateCnt++;
 		};
 		$scope.myPeriod = {
-			startsOn: moment().startOf('day'), 
-			endsOn: moment().startOf('day').add(3, 'd'), 
+			startsOn: moment().startOf('day'),
+			endsOn: moment().startOf('day').add(3, 'd'),
 
 			dateStart: moment().startOf('month').toDate(),
 			dateEnd: moment().startOf('d').toDate(),
@@ -72,20 +72,20 @@
 		$scope.escCnt = 0;
 		$scope.zCnt = 0;
 		$scope.arrows = [];
-		
-		var enterPressed = function(){ 
+
+		var enterPressed = function(){
 			$scope.enterCnt++;
 			$scope.$apply();
 		};
-		var escPressed = function(){ 
+		var escPressed = function(){
 			$scope.escCnt++;
 			$scope.$apply();
 		};
-		var zPressed = function(){ 
+		var zPressed = function(){
 			$scope.zCnt++;
 			$scope.$apply();
 		};
-		
+
 		var leftPressed = function(){ $scope.arrows.push("left"); $scope.$apply(); };
 		var upPressed = function(){ $scope.arrows.push("up"); $scope.$apply(); };
 		var rightPressed = function(){ $scope.arrows.push("right"); $scope.$apply(); };
@@ -100,5 +100,143 @@
 		$scope.palette = "";
 		$scope.sizing = "";
 	}]);
+
+	angular.module('demoApp')
+		.controller('tableGridCtrl', ['$scope', function ($scope) {
+			$scope.people = [
+				{
+					id: 0,
+					name: "john cena",
+					adress: "1234 avenue john cena",
+					phone: "0123456789",
+					mail: "john.cena@john.cena.com"
+				},
+				{
+					id: 1,
+					name: "hubert robert",
+					adress: "14 rue du gouffre",
+					phone: "0607080910",
+					mail: "hrobert@yahoo.fr"
+				},
+				{
+					id: 2,
+					name: "George Monck",
+					adress: "10 downing street",
+					phone: "0123456789",
+					mail: "g.monck@britishgovernment.co.uk"
+				},
+				{
+					id: 3,
+					name: "Marie Pogz",
+					adress: "4 place pigalle",
+					phone: "0607080910",
+					mail: "m.pogz@yopmail.com"
+				},
+				{
+					id: 4,
+					name: "Obi Wan Kenobi",
+					adress: "Jedi Temple, Coruscant",
+					phone: "0123456789",
+					mail: "owkenobi@theforce.com"
+				},
+			];
+
+			$scope.headerTree = {
+				node: null,
+				children: [
+					{
+						node: {
+							filterable: true,
+							fixed: true,
+							label: "id",
+							width: 20,
+							getValue: function (someone) { return someone.id; },
+							getOrderByValue: function (someone) { return someone.id; },
+							colspan: null,
+							hidden: false,
+							rowspan: null,
+							textAlign: "right",
+						},
+						children: [],
+					},
+					{
+						node: {
+							filterable: true,
+							fixed: false,
+							label: "name",
+							width: 20,
+							getValue: function (someone) { return someone.name; },
+							getOrderByValue: function (someone) { return someone.name; },
+							colspan: null,
+							hidden: false,
+							rowspan: null,
+							textAlign: "left",
+						},
+						children: [],
+					},
+					{
+						node: {
+							filterable: true,
+							fixed: false,
+							label: "adress",
+							width: 20,
+							getValue: function (someone) { return someone.adress; },
+							getOrderByValue: function (someone) { return someone.adress; },
+							colspan: null,
+							hidden: false,
+							rowspan: null,
+							textAlign: "left",
+						},
+						children: [],
+					},
+					{
+						node: {
+							filterable: true,
+							fixed: false,
+							label: "contacts",
+							width: 20,
+							getValue: function (someone) { return; },
+							getOrderByValue: function (someone) { return; },
+							colspan: null,
+							hidden: false,
+							rowspan: null,
+							textAlign: "right",
+						},
+						children: [
+							{
+								node: {
+									filterable: true,
+									fixed: false,
+									label: "phone",
+									width: 20,
+									getValue: function (someone) { return someone.phone; },
+									getOrderByValue: function (someone) { return someone.phone; },
+									colspan: null,
+									hidden: false,
+									rowspan: null,
+									textAlign: "right",
+								},
+								children: [],
+							},
+							{
+								node: {
+									filterable: true,
+									fixed: false,
+									label: "mail",
+									width: 20,
+									getValue: function (someone) { return someone.mail; },
+									getOrderByValue: function (someone) { return someone.mail; },
+									colspan: null,
+									hidden: false,
+									rowspan: null,
+									textAlign: "center",
+								},
+								children: [],
+							},
+						],
+					},
+				]
+			};
+		}]);
 
 })();

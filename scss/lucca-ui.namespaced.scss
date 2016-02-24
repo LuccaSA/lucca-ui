@@ -212,6 +212,13 @@ $luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, ic
 	@import "core/elements/day-block";
 }
 
+& {
+	// Table Grid
+	// ===================================
+	$vars: luiTheme(element, tablegrid);
+	@import "core/elements/tablegrid";
+}
+
 
 // ===================================
 // ============= PLUGINS =============

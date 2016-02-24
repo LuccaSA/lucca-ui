@@ -335,3 +335,16 @@ $luiTheme: luiSetTheme(dependencie, luccaIcons, $luccaIcons);
 	@import "core/elements/day-block.overrides";
 	$luiTheme: luiSetTheme(element, dayblock, $myTheme);
 }
+
+// Table Grid
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/tablegrid.defaults";
+
+	// Theme overrides
+	@import "core/elements/tablegrid.overrides";
+	$luiTheme: luiSetTheme(element, tablegrid, $myTheme);
+}

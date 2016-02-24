@@ -1,0 +1,176 @@
+.tablegrid {
+	text-align: map-gets($vars, textAlignment);
+
+	[colspan] { text-align: center; }
+	[rowspan] { vertical-align: top; }
+
+
+	// Columns
+	// =====
+	.columns {
+		display: inline-block;
+		vertical-align: top;
+
+		table {
+			width: inherit;
+			height: 100%;
+			table-layout: fixed;
+			border-collapse: separate;
+			border-spacing: 0;
+		}
+	}
+
+
+	// Rows
+	// =====
+	tr[rows] {
+		td, th {
+			line-height: attr(data-rows);
+		}
+	}
+
+
+	// Cell
+	// =====
+	.cell {
+		padding: map-gets($vars, cell, padding);
+		box-sizing: border-box;
+
+		border: none;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-right-width: 1px;
+		border-right-style: solid;
+		border-color: luiPalette(light, color);
+
+		&.empty {
+			min-width: 0 !important;
+			width: 0;
+			padding-left: 0;
+			padding-right: 0;
+			border-right: none;
+			border-bottom-color: transparent !important;
+			text-indent: -1em;
+		}
+	}
+
+	.sortable {
+		cursor: pointer;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+
+		&.asc {
+			@include lui_make_icon("south arrow");
+		}
+		&.desc {
+			@include lui_make_icon("north arrow");
+		}
+		&:before {
+			float: right;
+			font-size: 0.6em;
+			padding: 0.5em;
+			line-height: 1;
+			@extend #{$prefix}.rounded;
+			color: map-gets($vars, header, background);
+			background-color: map-gets($vars, header, text);
+		}
+	}
+
+	// Header
+	// =====
+	> .header {
+		position: relative; z-index: 2;
+		margin-bottom: -1px;
+
+		overflow: hidden;
+		color: map-gets($vars, header, text);
+		a {
+			color: map-gets($vars, header, text);
+			&:hover { text-decoration: none; }
+		}
+
+		.columns {
+			overflow: hidden;
+			vertical-align: bottom;
+			border-top: 1px solid luiPalette(light, color);
+			background-color: map-gets($vars, header, background);
+		}
+
+		td {
+			vertical-align: bottom;
+			font-weight: map-gets($vars, header, fontWeight);
+			text-align: map-gets($vars, header, textAlignment);
+		}
+		.cell {
+			border-color: map-gets($vars, header, borderColor);
+		}
+		tr.filters .cell, .cell[colspan] {
+			vertical-align: middle;
+		}
+		tr:not(.filters) .cell:not([colspan]) {
+			padding-top: map-gets($vars, header, cellPaddingTop);
+		}
+	}
+
+
+	// Content
+	// =====
+	> .content {
+		overflow: hidden;
+
+		.columns {
+			background-color: map-gets($vars, background);
+		}
+
+		.columns:not(.locked) {
+			overflow: scroll;
+			> table {
+				width: 100%;
+			}
+			.cell {
+				border-left: none;
+				border-right: none;
+			}
+		}
+
+		.cell {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+
+	// Locked columns
+	// =====
+	.locked.columns {
+		overflow: hidden;
+		border-left: 1px solid luiPalette(light, color);
+
+		th, td {
+			&:not(.wide):not(.narrow) {
+				min-width: 10em;
+				max-width: 10em;
+			}
+		}
+	}
+
+	// Rows
+	// =====
+
+	// Zebra support
+	&.zebra {
+		> .content > .columns > table > tbody > tr:nth-child(2n) {
+			background-color: map-gets($vars, rows, zebraColor);
+		}
+	}
+
+	// Hover color
+	tr.hovering {
+		background-color: map-gets($vars, rows, hoverColor) !important;
+	}
+}

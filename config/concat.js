@@ -12,6 +12,7 @@ module.exports = function(grunt, options){
 				'js/directives/*.js',
 				'js/filters/*.js',
 				'.temp/lucca-ui-ts.js',
+				'.temp/templates.js',
 			],
 			// the location of the resulting JS file
 			dest: 'dist/lucca-ui.js'
@@ -23,6 +24,7 @@ module.exports = function(grunt, options){
 				'js/directives/lucca/*.js',
 				'js/filters/*.js',
 				'.temp/lucca-ui-ts.js',
+				'.temp/templates.js',
 			],
 			// the location of the resulting JS file
 			dest: 'dist/custom/lucca-ui-spe.js'
