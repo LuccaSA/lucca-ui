@@ -3,6 +3,7 @@
 ## 2.0.12 - in dev
 
 ### New features
+ - new directive : luid table grid
 
 ### Resolved issues
 
