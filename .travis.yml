@@ -16,4 +16,7 @@ before_script:
   - bower install
   - tsd install
 
-script: grunt travis
+script: 
+  - grunt dist
+  - grunt travis-karma
+  - grunt travis-protractor
