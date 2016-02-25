@@ -13,10 +13,13 @@
 
 		table {
 			width: inherit;
-			height: 100%;
 			table-layout: fixed;
 			border-collapse: separate;
 			border-spacing: 0;
+		}
+
+		&:not(.locked) table {
+			width: 100%;
 		}
 	}
 
@@ -136,9 +139,6 @@
 
 		.columns:not(.locked) {
 			overflow: scroll;
-			> table {
-				width: 100%;
-			}
 			.cell {
 				border-left: none;
 				border-right: none;
