@@ -159,7 +159,7 @@ module Lui.Directives {
 						resizeWidth();
 
 						cellsPerPage = Math.round(contentHeight / rowHeight);
-						numberOfCells = cellsPerPage + 10;
+						numberOfCells = cellsPerPage * 3;
 						scope.canvasHeight = {
 							height: scope.datas.length * rowHeight + "px",
 						};
