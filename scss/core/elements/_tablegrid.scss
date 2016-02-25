@@ -167,6 +167,14 @@
 		}
 	}
 
+	.scrollable .canvas {
+		position: relative;
+		> table {
+			position: absolute;
+			left: 0; right: 0;
+		}
+	}
+
 	// Rows
 	// =====
 
