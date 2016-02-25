@@ -43,7 +43,9 @@ module Lui.Directives {
 		public scope = { header: "=", height: "@", datas: "=" };
 		public restrict = "AE";
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
-		public link: ng.IDirectiveLinkFn = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
+		public link: ng.IDirectiveLinkFn = (scope: IDataGridScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
+
+			//virtual scroll from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
 
 				this.$timeout(() => {
 
@@ -56,12 +58,23 @@ module Lui.Directives {
 					let datagridContent = datagrid.querySelector(".content");
 					let lockedHeader: any = datagrid.querySelector(".header .locked.columns");
 					let lockedContent: any = datagrid.querySelector(".content .locked.columns");
+					let lockedCanvas: any = lockedContent.querySelector(".canvas");
 					let scrollableContent: any = datagrid.querySelector(".scrollable");
+					let scrollableCanvas: any = scrollableContent.querySelector(".canvas");
 
 					// global variables
+
+					let scrollTop = 0; //current scroll position
+					scope.visibleRows = []; //current elements in DOM
+					let cellsPerPage = 0; //number of cells fitting in one page
+					let numberOfCells = 0; //Number of virtualized cells (basicaly 10 + cellPerPage + 10 except if you're at top or bottom)
+					scope.canvasHeight = {}; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
+
 					let height = attrs.height ? attrs.height : defaultHeight;
+					let rowHeight = 31;
 					let scrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
 					scrollbarThickness = scrollbarThickness ? scrollbarThickness : 20;
+					let contentHeight = height - scrollbarThickness;
 
 					let resizeWidth = () => {
 						scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth + "px";
@@ -100,12 +113,32 @@ module Lui.Directives {
 						}
 					};
 
+					let updateVirtualScroll = function(): void {
+						let firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
+						let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
+						scope.visibleRows = scope.datas.slice(firstCell, firstCell + cellsToCreate);
+
+						for (let i = 0; i < scope.visibleRows.length; i++) {
+							scope.visibleRows[i].styles = {
+								"top": ((firstCell + i) * rowHeight) + "px",
+								"height": rowHeight + "px"
+							};
+						}
+					};
+
+					let vsOnScroll = (event: Event) => {
+						scrollTop = scrollableContent.scrollTop;
+						updateVirtualScroll();
+						scope.$apply();
+					};
+
 					window.addEventListener("resize", (): void => {
 						resizeWidth();
 					});
 
 					lockedContent.addEventListener("wheel", (event: Event): void => {
 						wheel(event);
+						vsOnScroll(event);
 					});
 
 					datagridHeader.addEventListener("wheel", (event: Event): void => {
@@ -115,12 +148,21 @@ module Lui.Directives {
 					scrollableContent.addEventListener("scroll", (event: Event) => {
 						scrollableHeader.scrollLeft = scrollableContent.scrollLeft;
 						lockedContent.scrollTop = scrollableContent.scrollTop;
+						vsOnScroll(event);
 					});
 
 					let init = () => {
 						resizeHeight();
 						resizeWidth();
 						resizeWidth();
+
+						cellsPerPage = Math.round(contentHeight / rowHeight);
+						numberOfCells = cellsPerPage + 10;
+						scope.canvasHeight = {
+							height: scope.datas.length * rowHeight + "px",
+						};
+
+						updateVirtualScroll();
 					};
 
 					init();
@@ -138,6 +180,8 @@ module Lui.Directives {
 
 	export interface IDataGridScope extends angular.IScope {
 		datas: any[];
+		visibleRows: any[];
+		canvasHeight: any;
 		leftFilters: {header: TableGrid.Header, value: string}[];
 		rightFilters: {header: TableGrid.Header, value: string}[];
 		fixedHeaderRows: TableGrid.Header[][];

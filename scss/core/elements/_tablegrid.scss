@@ -24,6 +24,7 @@
 	// Rows
 	// =====
 	tr[rows] {
+		height: 31px;
 		td, th {
 			line-height: attr(data-rows);
 		}
@@ -171,7 +172,7 @@
 
 	// Zebra support
 	&.zebra {
-		> .content > .columns > table > tbody > tr:nth-child(2n) {
+		> .content > .columns > div > table > tbody > tr:nth-child(2n) {
 			background-color: map-gets($vars, rows, zebraColor);
 		}
 	}
