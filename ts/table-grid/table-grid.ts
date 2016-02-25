@@ -58,9 +58,9 @@ module Lui.Directives {
 					let datagridContent = datagrid.querySelector(".content");
 					let lockedHeader: any = datagrid.querySelector(".header .locked.columns");
 					let lockedContent: any = datagrid.querySelector(".content .locked.columns");
-					let lockedCanvas: any = lockedContent.querySelector(".canvas");
+					let lockedTable: any = lockedContent.querySelector("table");
 					let scrollableContent: any = datagrid.querySelector(".scrollable");
-					let scrollableCanvas: any = scrollableContent.querySelector(".canvas");
+					let scrollableTable: any = scrollableContent.querySelector("table");
 
 					// global variables
 
@@ -118,12 +118,14 @@ module Lui.Directives {
 						let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
 						scope.visibleRows = scope.datas.slice(firstCell, firstCell + cellsToCreate);
 
-						for (let i = 0; i < scope.visibleRows.length; i++) {
-							scope.visibleRows[i].styles = {
-								"top": ((firstCell + i) * rowHeight) + "px",
-								"height": rowHeight + "px"
-							};
-						}
+						lockedTable.style.top = firstCell * rowHeight + "px";
+						scrollableTable.style.top = firstCell * rowHeight + "px";
+						// for (let i = 0; i < scope.visibleRows.length; i++) {
+						// 	scope.visibleRows[i].styles = {
+						// 		"top": ((firstCell + i) * rowHeight) + "px",
+						// 		"height": rowHeight + "px"
+						// 	};
+						// }
 					};
 
 					let vsOnScroll = (event: Event) => {
