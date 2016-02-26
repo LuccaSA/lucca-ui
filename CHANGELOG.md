@@ -10,8 +10,9 @@ The demo of this directive is [here](https://luccasa.github.io/lucca-ui/#/direct
 #### Features:
  - show datas as a table.
  - handles fixed colums and scrollable columns.
- - can take any form of data as a n input.
- - filtering and order by supported.
+ - can take any form of data as an input.
+ - filtering and sorting supported.
+ - virtualized scroll.
 
 #### Advanced features:
  - show custom html in cells.

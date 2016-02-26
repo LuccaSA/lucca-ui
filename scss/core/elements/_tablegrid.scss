@@ -13,10 +13,13 @@
 
 		table {
 			width: inherit;
-			height: 100%;
 			table-layout: fixed;
 			border-collapse: separate;
 			border-spacing: 0;
+		}
+
+		&:not(.locked) table {
+			width: 100%;
 		}
 	}
 
@@ -24,6 +27,7 @@
 	// Rows
 	// =====
 	tr[rows] {
+		height: 31px;
 		td, th {
 			line-height: attr(data-rows);
 		}
@@ -135,9 +139,6 @@
 
 		.columns:not(.locked) {
 			overflow: scroll;
-			> table {
-				width: 100%;
-			}
 			.cell {
 				border-left: none;
 				border-right: none;
@@ -166,12 +167,20 @@
 		}
 	}
 
+	.canvas {
+		position: relative;
+		> table {
+			position: absolute;
+			left: 0; right: 0;
+		}
+	}
+
 	// Rows
 	// =====
 
 	// Zebra support
 	&.zebra {
-		> .content > .columns > table > tbody > tr:nth-child(2n) {
+		> .content > .columns > div > table > tbody > tr:nth-child(2n) {
 			background-color: map-gets($vars, rows, zebraColor);
 		}
 	}
