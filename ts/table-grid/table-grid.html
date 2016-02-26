@@ -5,7 +5,7 @@
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
-						<col ng-repeat="header in fixedRowDefinition track by $index" style="width: {{header.width}}em"></col>
+						<col ng-repeat="header in fixedRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr
@@ -45,7 +45,7 @@
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
-						<col ng-repeat="header in scrollableRowDefinition track by $index" style="width: {{header.width}}em"></col>
+						<col ng-repeat="header in scrollableRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr
@@ -87,7 +87,7 @@
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
-						<col ng-repeat="header in fixedRowDefinition track by $index" style="width: {{header.width}}em"></col>
+						<col ng-repeat="header in fixedRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
@@ -108,7 +108,7 @@
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
-						<col ng-repeat="header in scrollableRowDefinition track by $index" style="width: {{header.width}}em"></col>
+						<col ng-repeat="header in scrollableRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 
 					<tbody>
