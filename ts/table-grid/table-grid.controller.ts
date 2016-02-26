@@ -87,7 +87,7 @@ module Lui.Directives {
 			};
 
 			let updateFilteredAndOrderedRows = () => {
-				let filteredAndOrderedRows = _.chain($scope.datas)
+				let temp = _.chain($scope.datas)
 					.filter((row: any) => {
 						let result = true;
 						let filters = $scope.leftFilters.concat($scope.rightFilters);
@@ -100,14 +100,13 @@ module Lui.Directives {
 							}
 						});
 						return result;
-					})
-					.sortBy((row: any) => {
-						if ($scope.selected && $scope.selected.orderBy) {
-							return $scope.selected.orderBy.getOrderByValue(row);
-						} else {
-							return $scope.datas.indexOf(row);
-						}
-					}).value();
+					});
+				if ($scope.selected && $scope.selected.orderBy) {
+					temp = temp.sortBy((row: any) => {
+						return $scope.selected.orderBy.getOrderByValue(row);
+					});
+				}
+				let filteredAndOrderedRows = temp.value();
 				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
 				$scope.updateVirtualScroll();
 			};
