@@ -70,18 +70,9 @@ module Lui.Directives {
 						scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
 					};
 
-					let updateVirtualScroll = function(): void {
-						let firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
-						let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
-						scope.visibleRows = scope.datas.slice(firstCell, firstCell + cellsToCreate);
-
-						lockedTable.style.top = firstCell * rowHeight + "px";
-						scrollableTable.style.top = firstCell * rowHeight + "px";
-					};
-
 					let vsOnScroll = (event: Event) => {
 						scrollTop = scrollableContent.scrollTop;
-						updateVirtualScroll();
+						scope.updateVirtualScroll();
 						scope.$apply();
 					};
 
@@ -111,8 +102,23 @@ module Lui.Directives {
 						}
 					};
 
+					scope.updateVirtualScroll = function(): void {
+
+						scope.canvasHeight = {
+							height: scope.filteredAndOrderedRows.length * rowHeight + "px",
+						};
+
+						let firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
+						let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
+						scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+
+						lockedTable.style.top = firstCell * rowHeight + "px";
+						scrollableTable.style.top = firstCell * rowHeight + "px";
+					};
+
 					let init = () => {
 
+						scope.filteredAndOrderedRows = scope.datas;
 						lockedCanvas.style.width = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, 0) + "em";
 
 						resizeHeight();
@@ -121,11 +127,7 @@ module Lui.Directives {
 
 						cellsPerPage = Math.round(contentHeight / rowHeight);
 						numberOfCells = cellsPerPage * 3;
-						scope.canvasHeight = {
-							height: scope.datas.length * rowHeight + "px",
-						};
-
-						updateVirtualScroll();
+						scope.updateVirtualScroll();
 					};
 
 					datagridHeader.addEventListener("wheel", (event: Event): void => {

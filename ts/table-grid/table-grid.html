@@ -90,7 +90,7 @@
 						<col ng-repeat="header in fixedRowDefinition track by $index" style="width: {{header.width}}em"></col>
 					</colgroup>
 					<tbody>
-						<tr role="row" ng-repeat="row in visibleRows | filter:customFilterBy | orderBy:customOrderBy:selected.reverse" ng-style="row.styles">
+						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
 							<td
 							class="cell"
@@ -112,7 +112,7 @@
 					</colgroup>
 
 					<tbody>
-						<tr role="row" ng-repeat="row in visibleRows | filter:customFilterBy | orderBy:customOrderBy:selected.reverse" ng-style="row.styles">
+						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
 							<td
 							class="cell"

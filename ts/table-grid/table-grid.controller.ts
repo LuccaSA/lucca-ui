@@ -86,28 +86,33 @@ module Lui.Directives {
 				$scope.rightFilters = [];
 			};
 
-			// orderBys and filterBys
-			$scope.customFilterBy = (row: any) => {
-				let result = true;
-				let filters = $scope.leftFilters.concat($scope.rightFilters);
-				filters.forEach((filter: { header: TableGrid.Header, value: string }) => {
-					if (filter.header && filter.value && filter.value !== "") {
-						let prop = (filter.header.getValue(row) + "").toLowerCase();
-						if (prop.indexOf(filter.value.toLowerCase()) === -1) {
-							result = false;
+			let updateFilteredAndOrderedRows = () => {
+				let filteredAndOrderedRows = _.chain($scope.datas)
+					.filter((row: any) => {
+						let result = true;
+						let filters = $scope.leftFilters.concat($scope.rightFilters);
+						filters.forEach((filter: { header: TableGrid.Header, value: string }) => {
+							if (filter.header && filter.value && filter.value !== "") {
+								let prop = (filter.header.getValue(row) + "").toLowerCase();
+								if (prop.indexOf(filter.value.toLowerCase()) === -1) {
+									result = false;
+								}
+							}
+						});
+						return result;
+					})
+					.sortBy((row: any) => {
+						if ($scope.selected && $scope.selected.orderBy) {
+							return $scope.selected.orderBy.getOrderByValue(row);
+						} else {
+							return $scope.datas.indexOf(row);
 						}
-					}
-				});
-				return result;
+					}).value();
+				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
+				$scope.updateVirtualScroll();
 			};
 
-			$scope.customOrderBy = (row: any) => {
-				if ($scope.selected && $scope.selected.orderBy) {
-					return $scope.selected.orderBy.getOrderByValue(row);
-				} else {
-					return $scope.datas.indexOf(row).toString();
-				}
-			};
+			// orderBys and filterBys
 
 			$scope.updateFilterBy = (header: TableGrid.Header, index: number) => {
 				let value = header.fixed ? $scope.leftFilters[index].value : $scope.rightFilters[index].value;
@@ -117,6 +122,8 @@ module Lui.Directives {
 					header.fixed ? $scope.leftFilters[index] = { header: null, value: "" } : $scope.rightFilters[index] = { header: null, value: "" };
 				}
 				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
+
+				updateFilteredAndOrderedRows();
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {
@@ -133,6 +140,8 @@ module Lui.Directives {
 						$scope.selected.reverse = false;
 					}
 				}
+
+				updateFilteredAndOrderedRows();
 			};
 
 			// playing init
