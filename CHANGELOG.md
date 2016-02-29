@@ -1,6 +1,15 @@
 # Change log
 
-## 2.0.12 - in dev
+## 2.0.13 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.12)
+
+### HOTFIX
+ - some major hotsif inluifFriendlyRange when moment.locale() was different to the supported locales
 
 ### New features
 
