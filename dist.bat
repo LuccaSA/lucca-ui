@@ -1,9 +1,9 @@
 echo node package manager
-call npm install
+call npm install --production --progress=false
 echo bower
-call bower install
-echo compiling sass
-call grunt sass
+call bower install --production
+echo tsd
+call tsd install
 echo compiling all
 call grunt dist
 echo Lucca-ui ready to use
