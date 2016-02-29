@@ -85,7 +85,6 @@
 	}
 
 	> .header, > .content {
-		@include display-flex();
 		.columns:not(.locked) > table {
 			width: 100%;
 		}
