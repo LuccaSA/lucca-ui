@@ -16,6 +16,3 @@ before_script:
   - tsd install
 
 script: 
-  - grunt dist
-  - grunt travis-karma
-  - grunt travis-protractor
