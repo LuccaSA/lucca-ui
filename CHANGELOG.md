@@ -3,6 +3,7 @@
 ## 2.0.13 - in dev
 
 ### New features
+ - luidTableGrid : tittle attribute - shows full value on hoover, usefull for long strings
 
 ### Resolved issues
 
