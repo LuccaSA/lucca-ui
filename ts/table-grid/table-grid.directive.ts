@@ -39,10 +39,15 @@ module Lui.Directives {
 					let lockedContent: any = datagrid.querySelector(".content .locked.columns"); // left part of the rows
 					let lockedCanvas: any = lockedContent.querySelector(".canvas"); // left virtual container
 					let lockedHeader: any = datagrid.querySelector(".header .locked.columns"); // left part of the header
+					let lockedMiddle: any = lockedHeader.querySelector(".middle");
 					let lockedTable: any = lockedContent.querySelector("table"); // left table of the rows
 					let scrollableContent: any = datagrid.querySelector(".scrollable"); // right part of the rows
 					let scrollableHeader: any = datagridHeader.querySelector(".columns:not(.locked)"); // right part of header
 					let scrollableTable: any = scrollableContent.querySelector("table"); // right part of the rows
+
+					let lockedWidth = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, 0) + "em";
+					lockedCanvas.style.width = lockedWidth;
+					lockedMiddle.style.width = lockedWidth;
 
 					// private variables
 					let cellsPerPage = 0; //number of cells fitting in one page
@@ -117,9 +122,7 @@ module Lui.Directives {
 					};
 
 					let init = () => {
-
 						scope.filteredAndOrderedRows = scope.datas;
-						lockedCanvas.style.width = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, 0) + "em";
 
 						resizeHeight();
 						resizeWidth();
