@@ -143,6 +143,13 @@ module Lui.Directives {
 				updateFilteredAndOrderedRows();
 			};
 
+			// strip html for display in title attribute
+			$scope.stripHtml = (html) => {
+				let tmp = document.createElement("DIV");
+				tmp.innerHTML = html;
+				return tmp.textContent || tmp.innerText || "";
+			};
+
 			// playing init
 			init();
 		}

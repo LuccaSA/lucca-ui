@@ -42,6 +42,19 @@ $cleanNamespace: "global";
 @import "core/utilities/mixins/points-towards";
 
 
+// Lucca icons
+// ===================================
+
+$luccaIcons_icon-base-selector: map-gets($luiTheme, dependencies, luccaIcons, iconBaseSelector);
+
+@import "bower_components/lucca-icons/src/lucca-icons";
+
+.lui.icon { @include lui_supports_sizing(); };
+
+// We define a mixin alias here for better support
+@mixin lui_make_icon($name, $position: left) {
+	@include luccaIcons_make($name, $position);
+}
 
 // ===================================
 // =========== ADJECTIVES ============
@@ -99,19 +112,6 @@ $cleanNamespace: "global";
 // ===================================
 // ============ ELEMENTS =============
 // ===================================
-
-// Lucca icons
-// ===================================
-
-// Vars
-$luccaIcons_icon-base-selector: luiTheme(element, icons, iconBaseSelector);
-$luccaIcons_font-create-classes: luiTheme(element, icons, createClasses);
-// Import
-@import "bower_components/lucca-icons/src/lucca-icons";
-// Sizing support
-#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
-// We define a mixin alias here for better support
-@mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
 @at-root {
 	// Grid
