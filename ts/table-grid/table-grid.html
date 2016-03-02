@@ -97,6 +97,7 @@
 							role="cell"
 							ng-repeat="cell in fixedRowDefinition track by $index"
 							ng-bind-html="cell.getValue(row)"
+							title="{{stripHtml(cell.getValue(row))}}"
 							ng-class="{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
 						</tr>
 					</tbody>
@@ -119,6 +120,7 @@
 							role="cell"
 							ng-repeat="cell in scrollableRowDefinition track by $index"
 							ng-bind-html="cell.getValue(row)"
+							title="{{stripHtml(cell.getValue(row))}}"
 							ng-class="{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
 						</tr>
 					</tbody>

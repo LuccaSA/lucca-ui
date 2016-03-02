@@ -115,7 +115,7 @@
 				$scope.people[1 + 5 * index] = {
 					id: 1 + 5 * index,
 					name: "hubert robert",
-					adress: "14 rue du gouffre",
+					adress: "cette adresse est vraiment très très très très très très longue !",
 					phone: "0607080910",
 					mail: "hrobert@yahoo.fr"
 				};
@@ -166,7 +166,7 @@
 							fixed: false,
 							label: "name",
 							width: 20,
-							getValue: function (someone) { return someone.name; },
+							getValue: function (someone) { return "<span>" + someone.name + "</span>"; },
 							getOrderByValue: function (someone) { return someone.name; },
 							colspan: null,
 							hidden: false,
