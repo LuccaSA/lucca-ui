@@ -18,6 +18,7 @@ module Lui.Directives {
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
 
+		stripHtml(html: string): string;
 		updateFilterBy(header: TableGrid.Header, index: number): void;
 		updateOrderBy(header: TableGrid.Header): void;
 		updateVirtualScroll(): void;
