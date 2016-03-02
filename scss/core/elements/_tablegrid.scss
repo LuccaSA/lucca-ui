@@ -1,16 +1,12 @@
 .tablegrid {
 	text-align: map-gets($vars, textAlignment);
-
-	[colspan] { text-align: center; }
 	[rowspan] { vertical-align: top; }
 
 
 	// Columns
 	// =====
 	.columns {
-		display: inline-block;
-		vertical-align: top;
-
+		float: left;
 		table {
 			width: inherit;
 			table-layout: fixed;
@@ -26,12 +22,6 @@
 
 	// Rows
 	// =====
-	tr[rows] {
-		height: 31px;
-		td, th {
-			line-height: attr(data-rows);
-		}
-	}
 
 
 	// Cell
@@ -78,15 +68,9 @@
 			font-size: 0.6em;
 			padding: 0.5em;
 			line-height: 1;
-			@extend #{$prefix}.rounded;
+			border-radius: luiTheme(adjective, rounded, radius);
 			color: map-gets($vars, header, background);
 			background-color: map-gets($vars, header, text);
-		}
-	}
-
-	> .header, > .content {
-		.columns:not(.locked) > table {
-			width: 100%;
 		}
 	}
 
@@ -98,9 +82,13 @@
 
 		overflow: hidden;
 		color: map-gets($vars, header, text);
+
+		font-weight: map-gets($vars, header, fontWeight);
+		text-align: map-gets($vars, header, textAlignment);
+
 		a {
 			color: map-gets($vars, header, text);
-			&:hover { text-decoration: none; }
+			text-decoration: none;
 		}
 
 		.columns {
@@ -110,16 +98,9 @@
 			background-color: map-gets($vars, header, background);
 		}
 
-		td {
-			vertical-align: bottom;
-			font-weight: map-gets($vars, header, fontWeight);
-			text-align: map-gets($vars, header, textAlignment);
-		}
 		.cell {
+			vertical-align: bottom;
 			border-color: map-gets($vars, header, borderColor);
-		}
-		tr.filters .cell, .cell[colspan] {
-			vertical-align: middle;
 		}
 		tr:not(.filters) .cell:not([colspan]) {
 			padding-top: map-gets($vars, header, cellPaddingTop);
@@ -131,20 +112,15 @@
 	// =====
 	> .content {
 		overflow: hidden;
-
-		.columns {
-			background-color: map-gets($vars, background);
-		}
+		background-color: map-gets($vars, background);
 
 		.columns:not(.locked) {
 			overflow: scroll;
-			.cell {
-				border-left: none;
-				border-right: none;
-			}
 		}
 
 		.cell {
+			border-left: none;
+			border-right: none;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -157,13 +133,6 @@
 	.locked.columns {
 		overflow: hidden;
 		border-left: 1px solid luiPalette(light, color);
-
-		th, td {
-			&:not(.wide):not(.narrow) {
-				min-width: 10em;
-				max-width: 10em;
-			}
-		}
 	}
 
 	.canvas {

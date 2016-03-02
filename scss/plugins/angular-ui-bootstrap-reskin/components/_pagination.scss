@@ -23,17 +23,13 @@
 		li {
 			display: inline-block;
 
-			a { background-color: map-gets($pluginVars, pagination, background); }
+			a { @extend %lui_basic_button; background-color: map-gets($pluginVars, pagination, background); color: luiTheme(element, typography, body, color); }
 
 			// Page numbers
 			// ====
 			&.pagination-page a {
-				@extend %lui_button_sizing;
-				@extend a#{$prefix}.button;
-				@extend #{$prefix}.rounded;
-
+				box-shadow: none;
 				transition: background-color luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
-
 				text-align: center;
 				font-weight: 600;
 			}
@@ -46,10 +42,7 @@
 
 			// Prev / next buttons
 			// ====
-			&.pagination-prev a,
-			&.pagination-next a,
-			&.pagination-first a,
-			&.pagination-last a { @extend #{$prefix}.button; }
+			&:not(.pagination-page) a { @extend %lui_basic_button; }
 		}
 
 
@@ -85,17 +78,15 @@
 		// Bordered style
 		// ====
 		&.bordered {
-			a { margin: 0 !important; }
+			a { margin: 0 !important; border-radius: 0 !important; }
 			li.pagination-page a {
 				box-shadow: 0 0 0 luiTheme(element, button, defaultBorderWidth) luiTheme(element, button, defaultBorderColor) inset;
 			}
 			li + li {
 				margin-left: -1px;
-				a {
-					border-top-left-radius: 0; border-bottom-left-radius: 0;
-				}
 			}
-			li:first-child a { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+			li:first-child a { border-top-left-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjective, rounded, radius) !important; }
+			li:last-child a { border-top-right-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjective, rounded, radius) !important; }
 		}
 
 		@include lui_nguibs_pagination_coloring(map-gets($pluginVars, pagination, defaultColoring));
