@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.13 - in dev
+## 2.0.14 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.13)
 
 ### New features
 - luidTableGrid : tittle attribute - shows full value on hoover, usefull for long strings
