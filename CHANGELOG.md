@@ -3,6 +3,7 @@
 ## 2.0.13 - in dev
 
 ### New features
+- Icons [REF] Implements templating for lucca-icons dependency + adds support for the "createClasses" option in theme
 
 ### Resolved issues
 
