@@ -17,4 +17,6 @@ before_script:
 
 script: 
   - grunt dist
+  - grunt travis-karma
+  - grunt travis-protractor
 
