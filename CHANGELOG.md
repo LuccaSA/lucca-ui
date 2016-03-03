@@ -3,10 +3,10 @@
 ## 2.0.14 - in dev
 
 ### New features
-- Tooltips & Popovers: now supports "top-left", "top-right", "left-top", etc...
+- [issue #143](https://github.com/LuccaSA/lucca-ui/issues/143) Tooltips & Popovers: now supports "top-left", "top-right", "left-top", etc...
 
 ### Resolved issues
-- [issue #149](https://github.com/LuccaSA/lucca-ui/issues/149)Dropdown [FIX] Adds support for `.direction-up` dropdowns
+- [issue #149](https://github.com/LuccaSA/lucca-ui/issues/149) Dropdown [FIX] Adds support for `.direction-up` dropdowns
 
 ## 2.0.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.13)
 
