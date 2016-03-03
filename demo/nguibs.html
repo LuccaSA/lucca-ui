@@ -129,9 +129,9 @@
 		<article id="popover" ng-controller="popoverCtrl">
 			<h2 class="lui divider below">Popover</h2>
 			<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-			<button uib-popover="some important text about stuff" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
-			<button uib-popover="Primary tooltip" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
-			<button uib-popover-html="popoverHtml" popover-class="lui" class="lui button">with some html</button>
+			<button uib-popover="some important text about stuff" popover-placement="top-left" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
+			<button uib-popover="Primary tooltip" popover-placement="right-top" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
+			<button uib-popover-html="popoverHtml" popover-placement="right-bottom" popover-class="lui" class="lui button">with some html</button>
 			<button uib-popover-template="'myPopoverTemplate.html'" popover-class="lui" class="lui button">with a template</button>
 
 			<script type="text/ng-template" id="myPopoverTemplate.html">
@@ -201,7 +201,7 @@
 				If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
 			</p>
 			<p>
-				You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>): 
+				You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>):
 				<span class="lui buttons">
 					<button class="lui button" ng-model="size" uib-btn-radio="'mobile'">mobile</button>
 					<button class="lui button" ng-model="size" uib-btn-radio="'tablet'">tablet</button>
@@ -212,7 +212,7 @@
 				providing no size will make the modal take 90% of the width
 			</p>
 			<p>
-				Or you can use the sizes supported by angular-ui-bootstrap: 
+				Or you can use the sizes supported by angular-ui-bootstrap:
 				<span class="lui buttons">
 					<button class="lui button" ng-model="size" uib-btn-radio="'sm'">sm</button>
 					<button class="lui button" ng-model="size" uib-btn-radio="'md'">md</button>

@@ -85,11 +85,17 @@
 			&.ui-select-multiple > div { z-index: 100; }
 
 			> .ui-select-search,
-			&.ui-select-multiple > div {
+			&.ui-select-multiple:not(.direction-up) > div {
 				border-color:  map-gets($inputVars, focusBorderColor);
 				border-bottom-color: transparent !important;
 				border-bottom-left-radius: 0;
 				border-bottom-right-radius: 0;
+			}
+			&.ui-select-multiple.direction-up > div {
+				z-index: 1001;
+				border-color:  map-gets($inputVars, focusBorderColor);
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
 			}
 		}
 
