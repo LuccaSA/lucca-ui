@@ -63,6 +63,7 @@
 			}
 		}
 
+
 		// Dividers
 		.dividing {
 			position: relative;
@@ -82,13 +83,44 @@
 
 		&.open .dropdown-menu {
 			visibility: visible;
-			@include lui_is_animated("up slide in");
+
+			@if (map-gets($pluginVars, dropdown, isAnimated)) {
+				@include lui_is_animated("up slide in");
+				@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
+					animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+				}
+			}
+
 			@include lui_target_IE9 {
 				display: block;
 				opacity: 1;
 				height: auto;
 			}
 		}
+
+		// Direction up support
+		// ============================================================
+		&.direction-up {
+			.dropdown-menu {
+				border-top: 1px solid map-get($inputVars, borderColor);
+				border-bottom: none;
+				margin-top: 2px;
+
+				> .ui-select-choices-row:first-child a, > a:first-child { border-top: none; }
+			}
+			@if (map-gets($pluginVars, dropdown, isAnimated)) {
+				&.open {
+					.dropdown-menu {
+						@include lui_is_animated("down slide in");
+
+						@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
+							animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+						}
+					}
+				}
+			}
+		}
+
 
 		// Coloring support
 		// ============================================================
@@ -107,9 +139,6 @@
 		@extend %lui_nguibs_dropdown;
 
 		&:not(.buttons) > #{$prefix}.button { margin: 0; }
-
-		.dropdown-menu {
-		}
 
 		&.open #{$prefix}.button { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
