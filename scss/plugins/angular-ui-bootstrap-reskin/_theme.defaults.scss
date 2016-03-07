@@ -78,7 +78,7 @@ $pluginVars: map-extend($pluginVars, (modal: $modal));
 // =============================================
 
 $tooltip: (
-	zIndex: 					2000,
+	zIndex: 					1000,
 	verticalPadding: 			0.25em,
 	horizontalPadding: 			0.5em,
 	borderRadius: 				3px,
