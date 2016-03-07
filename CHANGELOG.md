@@ -11,6 +11,7 @@
 ### Resolved issues
 - [issue #143](https://github.com/LuccaSA/lucca-ui/issues/143) Tooltips & Popovers: now supports "top-left", "top-right", "left-top", etc...
 - [issue #149](https://github.com/LuccaSA/lucca-ui/issues/149) Dropdown [FIX] Adds support for `.direction-up` dropdowns
+- Popover now has a lower z-index than modals
 
 ## 2.0.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.13)
 
