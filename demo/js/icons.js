@@ -11,7 +11,7 @@
 		];
 
 		$scope.contextInsensIcons = [
-			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "branch", "analytics"],
+			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "sliders", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "branch", "analytics"],
 			["edit", "edit frame", "edit mini", "download", "upload", "outside", "send", "search", "trash", "refresh", "printer"],
 			["user", "add user", "remove user", "to user"],
 			["bookmark", "add bookmark", "remove bookmark"],
