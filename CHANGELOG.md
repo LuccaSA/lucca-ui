@@ -4,6 +4,10 @@
 
 ### New features
 - Tooltips & Popovers: now supports "top-left", "top-right", "left-top", etc...
+- Menu: Removes relative positioning that messes up some Angular directives
+- Dropdowns no longer have absolute width
+- Fancy links now have middle vertical positioning
+- Updated to Lucca-icons 1.1.5 (`sliders` icon added)
 
 ### Resolved issues
 - [issue #149](https://github.com/LuccaSA/lucca-ui/issues/149)Dropdown [FIX] Adds support for `.direction-up` dropdowns
