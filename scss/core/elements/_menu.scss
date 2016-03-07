@@ -37,7 +37,7 @@
 	// Base menu styling
 	// ====
 	#{$prefix}.menu {
-		position: relative;
+		// position: relative;
 		@include display-flex();
 		@include flex-wrap(wrap);
 
