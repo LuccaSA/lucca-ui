@@ -29,7 +29,7 @@
     "angular": "~1.4.5",
     "moment": "~2.10.6",
     "angular-bootstrap": "1.1.x",
-    "lucca-icons": "~1.1.4",
+    "lucca-icons": "~1.1.5",
     "underscore": "~1.8.3",
     "ui-select": "angular-ui-select#~0.13.2",
     "angular-sanitize": "~1.4.5",
