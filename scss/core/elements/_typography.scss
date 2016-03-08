@@ -155,7 +155,7 @@
 		&, &:hover, &:active, &:visited { text-decoration: none; }
 
 		display: inline-block;
-		vertical-align: middle;
+		vertical-align: baseline;
 		position: relative;
 		&:after {
 			display: block;
