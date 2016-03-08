@@ -5,7 +5,7 @@
 ### New features
 - Menu: Removes relative positioning that messes up some Angular directives
 - Dropdowns no longer have absolute width
-- Fancy links now have middle vertical positioning
+- Fancy links now have baseline vertical positioning
 - Updated to Lucca-icons 1.1.5 (`sliders` icon added)
 
 ### Resolved issues
