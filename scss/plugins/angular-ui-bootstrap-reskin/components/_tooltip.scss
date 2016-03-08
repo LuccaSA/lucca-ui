@@ -49,7 +49,7 @@
 			&.left > [class*="arrow"],
 			&.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
 
-			&.left { margin-left: -(2 * $triangle); }
+			&.left { margin-right: (2 * $triangle); }
 			&.left > [class*="arrow"] {  @include lui_points_towards(right, #CCC, $triangle); left: 100%!important; right: auto!important; }
 
 			&.right { margin-left: (2 * $triangle); }
@@ -58,11 +58,11 @@
 			&.top > [class*="arrow"],
 			&.bottom > [class*="arrow"] { left: 50%; transform: translateX(-50%); }
 
-			&.top { margin-top: -(2 * $triangle); }
+			&.top { margin-bottom: (2 * $triangle); }
 			&.top > [class*="arrow"] {  @include lui_points_towards(bottom, #CCC, $triangle); bottom: auto!important; top: 100%!important; }
 
-			&.bottom { margin-bottom: -(2 * $triangle); @include lui_points_towards(bottom, #CCC, $triangle); }
-			&.bottom > [class*="arrow"] {  @include lui_points_towards(top, #CCC, $triangle); bottom: 100%; }
+			&.bottom { margin-top: (2 * $triangle); }
+			&.bottom > [class*="arrow"] {  @include lui_points_towards(top, #CCC, $triangle); top: auto!important; bottom: 100%!important; }
 		}
 
 		// Extras!
