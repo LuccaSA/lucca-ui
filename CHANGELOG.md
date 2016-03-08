@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.14 - in dev
+## 2.0.15 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
 
 ### New features
 - Menu: Removes relative positioning that messes up some Angular directives
