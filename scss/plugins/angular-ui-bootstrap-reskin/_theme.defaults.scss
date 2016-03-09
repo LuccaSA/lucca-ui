@@ -28,7 +28,7 @@ $pluginVars: map-extend($pluginVars, (datepicker: $datepicker));
 
 $dropdown: (
 	isAnimated: 				true,
-	animationDuration: 			0.25s,
+	animationDuration: 			100ms,
 
 	minWidth: 					100%,
 	maxHeight: 					15em,
