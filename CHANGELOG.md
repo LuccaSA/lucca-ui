@@ -5,6 +5,7 @@
 ### New features
 
 ### Resolved issues
+- General consensus was default animation durations were too long.
 
 ## 2.0.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
 
