@@ -408,6 +408,7 @@
 	// Tabbed style
 	// ====
 	#{$prefix}.menu.tabbed {
+		position: relative;
 		background: map-gets($vars, tabbed, background);
 		padding: map-gets($vars, tabbed, padding);
 		border: 1px solid map-gets($vars, tabbed, borderColor);
