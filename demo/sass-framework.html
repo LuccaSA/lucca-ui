@@ -295,7 +295,7 @@
 			</span>
 		</article>
 
-		<article id="lui-input">
+		<article id="lui-input" ng-controller="inputCtrl">
 			<h2 class="lui divider below">Inputs</h2>
 
 			<div class="lui input icon">
@@ -433,6 +433,67 @@
 					<label></label>
 				</div><input type="text" placeholder="Surname" class="lui input">
 			</div> -->
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Fancy radio</h4>
+			</div>
+			<p>@Clot: J'ai fait toute cette section pour toi</p>
+			<p>quand je les mets les uns apres les autres en mode <code>lui inline field</code> ça ressemble pas à quelque chose trop ignoble</p>
+			<div class="lui inline field">
+				<div class="lui radio">
+					<input type="radio" name="radio11" value="choice1" ng-model="radioModel1"/>
+					<label for="radio11">choice 1</label>
+				</div>
+			</div>
+			<div class="lui inline field">
+				<div class="lui radio">
+					<input type="radio" name="radio12" ng-value="radioValue2" ng-model="radioModel1"/>
+					<label for="radio12">choice 2</label>
+				</div>
+			</div>
+			<p>quand je les mets les uns apres les autres en mode <code>lui fitting field</code> ça passe a la ligne a chaque fois</p>
+			<div class="lui fitting field">
+				<div class="lui radio">
+					<input type="radio" name="radio21" value="choice1" ng-model="radioModel2"/>
+					<label for="radio21">choice 1</label>
+				</div>
+			</div>
+			<div class="lui fitting field">
+				<div class="lui radio">
+					<input type="radio" name="radio22" ng-value="radioValue2" ng-model="radioModel2"/>
+					<label for="radio22">choice 2</label>
+				</div>
+			</div>
+			<p>ça marche aussi si je mets tout ca dans un <code>lui inline fields</code></p>
+			<div class="lui inline fields">
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" name="radio31" value="choice1" ng-model="radioModel3"/>
+						<label for="radio31">choice 1</label>
+					</div>
+				</div>
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" name="radio32" ng-value="radioValue2" ng-model="radioModel3"/>
+						<label for="radio32">choice 2</label>
+					</div>
+				</div>
+			</div>
+			<p>ça marche aussi si je mets tout ca dans un <code>lui fitting fields</code> (ca doit passer a la ligne pour chaque input, y'a peut etre un bug de la part de paugam pour ca)</p>
+			<div class="lui fitting fields">
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" name="radio41" value="choice1" ng-model="radioModel4"/>
+						<label for="radio41">choice 1</label>
+					</div>
+				</div>
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" name="radio42" ng-value="radioValue2" ng-model="radioModel4"/>
+						<label for="radio42">choice 2</label>
+					</div>
+				</div>
+			</div>
 
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Switch</h4>
