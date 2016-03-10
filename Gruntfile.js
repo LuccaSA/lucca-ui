@@ -26,12 +26,13 @@ module.exports = function(grunt) {
 	var configs = require('load-grunt-configs')(grunt);
 	grunt.initConfig(configs);
 
-	// use this tasks when you are developping
-	grunt.registerTask('debug', ["dist", "ts:test", 'concurrent:debug']);
-	// // use this one when you're coding e2e tests
-	grunt.registerTask('e2e', ["dist", "ts:e2e", "connect", "protractor:singlerun", 'concurrent:e2e']);
 	// this task updates all distributions - launch it once before each release
 	grunt.registerTask('dist', ["ts:dist", "ngtemplates:dist", 'concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'sass:dist']);
+
+	// use this tasks when you are developping
+	grunt.registerTask('debug', ["dist", "ts:test", "connect:server", 'concurrent:debug']);
+	// // use this one when you're coding e2e tests
+	grunt.registerTask('e2e', ["dist", "ts:e2e", "connect", "protractor:singlerun", 'concurrent:e2e']);
 	// this updates the dists and tests it, creates karma coverage
 	grunt.registerTask('test', ['dist', "ts:test", 'karma:debug', 'karma:coverage', 'protractor:singlerun', 'jshint']);
 
