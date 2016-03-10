@@ -17,11 +17,14 @@ module Lui.Directives {
 		scrollableRowDefinition: TableGrid.Header[];
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
+		hasCheckbox: boolean;
+		allChecked: any;
 
 		stripHtml(html: string): string;
 		updateFilterBy(header: TableGrid.Header, index: number): void;
 		updateOrderBy(header: TableGrid.Header): void;
 		updateVirtualScroll(): void;
+		updateCheckboxes(): void;
 	}
 
 }

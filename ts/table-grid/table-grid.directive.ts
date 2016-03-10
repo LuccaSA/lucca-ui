@@ -14,7 +14,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=" };
+		public scope = { header: "=", height: "@", datas: "=", hasCheckbox: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -45,7 +45,8 @@ module Lui.Directives {
 					let scrollableHeader: any = datagridHeader.querySelector(".columns:not(.locked)"); // right part of header
 					let scrollableTable: any = scrollableContent.querySelector("table"); // right part of the rows
 
-					let lockedWidth = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, 0) + "em";
+					let indexIteration = scope.hasCheckbox ? 3 : 0;
+					let lockedWidth = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, indexIteration) + "em";
 					lockedCanvas.style.width = lockedWidth;
 					lockedMiddle.style.width = lockedWidth;
 

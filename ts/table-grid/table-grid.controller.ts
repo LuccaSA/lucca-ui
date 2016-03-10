@@ -64,6 +64,7 @@ module Lui.Directives {
 				$scope.fixedRowDefinition = [];
 				$scope.scrollableHeaderRows = [];
 				$scope.scrollableRowDefinition = [];
+				$scope.allChecked = {value: false};
 
 				maxDepth = getTreeDepth($scope.header);
 
@@ -148,6 +149,10 @@ module Lui.Directives {
 				let tmp = document.createElement("DIV");
 				tmp.innerHTML = html;
 				return tmp.textContent || tmp.innerText || "";
+			};
+
+			$scope.updateCheckboxes = () => {
+				_.each($scope.datas, (data: any) => { data.isChecked = $scope.allChecked.value; });
 			};
 
 			// playing init
