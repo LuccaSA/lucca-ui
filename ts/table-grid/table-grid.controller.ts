@@ -151,8 +151,20 @@ module Lui.Directives {
 				return tmp.textContent || tmp.innerText || "";
 			};
 
-			$scope.updateCheckboxes = () => {
-				_.each($scope.datas, (data: any) => { data.isChecked = $scope.allChecked.value; });
+			$scope.onMasterCheckBoxChange = () => {
+				if (_.some($scope.datas, (data: any) => { return !data.isChecked; })) {
+					_.each($scope.datas, (data: any) => { data.isChecked = true; });
+				} else {
+					_.each($scope.datas, (data: any) => { data.isChecked = false; });
+				}
+			};
+
+			$scope.onCheckBoxChange = () => {
+				if (_.some($scope.datas, (data: any) => { return !data.isChecked; })) {
+					$scope.allChecked.value = false;
+				} else {
+					$scope.allChecked.value = true;
+				}
 			};
 
 			// playing init
