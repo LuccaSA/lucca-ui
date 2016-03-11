@@ -3,6 +3,7 @@
 ## 2.0.15 - in dev
 
 ### New features
+- luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
 
 ### Resolved issues
 - General consensus was default animation durations were too long.
