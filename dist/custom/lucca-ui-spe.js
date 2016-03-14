@@ -2472,6 +2472,13 @@ var Lui;
 (function (Lui) {
     var Directives;
     (function (Directives) {
+        "use strict";
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
         var TableGrid;
         (function (TableGrid) {
             "use strict";
@@ -2552,6 +2559,7 @@ var Lui;
                     $scope.fixedRowDefinition = [];
                     $scope.scrollableHeaderRows = [];
                     $scope.scrollableRowDefinition = [];
+                    $scope.allChecked = { value: false };
                     maxDepth = getTreeDepth($scope.header);
                     browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
                     var diff = $scope.fixedHeaderRows.length - $scope.scrollableHeaderRows.length;
@@ -2630,6 +2638,22 @@ var Lui;
                     tmp.innerHTML = html;
                     return tmp.textContent || tmp.innerText || "";
                 };
+                $scope.onMasterCheckBoxChange = function () {
+                    if (_.some($scope.datas, function (data) { return !data.isChecked; })) {
+                        _.each($scope.datas, function (data) { data.isChecked = true; });
+                    }
+                    else {
+                        _.each($scope.datas, function (data) { data.isChecked = false; });
+                    }
+                };
+                $scope.onCheckBoxChange = function () {
+                    if (_.some($scope.datas, function (data) { return !data.isChecked; })) {
+                        $scope.allChecked.value = false;
+                    }
+                    else {
+                        $scope.allChecked.value = true;
+                    }
+                };
                 init();
             }
             LuidTableGridController.IID = "luidTableGridController";
@@ -2651,7 +2675,7 @@ var Lui;
                 var _this = this;
                 this.controller = "luidTableGridController";
                 this.restrict = "AE";
-                this.scope = { header: "=", height: "@", datas: "=" };
+                this.scope = { header: "=", height: "@", datas: "=", selectable: "@" };
                 this.templateUrl = "lui/templates/table-grid/table-grid.html";
                 this.link = function (scope, element, attrs) {
                     _this.$timeout(function () {
@@ -2666,7 +2690,7 @@ var Lui;
                         var scrollableContent = datagrid.querySelector(".scrollable");
                         var scrollableHeader = datagridHeader.querySelector(".columns:not(.locked)");
                         var scrollableTable = scrollableContent.querySelector("table");
-                        var lockedWidth = _.reduce(scope.fixedRowDefinition, function (memo, num) { return memo + num.width; }, 0) + "em";
+                        var lockedWidth = _.reduce(scope.fixedRowDefinition, function (memo, num) { return memo + num.width; }, scope.selectable ? 3 : 0) + "em";
                         lockedCanvas.style.width = lockedWidth;
                         lockedMiddle.style.width = lockedWidth;
                         var cellsPerPage = 0;
@@ -2781,7 +2805,7 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/table-grid/table-grid.html',
-    "<div class=\"lui tablegrid\"><header class=header><div class=\"locked columns\"><div class=middle><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in fixedRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in fixedHeaderRows track by $index\" ng-if=\"$index !== 0\"><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=\"sortable cell\" ng-class=\"{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" role=columnheader ng-repeat=\"header in row track by $index\" rowspan={{header.rowspan}} colspan={{header.colspan}} ng-click=updateOrderBy(header)>{{header.label}}</td></tr><tr role=row><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-repeat=\"header in fixedRowDefinition track by $index\" ng-if=header.filterable colspan=1 rowspan=1 class=\"filtering cell\"><div class=\"lui fitting search input\"><input ng-change=\"updateFilterBy(header, $index)\" ng-model=leftFilters[$index].value ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div></td></tr></tbody></table></div></div><div class=columns><div class=middle><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in scrollableHeaderRows track by $index\" ng-if=\"$index !== 0\"><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=\"sortable cell\" ng-class=\"{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" role=columnheader ng-repeat=\"header in row track by $index\" rowspan={{header.rowspan}} colspan={{header.colspan}} ng-click=updateOrderBy(header)>{{ header.label }}</td></tr><tr role=row><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-if=header.filterable colspan=1 rowspan=1 class=\"filtering cell\"><div class=\"lui fitting search input\"><input ng-change=\"updateFilterBy(header, $index)\" ng-model=rightFilters[$index].value ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div></td></tr></tbody></table></div></div></header><div class=content><div class=\"locked columns\"><div class=canvas ng-style=canvasHeight><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in fixedRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=cell role=cell ng-repeat=\"cell in fixedRowDefinition track by $index\" ng-bind-html=cell.getValue(row) title={{stripHtml(cell.getValue(row))}} ng-class=\"{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table></div></div><div class=\"scrollable columns\"><div class=canvas ng-style=canvasHeight><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=cell role=cell ng-repeat=\"cell in scrollableRowDefinition track by $index\" ng-bind-html=cell.getValue(row) title={{stripHtml(cell.getValue(row))}} ng-class=\"{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table></div></div></div><footer class=footer></footer></div>"
+    "<div class=\"lui tablegrid\"><header class=header><div class=\"locked columns\"><div class=middle><table><colgroup><col style=\"width: 0em\"><col ng-if=selectable style=\"width: 3em\"><col ng-repeat=\"header in fixedRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in fixedHeaderRows track by $index\" ng-if=\"$index !== 0\"><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-if=selectable class=\"empty cell\" colspan=1 rowspan=1></td><td class=\"sortable cell\" ng-class=\"{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" role=columnheader ng-repeat=\"header in row track by $index\" rowspan={{header.rowspan}} colspan={{header.colspan}} ng-click=updateOrderBy(header)>{{header.label}}</td></tr><tr role=row><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-if=selectable class=cell colspan=1 rowspan=1><input type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"></td><td ng-repeat=\"header in fixedRowDefinition track by $index\" ng-if=header.filterable colspan=1 rowspan=1 class=\"filtering cell\"><div class=\"lui fitting search input\"><input ng-change=\"updateFilterBy(header, $index)\" ng-model=leftFilters[$index].value ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div></td></tr></tbody></table></div></div><div class=columns><div class=middle><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in scrollableHeaderRows track by $index\" ng-if=\"$index !== 0\"><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=\"sortable cell\" ng-class=\"{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" role=columnheader ng-repeat=\"header in row track by $index\" rowspan={{header.rowspan}} colspan={{header.colspan}} ng-click=updateOrderBy(header)>{{ header.label }}</td></tr><tr role=row><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-if=header.filterable colspan=1 rowspan=1 class=\"filtering cell\"><div class=\"lui fitting search input\"><input ng-change=\"updateFilterBy(header, $index)\" ng-model=rightFilters[$index].value ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div></td></tr></tbody></table></div></div></header><div class=content><div class=\"locked columns\"><div class=canvas ng-style=canvasHeight><table><colgroup><col style=\"width: 0em\"><col ng-if=selectable style=\"width: 3em\"><col ng-repeat=\"header in fixedRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td ng-if=selectable class=cell colspan=1 rowspan=1><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"></td><td class=cell role=cell ng-repeat=\"cell in fixedRowDefinition track by $index\" ng-bind-html=cell.getValue(row) title={{stripHtml(cell.getValue(row))}} ng-class=\"{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table></div></div><div class=\"scrollable columns\"><div class=canvas ng-style=canvasHeight><table><colgroup><col style=\"width: 0em\"><col ng-repeat=\"header in scrollableRowDefinition track by $index\" ng-style=\"{'width': header.width + 'em'}\"></colgroup><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td class=\"empty cell\" colspan=1 rowspan=1>&nbsp;</td><td class=cell role=cell ng-repeat=\"cell in scrollableRowDefinition track by $index\" ng-bind-html=cell.getValue(row) title={{stripHtml(cell.getValue(row))}} ng-class=\"{'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table></div></div></div><footer class=footer></footer></div>"
   );
 
 }]);
