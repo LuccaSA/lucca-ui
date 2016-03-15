@@ -2685,8 +2685,8 @@ var Lui;
                             scrollableContent.style.maxHeight = height + "px";
                         };
                         var resizeWidth = function () {
-                            scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth + "px";
-                            scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
+                            scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
+                            scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - 2 * scrollbarThickness + "px";
                         };
                         var vsOnScroll = function (event) {
                             scrollTop = scrollableContent.scrollTop;

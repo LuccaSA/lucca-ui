@@ -4,10 +4,13 @@
 
 ### New features
 - lucca-icons 1.1.7
-- [issue #169](https://github.com/LuccaSA/lucca-ui/issues/169) - radio input styling 
+- [issue #169](https://github.com/LuccaSA/lucca-ui/issues/169) - radio input styling
 
 ### Resolved issues
 - General consensus was default animation durations were too long.
+
+### Dirty hotfix
+- Tablgrid hotfix in case of scrollable body
 
 ## 2.0.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
 
