@@ -3,6 +3,7 @@
 ## 2.0.15 - in dev
 
 ### New features
+- lucca-icons 1.1.7
 
 ### Resolved issues
 - General consensus was default animation durations were too long.
