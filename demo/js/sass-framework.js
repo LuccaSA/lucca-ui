@@ -15,13 +15,7 @@
 		$scope.status = '';
 		$scope.inverted = false;
 		$scope.disabled = false;
-	}])
-	.controller('inputCtrl', ['$scope', function($scope){
-		$scope.radioModel1 = "choice1";
-		$scope.radioModel2 = "choice1";
-		$scope.radioModel3 = "choice1";
-		$scope.radioModel4 = "choice1";
-		$scope.radioValue2 = "choice2";
 	}]);
+
 
 })();
