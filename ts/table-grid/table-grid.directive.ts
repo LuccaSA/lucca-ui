@@ -71,8 +71,8 @@ module Lui.Directives {
 					};
 
 					let resizeWidth = () => {
-						scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth + "px";
-						scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
+						scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
+						scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * scrollbarThickness + "px";
 					};
 
 					let vsOnScroll = (event: Event) => {
