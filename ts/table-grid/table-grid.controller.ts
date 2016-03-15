@@ -152,15 +152,15 @@ module Lui.Directives {
 			};
 
 			$scope.onMasterCheckBoxChange = () => {
-				if (_.some($scope.datas, (data: any) => { return !data.isChecked; })) {
-					_.each($scope.datas, (data: any) => { data.isChecked = true; });
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = true; });
 				} else {
-					_.each($scope.datas, (data: any) => { data.isChecked = false; });
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
 				}
 			};
 
 			$scope.onCheckBoxChange = () => {
-				if (_.some($scope.datas, (data: any) => { return !data.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
 					$scope.allChecked.value = false;
 				} else {
 					$scope.allChecked.value = true;
