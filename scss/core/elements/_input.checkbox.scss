@@ -35,6 +35,9 @@
 			@include lui_make_icon("checkbox checked");
 			&:before { color: map-gets($vars, checkbox, color); }
 		}
+		input.partial:checked ~ label {
+			@include lui_make_icon("checkbox partial");
+		}
 
 		& + label {
 			margin-left: 1em;

@@ -9,6 +9,7 @@
 ### Resolved issues
 - General consensus was default animation durations were too long.
 - Clicking on datepicker icon now opens the datepicker popup
+- Checkbox now supports partial state (add the `partial` class to the checkbox input)
 
 ### Dirty hotfix
 - Tablgrid hotfix in case of scrollable body
