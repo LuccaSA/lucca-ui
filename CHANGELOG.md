@@ -8,6 +8,7 @@
 
 ### Resolved issues
 - General consensus was default animation durations were too long.
+- Clicking on datepicker icon now opens the datepicker popup
 
 ### Dirty hotfix
 - Tablgrid hotfix in case of scrollable body
