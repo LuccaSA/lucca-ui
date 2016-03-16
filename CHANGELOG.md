@@ -8,8 +8,9 @@
 
 ### Resolved issues
 - General consensus was default animation durations were too long.
-- Clicking on datepicker icon now opens the datepicker popup
-- Checkbox now supports partial state (add the `partial` class to the checkbox input)
+- [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
+- [issue #179](https://github.com/LuccaSA/lucca-ui/issues/179) - Checkbox now supports partial state (add the `partial` class to the checkbox input)
+- [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
 
 ### Dirty hotfix
 - Tablgrid hotfix in case of scrollable body
