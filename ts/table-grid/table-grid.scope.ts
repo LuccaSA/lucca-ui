@@ -26,6 +26,7 @@ module Lui.Directives {
 		updateVirtualScroll(): void;
 		onMasterCheckBoxChange(): void;
 		onCheckBoxChange(): void;
+		getCheckboxState(): string;
 	}
 
 }

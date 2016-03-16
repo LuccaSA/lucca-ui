@@ -27,8 +27,7 @@
 	// Cell
 	// =====
 	.cell {
-		padding: map-gets($vars, cell, padding);
-		box-sizing: border-box;
+		padding: #{map-gets($vars, cell, verticalPadding) map-gets($vars, cell, horizontalPadding)};
 
 		border: none;
 		border-bottom-width: 1px;
@@ -36,6 +35,8 @@
 		border-right-width: 1px;
 		border-right-style: solid;
 		border-color: luiPalette(light, color);
+
+		height: 1em  + 2 * map-gets($vars, cell, verticalPadding);
 
 		&.empty {
 			min-width: 0 !important;

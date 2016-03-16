@@ -27,7 +27,7 @@
 						</tr>
 						<tr role="row">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
-							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><input type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/></td>
+							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><div class="lui checkbox"><input ng-class="getCheckboxState()" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/><label>&nbsp;</label></div></td>
 							<td
 							ng-repeat="header in fixedRowDefinition track by $index"
 							ng-if="header.filterable"
@@ -96,7 +96,7 @@
 					<tbody>
 						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
-							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/></td>
+							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><div class="lui checkbox"><input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/><label>&nbsp;</label></div></td>
 							<td
 							class="cell"
 							role="cell"

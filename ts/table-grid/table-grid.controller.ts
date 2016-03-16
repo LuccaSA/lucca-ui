@@ -109,6 +109,7 @@ module Lui.Directives {
 				}
 				let filteredAndOrderedRows = temp.value();
 				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
+
 				$scope.updateVirtualScroll();
 			};
 
@@ -165,6 +166,20 @@ module Lui.Directives {
 				} else {
 					$scope.allChecked.value = true;
 				}
+			};
+
+			$scope.getCheckboxState = function() {
+				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, (row: any) => { return row.isChecked; }).length;
+				if (selectedCheckboxesCount === 0){
+					return "checkbox";
+				}
+				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length){
+					return 'checked checkbox';
+				}
+				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length){
+					return 'partial checkbox';
+				}
+				return "checkbox";
 			};
 
 			// playing init
