@@ -23,8 +23,7 @@ $tableGrid:(
 
 	cell: (
 		minWidth: 				5em,
-		verticalPadding: 		0.5em,
-		horizontalPadding: 	1em,
+		padding: 				0.5em 1em,
 	)
 );
 $luiTheme: luiSetTheme(element, tablegrid, $tableGrid);

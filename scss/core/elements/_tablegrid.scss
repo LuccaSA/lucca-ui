@@ -1,4 +1,4 @@
-.tablegrid {
+#{$prefix}.tablegrid {
 	text-align: map-gets($vars, textAlignment);
 	[rowspan] { vertical-align: top; }
 
@@ -27,7 +27,7 @@
 	// Cell
 	// =====
 	.cell {
-		padding: #{map-gets($vars, cell, verticalPadding) map-gets($vars, cell, horizontalPadding)};
+		padding: map-gets($vars, cell, padding);
 
 		border: none;
 		border-bottom-width: 1px;
@@ -35,8 +35,6 @@
 		border-right-width: 1px;
 		border-right-style: solid;
 		border-color: luiPalette(light, color);
-
-		height: 1em  + 2 * map-gets($vars, cell, verticalPadding);
 
 		&.empty {
 			min-width: 0 !important;
@@ -47,6 +45,10 @@
 			border-bottom-color: transparent !important;
 			text-indent: -1em;
 		}
+	}
+
+	&.selectable .cell {
+		height: luiTheme(element, input, checkbox, size);
 	}
 
 	.sortable {
