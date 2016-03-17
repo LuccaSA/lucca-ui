@@ -1638,15 +1638,15 @@ var Lui;
                 $scope.getCheckboxState = function () {
                     var selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
                     if (selectedCheckboxesCount === 0) {
-                        return "checkbox";
+                        return "";
                     }
                     if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
-                        return 'checked checkbox';
+                        return "checked checkbox";
                     }
                     if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
-                        return 'partial checkbox';
+                        return "partial checkbox";
                     }
-                    return "checkbox";
+                    return "";
                 };
                 init();
             }
