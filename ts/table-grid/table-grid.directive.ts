@@ -81,10 +81,10 @@ module Lui.Directives {
 
 					let resizeWidth = () => {
 						verticalScrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
-						if (verticalScrollbarThickness){
+						if (verticalScrollbarThickness) {
 							scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - verticalScrollbarThickness + "px";
 							scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * verticalScrollbarThickness + "px";
-						}else{
+						}else {
 							scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - 2 * defaultScrollbarThickness + "px";
 							scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * defaultScrollbarThickness + "px";
 						}

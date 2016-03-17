@@ -168,18 +168,18 @@ module Lui.Directives {
 				}
 			};
 
-			$scope.getCheckboxState = function() {
+			$scope.getCheckboxState = () => {
 				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
-				if (selectedCheckboxesCount === 0){
-					return "checkbox";
+				if (selectedCheckboxesCount === 0) {
+					return "";
 				}
-				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length){
-					return 'checked checkbox';
+				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
+					return "checked checkbox";
 				}
-				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length){
-					return 'partial checkbox';
+				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
+					return "partial checkbox";
 				}
-				return "checkbox";
+				return "";
 			};
 
 			// playing init
