@@ -45,6 +45,14 @@ $input: (
 		size: 					1.5em
 	),
 
+	radio: (
+		enabled: 				true,
+
+		color: 					luiPalette(primary, color),
+		size: 					1.5em,
+		lineHeight:				1.5
+	),
+
 	switch: (
 		enabled: 				true,
 

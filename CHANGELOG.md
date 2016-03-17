@@ -1,12 +1,27 @@
 # Change log
 
-## 2.0.15 - in dev
+## 2.0.16 - in dev
 
 ### New features
 - luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
 
 ### Resolved issues
+- [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
+- [issue #179](https://github.com/LuccaSA/lucca-ui/issues/179) - Checkbox now supports partial state (add the `partial` class to the checkbox input)
+- [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
+- Fixes input addon sizing
+
+## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
+
+### New features
+- lucca-icons 1.1.7
+- [issue #169](https://github.com/LuccaSA/lucca-ui/issues/169) - radio input styling
+
+### Resolved issues
 - General consensus was default animation durations were too long.
+
+### Dirty hotfix
+- Tablgrid hotfix in case of scrollable body
 
 ## 2.0.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
 

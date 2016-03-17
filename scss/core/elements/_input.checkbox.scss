@@ -28,12 +28,16 @@
 
 			@include lui_make_icon("checkbox");
 
-			&:before, &:after { position: absolute; top: 50%; transform: translateY(-50%); left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
+			&:before { position: absolute; top: 50%; transform: translateY(-50%); left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
+			&:after { display: inline-block; content: ""; }
 		}
 
 		input:checked ~ label {
 			@include lui_make_icon("checkbox checked");
 			&:before { color: map-gets($vars, checkbox, color); }
+		}
+		input.partial:checked ~ label {
+			@include lui_make_icon("checkbox partial");
 		}
 
 		& + label {

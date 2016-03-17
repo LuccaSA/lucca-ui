@@ -164,7 +164,7 @@
 			padding: 0 map-gets($vars, padding, right) 0 map-gets($vars, padding, left);
 			background: map-gets($vars, background);
 			line-height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
-			height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
+			// height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
 			box-sizing: border-box;
 		}
 
@@ -306,6 +306,7 @@
 	@import "input.search";
 	@import "input.switch";
 	@import "input.checkbox";
+	@import "input.radio";
 	//
 	@import "input.timespanpicker";
 	@import "input.momentpicker";
