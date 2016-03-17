@@ -87,7 +87,7 @@ module Lui.Directives {
 				$scope.rightFilters = [];
 			};
 
-			let updateFilteredAndOrderedRows = () => {
+			$scope.updateFilteredAndOrderedRows = () => {
 				let temp = _.chain($scope.datas)
 					.filter((row: any) => {
 						let result = true;
@@ -124,7 +124,7 @@ module Lui.Directives {
 				}
 				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
 
-				updateFilteredAndOrderedRows();
+				$scope.refresh();
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {
@@ -142,7 +142,7 @@ module Lui.Directives {
 					}
 				}
 
-				updateFilteredAndOrderedRows();
+				$scope.updateFilteredAndOrderedRows();
 			};
 
 			// strip html for display in title attribute
@@ -169,7 +169,7 @@ module Lui.Directives {
 			};
 
 			$scope.getCheckboxState = function() {
-				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, (row: any) => { return row.isChecked; }).length;
+				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
 				if (selectedCheckboxesCount === 0){
 					return "checkbox";
 				}

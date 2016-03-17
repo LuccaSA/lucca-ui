@@ -118,7 +118,7 @@
 		background-color: map-gets($vars, background);
 
 		.columns:not(.locked) {
-			overflow: scroll;
+			overflow: auto;
 		}
 
 		.cell {

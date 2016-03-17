@@ -14,7 +14,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=", selectable: "@" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -50,14 +50,15 @@ module Lui.Directives {
 					lockedMiddle.style.width = lockedWidth;
 
 					// private variables
-					let cellsPerPage = 0; //number of cells fitting in one page
 					let height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
-					let numberOfCells = 0; //Number of virtualized cells (basicaly 10 + cellPerPage + 10 except if you're at top or bottom)
-					let rowHeight = 31;
+					let defaultScrollbarThickness = 17;
+					let verticalScrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
+					let horizontalScrollbarThickness = scrollableContent.offsetHeight - scrollableContent.clientHeight;
+					let contentHeight = height - horizontalScrollbarThickness;
 
-					let scrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
-					scrollbarThickness = scrollbarThickness ? scrollbarThickness : 20;
-					let contentHeight = height - scrollbarThickness;
+					let rowHeight = 33; // # MAGIC NUMBER
+					let cellsPerPage = Math.round(contentHeight / rowHeight); //number of cells fitting in one page
+					let numberOfCells = cellsPerPage * 3;
 
 					let scrollTop = 0; //current scroll position
 					scope.visibleRows = []; //current elements in DOM
@@ -65,14 +66,28 @@ module Lui.Directives {
 
 					// private methods
 					let resizeHeight = () => {
+						horizontalScrollbarThickness = scrollableContent.offsetHeight - scrollableContent.clientHeight;
 						datagridContent.style.maxHeight  = height + "px";
-						lockedContent.style.maxHeight  = height - scrollbarThickness + "px";
+						lockedContent.style.maxHeight  = height - horizontalScrollbarThickness + "px";
 						scrollableContent.style.maxHeight  = height + "px";
+
+						//let lockedHeaderMaxHeight = _.max(lockedHeader.getElementsByTagName("td"), (element: HTMLElement) => {return element.offsetHeight}).offsetHeight;
+						//let lockedContentMaxHeight = _.max(lockedTable.getElementsByTagName("td"), (element: HTMLElement) => {return element.offsetHeight}).offsetHeight;
+						//let scrollableHeaderMaxHeight = _.max(scrollableHeader.getElementsByTagName("td"), (element: HTMLElement) => {return element.offsetHeight}).offsetHeight;
+						//let scrollableContentMaxHeight = _.max(scrollableTable.getElementsByTagName("td"), (element: HTMLElement) => {return element.offsetHeight}).offsetHeight;
+						//
+						//console.log(lockedHeaderMaxHeight + " - " + lockedContentMaxHeight + " - " + scrollableHeaderMaxHeight + " - " + scrollableContentMaxHeight);
 					};
 
 					let resizeWidth = () => {
-						scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
-						scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * scrollbarThickness + "px";
+						verticalScrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
+						if (verticalScrollbarThickness){
+							scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - verticalScrollbarThickness + "px";
+							scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * verticalScrollbarThickness + "px";
+						}else{
+							scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - 2 * defaultScrollbarThickness + "px";
+							scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * defaultScrollbarThickness + "px";
+						}
 					};
 
 					let vsOnScroll = (event: Event) => {
@@ -121,16 +136,17 @@ module Lui.Directives {
 						scrollableTable.style.top = firstCell * rowHeight + "px";
 					};
 
-					let init = () => {
-						scope.filteredAndOrderedRows = scope.datas;
+					scope.refresh = () => {
+						scope.updateFilteredAndOrderedRows();
+						scope.updateVirtualScroll();
 
 						resizeHeight();
-						resizeWidth();
-						resizeWidth();
-
-						cellsPerPage = Math.round(contentHeight / rowHeight);
-						numberOfCells = cellsPerPage * 3;
-						scope.updateVirtualScroll();
+						angular.element(document).ready(() => {
+							resizeWidth();
+							angular.element(document).ready(() => {
+								resizeHeight();
+							});
+						});
 					};
 
 					datagridHeader.addEventListener("wheel", (event: Event): void => {
@@ -152,8 +168,16 @@ module Lui.Directives {
 						resizeWidth();
 					});
 
-					init();
-				}, 500);
+					scope.$watchCollection("datas", () => {
+						scope.filteredAndOrderedRows = scope.datas;
+						scope.updateVirtualScroll();
+
+						angular.element(document).ready(() => {
+							scope.refresh();
+						});
+					});
+
+				}, 0);
 			};
 	}
 

@@ -20,13 +20,15 @@ module Lui.Directives {
 		selectable: boolean;
 		allChecked: any;
 
-		stripHtml(html: string): string;
+		stripHtml:(html: string) => string;
 		updateFilterBy(header: TableGrid.Header, index: number): void;
 		updateOrderBy(header: TableGrid.Header): void;
 		updateVirtualScroll(): void;
 		onMasterCheckBoxChange(): void;
 		onCheckBoxChange(): void;
 		getCheckboxState(): string;
+		updateFilteredAndOrderedRows: () => void;
+		refresh: () => void;
 	}
 
 }
