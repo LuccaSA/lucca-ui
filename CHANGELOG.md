@@ -10,6 +10,7 @@
 - [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
 - Fixes input addon sizing
 - Adds relative positioning to tabbed menus (fix)
+- Fixes afterglow for animations in Chrome
 
 ## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
 
