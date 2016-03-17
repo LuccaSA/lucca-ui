@@ -27,25 +27,21 @@ module Lui.Directives {
 				if (result.tree.children.length) {
 					result.subDepth++;
 				} else {
-					if (result.tree.node.fixed) {
-						$scope.fixedRowDefinition.push(result.tree.node);
-					} else {
-						$scope.scrollableRowDefinition.push(result.tree.node);
-					}
+					$scope.colDefinition.push(result.tree.node);
 				}
 
 				if (result.tree.node) {
+					if (result.tree.node.fixed) {
+						$scope.headerLockedWidth += result.tree.node.width;
+					}
+
 					result.tree.node.rowspan = maxDepth - result.depth - result.subDepth;
 					result.tree.node.colspan = result.subChildren;
 					if (!result.tree.children.length && !result.tree.node.filterable) {
 						result.tree.node.rowspan++;
 					}
 
-					if (result.tree.node.fixed) {
-						$scope.fixedHeaderRows[result.depth] ? $scope.fixedHeaderRows[result.depth].push(result.tree.node) : $scope.fixedHeaderRows[result.depth] = [result.tree.node];
-					} else {
-						$scope.scrollableHeaderRows[result.depth] ? $scope.scrollableHeaderRows[result.depth].push(result.tree.node) : $scope.scrollableHeaderRows[result.depth] = [result.tree.node];
-					}
+					$scope.headerRows[result.depth] ? $scope.headerRows[result.depth].push(result.tree.node) : $scope.headerRows[result.depth] = [result.tree.node];
 				}
 				return result;
 			};
@@ -60,25 +56,15 @@ module Lui.Directives {
 
 			let init = () => {
 
-				$scope.fixedHeaderRows = [];
-				$scope.fixedRowDefinition = [];
-				$scope.scrollableHeaderRows = [];
-				$scope.scrollableRowDefinition = [];
+				$scope.headerRows = [];
+				$scope.headerLockedWidth = 0;
+				$scope.bodyRows = [];
+				$scope.colDefinition = [];
 
 				maxDepth = getTreeDepth($scope.header);
 
 				browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
 
-				let diff = $scope.fixedHeaderRows.length - $scope.scrollableHeaderRows.length;
-				if (diff > 0) {
-					for (let i = 1; i <= diff; i++) {
-						$scope.scrollableHeaderRows.push([]);
-					}
-				} else if (diff < 0) {
-					for (let i = 1; i <= -diff; i++) {
-						$scope.fixedHeaderRows.push([]);
-					}
-				}
 
 				$scope.selected = { orderBy: null, reverse: false };
 

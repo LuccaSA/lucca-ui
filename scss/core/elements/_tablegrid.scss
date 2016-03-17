@@ -1,152 +1,136 @@
-.tablegrid {
+#{$prefix}.tablegrid {
+
+	// Common
+	// ====
 	text-align: map-gets($vars, textAlignment);
-	[rowspan] { vertical-align: top; }
 
-
-	// Columns
-	// =====
-	.columns {
-		float: left;
-		table {
-			width: inherit;
-			table-layout: fixed;
-			border-collapse: separate;
-			border-spacing: 0;
-		}
-
-		&:not(.locked) table {
-			width: 100%;
-		}
+	> .header,
+	> .body {
+		position: relative;
+		overflow: hidden;
+	}
+	table {
+		table-layout: fixed;
+		width: 100%;
 	}
 
+	// Columns
+	// ====
+	.locked.columns {
+		position: absolute;
+		left: 0; right: 0;
+		top: 0; bottom: 0;
+		overflow: hidden;
+	}
+	.scrollable.columns {
+		position: relative;
+		z-index: 2;
+		border-left: 1px solid luiPalette(light, color);
+	}
 
-	// Rows
-	// =====
-
-
-	// Cell
-	// =====
-	.cell {
+	// Cells
+	// ====
+	th, td {
 		padding: map-gets($vars, cell, padding);
 		box-sizing: border-box;
 
-		border: none;
-		border-bottom-width: 1px;
-		border-bottom-style: solid;
-		border-right-width: 1px;
-		border-right-style: solid;
-		border-color: luiPalette(light, color);
+		border: 1px solid luiPalette(light, color);
 
-		&.empty {
-			min-width: 0 !important;
-			width: 0;
-			padding-left: 0;
-			padding-right: 0;
-			border-right: none;
-			border-bottom-color: transparent !important;
-			text-indent: -1em;
+		&.sortable {
+			cursor: pointer;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+
+			&.asc {
+				@include lui_make_icon("south arrow");
+			}
+			&.desc {
+				@include lui_make_icon("north arrow");
+			}
+			&:before {
+				float: right;
+				font-size: 0.6em;
+				padding: 0.5em;
+				line-height: 1;
+				border-radius: luiTheme(adjective, rounded, radius);
+				color: map-gets($vars, header, background);
+				background-color: map-gets($vars, header, text);
+			}
 		}
+
 	}
-
-	.sortable {
-		cursor: pointer;
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-
-		&.asc {
-			@include lui_make_icon("south arrow");
-		}
-		&.desc {
-			@include lui_make_icon("north arrow");
-		}
-		&:before {
-			float: right;
-			font-size: 0.6em;
-			padding: 0.5em;
-			line-height: 1;
-			border-radius: luiTheme(adjective, rounded, radius);
-			color: map-gets($vars, header, background);
-			background-color: map-gets($vars, header, text);
-		}
+	.scrollable.columns td.locked,
+	.scrollable.columns th.locked,
+	.locked.columns td:not(.locked),
+	.locked.columns th:not(.locked) {
+		width: 0px;
+		border-color: transparent;
+		overflow: hidden;
+	}
+	.scrollable.columns td.locked,
+	.scrollable.columns th.locked {
+		white-space: pre;
 	}
 
 	// Header
-	// =====
+	// ====
 	> .header {
-		position: relative; z-index: 2;
-		margin-bottom: -1px;
-
-		overflow: hidden;
 		color: map-gets($vars, header, text);
-
 		font-weight: map-gets($vars, header, fontWeight);
 		text-align: map-gets($vars, header, textAlignment);
-
 		a {
 			color: map-gets($vars, header, text);
 			text-decoration: none;
 		}
 
-		.columns {
-			overflow: hidden;
-			vertical-align: bottom;
-			border-top: 1px solid luiPalette(light, color);
-			background-color: map-gets($vars, header, background);
-		}
-
-		.cell {
+		th {
 			vertical-align: bottom;
 			border-color: map-gets($vars, header, borderColor);
 		}
-		tr:not(.filters) .cell:not([colspan]) {
+		tr:not(.filters) th:not([colspan]) {
 			padding-top: map-gets($vars, header, cellPaddingTop);
 		}
-	}
 
-
-	// Content
-	// =====
-	> .content {
-		overflow: hidden;
-		background-color: map-gets($vars, background);
-
-		.columns:not(.locked) {
-			overflow: scroll;
-		}
-
-		.cell {
-			border-left: none;
-			border-right: none;
-			white-space: nowrap;
+		.scrollable.columns {
 			overflow: hidden;
-			text-overflow: ellipsis;
 		}
 	}
-
-
-	// Locked columns
-	// =====
-	.locked.columns {
-		overflow: hidden;
-		border-left: 1px solid luiPalette(light, color);
+	.header,
+	.header .scrollable.columns {
+		background-color: map-gets($vars, header, background);
 	}
 
-	.canvas {
+
+	// Body
+	// ====
+	> .body {
+		.columns {
+			border-bottom: 1px solid luiPalette(light, color);
+		}
+		.scrollable.columns {
+			overflow: auto;
+		}
+	}
+	.virtualscroll {
 		position: relative;
 		> table {
 			position: absolute;
-			left: 0; right: 0;
+			overflow: hidden; // IE fix
 		}
 	}
 
-	// Rows
-	// =====
+	.body,
+	.body .scrollable.columns {
+		background-color: map-gets($vars, background);
+	}
 
-	// Zebra support
+
+	// Styles
+	// ====
 	&.zebra {
 		> .content > .columns > div > table > tbody > tr:nth-child(2n) {
 			background-color: map-gets($vars, rows, zebraColor);

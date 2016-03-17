@@ -8,12 +8,15 @@ module Lui.Directives {
 		canvasHeight: any;
 		datas: any[];
 		filteredAndOrderedRows: any[];
-		fixedHeaderRows: TableGrid.Header[][];
+		headerRows: TableGrid.Header[][];
+		headerLockedWidth: number;
+		bodyRows: TableGrid.Header[][];
+		colDefinition: TableGrid.Header[];
+
 		fixedRowDefinition: TableGrid.Header[];
 		header: TableGrid.Tree;
 		leftFilters: {header: TableGrid.Header, value: string}[];
 		rightFilters: {header: TableGrid.Header, value: string}[];
-		scrollableHeaderRows: TableGrid.Header[][];
 		scrollableRowDefinition: TableGrid.Header[];
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
