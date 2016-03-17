@@ -147,7 +147,7 @@
 	angular.module('e2eApp')
 		.controller('luidTableGridCtrl', ['$scope', function ($scope) {
 			$scope.people = [];
-			_.each(_.range(5000), function (index) {
+			_.each(_.range(100), function (index) {
 				$scope.people[0 + 5 * index] = {
 					id: 0 + 5 * index,
 					name: "john cena",

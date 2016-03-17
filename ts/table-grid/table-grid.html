@@ -3,12 +3,15 @@
 		<div class="locked columns">
 			<table>
 				<colgroup>
+					<col ng-if="selectable" style="width: 3.5em"/>
 					<col ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 				</colgroup>
 				<thead>
 					<tr	role="row"
 					ng-repeat="row in headerRows track by $index"
 					ng-if="$index !== 0">
+						<th ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
+
 						<th role="columnheader"
 						class="sortable"
 						ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
@@ -18,6 +21,13 @@
 						ng-click="updateOrderBy(header)">{{ header.label }}</th>
 					</tr>
 					<tr role="row">
+						<th ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1">
+							<div class="lui checkbox">
+								<input ng-class="getCheckboxState()" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/>
+								<label>&nbsp;</label>
+							</div>
+						</th>
+
 						<th role="columnheader"
 						ng-repeat="header in colDefinition track by $index"
 						ng-if="header.filterable"
@@ -37,6 +47,7 @@
 		<div class="scrollable columns" ng-style="{'margin-left': headerLockedWidth + 'em'}">
 			<table>
 				<colgroup>
+					<col ng-if="selectable" style="width: 0;"/>
 					<col ng-if="header.fixed" ng-repeat="header in colDefinition track by $index" style="width: 0;"></col>
 					<col ng-if="!header.fixed" ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 				</colgroup>
@@ -44,6 +55,7 @@
 					<tr	role="row"
 					ng-repeat="row in headerRows track by $index"
 					ng-if="$index !== 0">
+						<th ng-if="selectable" class="locked"  role="columnheader" colspan="1" rowspan="1"></th>
 						<th role="columnheader"
 						class="sortable"
 						ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
@@ -53,6 +65,7 @@
 						ng-click="updateOrderBy(header)">{{ header.label }}</th>
 					</tr>
 					<tr role="row">
+						<th ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
 						<th role="columnheader"
 						ng-repeat="header in colDefinition track by $index"
 						ng-if="header.filterable"
@@ -74,10 +87,16 @@
 			<div class="virtualscroll" ng-style="canvasHeight">
 				<table>
 					<colgroup>
+						<col ng-if="selectable" style="width: 3.5em"/>
 						<col ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
+							<td ng-if="selectable" class="locked"  colspan="1" rowspan="1">
+								<div class="lui checkbox"><input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/><label>&nbsp;</label>
+								</div>
+							</td>
+
 							<td role="cell"
 							ng-repeat="cell in colDefinition track by $index"
 							ng-bind-html="cell.getValue(row)"
@@ -92,11 +111,14 @@
 			<div class="virtualscroll" ng-style="canvasHeight">
 				<table>
 					<colgroup>
+						<col ng-if="selectable" style="width: 0"/>
 						<col ng-if="header.fixed" ng-repeat="header in colDefinition track by $index" style="width: 0;"></col>
 						<col ng-if="!header.fixed" ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
+							<td ng-if="selectable" class="locked"  colspan="1" rowspan="1"><div class="lui checkbox"><input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/><label>&nbsp;</label></div></td>
+
 							<td role="cell"
 							ng-repeat="cell in colDefinition track by $index"
 							ng-bind-html="cell.getValue(row)"

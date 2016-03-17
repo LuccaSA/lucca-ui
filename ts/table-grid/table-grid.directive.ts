@@ -14,7 +14,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -70,12 +70,12 @@ module Lui.Directives {
 
 			// private variables
 			let scrollbarThickness: number = getScrollbarThickness();
-			let cellsPerPage = 0; //number of cells fitting in one page
 			let height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
-			let numberOfCells = 0; //Number of virtualized cells (basicaly 10 + cellPerPage + 10 except if you're at top or bottom)
-			let rowHeight = 31;
-
 			let contentHeight = height;
+			let rowHeight = 33; // # MAGIC NUMBER
+			let cellsPerPage = Math.round(contentHeight / rowHeight); //number of cells fitting in one page
+			let numberOfCells = cellsPerPage * 3;
+
 
 			let scrollTop = 0; //current scroll position
 			scope.visibleRows = []; //current elements in DOM
@@ -114,6 +114,20 @@ module Lui.Directives {
 				lockedTable.style.top = firstCell * rowHeight + "px";
 				scrollableTable.style.top = firstCell * rowHeight + "px";
 			};
+
+			scope.refresh = () => {
+				scope.updateFilteredAndOrderedRows();
+			};
+
+			scope.$watchCollection("datas", () => {
+				scope.filteredAndOrderedRows = scope.datas;
+				scope.updateVirtualScroll();
+
+				angular.element(document).ready(() => {
+					scope.refresh();
+				});
+			});
+
 
 			let init = () => {
 				scope.filteredAndOrderedRows = scope.datas;
