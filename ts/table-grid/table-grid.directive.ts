@@ -138,7 +138,6 @@ module Lui.Directives {
 
 					scope.refresh = () => {
 						scope.updateFilteredAndOrderedRows();
-						scope.updateVirtualScroll();
 
 						resizeHeight();
 						angular.element(document).ready(() => {
