@@ -174,10 +174,10 @@ module Lui.Directives {
 					return "";
 				}
 				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
-					return "checked checkbox";
+					return "checked";
 				}
 				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
-					return "partial checkbox";
+					return "partial";
 				}
 				return "";
 			};
