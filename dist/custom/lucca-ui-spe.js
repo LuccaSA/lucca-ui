@@ -2653,10 +2653,10 @@ var Lui;
                         return "";
                     }
                     if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
-                        return "checked checkbox";
+                        return "checked";
                     }
                     if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
-                        return "partial checkbox";
+                        return "partial";
                     }
                     return "";
                 };
@@ -2767,7 +2767,6 @@ var Lui;
                         };
                         scope.refresh = function () {
                             scope.updateFilteredAndOrderedRows();
-                            scope.updateVirtualScroll();
                             resizeHeight();
                             angular.element(document).ready(function () {
                                 resizeWidth();
