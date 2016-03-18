@@ -53,6 +53,7 @@ module.exports = function(config) {
 		reporters: ['progress', 'coverage'],
 		junitReporter: {
 			outputFile: 'karma-results.xml',
+			useBrowserName: false,
 			suite: 'Lucca-ui'
 		},
 		coverageReporter: {
