@@ -31,14 +31,19 @@ module Lui.Directives {
 			//virtual scroll from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
 
 			// DOM elements
-			let datagrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
-			let header: any = datagrid.querySelector(".header");
-			let lockedTable: any = datagrid.querySelector(".body .locked.columns table"); // left table of the rows
-			let scrollableArea: any = datagrid.querySelector(".body .scrollable"); // scrollable area
-			let syncedBody: any = datagrid.querySelector(".body .locked.columns"); // scrollable area
-			let syncedHeader: any = datagrid.querySelector(".header .scrollable.columns"); // scrollable area
-			let scrollableTable: any = datagrid.querySelector(".body .scrollable.columns table"); // right part of the rows
+			let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
 
+			let header: any = tablegrid.querySelector(".header"); // The table header
+			let lockedTable: any = tablegrid.querySelector(".body .locked.columns table"); // left table of the rows
+			let lockedCols: any = lockedTable.querySelectorAll("tr:first-child td.locked");
+			let lockedBody: any = tablegrid.querySelector(".body .locked.columns"); // scrollable area
+
+			let scrollableArea: any = tablegrid.querySelector(".body .scrollable"); // scrollable area
+			let scrollableTable: any = tablegrid.querySelector(".body .scrollable.columns table"); // right part of the rows
+			let syncedHeader: any = tablegrid.querySelector(".header .scrollable.columns"); // scrollable area
+
+
+			// http://stackoverflow.com/questions/34426134/how-to-get-the-width-of-the-browsers-scrollbars-and-add-it-to-the-width-of-the-w
 			let getScrollbarThickness = () => {
 				let inner: any = document.createElement("p");
 				inner.style.width = "100%";
@@ -79,20 +84,42 @@ module Lui.Directives {
 
 			let scrollTop = 0; //current scroll position
 			scope.visibleRows = []; //current elements in DOM
-			scope.canvasHeight = {}; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
+			scope.canvasHeight = 0; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
+
+			let getLockedColumnsWidth = () => {
+				let w: number = 0;
+				// @TODO: Should use the lockedCols variables rather than searching for them each time
+				for (let col of lockedTable.querySelectorAll("tr:first-child td.locked")) {
+					w += col.offsetWidth;
+				}
+				return w + 1; // Adds 1 pixel for border
+			};
 
 			let resize = () => {
-				if (scrollableArea.clientHeight < parseFloat(scope.canvasHeight.height)) {
+
+				// Locked coluns width calculus
+				// ====
+				scope.lockedWidth = getLockedColumnsWidth();
+
+				// Margin offset in case of vertical scrollbar
+				// ====
+				if (scrollableArea.clientHeight < scope.canvasHeight) {
 					header.style.marginRight = scrollbarThickness + "px";
+					lockedBody.style.marginRight = scrollbarThickness + "px";
 				} else {
 					header.style.marginRight = "0px";
+					lockedBody.style.marginRight = "0px";
 				}
 
-				if (scrollableArea.clientWidth < scrollableTable.offsetWidth) {
-					syncedBody.style.marginBottom = scrollbarThickness + "px";
+				// Margin offset in case of horizontal scrollbar
+				// ====
+				if (scrollableArea.clientWidth + scope.lockedWidth < scrollableTable.clientWidth) {
+					lockedBody.style.marginBottom = scrollbarThickness + "px";
 				} else {
-					syncedBody.style.marginBottom = "0px";
+					lockedBody.style.marginBottom = "0px";
 				}
+
+				scope.$apply();
 			};
 
 			let vsOnScroll = (event: Event) => {
@@ -103,9 +130,7 @@ module Lui.Directives {
 
 			scope.updateVirtualScroll = function(): void {
 
-				scope.canvasHeight = {
-					height: scope.filteredAndOrderedRows.length * rowHeight + "px",
-				};
+				scope.canvasHeight = scope.filteredAndOrderedRows.length * rowHeight;
 
 				let firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
 				let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
@@ -149,7 +174,7 @@ module Lui.Directives {
 
 			scrollableArea.addEventListener("scroll", (event: Event) => {
 				syncedHeader.scrollLeft = scrollableArea.scrollLeft;
-				syncedBody.scrollTop = scrollableArea.scrollTop;
+				lockedBody.scrollTop = scrollableArea.scrollTop;
 				vsOnScroll(event);
 			});
 

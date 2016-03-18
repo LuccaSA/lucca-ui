@@ -6,11 +6,11 @@ module Lui.Directives {
 
 	export interface IDataGridScope extends angular.IScope {
 		allChecked: any;
-		canvasHeight: any;
+		canvasHeight: number;
 		datas: any[];
 		filteredAndOrderedRows: any[];
 		headerRows: TableGrid.Header[][];
-		headerLockedWidth: number;
+		lockedWidth: number;
 		bodyRows: TableGrid.Header[][];
 		colDefinition: TableGrid.Header[];
 

@@ -31,10 +31,6 @@ module Lui.Directives {
 				}
 
 				if (result.tree.node) {
-					if (result.tree.node.fixed) {
-						$scope.headerLockedWidth += result.tree.node.width;
-					}
-
 					result.tree.node.rowspan = maxDepth - result.depth - result.subDepth;
 					result.tree.node.colspan = result.subChildren;
 					if (!result.tree.children.length && !result.tree.node.filterable) {
@@ -57,7 +53,6 @@ module Lui.Directives {
 			let init = () => {
 
 				$scope.headerRows = [];
-				$scope.headerLockedWidth = 0;
 				$scope.bodyRows = [];
 				$scope.colDefinition = [];
 				$scope.allChecked = {value: false};
