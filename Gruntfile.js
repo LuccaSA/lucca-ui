@@ -40,5 +40,6 @@ module.exports = function(grunt) {
 	// used for travis integration
 	grunt.registerTask('travis-karma', ["ts:test", 'karma:travis']);
 	// grunt.registerTask('travis-protractor', ["ts:e2e", "connect", "protractor:saucelab"]);
+	grunt.registerTask('jenkins-karma', ["ts:test", "karma:coverage"]);
 	grunt.registerTask('jenkins-protractor', ["ts:e2e", "connect", "protractor:singlerun"]);
 };
