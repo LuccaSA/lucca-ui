@@ -64,6 +64,7 @@ module Lui.Directives {
 				$scope.fixedRowDefinition = [];
 				$scope.scrollableHeaderRows = [];
 				$scope.scrollableRowDefinition = [];
+				$scope.allChecked = {value: false};
 
 				maxDepth = getTreeDepth($scope.header);
 
@@ -86,7 +87,7 @@ module Lui.Directives {
 				$scope.rightFilters = [];
 			};
 
-			let updateFilteredAndOrderedRows = () => {
+			$scope.updateFilteredAndOrderedRows = () => {
 				let temp = _.chain($scope.datas)
 					.filter((row: any) => {
 						let result = true;
@@ -108,6 +109,7 @@ module Lui.Directives {
 				}
 				let filteredAndOrderedRows = temp.value();
 				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
+
 				$scope.updateVirtualScroll();
 			};
 
@@ -122,7 +124,7 @@ module Lui.Directives {
 				}
 				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
 
-				updateFilteredAndOrderedRows();
+				$scope.refresh();
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {
@@ -140,7 +142,7 @@ module Lui.Directives {
 					}
 				}
 
-				updateFilteredAndOrderedRows();
+				$scope.updateFilteredAndOrderedRows();
 			};
 
 			// strip html for display in title attribute
@@ -148,6 +150,36 @@ module Lui.Directives {
 				let tmp = document.createElement("DIV");
 				tmp.innerHTML = html;
 				return tmp.textContent || tmp.innerText || "";
+			};
+
+			$scope.onMasterCheckBoxChange = () => {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = true; });
+				} else {
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
+				}
+			};
+
+			$scope.onCheckBoxChange = () => {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
+					$scope.allChecked.value = false;
+				} else {
+					$scope.allChecked.value = true;
+				}
+			};
+
+			$scope.getCheckboxState = () => {
+				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
+				if (selectedCheckboxesCount === 0) {
+					return "";
+				}
+				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
+					return "checked";
+				}
+				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
+					return "partial";
+				}
+				return "";
 			};
 
 			// playing init

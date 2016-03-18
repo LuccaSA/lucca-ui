@@ -1,10 +1,11 @@
-<div class="lui tablegrid">
+<div class="lui tablegrid" ng-class="{'selectable': selectable}">
 	<header class="header">
 		<div class="locked columns">
 			<div class="middle">
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
+						<col ng-if="selectable" style="width: 3em"/>
 						<col ng-repeat="header in fixedRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
@@ -13,6 +14,7 @@
 						ng-repeat="row in fixedHeaderRows track by $index"
 						ng-if="$index !== 0">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+							<td ng-if="selectable" class="empty cell" colspan="1" rowspan="1"></td>
 							<td
 							class="sortable cell"
 							ng-class="{'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
@@ -25,6 +27,7 @@
 						</tr>
 						<tr role="row">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><div class="lui checkbox"><input ng-class="getCheckboxState()" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/><label>&nbsp;</label></div></td>
 							<td
 							ng-repeat="header in fixedRowDefinition track by $index"
 							ng-if="header.filterable"
@@ -87,11 +90,13 @@
 				<table>
 					<colgroup>
 						<col style="width: 0em"></col>
+						<col ng-if="selectable" style="width: 3em"/>
 						<col ng-repeat="header in fixedRowDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
 					<tbody>
 						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
 							<td class="empty cell" colspan="1" rowspan="1">&nbsp;</td>
+							<td ng-if="selectable" class="cell" colspan="1" rowspan="1"><div class="lui checkbox"><input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/><label>&nbsp;</label></div></td>
 							<td
 							class="cell"
 							role="cell"

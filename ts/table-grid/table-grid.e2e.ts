@@ -18,7 +18,7 @@ module Lui.Directives.TableGrid.Test {
 		});
 
 		it("should show datas", (): void => {
-			let id = $(".lui.tablegrid .content .locked.columns").all(by.tagName("td")).get(1).getText();
+			let id = $(".lui.tablegrid .content .locked.columns").all(by.tagName("td")).get(2).getText();
 			let name = $(".lui.tablegrid .content .scrollable.columns").all(by.tagName("td")).get(1).getText();
 			expect(id).toEqual("0");
 			expect(name).toEqual("john cena");
@@ -63,10 +63,44 @@ module Lui.Directives.TableGrid.Test {
 			// expect(phone.getAttribute("rowspan")).toEqual("1");
 		});
 
-		it("shouldn't have a tr for each row (virtualized)", (): void => {
-			let rows = element.all(by.css("tr")).count();
+		it("shouldn't have a tr for each people (virtualized)", (): void => {
+			let trs = element.all(by.css(".lui.tablegrid .content .locked.columns tr")).count();
 			let people = $("#myTableGridPeopleLength").getText();
-			expect(rows).not.toEqual(people);
+			expect(trs).not.toEqual(people);
+		});
+
+		it("should have a master checkbox", (): void => {
+			let masterCheckBoxCount = element.all(by.css(".lui.tablegrid .header .lui.checkbox")).count();
+			expect(masterCheckBoxCount).toEqual(1);
+		});
+
+		it("should have as many checkboxes as rows", (): void => {
+			let checkBoxesCount = element.all(by.css(".lui.tablegrid .content .lui.checkbox")).count();
+			let trs = element.all(by.css(".lui.tablegrid .content .locked.columns tr")).count();
+			expect(checkBoxesCount).toEqual(trs);
+		});
+
+		it("should master checkbox have partial css class when one chekbox is checked", (): void => {
+			let unCheckedCount = element.all(by.css(".lui.tablegrid .content .lui.checkbox :not(checked)")).count();
+			let firstUnChecked = element.all(by.css(".lui.tablegrid .content .lui.checkbox :not(checked)")).first();
+			let unCheckedAfterClickCount;
+			firstUnChecked.click().then(() => {
+				unCheckedAfterClickCount = element.all(by.css(".lui.tablegrid .content .lui.checkbox :not(checked)")).count();
+			});
+			let masterCheckBoxCount = element.all(by.css(".lui.tablegrid .header .lui.checkbox .partial")).count();
+			expect(unCheckedCount).not.toEqual(unCheckedAfterClickCount);
+			expect(unCheckedAfterClickCount).not.toBe(0);
+			expect(masterCheckBoxCount).toEqual(1);
+		});
+
+		it("should checked all checkboxes when master checkbox is checked", (): void => {
+			let masterCheckboxElement = element.all(by.css(".lui.tablegrid .header .lui.checkbox")).first();
+			let unCheckedAfterClickCount;
+			masterCheckboxElement.click()
+				.then(() => {
+					unCheckedAfterClickCount = element.all(by.css(".lui.tablegrid .content .lui.checkbox checkbox :not(checked)")).count();
+					expect(unCheckedAfterClickCount).toBe(0);
+				});
 		});
 	});
 }
