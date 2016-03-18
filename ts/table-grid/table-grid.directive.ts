@@ -157,6 +157,8 @@ module Lui.Directives {
 
 				cellsPerPage = Math.round(height / rowHeight);
 				numberOfCells = cellsPerPage * 3;
+
+				this.$timeout(() => { resize(); }, 100);
 			};
 
 			window.addEventListener("resize", (): void => {
