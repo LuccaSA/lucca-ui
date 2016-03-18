@@ -105,7 +105,7 @@ module Lui.Directives {
 				}
 				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
 
-				$scope.refresh();
+				$scope.updateFilteredAndOrderedRows();
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {

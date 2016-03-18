@@ -76,10 +76,10 @@ module Lui.Directives {
 			// private variables
 			let scrollbarThickness: number = getScrollbarThickness();
 			let height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
-			let contentHeight = height;
 			let rowHeight = 33; // # MAGIC NUMBER
-			let cellsPerPage = Math.round(contentHeight / rowHeight); //number of cells fitting in one page
+			let cellsPerPage = Math.round(height / rowHeight); //number of cells fitting in one page
 			let numberOfCells = cellsPerPage * 3;
+			let resizeTimer: any;
 
 
 			let scrollTop = 0; //current scroll position
@@ -96,6 +96,7 @@ module Lui.Directives {
 			};
 
 			let resize = () => {
+				console.log("resize");
 
 				// Locked coluns width calculus
 				// ====
@@ -140,16 +141,13 @@ module Lui.Directives {
 				scrollableTable.style.top = firstCell * rowHeight + "px";
 			};
 
-			scope.refresh = () => {
-				scope.updateFilteredAndOrderedRows();
-			};
-
 			scope.$watchCollection("datas", () => {
 				scope.filteredAndOrderedRows = scope.datas;
 				scope.updateVirtualScroll();
 
 				angular.element(document).ready(() => {
-					scope.refresh();
+					scope.updateFilteredAndOrderedRows();
+					resize();
 				});
 			});
 
@@ -157,19 +155,13 @@ module Lui.Directives {
 			let init = () => {
 				scope.filteredAndOrderedRows = scope.datas;
 
-				cellsPerPage = Math.round(contentHeight / rowHeight);
+				cellsPerPage = Math.round(height / rowHeight);
 				numberOfCells = cellsPerPage * 3;
-				scope.updateVirtualScroll();
-
-				this.$timeout(() => {
-					resize();
-				}, 100);
 			};
 
 			window.addEventListener("resize", (): void => {
-				// This should be debounced
-				// @TODO
-				resize();
+				this.$timeout.cancel(resizeTimer);
+				resizeTimer = this.$timeout(() => { resize(); }, 100);
 			});
 
 			scrollableArea.addEventListener("scroll", (event: Event) => {
