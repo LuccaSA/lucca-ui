@@ -1733,10 +1733,10 @@ var Lui;
                     scope.$watchCollection("datas", function () {
                         scope.filteredAndOrderedRows = scope.datas;
                         scope.updateVirtualScroll();
-                        angular.element(document).ready(function () {
+                        _this.$timeout(function () {
                             scope.updateFilteredAndOrderedRows();
                             resize();
-                        });
+                        }, 100);
                     });
                     var init = function () {
                         scope.filteredAndOrderedRows = scope.datas;
