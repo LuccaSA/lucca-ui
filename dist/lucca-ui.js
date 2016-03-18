@@ -1742,6 +1742,7 @@ var Lui;
                         scope.filteredAndOrderedRows = scope.datas;
                         cellsPerPage = Math.round(height / rowHeight);
                         numberOfCells = cellsPerPage * 3;
+                        _this.$timeout(function () { resize(); }, 100);
                     };
                     window.addEventListener("resize", function () {
                         _this.$timeout.cancel(resizeTimer);
