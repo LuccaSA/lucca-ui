@@ -145,10 +145,10 @@ module Lui.Directives {
 				scope.filteredAndOrderedRows = scope.datas;
 				scope.updateVirtualScroll();
 
-				angular.element(document).ready(() => {
+				this.$timeout(() => {
 					scope.updateFilteredAndOrderedRows();
 					resize();
-				});
+				}, 100);
 			});
 
 
