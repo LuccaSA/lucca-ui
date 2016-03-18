@@ -6,13 +6,13 @@
 					<col ng-if="selectable" style="width: 3.5em;"/>
 					<col ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 				</colgroup>
-				<tbody>
+				<thead>
 					<tr	role="row"
 					ng-repeat="row in headerRows track by $index"
 					ng-if="$index !== 0">
-						<td ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></td>
+						<th ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
 
-						<td role="columnheader"
+						<th role="columnheader"
 						class="sortable"
 						ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
 						ng-repeat="header in row track by $index"
@@ -21,13 +21,13 @@
 						ng-click="updateOrderBy(header)">{{ header.label }}</th>
 					</tr>
 					<tr role="row">
-						<td role="columnheader" class="locked" colspan="1" rowspan="1">
+						<th role="columnheader" class="locked" colspan="1" rowspan="1">
 							<div class="lui checkbox">
 								<input ng-class="getCheckboxState()" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/>
 								<label>&nbsp;</label>
 							</div>
-						</td>
-						<td role="columnheader"
+						</th>
+						<th role="columnheader"
 						ng-repeat="header in colDefinition track by $index"
 						ng-if="header.filterable"
 						colspan="1"
@@ -37,9 +37,9 @@
 							<div class="lui fitting search input">
 								<input type="text" ng-change="updateFilterBy(header, $index)" ng-model="leftFilters[$index].value" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
 							</div>
-						</td>
+						</th>
 					</tr>
-				</tbody>
+				</thead>
 			</table>
 		</div>
 
@@ -50,22 +50,22 @@
 						<col ng-if="selectable" style="width: 3.5em;"/>
 						<col ng-repeat="header in colDefinition track by $index" ng-style="{'width': header.width + 'em'}"></col>
 					</colgroup>
-					<tbody>
+					<thead>
 						<tr	role="row"
 						ng-repeat="row in headerRows track by $index"
 						ng-if="$index !== 0">
-							<td ng-if="selectable" class="locked"  role="columnheader" colspan="1" rowspan="1"></td>
-							<td role="columnheader"
+							<th ng-if="selectable" class="locked"  role="columnheader" colspan="1" rowspan="1"></th>
+							<th role="columnheader"
 							class="sortable"
 							ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
 							ng-repeat="header in row track by $index"
 							rowspan="{{ header.rowspan }}"
 							colspan="{{ header.colspan }}"
-							ng-click="updateOrderBy(header)">{{ header.label }}</td>
+							ng-click="updateOrderBy(header)">{{ header.label }}</th>
 						</tr>
 						<tr role="row">
-							<td ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></td>
-							<td role="columnheader"
+							<th ng-if="selectable" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
+							<th role="columnheader"
 							ng-repeat="header in colDefinition track by $index"
 							ng-if="header.filterable"
 							colspan="1"
@@ -74,9 +74,9 @@
 								<div class="lui fitting search input">
 									<input type="text" ng-change="updateFilterBy(header, $index)" ng-model="rightFilters[$index].value" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
 								</div>
-							</td>
+							</th>
 						</tr>
-					</tbody>
+					</thead>
 				</table>
 			</div>
 		</div>
