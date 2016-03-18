@@ -1,7 +1,6 @@
-// A reference configuration file. - don't touch it except for baseUrl
 exports.config = {
 	seleniumArgs: [],
-	baseUrl: 'http://localhost:9001/tests/e2e/e2e.html', // use a adifferent url in your protractor.conf.js.dev
+	baseUrl: 'http://localhost:12345/tests/e2e/e2e.html', 
 
 	onPrepare: function() {
 		browser.driver.get(exports.config.baseUrl);
