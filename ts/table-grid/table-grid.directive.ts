@@ -96,9 +96,7 @@ module Lui.Directives {
 			};
 
 			let resize = () => {
-				console.log("resize");
-
-				// Locked coluns width calculus
+				// Locked columns width calculus
 				// ====
 				scope.lockedWidth = getLockedColumnsWidth();
 
@@ -142,13 +140,15 @@ module Lui.Directives {
 			};
 
 			scope.$watchCollection("datas", () => {
-				scope.filteredAndOrderedRows = scope.datas;
-				scope.updateVirtualScroll();
+				if (!!scope.datas) {
+					scope.filteredAndOrderedRows = scope.datas;
+					scope.updateVirtualScroll();
 
-				this.$timeout(() => {
-					scope.updateFilteredAndOrderedRows();
-					resize();
-				}, 100);
+					this.$timeout(() => {
+						scope.updateFilteredAndOrderedRows();
+						resize();
+					}, 100);
+				}
 			});
 
 
