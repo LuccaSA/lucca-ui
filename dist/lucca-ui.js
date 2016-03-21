@@ -1699,7 +1699,6 @@ var Lui;
                         return w + 1;
                     };
                     var resize = function () {
-                        console.log("resize");
                         scope.lockedWidth = getLockedColumnsWidth();
                         if (scrollableArea.clientHeight < scope.canvasHeight) {
                             header.style.marginRight = scrollbarThickness + "px";
@@ -1731,12 +1730,14 @@ var Lui;
                         scrollableTable.style.top = firstCell * rowHeight + "px";
                     };
                     scope.$watchCollection("datas", function () {
-                        scope.filteredAndOrderedRows = scope.datas;
-                        scope.updateVirtualScroll();
-                        _this.$timeout(function () {
-                            scope.updateFilteredAndOrderedRows();
-                            resize();
-                        }, 100);
+                        if (!!scope.datas) {
+                            scope.filteredAndOrderedRows = scope.datas;
+                            scope.updateVirtualScroll();
+                            _this.$timeout(function () {
+                                scope.updateFilteredAndOrderedRows();
+                                resize();
+                            }, 100);
+                        }
                     });
                     var init = function () {
                         scope.filteredAndOrderedRows = scope.datas;
