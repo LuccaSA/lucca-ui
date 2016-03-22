@@ -12,17 +12,18 @@ module Lui.Directives {
 		headerRows: TableGrid.Header[][];
 		lockedWidth: number;
 		bodyRows: TableGrid.Header[][];
-		colDefinition: TableGrid.Header[];
+		colDefinitions: TableGrid.Header[];
+		FilterTypeEnum: FilterTypeEnum;
 
 		fixedRowDefinition: TableGrid.Header[];
 		header: TableGrid.Tree;
-		leftFilters: {header: TableGrid.Header, value: string}[];
-		rightFilters: {header: TableGrid.Header, value: string}[];
+		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
 		scrollableRowDefinition: TableGrid.Header[];
 		selectable: boolean;
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
 
+		clearSelect: ($select: any, $index: number, $event: any) => void;
 		stripHtml: (html: string) => string;
 		updateFilterBy: (header: TableGrid.Header, index: number) => void;
 		updateFilteredAndOrderedRows: () => void;

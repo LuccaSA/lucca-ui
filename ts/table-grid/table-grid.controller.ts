@@ -4,12 +4,20 @@ module Lui.Directives {
 
 	"use strict";
 
+	export class FilterTypeEnum {
+		public static NONE = "none";
+		public static TEXT = "text";
+		public static SELECT = "select";
+		public static MULTISELECT = "multiselect";
+	}
+
 	export class LuidTableGridController {
 		public static IID: string = "luidTableGridController";
 		public static $inject: Array<string> = ["$filter", "$scope", "$translate"];
 
 		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService) {
 
+			$scope.FilterTypeEnum = FilterTypeEnum;
 			// private members
 			let maxDepth = 0;
 
@@ -27,13 +35,13 @@ module Lui.Directives {
 				if (result.tree.children.length) {
 					result.subDepth++;
 				} else {
-					$scope.colDefinition.push(result.tree.node);
+					$scope.colDefinitions.push(result.tree.node);
 				}
 
 				if (result.tree.node) {
 					result.tree.node.rowspan = maxDepth - result.depth - result.subDepth;
 					result.tree.node.colspan = result.subChildren;
-					if (!result.tree.children.length && !result.tree.node.filterable) {
+					if (!result.tree.children.length && result.tree.node.filterType == FilterTypeEnum.NONE) {
 						result.tree.node.rowspan++;
 					}
 
@@ -50,11 +58,33 @@ module Lui.Directives {
 				return depth + 1;
 			};
 
+			let initFilter = () => {
+				$scope.filters = [];
+				_.each($scope.datas, (row: any) => {
+					_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
+						if (!$scope.filters[index]) {
+							$scope.filters[index] = { header: header, selectValues:[], currentValues: [] };
+						}
+						if (header.filterType === FilterTypeEnum.SELECT
+								|| header.filterType === FilterTypeEnum.MULTISELECT) {
+							let value = header.getValue(row);
+							if (!!header.getFilterValue) {
+								value = header.getFilterValue(row);
+							}
+							if (!_.contains($scope.filters[index].selectValues, value)) {
+								$scope.filters[index].selectValues.push(value);
+							}
+						}
+					});
+
+				});
+			};
+
 			let init = () => {
 
 				$scope.headerRows = [];
 				$scope.bodyRows = [];
-				$scope.colDefinition = [];
+				$scope.colDefinitions = [];
 				$scope.allChecked = {value: false};
 
 				maxDepth = getTreeDepth($scope.header);
@@ -64,19 +94,20 @@ module Lui.Directives {
 
 				$scope.selected = { orderBy: null, reverse: false };
 
-				$scope.leftFilters = [];
-				$scope.rightFilters = [];
+				initFilter();
 			};
 
 			$scope.updateFilteredAndOrderedRows = () => {
 				let temp = _.chain($scope.datas)
 					.filter((row: any) => {
 						let result = true;
-						let filters = $scope.leftFilters.concat($scope.rightFilters);
-						filters.forEach((filter: { header: TableGrid.Header, value: string }) => {
-							if (filter.header && filter.value && filter.value !== "") {
+						$scope.filters.forEach((filter: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }) => {
+							if (filter.header
+									&& !!filter.currentValues[0]
+									&& filter.currentValues[0] !== "") {
 								let prop = (filter.header.getValue(row) + "").toLowerCase();
-								if (prop.indexOf(filter.value.toLowerCase()) === -1) {
+								let containsProp = _.some(filter.currentValues, (value: string) => { return prop.indexOf(value.toLowerCase()) !== -1});
+								if (!containsProp) {
 									result = false;
 								}
 							}
@@ -92,20 +123,6 @@ module Lui.Directives {
 				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
 
 				$scope.updateVirtualScroll();
-			};
-
-			// orderBys and filterBys
-
-			$scope.updateFilterBy = (header: TableGrid.Header, index: number) => {
-				let value = header.fixed ? $scope.leftFilters[index].value : $scope.rightFilters[index].value;
-				if (!header) { return; }
-				if (!header.filterable) { return; }
-				if (value === null || value === "") {
-					header.fixed ? $scope.leftFilters[index] = { header: null, value: "" } : $scope.rightFilters[index] = { header: null, value: "" };
-				}
-				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
-
-				$scope.updateFilteredAndOrderedRows();
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {
@@ -161,6 +178,13 @@ module Lui.Directives {
 					return "partial";
 				}
 				return "";
+			};
+
+			$scope.clearSelect = ($select: any, $index:number, $event: any) => {
+				$event.stopPropagation();
+				$select.selected = undefined;
+				$scope.filters[$index].currentValues[0] = "";
+				$scope.updateFilteredAndOrderedRows();
 			};
 
 			// playing init
