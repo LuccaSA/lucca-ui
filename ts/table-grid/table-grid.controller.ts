@@ -116,7 +116,11 @@ module Lui.Directives {
 					});
 				if ($scope.selected && $scope.selected.orderBy) {
 					temp = temp.sortBy((row: any) => {
-						return $scope.selected.orderBy.getOrderByValue(row);
+						let orderByValue = $scope.selected.orderBy.getValue(row);
+						if ( $scope.selected.orderBy.getOrderByValue != null){
+							orderByValue = $scope.selected.orderBy.getOrderByValue(row);
+						}
+						return orderByValue;
 					});
 				}
 				let filteredAndOrderedRows = temp.value();
@@ -126,18 +130,16 @@ module Lui.Directives {
 			};
 
 			$scope.updateOrderBy = (header: TableGrid.Header) => {
-				if (header.getOrderByValue != null) {
-					if (header === $scope.selected.orderBy) {
-						if ($scope.selected.reverse) {
-							$scope.selected.orderBy = null;
-							$scope.selected.reverse = false;
-						} else {
-							$scope.selected.reverse = true;
-						}
-					} else {
-						$scope.selected.orderBy = header;
+				if (header === $scope.selected.orderBy) {
+					if ($scope.selected.reverse) {
+						$scope.selected.orderBy = null;
 						$scope.selected.reverse = false;
+					} else {
+						$scope.selected.reverse = true;
 					}
+				} else {
+					$scope.selected.orderBy = header;
+					$scope.selected.reverse = false;
 				}
 
 				$scope.updateFilteredAndOrderedRows();

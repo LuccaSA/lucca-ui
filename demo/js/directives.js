@@ -168,7 +168,6 @@
 							width: 20,
 							getFilterValue: function (someone) { return someone.name; },
 							getValue: function (someone) { return "<span>" + someone.name + "</span>"; },
-							getOrderByValue: function (someone) { return someone.name; },
 							colspan: null,
 							hidden: false,
 							rowspan: null,
