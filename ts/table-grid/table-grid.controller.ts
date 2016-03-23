@@ -17,7 +17,6 @@ module Lui.Directives {
 
 		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService) {
 
-			$scope.FilterTypeEnum = FilterTypeEnum;
 			// private members
 			let maxDepth = 0;
 
@@ -41,7 +40,7 @@ module Lui.Directives {
 				if (result.tree.node) {
 					result.tree.node.rowspan = maxDepth - result.depth - result.subDepth;
 					result.tree.node.colspan = result.subChildren;
-					if (!result.tree.children.length && result.tree.node.filterType == FilterTypeEnum.NONE) {
+					if (!result.tree.children.length && result.tree.node.filterType === FilterTypeEnum.NONE) {
 						result.tree.node.rowspan++;
 					}
 
@@ -63,7 +62,7 @@ module Lui.Directives {
 				_.each($scope.datas, (row: any) => {
 					_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
 						if (!$scope.filters[index]) {
-							$scope.filters[index] = { header: header, selectValues:[], currentValues: [] };
+							$scope.filters[index] = { header: header, selectValues: [], currentValues: [] };
 						}
 						if (header.filterType === FilterTypeEnum.SELECT
 								|| header.filterType === FilterTypeEnum.MULTISELECT) {
@@ -81,7 +80,7 @@ module Lui.Directives {
 			};
 
 			let init = () => {
-
+				$scope.FilterTypeEnum = FilterTypeEnum;
 				$scope.headerRows = [];
 				$scope.bodyRows = [];
 				$scope.colDefinitions = [];
@@ -106,7 +105,7 @@ module Lui.Directives {
 									&& !!filter.currentValues[0]
 									&& filter.currentValues[0] !== "") {
 								let prop = (filter.header.getValue(row) + "").toLowerCase();
-								let containsProp = _.some(filter.currentValues, (value: string) => { return prop.indexOf(value.toLowerCase()) !== -1});
+								let containsProp = _.some(filter.currentValues, (value: string) => { return prop.indexOf(value.toLowerCase()) !== -1; });
 								if (!containsProp) {
 									result = false;
 								}
@@ -117,7 +116,7 @@ module Lui.Directives {
 				if ($scope.selected && $scope.selected.orderBy) {
 					temp = temp.sortBy((row: any) => {
 						let orderByValue = $scope.selected.orderBy.getValue(row);
-						if ( $scope.selected.orderBy.getOrderByValue != null){
+						if ( $scope.selected.orderBy.getOrderByValue != null) {
 							orderByValue = $scope.selected.orderBy.getOrderByValue(row);
 						}
 						return orderByValue;
@@ -143,13 +142,6 @@ module Lui.Directives {
 				}
 
 				$scope.updateFilteredAndOrderedRows();
-			};
-
-			// strip html for display in title attribute
-			$scope.stripHtml = (html) => {
-				let tmp = document.createElement("DIV");
-				tmp.innerHTML = html;
-				return tmp.textContent || tmp.innerText || "";
 			};
 
 			$scope.onMasterCheckBoxChange = () => {
@@ -182,7 +174,7 @@ module Lui.Directives {
 				return "";
 			};
 
-			$scope.clearSelect = ($select: any, $index:number, $event: any) => {
+			$scope.clearSelect = ($select: any, $index: number, $event: any) => {
 				$event.stopPropagation();
 				$select.selected = undefined;
 				$scope.filters[$index].currentValues[0] = "";

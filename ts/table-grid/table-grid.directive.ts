@@ -29,6 +29,21 @@ module Lui.Directives {
 		public link: ng.IDirectiveLinkFn = (scope: IDataGridScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
 
 			// ==========================================
+			// ---- DOM Elements
+			// ==========================================
+			let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
+
+			let tables: any = tablegrid.querySelectorAll("table"); 			// Both tables
+			let headers: any = tablegrid.querySelectorAll("thead"); 		// Both tables headers
+			let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
+
+			let lockedColumns: any = tablegrid.querySelector(".locked.columns");
+			let lockedColumnsSynced: any = lockedColumns.querySelector(".holder");
+
+			let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
+			let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
+
+			// ==========================================
 			// ---- Helpers (methods)
 			// ==========================================
 			// http://stackoverflow.com/questions/34426134/how-to-get-the-width-of-the-browsers-scrollbars-and-add-it-to-the-width-of-the-w
@@ -70,23 +85,9 @@ module Lui.Directives {
 				return w + 1; // Adds 1 pixel for border
 			};
 
-
 			// ==========================================
-			// ---- DOM Elements
+			// ---- Other private variables
 			// ==========================================
-			let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
-
-			let tables: any = tablegrid.querySelectorAll("table"); 			// Both tables
-			let headers: any = tablegrid.querySelectorAll("thead"); 		// Both tables headers
-			let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
-
-			let lockedColumns: any = tablegrid.querySelector(".locked.columns");
-			let lockedColumnsSynced: any = lockedColumns.querySelector(".holder");
-
-			let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
-			let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
-
-			// Other private variables
 			let scrollbarThickness: number = getScrollbarThickness();
 			let height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
 			let rowHeight = 33; // # MAGIC NUMBER
@@ -101,10 +102,6 @@ module Lui.Directives {
 			// ==========================================
 			// ---- Resize methods
 			// ==========================================
-			// Public
-			scope.resizedHeaders = () => {
-				tablegrid.style.paddingTop = headers[0].offsetHeight + "px";
-			}
 			// Private
 			let resize = () => {
 				console.log("resize");
@@ -128,6 +125,10 @@ module Lui.Directives {
 				scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
 
 				scope.resizedHeaders();
+			};
+			// Public
+			scope.resizedHeaders = () => {
+				tablegrid.style.paddingTop = headers[0].offsetHeight + "px";
 			};
 
 			// ==========================================
