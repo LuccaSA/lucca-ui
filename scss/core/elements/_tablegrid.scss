@@ -1,30 +1,41 @@
 #{$prefix}.tablegrid {
+	position: relative;
 
 	// Common
 	// ====
 	text-align: map-gets($vars, textAlignment);
 
-	> .header,
-	> .body {
-		position: relative;
-		overflow: hidden;
-	}
 	table {
 		table-layout: fixed;
-		width: 100%;
+		min-width: 100%;
+		position: absolute;
 	}
 
 	// Columns
 	// ====
 	.locked.columns {
-		position: absolute;
-		left: 0; right: 0;
-		top: 0; bottom: 0;
 		overflow: hidden;
+		position: absolute;
+		z-index: 3;
+		top: 0; bottom: 0; left: 0; right: 0;
+
+		table { height: 100%; }
+
+		thead {
+			z-index: 4;
+		}
 	}
+	.relative,
 	.scrollable.columns {
 		position: relative;
-		z-index: 2;
+	}
+	.scrollable.columns {
+		z-index: 1;
+		overflow: auto;
+
+		thead {
+			z-index: 2;
+		}
 	}
 
 	// Cells
@@ -60,58 +71,45 @@
 				background-color: map-gets($vars, header, text);
 			}
 		}
+	}
 
+	thead, tbody {
+		position: absolute;
+		display: table;
+		width: auto;
+		min-width: 100%;
+		box-sizing: border-box;
+		table-layout: fixed;
 	}
 
 	// Header
 	// ====
-	> .header {
+	thead {
+		position: absolute;
 		color: map-gets($vars, header, text);
 		font-weight: map-gets($vars, header, fontWeight);
 		text-align: map-gets($vars, header, textAlignment);
+
 		a {
 			color: map-gets($vars, header, text);
 			text-decoration: none;
 		}
 
 		th {
+			background-color: map-gets($vars, header, background);
 			vertical-align: bottom;
 			border-color: map-gets($vars, header, borderColor);
 		}
 		tr:not(.filters) th:not([colspan]) {
 			padding-top: map-gets($vars, header, cellPaddingTop);
 		}
-
-		.scrollable.columns {
-			overflow: hidden;
-		}
-	}
-	.header,
-	.header .scrollable.columns {
-		background-color: map-gets($vars, header, background);
 	}
 
 
 	// Body
 	// ====
-	> .body {
-		.columns {
-			border-bottom: 1px solid luiPalette(light, color);
-		}
-		.scrollable.columns {
-			overflow: auto;
-		}
-	}
-	.virtualscroll {
-		position: relative;
-		> table {
-			position: absolute;
-			overflow: hidden; // IE fix
-		}
-	}
-
-	.body,
-	.body .scrollable.columns {
+	tbody {
+		height: auto;
 		background-color: map-gets($vars, background);
 	}
 
@@ -119,7 +117,7 @@
 	// Styles
 	// ====
 	&.zebra {
-		> .body > .columns tbody > tr:nth-child(2n) {
+		tbody > tr:nth-child(2n) {
 			background-color: map-gets($vars, rows, zebraColor);
 		}
 	}

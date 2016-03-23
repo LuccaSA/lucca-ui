@@ -56,6 +56,12 @@
 			float: left;
 			clear: both;
 		}
+
+		&.solo {
+			label {
+				padding-left: map-gets($vars, checkbox, size);
+			}
+		}
 	}
 
 	// Icon version

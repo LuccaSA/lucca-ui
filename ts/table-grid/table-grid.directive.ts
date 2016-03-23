@@ -33,15 +33,15 @@ module Lui.Directives {
 			// DOM elements
 			let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
 
-			let header: any = tablegrid.querySelector(".header"); // The table header
-			let lockedTable: any = tablegrid.querySelector(".body .locked.columns table"); // left table of the rows
+			let headers: any = tablegrid.querySelectorAll("thead"); // The table header
+			let tables: any = tablegrid.querySelectorAll("table");
+			let lockedColumns: any = tablegrid.querySelector(".locked.columns");
+
+			let lockedTable: any = tablegrid.querySelector("table"); // left table of the rows
 			let lockedCols: any = lockedTable.querySelectorAll("tr:first-child td.locked");
-			let lockedBody: any = tablegrid.querySelector(".body .locked.columns"); // scrollable area
 
-			let scrollableArea: any = tablegrid.querySelector(".body .scrollable"); // scrollable area
-			let scrollableTable: any = tablegrid.querySelector(".body .scrollable.columns table"); // right part of the rows
-			let syncedHeader: any = tablegrid.querySelector(".header .scrollable.columns"); // scrollable area
-
+			let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
+			let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
 
 			// http://stackoverflow.com/questions/34426134/how-to-get-the-width-of-the-browsers-scrollbars-and-add-it-to-the-width-of-the-w
 			let getScrollbarThickness = () => {
@@ -80,6 +80,7 @@ module Lui.Directives {
 			let cellsPerPage = Math.round(height / rowHeight); //number of cells fitting in one page
 			let numberOfCells = cellsPerPage * 3;
 			let resizeTimer: any;
+			let fixedHeaderTimer: any;
 
 
 			let scrollTop = 0; //current scroll position
@@ -89,36 +90,40 @@ module Lui.Directives {
 			let getLockedColumnsWidth = () => {
 				let w: number = 0;
 				// @TODO: Should use the lockedCols variables rather than searching for them each time
-				for (let col of lockedTable.querySelectorAll("tr:first-child td.locked")) {
+				for (let col of tables[1].querySelectorAll("tr:first-child td.locked")) {
 					w += col.offsetWidth;
 				}
 				return w + 1; // Adds 1 pixel for border
 			};
 
 			let resize = () => {
-				// Locked columns width calculus
-				// ====
-				scope.lockedWidth = getLockedColumnsWidth();
+				let tablegridWidth: number = 0;
 
-				// Margin offset in case of vertical scrollbar
+				// Vertical scrollbar
 				// ====
 				if (scrollableArea.clientHeight < scope.canvasHeight) {
-					header.style.marginRight = scrollbarThickness + "px";
-					lockedBody.style.marginRight = scrollbarThickness + "px";
+					tablegridWidth = tablegrid.clientWidth - scrollbarThickness;
 				} else {
-					header.style.marginRight = "0px";
-					lockedBody.style.marginRight = "0px";
+					tablegridWidth = tablegrid.clientWidth;
+				}
+				for (let table of tables) {
+					table.style.width = tablegridWidth + "px";
 				}
 
-				// Margin offset in case of horizontal scrollbar
+				// Horizontal scrollbar
 				// ====
-				if (scrollableArea.clientWidth + scope.lockedWidth < scrollableTable.clientWidth) {
-					lockedBody.style.marginBottom = scrollbarThickness + "px";
+				if (tables[0].clientWidth > tablegridWidth) {
+					lockedColumns.style.bottom = scrollbarThickness + "px";
 				} else {
-					lockedBody.style.marginBottom = "0px";
+					lockedColumns.style.bottom = "0px";
 				}
 
-				scope.$apply();
+
+
+				let lockedColumnsWidth: any = getLockedColumnsWidth();
+				lockedColumns.style.width = lockedColumnsWidth + "px";
+				scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
+				scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
 			};
 
 			let vsOnScroll = (event: Event) => {
@@ -127,7 +132,7 @@ module Lui.Directives {
 				scope.$apply();
 			};
 
-			scope.updateVirtualScroll = function(): void {
+			scope.updateVirtualScroll = () => {
 
 				scope.canvasHeight = scope.filteredAndOrderedRows.length * rowHeight;
 
@@ -135,8 +140,11 @@ module Lui.Directives {
 				let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
 				scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
 
-				lockedTable.style.top = firstCell * rowHeight + "px";
-				scrollableTable.style.top = firstCell * rowHeight + "px";
+				for (let table of tables)
+					table.style.top = headers[0].clientHeight + firstCell * rowHeight + "px";
+
+				for (let header of headers)
+					header.style.top = scrollTop - header.offsetHeight - firstCell * rowHeight + "px";
 			};
 
 			scope.$watchCollection("datas", () => {
@@ -167,8 +175,8 @@ module Lui.Directives {
 			});
 
 			scrollableArea.addEventListener("scroll", (event: Event) => {
-				syncedHeader.scrollLeft = scrollableArea.scrollLeft;
-				lockedBody.scrollTop = scrollableArea.scrollTop;
+				// syncedHeader.scrollLeft = scrollableArea.scrollLeft;
+				lockedColumns.scrollTop = scrollableArea.scrollTop;
 				vsOnScroll(event);
 			});
 
