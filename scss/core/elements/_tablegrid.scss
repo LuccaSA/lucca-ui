@@ -1,5 +1,6 @@
 #{$prefix}.tablegrid {
 	position: relative;
+	overflow: hidden;
 
 	// Common
 	// ====
@@ -7,27 +8,26 @@
 
 	table {
 		table-layout: fixed;
-		min-width: 100%;
-		position: absolute;
+		width: 100%;
+		min-height: 1px;
 	}
 
 	// Columns
 	// ====
 	.locked.columns {
-		overflow: hidden;
 		position: absolute;
+		overflow: hidden;
 		z-index: 3;
 		top: 0; bottom: 0; left: 0; right: 0;
 
-		table { height: 100%; }
+		// table { height: 100%; }
 
 		thead {
 			z-index: 4;
 		}
 	}
-	.relative,
-	.scrollable.columns {
-		position: relative;
+	.holder {
+		overflow: hidden;
 	}
 	.scrollable.columns {
 		z-index: 1;
@@ -74,10 +74,8 @@
 	}
 
 	thead, tbody {
-		position: absolute;
 		display: table;
 		width: auto;
-		min-width: 100%;
 		box-sizing: border-box;
 		table-layout: fixed;
 	}
@@ -85,7 +83,8 @@
 	// Header
 	// ====
 	thead {
-		position: absolute;
+		position: absolute; top: 0;
+		min-width: 100%;
 		color: map-gets($vars, header, text);
 		font-weight: map-gets($vars, header, fontWeight);
 		text-align: map-gets($vars, header, textAlignment);
@@ -109,6 +108,7 @@
 	// Body
 	// ====
 	tbody {
+		min-width: 100%;
 		height: auto;
 		background-color: map-gets($vars, background);
 	}
@@ -125,5 +125,16 @@
 	// Hover color
 	tr.hovering {
 		background-color: map-gets($vars, rows, hoverColor) !important;
+	}
+
+	// IE9: no support for locked columns
+	.ie9 & {
+		.scrollable.columns,
+		.scrollable.columns .virtualscroll {
+			margin-left: 0 !important;
+		}
+		.locked.columns {
+			display: none;
+		}
 	}
 }

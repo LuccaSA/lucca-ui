@@ -1,12 +1,12 @@
 <div class="lui tablegrid">
 	<div class="locked columns">
-		<div class="relative">
+		<div class="holder" style="height: 500px;">
 			<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}">
 				<table>
-					<colgroup>
+					<!-- <colgroup>
 						<col ng-if="selectable" style="width: 3.5em;"/>
 						<col ng-repeat="header in colDefinitions track by $index" ng-style="{'width': header.width + 'em'}"></col>
-					</colgroup>
+					</colgroup> -->
 					<thead>
 						<tr	role="row"
 						ng-repeat="row in headerRows track by $index"
@@ -52,9 +52,8 @@
 								<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.SELECT">
 									<ui-select class="lui nguibs-ui-select" ng-model="filters[$index].currentValues[0]"
 											   reset-search-input=true on-select="updateFilteredAndOrderedRows()">
-										<ui-select-match placeholder="{{ 'SELECT_ITEM' | translate }}">
+										<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">
 											{{ $select.selected }}
-											<button class="lui button" ng-click="clearSelect($select, $index, $event)">x</button>
 										</ui-select-match>
 										<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">
 											{{ value }}
@@ -88,10 +87,10 @@
 	<div class="scrollable columns" style="height: 500px;">
 		<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}">
 			<table>
-				<colgroup>
+				<!-- <colgroup>
 					<col ng-if="selectable" style="width: 3.5em;"/>
 					<col ng-repeat="header in colDefinitions track by $index" ng-style="{'width': header.width + 'em'}"></col>
-				</colgroup>
+				</colgroup> -->
 				<thead>
 					<tr	role="row"
 					ng-repeat="row in headerRows track by $index"
@@ -137,9 +136,8 @@
 							<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.SELECT">
 								<ui-select class="lui nguibs-ui-select" ng-model="filters[$index].currentValues[0]"
 										   reset-search-input=true on-select="updateFilteredAndOrderedRows()">
-									<ui-select-match placeholder="{{ 'SELECT_ITEM' | translate }}">
+									<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">
 										{{ $select.selected }}
-										<button class="lui button" ng-click="clearSelect($select, $index, $event)">x</button>
 									</ui-select-match>
 									<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">
 										{{ value }}

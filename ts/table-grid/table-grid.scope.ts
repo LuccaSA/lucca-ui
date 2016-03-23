@@ -27,6 +27,7 @@ module Lui.Directives {
 		stripHtml: (html: string) => string;
 		updateFilterBy: (header: TableGrid.Header, index: number) => void;
 		updateFilteredAndOrderedRows: () => void;
+		resizedHeaders: () => void;
 		updateOrderBy: (header: TableGrid.Header) => void;
 		updateVirtualScroll: () => void;
 		onMasterCheckBoxChange: () => void;
