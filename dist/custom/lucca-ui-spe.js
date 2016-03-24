@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 	angular.module('underscore', []).factory('_', function () { return window._; });
-	
+
 	angular.module('lui.directives', ['pascalprecht.translate', 'moment', 'underscore', 'ui.select', 'ui.bootstrap']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', []);
@@ -12,12 +12,13 @@
 	angular.module("lui.templates.daterangepicker", []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
 	angular.module("lui.templates.translationsinput", []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
 	angular.module('lui.templates', ['lui.templates.momentpicker', "lui.templates.daterangepicker", "lui.templates.translationsinput"]);
-	
+
 	// all the translations in one module
 	angular.module('lui.translates.userpicker', []);
 	angular.module('lui.translates.daterangepicker', []);
-	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker']);
-	
+	angular.module('lui.translates.tablegrid', []);
+	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker','lui.translates.tablegrid']);
+
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates','lui.translates']);
 })();
 ;(function(){
@@ -2810,6 +2811,20 @@ var Lui;
             .directive(LuidTableGrid.IID, LuidTableGrid.Factory());
     })(Directives = Lui.Directives || (Lui.Directives = {}));
 })(Lui || (Lui = {}));
+angular.module("lui.translates.tablegrid").config(["$translateProvider", function ($translateProvider) {
+        $translateProvider.translations("en", {
+            "SELECT_ITEM": "Select an item",
+            "SELECT_ITEMS": "Select items",
+        });
+        $translateProvider.translations("de", {});
+        $translateProvider.translations("es", {});
+        $translateProvider.translations("fr", {
+            "SELECT_ITEM": "Séléctionnez un élément",
+            "SELECT_ITEMS": "Séléctionnez des éléments",
+        });
+        $translateProvider.translations("it", {});
+        $translateProvider.translations("nl", {});
+    }]);
 var Lui;
 (function (Lui) {
     var Directives;
