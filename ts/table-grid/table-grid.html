@@ -1,110 +1,12 @@
 <div class="lui tablegrid">
 	<div class="locked columns">
 		<div class="holder" style="height: 500px;">
-			<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}">
-				<table>
-					<thead>
-						<tr role="row" ng-repeat="row in headerRows track by $index" ng-if="$index !== 0">
-							<th ng-if="selectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
-							<th role="columnheader" class="sortable" ng-repeat="header in row track by $index"
-							ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
-							ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}" rowspan="{{ header.rowspan }}" colspan="{{ header.colspan }}"
-							ng-click="updateOrderBy(header)">{{ header.label }}</th>
-						</tr>
-						<tr role="row">
-							<th ng-if="selectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1">
-								<div class="lui solo checkbox">
-									<input type="checkbox" ng-class="getCheckboxState()" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/>
-									<label>&nbsp;</label>
-								</div>
-							</th>
-							<th role="columnheader" ng-repeat="header in colDefinitions track by $index" ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}"
-							ng-if="header.filterType != FilterTypeEnum.NONE" colspan="1" rowspan="1" class="filtering">
-								<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.TEXT">
-									<input type="text" ng-change="updateFilteredAndOrderedRows()" ng-model="filters[$index].currentValues[0]"
-									ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
-								</div>
-								<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.MULTISELECT">
-									<ui-select multiple class="lui nguibs-ui-select" ng-model="filters[$index].currentValues" reset-search-input="false" on-remove="updateFilteredAndOrderedRows()" on-select="updateFilteredAndOrderedRows()">
-										<ui-select-match placeholder="{{ 'SELECT_ITEMS' | translate }}">{{ $item }}</ui-select-match>
-										<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
-									</ui-select>
-								</div>
-								<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.SELECT">
-									<ui-select class="lui nguibs-ui-select" ng-model="filters[$index].currentValues[0]" reset-search-input=true on-select="updateFilteredAndOrderedRows()">
-										<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">{{ $select.selected }}</ui-select-match>
-										<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
-									</ui-select>
-								</div>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
-							<td ng-if="selectable" style="width: 3.5em" class="locked" colspan="1" rowspan="1">
-								<div class="lui solo checkbox">
-									<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked" />
-									<label>&nbsp;</label>
-								</div>
-							</td>
-							<td role="cell" ng-repeat="cell in colDefinitions track by $index" ng-style="{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}" ng-bind-html="cell.getValue(row)"
-							ng-class="{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}" ng-include="'lui/templates/table-grid/table-grid.table.html'">
 			</div>
 		</div>
 	</div>
 	<div class="scrollable columns" style="height: 500px;">
-		<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}">
-			<table>
-				<thead>
-					<tr role="row" ng-repeat="row in headerRows track by $index" ng-if="$index !== 0">
-						<th ng-if="selectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
-						<th role="columnheader" class="sortable" ng-repeat="header in row track by $index" ng-click="updateOrderBy(header)"
-						ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
-						ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}" rowspan="{{ header.rowspan }}" colspan="{{ header.colspan }}">{{ header.label }}</th>
-					</tr>
-					<tr role="row">
-						<th ng-if="selectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1">
-							<div class="lui solo checkbox">
-								<input ng-class="getCheckboxState()" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"/>
-								<label>&nbsp;</label>
-							</div>
-						</th>
-						<th role="columnheader" ng-repeat="header in colDefinitions track by $index" ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}"
-						ng-if="header.filterType != FilterTypeEnum.NONE" colspan="1" rowspan="1" class="filtering">
-							<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.TEXT">
-								<input type="text" ng-change="updateFilteredAndOrderedRows()" ng-model="filters[$index].currentValues[0]" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
-							</div>
-							<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.MULTISELECT">
-								<ui-select multiple class="lui nguibs-ui-select" ng-model="filters[$index].currentValues" reset-search-input="false" on-remove="updateFilteredAndOrderedRows()" on-select="updateFilteredAndOrderedRows()">
-									<ui-select-match placeholder="{{ 'SELECT_ITEMS' | translate }}">{{ $item }}</ui-select-match>
-									<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
-								</ui-select>
-							</div>
-							<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.SELECT">
-								<ui-select class="lui nguibs-ui-select" ng-model="filters[$index].currentValues[0]" reset-search-input=true on-select="updateFilteredAndOrderedRows()">
-									<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">{{ $select.selected }}</ui-select-match>
-									<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
-								</ui-select>
-							</div>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
-						<td ng-if="selectable" style="width: 3.5em" class="locked" colspan="1" rowspan="1">
-							<div class="lui solo checkbox">
-								<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked" />
-								<label>&nbsp;</label>
-							</div>
-						</td>
-						<td role="cell" ng-repeat="cell in colDefinitions track by $index" ng-style="{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}" ng-bind-html="cell.getValue(row)"
-						ng-class="{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}" ng-include="'lui/templates/table-grid/table-grid.table.html'">
 		</div>
 	</div>
 </div>
