@@ -1,12 +1,12 @@
 <div class="lui tablegrid">
-	<div class="locked columns">
+	<div class="scrollable columns" style="height: 500px;">
+		<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}" ng-include="'lui/templates/table-grid/table-grid.table.html'">
+		</div>
+	</div>
+	<div class="locked columns" ng-if="fixedRowDefinition || selectable">
 		<div class="holder" style="height: 500px;">
 			<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}" ng-include="'lui/templates/table-grid/table-grid.table.html'">
 			</div>
-		</div>
-	</div>
-	<div class="scrollable columns" style="height: 500px;">
-		<div class="virtualscroll" ng-style="{'height': canvasHeight + 'px'}" ng-include="'lui/templates/table-grid/table-grid.table.html'">
 		</div>
 	</div>
 </div>

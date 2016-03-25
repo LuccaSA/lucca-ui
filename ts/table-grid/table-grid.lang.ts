@@ -1,4 +1,4 @@
-angular.module("lui.translates.tablegrid").config(["$translateProvider", function ($translateProvider) {
+angular.module("lui.translates.tablegrid").config(["$translateProvider", function ($translateProvider: angular.translate.ITranslateProvider): void {
 		$translateProvider.translations("en", {
 			"SELECT_ITEM": "Select an item",
 			"SELECT_ITEMS": "Select items",

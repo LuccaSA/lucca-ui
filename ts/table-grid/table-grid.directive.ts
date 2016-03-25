@@ -39,7 +39,7 @@ module Lui.Directives {
 				let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
 
 				let lockedColumns: any = tablegrid.querySelector(".locked.columns");
-				let lockedColumnsSynced: any = lockedColumns.querySelector(".holder");
+				let lockedColumnsSynced: any = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
 
 				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
 				let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
@@ -78,9 +78,12 @@ module Lui.Directives {
 				};
 
 				let getLockedColumnsWidth = () => {
+					if (!tables[0]) {
+						return 1;
+					}
 					let w: number = 0;
 					// @TODO: Should use the lockedCols variables rather than searching for them each time
-					for (let col of tables[1].querySelectorAll("tr:first-child td.locked")) {
+					for (let col of tables[0].querySelectorAll("tr:first-child td.locked")) {
 						w += col.offsetWidth;
 					}
 					return w + 1; // Adds 1 pixel for border
@@ -117,12 +120,17 @@ module Lui.Directives {
 					}
 
 					// Horizontal scrollbar
-					lockedColumnsSynced.style.height = (bodies[0].clientWidth > tablegridWidth) ? +height + headers[0].offsetHeight - scrollbarThickness + "px" : +height + headers[0].offsetHeight + "px";
 
 					let lockedColumnsWidth: any = getLockedColumnsWidth();
-					lockedColumns.style.width = lockedColumnsWidth + "px";
-					scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
-					scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
+					if (lockedColumnsWidth !== 1) {
+						lockedColumnsSynced.style.height = (bodies[1].clientWidth > tablegridWidth) ? +height + headers[1].offsetHeight - scrollbarThickness + "px" : +height + headers[1].offsetHeight + "px";
+						lockedColumns.style.width = lockedColumnsWidth + "px";
+						scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
+						scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
+					} else {
+						scrollableArea.style.marginLeft = 0 + "px";
+						scrollableAreaVS.style.marginLeft = 0 + "px";
+					}
 
 					scope.resizedHeaders();
 				};
@@ -148,8 +156,8 @@ module Lui.Directives {
 					let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
 					scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
 
-					tables[0].style.marginTop = (headers[0].offsetHeight + firstCell * rowHeight) + "px";
-					tables[1].style.marginTop = (firstCell * rowHeight) + "px";
+					if (scope.fixedRowDefinition || scope.selectable) { tables[1].style.marginTop = (headers[1].offsetHeight + firstCell * rowHeight) + "px"; }
+					tables[0].style.marginTop = (firstCell * rowHeight) + "px";
 
 					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeight;
 				};
@@ -176,8 +184,10 @@ module Lui.Directives {
 				// Watches for scrolling on the scrollable area of the tablegrid
 				scrollableArea.addEventListener("scroll", (event: Event) => {
 					// syncedHeader.scrollLeft = scrollableArea.scrollLeft;
-					lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
-					headers[1].style.left = -scrollableArea.scrollLeft + "px";
+					if (scope.fixedRowDefinition || scope.selectable) {
+						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
+					}
+					headers[0].style.left = -scrollableArea.scrollLeft + "px";
 					vsOnScroll(event);
 				});
 
