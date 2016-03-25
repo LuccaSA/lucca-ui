@@ -1548,9 +1548,12 @@ var Lui;
                                 if (!!header.getFilterValue) {
                                     value = header.getFilterValue(row);
                                 }
-                                if (!_.contains($scope.filters[index].selectValues, value)) {
-                                    $scope.filters[index].selectValues.push(value);
-                                }
+                                var valuesToCheck = value.split("|");
+                                _.each(valuesToCheck, function (val) {
+                                    if (!_.contains($scope.filters[index].selectValues, val)) {
+                                        $scope.filters[index].selectValues.push(val);
+                                    }
+                                });
                             }
                         });
                     });
