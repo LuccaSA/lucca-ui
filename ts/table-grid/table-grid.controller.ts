@@ -70,9 +70,13 @@ module Lui.Directives {
 							if (!!header.getFilterValue) {
 								value = header.getFilterValue(row);
 							}
-							if (!_.contains($scope.filters[index].selectValues, value)) {
-								$scope.filters[index].selectValues.push(value);
-							}
+
+							let valuesToCheck = value.split("|");
+							_.each(valuesToCheck, (val: string) => {
+								if (!_.contains($scope.filters[index].selectValues, val)) {
+									$scope.filters[index].selectValues.push(val);
+								}
+							});
 						}
 					});
 
