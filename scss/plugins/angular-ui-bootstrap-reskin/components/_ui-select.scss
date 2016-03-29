@@ -35,6 +35,8 @@
 
 		&:not(.ui-select-multiple) .ui-select-search { display: none; }
 
+		.ui-select-toggle { display: block; }
+
 		// Multiselect mode
 		&.ui-select-multiple {
 			> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; padding-right: 2.5em !important; height: auto !important; max-width: 100%; }
