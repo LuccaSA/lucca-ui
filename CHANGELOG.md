@@ -9,6 +9,7 @@
 - [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
 - [issue #179](https://github.com/LuccaSA/lucca-ui/issues/179) - Checkbox now supports partial state (add the `partial` class to the checkbox input)
 - [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
+- [issue #193](https://github.com/LuccaSA/lucca-ui/issues/193) - Frantic static animations
 - Fixes input addon sizing
 - Adds relative positioning to tabbed menus (fix)
 - Fixes afterglow for animations in Chrome
