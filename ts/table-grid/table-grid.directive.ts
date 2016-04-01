@@ -160,6 +160,8 @@ module Lui.Directives {
 					tables[0].style.marginTop = (firstCell * rowHeight) + "px";
 
 					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeight;
+
+					resize();
 				};
 
 				// ==========================================
