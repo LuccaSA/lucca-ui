@@ -129,6 +129,10 @@
 
 	// IE9: no support for locked columns
 	.ie9 & {
+		padding-top: 0 !important;
+		thead {
+			position: static;
+		}
 		.scrollable.columns,
 		.scrollable.columns .virtualscroll {
 			margin-left: 0 !important;
