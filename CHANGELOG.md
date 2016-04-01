@@ -3,6 +3,7 @@
 ## 2.0.16 - in dev
 
 ### New features
+- luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
 
 ### Resolved issues
 - [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
