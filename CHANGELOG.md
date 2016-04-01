@@ -1,6 +1,12 @@
 # Change log
 
-## 2.0.16 - in dev
+## 2.0.17 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.0.16 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.16)
 
 ### New features
 - luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
@@ -14,7 +20,7 @@
 - Adds relative positioning to tabbed menus (fix)
 - Fixes afterglow for animations in Chrome
 
-## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
+## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.15)
 
 ### New features
 - lucca-icons 1.1.7

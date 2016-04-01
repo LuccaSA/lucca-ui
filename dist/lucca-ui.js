@@ -1453,7 +1453,7 @@
         function Period() {
         }
         return Period;
-    })();
+    }());
     Lui.Period = Period;
 })(Lui || (Lui = {}));
 var Lui;
@@ -1467,19 +1467,19 @@ var Lui;
                 function Tree() {
                 }
                 return Tree;
-            })();
+            }());
             TableGrid.Tree = Tree;
             var Header = (function () {
                 function Header() {
                 }
                 return Header;
-            })();
+            }());
             TableGrid.Header = Header;
             var BrowseResult = (function () {
                 function BrowseResult() {
                 }
                 return BrowseResult;
-            })();
+            }());
             TableGrid.BrowseResult = BrowseResult;
         })(TableGrid = Directives.TableGrid || (Directives.TableGrid = {}));
     })(Directives = Lui.Directives || (Lui.Directives = {}));
@@ -1497,7 +1497,7 @@ var Lui;
             FilterTypeEnum.SELECT = "select";
             FilterTypeEnum.MULTISELECT = "multiselect";
             return FilterTypeEnum;
-        })();
+        }());
         Directives.FilterTypeEnum = FilterTypeEnum;
         var LuidTableGridController = (function () {
             function LuidTableGridController($filter, $scope, $translate) {
@@ -1577,8 +1577,8 @@ var Lui;
                             if (filter.header
                                 && !!filter.currentValues[0]
                                 && filter.currentValues[0] !== "") {
-                                var prop = (filter.header.getValue(row) + "").toLowerCase();
-                                var containsProp = _.some(filter.currentValues, function (value) { return prop.indexOf(value.toLowerCase()) !== -1; });
+                                var prop_1 = (filter.header.getValue(row) + "").toLowerCase();
+                                var containsProp = _.some(filter.currentValues, function (value) { return prop_1.indexOf(value.toLowerCase()) !== -1; });
                                 if (!containsProp) {
                                     result = false;
                                 }
@@ -1655,7 +1655,7 @@ var Lui;
             LuidTableGridController.IID = "luidTableGridController";
             LuidTableGridController.$inject = ["$filter", "$scope", "$translate"];
             return LuidTableGridController;
-        })();
+        }());
         Directives.LuidTableGridController = LuidTableGridController;
         angular.module("lui.directives")
             .controller(LuidTableGridController.IID, LuidTableGridController);
@@ -1680,7 +1680,7 @@ var Lui;
                         var headers = tablegrid.querySelectorAll("thead");
                         var bodies = tablegrid.querySelectorAll("tbody");
                         var lockedColumns = tablegrid.querySelector(".locked.columns");
-                        var lockedColumnsSynced = lockedColumns.querySelector(".holder");
+                        var lockedColumnsSynced = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
                         var scrollableArea = tablegrid.querySelector(".scrollable.columns");
                         var scrollableAreaVS = scrollableArea.querySelector(".virtualscroll");
                         var getScrollbarThickness = function () {
@@ -1707,8 +1707,11 @@ var Lui;
                             return (w1 - w2);
                         };
                         var getLockedColumnsWidth = function () {
+                            if (!tables[0]) {
+                                return 1;
+                            }
                             var w = 0;
-                            for (var _i = 0, _a = tables[1].querySelectorAll("tr:first-child td.locked"); _i < _a.length; _i++) {
+                            for (var _i = 0, _a = tables[0].querySelectorAll("tr:first-child td.locked"); _i < _a.length; _i++) {
                                 var col = _a[_i];
                                 w += col.offsetWidth;
                             }
@@ -1726,19 +1729,25 @@ var Lui;
                         var resize = function () {
                             var tablegridWidth = 0;
                             tablegridWidth = (scrollableArea.clientHeight < scope.canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
-                            for (var _i = 0; _i < headers.length; _i++) {
-                                var header = headers[_i];
+                            for (var _i = 0, headers_1 = headers; _i < headers_1.length; _i++) {
+                                var header = headers_1[_i];
                                 header.style.minWidth = tablegridWidth + "px";
                             }
-                            for (var _a = 0; _a < tables.length; _a++) {
-                                var table = tables[_a];
+                            for (var _a = 0, tables_1 = tables; _a < tables_1.length; _a++) {
+                                var table = tables_1[_a];
                                 table.style.minWidth = headers[0].offsetWidth + "px";
                             }
-                            lockedColumnsSynced.style.height = (bodies[0].clientWidth > tablegridWidth) ? +height + headers[0].offsetHeight - scrollbarThickness + "px" : +height + headers[0].offsetHeight + "px";
                             var lockedColumnsWidth = getLockedColumnsWidth();
-                            lockedColumns.style.width = lockedColumnsWidth + "px";
-                            scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
-                            scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
+                            if (lockedColumnsWidth !== 1) {
+                                lockedColumnsSynced.style.height = (bodies[1].clientWidth > tablegridWidth) ? +height + headers[1].offsetHeight - scrollbarThickness + "px" : +height + headers[1].offsetHeight + "px";
+                                lockedColumns.style.width = lockedColumnsWidth + "px";
+                                scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
+                                scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
+                            }
+                            else {
+                                scrollableArea.style.marginLeft = 0 + "px";
+                                scrollableAreaVS.style.marginLeft = 0 + "px";
+                            }
                             scope.resizedHeaders();
                         };
                         scope.resizedHeaders = function () {
@@ -1753,9 +1762,12 @@ var Lui;
                             var firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
                             var cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
                             scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
-                            tables[0].style.marginTop = (headers[0].offsetHeight + firstCell * rowHeight) + "px";
-                            tables[1].style.marginTop = (firstCell * rowHeight) + "px";
+                            if (scope.fixedRowDefinition || scope.selectable) {
+                                tables[1].style.marginTop = (headers[1].offsetHeight + firstCell * rowHeight) + "px";
+                            }
+                            tables[0].style.marginTop = (firstCell * rowHeight) + "px";
                             scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeight;
+                            resize();
                         };
                         scope.$watchCollection("datas", function () {
                             if (!!scope.datas) {
@@ -1771,8 +1783,10 @@ var Lui;
                             resizeTimer = _this.$timeout(function () { resize(); }, 100);
                         });
                         scrollableArea.addEventListener("scroll", function (event) {
-                            lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
-                            headers[1].style.left = -scrollableArea.scrollLeft + "px";
+                            if (scope.fixedRowDefinition || scope.selectable) {
+                                lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
+                            }
+                            headers[0].style.left = -scrollableArea.scrollLeft + "px";
                             vsOnScroll(event);
                         });
                         var init = function () {
@@ -1795,7 +1809,7 @@ var Lui;
             LuidTableGrid.defaultHeight = 20;
             LuidTableGrid.IID = "luidTableGrid";
             return LuidTableGrid;
-        })();
+        }());
         Directives.LuidTableGrid = LuidTableGrid;
         angular.module("lui.directives")
             .directive(LuidTableGrid.IID, LuidTableGrid.Factory());
@@ -1826,7 +1840,7 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/table-grid/table-grid.html',
-    "<div class=\"lui tablegrid\"><div class=\"locked columns\"><div class=holder style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div><div class=\"scrollable columns\" style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div>"
+    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"fixedRowDefinition || selectable\"><div class=holder style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
   );
 
 
