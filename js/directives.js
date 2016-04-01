@@ -115,7 +115,7 @@
 				$scope.people[1 + 5 * index] = {
 					id: 1 + 5 * index,
 					name: "hubert robert",
-					adress: "14 rue du gouffre",
+					adress: "cette adresse est vraiment très très très très très très longue !",
 					phone: "0607080910",
 					mail: "hrobert@yahoo.fr"
 				};
@@ -147,7 +147,7 @@
 				children: [
 					{
 						node: {
-							filterable: true,
+							filterType: Lui.Directives.FilterTypeEnum.TEXT,
 							fixed: true,
 							label: "id",
 							width: 20,
@@ -162,12 +162,12 @@
 					},
 					{
 						node: {
-							filterable: true,
+							filterType: Lui.Directives.FilterTypeEnum.SELECT,
 							fixed: false,
 							label: "name",
 							width: 20,
-							getValue: function (someone) { return someone.name; },
-							getOrderByValue: function (someone) { return someone.name; },
+							getFilterValue: function (someone) { return someone.name; },
+							getValue: function (someone) { return "<span>" + someone.name + "</span>"; },
 							colspan: null,
 							hidden: false,
 							rowspan: null,
@@ -177,7 +177,7 @@
 					},
 					{
 						node: {
-							filterable: true,
+							filterType: Lui.Directives.FilterTypeEnum.TEXT,
 							fixed: false,
 							label: "adress",
 							width: 20,
@@ -192,7 +192,7 @@
 					},
 					{
 						node: {
-							filterable: true,
+							filterType: Lui.Directives.FilterTypeEnum.TEXT,
 							fixed: false,
 							label: "contacts",
 							width: 20,
@@ -206,7 +206,7 @@
 						children: [
 							{
 								node: {
-									filterable: true,
+									filterType: Lui.Directives.FilterTypeEnum.MULTISELECT,
 									fixed: false,
 									label: "phone",
 									width: 20,
@@ -221,7 +221,7 @@
 							},
 							{
 								node: {
-									filterable: true,
+									filterType: Lui.Directives.FilterTypeEnum.TEXT,
 									fixed: false,
 									label: "mail",
 									width: 20,
