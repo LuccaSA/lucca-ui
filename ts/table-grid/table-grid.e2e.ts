@@ -6,15 +6,17 @@ module Lui.Directives.TableGrid.Test {
 	describe("luidTableGrid", (): void => {
 
 		let nameHeader;
-		let nameFilter;
+		let nameSelectFilter;
+		let nameInputSelectFilter;
 
 		let getFirstRow = () => {
 			return element.all(by.repeater("row in datas").row(1)).get(0);
 		};
 
 		beforeEach((): void => {
-			nameHeader = element.all(by.cssContainingText(".sortable", "name")).get(1);
-			nameFilter = element.all(by.css(".lui.fitting.search.input input")).get(6);
+			nameHeader = element.all(by.cssContainingText(".sortable", "name")).get(0);
+			nameSelectFilter = element.all(by.css(".lui.fitting.search.input .ui-select-container")).get(0);
+			nameInputSelectFilter = element.all(by.css(".lui.fitting.search.input input")).get(0);
 		});
 
 		it("should show datas", (): void => {
@@ -33,7 +35,8 @@ module Lui.Directives.TableGrid.Test {
 
 		it("should filter table when input filled", (): void => {
 			let oldFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
-			nameFilter.sendKeys("obi");
+			nameInputSelectFilter.sendKeys("obi");
+			nameSelectFilter.all(by.className('ui-select-choices-row')).get(0).getWebElement().click();
 			let newFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
 			expect(oldFirstName).not.toEqual(newFirstName);
 			expect(newFirstName).toEqual("Obi Wan Kenobi");
@@ -49,7 +52,7 @@ module Lui.Directives.TableGrid.Test {
 			//id should be nested once
 			let id = lockedHeaderRows.get(0).all(by.css(".sortable")).get(0);
 			expect(id.getText()).toEqual("id");
-			expect(id.getAttribute("rowspan")).toEqual("3");
+			expect(id.getAttribute("rowspan")).toEqual("4");
 
 			//name should be nested twice
 			let name = headerRows.get(1).all(by.css(".sortable")).get(0);
@@ -101,6 +104,21 @@ module Lui.Directives.TableGrid.Test {
 					unCheckedAfterClickCount = element.all(by.css(".lui.tablegrid .locked.columns tbody .lui.checkbox checkbox :not(checked)")).count();
 					expect(unCheckedAfterClickCount).toBe(0);
 				});
+		});
+
+		it("should have text filter when filter type is TEXT", (): void => {
+			let inputTextFilterCount = element.all(by.css(".lui.fitting.search.input :not(ui-select-container) input")).count();
+			expect(inputTextFilterCount).toEqual(6);
+		});
+
+		it("should have select filter when filter type is SELECT", (): void => {
+			let inputSelectFilterCount = element.all(by.css(".lui.fitting.search.input .ui-select-container :not(ui-select-multiple) input")).count();
+			expect(inputSelectFilterCount).toEqual(2);
+		});
+
+		it("should have multi-select filter when filter type is MULTISELECT", (): void => {
+			let inputMultiSelectFilterCount = element.all(by.css(".lui.fitting.search.input .ui-select-container.ui-select-multiple input")).count();
+			expect(inputMultiSelectFilterCount).toEqual(2);
 		});
 	});
 }

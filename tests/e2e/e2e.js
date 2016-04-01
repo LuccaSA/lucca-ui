@@ -190,7 +190,7 @@
 				children: [
 					{
 						node: {
-							filterType: "text",
+							filterType: "none",
 							fixed: true,
 							label: "id",
 							width: 20,
@@ -220,7 +220,7 @@
 
 							{
 								node: {
-									filterType: "text",
+									filterType: "multiselect",
 									fixed: false,
 									label: "name",
 									width: 20,
@@ -264,7 +264,7 @@
 								children: [
 									{
 										node: {
-											filterType: "text",
+											filterType: "select",
 											fixed: false,
 											label: "phone",
 											width: 20,
