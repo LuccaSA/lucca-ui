@@ -14,5 +14,10 @@ module Lui {
 		public end: moment.Moment & string & Date;
 		public endsOn: moment.Moment & string & Date;
 		public endsAt: moment.Moment & string & Date;
+
+		constructor(start: moment.Moment & string & Date, end: moment.Moment & string & Date) {
+			this.startsOn = <moment.Moment & string & Date>moment(start);
+			this.endsOn = <moment.Moment & string & Date>moment(end);
+		};
 	}
 }

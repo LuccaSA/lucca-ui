@@ -300,4 +300,11 @@
 			};
 		}]);
 
+	angular.module('e2eApp')
+		.controller('luidDaterangePickerCtrl', ['$scope', function($scope) {
+			$scope.range = {
+				startsOn: moment("2016-01-01"),
+				endsOn: moment("2016-04-01"),
+			}
+		}]);
 })();

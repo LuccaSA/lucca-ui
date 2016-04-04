@@ -10,7 +10,10 @@ module Lui.Directives {
 
 		constructor($scope: IDaterangePickerScope) {
 
-			// Your code here
+			$scope.clickOnInput = (event) => {
+				$scope.popoverOpened = !($scope.popoverOpened);
+				event.stopPropagation();
+			};
 
 		}
 	}

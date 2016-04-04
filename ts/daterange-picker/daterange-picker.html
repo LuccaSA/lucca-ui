@@ -1,1 +1,10 @@
-<div uib-popover-template="'lui/templates/daterange-picker/daterange-picker.popover.html'">CLICK ME !</div>
+<div class="lui input">
+	<input
+	ng-model="friendly"
+	ng-click="clickOnInput($event)"
+	uib-popover-template="'lui/templates/daterange-picker/daterange-picker.popover.html'"
+	popover-placement="right"
+	popover-trigger="none"
+	popover-is-open="popoverOpened"
+	popover-class="lui daterange popover">
+</div>
