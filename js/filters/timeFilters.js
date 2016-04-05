@@ -47,7 +47,7 @@
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || traductions.en;
+			var trads = translations[moment.locale()] || translations.en;
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
 			if(moment().year() === start.year() && moment().year() === end.year()){
 				format += "ThisYear";

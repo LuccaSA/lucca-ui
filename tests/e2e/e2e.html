@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>Lucca UI - Tests e2e</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
 
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../../demo/demo.min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic'
+	rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../demo/demo.min.css" />
 
 	<script src="../../bower_components/angular/angular.min.js"></script>
 	<script src="../../bower_components/angular-mocks/angular-mocks.js"></script>
 	<script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.min.js"></script>
+	<script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
 
 	<script src="../../bower_components/moment/min/moment.min.js"></script>
 	<script src="../../bower_components/underscore/underscore-min.js"></script>
@@ -22,23 +24,29 @@
 	<script src="../../dist/custom/lucca-ui-spe.js"></script>
 	<script src="e2e.js"></script>
 </head>
-<body ng-app="e2eApp">
+<body ng-app="e2eApp" id="demo">
 
 	<section id="main-content" class="lui container">
 		<a class="lui large button" href="https://github.com/LuccaSA/lucca-ui">Code on github</a>
 
 		<div class="lui callout warning">
 			<p>
-				<b>Important:</b>
-				this page is used for all them e2e tests
+				<b>Important:</b> this page is used for all them e2e tests
+			</p>
+			<p>
+				This <span class="lui input"><input id="outside" placeholder="input"></span> is used to spoof a click on the body as the new versions of protractor dont want to click on not clickable elements
 			</p>
 		</div>
 
 		<article id="luifPlaceholder">
 			<h2 class="lui divider below">luifPlaceholder</h2>
 			<div ng-controller="luifPlaceholderCtrl" class="lui block round">
-				<div class="lui input"><input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text"></div>
-				<div class="lui input"><input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text"></div>
+				<div class="lui input">
+					<input id="luifPlaceholder_myValue_input" ng-model="myValue" type="text">
+				</div>
+				<div class="lui input">
+					<input id="luifPlaceholder_myPlaceholder_input" ng-model="myPlaceholder" type="text">
+				</div>
 				<div id="luifPlaceholder_myValue_value_1">{{ myValue | luifPlaceholder : "static placeholder" }}</div>
 				<div id="luifPlaceholder_myValue_value_2">{{ myValue | luifPlaceholder : myPlaceholder }}</div>
 			</div>
@@ -47,7 +55,9 @@
 		<article id="luifDefaultCode">
 			<h2 class="lui divider below">luifDefaultCode</h2>
 			<div ng-controller="luifDefaultCodeCtrl" class="lui block round">
-				<div class="lui long input"><input id="luifDefaultCode_myValue_input" ng-model="myValue" type="text"></div>
+				<div class="lui long input">
+					<input id="luifDefaultCode_myValue_input" ng-model="myValue" type="text">
+				</div>
 				<div id="luifDefaultCode_myValue_value">{{ myValue | luifDefaultCode }}</div>
 			</div>
 		</article>
@@ -55,8 +65,12 @@
 		<article id="luifNumber">
 			<h2 class="lui divider below">luifNumber</h2>
 			<div ng-controller="luifNumberCtrl" class="lui block round">
-				<div class="lui input"><input id="luifNumber_myValue_input" ng-model="myValue" type="text"></div>
-				<div class="lui input"><input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number"></div>
+				<div class="lui input">
+					<input id="luifNumber_myValue_input" ng-model="myValue" type="text">
+				</div>
+				<div class="lui input">
+					<input id="luifNumber_myPrecision_input" ng-model="myPrecision" type="number">
+				</div>
 				<div id="luifNumber_myValue_value_1" ng-bind-html="myValue | luifNumber : myPrecision "></div>
 				<div id="luifNumber_myValue_value_2" ng-bind-html="myValue | luifNumber : myPrecision : 0"></div>
 				<div id="luifNumber_myValue_value_3" ng-bind-html="myValue | luifNumber : myPrecision : '-'"></div>
@@ -112,28 +126,27 @@
 				<span id="myKeydown_span">{{text}}</span>
 			</div>
 		</article>
-        
-        <article id="luid-day-block">
+
+		<article id="luid-day-block">
 			<h2 class="lui divider below">luidDayBlock</h2>
 			<div ng-controller="luidDayBlockCtrl" class="lui block round">
 				<!-- With day name -->
-				<luid-day-block
-                 id = "myDayBlock" 
-                 show-day = "showDay"
-                 first-color = "firstColor"
-                 second-color = "secondColor"
-                 date = "date"/> 
+				<luid-day-block id="myDayBlock" show-day="showDay" first-color="firstColor" second-color="secondColor" date="date" />
 			</div>
-            <div ng-controller="luidDayBlockCtrl" class="lui block round">
-                 <!-- Without day name -->
-				<luid-day-block
-                 id = "myDayBlockWithout" 
-                 show-day = "false"
-                 first-color = "firstColor"
-                 second-color = "secondColor"
-                 date = "date"/> 
+			<div ng-controller="luidDayBlockCtrl" class="lui block round">
+				<!-- Without day name -->
+				<luid-day-block id="myDayBlockWithout" show-day="false" first-color="firstColor" second-color="secondColor" date="date" />
+			</div>
+		</article>
+
+		<article id="luid-table-grid">
+			<h2 class="lui divider below">luidTableGrid</h2>
+			<div ng-controller="luidTableGridCtrl" class="lui block round">
+				<luid-table-grid header="headerTree" datas="people" height="500"></luid-table-grid>
+				<p id="myTableGridPeopleLength">{{people.length}}</p>
 			</div>
 		</article>
 	</section>
 </body>
+
 </html>

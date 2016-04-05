@@ -3,7 +3,7 @@
 		%#{$cleanNamespace}-animated {
 			animation-timing-function: map-get($vars, animationEasing);
 			animation-duration: map-get($vars, animationDuration);
-			animation-fill-mode: both;
+			animation-fill-mode: none;
 
 			-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
 			backface-visibility: hidden;

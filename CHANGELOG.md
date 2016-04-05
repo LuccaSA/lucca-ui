@@ -1,10 +1,77 @@
 # Change log
 
-## 2.0.12 - in dev
+## 2.0.16 - in dev
 
 ### New features
 
 ### Resolved issues
+- [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
+- [issue #179](https://github.com/LuccaSA/lucca-ui/issues/179) - Checkbox now supports partial state (add the `partial` class to the checkbox input)
+- [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
+- Fixes input addon sizing
+- Adds relative positioning to tabbed menus (fix)
+- Fixes afterglow for animations in Chrome
+
+## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
+
+### New features
+- lucca-icons 1.1.7
+- [issue #169](https://github.com/LuccaSA/lucca-ui/issues/169) - radio input styling
+
+### Resolved issues
+- General consensus was default animation durations were too long.
+
+### Dirty hotfix
+- Tablgrid hotfix in case of scrollable body
+
+## 2.0.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
+
+### New features
+- Menu: Removes relative positioning that messes up some Angular directives
+- Dropdowns no longer have absolute width
+- Fancy links now have baseline vertical positioning
+- Updated to Lucca-icons 1.1.5 (`sliders` icon added)
+
+### Resolved issues
+- [issue #143](https://github.com/LuccaSA/lucca-ui/issues/143) Tooltips & Popovers: now supports "top-left", "top-right", "left-top", etc...
+- [issue #149](https://github.com/LuccaSA/lucca-ui/issues/149) Dropdown [FIX] Adds support for `.direction-up` dropdowns
+- Popover now has a lower z-index than modals
+
+## 2.0.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.13)
+
+### New features
+- luidTableGrid : tittle attribute - shows full value on hoover, usefull for long strings
+- Icons [REF] Implements templating for lucca-icons dependency + adds support for the "createClasses" option in theme
+
+### Resolved issues
+
+## 2.0.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.12)
+
+### HOTFIX
+ - some major hotsif inluifFriendlyRange when moment.locale() was different to the supported locales
+
+### New features
+
+### luid-table-grid
+The demo of this directive is [here](https://luccasa.github.io/lucca-ui/#/directives#luid-table-grid)
+
+#### Features:
+ - show datas as a table.
+ - handles fixed colums and scrollable columns.
+ - can take any form of data as an input.
+ - filtering and sorting supported.
+ - virtualized scroll.
+
+#### Advanced features:
+ - show custom html in cells.
+ - handles nested headers.
+ - text alignment property : left/center/right
+
+#### Dependencies
+ - [angular](https://github.com/angular/angular.js) - obv
+
+### Resolved issues
+- Tablegrid: fixes table width
 
 ## 2.0.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.11)
 

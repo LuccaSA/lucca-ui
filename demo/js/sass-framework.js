@@ -15,6 +15,7 @@
 		$scope.status = '';
 		$scope.inverted = false;
 		$scope.disabled = false;
-
 	}]);
+
+
 })();
