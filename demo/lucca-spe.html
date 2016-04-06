@@ -2,6 +2,7 @@
 	<nav id="toc" class="lui left stuck vertical primary dividing menu">
 		<a class="item" href="#/lucca#luid-user-picker">luid-user-picker</a>
 		<a class="item" href="#/lucca#luid-translations">luid-translations</a>
+		<a class="item" href="#/lucca#luid-table-grid">luid-table-grid</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -368,5 +369,84 @@ $scope.yearOfArrivalAsync = function(user){
 			</p>
 			</div>
 		</article>
-</section>
+
+				<article id="luid-table-grid">
+			<h2 class="lui divider below">luid-table-grid</h2>
+			<p>
+				A table directive to display any data
+			</p>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<ul class="lui unstyled">
+				<li>Show datas as a table.</li>
+				<li>Handles fixed colums and scrollable columns.</li>
+				<li>Can take any form of data as a n input.</li>
+				<li>Filtering and order by supported.</li>
+				<li>Show custom html in cells.</li>
+				<li>Handles nested headers.</li>
+				<li>Text alignment property : left/center/right</li>
+			</ul>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
+					<li><code>datas</code> : a list of things you want to display.</li>
+					<li><code>height</code> : your table won't be higher than that (px).</li>
+				</ul>
+			</p>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<pre hljs no-escape language="html"> &lt;luid-table-grid header=&quot;headerTree&quot; datas=&quot;people&quot; height=&quot;500&quot;&gt;&lt;/luid-table-grid&gt;</pre>
+			<pre hljs no-escape language="js"> // example header
+{
+node: null,
+children: [
+	{
+		node: {
+			filterable: true,
+			fixed: true,
+			label: &quot;id&quot;,
+			width: 20,
+			getValue: function (someone) { return someone.id; },
+			getOrderByValue: function (someone) { return someone.id; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;right&quot;,
+		},
+		children: [],
+	},
+	{
+		node: {
+			filterable: true,
+			fixed: false,
+			label: &quot;name&quot;,
+			width: 20,
+			getValue: function (someone) { return someone.name; },
+			getOrderByValue: function (someone) { return someone.name; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;left&quot;,
+		},
+		children: [],
+	},
+]
+}</pre>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div ng-controller="tableGridCtrl" class="lui block round">
+				<luid-table-grid header="headerTree" datas="people" selectable="true" height="500"></luid-table-grid>
+			</div>
+		</article>
+	</section>
 </div>
