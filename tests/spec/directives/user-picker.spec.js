@@ -1042,6 +1042,24 @@ describe('luidUserPicker', function(){
 			isolateScope.find();
 			expect($scope.customHttpService.get).not.toHaveBeenCalled();
 		});
+		describe("and homonyms", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = {
+					get: function(query){
+						var deferred = $q.defer();
+						deferred.resolve({data: RESPONSE_20_users_4_homonyms});
+						return deferred.promise;
+					}
+				};
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get).toHaveBeenCalled();
+			});
+		});
 	});
 
 
