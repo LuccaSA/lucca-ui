@@ -8,7 +8,10 @@ module Lui.Directives {
 		friendly: string;
 		hackRefresh: boolean;
 		popoverOpened: boolean;
-		range: Lui.Period;
+		range: {
+			startsOn: moment.Moment,
+			endsOn: moment.Moment,
+		};
 		startingDay: number;
 
 		clickOnButton: (event: ng.IAngularEvent) => void;

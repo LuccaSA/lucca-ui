@@ -32,8 +32,11 @@ module Lui.Directives {
 
 		public link: ng.IDirectiveLinkFn = (scope: IDaterangePickerScope, element: ng.IAugmentedJQuery, attrs: ILuidDaterangePickerAttributes, ngModelCtrl: ng.INgModelController): void => {
 
-			scope.range = new Lui.Period(ngModelCtrl.$viewValue.startsOn, ngModelCtrl.$viewValue.endsOn);
-			scope.friendly = this.filter("luifFriendlyRange")(scope.range, true);
+			scope.range = {
+				startsOn: moment(ngModelCtrl.$viewValue.startsOn),
+				endsOn: moment(ngModelCtrl.$viewValue.endsOn).add(-1, "days"),
+			};
+			scope.friendly = this.filter("luifFriendlyRange")(<Lui.Period>scope.range, false);
 
 			// ngModelCtrl thingies
 
@@ -43,9 +46,9 @@ module Lui.Directives {
 			});
 
 			ngModelCtrl.$render = () => {
-				scope.range.startsOn = ngModelCtrl.$viewValue.startsOn;
-				scope.range.endsOn = ngModelCtrl.$viewValue.endsOn;
-				scope.friendly = this.filter("luifFriendlyRange")(scope.range, true);
+				scope.range.startsOn = moment(ngModelCtrl.$viewValue.startsOn);
+				scope.range.endsOn = moment(ngModelCtrl.$viewValue.endsOn).add(-1, "days");
+				scope.friendly = this.filter("luifFriendlyRange")(<Lui.Period>scope.range, false);
 			};
 
 			ngModelCtrl.$parsers.push((viewValue) => {
@@ -54,9 +57,9 @@ module Lui.Directives {
 			});
 
 			let onScopeChange = (): void => {
-				ngModelCtrl.$setViewValue({ startsOn: scope.range.startsOn, endsOn: scope.range.endsOn });
-				scope.friendly = this.filter("luifFriendlyRange")(scope.range, true);
-			}
+				ngModelCtrl.$setViewValue({ startsOn: moment(scope.range.startsOn), endsOn: moment(scope.range.endsOn).add(1, "days") });
+				scope.friendly = this.filter("luifFriendlyRange")(<Lui.Period>scope.range, false);
+			};
 
 			scope.$watch("range.startsOn", () => {
 				onScopeChange();
