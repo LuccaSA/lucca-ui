@@ -1,5 +1,5 @@
+describe('luidUserPicker', function(){
 	beforeEach(module('moment'));
-	describe('luidUserPicker', function(){
 	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
