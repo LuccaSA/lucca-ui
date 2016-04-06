@@ -1,4 +1,4 @@
-/// <reference path="../references.spec.ts" />
+/// <reference path="../references.e2e.ts" />
 
 module Lui.Directives.DaterangePicker.Test {
 	"use strict";
