@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 	// // use this one when you're coding e2e tests
 	grunt.registerTask('e2e', ["dist", "ts:e2e", "connect", "protractor:singlerun", 'concurrent:e2e']);
 	// this updates the dists and tests it, creates karma coverage
-	grunt.registerTask('test', ['dist', "ts:test", 'karma:debug', 'karma:coverage', 'protractor:singlerun', 'jshint']);
+	grunt.registerTask('test', ['dist', "ts:test", 'karma:debug', 'karma:coverage', "connect:server", 'protractor:singlerun', 'jshint']);
 
 
 	// used for travis integration
