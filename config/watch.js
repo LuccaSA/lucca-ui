@@ -39,7 +39,7 @@ module.exports = function(grunt, options){
 		},
 
 		e2esrc: {
-			files: ['js/**/*.js', "ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
+			files: ['js/**/*.js', "ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts", "ts/**/*.html"],
 			tasks: ['dist', 'protractor:singlerun']
 		},
 		e2espec: {
