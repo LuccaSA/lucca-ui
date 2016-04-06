@@ -96,5 +96,10 @@ module Lui.Directives.DaterangePicker.Test {
 				});
 			expect(element.all(by.css("#luid-daterange-picker luid-daterange-picker .popover footer a")).count()).not.toEqual(0);
 		});
+		it("should close when clicking on OK button", (): void => {
+			let button = element(by.css("#luid-daterange-picker luid-daterange-picker .popover section > a.lui.right.pulled.primary.button"));
+			button.click();
+			expect(element(by.css("#luid-daterange-picker luid-daterange-picker .popover")).isPresent()).toBe(false);
+		});
 	});
 }

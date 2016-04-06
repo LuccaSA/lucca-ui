@@ -1,15 +1,41 @@
 <section class="lui clear" ng-click="clickInside($event)">
-	<uib-datepicker ng-if="hackRefresh" class="lui datepicker start-date" ng-model="range.startsOn" show-weeks="false"
-	starting-day="startingDay" ng-change="clickOnDate()"></uib-datepicker>
-	<uib-datepicker ng-if="hackRefresh" class="lui datepicker end-date" ng-model="range.endsOn" show-weeks="false" min-date="range.startsOn"
-	starting-day="startingDay" ng-change="clickOnDate()"></uib-datepicker>
-	<uib-datepicker ng-if="!hackRefresh" class="lui datepicker start-date" ng-model="range.startsOn" show-weeks="false"
-	starting-day="startingDay" ng-change="clickOnDate()"></uib-datepicker>
-	<uib-datepicker ng-if="!hackRefresh" class="lui datepicker end-date" ng-model="range.endsOn" show-weeks="false" min-date="range.startsOn"
-	starting-day="startingDay" ng-change="clickOnDate()"></uib-datepicker>
+	<uib-datepicker
+		ng-if="hackRefresh"
+		class="lui datepicker start-date"
+		ng-model="range.startsOn"
+		show-weeks="false"
+		starting-day="startingDay"
+		ng-change="clickOnDate()"></uib-datepicker>
+	<uib-datepicker
+		ng-if="hackRefresh"
+		class="lui datepicker end-date"
+		ng-model="range.endsOn"
+		show-weeks="false"
+		min-date="range.startsOn"
+		starting-day="startingDay"
+		ng-change="clickOnDate()"></uib-datepicker>
+	<uib-datepicker
+		ng-if="!hackRefresh"
+		class="lui datepicker start-date"
+		ng-model="range.startsOn"
+		show-weeks="false"
+		starting-day="startingDay"
+		ng-change="clickOnDate()"></uib-datepicker>
+	<uib-datepicker
+		ng-if="!hackRefresh"
+		class="lui datepicker end-date"
+		ng-model="range.endsOn"
+		show-weeks="false"
+		min-date="range.startsOn"
+		starting-day="startingDay"
+		ng-change="clickOnDate()"></uib-datepicker>
 	<hr>
-	<a class="lui right pulled primary button" ng-click="doCloseAction()">{{closeLabel || 'Ok'}}</a>
+	<a
+		class="lui right pulled primary button"
+		ng-click="clickOnOk()">{{ closeLabel || 'Ok' }}</a>
 </section>
 <footer class="shortcuts">
-	<a ng-repeat="predefinedHeader in predefinedHeaders" ng-click="clickOnPredefined(predefinedHeader)">{{predefinedHeader.label}}</a>
+	<a
+		ng-repeat="predefinedHeader in predefinedHeaders"
+		ng-click="clickOnPredefined(predefinedHeader)">{{ predefinedHeader.label }}</a>
 </footer>

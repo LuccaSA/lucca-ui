@@ -6,12 +6,14 @@ module Lui.Directives {
 
 	export interface IDaterangePickerScope extends angular.IScope {
 		friendly: string;
+		hackRefresh: boolean;
 		popoverOpened: boolean;
 		range: Lui.Period;
 		startingDay: number;
 
-		clickOnDate: () => void;
 		clickOnButton: (event: ng.IAngularEvent) => void;
+		clickOnDate: () => void;
+		clickOnOk: () => void;
 		clickOnPredefined: (predefinedHeader: DaterangePicker.PredefinedPeriod) => void;
 	}
 
