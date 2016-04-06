@@ -7,6 +7,12 @@ module Lui.Directives {
 	export interface IDaterangePickerScope extends angular.IScope {
 		friendly: string;
 		hackRefresh: boolean;
+		internal: {
+			firstleft: moment.Moment & string & Date;
+			firstright: moment.Moment & string & Date;
+			secondleft: moment.Moment & string & Date;
+			secondright: moment.Moment & string & Date;
+		};
 		popoverOpened: boolean;
 		range: {
 			startsOn: moment.Moment,
@@ -18,6 +24,7 @@ module Lui.Directives {
 		clickOnDate: () => void;
 		clickOnOk: () => void;
 		clickOnPredefined: (predefinedHeader: DaterangePicker.PredefinedPeriod) => void;
+		dayClass: (date: Date, mode: string) => string;
 	}
 
 }

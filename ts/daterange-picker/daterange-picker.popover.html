@@ -2,33 +2,37 @@
 	<uib-datepicker
 		ng-if="hackRefresh"
 		class="lui datepicker start-date"
-		ng-model="range.startsOn"
+		ng-model="internal.firstleft"
 		show-weeks="false"
 		starting-day="startingDay"
-		ng-change="clickOnDate()"></uib-datepicker>
+		ng-change="clickOnDate(internal.firstleft)"
+		custom-class="dayClass(date, mode)"></uib-datepicker>
 	<uib-datepicker
 		ng-if="hackRefresh"
 		class="lui datepicker end-date"
-		ng-model="range.endsOn"
+		ng-model="internal.firstright"
 		show-weeks="false"
 		min-date="range.startsOn"
 		starting-day="startingDay"
-		ng-change="clickOnDate()"></uib-datepicker>
+		ng-change="clickOnDate(internal.firstright)"
+		custom-class="dayClass(date, mode)"></uib-datepicker>
 	<uib-datepicker
 		ng-if="!hackRefresh"
 		class="lui datepicker start-date"
-		ng-model="range.startsOn"
+		ng-model="internal.secondleft"
 		show-weeks="false"
 		starting-day="startingDay"
-		ng-change="clickOnDate()"></uib-datepicker>
+		ng-change="clickOnDate(internal.secondleft)"
+		custom-class="dayClass(date, mode)"></uib-datepicker>
 	<uib-datepicker
 		ng-if="!hackRefresh"
 		class="lui datepicker end-date"
 		ng-model="range.endsOn"
 		show-weeks="false"
-		min-date="range.startsOn"
+		min-date="internal.secondright"
 		starting-day="startingDay"
-		ng-change="clickOnDate()"></uib-datepicker>
+		ng-change="clickOnDate(internal.secondright)"
+		custom-class="dayClass(date, mode)"></uib-datepicker>
 	<hr>
 	<a
 		class="lui right pulled primary button"
