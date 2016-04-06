@@ -1052,24 +1052,26 @@ describe('luidUserPicker', function(){
 						return deferred.promise;
 					}
 				};
+				spyOn($scope.customHttpService, 'get').and.callThrough();
 				elt = $compile(tpl)($scope);
 				isolateScope = elt.isolateScope();
-				spyOn($scope.customHttpService, 'get').and.callThrough();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
 				isolateScope.find();
 				$scope.$digest();
-				expect($scope.customHttpService.get).toHaveBeenCalled();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + homonyms
 			});
 		});
 		describe("and with me", function() {
 			it("should still not call $http.get", function(){
 				var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
 				$scope.customHttpService = customHttpService;
+				spyOn($scope.customHttpService, 'get').and.callThrough();
 				elt = $compile(tpl)($scope);
 				isolateScope = elt.isolateScope();
-				spyOn($scope.customHttpService, 'get').and.callThrough();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
 				isolateScope.find();
 				$scope.$digest();
-				expect($scope.customHttpService.get).toHaveBeenCalled();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + Display-me
 			});
 		});
 	});
