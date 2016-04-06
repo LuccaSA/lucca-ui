@@ -193,7 +193,7 @@
 		var myId; // used for 'display me first' feature
 
 		/** HttpService **/
-		var httpService = function(method){
+		var getHttpMethod = function(method){
 			if($scope.customHttpService &&  $scope.customHttpService[method]){
 				return $scope.customHttpService[method];
 			}
@@ -321,7 +321,7 @@
 			}
 			query += (appInstanceId + operations);
 
-			var getUsersPromise = httpService("get")(query);
+			var getUsersPromise = getHttpMethod("get")(query);
 			getUsersPromise
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
@@ -382,7 +382,7 @@
 		// 	var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
 
 		// 	delete timeout.count;
-		// 	httpService("get")(query).then(
+		// 	getHttpMethod("get")(query).then(
 		// 		function(response) {
 		// 			deferred.resolve(response.data.data.count);
 		// 		},
@@ -552,7 +552,7 @@
 				}
 			});
 
-			httpService("get")(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
 			}, function(response) {
@@ -646,7 +646,7 @@
 		var getMeAsync = function() {
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
-			httpService("get")(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				dfd.resolve(response.data.data.id);
 			}, function(response) {
