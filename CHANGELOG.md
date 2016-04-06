@@ -1,12 +1,4 @@
-# Change log
-
-## 2.0.18 - in dev
-
-### New features
-
-### Resolved issues
-
-## 2.0.17
+## 2.0.17 - in dev
 
 ### New features
 - Directive `luid-user-picker` to handle custom $http service.
