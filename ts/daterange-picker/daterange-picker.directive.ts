@@ -15,7 +15,7 @@ module Lui.Directives {
 		public controller = "luidDaterangePickerController";
 		public require = "ngModel";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=" };
+		public scope = { predefinedHeaders: "=" };
 		public templateUrl = "lui/templates/daterange-picker/daterange-picker.html";
 		private filter: Lui.ILuiFilters;
 
@@ -53,8 +53,16 @@ module Lui.Directives {
 				return viewValue;
 			});
 
-			scope.$watch("range", () => {
+			let onScopeChange = (): void => {
 				ngModelCtrl.$setViewValue({ startsOn: scope.range.startsOn, endsOn: scope.range.endsOn });
+				scope.friendly = this.filter("luifFriendlyRange")(scope.range, true);
+			}
+
+			scope.$watch("range.startsOn", () => {
+				onScopeChange();
+			});
+			scope.$watch("range.endsOn", () => {
+				onScopeChange();
 			});
 
 		};

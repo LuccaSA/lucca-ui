@@ -1,0 +1,83 @@
+@if map-get($pluginVars, enabled) {
+	luid-daterange-picker {
+		> .buttons {
+			position: relative;
+			min-width: map-gets($pluginVars, daterange, minWidth);
+
+			> .dates {
+				visibility: hidden;
+				opacity: 0;
+
+				> a:first-child { left: 0.5em; }
+				> a:last-child { right: 0.5em; }
+
+				position: absolute;
+				top: map-gets($pluginVars, daterange, borderWidth);
+				bottom: map-gets($pluginVars, daterange, borderWidth);
+				left: map-gets($pluginVars, daterange, borderWidth);
+				right: map-gets($pluginVars, daterange, borderWidth);
+				border-radius: luiTheme(element, button, borderRadius);
+				background-color: #FFF;
+
+				@include lui_make_icon("move horizontally");
+				transition: opacity luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+
+				> a, &:before {
+					@extend a#{$prefix}.unstyled;
+					position: absolute;
+					top: 50%; transform: translateY(-50%); line-height: 1;
+					padding: map-gets($pluginVars, daterange, padding);
+					border-radius: luiTheme(element, button, borderRadius);
+
+					&:first-child { left: 0.5em; }
+					&:last-child { right: 0.5em; }
+				}
+				a.active {
+					background-color: luiPalette(primary, color);
+					color: luiPalette(primary, text);
+				}
+				&:before {
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+			&.open {
+				> .dates {
+					visibility: visible;
+					opacity: 1;
+				}
+			}
+		}
+
+
+		.popover-inner { width: 1 + 2 * map-gets($pluginVars, datepicker, width); }
+
+		.datepicker { float: left; border: none; }
+		.datepicker + .datepicker { margin-left: 1em; }
+
+		.datepicker.start-date thead tr:first-child th:last-child button,
+		.datepicker.end-date thead tr:first-child th:first-child button { display: none; }
+
+		// Calendars coloring
+		td.in-between, td.start, td.end { border: 1px solid darken(luiPalette(primary, color), 5) !important; }
+		td.start, td.end, td.in-between button:hover {
+			background-color: luiPalette(primary, color) !important;
+			color: luiPalette(primary, text);
+		}
+		td.in-between { background-color: luiPalette(primary, color, x-light); }
+
+		// Shortcuts
+		.has-periods .shortcuts {
+			background-color: map-gets($pluginVars, daterange, shortcuts, background);
+
+			margin: 1em unquote("-#{map-gets($pluginVars, popover, innerHorizontalPadding)}") unquote("-#{map-gets($pluginVars, popover, innerVerticalPadding)}") unquote("-#{map-gets($pluginVars, popover, innerHorizontalPadding)}");
+			padding: 1em map-gets($pluginVars, popover, innerHorizontalPadding);
+			border-top: 1px solid luiTheme(element, divider, color);
+
+			a {
+				padding: 0.5em;
+				margin: 0.5em;
+			}
+		}
+	}
+}

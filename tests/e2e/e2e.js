@@ -306,5 +306,57 @@
 				startsOn: moment("2016-01-01"),
 				endsOn: moment("2016-04-01"),
 			}
+			$scope.predefinedHeaders = [
+				{
+					label: "Aujourd'hui",
+					startsOn: "2016-04-04",
+					endsOn: "2016-04-05",
+				},
+				{
+					label: "Cette semaine",
+					startsOn: "2016-04-04",
+					endsOn: "2016-04-11",
+				},
+				{
+					label: "Ce mois",
+					startsOn: "2016-04-01",
+					endsOn: "2016-05-01",
+				},
+				{
+					label: "Cette année",
+					startsOn: "2016-01-01",
+					endsOn: "2017-01-01",
+				},
+				{
+					label: "Hier",
+					startsOn: "2016-04-03",
+					endsOn: "2016-04-04",
+				},
+				{
+					label: "La semaine dernière",
+					startsOn: "2016-03-28",
+					endsOn: "2016-04-04",
+				},
+				{
+					label: "Le mois dernier",
+					startsOn: "2016-03-01",
+					endsOn: "2016-04-01",
+				},
+				{
+					label: "L'année dernière",
+					startsOn: "2015-01-01",
+					endsOn: "2016-01-01",
+				},
+				{
+					label: "Depuis le début du mois",
+					startsOn: "2016-04-01",
+					endsOn: "2016-04-05",
+				},
+				{
+					label: "Depuis le début de l'année",
+					startsOn: "2016-01-01",
+					endsOn: "2016-04-05",
+				},
+			];
 		}]);
 })();

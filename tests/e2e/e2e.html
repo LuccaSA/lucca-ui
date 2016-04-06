@@ -150,7 +150,11 @@
 		<article id="luid-daterange-picker">
 			<h2 class="lui divider below">luidDaterangePicker</h2>
 			<div ng-controller="luidDaterangePickerCtrl" class="lui block round">
-				<luid-daterange-picker ng-model="range"></luid-daterange-picker>
+				<luid-daterange-picker ng-model="range" predefined-headers="predefinedHeaders"></luid-daterange-picker>
+				<ul>
+					<li>{{range.startsOn | luifMoment : "LL"}}</li>
+					<li>{{range.endsOn | luifMoment : "LL"}}</li>
+				</ul>
 			</div>
 		</article>
 	</section>

@@ -8,8 +8,11 @@ module Lui.Directives {
 		friendly: string;
 		popoverOpened: boolean;
 		range: Lui.Period;
+		startingDay: number;
 
-		clickOnInput: (event: ng.IAngularEvent) => void;
+		clickOnDate: () => void;
+		clickOnButton: (event: ng.IAngularEvent) => void;
+		clickOnPredefined: (predefinedHeader: DaterangePicker.PredefinedPeriod) => void;
 	}
 
 }

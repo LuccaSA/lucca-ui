@@ -10,7 +10,9 @@ module Lui.Directives {
 
 		constructor($scope: IDaterangePickerScope) {
 
-			$scope.clickOnInput = (event) => {
+			$scope.startingDay = 1; // week starts on monday
+
+			$scope.clickOnButton = (event) => {
 				$scope.popoverOpened = !($scope.popoverOpened);
 				event.stopPropagation();
 			};

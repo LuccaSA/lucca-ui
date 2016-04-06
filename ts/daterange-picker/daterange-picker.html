@@ -1,10 +1,18 @@
-<div class="lui input">
-	<input
-	ng-model="friendly"
-	ng-click="clickOnInput($event)"
+<div
+class="lui buttons"
+ng-class="{'open': popoverOpened}">
+	<a class="lui west arrow icon button"></a>
+	<a
+	class="lui button"
 	uib-popover-template="'lui/templates/daterange-picker/daterange-picker.popover.html'"
 	popover-placement="right"
 	popover-trigger="none"
 	popover-is-open="popoverOpened"
-	popover-class="lui daterange popover">
+	popover-class="lui daterange popover"
+	ng-click="clickOnButton($event)">{{ friendly }}</a>
+	<a class="lui east arrow icon button"></a>
+	<div class="dates">
+		<a ng-click="" ng-class="{'active': true}">{{ range.startsOn | date : 'MM/dd/yyyy' }}</a>
+		<a ng-click="" ng-class="{'active': false}">{{ range.endsOn | date : 'MM/dd/yyyy' }}</a>
+	</div>"
 </div>
