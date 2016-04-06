@@ -91,6 +91,8 @@
 				displayMeFirst: "=", // boolean
 				/*** DISPLAY ALL USERS ***/
 				displayAllUsers: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -151,6 +153,8 @@
 				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
