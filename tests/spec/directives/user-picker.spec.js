@@ -25,14 +25,14 @@ describe('luidUserPicker', function(){
 	** INITIALISATION    **
 	**********************/
 	describe("initialisation", function(){
-		// it might not be possible to test this 
+		// it might not be possible to test this
 		// as the refresh attribute from the ui-select-choice directive
 		// https://github.com/angular-ui/ui-select/wiki/ui-select-choices
 		// might be triggered by the browser and not by $compile
 		// or it is triggered before we spyOn it and not by the $scope.$digest
 
 		// yeah, here find is not called either during $compile or $scope.$digest
-		// you can modify this plunkr 
+		// you can modify this plunkr
 		// http://plnkr.co/edit/a3KlK8dKH3wwiiksDSn2?p=preview
 		// you can see that refreshAddresses is called during the loading of the page
 		// but i have no idea how to trigger it here
@@ -273,7 +273,7 @@ describe('luidUserPicker', function(){
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		var operationsFilters = /\&appinstanceid=86\&operations=1,2,3/;
-		
+
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
 			$scope.appId = 86;
@@ -1008,6 +1008,75 @@ describe('luidUserPicker', function(){
 			})).toBe(true);
 		});
 	});
+
+	/**************************
+	** CUSTOM HTTP SERVICE   **
+	***************************/
+	describe("with customHttpService", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var customHttpService = {
+			get: function(query){
+				return $q.defer().promise;
+			}
+		};
+		var meApi = /api\/v3\/users\/me/;
+		it('should call the given "get" method', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			$scope.$digest();
+			expect($scope.customHttpService.get).toHaveBeenCalled();
+		});
+		it('should call the $http "get" method if no CustomHttpService', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			expect($scope.customHttpService.get).not.toHaveBeenCalled();
+		});
+		describe("and homonyms", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = {
+					get: function(query){
+						var deferred = $q.defer();
+						deferred.resolve({data: RESPONSE_20_users_4_homonyms});
+						return deferred.promise;
+					}
+				};
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + homonyms
+			});
+		});
+		describe("and with me", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = customHttpService;
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + Display-me
+			});
+		});
+	});
+
+
 
 	// Not implemented yet
 	// describe("pagination", function(){

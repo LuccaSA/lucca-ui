@@ -3,6 +3,8 @@
 ## 2.0.17 - in dev
 
 ### New features
+- Directive `luid-user-picker` to handle custom $http service.
+- Directive `luid-user-picker-multiple` to handle custom $http service.
 
 ### Resolved issues
 
