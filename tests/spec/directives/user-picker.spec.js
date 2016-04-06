@@ -1060,6 +1060,18 @@ describe('luidUserPicker', function(){
 				expect($scope.customHttpService.get).toHaveBeenCalled();
 			});
 		});
+		describe("and with me", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = customHttpService;
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get).toHaveBeenCalled();
+			});
+		});
 	});
 
 
