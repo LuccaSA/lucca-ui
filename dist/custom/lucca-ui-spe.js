@@ -1443,6 +1443,8 @@
 				displayMeFirst: "=", // boolean
 				/*** DISPLAY ALL USERS ***/
 				displayAllUsers: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -1503,6 +1505,8 @@
 				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -1539,6 +1543,14 @@
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 		var init = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+
+		/** HttpService **/
+		var getHttpMethod = function(method){
+			if($scope.customHttpService &&  $scope.customHttpService[method]){
+				return $scope.customHttpService[method];
+			}
+			return $http[method];
+		};
 
 		/****************/
 		/***** FIND *****/
@@ -1661,7 +1673,7 @@
 			}
 			query += (appInstanceId + operations);
 
-			getUsersPromise = $http.get(query);
+			var getUsersPromise = getHttpMethod("get")(query);
 			getUsersPromise
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
@@ -1722,7 +1734,7 @@
 		// 	var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
 
 		// 	delete timeout.count;
-		// 	$http.get(query).then(
+		// 	getHttpMethod("get")(query).then(
 		// 		function(response) {
 		// 			deferred.resolve(response.data.data.count);
 		// 		},
@@ -1892,7 +1904,7 @@
 				}
 			});
 
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
 			}, function(response) {
@@ -1986,7 +1998,7 @@
 		var getMeAsync = function() {
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				dfd.resolve(response.data.data.id);
 			}, function(response) {
@@ -2513,8 +2525,9 @@ var Lui;
         }());
         Directives.FilterTypeEnum = FilterTypeEnum;
         var LuidTableGridController = (function () {
-            function LuidTableGridController($filter, $scope, $translate) {
+            function LuidTableGridController($filter, $scope, $translate, $timeout) {
                 var maxDepth = 0;
+                $scope.isSelectable = angular.isDefined($scope.selectable);
                 var browse = function (result) {
                     if (!result.tree.children.length) {
                         result.subChildren++;
@@ -2579,10 +2592,33 @@ var Lui;
                     $scope.allChecked = { value: false };
                     maxDepth = getTreeDepth($scope.header);
                     browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
+                    $scope.existFixedRow = _.some($scope.colDefinitions, function (colDef) {
+                        return colDef.fixed;
+                    });
                     $scope.selected = { orderBy: null, reverse: false };
                     initFilter();
                 };
-                $scope.updateFilteredAndOrderedRows = function () {
+                var getCheckboxState = function () {
+                    var selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
+                    if (selectedCheckboxesCount === 0) {
+                        return "";
+                    }
+                    if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
+                        return "checked";
+                    }
+                    if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
+                        return "partial";
+                    }
+                    return "";
+                };
+                $scope.updateFilteredRows = function () {
+                    if ($scope.isSelectable) {
+                        $scope.allChecked.value = false;
+                        _.each($scope.filteredAndOrderedRows, function (row) {
+                            row.isChecked = false;
+                        });
+                        $scope.masterCheckBoxCssClass = getCheckboxState();
+                    }
                     var temp = _.chain($scope.datas)
                         .filter(function (row) {
                         var result = true;
@@ -2599,20 +2635,10 @@ var Lui;
                         });
                         return result;
                     });
-                    if ($scope.selected && $scope.selected.orderBy) {
-                        temp = temp.sortBy(function (row) {
-                            var orderByValue = $scope.selected.orderBy.getValue(row);
-                            if ($scope.selected.orderBy.getOrderByValue != null) {
-                                orderByValue = $scope.selected.orderBy.getOrderByValue(row);
-                            }
-                            return orderByValue;
-                        });
-                    }
-                    var filteredAndOrderedRows = temp.value();
-                    $scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
-                    $scope.updateVirtualScroll();
+                    $scope.filteredAndOrderedRows = temp.value();
+                    $scope.updateViewAfterFiltering();
                 };
-                $scope.updateOrderBy = function (header) {
+                $scope.updateOrderedRows = function (header) {
                     if (header === $scope.selected.orderBy) {
                         if ($scope.selected.reverse) {
                             $scope.selected.orderBy = null;
@@ -2626,47 +2652,45 @@ var Lui;
                         $scope.selected.orderBy = header;
                         $scope.selected.reverse = false;
                     }
-                    $scope.updateFilteredAndOrderedRows();
+                    if ($scope.selected && $scope.selected.orderBy) {
+                        $scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, function (row) {
+                            var orderByValue = $scope.selected.orderBy.getValue(row);
+                            if ($scope.selected.orderBy.getOrderByValue != null) {
+                                orderByValue = $scope.selected.orderBy.getOrderByValue(row);
+                            }
+                            return orderByValue;
+                        });
+                    }
+                    $scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
+                    $scope.updateViewAfterOrderBy();
                 };
                 $scope.onMasterCheckBoxChange = function () {
                     if (_.some($scope.filteredAndOrderedRows, function (row) { return !row.isChecked; })) {
-                        _.each($scope.filteredAndOrderedRows, function (row) { row.isChecked = true; });
+                        if ($scope.masterCheckBoxCssClass === "partial") {
+                            _.each($scope.filteredAndOrderedRows, function (row) { row.isChecked = false; });
+                        }
+                        else {
+                            _.each($scope.filteredAndOrderedRows, function (row) { row.isChecked = true; });
+                        }
                     }
                     else {
                         _.each($scope.filteredAndOrderedRows, function (row) { row.isChecked = false; });
                     }
+                    $scope.masterCheckBoxCssClass = getCheckboxState();
                 };
                 $scope.onCheckBoxChange = function () {
-                    if (_.some($scope.filteredAndOrderedRows, function (row) { return !row.isChecked; })) {
+                    $scope.masterCheckBoxCssClass = getCheckboxState();
+                    if (!$scope.masterCheckBoxCssClass) {
                         $scope.allChecked.value = false;
                     }
-                    else {
+                    if (_.some($scope.filteredAndOrderedRows, function (row) { return row.isChecked; })) {
                         $scope.allChecked.value = true;
                     }
-                };
-                $scope.getCheckboxState = function () {
-                    var selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
-                    if (selectedCheckboxesCount === 0) {
-                        return "";
-                    }
-                    if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
-                        return "checked";
-                    }
-                    if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
-                        return "partial";
-                    }
-                    return "";
-                };
-                $scope.clearSelect = function ($select, $index, $event) {
-                    $event.stopPropagation();
-                    $select.selected = undefined;
-                    $scope.filters[$index].currentValues[0] = "";
-                    $scope.updateFilteredAndOrderedRows();
                 };
                 init();
             }
             LuidTableGridController.IID = "luidTableGridController";
-            LuidTableGridController.$inject = ["$filter", "$scope", "$translate"];
+            LuidTableGridController.$inject = ["$filter", "$scope", "$translate", "$timeout"];
             return LuidTableGridController;
         }());
         Directives.LuidTableGridController = LuidTableGridController;
@@ -2696,6 +2720,7 @@ var Lui;
                         var lockedColumnsSynced = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
                         var scrollableArea = tablegrid.querySelector(".scrollable.columns");
                         var scrollableAreaVS = scrollableArea.querySelector(".virtualscroll");
+                        attrs.selectable = angular.isDefined(attrs.selectable);
                         var getScrollbarThickness = function () {
                             var inner = document.createElement("p");
                             inner.style.width = "100%";
@@ -2719,27 +2744,38 @@ var Lui;
                             document.body.removeChild(outer);
                             return (w1 - w2);
                         };
+                        var scrollbarThickness = getScrollbarThickness();
+                        var height = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
+                        var rowHeightMin = 32;
+                        var rowsPerPage = Math.round(height / rowHeightMin);
+                        var numberOfRows = rowsPerPage * 3;
+                        var resizeTimer;
+                        var scrollTop = 0;
+                        var lastScrollTop = 0;
+                        scope.visibleRows = [];
+                        scope.canvasHeight = 0;
+                        var scrollTimeout;
+                        var currentMarginTop = 0;
+                        var headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
                         var getLockedColumnsWidth = function () {
-                            if (!tables[0]) {
-                                return 1;
+                            if (!tables[1]) {
+                                return 0;
                             }
                             var w = 0;
-                            for (var _i = 0, _a = tables[0].querySelectorAll("tr:first-child td.locked"); _i < _a.length; _i++) {
+                            for (var _i = 0, _a = headers[1].querySelectorAll("tr:first-child th.locked"); _i < _a.length; _i++) {
                                 var col = _a[_i];
                                 w += col.offsetWidth;
                             }
                             return w + 1;
                         };
-                        var scrollbarThickness = getScrollbarThickness();
-                        var height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
-                        var rowHeight = 33;
-                        var cellsPerPage = Math.round(height / rowHeight);
-                        var numberOfCells = cellsPerPage * 3;
-                        var resizeTimer;
-                        var scrollTop = 0;
-                        scope.visibleRows = [];
-                        scope.canvasHeight = 0;
-                        var resize = function () {
+                        var updateHeight = function () {
+                            headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
+                            tablegrid.style.paddingTop = headerHeight + "px";
+                            if (!!tables[1]) {
+                                tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+                            }
+                        };
+                        var updateWidth = function () {
                             var tablegridWidth = 0;
                             tablegridWidth = (scrollableArea.clientHeight < scope.canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
                             for (var _i = 0, headers_1 = headers; _i < headers_1.length; _i++) {
@@ -2751,43 +2787,55 @@ var Lui;
                                 table.style.minWidth = headers[0].offsetWidth + "px";
                             }
                             var lockedColumnsWidth = getLockedColumnsWidth();
-                            if (lockedColumnsWidth !== 1) {
-                                lockedColumnsSynced.style.height = (bodies[1].clientWidth > tablegridWidth) ? +height + headers[1].offsetHeight - scrollbarThickness + "px" : +height + headers[1].offsetHeight + "px";
+                            if (lockedColumnsWidth) {
+                                lockedColumnsSynced.style.height = (bodies[0].clientWidth > tablegridWidth) ? +height + headerHeight - scrollbarThickness + "px" : +height + headerHeight + "px";
                                 lockedColumns.style.width = lockedColumnsWidth + "px";
                                 scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
                                 scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
                             }
-                            else {
-                                scrollableArea.style.marginLeft = 0 + "px";
-                                scrollableAreaVS.style.marginLeft = 0 + "px";
+                        };
+                        var resize = function () {
+                            updateHeight();
+                            updateWidth();
+                        };
+                        var updateVisibleRows = function () {
+                            var isScrollDown = lastScrollTop < scrollTop;
+                            var isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
+                            if (isScrollDown && isLastRowDrawn) {
+                                return;
                             }
-                            scope.resizedHeaders();
-                        };
-                        scope.resizedHeaders = function () {
-                            tablegrid.style.paddingTop = headers[0].offsetHeight + "px";
-                        };
-                        var vsOnScroll = function (event) {
-                            scrollTop = scrollableArea.scrollTop;
-                            scope.updateVirtualScroll();
-                            scope.$apply();
-                        };
-                        scope.updateVirtualScroll = function () {
-                            var firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
-                            var cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
+                            var firstCell = Math.max(Math.floor(scrollTop / rowHeightMin) - rowsPerPage, 0);
+                            var cellsToCreate = Math.min(firstCell + numberOfRows, numberOfRows);
+                            currentMarginTop = firstCell * rowHeightMin;
                             scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
-                            if (scope.fixedRowDefinition || scope.selectable) {
-                                tables[1].style.marginTop = (headers[1].offsetHeight + firstCell * rowHeight) + "px";
+                            if (scope.existFixedRow || attrs.selectable) {
+                                tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
                             }
-                            tables[0].style.marginTop = (firstCell * rowHeight) + "px";
-                            scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeight;
-                            resize();
+                            tables[0].style.marginTop = currentMarginTop + "px";
+                            scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
+                        };
+                        scope.updateViewAfterOrderBy = function () {
+                            updateVisibleRows();
+                        };
+                        scope.updateViewAfterFiltering = function () {
+                            scrollableArea.scrollTop = scrollTop = 0;
+                            if (scope.existFixedRow || attrs.selectable) {
+                                lockedColumnsSynced.scrollTop = 0;
+                            }
+                            updateVisibleRows();
+                            _this.$timeout(function () {
+                                resize();
+                            }, 0);
+                        };
+                        var updateVirtualScroll = function () {
+                            updateVisibleRows();
+                            updateWidth();
                         };
                         scope.$watchCollection("datas", function () {
                             if (!!scope.datas) {
                                 scope.filteredAndOrderedRows = scope.datas;
                                 _this.$timeout(function () {
-                                    scope.updateFilteredAndOrderedRows();
-                                    resize();
+                                    scope.updateFilteredRows();
                                 }, 100);
                             }
                         });
@@ -2796,17 +2844,20 @@ var Lui;
                             resizeTimer = _this.$timeout(function () { resize(); }, 100);
                         });
                         scrollableArea.addEventListener("scroll", function (event) {
-                            if (scope.fixedRowDefinition || scope.selectable) {
+                            if (scope.existFixedRow || attrs.selectable) {
                                 lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
                             }
-                            headers[0].style.left = -scrollableArea.scrollLeft + "px";
-                            vsOnScroll(event);
+                            _this.$timeout.cancel(scrollTimeout);
+                            scrollTimeout = _this.$timeout(function () {
+                                headers[0].style.left = -scrollableArea.scrollLeft + "px";
+                                lastScrollTop = scrollTop;
+                                scrollTop = scrollableArea.scrollTop;
+                                updateVirtualScroll();
+                            }, 50);
                         });
                         var init = function () {
                             scope.filteredAndOrderedRows = scope.datas;
-                            cellsPerPage = Math.round(height / rowHeight);
-                            numberOfCells = cellsPerPage * 3;
-                            _this.$timeout(function () { resize(); scope.updateVirtualScroll(); }, 100);
+                            _this.$timeout(function () { resize(); updateVirtualScroll(); }, 100);
                         };
                         init();
                     }, 0);
@@ -2853,12 +2904,12 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/table-grid/table-grid.html',
-    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"fixedRowDefinition || selectable\"><div class=holder style=\"height: 500px\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
+    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=holder ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
   );
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=selectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderBy(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=selectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=getCheckboxState() type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredAndOrderedRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\"><ui-select multiple class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredAndOrderedRows() on-select=updateFilteredAndOrderedRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredAndOrderedRows()><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=selectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\"><ui-select multiple class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);
