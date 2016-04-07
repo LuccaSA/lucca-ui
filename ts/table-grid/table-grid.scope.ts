@@ -15,25 +15,25 @@ module Lui.Directives {
 		colDefinitions: TableGrid.Header[];
 		FilterTypeEnum: FilterTypeEnum;
 
-		fixedRowDefinition: TableGrid.Header[];
+		existFixedRow: boolean;
 		header: TableGrid.Tree;
 		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
 		scrollableRowDefinition: TableGrid.Header[];
 		selectable: boolean;
+		isSelectable: boolean;
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
 
-		clearSelect: ($select: any, $index: number, $event: any) => void;
 		stripHtml: (html: string) => string;
-		updateFilterBy: (header: TableGrid.Header, index: number) => void;
-		updateFilteredAndOrderedRows: () => void;
+		updateFilteredRows: () => void;
 		resizedHeaders: () => void;
-		updateOrderBy: (header: TableGrid.Header) => void;
-		updateVirtualScroll: () => void;
+		updateOrderedRows: (header: TableGrid.Header) => void;
 		onMasterCheckBoxChange: () => void;
 		onCheckBoxChange: () => void;
-		getCheckboxState: () => string;
 		refresh: () => void;
+		updateViewAfterFiltering: () => void;
+		updateViewAfterOrderBy: () => void;
+		masterCheckBoxCssClass: string;
 	}
 
 }
