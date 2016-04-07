@@ -397,6 +397,7 @@ $scope.yearOfArrivalAsync = function(user){
 					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
 					<li><code>datas</code> : a list of things you want to display.</li>
 					<li><code>height</code> : your table won't be higher than that (px).</li>
+					<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
 				</ul>
 			</p>
 
@@ -445,7 +446,11 @@ children: [
 				<h4 class="lui underline">Demo</h4>
 			</div>
 			<div ng-controller="tableGridCtrl" class="lui block round">
-				<luid-table-grid header="headerTree" datas="people" selectable height="500"></luid-table-grid>
+				<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500"></luid-table-grid>
+			</div>
+			<div class="lui dashed divider"></div>
+			<div ng-controller="tableGridCtrl" class="lui block round">
+				<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="200"></luid-table-grid>
 			</div>
 		</article>
 	</section>
