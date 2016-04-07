@@ -113,7 +113,9 @@ module Lui.Directives {
 				let updateHeight = () => {
 					headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
 					tablegrid.style.paddingTop = headerHeight + "px";
-					tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+					if (!!tables[1]) {
+						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+					}
 				};
 
 				let updateWidth = () => {
