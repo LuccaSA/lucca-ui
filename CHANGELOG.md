@@ -8,6 +8,9 @@
 
 ## 2.0.16 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.16)
 
+### Breaking changes
+- Table-Grid directive has been removed from the standard distribution and add to the specific Lucca distribution because of many specifics dependancies it uses.
+
 ### New features
 - luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
 
