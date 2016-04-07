@@ -1,6 +1,16 @@
 # Change log
 
-## 2.0.17 - in dev
+## 2.1.1 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.1.0)
+
+Moved to 2.1.0 because of all the shenanigans with the table grid
+
+it is recommended to not use releases 2.0.12 onwards and move to this release. If you were not using the table grid directive, you are not concerned by the breaking changes
 
 ### Breaking changes
 - Table-Grid directive has been removed from the standard distribution and add to the specific Lucca distribution because of many specifics dependancies it uses.
