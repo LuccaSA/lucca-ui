@@ -91,6 +91,8 @@
 				displayMeFirst: "=", // boolean
 				/*** DISPLAY ALL USERS ***/
 				displayAllUsers: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -151,6 +153,8 @@
 				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -187,6 +191,14 @@
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 		var init = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+
+		/** HttpService **/
+		var getHttpMethod = function(method){
+			if($scope.customHttpService &&  $scope.customHttpService[method]){
+				return $scope.customHttpService[method];
+			}
+			return $http[method];
+		};
 
 		/****************/
 		/***** FIND *****/
@@ -309,7 +321,7 @@
 			}
 			query += (appInstanceId + operations);
 
-			getUsersPromise = $http.get(query);
+			var getUsersPromise = getHttpMethod("get")(query);
 			getUsersPromise
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
@@ -370,7 +382,7 @@
 		// 	var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
 
 		// 	delete timeout.count;
-		// 	$http.get(query).then(
+		// 	getHttpMethod("get")(query).then(
 		// 		function(response) {
 		// 			deferred.resolve(response.data.data.count);
 		// 		},
@@ -540,7 +552,7 @@
 				}
 			});
 
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
 			}, function(response) {
@@ -634,7 +646,7 @@
 		var getMeAsync = function() {
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				dfd.resolve(response.data.data.id);
 			}, function(response) {

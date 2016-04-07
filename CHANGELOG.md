@@ -6,6 +6,8 @@
 - Table-Grid directive has been removed from the standard distribution and add to the specific Lucca distribution because of many specifics dependancies it uses.
 
 ### New features
+- Directive `luid-user-picker` to handle custom $http service.
+- Directive `luid-user-picker-multiple` to handle custom $http service.
 
 ### Resolved issues
 
