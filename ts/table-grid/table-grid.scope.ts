@@ -20,6 +20,7 @@ module Lui.Directives {
 		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
 		scrollableRowDefinition: TableGrid.Header[];
 		selectable: boolean;
+		isSelectable: boolean;
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
 

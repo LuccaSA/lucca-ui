@@ -13,12 +13,14 @@ module Lui.Directives {
 
 	export class LuidTableGridController {
 		public static IID: string = "luidTableGridController";
-		public static $inject: Array<string> = ["$filter", "$scope", "$translate"];
+		public static $inject: Array<string> = ["$filter", "$scope", "$translate", "$timeout"];
 
-		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService) {
+		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService, $timeout: ng.ITimeoutService) {
 
 			// private members
 			let maxDepth = 0;
+
+			$scope.isSelectable = angular.isDefined($scope.selectable);
 
 			// private methods
 			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
