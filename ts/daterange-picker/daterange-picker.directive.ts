@@ -9,6 +9,11 @@ module Lui.Directives {
 	}
 
 	export class LuidDaterangePicker implements angular.IDirective {
+		public static factory = (): angular.IDirectiveFactory => {
+			let directive = ($filter: angular.IFilterService): angular.IDirective => { return new LuidDaterangePicker($filter); };
+			directive.$inject = ["$filter"];
+			return directive;
+		};
 
 		public static defaultHeight = 20;
 		public static IID = "luidDaterangePicker";
@@ -17,21 +22,13 @@ module Lui.Directives {
 		public restrict = "AE";
 		public scope = { predefinedHeaders: "=" };
 		public templateUrl = "lui/templates/daterange-picker/daterange-picker.html";
-		private filter: Lui.ILuiFilters;
-
-		public static Factory(): angular.IDirectiveFactory {
-			let directive = ($filter) => { return new LuidDaterangePicker($filter); };
-			directive.$inject = ["$filter"];
-			return directive;
-		}
 
 		constructor($filter: Lui.ILuiFilters) {
 			// Constructor code here
 			this.filter = $filter;
 		};
 
-		public link: ng.IDirectiveLinkFn = (scope: IDaterangePickerScope, element: ng.IAugmentedJQuery, attrs: ILuidDaterangePickerAttributes, ngModelCtrl: ng.INgModelController): void => {
-
+		public link: angular.IDirectiveLinkFn = (scope: IDaterangePickerScope, element: ng.IAugmentedJQuery, attrs: ILuidDaterangePickerAttributes, ngModelCtrl: ng.INgModelController): void => {
 			scope.range = {
 				startsOn: moment(ngModelCtrl.$viewValue.startsOn),
 				endsOn: moment(ngModelCtrl.$viewValue.endsOn).add(-1, "days"),
@@ -40,7 +37,7 @@ module Lui.Directives {
 
 			// ngModelCtrl thingies
 
-			ngModelCtrl.$formatters.push((modelValue) => {
+			ngModelCtrl.$formatters.push((modelValue: Lui.Directives.DaterangePicker.Model) => {
 				// not doing anything here, just for structure
 				return modelValue;
 			});
@@ -51,7 +48,7 @@ module Lui.Directives {
 				scope.friendly = this.filter("luifFriendlyRange")(<Lui.Period>scope.range, false);
 			};
 
-			ngModelCtrl.$parsers.push((viewValue) => {
+			ngModelCtrl.$parsers.push((viewValue: Lui.Directives.DaterangePicker.Model) => {
 				// not doing anything here, just for structure
 				return viewValue;
 			});
@@ -67,11 +64,12 @@ module Lui.Directives {
 			scope.$watch("range.endsOn", () => {
 				onScopeChange();
 			});
-
 		};
+
+		private filter: Lui.ILuiFilters;
 	}
 
 	angular.module("lui.directives")
-		.directive(LuidDaterangePicker.IID, LuidDaterangePicker.Factory());
+		.directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
 
 }
