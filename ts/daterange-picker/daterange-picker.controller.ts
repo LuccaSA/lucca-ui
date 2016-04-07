@@ -6,24 +6,55 @@ module Lui.Directives {
 
 	export class LuidDaterangePickerController {
 		public static IID: string = "luidDaterangePickerController";
-		public static $inject: Array<string> = ["$scope", "moment"];
+		public static $inject: Array<string> = ["$scope", "moment", "$document"];
 
-		constructor($scope: IDaterangePickerScope, moment: moment.MomentStatic) {
+		constructor($scope: IDaterangePickerScope, moment: moment.MomentStatic, $document: angular.IDocumentService) {
 
 			let useHack = () => {
 				$scope.hackRefresh = !($scope.hackRefresh);
 			};
 			$scope.startingDay = 1; // week starts on monday
 
-			$scope.clickOnButton = (event) => {
-				$scope.clickOnOk();
+			/////////////
+			// POPOVER //
+			/////////////
+			let togglePopover = (): void => {
+				$scope.isPopoverOpened = !($scope.isPopoverOpened);
+				if ($scope.isPopoverOpened) {
+					/* tslint:disable */
+					// Disable tslint because of loop
+					pinPopover();
+					/* tslint:enable */
+				} else {
+					/* tslint:disable */
+					// Disable tslint because of loop
+					unpinPopover();
+					/* tslint:enable */
+				}
+			};
+
+			let closePopover = (): void => {
+				togglePopover();
+				$scope.$apply();
+			};
+
+			let pinPopover = (): void => {
+				$document.on("click", closePopover);
+			};
+
+			let unpinPopover = (): void => {
+				$document.off("click", closePopover);
+			};
+
+			$scope.clickOnButton = (event: ng.IAngularEvent) => {
+				togglePopover();
 				event.stopPropagation();
 			};
 			$scope.clickOnOk = () => {
-				$scope.popoverOpened = !($scope.popoverOpened);
+				togglePopover();
 			};
 
-			$scope.dayClass = (date, mode) => {
+			$scope.dayClass = (date: Date, mode: string) => {
 				date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 				let result = "";
 				if (mode === "day") {
@@ -33,10 +64,9 @@ module Lui.Directives {
 				}
 				return result;
 			};
+
 		}
 	}
 
-	angular.module("lui.directives")
-		.controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
-
+	angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
 }

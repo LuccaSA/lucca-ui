@@ -1,13 +1,13 @@
 <div
 class="lui buttons"
-ng-class="{'open': popoverOpened}">
+ng-class="{'open': isPopoverOpened}">
 	<a class="lui west arrow icon button"></a>
 	<a
 	class="lui button"
 	uib-popover-template="'lui/templates/daterange-picker/daterange-picker.popover.html'"
 	popover-placement="right"
 	popover-trigger="none"
-	popover-is-open="popoverOpened"
+	popover-is-open="isPopoverOpened"
 	popover-class="lui daterange popover"
 	ng-click="clickOnButton($event)">{{ friendly }}</a>
 	<a class="lui east arrow icon button"></a>

@@ -13,7 +13,7 @@ module Lui.Directives {
 			secondleft: moment.Moment & string & Date;
 			secondright: moment.Moment & string & Date;
 		};
-		popoverOpened: boolean;
+		isPopoverOpened: boolean;
 		range: {
 			startsOn: moment.Moment,
 			endsOn: moment.Moment,
