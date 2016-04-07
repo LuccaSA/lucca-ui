@@ -171,8 +171,6 @@ module Lui.Directives {
 					}
 					tables[0].style.marginTop = currentMarginTop + "px";
 
-					scrollableAreaVS.style.marginTop = currentMarginTop + "px";
-
 					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
 				};
 

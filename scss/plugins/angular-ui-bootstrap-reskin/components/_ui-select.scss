@@ -35,7 +35,18 @@
 
 		&:not(.ui-select-multiple) .ui-select-search { display: none; }
 
-		.ui-select-toggle { display: block; }
+		.ui-select-toggle {
+			display: block;
+			a.btn-xs {
+				font-size: 0.5em;
+				float: right;
+				.glyphicon-remove {
+					color: luiPalette(grey, color, x-light);
+					@include lui_make_icon("cross");
+				}
+				&:hover .glyphicon { color: luiPalette(grey, color); }
+			}
+		}
 
 		// Multiselect mode
 		&.ui-select-multiple {
