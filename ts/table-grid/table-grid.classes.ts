@@ -13,7 +13,7 @@ module Lui.Directives.TableGrid {
 		public filterType: string;
 		public hidden: boolean;
 		public width: number;
-		public fixed: string;
+		public fixed: boolean;
 		public colspan: number;
 		public rowspan: number;
 		public textAlign: string;
