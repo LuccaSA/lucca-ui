@@ -6,4 +6,9 @@ module Lui.Directives.DaterangePicker {
 	export class PredefinedPeriod {
 		public label: string;
 	}
+
+	export class Model {
+		public startsOn: moment.Moment;
+		public endsOn: moment.Moment;
+	}
 }
