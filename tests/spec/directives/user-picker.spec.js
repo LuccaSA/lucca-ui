@@ -1095,13 +1095,13 @@ describe('luidUserPicker', function(){
 		});
 		it("should send one more request without operations filter", function() {
 			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
-			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
 			expect($httpBackend.flush).not.toThrow();
 		});
 		describe("when the 2 users does not have access to the operations but should be displayed at the end of the list", function() {
 			beforeEach(function() {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_3_users);
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
 				$httpBackend.flush();
 			});
 			it("should add users to the list of displayed users in the right position", function() {
@@ -1111,7 +1111,7 @@ describe('luidUserPicker', function(){
 		describe("when the 2 users does not have access to the operations but should be displayed at the beginning of the list", function() {
 			beforeEach(function() {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users_end);
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
 				$httpBackend.flush();
 			});
 			it("should add users to the list of displayed users in the right position", function() {
@@ -1121,7 +1121,7 @@ describe('luidUserPicker', function(){
 		describe("when the 2 users have access to the operations", function() {
 			beforeEach(function() {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_20_users);
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
 				$httpBackend.flush();
 			});
 			it("should not update the order of displayed users", function() {
@@ -1131,7 +1131,7 @@ describe('luidUserPicker', function(){
 		describe("when the 2 users does not have access to the operations and should not be displayed", function() {
 			beforeEach(function() {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_4_users);
 				$httpBackend.flush();
 			});
 			it("should not add users to the list of displayed users", function() {
@@ -1141,7 +1141,7 @@ describe('luidUserPicker', function(){
 		describe("when the 2 users does not have access to the operations but one of them should be displayed", function() {
 			beforeEach(function() {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_1_user);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_1_user);
 				$httpBackend.flush();
 			});
 			it("should add the user to the list of displayed users", function() {

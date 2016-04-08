@@ -327,7 +327,7 @@
 			promises.push(getHttpMethod("get")(query + appInstanceId + operations));
 			// Send query without operations filter if both bypassOperationsFor and operations are defined
 			if (!!$scope.bypassOperationsFor && !!$scope.bypassOperationsFor.length && !!$scope.operations && !!$scope.operations.length) {
-				promises.push(getHttpMethod("get")(query + appInstanceId));
+				promises.push(getHttpMethod("get")(query));
 			}
 
 			return promises;
