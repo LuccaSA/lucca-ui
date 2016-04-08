@@ -27,6 +27,7 @@ module Lui.Directives.DaterangePicker.Test {
 				});
 			};
 		}));
+
 		describe("$scope.dayClass", () => {
 			beforeEach(() => {
 				ctrl = createController();
@@ -40,6 +41,27 @@ module Lui.Directives.DaterangePicker.Test {
 				expect($scope.dayClass(new Date("2016-01-01"), "day")).toBe("start");
 				expect($scope.dayClass(new Date("2016-04-01"), "day")).toBe("end");
 				expect($scope.dayClass(new Date("2016-02-15"), "day")).toBe("in-between");
+			});
+		});
+
+		describe("$scope.startingDay", () => {
+			describe("with english locale", () => {
+				beforeEach(() => {
+					moment.locale("en");
+					ctrl = createController();
+				});
+				it("should be sunday", () => {
+					expect($scope.startingDay).toBe(0);
+				});
+			});
+			describe("with french locale", () => {
+				beforeEach(() => {
+					moment.locale("fr");
+					ctrl = createController();
+				});
+				it("should be monday", () => {
+					expect($scope.startingDay).toBe(1);
+				});
 			});
 		});
 	});

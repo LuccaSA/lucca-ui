@@ -13,7 +13,7 @@ module Lui.Directives {
 			let useHack = () => {
 				$scope.hackRefresh = !($scope.hackRefresh);
 			};
-			$scope.startingDay = 1; // week starts on monday
+			$scope.startingDay = moment.localeData().firstDayOfWeek();
 
 			/////////////
 			// POPOVER //
