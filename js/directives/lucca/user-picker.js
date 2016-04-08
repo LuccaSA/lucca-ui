@@ -93,6 +93,8 @@
 				displayAllUsers: "=", // boolean
 				/*** CUSTOM HTTP SERVICE ***/
 				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=", // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -155,6 +157,8 @@
 				displayMeFirst: "=", // boolean
 				/*** CUSTOM HTTP SERVICE ***/
 				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=" // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -305,26 +309,54 @@
 			return limit;
 		};
 
-		var getUsersAsync = function(input) {
+		var getUsersPromises = function(input) {
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
 			var clue = "clue=" + input;
 			var operations = "";
 			var appInstanceId = "";
 			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
-			var deferred = $q.defer();
+			var promises = [];
 
 			// Both attributes should be defined
 			if ($scope.appId && $scope.operations && $scope.operations.length) {
 				appInstanceId = "&appinstanceid=" + $scope.appId;
 				operations = "&operations=" + $scope.operations.join(',');
 			}
-			query += (appInstanceId + operations);
 
-			var getUsersPromise = getHttpMethod("get")(query);
-			getUsersPromise
-			.then(function(response) {
-				deferred.resolve(response.data.data.items);
+			promises.push(getHttpMethod("get")(query + appInstanceId + operations));
+			// Send query without operations filter if both bypassOperationsFor and operations are defined
+			if (!!$scope.bypassOperationsFor && !!$scope.bypassOperationsFor.length && !!$scope.operations && !!$scope.operations.length) {
+				promises.push(getHttpMethod("get")(query + appInstanceId));
+			}
+
+			return promises;
+		};
+
+		var getUsersAsync = function(input) {
+			var deferred = $q.defer();
+
+			$q.all(getUsersPromises(input))
+			.then(function(responses) {
+				var users = responses[0].data.data.items;
+				if (!!responses[1]) {
+					// For each user to bypass, if he belongs to the set of results without operations filter, add it to the results
+					_.each($scope.bypassOperationsFor, function(userId) {
+						var userToAdd = _.find(responses[1].data.data.items, function(user) { return user.id === userId; });
+						if (!!userToAdd) {
+							users.push(userToAdd);
+						}
+					});
+					users = _.chain(users)
+					.uniq(function(user) {
+						return user.id;
+					})
+					.sortBy(function(user) {
+						return user.lastName;
+					})
+					.value();
+				}
+				deferred.resolve(users);
 			}, function(response) {
 				deferred.reject(response.data.Message);
 			});

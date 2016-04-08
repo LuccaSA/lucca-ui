@@ -1076,7 +1076,79 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/****************************
+	** BYPASS OPERATIONS FOR   **
+	****************************/
+	describe("with bypassOperationsFor", function() {
+		beforeEach(function(){
+			$scope.ops = [1,2,3];
+			$scope.appId = 86;
+			$scope.idsToBypass = [5, 7];
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" bypass-operations-for="idsToBypass" operations="ops" app-id="appId"></luid-user-picker>');
 
+			$scope.myUser = {};
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			isolateScope.find();
+		});
+		it("should send one more request without operations filter", function() {
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+			expect($httpBackend.flush).not.toThrow();
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the end of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_3_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 7]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the beginning of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users_end);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([5, 7, 17, 18, 19, -1]);
+			});
+		});
+		describe("when the 2 users have access to the operations", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should not update the order of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations and should not be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_4_users);
+				$httpBackend.flush();
+			});
+			it("should not add users to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but one of them should be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86/i).respond(200, RESPONSE_1_user);
+				$httpBackend.flush();
+			});
+			it("should add the user to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 7]);
+			});
+		});
+	});
 
 	// Not implemented yet
 	// describe("pagination", function(){
@@ -1093,9 +1165,11 @@ describe('luidUserPicker', function(){
 	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
+	var RESPONSE_3_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"}]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};
 	var RESPONSE_20_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Alex","lastName":"Carpentieri"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Patrick","lastName":"Dai"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Manon","lastName":"Desbordes"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
 	var RESPONSE_4_users_end = {"header":{},"data":{"items":[{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
+	var RESPONSE_1_user = {"header":{},"data":{"items":[{"id":7,"firstName":"Kevin","lastName":"Brochet"}]}};
 
 	// N users, SOME former employees, no homonyms
 	var RESPONSE_4_users_FE = {header:{}, data:{items:[{"id": 1,"firstName": "Frédéric","lastName": "Pot","dtContractEnd": null},{"id": 2,"firstName": "Catherine","lastName": "Foliot","dtContractEnd": "2003-06-30T00:00:00"},{"id": 3,"firstName": "Catherine","lastName": "Lenzi","dtContractEnd": "2003-04-28T00:00:00"},{"id": 4,"firstName": "Bruno","lastName": "Catteau","dtContractEnd": null}]}};
