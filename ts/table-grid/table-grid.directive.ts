@@ -15,7 +15,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultFilter: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -155,23 +155,26 @@ module Lui.Directives {
 				// ==========================================
 
 				let updateVisibleRows = () => {
-					let isScrollDown = lastScrollTop < scrollTop;
+					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
 					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
 
 					if (isScrollDown && isLastRowDrawn) {
 						return;
 					}
 
-					let firstCell = Math.max(Math.floor(scrollTop / rowHeightMin) - rowsPerPage, 0);
-					let cellsToCreate = Math.min(firstCell + numberOfRows, numberOfRows);
-					currentMarginTop = firstCell * rowHeightMin;
-					scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+					//let firstCell = Math.max(Math.floor(scrollableArea.scrollTop / rowHeightMin) - rowsPerPage, 0);
+					let startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
+					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
+					currentMarginTop = startNumRow * rowHeightMin;
+					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
 					}
 					tables[0].style.marginTop = currentMarginTop + "px";
 
-					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
+					scrollableAreaVS.style.marginTop = currentMarginTop + "px";
+
+					scope.canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * rowHeightMin;
 				};
 
 				scope.updateViewAfterOrderBy = () => {
@@ -179,7 +182,7 @@ module Lui.Directives {
 				};
 
 				scope.updateViewAfterFiltering = () => {
-					scrollableArea.scrollTop = scrollTop = 0;
+					scrollableArea.scrollTop = 0;
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = 0;
 					}
@@ -187,11 +190,6 @@ module Lui.Directives {
 					this.$timeout(() => {
 						resize();
 					}, 0);
-				};
-
-				let updateVirtualScroll = () => {
-					updateVisibleRows();
-					updateWidth();
 				};
 
 				// ==========================================
@@ -217,14 +215,10 @@ module Lui.Directives {
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
 					}
-					//Necessary because scroll event is calling twice
-					this.$timeout.cancel(scrollTimeout);
-					scrollTimeout = this.$timeout(() => {
-						headers[0].style.left = - scrollableArea.scrollLeft + "px";
-						lastScrollTop = scrollTop;
-						scrollTop = scrollableArea.scrollTop;
-						updateVirtualScroll();
-					}, 50);
+					headers[0].style.left = - scrollableArea.scrollLeft + "px";
+					updateVisibleRows();
+					lastScrollTop = scrollableArea.scrollTop;
+					scope.$apply();
 				});
 
 
@@ -233,7 +227,7 @@ module Lui.Directives {
 				// ==========================================
 				let init = () => {
 					scope.filteredAndOrderedRows = scope.datas;
-					this.$timeout(() => { resize(); updateVirtualScroll(); }, 100);
+					this.$timeout(() => { resize(); updateVisibleRows(); }, 100);
 				};
 
 				init();
