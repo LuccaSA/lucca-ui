@@ -50,8 +50,14 @@ module Lui.Directives {
 				togglePopover();
 				event.stopPropagation();
 			};
+
 			$scope.clickOnOk = () => {
 				togglePopover();
+			};
+
+			$scope.clickInside = (event: ng.IAngularEvent) => {
+				event.preventDefault();
+				event.stopPropagation();
 			};
 
 			$scope.dayClass = (date: Date, mode: string) => {

@@ -107,5 +107,11 @@ module Lui.Directives.DaterangePicker.Test {
 			element(by.tagName("body")).click();
 			expect(element(by.css("#luid-daterange-picker luid-daterange-picker .popover")).isPresent()).toBe(false);
 		});
+		it("should not close when clicking inside the popover", (): void => {
+			let input = element.all(by.css("#luid-daterange-picker luid-daterange-picker div.lui.buttons > a")).get(1);
+			input.click();
+			element(by.css("#luid-daterange-picker luid-daterange-picker .popover")).click();
+			expect(element(by.css("#luid-daterange-picker luid-daterange-picker .popover")).isPresent()).toBe(true);
+		});
 	});
 }

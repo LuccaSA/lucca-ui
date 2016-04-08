@@ -21,6 +21,7 @@ module Lui.Directives {
 		startingDay: number;
 
 		clickOnButton: (event: ng.IAngularEvent) => void;
+		clickInside: (event: ng.IAngularEvent) => void;
 		clickOnDate: () => void;
 		clickOnOk: () => void;
 		clickOnPredefined: (predefinedHeader: DaterangePicker.PredefinedPeriod) => void;
