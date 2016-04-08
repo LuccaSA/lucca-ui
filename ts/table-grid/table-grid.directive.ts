@@ -15,7 +15,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultFilter: "@" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -89,11 +89,9 @@ module Lui.Directives {
 				let rowsPerPage = Math.round(height / rowHeightMin);
 				let numberOfRows = rowsPerPage * 3;
 				let resizeTimer: any;
-				let scrollTop = 0; //current scroll position
 				let lastScrollTop = 0; //last scroll position, to determine the scroll direction
 				scope.visibleRows = []; //current elements in DOM
 				scope.canvasHeight = 0; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
-				let scrollTimeout;
 				let currentMarginTop: number = 0;
 
 				let headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
@@ -199,9 +197,11 @@ module Lui.Directives {
 				scope.$watchCollection("datas", () => {
 					if (!!scope.datas) {
 						scope.filteredAndOrderedRows = scope.datas;
-						this.$timeout(() => {
-							scope.updateFilteredRows();
-						}, 100);
+						if (scope.selected.orderBy !== null) {
+							scope.orderBySelectedHeader();
+						}
+						updateVisibleRows();
+						this.$timeout(() => { resize(); }, 100);
 					}
 				});
 				// Watches for window resizes
@@ -220,17 +220,6 @@ module Lui.Directives {
 					lastScrollTop = scrollableArea.scrollTop;
 					scope.$apply();
 				});
-
-
-				// ==========================================
-				// ---- Initialisation
-				// ==========================================
-				let init = () => {
-					scope.filteredAndOrderedRows = scope.datas;
-					this.$timeout(() => { resize(); updateVisibleRows(); }, 100);
-				};
-
-				init();
 			}, 0);
 		};
 	}
