@@ -1,1 +1,0 @@
-"C:\Servers\Lucca-UI\ts\deferred.cloak.ts" "C:\Servers\Lucca-UI\ts\filters-definitions.ts" "C:\Servers\Lucca-UI\ts\references.ts" --emitDecoratorMetadata --declaration --removeComments --experimentalDecorators --target ES5 --out .temp/lucca-ui-ts.js

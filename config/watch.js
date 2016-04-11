@@ -16,8 +16,8 @@ module.exports = function(grunt, options){
 		},
 
 		js: {
-			files: ['js/**/*.js', 'demo/js/**/*.js'],
-			tasks: ['dist', 'jshint'],
+			files: ['js/**/*.js'],
+			tasks: ['dist', 'karma:debug', 'jshint'],
 		},
 		jsspec: {
 			files: ['tests/spec/**/*.js'],
@@ -26,7 +26,7 @@ module.exports = function(grunt, options){
 
 		ts: {
 			files: ["ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
-			tasks: ["dist", "ts:test", "tslint"]
+			tasks: ["dist", "ts:test", "karma:debug", "tslint"]
 		},
 		tsspec: {
 			files: ["ts/**/*.spec.ts"],
