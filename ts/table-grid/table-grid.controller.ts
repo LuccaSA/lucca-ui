@@ -103,9 +103,11 @@ module Lui.Directives {
 				$scope.selected = { orderBy: null, reverse: false };
 
 				if (!!$scope.defaultOrder) {
-					if ($scope.defaultOrder.substr(0,1) === "-") {
+					let firstChar = $scope.defaultOrder.substr(0,1);
+					if (firstChar === "-" || firstChar === "+") {
 						$scope.defaultOrder = $scope.defaultOrder.substr(1);
-						$scope.selected.reverse = true;
+
+						$scope.selected.reverse = firstChar === "-" ? true : false;
 					}
 					let orderByHeader = _.find($scope.colDefinitions, (header: TableGrid.Header) => {
 						return header.label === $scope.defaultOrder;
