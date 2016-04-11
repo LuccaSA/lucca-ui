@@ -3,6 +3,7 @@
 ## 2.1.1 - in dev
 
 ### New features
+- luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
 
 ### Resolved issues
 
