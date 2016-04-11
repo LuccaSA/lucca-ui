@@ -3,6 +3,8 @@
 ## 2.1.1 - in dev
 
 ### New features
+ - directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
+Based on ng-cloak angular's directive but use link directive function instead of compile function.
 
 ### Resolved issues
 
