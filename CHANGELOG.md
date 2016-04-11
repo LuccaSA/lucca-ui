@@ -3,6 +3,7 @@
 ## 2.1.1 - in dev
 
 ### New features
+- luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 
 ### Resolved issues
 
