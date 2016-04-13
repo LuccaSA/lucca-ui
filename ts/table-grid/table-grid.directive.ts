@@ -5,7 +5,8 @@ module Lui.Directives {
 	"use strict";
 
 	export interface ILuidTableGridAttributes extends ng.IAttributes {
-		height: number;
+		height: string;
+		selectable: boolean;
 	}
 
 	export class LuidTableGrid implements angular.IDirective {
@@ -14,7 +15,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -28,133 +29,216 @@ module Lui.Directives {
 
 		public link: ng.IDirectiveLinkFn = (scope: IDataGridScope, element: ng.IAugmentedJQuery, attrs: ILuidTableGridAttributes): void => {
 
-			//virtual scroll from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
+			this.$timeout(() => {
+				// ==========================================
+				// ---- DOM Elements
+				// ==========================================
+				let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
 
-				this.$timeout(() => {
+				let tables: any = tablegrid.querySelectorAll("table"); 			// Both tables
+				let headers: any = tablegrid.querySelectorAll("thead"); 		// Both tables headers
+				let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
 
-					// dom elements
-					let datagrid: any = document.querySelector(".lui.tablegrid"); // the directive
-					let datagridContent = datagrid.querySelector(".content"); // the rows
-					let datagridHeader = datagrid.querySelector(".header"); // the header
-					let lockedContent: any = datagrid.querySelector(".content .locked.columns"); // left part of the rows
-					let lockedCanvas: any = lockedContent.querySelector(".canvas"); // left virtual container
-					let lockedHeader: any = datagrid.querySelector(".header .locked.columns"); // left part of the header
-					let lockedMiddle: any = lockedHeader.querySelector(".middle");
-					let lockedTable: any = lockedContent.querySelector("table"); // left table of the rows
-					let scrollableContent: any = datagrid.querySelector(".scrollable"); // right part of the rows
-					let scrollableHeader: any = datagridHeader.querySelector(".columns:not(.locked)"); // right part of header
-					let scrollableTable: any = scrollableContent.querySelector("table"); // right part of the rows
+				let lockedColumns: any = tablegrid.querySelector(".locked.columns");
+				let lockedColumnsSynced: any = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
 
-					let lockedWidth = _.reduce(scope.fixedRowDefinition, (memo: number, num: TableGrid.Header) => { return memo + num.width; }, 0) + "em";
-					lockedCanvas.style.width = lockedWidth;
-					lockedMiddle.style.width = lockedWidth;
+				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
+				let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
 
-					// private variables
-					let cellsPerPage = 0; //number of cells fitting in one page
-					let height = attrs.height ? attrs.height : LuidTableGrid.defaultHeight;
-					let numberOfCells = 0; //Number of virtualized cells (basicaly 10 + cellPerPage + 10 except if you're at top or bottom)
-					let rowHeight = 31;
+				attrs.selectable = angular.isDefined(attrs.selectable);
 
-					let scrollbarThickness = scrollableContent.offsetWidth - scrollableContent.clientWidth;
-					scrollbarThickness = scrollbarThickness ? scrollbarThickness : 20;
-					let contentHeight = height - scrollbarThickness;
+				// ==========================================
+				// ---- Helpers (methods)
+				// ==========================================
+				// http://stackoverflow.com/questions/34426134/how-to-get-the-width-of-the-browsers-scrollbars-and-add-it-to-the-width-of-the-w
+				let getScrollbarThickness = () => {
+					let inner: any = document.createElement("p");
+					inner.style.width = "100%";
+					inner.style.height = "200px";
 
-					let scrollTop = 0; //current scroll position
-					scope.visibleRows = []; //current elements in DOM
-					scope.canvasHeight = {}; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
+					let outer: any = document.createElement("div");
+					outer.style.position = "absolute";
+					outer.style.top = "0px";
+					outer.style.left = "0px";
+					outer.style.visibility = "hidden";
+					outer.style.width = "200px";
+					outer.style.height = "150px";
+					outer.style.overflow = "hidden";
+					outer.appendChild(inner);
 
-					// private methods
-					let resizeHeight = () => {
-						datagridContent.style.maxHeight  = height + "px";
-						lockedContent.style.maxHeight  = height - scrollbarThickness + "px";
-						scrollableContent.style.maxHeight  = height + "px";
-					};
+					document.body.appendChild(outer);
+					let w1: number = inner.offsetWidth;
+					outer.style.overflow = "scroll";
+					let w2: number = inner.offsetWidth;
 
-					let resizeWidth = () => {
-						scrollableContent.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth - scrollbarThickness + "px";
-						scrollableHeader.style.width = datagrid.offsetWidth - lockedHeader.offsetWidth -  2 * scrollbarThickness + "px";
-					};
+					if (w1 === w2) {
+						w2 = outer.clientWidth;
+					}
 
-					let vsOnScroll = (event: Event) => {
-						scrollTop = scrollableContent.scrollTop;
-						scope.updateVirtualScroll();
-						scope.$apply();
-					};
+					document.body.removeChild(outer);
 
-					let wheelHorizontaly = (length: number) => {
-						scrollableHeader.scrollLeft += length;
-						scrollableContent.scrollLeft += length;
-					};
+					return (w1 - w2);
+				};
 
-					let wheelVerticaly = (length: number) => {
-						lockedContent.scrollTop += length;
-						scrollableContent.scrollTop += length;
-					};
+				// ==========================================
+				// ---- Other private variables
+				// ==========================================
+				let scrollbarThickness: number = getScrollbarThickness();
+				let height: number = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
+				let rowHeightMin = 32; // # MAGIC NUMBER
+				let rowsPerPage = Math.round(height / rowHeightMin);
+				let numberOfRows = rowsPerPage * 3;
+				let resizeTimer: any;
+				let scrollTop = 0; //current scroll position
+				let lastScrollTop = 0; //last scroll position, to determine the scroll direction
+				scope.visibleRows = []; //current elements in DOM
+				scope.canvasHeight = 0; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
+				let scrollTimeout;
+				let currentMarginTop: number = 0;
 
-					let wheel = (event: any) => {
-						switch (event.deltaMode) {
-							case 0:
-								wheelHorizontaly(event.deltaX);
-								wheelVerticaly(event.deltaY);
-								break;
-							case 1:
-								let fontSize = parseFloat(window.getComputedStyle(datagrid, null).fontSize);
-								wheelHorizontaly(event.deltaX * fontSize);
-								wheelVerticaly(event.deltaY * fontSize);
-								break;
-							default:
-								break;
-						}
-					};
+				let headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
 
-					scope.updateVirtualScroll = function(): void {
+				let getLockedColumnsWidth = () => {
+					if (!tables[1]) {
+						return 0;
+					}
+					let w: number = 0;
+					// @TODO: Should use the lockedCols variables rather than searching for them each time
+					for (let col of headers[1].querySelectorAll("tr:first-child th.locked")) {
+						w += col.offsetWidth;
+					}
+					return w + 1; // Adds 1 pixel for border
+				};
 
-						scope.canvasHeight = {
-							height: scope.filteredAndOrderedRows.length * rowHeight + "px",
-						};
+				let updateHeight = () => {
+					headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
+					tablegrid.style.paddingTop = headerHeight + "px";
+					if (!!tables[1]) {
+						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+					}
+				};
 
-						let firstCell = Math.max(Math.floor(scrollTop / rowHeight) - cellsPerPage, 0);
-						let cellsToCreate = Math.min(firstCell + numberOfCells, numberOfCells);
-						scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+				let updateWidth = () => {
+					let tablegridWidth: number = 0;
+					tablegridWidth = (scrollableArea.clientHeight < scope.canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
 
-						lockedTable.style.top = firstCell * rowHeight + "px";
-						scrollableTable.style.top = firstCell * rowHeight + "px";
-					};
+					// Vertical scrollbar
+					for (let header of headers) {
+						header.style.minWidth = tablegridWidth + "px";
+					}
+					for (let table of tables) {
+						table.style.minWidth = headers[0].offsetWidth + "px";
+					}
 
-					let init = () => {
+					let lockedColumnsWidth: any = getLockedColumnsWidth();
+					if (lockedColumnsWidth) {
+						//it's necessary to do this height compute in width method because of the dependance between twice.
+						lockedColumnsSynced.style.height = (bodies[0].clientWidth > tablegridWidth) ? + height + headerHeight - scrollbarThickness + "px" : + height + headerHeight + "px";
+						lockedColumns.style.width = lockedColumnsWidth + "px";
+						scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
+						scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
+					}
+				};
+
+				// ==========================================
+				// ---- Resize methods
+				// ==========================================
+				// Private
+				let resize = () => {
+					updateHeight();
+					updateWidth();
+				};
+
+				// ==========================================
+				// ---- Virtual scroll
+				// ---- from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
+				// ==========================================
+
+				let updateVisibleRows = () => {
+					let isScrollDown = lastScrollTop < scrollTop;
+					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
+
+					if (isScrollDown && isLastRowDrawn) {
+						return;
+					}
+
+					let firstCell = Math.max(Math.floor(scrollTop / rowHeightMin) - rowsPerPage, 0);
+					let cellsToCreate = Math.min(firstCell + numberOfRows, numberOfRows);
+					currentMarginTop = firstCell * rowHeightMin;
+					scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+					if (scope.existFixedRow || attrs.selectable) {
+						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+					}
+					tables[0].style.marginTop = currentMarginTop + "px";
+
+					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
+				};
+
+				scope.updateViewAfterOrderBy = () => {
+					updateVisibleRows();
+				};
+
+				scope.updateViewAfterFiltering = () => {
+					scrollableArea.scrollTop = scrollTop = 0;
+					if (scope.existFixedRow || attrs.selectable) {
+						lockedColumnsSynced.scrollTop = 0;
+					}
+					updateVisibleRows();
+					this.$timeout(() => {
+						resize();
+					}, 0);
+				};
+
+				let updateVirtualScroll = () => {
+					updateVisibleRows();
+					updateWidth();
+				};
+
+				// ==========================================
+				// ---- Watchers
+				// ==========================================
+				// Watches collection changes
+				scope.$watchCollection("datas", () => {
+					if (!!scope.datas) {
 						scope.filteredAndOrderedRows = scope.datas;
+						this.$timeout(() => {
+							scope.updateFilteredRows();
+						}, 100);
+					}
+				});
+				// Watches for window resizes
+				window.addEventListener("resize", (): void => {
+					this.$timeout.cancel(resizeTimer);
+					resizeTimer = this.$timeout(() => { resize(); }, 100);
+				});
 
-						resizeHeight();
-						resizeWidth();
-						resizeWidth();
+				// Watches for scrolling on the scrollable area of the tablegrid
+				scrollableArea.addEventListener("scroll", (event: Event) => {
+					if (scope.existFixedRow || attrs.selectable) {
+						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
+					}
+					//Necessary because scroll event is calling twice
+					this.$timeout.cancel(scrollTimeout);
+					scrollTimeout = this.$timeout(() => {
+						headers[0].style.left = - scrollableArea.scrollLeft + "px";
+						lastScrollTop = scrollTop;
+						scrollTop = scrollableArea.scrollTop;
+						updateVirtualScroll();
+					}, 50);
+				});
 
-						cellsPerPage = Math.round(contentHeight / rowHeight);
-						numberOfCells = cellsPerPage * 3;
-						scope.updateVirtualScroll();
-					};
 
-					datagridHeader.addEventListener("wheel", (event: Event): void => {
-						wheel(event);
-					});
+				// ==========================================
+				// ---- Initialisation
+				// ==========================================
+				let init = () => {
+					scope.filteredAndOrderedRows = scope.datas;
+					this.$timeout(() => { resize(); updateVirtualScroll(); }, 100);
+				};
 
-					lockedContent.addEventListener("wheel", (event: Event): void => {
-						wheel(event);
-						vsOnScroll(event);
-					});
-
-					scrollableContent.addEventListener("scroll", (event: Event) => {
-						scrollableHeader.scrollLeft = scrollableContent.scrollLeft;
-						lockedContent.scrollTop = scrollableContent.scrollTop;
-						vsOnScroll(event);
-					});
-
-					window.addEventListener("resize", (): void => {
-						resizeWidth();
-					});
-
-					init();
-				}, 500);
-			};
+				init();
+			}, 0);
+		};
 	}
 
 	angular.module("lui.directives")
