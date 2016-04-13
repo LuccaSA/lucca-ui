@@ -6,6 +6,7 @@
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
+		<a class="item" href="#/directives#luid-progress-bar">luid-progress-bar</a>
 	</nav>
 	</nav>
 
@@ -582,6 +583,62 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<luid-day-block class="lui" ng-class="[palette, sizing]" show-day="showDay" primary-color="foregroundColor" secondary-color="backgroundColor"
 				date="myDate">
 				</luid-day-block>
+			</div>
+		</article>
+
+		<article id="luid-progress-bar">
+			<h2 class="lui divider below">luid-progress-bar</h2>
+
+			<p>
+				A service that allow to display a progress bar depending on http get requests.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<p>
+				When the progress-bar-service is listening, a progress bar element appears and is loading until all http get requests are finished.
+			</p>
+			<p>
+				Can specify the parent element on the initialisation.
+			</p>
+			<p>
+				Can change the default color with <code>setColor()</code> method.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				Add http interceptor in your module config method :
+			</p>
+			<p>
+				<pre hljs no-escape language="js">angular.module('demo').config(function($httpProvider) {
+	$httpProvider.interceptors.push("luccaHttpInterceptor");
+}</pre>
+			</p>
+			<p>
+				Add progress bar in your module run method :
+			</p>
+			<p>
+				<pre hljs no-escape language="js">angular.module('demo').run(function($httpProvider) {
+	progressBarService.addProgressBar();
+	progressBarService.setColor("blue");
+}</pre>
+			</p>
+			<p>
+				Specify when you want to listen http request.
+				For example, we can do that each time the ui-router state change :
+				<pre hljs no-escape language="js">$scope.$on("$stateChangeStart", (event: any, toState: any, toParams: any, fromState: any, fromParams: any) => {
+	progressBarService.setHttpResquestListening(true);
+});</pre>
+			</p>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div class="lui item">
+				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+					<i class="lui icon search"></i>View in Plunker
+				</a>
 			</div>
 		</article>
 
