@@ -4,6 +4,7 @@
 
 ### New features
 - luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
+- luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 
 ### Resolved issues
 
