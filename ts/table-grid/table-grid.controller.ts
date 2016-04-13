@@ -102,7 +102,21 @@ module Lui.Directives {
 
 				$scope.selected = { orderBy: null, reverse: false };
 
+				if (!!$scope.defaultOrder) {
+					let firstChar = $scope.defaultOrder.substr(0,1);
+					if (firstChar === "-" || firstChar === "+") {
+						$scope.defaultOrder = $scope.defaultOrder.substr(1);
+
+						$scope.selected.reverse = firstChar === "-" ? true : false;
+					}
+					let orderByHeader = _.find($scope.colDefinitions, (header: TableGrid.Header) => {
+						return header.label === $scope.defaultOrder;
+					});
+					$scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
+				}
+
 				initFilter();
+
 			};
 
 			let getCheckboxState = () => {
@@ -150,6 +164,19 @@ module Lui.Directives {
 				$scope.updateViewAfterFiltering();
 			};
 
+			$scope.orderBySelectedHeader = () => {
+				if ($scope.selected && $scope.selected.orderBy) {
+					$scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, (row: any) => {
+						let orderByValue = $scope.selected.orderBy.getValue(row);
+						if ( $scope.selected.orderBy.getOrderByValue != null) {
+							orderByValue = $scope.selected.orderBy.getOrderByValue(row);
+						}
+						return orderByValue;
+					});
+				}
+				$scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
+			};
+
 			$scope.updateOrderedRows = (header: TableGrid.Header) => {
 				if (header === $scope.selected.orderBy) {
 					if ($scope.selected.reverse) {
@@ -163,16 +190,7 @@ module Lui.Directives {
 					$scope.selected.reverse = false;
 				}
 
-				if ($scope.selected && $scope.selected.orderBy) {
-					$scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, (row: any) => {
-						let orderByValue = $scope.selected.orderBy.getValue(row);
-						if ( $scope.selected.orderBy.getOrderByValue != null) {
-							orderByValue = $scope.selected.orderBy.getOrderByValue(row);
-						}
-						return orderByValue;
-					});
-				}
-				$scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
+				$scope.orderBySelectedHeader();
 
 				$scope.updateViewAfterOrderBy();
 			};
