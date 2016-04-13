@@ -3,6 +3,7 @@
 ## 2.1.1 - in dev
 
 ### New features
+progress-bar service : Display a progress bar depending on get http requests
 
 ### Resolved issues
 
