@@ -30,7 +30,8 @@ $dropdown: (
 	isAnimated: 				true,
 	animationDuration: 			100ms,
 
-	minWidth: 					100%,
+	width: 						100%,
+	minWidth: 					15em,
 	maxHeight: 					15em,
 
 	hoverBackground: 			luiPalette(light, color, light),

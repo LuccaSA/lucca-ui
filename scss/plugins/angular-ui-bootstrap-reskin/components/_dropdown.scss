@@ -24,6 +24,7 @@
 			position: absolute; z-index: 1000;
 			margin-top: -1px;
 			top: 100%; left: 0;
+			width: map-gets($pluginVars, dropdown, width);
 			min-width: map-gets($pluginVars, dropdown, minWidth);
 
 			border: 1px solid map-get($inputVars, borderColor);
