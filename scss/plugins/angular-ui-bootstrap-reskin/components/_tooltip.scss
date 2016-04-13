@@ -40,57 +40,54 @@
 		// Arrow
 		> [class*="arrow"] {
 			width: 0; height: 0;
-			@extend #{$prefix}.pointing:after;
 			position: absolute;
 		}
 
 		& {
-			$triangle: luiTheme(adjective, pointing);
+			$triangle: 4px;
 
-			&.left > [class*="arrow"], &.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
+			&.left > [class*="arrow"],
+			&.right > [class*="arrow"] { top: 50%; transform: translateY(-50%); }
 
-			&.left { margin-left: - map-gets($triangle, triangleWidth); }
-			&.left > [class*="arrow"] { @extend #{$prefix}[class*="right pointing"]:after; left: 100%; }
+			&.left { margin-right: (2 * $triangle); }
+			&.left > [class*="arrow"] {  @include lui_points_towards(right, #CCC, $triangle); left: 100%!important; right: auto!important; }
 
-			&.right { margin-right: - map-gets($triangle, triangleWidth); }
-			&.right > [class*="arrow"] { @extend #{$prefix}[class*="left pointing"]:after; right: 100%; }
+			&.right { margin-left: (2 * $triangle); }
+			&.right > [class*="arrow"] {  @include lui_points_towards(left, #CCC, $triangle); left: auto!important; right: 100% !important; }
 
-			&.top > [class*="arrow"], &.bottom > [class*="arrow"] { left: 50%; transform: translateX(-50%); }
+			&.top > [class*="arrow"],
+			&.bottom > [class*="arrow"] { left: 50%; transform: translateX(-50%); }
 
-			&.top { margin-top: - map-gets($triangle, triangleWidth); }
-			&.top > [class*="arrow"] { @extend #{$prefix}[class*="bottom pointing"]:after; top: 100%; }
+			&.top { margin-bottom: (2 * $triangle); }
+			&.top > [class*="arrow"] {  @include lui_points_towards(bottom, #CCC, $triangle); bottom: auto!important; top: 100%!important; }
 
-			&.bottom { margin-bottom: - map-gets($triangle, triangleWidth); }
-			&.bottom > [class*="arrow"] { @extend #{$prefix}[class*="top pointing"]:after; bottom: 100%; }
+			&.bottom { margin-top: (2 * $triangle); }
+			&.bottom > [class*="arrow"] {  @include lui_points_towards(top, #CCC, $triangle); top: auto!important; bottom: 100%!important; }
 		}
 
 		// Extras!
-		&.topleft, &.bottomleft {
-			left: 0 !important;
+		&.topleft, &.top-left, &.bottomleft, &.bottom-left {
 			> [class*="arrow"] {
 				left: 0; right: auto;
 				transform: translateX(50%);
 			}
 		}
-		&.topright, &.bottomright {
-			right: 0 !important;
+		&.topright, &.top-right, &.bottomright, &.bottom-right {
 			> [class*="arrow"] {
 				left: auto; right: 0;
-				transform: translateX(50%);
+				transform: translateX(-50%);
 			}
 		}
-		&.leftTop, &.rightTop {
-			top: 0 !important;
+		&.leftTop, &.left-top, &.rightTop, &.right-top {
 			> [class*="arrow"] {
 				top: 0; bottom: auto;
 				transform: translateY(50%);
 			}
 		}
-		&.leftBottom, &.rightBottom {
-			bottom: 0 !important;
+		&.leftBottom, &.left-bottom, &.rightBottom, &.right-bottom {
 			> [class*="arrow"] {
 				bottom: 0; top: auto;
-				transform: translateY(50%);
+				transform: translateY(-50%);
 			}
 		}
 	}

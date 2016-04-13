@@ -2,6 +2,7 @@
 	<nav id="toc" class="lui left stuck vertical primary dividing menu">
 		<a class="item" href="#/lucca#luid-user-picker">luid-user-picker</a>
 		<a class="item" href="#/lucca#luid-translations">luid-translations</a>
+		<a class="item" href="#/lucca#luid-table-grid">luid-table-grid</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -80,25 +81,29 @@
 		<p>
 			Displays the option "All users". This option is displayed when the search input is empty.
 		</p>
+		<p>
+			Bypasses <code>operations</code> filter for some users. It will always display given users if they belong to the set of results, even if they doesn't have access to the operations.
+		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Supported arguments</h4>
 		</div>
 		<p>
 			<ul class="lui unstyled">
-				<li><code>ng-model</code> : the variable to bind to</li>
-				<li><code>size</code> : the size of the input, supports <code>x-small</code>, <code>small</code>, <code>long</code>, <code>x-long</code>, <code>fitting</code></li>
-				<li><code>on-select</code> : function to execute when an item is selected</li>
-				<li><code>on-remove</code> : function to execute when an item is removed (multi-select or emptying the input)</li>
-				<li><code>control-disabled</code> : boolean indicating if you want the control to be disabled</li>
-				<li><code>show-former-employees</code> : boolean indicating if you want to fetch former employees or not (default:false)</li>
-				<li><code>homonyms-properties</code> : list of properties you want to display in case of homonyms</li>
-				<li><code>custom-filter</code> : function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
-				<li><code>app-id</code> : the set of results should have access to the application matching this id</li>
-				<li><code>operations</code> : list of operations that the set of results should support for the given application</li>
-				<li><code>custom-info</code> : function that will return the information to display next to each user. It should respect the following signature : <code>function(user) { return string; }</code></li>
-				<li><code>custom-info-async</code> : same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
-				<li><code>display-me-first</code> : boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
-				<li><code>display-all-users</code> : boolean indication if you want to display the option "All users" when the search input is empty</li>
+				<li><code>ng-model</code>: the variable to bind to</li>
+				<li><code>size</code>: the size of the input, supports <code>x-small</code>, <code>small</code>, <code>long</code>, <code>x-long</code>, <code>fitting</code></li>
+				<li><code>on-select</code>: function to execute when an item is selected</li>
+				<li><code>on-remove</code>: function to execute when an item is removed (multi-select or emptying the input)</li>
+				<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
+				<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not (default:false)</li>
+				<li><code>homonyms-properties</code>: list of properties you want to display in case of homonyms</li>
+				<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
+				<li><code>app-id</code>: the set of results should have access to the application matching this id</li>
+				<li><code>operations</code>: list of operations that the set of results should support for the given application</li>
+				<li><code>custom-info</code>: function that will return the information to display next to each user. It should respect the following signature : <code>function(user) { return string; }</code></li>
+				<li><code>custom-info-async</code>: same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
+				<li><code>display-me-first</code>: boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
+				<li><code>display-all-users</code>: boolean indication if you want to display the option "All users" when the search input is empty</li>
+				<li><code>bypass-operations-for</code>: list of user ids to display even if they does not have access to operations in <code>operations</code> attribute</li>
 			</ul>
 		</p>
 		<div class="lui dashed divider">
@@ -298,7 +303,7 @@ $scope.yearOfArrivalAsync = function(user){
 			<h4 class="lui underline">Side notes</h4>
 		</div>
 		<p>
-			The directive is tested with karma (65 tests so far) and protractor (13 tests) and will be stable. Follow the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">release notes of each version of the bower component</a> to know what feature was added and which bug was fixed.
+			The directive is tested with karma (75 tests so far) and protractor (13 tests) and will be stable. Follow the <a class="lui fancy link" href="https://github.com/LuccaSA/lucca-ui/releases">release notes of each version of the bower component</a> to know what feature was added and which bug was fixed.
 		</p>
 	</article>
 
@@ -368,5 +373,89 @@ $scope.yearOfArrivalAsync = function(user){
 			</p>
 			</div>
 		</article>
-</section>
+
+				<article id="luid-table-grid">
+			<h2 class="lui divider below">luid-table-grid</h2>
+			<p>
+				A table directive to display any data
+			</p>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<ul class="lui unstyled">
+				<li>Show datas as a table.</li>
+				<li>Handles fixed colums and scrollable columns.</li>
+				<li>Can take any form of data as a n input.</li>
+				<li>Filtering and order by supported.</li>
+				<li>Show custom html in cells.</li>
+				<li>Handles nested headers.</li>
+				<li>Text alignment property : left/center/right</li>
+			</ul>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
+					<li><code>datas</code> : a list of things you want to display.</li>
+					<li><code>height</code> : your table won't be higher than that (px).</li>
+					<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
+				</ul>
+			</p>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<pre hljs no-escape language="html"> &lt;luid-table-grid header=&quot;headerTree&quot; datas=&quot;people&quot; height=&quot;500&quot;&gt;&lt;/luid-table-grid&gt;</pre>
+			<pre hljs no-escape language="js"> // example header
+{
+node: null,
+children: [
+	{
+		node: {
+			filterable: true,
+			fixed: true,
+			label: &quot;id&quot;,
+			width: 20,
+			getValue: function (someone) { return someone.id; },
+			getOrderByValue: function (someone) { return someone.id; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;right&quot;,
+		},
+		children: [],
+	},
+	{
+		node: {
+			filterable: true,
+			fixed: false,
+			label: &quot;name&quot;,
+			width: 20,
+			getValue: function (someone) { return someone.name; },
+			getOrderByValue: function (someone) { return someone.name; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;left&quot;,
+		},
+		children: [],
+	},
+]
+}</pre>
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div ng-controller="tableGridCtrl" class="lui block round">
+				<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500"></luid-table-grid>
+			</div>
+			<div class="lui dashed divider"></div>
+			<div ng-controller="tableGridCtrl" class="lui block round">
+				<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="200"></luid-table-grid>
+			</div>
+		</article>
+	</section>
 </div>

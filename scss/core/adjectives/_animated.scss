@@ -1,15 +1,20 @@
-@if map-get($vars, enabled) {
+@if map-gets($vars, enabled) {
 	@at-root {
 		%#{$cleanNamespace}-animated {
-			animation-timing-function: map-get($vars, animationEasing);
-			animation-duration: map-get($vars, animationDuration);
-			animation-fill-mode: both;
+			animation-timing-function: map-gets($vars, transitions, animationEasing);
+			animation-duration: map-gets($vars, transitions, animationDuration);
+			animation-fill-mode: none;
 
 			-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
 			backface-visibility: hidden;
 
 			// resets
 			opacity: 1;
+		}
+		%#{$cleanNamespace}-static-animated {
+			animation-timing-function: map-gets($vars, static, animationEasing);
+			animation-duration: map-gets($vars, static, animationDuration);
+
 		}
 	}
 
@@ -26,7 +31,7 @@
 	// Upsided fade in/out
 	@at-root {
 		@keyframes upFadeIn {
-			from { opacity: 0;  transform: translate3d(0, -(map-get($vars, fadeTranslationDistance)), 0); }
+			from { opacity: 0;  transform: translate3d(0, -(map-gets($vars, transitions, fadeTranslationDistance)), 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
@@ -35,7 +40,7 @@
 	@at-root {
 		@keyframes upFadeOut {
 			from { opacity: 1;  transform: none }
-			to { opacity: 0; transform: translate3d(0, -(map-get($vars, fadeTranslationDistance)), 0);; }
+			to { opacity: 0; transform: translate3d(0, -(map-gets($vars, transitions, fadeTranslationDistance)), 0);; }
 		}
 	}
 	#{$prefix}.animated[class*="up fade out"] { animation-name: upFadeOut; }
@@ -43,7 +48,7 @@
 	// Downsided fade in/out
 	@at-root {
 		@keyframes downFadeIn {
-			from { opacity: 0;  transform: translate3d(0, map-get($vars, fadeTranslationDistance), 0); }
+			from { opacity: 0;  transform: translate3d(0, map-gets($vars, transitions, fadeTranslationDistance), 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
@@ -52,7 +57,7 @@
 	@at-root {
 		@keyframes downFadeOut {
 			from { opacity: 1;  transform: none }
-			to { opacity: 0; transform: translate3d(0, map-get($vars, fadeTranslationDistance), 0);; }
+			to { opacity: 0; transform: translate3d(0, map-gets($vars, transitions, fadeTranslationDistance), 0);; }
 		}
 	}
 	#{$prefix}.animated[class*="down fade out"] { animation-name: downFadeOut; }
@@ -60,7 +65,7 @@
 	// Leftsided fade in/out
 	@at-root {
 		@keyframes leftFadeIn {
-			from { opacity: 0;  transform: translate3d(-(map-get($vars, fadeTranslationDistance)), 0, 0); }
+			from { opacity: 0;  transform: translate3d(-(map-gets($vars, transitions, fadeTranslationDistance)), 0, 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
@@ -69,7 +74,7 @@
 	@at-root {
 		@keyframes leftFadeOut {
 			from { opacity: 1;  transform: none }
-			to { opacity: 0; transform: translate3d(-(map-get($vars, fadeTranslationDistance)), 0, 0);; }
+			to { opacity: 0; transform: translate3d(-(map-gets($vars, transitions, fadeTranslationDistance)), 0, 0);; }
 		}
 	}
 	#{$prefix}.animated[class*="left fade out"] { animation-name: leftFadeOut; }
@@ -77,7 +82,7 @@
 	// Rightsided fade in/out
 	@at-root {
 		@keyframes rightFadeIn {
-			from { opacity: 0;  transform: translate3d(map-get($vars, fadeTranslationDistance), 0, 0); }
+			from { opacity: 0;  transform: translate3d(map-gets($vars, transitions, fadeTranslationDistance), 0, 0); }
 			to { opacity: 1; transform: none; }
 		}
 	}
@@ -86,7 +91,7 @@
 	@at-root {
 		@keyframes rightFadeOut {
 			from { opacity: 1;  transform: none }
-			to { opacity: 0; transform: translate3d(map-get($vars, fadeTranslationDistance), 0, 0);; }
+			to { opacity: 0; transform: translate3d(map-gets($vars, transitions, fadeTranslationDistance), 0, 0);; }
 		}
 	}
 	#{$prefix}.animated[class*="right fade out"] { animation-name: rightFadeOut; }
@@ -98,7 +103,7 @@
 	 // Down scale
 	@at-root {
 		@keyframes downScaleIn {
-			from { transform: scale((1 - map-get($vars, scaleAnimationRatio) / 100)); opacity: 0; }
+			from { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
 			to { transform: scale(1); opacity: 1; }
 		}
 	}
@@ -107,7 +112,7 @@
 	@at-root {
 		@keyframes downScaleOut {
 			from { transform: scale(1); opacity: 1; }
-			to { transform: scale((1 - map-get($vars, scaleAnimationRatio) / 100)); opacity: 0; }
+			to { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
 		}
 	}
 	#{$prefix}.animated[class*="down scale out"] { animation-name: downScaleOut; }
@@ -115,7 +120,7 @@
 	// Up scale
 	@at-root {
 		@keyframes upScaleIn {
-			from { transform: scale((1 + map-get($vars, scaleAnimationRatio) / 100)); opacity: 0; }
+			from { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
 			to { transform: scale(1); opacity: 1; }
 		}
 	}
@@ -124,7 +129,7 @@
 	@at-root {
 		@keyframes upScaleOut {
 			from { transform: scale(1); opacity: 1; }
-			to { transform: scale((1 + map-get($vars, scaleAnimationRatio) / 100)); opacity: 0; }
+			to { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
 		}
 	}
 	#{$prefix}.animated[class*="up scale out"] { animation-name: upScaleOut; }
@@ -194,11 +199,14 @@
 	@at-root {
 		@keyframes bounce {
 			0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-			40% { transform: translateY(-(map-get($vars, bounceDistance)));	}
-			60% { transform: translateY(-(map-get($vars, bounceDistance) / 2)); }
+			40% { transform: translateY(-(map-gets($vars, static, bounceDistance)));	}
+			60% { transform: translateY(-(map-gets($vars, static, bounceDistance) / 2)); }
 		}
 	}
-	#{$prefix}.animated[class*="bounce"] { animation-name: bounce; }
+	#{$prefix}.animated[class*="bounce"] {
+		@extend %#{$cleanNamespace}-static-animated;
+		animation-name: bounce;
+	}
 
 	@at-root {
 		@keyframes pulseUp {
@@ -208,7 +216,10 @@
 		}
 	}
 	#{$prefix}.animated[class*="pulse"]:not([class*="pulse down"]),
-	#{$prefix}.animated[class*="pulse up"] { animation-name: pulseUp; }
+	#{$prefix}.animated[class*="pulse up"] {
+		@extend %#{$cleanNamespace}-static-animated;
+		animation-name: pulseUp;
+	}
 	@at-root {
 		@keyframes pulseDown {
 			0% { transform: scale(1); opacity: 1; }
@@ -224,5 +235,8 @@
 			to {transform: rotate(360deg);}
 		}
 	}
-	#{$prefix}.animated[class*="spin"] { animation-name: spin; }
+	#{$prefix}.animated[class*="spin"] {
+		animation-name: spin;
+		@extend %#{$cleanNamespace}-static-animated;
+	}
 }

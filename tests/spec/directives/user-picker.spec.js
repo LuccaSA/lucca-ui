@@ -25,14 +25,14 @@ describe('luidUserPicker', function(){
 	** INITIALISATION    **
 	**********************/
 	describe("initialisation", function(){
-		// it might not be possible to test this 
+		// it might not be possible to test this
 		// as the refresh attribute from the ui-select-choice directive
 		// https://github.com/angular-ui/ui-select/wiki/ui-select-choices
 		// might be triggered by the browser and not by $compile
 		// or it is triggered before we spyOn it and not by the $scope.$digest
 
 		// yeah, here find is not called either during $compile or $scope.$digest
-		// you can modify this plunkr 
+		// you can modify this plunkr
 		// http://plnkr.co/edit/a3KlK8dKH3wwiiksDSn2?p=preview
 		// you can see that refreshAddresses is called during the loading of the page
 		// but i have no idea how to trigger it here
@@ -273,7 +273,7 @@ describe('luidUserPicker', function(){
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		var operationsFilters = /\&appinstanceid=86\&operations=1,2,3/;
-		
+
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
 			$scope.appId = 86;
@@ -1009,6 +1009,147 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/**************************
+	** CUSTOM HTTP SERVICE   **
+	***************************/
+	describe("with customHttpService", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var customHttpService = {
+			get: function(query){
+				return $q.defer().promise;
+			}
+		};
+		var meApi = /api\/v3\/users\/me/;
+		it('should call the given "get" method', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			$scope.$digest();
+			expect($scope.customHttpService.get).toHaveBeenCalled();
+		});
+		it('should call the $http "get" method if no CustomHttpService', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			expect($scope.customHttpService.get).not.toHaveBeenCalled();
+		});
+		describe("and homonyms", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = {
+					get: function(query){
+						var deferred = $q.defer();
+						deferred.resolve({data: RESPONSE_20_users_4_homonyms});
+						return deferred.promise;
+					}
+				};
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + homonyms
+			});
+		});
+		describe("and with me", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = customHttpService;
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + Display-me
+			});
+		});
+	});
+
+	/****************************
+	** BYPASS OPERATIONS FOR   **
+	****************************/
+	describe("with bypassOperationsFor", function() {
+		beforeEach(function(){
+			$scope.ops = [1,2,3];
+			$scope.appId = 86;
+			$scope.idsToBypass = [5, 7];
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" bypass-operations-for="idsToBypass" operations="ops" app-id="appId"></luid-user-picker>');
+
+			$scope.myUser = {};
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			isolateScope.find();
+		});
+		it("should send one more request without operations filter", function() {
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+			expect($httpBackend.flush).not.toThrow();
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the end of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_3_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 7]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the beginning of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users_end);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([5, 7, 17, 18, 19, -1]);
+			});
+		});
+		describe("when the 2 users have access to the operations", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should not update the order of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations and should not be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_4_users);
+				$httpBackend.flush();
+			});
+			it("should not add users to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but one of them should be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_1_user);
+				$httpBackend.flush();
+			});
+			it("should add the user to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 7]);
+			});
+		});
+	});
+
 	// Not implemented yet
 	// describe("pagination", function(){
 	// 	it("onSelect should update the pagination label", function(){});
@@ -1024,9 +1165,11 @@ describe('luidUserPicker', function(){
 	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
+	var RESPONSE_3_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"}]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};
 	var RESPONSE_20_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Alex","lastName":"Carpentieri"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Patrick","lastName":"Dai"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Manon","lastName":"Desbordes"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
 	var RESPONSE_4_users_end = {"header":{},"data":{"items":[{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
+	var RESPONSE_1_user = {"header":{},"data":{"items":[{"id":7,"firstName":"Kevin","lastName":"Brochet"}]}};
 
 	// N users, SOME former employees, no homonyms
 	var RESPONSE_4_users_FE = {header:{}, data:{items:[{"id": 1,"firstName": "Frédéric","lastName": "Pot","dtContractEnd": null},{"id": 2,"firstName": "Catherine","lastName": "Foliot","dtContractEnd": "2003-06-30T00:00:00"},{"id": 3,"firstName": "Catherine","lastName": "Lenzi","dtContractEnd": "2003-04-28T00:00:00"},{"id": 4,"firstName": "Bruno","lastName": "Catteau","dtContractEnd": null}]}};

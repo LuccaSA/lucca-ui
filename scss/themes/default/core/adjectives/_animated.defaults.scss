@@ -6,10 +6,19 @@
 $animated: (
 	enabled:					true,
 
-	animationDuration:			0.5s,
-	animationEasing:			ease-out,
-	fadeTranslationDistance: 	1em,
-	scaleAnimationRatio: 		25,
-	bounceDistance: 			2em
+	transitions: (
+		animationDuration:			0.25s,
+		animationEasing:			ease-out,
+
+		fadeTranslationDistance: 	1em,
+		scaleAnimationRatio: 		25,
+	),
+
+	static: (
+		animationDuration:			0.5s,
+		animationEasing:			ease-out,
+
+		bounceDistance: 			2em
+	)
 );
 $luiTheme: luiSetTheme(adjective, animated, $animated);

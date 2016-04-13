@@ -26,7 +26,7 @@ module.exports = function(config) {
 			"dist/custom/lucca-ui-spe.js",
 
 			'tests/spec/**/*.js',
-			".tests/**/*.js",
+			".tests/**/*.spec.js",
 		],
 		preprocessors: {
 			"dist/custom/lucca-ui-spe.js": ['coverage'],
@@ -53,6 +53,7 @@ module.exports = function(config) {
 		reporters: ['progress', 'coverage'],
 		junitReporter: {
 			outputFile: 'karma-results.xml',
+			useBrowserName: false,
 			suite: 'Lucca-ui'
 		},
 		coverageReporter: {

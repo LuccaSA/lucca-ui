@@ -29,6 +29,15 @@
 				sameYear: 'du start(Do MMMM) au end(LL)',
 				sameYearThisYear: 'du start(Do MMMM) au end(Do MMMM)',
 				other: 'du start(LL) au end(LL)'
+			},
+			'de': {
+				sameDay: 'der start(dddd LL)',
+				sameDayThisYear: 'der start(dddd Do MMMM)',
+				sameMonth: 'von start(Do) bis end(LL)',
+				sameMonthThisYear: 'von start(Do) bis end(Do MMMM)',
+				sameYear: 'von start(Do MMMM) bis end(LL)',
+				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
+				other: 'von start(LL) bis end(LL)'
 			}
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
@@ -38,7 +47,7 @@
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || traductions.en;
+			var trads = translations[moment.locale()] || translations.en;
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
 			if(moment().year() === start.year() && moment().year() === end.year()){
 				format += "ThisYear";
@@ -63,7 +72,7 @@
 		};
 	})
 	.filter('luifDuration', ['$filter', function ($filter) {
-		//expects a duration, returns the duration in the given unit with the given precision			
+		//expects a duration, returns the duration in the given unit with the given precision
 		return function (_duration, _sign, _unit, _precision) {
 			function getConfigIndex(expectedUnit){
 				switch(expectedUnit){
@@ -71,7 +80,7 @@
 					case 'day':
 					case 'days': return 0;
 					case undefined:
-					case '': 
+					case '':
 					case 'h':
 					case 'hour':
 					case 'hours': return 1;// default
@@ -119,7 +128,7 @@
 
 			function getPrefix(sign, duration){
 				if (sign) {
-					if (duration.asMilliseconds() > 0) { return '+'; } 
+					if (duration.asMilliseconds() > 0) { return '+'; }
 					else if (duration.asMilliseconds() < 0) { return '-'; }
 				}
 				return '';

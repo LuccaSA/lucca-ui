@@ -1257,6 +1257,15 @@
 				sameYear: 'du start(Do MMMM) au end(LL)',
 				sameYearThisYear: 'du start(Do MMMM) au end(Do MMMM)',
 				other: 'du start(LL) au end(LL)'
+			},
+			'de': {
+				sameDay: 'der start(dddd LL)',
+				sameDayThisYear: 'der start(dddd Do MMMM)',
+				sameMonth: 'von start(Do) bis end(LL)',
+				sameMonthThisYear: 'von start(Do) bis end(Do MMMM)',
+				sameYear: 'von start(Do MMMM) bis end(LL)',
+				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
+				other: 'von start(LL) bis end(LL)'
 			}
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
@@ -1266,7 +1275,7 @@
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || traductions.en;
+			var trads = translations[moment.locale()] || translations.en;
 			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
 			if(moment().year() === start.year() && moment().year() === end.year()){
 				format += "ThisYear";
@@ -1291,7 +1300,7 @@
 		};
 	})
 	.filter('luifDuration', ['$filter', function ($filter) {
-		//expects a duration, returns the duration in the given unit with the given precision			
+		//expects a duration, returns the duration in the given unit with the given precision
 		return function (_duration, _sign, _unit, _precision) {
 			function getConfigIndex(expectedUnit){
 				switch(expectedUnit){
@@ -1299,7 +1308,7 @@
 					case 'day':
 					case 'days': return 0;
 					case undefined:
-					case '': 
+					case '':
 					case 'h':
 					case 'hour':
 					case 'hours': return 1;// default
@@ -1347,7 +1356,7 @@
 
 			function getPrefix(sign, duration){
 				if (sign) {
-					if (duration.asMilliseconds() > 0) { return '+'; } 
+					if (duration.asMilliseconds() > 0) { return '+'; }
 					else if (duration.asMilliseconds() < 0) { return '-'; }
 				}
 				return '';
@@ -1436,4 +1445,27 @@
 			return d.humanize(suffix);
 		};
 	});
-})();;
+})();
+;var Lui;
+(function (Lui) {
+    "use strict";
+    var Period = (function () {
+        function Period() {
+        }
+        return Period;
+    }());
+    Lui.Period = Period;
+})(Lui || (Lui = {}));
+;angular.module('lui.directives').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('lui/templates/table-grid/table-grid.html',
+    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=holder ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
+  );
+
+
+  $templateCache.put('lui/templates/table-grid/table-grid.table.html',
+    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\"><ui-select multiple class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+  );
+
+}]);

@@ -46,8 +46,8 @@
 			$scope.updateCnt++;
 		};
 		$scope.myPeriod = {
-			startsOn: moment().startOf('day'), 
-			endsOn: moment().startOf('day').add(3, 'd'), 
+			startsOn: moment().startOf('day'),
+			endsOn: moment().startOf('day').add(3, 'd'),
 
 			dateStart: moment().startOf('month').toDate(),
 			dateEnd: moment().startOf('d').toDate(),
@@ -72,20 +72,20 @@
 		$scope.escCnt = 0;
 		$scope.zCnt = 0;
 		$scope.arrows = [];
-		
-		var enterPressed = function(){ 
+
+		var enterPressed = function(){
 			$scope.enterCnt++;
 			$scope.$apply();
 		};
-		var escPressed = function(){ 
+		var escPressed = function(){
 			$scope.escCnt++;
 			$scope.$apply();
 		};
-		var zPressed = function(){ 
+		var zPressed = function(){
 			$scope.zCnt++;
 			$scope.$apply();
 		};
-		
+
 		var leftPressed = function(){ $scope.arrows.push("left"); $scope.$apply(); };
 		var upPressed = function(){ $scope.arrows.push("up"); $scope.$apply(); };
 		var rightPressed = function(){ $scope.arrows.push("right"); $scope.$apply(); };
@@ -100,5 +100,6 @@
 		$scope.palette = "";
 		$scope.sizing = "";
 	}]);
+
 
 })();

@@ -409,13 +409,36 @@
 				<input type="search" placeholder="Searching..." name="name" value="">
 			</div>
 
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Fancy checkbox</h4>
+			<div class="lui tagged search input">
+				<span class="tags">
+					<span class="tag">#tag 1 <a class="close"></a></span>
+					<span class="tag">#tag 2 <a class="close"></a></span>
+					<span class="selected tag">#tag 3 <a class="close"></a></span>
+				</span>
+				<input type="search" >
 			</div>
-			<div class="lui inline field">
+
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Fancy checkbox and radios</h4>
+			</div>
+			<div class="lui fitting field">
 				<div class="lui checkbox">
-					<input type="checkbox" id="yesno" checked />
+					<input type="checkbox" id="yesnocheckbox" checked />
 					<label for="yesno">yes or no?</label>
+				</div>
+			</div>
+			<div class="lui inline fields">
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" id="yesno" name="yesnoradio" checked value="yes"/>
+						<label for="yesnoradio">yes</label>
+					</div>
+				</div>
+				<div class="lui field">
+					<div class="lui radio">
+						<input type="radio" id="yesno" name="yesnoradio" value="no"/>
+						<label for="yesnoradio">no</label>
+					</div>
 				</div>
 			</div>
 <!-- 			<div class="lui input with addon">

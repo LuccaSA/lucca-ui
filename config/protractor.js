@@ -8,7 +8,8 @@ module.exports = function(grunt, options){
 			noColor: false, // If true, protractor will not use colors in its output.
 			args: {
 				specs: [
-					'tests/e2e/**/*.spec.js'
+					'tests/e2e/**/*.spec.js',
+					'.tests/**/*.e2e.js',
 				],
 				capabilities: {
 					'browserName': 'chrome' 
@@ -17,6 +18,13 @@ module.exports = function(grunt, options){
 			}
 		},
 		singlerun: {
-		}
+		},
+		saucelab: {
+			configFile: "protractor.saucelab.js",
+			args: {
+				sauceUser: process.env.SAUCE_USERNAME,
+				sauceKey: process.env.SAUCE_ACCESS_KEY
+			}
+		},
 	};
 }

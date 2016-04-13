@@ -1,10 +1,12 @@
+language: node_js
+node_js:
+  - "5.4"
+
 before_script:
-  - npm install -g grunt
-  - npm install -g bower
-  - npm install -g grunt-cli
-  - npm install karma-jasmine karma-chrome-launcher
-  - npm install
+  - npm install -g grunt grunt-cli bower tsd --progress=false
   - bower install
   - tsd install
 
-script: grunt travis
+script: 
+  - grunt dist
+  - grunt travis-karma

@@ -1,4 +1,5 @@
 describe('luidUserPicker', function() {
+	var outside;
 	var myUserDiv;
 	var myUserPicker;
 	var myUserPickerFormerEmployees;
@@ -9,6 +10,7 @@ describe('luidUserPicker', function() {
 	var myUserPickerContainer;
 
 	beforeEach(function() {
+		outside = element(by.id('outside'));
 		myUserDiv = element(by.id('myUserPicker_value'));
 		myUserPicker = element(by.id('myUserPicker'));
 		myUserPickerInput = myUserPicker.all(by.tagName('input')).first();
