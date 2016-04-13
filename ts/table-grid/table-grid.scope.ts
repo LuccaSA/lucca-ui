@@ -5,9 +5,15 @@ module Lui.Directives {
 	"use strict";
 
 	export interface IDataGridScope extends angular.IScope {
+
+		//Directive attributes
+		header: TableGrid.Tree;
+		datas: any[];
+		selectable: boolean;
+		defaultOrder: string;
+
 		allChecked: any;
 		canvasHeight: number;
-		datas: any[];
 		filteredAndOrderedRows: any[];
 		headerRows: TableGrid.Header[][];
 		lockedWidth: number;
@@ -16,10 +22,8 @@ module Lui.Directives {
 		FilterTypeEnum: FilterTypeEnum;
 
 		existFixedRow: boolean;
-		header: TableGrid.Tree;
 		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
 		scrollableRowDefinition: TableGrid.Header[];
-		selectable: boolean;
 		isSelectable: boolean;
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
@@ -28,6 +32,7 @@ module Lui.Directives {
 		updateFilteredRows: () => void;
 		resizedHeaders: () => void;
 		updateOrderedRows: (header: TableGrid.Header) => void;
+		orderBySelectedHeader: () => void;
 		onMasterCheckBoxChange: () => void;
 		onCheckBoxChange: () => void;
 		refresh: () => void;

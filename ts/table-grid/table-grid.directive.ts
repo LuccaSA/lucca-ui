@@ -15,7 +15,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -89,11 +89,9 @@ module Lui.Directives {
 				let rowsPerPage = Math.round(height / rowHeightMin);
 				let numberOfRows = rowsPerPage * 3;
 				let resizeTimer: any;
-				let scrollTop = 0; //current scroll position
 				let lastScrollTop = 0; //last scroll position, to determine the scroll direction
 				scope.visibleRows = []; //current elements in DOM
 				scope.canvasHeight = 0; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
-				let scrollTimeout;
 				let currentMarginTop: number = 0;
 
 				let headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
@@ -155,23 +153,26 @@ module Lui.Directives {
 				// ==========================================
 
 				let updateVisibleRows = () => {
-					let isScrollDown = lastScrollTop < scrollTop;
+					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
 					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
 
 					if (isScrollDown && isLastRowDrawn) {
 						return;
 					}
 
-					let firstCell = Math.max(Math.floor(scrollTop / rowHeightMin) - rowsPerPage, 0);
-					let cellsToCreate = Math.min(firstCell + numberOfRows, numberOfRows);
-					currentMarginTop = firstCell * rowHeightMin;
-					scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+					//let firstCell = Math.max(Math.floor(scrollableArea.scrollTop / rowHeightMin) - rowsPerPage, 0);
+					let startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
+					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
+					currentMarginTop = startNumRow * rowHeightMin;
+					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
 					}
 					tables[0].style.marginTop = currentMarginTop + "px";
 
-					scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
+					scrollableAreaVS.style.marginTop = currentMarginTop + "px";
+
+					scope.canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * rowHeightMin;
 				};
 
 				scope.updateViewAfterOrderBy = () => {
@@ -179,7 +180,7 @@ module Lui.Directives {
 				};
 
 				scope.updateViewAfterFiltering = () => {
-					scrollableArea.scrollTop = scrollTop = 0;
+					scrollableArea.scrollTop = 0;
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = 0;
 					}
@@ -189,11 +190,6 @@ module Lui.Directives {
 					}, 0);
 				};
 
-				let updateVirtualScroll = () => {
-					updateVisibleRows();
-					updateWidth();
-				};
-
 				// ==========================================
 				// ---- Watchers
 				// ==========================================
@@ -201,9 +197,11 @@ module Lui.Directives {
 				scope.$watchCollection("datas", () => {
 					if (!!scope.datas) {
 						scope.filteredAndOrderedRows = scope.datas;
-						this.$timeout(() => {
-							scope.updateFilteredRows();
-						}, 100);
+						if (scope.selected.orderBy !== null) {
+							scope.orderBySelectedHeader();
+						}
+						updateVisibleRows();
+						this.$timeout(() => { resize(); }, 100);
 					}
 				});
 				// Watches for window resizes
@@ -217,26 +215,11 @@ module Lui.Directives {
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
 					}
-					//Necessary because scroll event is calling twice
-					this.$timeout.cancel(scrollTimeout);
-					scrollTimeout = this.$timeout(() => {
-						headers[0].style.left = - scrollableArea.scrollLeft + "px";
-						lastScrollTop = scrollTop;
-						scrollTop = scrollableArea.scrollTop;
-						updateVirtualScroll();
-					}, 50);
+					headers[0].style.left = - scrollableArea.scrollLeft + "px";
+					updateVisibleRows();
+					lastScrollTop = scrollableArea.scrollTop;
+					scope.$apply();
 				});
-
-
-				// ==========================================
-				// ---- Initialisation
-				// ==========================================
-				let init = () => {
-					scope.filteredAndOrderedRows = scope.datas;
-					this.$timeout(() => { resize(); updateVirtualScroll(); }, 100);
-				};
-
-				init();
 			}, 0);
 		};
 	}
