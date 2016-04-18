@@ -17,8 +17,8 @@ module Lui.Service {
 		private status: number = 0;
 		private currentPromiseInterval: ng.IPromise<any>;
 		private completeTimeout: ng.IPromise<any>;
-		private parent: angular.IAugmentedJQuery = angular.element(document).find("body");
-		private progressBarTemplate: string = '<div class="lui slim secondary progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
+		private parent: angular.IAugmentedJQuery;
+		private progressBarTemplate: string = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
 		private progressbarEl: angular.IAugmentedJQuery;
 		private isStarted: boolean;
 
@@ -35,19 +35,13 @@ module Lui.Service {
 			this.$interval = $interval;
 		}
 
-		public addProgressBar = (parent?: angular.IAugmentedJQuery) => {
-			if (!parent) {
-				parent = this.parent;
-			}
+		public addProgressBar = (parent: angular.IAugmentedJQuery = angular.element(document).find("body"), palette: string = "primary") => {
 			if (!!this.progressbarEl) {
 				this.progressbarEl.remove();
 			}
 			this.progressbarEl = angular.element(this.progressBarTemplate);
+			this.progressbarEl.addClass(palette);
 			parent.append(this.progressbarEl);
-		};
-
-		public setColor = (color: string) => {
-			this.progressbarEl.children().css("background", color);
 		};
 
 		public setHttpResquestListening = (httpResquestListening: boolean): void => {
