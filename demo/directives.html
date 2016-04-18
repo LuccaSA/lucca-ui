@@ -620,8 +620,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</p>
 			<p>
 				<pre hljs no-escape language="js">angular.module('demo').run(function($httpProvider) {
-	progressBarService.addProgressBar();
-	progressBarService.setColor("blue");
+	 progressBarService.addProgressBar(angular.element(document).find("body"), "secondary");
 }</pre>
 			</p>
 			<p>
