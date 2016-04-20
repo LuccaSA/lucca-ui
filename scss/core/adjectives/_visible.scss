@@ -29,3 +29,8 @@
 		filter: grayscale(100%);
 	}
 }
+
+// Deferred cloack
+&[deferred-cloak], &[data-deferred-cloak], &[x-deferred-cloak], &.deferred-cloak {
+	display: none !important;
+}
