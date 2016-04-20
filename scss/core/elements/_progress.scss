@@ -123,4 +123,33 @@
 			}
 		}
 	}
+
+	// ===================================
+	// ============= Mixins ==============
+	// ===================================
+
+	.progress-bar {
+		position: fixed;
+		top: 0px;
+		z-index: map-gets($vars, progressBar, zIndex);
+		width: 100%;
+		overflow: hidden;
+		background-color: transparent;
+		margin: 0 !important;
+
+		transition-property: opacity, height;
+		transition-duration: map-gets($vars, progressBar, fadeInDuration);
+		transition-timing-function:  ease-out;
+	}
+
+	.progress-bar.in{
+		opacity: 1;
+		height: map-gets($vars, progressBar, height);
+	}
+
+
+	.progress-bar.out{
+		opacity: 0;
+		height: 0;
+	}
 }
