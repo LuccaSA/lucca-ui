@@ -1445,6 +1445,8 @@
 				displayAllUsers: "=", // boolean
 				/*** CUSTOM HTTP SERVICE ***/
 				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=", // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -1507,6 +1509,8 @@
 				displayMeFirst: "=", // boolean
 				/*** CUSTOM HTTP SERVICE ***/
 				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=" // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -1657,26 +1661,54 @@
 			return limit;
 		};
 
-		var getUsersAsync = function(input) {
+		var getUsersPromises = function(input) {
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
 			var clue = "clue=" + input;
 			var operations = "";
 			var appInstanceId = "";
 			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
-			var deferred = $q.defer();
+			var promises = [];
 
 			// Both attributes should be defined
 			if ($scope.appId && $scope.operations && $scope.operations.length) {
 				appInstanceId = "&appinstanceid=" + $scope.appId;
 				operations = "&operations=" + $scope.operations.join(',');
 			}
-			query += (appInstanceId + operations);
 
-			var getUsersPromise = getHttpMethod("get")(query);
-			getUsersPromise
-			.then(function(response) {
-				deferred.resolve(response.data.data.items);
+			promises.push(getHttpMethod("get")(query + appInstanceId + operations));
+			// Send query without operations filter if both bypassOperationsFor and operations are defined
+			if (!!$scope.bypassOperationsFor && !!$scope.bypassOperationsFor.length && !!$scope.operations && !!$scope.operations.length) {
+				promises.push(getHttpMethod("get")(query));
+			}
+
+			return promises;
+		};
+
+		var getUsersAsync = function(input) {
+			var deferred = $q.defer();
+
+			$q.all(getUsersPromises(input))
+			.then(function(responses) {
+				var users = responses[0].data.data.items;
+				if (!!responses[1]) {
+					// For each user to bypass, if he belongs to the set of results without operations filter, add it to the results
+					_.each($scope.bypassOperationsFor, function(userId) {
+						var userToAdd = _.find(responses[1].data.data.items, function(user) { return user.id === userId; });
+						if (!!userToAdd) {
+							users.push(userToAdd);
+						}
+					});
+					users = _.chain(users)
+					.uniq(function(user) {
+						return user.id;
+					})
+					.sortBy(function(user) {
+						return user.lastName;
+					})
+					.value();
+				}
+				deferred.resolve(users);
 			}, function(response) {
 				deferred.reject(response.data.Message);
 			});
@@ -2471,7 +2503,18 @@
 		};
 	});
 })();
-;var Lui;
+;angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+        return {
+            restrict: "A",
+            link: function (scope, element, attrs) {
+                $timeout(function () {
+                    attrs.$set("deferredCloak", undefined);
+                    element.removeClass("deferred-cloak");
+                }, 0);
+            },
+        };
+    },]);
+var Lui;
 (function (Lui) {
     "use strict";
     var Period = (function () {
@@ -2480,6 +2523,207 @@
         return Period;
     }());
     Lui.Period = Period;
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var LuccaHttpInterceptor = (function () {
+            function LuccaHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
+                var _this = this;
+                this.totalGetRequests = 0;
+                this.completedGetRequests = 0;
+                this.request = function (config) {
+                    if (!_this.isCached(config)) {
+                        _this.startRequest(config.method);
+                    }
+                    return config;
+                };
+                this.requestError = function (rejection) {
+                    _this.startRequest("GET");
+                    return _this.$q.reject(rejection);
+                };
+                this.response = function (response) {
+                    if (!!response && !_this.isCached(response.config)) {
+                        _this.endRequest(_this.extractMethod(response));
+                    }
+                    return response;
+                };
+                this.responseError = function (rejection) {
+                    _this.endRequest("GET");
+                    return (_this.$q.reject(rejection));
+                };
+                this.isCached = function (config) {
+                    var cache;
+                    var defaultCache = _this.$cacheFactory.get("$http");
+                    if ((config.cache)
+                        && config.cache !== false
+                        && (config.method === "GET" || config.method === "JSONP")) {
+                        if (angular.isObject(config.cache)) {
+                            cache = config.cache;
+                        }
+                        else {
+                            cache = defaultCache;
+                        }
+                    }
+                    var cached = cache !== undefined ? cache.get(config.url) !== undefined : false;
+                    if (config.cached !== undefined && cached !== config.cached) {
+                        return config.cached;
+                    }
+                    config.cached = cached;
+                    return cached;
+                };
+                this.extractMethod = function (response) {
+                    try {
+                        return (response.config.method);
+                    }
+                    catch (error) {
+                        return ("GET");
+                    }
+                };
+                this.startRequest = function (httpMethod) {
+                    if (_this.progressBarService.isHttpResquestListening()) {
+                        if (httpMethod === "GET") {
+                            if (_this.totalGetRequests === 0) {
+                                _this.progressBarService.start();
+                            }
+                            _this.totalGetRequests++;
+                        }
+                    }
+                    else {
+                        _this.totalGetRequests = 0;
+                        _this.completedGetRequests = 0;
+                    }
+                };
+                this.setComplete = function () {
+                    _this.progressBarService.complete();
+                    _this.$timeout.cancel(_this.startTimeout);
+                    _this.totalGetRequests = 0;
+                    _this.completedGetRequests = 0;
+                };
+                this.endRequest = function (httpMethod) {
+                    if (_this.progressBarService.isHttpResquestListening()) {
+                        if (httpMethod === "GET") {
+                            _this.completedGetRequests++;
+                            if (_this.completedGetRequests >= _this.totalGetRequests) {
+                                _this.setComplete();
+                            }
+                        }
+                    }
+                };
+                this.$q = $q;
+                this.$cacheFactory = $cacheFactory;
+                this.$timeout = $timeout;
+                this.progressBarService = progressBarService;
+            }
+            LuccaHttpInterceptor.IID = "luccaHttpInterceptor";
+            LuccaHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "progressBarService"];
+            return LuccaHttpInterceptor;
+        }());
+        Service.LuccaHttpInterceptor = LuccaHttpInterceptor;
+        angular.module("lui.services").service(LuccaHttpInterceptor.IID, LuccaHttpInterceptor);
+    })(Service = Lui.Service || (Lui.Service = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var ProgressBarService = (function () {
+            function ProgressBarService($document, $window, $rootScope, $timeout, $interval) {
+                var _this = this;
+                this.latencyThreshold = 200;
+                this.httpResquestListening = false;
+                this.status = 0;
+                this.progressBarTemplate = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
+                this.addProgressBar = function (parent, palette) {
+                    if (parent === void 0) { parent = angular.element(document).find("body"); }
+                    if (palette === void 0) { palette = "primary"; }
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.remove();
+                    }
+                    _this.progressbarEl = angular.element(_this.progressBarTemplate);
+                    _this.progressbarEl.addClass(palette);
+                    parent.append(_this.progressbarEl);
+                };
+                this.setHttpResquestListening = function (httpResquestListening) {
+                    _this.httpResquestListening = httpResquestListening;
+                    _this.setStatus(0);
+                };
+                this.isHttpResquestListening = function () {
+                    return _this.httpResquestListening;
+                };
+                this.start = function () {
+                    if (!_this.isStarted) {
+                        _this.isStarted = true;
+                        _this.$timeout.cancel(_this.completeTimeout);
+                        _this.$interval.cancel(_this.currentPromiseInterval);
+                        _this.show();
+                        _this.currentPromiseInterval = _this.$interval(function () {
+                            if (isNaN(_this.status)) {
+                                _this.$interval.cancel(_this.currentPromiseInterval);
+                                _this.setStatus(0);
+                                _this.hide();
+                            }
+                            else {
+                                var remaining = 100 - _this.status;
+                                _this.setStatus(_this.status + (0.15 * Math.pow(Math.sqrt(remaining), 1.5)));
+                            }
+                        }, _this.latencyThreshold);
+                    }
+                };
+                this.hide = function () {
+                    _this.$timeout(function () {
+                        if (!!_this.progressbarEl) {
+                            _this.progressbarEl.removeClass("in");
+                            _this.progressbarEl.addClass("out");
+                            _this.setStatus(0);
+                        }
+                    }, 300);
+                };
+                this.show = function () {
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.removeClass("out");
+                        _this.progressbarEl.addClass("in");
+                        _this.setStatus(0);
+                    }
+                };
+                this.setStatus = function (status) {
+                    _this.status = status;
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.children().css("width", _this.status + "%");
+                        _this.progressbarEl.children().attr("data-percentage", _this.status);
+                    }
+                };
+                this.complete = function () {
+                    if (!!_this.completeTimeout) {
+                        _this.$timeout.cancel(_this.completeTimeout);
+                    }
+                    _this.completeTimeout = _this.$timeout(function () {
+                        _this.$interval.cancel(_this.currentPromiseInterval);
+                        _this.isStarted = false;
+                        _this.httpResquestListening = false;
+                        _this.setStatus(100);
+                        _this.hide();
+                    }, 200);
+                };
+                this.getDomElement = function () {
+                    return _this.progressbarEl;
+                };
+                this.$document = $document;
+                this.$window = $window;
+                this.$rootScope = $rootScope;
+                this.$timeout = $timeout;
+                this.$interval = $interval;
+            }
+            ProgressBarService.IID = "progressBarService";
+            ProgressBarService.$inject = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
+            return ProgressBarService;
+        }());
+        Service.ProgressBarService = ProgressBarService;
+        angular.module("lui.services").service(ProgressBarService.IID, ProgressBarService);
+    })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
@@ -2596,6 +2840,17 @@ var Lui;
                         return colDef.fixed;
                     });
                     $scope.selected = { orderBy: null, reverse: false };
+                    if (!!$scope.defaultOrder) {
+                        var firstChar = $scope.defaultOrder.substr(0, 1);
+                        if (firstChar === "-" || firstChar === "+") {
+                            $scope.defaultOrder = $scope.defaultOrder.substr(1);
+                            $scope.selected.reverse = firstChar === "-" ? true : false;
+                        }
+                        var orderByHeader = _.find($scope.colDefinitions, function (header) {
+                            return header.label === $scope.defaultOrder;
+                        });
+                        $scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
+                    }
                     initFilter();
                 };
                 var getCheckboxState = function () {
@@ -2638,6 +2893,18 @@ var Lui;
                     $scope.filteredAndOrderedRows = temp.value();
                     $scope.updateViewAfterFiltering();
                 };
+                $scope.orderBySelectedHeader = function () {
+                    if ($scope.selected && $scope.selected.orderBy) {
+                        $scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, function (row) {
+                            var orderByValue = $scope.selected.orderBy.getValue(row);
+                            if ($scope.selected.orderBy.getOrderByValue != null) {
+                                orderByValue = $scope.selected.orderBy.getOrderByValue(row);
+                            }
+                            return orderByValue;
+                        });
+                    }
+                    $scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
+                };
                 $scope.updateOrderedRows = function (header) {
                     if (header === $scope.selected.orderBy) {
                         if ($scope.selected.reverse) {
@@ -2652,16 +2919,7 @@ var Lui;
                         $scope.selected.orderBy = header;
                         $scope.selected.reverse = false;
                     }
-                    if ($scope.selected && $scope.selected.orderBy) {
-                        $scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, function (row) {
-                            var orderByValue = $scope.selected.orderBy.getValue(row);
-                            if ($scope.selected.orderBy.getOrderByValue != null) {
-                                orderByValue = $scope.selected.orderBy.getOrderByValue(row);
-                            }
-                            return orderByValue;
-                        });
-                    }
-                    $scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
+                    $scope.orderBySelectedHeader();
                     $scope.updateViewAfterOrderBy();
                 };
                 $scope.onMasterCheckBoxChange = function () {
@@ -2708,7 +2966,7 @@ var Lui;
                 var _this = this;
                 this.controller = "luidTableGridController";
                 this.restrict = "AE";
-                this.scope = { header: "=", height: "@", datas: "=*", selectable: "@" };
+                this.scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@" };
                 this.templateUrl = "lui/templates/table-grid/table-grid.html";
                 this.link = function (scope, element, attrs) {
                     _this.$timeout(function () {
@@ -2750,11 +3008,9 @@ var Lui;
                         var rowsPerPage = Math.round(height / rowHeightMin);
                         var numberOfRows = rowsPerPage * 3;
                         var resizeTimer;
-                        var scrollTop = 0;
                         var lastScrollTop = 0;
                         scope.visibleRows = [];
                         scope.canvasHeight = 0;
-                        var scrollTimeout;
                         var currentMarginTop = 0;
                         var headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
                         var getLockedColumnsWidth = function () {
@@ -2799,26 +3055,27 @@ var Lui;
                             updateWidth();
                         };
                         var updateVisibleRows = function () {
-                            var isScrollDown = lastScrollTop < scrollTop;
+                            var isScrollDown = lastScrollTop < scrollableArea.scrollTop;
                             var isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
                             if (isScrollDown && isLastRowDrawn) {
                                 return;
                             }
-                            var firstCell = Math.max(Math.floor(scrollTop / rowHeightMin) - rowsPerPage, 0);
-                            var cellsToCreate = Math.min(firstCell + numberOfRows, numberOfRows);
-                            currentMarginTop = firstCell * rowHeightMin;
-                            scope.visibleRows = scope.filteredAndOrderedRows.slice(firstCell, firstCell + cellsToCreate);
+                            var startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
+                            var cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
+                            currentMarginTop = startNumRow * rowHeightMin;
+                            scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
                             if (scope.existFixedRow || attrs.selectable) {
                                 tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
                             }
                             tables[0].style.marginTop = currentMarginTop + "px";
-                            scope.canvasHeight = (scope.filteredAndOrderedRows.length - firstCell) * rowHeightMin;
+                            scrollableAreaVS.style.marginTop = currentMarginTop + "px";
+                            scope.canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * rowHeightMin;
                         };
                         scope.updateViewAfterOrderBy = function () {
                             updateVisibleRows();
                         };
                         scope.updateViewAfterFiltering = function () {
-                            scrollableArea.scrollTop = scrollTop = 0;
+                            scrollableArea.scrollTop = 0;
                             if (scope.existFixedRow || attrs.selectable) {
                                 lockedColumnsSynced.scrollTop = 0;
                             }
@@ -2827,16 +3084,14 @@ var Lui;
                                 resize();
                             }, 0);
                         };
-                        var updateVirtualScroll = function () {
-                            updateVisibleRows();
-                            updateWidth();
-                        };
                         scope.$watchCollection("datas", function () {
                             if (!!scope.datas) {
                                 scope.filteredAndOrderedRows = scope.datas;
-                                _this.$timeout(function () {
-                                    scope.updateFilteredRows();
-                                }, 100);
+                                if (scope.selected.orderBy !== null) {
+                                    scope.orderBySelectedHeader();
+                                }
+                                updateVisibleRows();
+                                _this.$timeout(function () { resize(); }, 100);
                             }
                         });
                         window.addEventListener("resize", function () {
@@ -2847,19 +3102,11 @@ var Lui;
                             if (scope.existFixedRow || attrs.selectable) {
                                 lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
                             }
-                            _this.$timeout.cancel(scrollTimeout);
-                            scrollTimeout = _this.$timeout(function () {
-                                headers[0].style.left = -scrollableArea.scrollLeft + "px";
-                                lastScrollTop = scrollTop;
-                                scrollTop = scrollableArea.scrollTop;
-                                updateVirtualScroll();
-                            }, 50);
+                            headers[0].style.left = -scrollableArea.scrollLeft + "px";
+                            updateVisibleRows();
+                            lastScrollTop = scrollableArea.scrollTop;
+                            scope.$apply();
                         });
-                        var init = function () {
-                            scope.filteredAndOrderedRows = scope.datas;
-                            _this.$timeout(function () { resize(); updateVirtualScroll(); }, 100);
-                        };
-                        init();
                     }, 0);
                 };
                 this.$timeout = $timeout;

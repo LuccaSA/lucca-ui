@@ -1446,7 +1446,18 @@
 		};
 	});
 })();
-;var Lui;
+;angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+        return {
+            restrict: "A",
+            link: function (scope, element, attrs) {
+                $timeout(function () {
+                    attrs.$set("deferredCloak", undefined);
+                    element.removeClass("deferred-cloak");
+                }, 0);
+            },
+        };
+    },]);
+var Lui;
 (function (Lui) {
     "use strict";
     var Period = (function () {
@@ -1455,6 +1466,207 @@
         return Period;
     }());
     Lui.Period = Period;
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var LuccaHttpInterceptor = (function () {
+            function LuccaHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
+                var _this = this;
+                this.totalGetRequests = 0;
+                this.completedGetRequests = 0;
+                this.request = function (config) {
+                    if (!_this.isCached(config)) {
+                        _this.startRequest(config.method);
+                    }
+                    return config;
+                };
+                this.requestError = function (rejection) {
+                    _this.startRequest("GET");
+                    return _this.$q.reject(rejection);
+                };
+                this.response = function (response) {
+                    if (!!response && !_this.isCached(response.config)) {
+                        _this.endRequest(_this.extractMethod(response));
+                    }
+                    return response;
+                };
+                this.responseError = function (rejection) {
+                    _this.endRequest("GET");
+                    return (_this.$q.reject(rejection));
+                };
+                this.isCached = function (config) {
+                    var cache;
+                    var defaultCache = _this.$cacheFactory.get("$http");
+                    if ((config.cache)
+                        && config.cache !== false
+                        && (config.method === "GET" || config.method === "JSONP")) {
+                        if (angular.isObject(config.cache)) {
+                            cache = config.cache;
+                        }
+                        else {
+                            cache = defaultCache;
+                        }
+                    }
+                    var cached = cache !== undefined ? cache.get(config.url) !== undefined : false;
+                    if (config.cached !== undefined && cached !== config.cached) {
+                        return config.cached;
+                    }
+                    config.cached = cached;
+                    return cached;
+                };
+                this.extractMethod = function (response) {
+                    try {
+                        return (response.config.method);
+                    }
+                    catch (error) {
+                        return ("GET");
+                    }
+                };
+                this.startRequest = function (httpMethod) {
+                    if (_this.progressBarService.isHttpResquestListening()) {
+                        if (httpMethod === "GET") {
+                            if (_this.totalGetRequests === 0) {
+                                _this.progressBarService.start();
+                            }
+                            _this.totalGetRequests++;
+                        }
+                    }
+                    else {
+                        _this.totalGetRequests = 0;
+                        _this.completedGetRequests = 0;
+                    }
+                };
+                this.setComplete = function () {
+                    _this.progressBarService.complete();
+                    _this.$timeout.cancel(_this.startTimeout);
+                    _this.totalGetRequests = 0;
+                    _this.completedGetRequests = 0;
+                };
+                this.endRequest = function (httpMethod) {
+                    if (_this.progressBarService.isHttpResquestListening()) {
+                        if (httpMethod === "GET") {
+                            _this.completedGetRequests++;
+                            if (_this.completedGetRequests >= _this.totalGetRequests) {
+                                _this.setComplete();
+                            }
+                        }
+                    }
+                };
+                this.$q = $q;
+                this.$cacheFactory = $cacheFactory;
+                this.$timeout = $timeout;
+                this.progressBarService = progressBarService;
+            }
+            LuccaHttpInterceptor.IID = "luccaHttpInterceptor";
+            LuccaHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "progressBarService"];
+            return LuccaHttpInterceptor;
+        }());
+        Service.LuccaHttpInterceptor = LuccaHttpInterceptor;
+        angular.module("lui.services").service(LuccaHttpInterceptor.IID, LuccaHttpInterceptor);
+    })(Service = Lui.Service || (Lui.Service = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var ProgressBarService = (function () {
+            function ProgressBarService($document, $window, $rootScope, $timeout, $interval) {
+                var _this = this;
+                this.latencyThreshold = 200;
+                this.httpResquestListening = false;
+                this.status = 0;
+                this.progressBarTemplate = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
+                this.addProgressBar = function (parent, palette) {
+                    if (parent === void 0) { parent = angular.element(document).find("body"); }
+                    if (palette === void 0) { palette = "primary"; }
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.remove();
+                    }
+                    _this.progressbarEl = angular.element(_this.progressBarTemplate);
+                    _this.progressbarEl.addClass(palette);
+                    parent.append(_this.progressbarEl);
+                };
+                this.setHttpResquestListening = function (httpResquestListening) {
+                    _this.httpResquestListening = httpResquestListening;
+                    _this.setStatus(0);
+                };
+                this.isHttpResquestListening = function () {
+                    return _this.httpResquestListening;
+                };
+                this.start = function () {
+                    if (!_this.isStarted) {
+                        _this.isStarted = true;
+                        _this.$timeout.cancel(_this.completeTimeout);
+                        _this.$interval.cancel(_this.currentPromiseInterval);
+                        _this.show();
+                        _this.currentPromiseInterval = _this.$interval(function () {
+                            if (isNaN(_this.status)) {
+                                _this.$interval.cancel(_this.currentPromiseInterval);
+                                _this.setStatus(0);
+                                _this.hide();
+                            }
+                            else {
+                                var remaining = 100 - _this.status;
+                                _this.setStatus(_this.status + (0.15 * Math.pow(Math.sqrt(remaining), 1.5)));
+                            }
+                        }, _this.latencyThreshold);
+                    }
+                };
+                this.hide = function () {
+                    _this.$timeout(function () {
+                        if (!!_this.progressbarEl) {
+                            _this.progressbarEl.removeClass("in");
+                            _this.progressbarEl.addClass("out");
+                            _this.setStatus(0);
+                        }
+                    }, 300);
+                };
+                this.show = function () {
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.removeClass("out");
+                        _this.progressbarEl.addClass("in");
+                        _this.setStatus(0);
+                    }
+                };
+                this.setStatus = function (status) {
+                    _this.status = status;
+                    if (!!_this.progressbarEl) {
+                        _this.progressbarEl.children().css("width", _this.status + "%");
+                        _this.progressbarEl.children().attr("data-percentage", _this.status);
+                    }
+                };
+                this.complete = function () {
+                    if (!!_this.completeTimeout) {
+                        _this.$timeout.cancel(_this.completeTimeout);
+                    }
+                    _this.completeTimeout = _this.$timeout(function () {
+                        _this.$interval.cancel(_this.currentPromiseInterval);
+                        _this.isStarted = false;
+                        _this.httpResquestListening = false;
+                        _this.setStatus(100);
+                        _this.hide();
+                    }, 200);
+                };
+                this.getDomElement = function () {
+                    return _this.progressbarEl;
+                };
+                this.$document = $document;
+                this.$window = $window;
+                this.$rootScope = $rootScope;
+                this.$timeout = $timeout;
+                this.$interval = $interval;
+            }
+            ProgressBarService.IID = "progressBarService";
+            ProgressBarService.$inject = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
+            return ProgressBarService;
+        }());
+        Service.ProgressBarService = ProgressBarService;
+        angular.module("lui.services").service(ProgressBarService.IID, ProgressBarService);
+    })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
 ;angular.module('lui.directives').run(['$templateCache', function($templateCache) {
   'use strict';

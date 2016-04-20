@@ -1,12 +1,17 @@
 # Change log
 
-## 2.1.1 - in dev
+## 2.2.0 - in dev - [beta](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2-beta)
+
+### Breaking changes
+
+No breaking changes have been identified, if some are present it is due to the update of dependencies
 
 ### Dependencies
 - updated angular from 1.4 to 1.5
 - updated angular-ui-bootstrap from1.1 to 1.3
 - updatedui.select from 0.12 to 0.16
-- updated lucca-icons 1.1.8 
+- updated lucca-icons 1.1.8 - fix Breaking bug in the sass of lucca-icons
+- updated moment 2.10 -> 2.13
 
 ### New features
 - progress-bar service : Display a progress bar depending on get http requests
