@@ -21,8 +21,4 @@
 		// Default coloring
 		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, popover, defaultColoring));
 	}
-
-	#{$prefix}.popover:not(.ng-hide) {
-		display: block !important;
-	}
 }
