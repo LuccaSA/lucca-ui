@@ -8,8 +8,9 @@ No breaking changes have been identified, if some are present it is due to the u
 
 ### Dependencies
 - updated angular from 1.4 to 1.5
-- updated angular-ui-bootstrap from1.1 to 1.3
-- updatedui.select from 0.12 to 0.16
+- updated angular-ui-bootstrap from 1.1 to 1.3
+- updated angular-translate from 2.8 to 2.11
+- updated ui.select from 0.12 to 0.16
 - updated lucca-icons 1.1.8 - fix Breaking bug in the sass of lucca-icons
 - updated moment 2.10 -> 2.13
 
