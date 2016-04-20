@@ -8,8 +8,9 @@
 - updatedui.select from 0.12 to 0.16
 
 ### New features
+- progress-bar service : Display a progress bar depending on get http requests
 - luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
- - directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
+- directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
 Based on ng-cloak angular's directive but use link directive function instead of compile function.
 - luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 - lui icon - supports palette adjectives to change the icon color
