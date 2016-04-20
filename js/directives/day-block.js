@@ -15,7 +15,7 @@
 			'</div>'+
 
 			'<div ng-style="controller.monthStyleOverride()" ' +
-			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'class="month">{{controller.date | luifMoment: \'MMM\' | fancyMonth}}'+
 			'</div>'+
 
 			'<div ng-style="controller.yearStyleOverride()" ' +
@@ -73,6 +73,19 @@
 		};
 
 
+	})
+	.filter("fancyMonth", function(){
+		return function(month){
+			var fancyMonth;
+			if(month === "juil."){
+				fancyMonth = "juil"
+			}else if(month === "juin"){
+				fancyMonth  = "juin"
+			}else {
+				fancyMonth = month.substring(0,3); 
+			}
+			return fancyMonth
+		}		
 	});
 
 })();

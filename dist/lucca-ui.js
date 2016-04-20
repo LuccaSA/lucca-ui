@@ -235,7 +235,7 @@
 			'</div>'+
 
 			'<div ng-style="controller.monthStyleOverride()" ' +
-			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'class="month">{{controller.date | luifMoment: \'MMM\' | fancyMonth}}'+
 			'</div>'+
 
 			'<div ng-style="controller.yearStyleOverride()" ' +
@@ -264,7 +264,7 @@
 	.directive('luidDayBlock', DayBlockDirective)
 	.controller('luidDayBlockController', function(){
 		var controller = this;
-
+		
 		controller.weekdayStyleOverride = function() {
 			return { 
 				color: controller.primaryColor, 
@@ -293,6 +293,21 @@
 		};
 
 
+	})
+	.filter("fancyMonth", function(){
+		return function(month){
+			month = "juil."
+			var fancyMonth;
+			console.log(month);
+			if(month === "juil."){
+				fancyMonth = "juil"
+			}else if(month === "juin"){
+				fancyMonth  = "juin"
+			}else {
+				fancyMonth = month.substring(0,3); 
+			}
+			return fancyMonth
+		}		
 	});
 
 })();
@@ -1446,7 +1461,18 @@
 		};
 	});
 })();
-;var Lui;
+;angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+        return {
+            restrict: "A",
+            link: function (scope, element, attrs) {
+                $timeout(function () {
+                    attrs.$set("deferredCloak", undefined);
+                    element.removeClass("deferred-cloak");
+                }, 0);
+            },
+        };
+    },]);
+var Lui;
 (function (Lui) {
     "use strict";
     var Period = (function () {
