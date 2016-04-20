@@ -13,6 +13,7 @@
 - directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
 Based on ng-cloak angular's directive but use link directive function instead of compile function.
 - luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
+- lui icon - supports palette adjectives to change the icon color
 
 ### Resolved issues
 - Popover: unnecessary !important property removed - may break things unexpectedly

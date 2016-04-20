@@ -36,6 +36,8 @@ $cleanNamespace: str-replace(to-string($namespace), '#', '');
 @import "core/utilities/mixins/is-animated";
 // Sizing handler
 @import "core/utilities/mixins/supports-sizing";
+// text-color handler handler
+@import "core/utilities/mixins/supports-text-coloring";
 // Loader
 @import "core/utilities/mixins/loader";
 // Triangle maker
@@ -110,6 +112,7 @@ $luccaIcons_font-create-classes: luiTheme(element, icons, createClasses);
 @import "bower_components/lucca-icons/src/lucca-icons";
 // Sizing support
 #{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
+i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
 // We define a mixin alias here for better support
 @mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
