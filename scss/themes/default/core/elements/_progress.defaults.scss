@@ -18,6 +18,12 @@ $progress: (
 	),
 
 	indicator: (
+	),
+
+	progressBar: (
+		zIndex:					1000,
+		height:					2px,
+		fadeInDuration:			0.25s
 	)
 );
 $luiTheme: luiSetTheme(element, progress, $progress);
