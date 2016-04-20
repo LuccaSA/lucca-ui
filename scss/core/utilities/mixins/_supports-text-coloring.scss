@@ -1,0 +1,8 @@
+
+@mixin lui_supports_text_coloring() {
+	@each $name, $scheme in luiPalettes() {
+		&.#{map-get($scheme, class)} {
+			color: map-get($scheme, color);
+		}
+	}
+}
