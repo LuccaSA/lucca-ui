@@ -6,6 +6,7 @@
 - updated angular from 1.4 to 1.5
 - updated angular-ui-bootstrap from1.1 to 1.3
 - updatedui.select from 0.12 to 0.16
+- updated lucca-icons 1.1.8
 
 ### New features
 - luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
