@@ -14,6 +14,7 @@ Based on ng-cloak angular's directive but use link directive function instead of
 - luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 
 ### Resolved issues
+- Popover: unnecessary !important property removed - may break things unexpectedly
 
 ## 2.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.1.0)
 
