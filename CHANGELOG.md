@@ -6,6 +6,7 @@
 - updated angular from 1.4 to 1.5
 - updated angular-ui-bootstrap from1.1 to 1.3
 - updatedui.select from 0.12 to 0.16
+- updated lucca-icons 1.1.8 
 
 ### New features
 - progress-bar service : Display a progress bar depending on get http requests
