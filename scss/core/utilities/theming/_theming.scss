@@ -20,11 +20,9 @@ $luiTheme: () !default;
 }
 
 @function luiTheme($type, $keys...) {
-	@if  (map-has-key($luiTheme, "#{$type}s")) {
-		@return map-gets($luiTheme, "#{$type}s", $keys);
-	} @else {
-		@warn "#{$type} component type is unknown!";
-	}
+	$vars: map-get($luiTheme, "#{$type}s");
+	@each $key in $keys { $vars: map-get($vars, $key); }
+	@return $vars;
 }
 
 
