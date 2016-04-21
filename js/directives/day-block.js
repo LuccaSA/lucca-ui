@@ -15,7 +15,7 @@
 			'</div>'+
 
 			'<div ng-style="controller.monthStyleOverride()" ' +
-			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'class="month">{{controller.date | luifMoment: \'MMM\'}}'+
 			'</div>'+
 
 			'<div ng-style="controller.yearStyleOverride()" ' +
