@@ -197,11 +197,13 @@ module Lui.Directives {
 				scope.$watchCollection("datas", () => {
 					if (!!scope.datas) {
 						scope.filteredAndOrderedRows = scope.datas;
+						scope.initFilter();
 						if (scope.selected.orderBy !== null) {
 							scope.orderBySelectedHeader();
 						}
 						updateVisibleRows();
 						this.$timeout(() => { resize(); }, 100);
+
 					}
 				});
 				// Watches for window resizes

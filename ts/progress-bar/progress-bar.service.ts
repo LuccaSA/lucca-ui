@@ -17,7 +17,6 @@ module Lui.Service {
 		private status: number = 0;
 		private currentPromiseInterval: ng.IPromise<any>;
 		private completeTimeout: ng.IPromise<any>;
-		private parent: angular.IAugmentedJQuery;
 		private progressBarTemplate: string = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
 		private progressbarEl: angular.IAugmentedJQuery;
 		private isStarted: boolean;
@@ -66,7 +65,11 @@ module Lui.Service {
 						this.hide();
 					} else {
 						let remaining = 100 - this.status;
-						this.setStatus(this.status + (0.15 * Math.pow(Math.sqrt(remaining), 1.5)));
+						if (remaining > 30) {
+							this.setStatus(this.status + (0.5 * Math.sqrt(remaining)));
+						} else {
+							this.setStatus(this.status + (0.15 * Math.pow(1 - Math.sqrt(remaining), 2)));
+						}
 					}
 				}, this.latencyThreshold);
 			}
