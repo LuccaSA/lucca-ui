@@ -619,7 +619,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				Add progress bar in your module run method :
 			</p>
 			<p>
-				<pre hljs no-escape language="js">angular.module('demo').run(function($httpProvider) {
+				<pre hljs no-escape language="js">angular.module('demo').run(function(progressBarService) {
 	 progressBarService.addProgressBar(angular.element(document).find("body"), "secondary");
 }</pre>
 			</p>
