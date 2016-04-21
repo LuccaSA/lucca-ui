@@ -302,13 +302,12 @@
 		> select,
 		> textarea { @extend %lui_invalid_input_base; }
 	}
-
-	@import "input.search";
-	@import "input.switch";
-	@import "input.checkbox";
-	@import "input.radio";
-	//
-	@import "input.timespanpicker";
-	@import "input.momentpicker";
-	@import "input.translations";
 }
+@import "input.search";
+@import "input.switch";
+@import "input.checkbox";
+@import "input.radio";
+//
+@import "input.timespanpicker";
+@import "input.momentpicker";
+@import "input.translations";
