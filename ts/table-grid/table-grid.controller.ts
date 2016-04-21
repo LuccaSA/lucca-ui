@@ -59,7 +59,7 @@ module Lui.Directives {
 				return depth + 1;
 			};
 
-			let initFilter = () => {
+			$scope.initFilter = () => {
 				$scope.filters = [];
 				_.each($scope.datas, (row: any) => {
 					_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
@@ -103,7 +103,7 @@ module Lui.Directives {
 				$scope.selected = { orderBy: null, reverse: false };
 
 				if (!!$scope.defaultOrder) {
-					let firstChar = $scope.defaultOrder.substr(0,1);
+					let firstChar = $scope.defaultOrder.substr(0, 1);
 					if (firstChar === "-" || firstChar === "+") {
 						$scope.defaultOrder = $scope.defaultOrder.substr(1);
 
@@ -114,8 +114,6 @@ module Lui.Directives {
 					});
 					$scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
 				}
-
-				initFilter();
 
 			};
 
@@ -150,8 +148,18 @@ module Lui.Directives {
 							if (filter.header
 									&& !!filter.currentValues[0]
 									&& filter.currentValues[0] !== "") {
-								let prop = (filter.header.getValue(row) + "").toLowerCase();
-								let containsProp = _.some(filter.currentValues, (value: string) => { return prop.indexOf(value.toLowerCase()) !== -1; });
+								let propValue = (filter.header.getValue(row) + "").toLowerCase();
+								if (!!filter.header.getFilterValue) {
+									propValue = filter.header.getFilterValue(row).toLowerCase();
+								}
+								let containsProp = _.some(filter.currentValues, (value: string) => {
+									//if test value contains "|" character, we have to test with a contain operator
+									if (propValue.indexOf("|") !== -1) {
+										return propValue.indexOf(value.toLowerCase()) !== -1;
+									} else {
+										return propValue === value.toLowerCase();
+									}
+								});
 								if (!containsProp) {
 									result = false;
 								}
