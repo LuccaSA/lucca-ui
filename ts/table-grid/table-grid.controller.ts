@@ -153,11 +153,12 @@ module Lui.Directives {
 									propValue = filter.header.getFilterValue(row).toLowerCase();
 								}
 								let containsProp = _.some(filter.currentValues, (value: string) => {
-									//if test value contains "|" character, we have to test with a contain operator
-									if (propValue.indexOf("|") !== -1) {
-										return propValue.indexOf(value.toLowerCase()) !== -1;
-									} else {
+									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
+									if ( (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT)
+											&& (propValue.indexOf("|") === -1) ) {
 										return propValue === value.toLowerCase();
+									}else {
+										return propValue.indexOf(value.toLowerCase()) !== -1;
 									}
 								});
 								if (!containsProp) {
