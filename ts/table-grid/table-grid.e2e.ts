@@ -8,6 +8,7 @@ module Lui.Directives.TableGrid.Test {
 		let nameHeader;
 		let nameSelectFilter;
 		let nameInputSelectFilter;
+		let idInputSelectFilter;
 
 		let getFirstRow = () => {
 			return element.all(by.repeater("row in datas").row(1)).get(0);
@@ -15,8 +16,9 @@ module Lui.Directives.TableGrid.Test {
 
 		beforeEach((): void => {
 			nameHeader = element.all(by.cssContainingText(".sortable", "name")).get(0);
-			nameSelectFilter = element.all(by.css(".lui.fitting.search.input .ui-select-container")).get(0);
-			nameInputSelectFilter = element.all(by.css(".lui.fitting.search.input input")).get(0);
+			nameSelectFilter = element.all(by.css(".scrollable.columns .lui.fitting.search.input .ui-select-container")).get(0);
+			nameInputSelectFilter = element.all(by.css(".scrollable.columns th .lui.fitting.search.input input")).get(1);
+			idInputSelectFilter = element.all(by.css(".locked.columns th .lui.fitting.search.input input")).get(0);
 		});
 
 		it("should show datas", (): void => {
@@ -34,12 +36,24 @@ module Lui.Directives.TableGrid.Test {
 		});
 
 		it("should filter table when input filled", (): void => {
-			let oldFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
-			nameInputSelectFilter.sendKeys("obi");
-			nameSelectFilter.all(by.className('ui-select-choices-row')).get(0).getWebElement().click();
-			let newFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
-			expect(oldFirstName).not.toEqual(newFirstName);
-			expect(newFirstName).toEqual("Obi Wan Kenobi");
+			let oldFirstId = $(".lui.tablegrid .locked.columns").all(by.tagName("td")).get(1).getText();
+			idInputSelectFilter.sendKeys("99");
+			let newFirstId = $(".lui.tablegrid .locked.columns").all(by.tagName("td")).get(1).getText();
+			let newSecondId = $(".lui.tablegrid .locked.columns").all(by.tagName("td")).get(7).getText();
+			expect(oldFirstId).not.toEqual(newFirstId);
+			expect(newFirstId).toEqual("99");
+			expect(newSecondId).toEqual("199");
+		});
+
+		it("should filter table when select input filled", (): void => {
+			idInputSelectFilter.clear().then( () => {
+				let oldFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
+				nameInputSelectFilter.sendKeys("obi");
+				nameSelectFilter.all(by.className('ui-select-choices-row')).get(0).getWebElement().click();
+				let newFirstName = $(".lui.tablegrid .scrollable.columns").all(by.tagName("td")).get(2).getText();
+				expect(oldFirstName).not.toEqual(newFirstName);
+				expect(newFirstName).toEqual("Obi Wan Kenobi");
+			});
 		});
 
 		it("should have a nested header", (): void => {
@@ -52,7 +66,7 @@ module Lui.Directives.TableGrid.Test {
 			//id should be nested once
 			let id = lockedHeaderRows.get(0).all(by.css(".sortable")).get(0);
 			expect(id.getText()).toEqual("id");
-			expect(id.getAttribute("rowspan")).toEqual("4");
+			expect(id.getAttribute("rowspan")).toEqual("3");
 
 			//name should be nested twice
 			let name = headerRows.get(1).all(by.css(".sortable")).get(0);

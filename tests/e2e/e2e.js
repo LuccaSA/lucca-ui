@@ -190,7 +190,7 @@
 				children: [
 					{
 						node: {
-							filterType: "none",
+							filterType: "text",
 							fixed: true,
 							label: "id",
 							width: 20,
