@@ -4,10 +4,10 @@ module Lui.Service {
 // ---- inspired by https://github.com/chieffancypants/angular-loading-bar/blob/master/src/loading-bar.js
 // ==========================================
 	"use strict";
-	export class LuccaHttpInterceptor implements angular.IHttpInterceptor {
+	export class LuiHttpInterceptor implements angular.IHttpInterceptor {
 
-		public static IID: string = "luccaHttpInterceptor";
-		public static $inject: Array<string> = ["$q", "$cacheFactory", "$timeout", "progressBarService"];
+		public static IID: string = "luiHttpInterceptor";
+		public static $inject: Array<string> = ["$q", "$cacheFactory", "$timeout", "luisProgressBar"];
 
 		public totalGetRequests: number = 0;
 
@@ -130,5 +130,5 @@ module Lui.Service {
 		};
 	}
 
-	angular.module("lui.services").service(LuccaHttpInterceptor.IID, LuccaHttpInterceptor);
+	angular.module("lui.services").service(LuiHttpInterceptor.IID, LuiHttpInterceptor);
 }
