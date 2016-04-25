@@ -81,6 +81,13 @@ module Lui.Service {
 			this.$timeout = $timeout;
 		}
 
+		public config(elementId: string, startTop: number): void {
+			this.cgNotify.config({
+				container: document.getElementById(elementId),
+				startTop: startTop,
+			});
+		}
+
 		public error(message: string, details: string): void {
 			this.$log.error(new Log(message, details));
 			this.cgNotify(new ErrorNotify(message));
