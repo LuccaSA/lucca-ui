@@ -12,6 +12,7 @@ module.exports = function(grunt, options){
 				"!ts/**/*.spec.ts", 
 				"!ts/**/*.e2e.ts",
 				"!ts/table-grid/**/*.*",
+				"!ts/notify-service/**/*.*",
 			],
 			dest: ".temp/lucca-ui-ts.js",
 			options: {
