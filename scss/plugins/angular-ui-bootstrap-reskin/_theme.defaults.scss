@@ -49,6 +49,11 @@ $uiSelect: (
 	horizontalPadding: 			5px,
 	multiple: (
 		closeSize: 				1.5em
+	),
+	natural: (
+		border: 1px dotted luiPalette(light, color),
+		fontWeight: 600,
+		dropdownWidth: lui_rem(15)
 	)
 );
 $pluginVars: map-extend($pluginVars, (uiSelect: $uiSelect));
