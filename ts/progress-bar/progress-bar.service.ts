@@ -5,7 +5,7 @@ module Lui.Service {
 // ---- inspired by https://github.com/VictorBjelkholm/ngProgress/blob/master/src/provider.js
 // ==========================================
 	export class ProgressBarService {
-		public static IID: string = "progressBarService";
+		public static IID: string = "luisProgressBar";
 		public static $inject: string[] = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
 		public latencyThreshold = 200;
 		private httpResquestListening: boolean = false;
