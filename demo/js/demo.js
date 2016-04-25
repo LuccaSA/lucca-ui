@@ -47,7 +47,7 @@
 	}]);
 
 	angular.module('demoApp')
-	.run(function($httpBackend) {
+	.run(function($httpBackend, notify) {
 		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('icons.html').passThrough();
 		$httpBackend.whenGET('animations.html').passThrough();
@@ -55,5 +55,10 @@
 		$httpBackend.whenGET('filters.html').passThrough();
 		$httpBackend.whenGET('directives.html').passThrough();
 		$httpBackend.whenGET('lucca-spe.html').passThrough();
+
+		notify.config({
+				container: document.getElementById("demo"),
+				startTop: 60,
+			});
 	});
 })();
