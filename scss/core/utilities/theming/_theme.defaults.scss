@@ -347,3 +347,16 @@
 	@import "core/elements/tablegrid.overrides";
 	$luiTheme: luiSetTheme(element, tablegrid, $myTheme);
 }
+
+// notify
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/notify.defaults";
+
+	// Theme overrides
+	@import "core/elements/notify.overrides";
+	$luiTheme: luiSetTheme(element, notify, $myTheme);
+}

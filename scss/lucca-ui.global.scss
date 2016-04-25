@@ -218,6 +218,13 @@ $luccaIcons_font-create-classes: luiTheme(element, icons, createClasses);
 	@import "core/elements/tablegrid";
 }
 
+@at-root {
+	// notify
+	// ===================================
+	$vars: luiTheme(element, notify);
+	@import "core/elements/notify";
+}
+
 
 // ===================================
 // ============= PLUGINS =============

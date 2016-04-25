@@ -22,6 +22,7 @@ Based on ng-cloak angular's directive but use link directive function instead of
 - luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 - lui icon - supports palette adjectives to change the icon color
 - ui-select - adds support for the timmi-like 'natural' styling
+- `luisNotify` - wrapper of the library [angular-notify](https://github.com/cgross/angular-notify) with some templates. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 
 ### Resolved issues
 - Popover: unnecessary !important property removed - may break things unexpectedly
