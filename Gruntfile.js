@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 	// Loads the different modules used by this gruntfile
 	// release
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-ts');
@@ -27,7 +28,7 @@ module.exports = function(grunt) {
 	grunt.initConfig(configs);
 
 	// this task updates all distributions - launch it once before each release
-	grunt.registerTask('dist', ["ts:dist", "ts:distspe", "ngtemplates:dist", 'concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'sass:dist']);
+	grunt.registerTask('dist', ["ts:dist", "ts:distspe", "ngtemplates:dist", 'concat:spe', 'uglify:spe', 'concat:standard', 'uglify:standard', 'sass:dist', "copy:tsdefinitions"]);
 
 	// use this tasks when you are developping
 	grunt.registerTask('debug', ["dist", "ts:test", "connect:server", 'concurrent:debug']);
