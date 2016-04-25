@@ -1,0 +1,13 @@
+<div class="lui callout filled notification-popup red typeset"
+ng-class="[$classes, 
+$position === 'center' ? 'cg-notify-message-center' : '',
+$position === 'left' ? 'cg-notify-message-left' : '',
+$position === 'right' ? 'cg-notify-message-right' : '']"
+ng-style="{'margin-left': $centerMargin}">
+	<div class="lui small red button icon cross right pulled" ng-click="$close()"></div>
+
+	<h5 ng-show="!$message">{{'NOTIFY_ERROR' | translate}}</h5>
+	<h5 ng-hide="!$message">{{ $message | translate}}</h5>
+	<!-- <div ng-show="$messageTemplate" class="cg-notify-message-template"></div> -->
+
+</div>

@@ -1,0 +1,34 @@
+<div class="lui {{showProgress ? 'down' : ''}} callout notification-popup typeset"
+ng-class="[$classes, 
+$position === 'center' ? 'cg-notify-message-center' : '',
+$position === 'left' ? 'cg-notify-message-left' : '',
+$position === 'right' ? 'cg-notify-message-right' : '', 
+calloutClass]"
+ng-style="{'margin-left': $centerMargin}">
+	<div class="lui small filling button icon cross right pulled" ng-click="$close()" ng-if="success || failure || cancelled"></div>
+
+	<div class="lui slim attached progressing progress" ng-class="{light: loading, primary: success, red: failed, orange: cancelled}" ng-if="showProgress">
+		<div class="indicator" data-percentage="{{percentage}}" style="width: {{percentage}}%;"></div>
+	</div>
+
+	<div ng-if="!$message">
+		<h5 ng-show="loading">
+			<span class="lui loader"></span> 
+			{{'NOTIFY_LOADING' | translate }}
+			<span ng-show="canCancel" class="lui flat x-small button" ng-click="cancel()">{{"CANCEL" | translate}}</span>
+		</h5>
+		<h5 ng-show="success">{{'NOTIFY_SUCCESS' | translate }}</h5>
+		<h5 ng-show="failure">{{'NOTIFY_ERROR' | translate }}</h5>
+		<h5 ng-show="cancelled">{{'NOTIFY_WARNING' | translate }}</h5>
+	</div>
+	<div ng-if="!!$message">
+		<h5 ng-show="loading">
+			<span class="lui loader"></span> 
+			{{ "LOADING_" + $message | translate }}
+			<span ng-show="canCancel" class="lui flat x-small button" ng-click="cancel()">{{"CANCEL" | translate}}</span>
+		</h5>
+		<h5 ng-show="success">{{ "SUCCESS_" + $message | translate }}</h5>
+		<h5 ng-show="failure">{{ "ERR_" + $message | translate }}</h5>
+		<h5 ng-show="cancelled">{{ "WARN_" + $message | translate }}</h5>
+	</div>
+</div>

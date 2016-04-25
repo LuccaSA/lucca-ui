@@ -222,6 +222,14 @@ i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
 	@import "core/elements/tablegrid";
 }
 
+& {
+	// notify
+	// ===================================
+	$vars: luiTheme(element, notify);
+	@import "core/elements/notify";
+}
+
+
 
 // ===================================
 // ============= PLUGINS =============
