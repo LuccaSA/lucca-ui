@@ -382,27 +382,31 @@ $scope.yearOfArrivalAsync = function(user){
 			a service to display notifications using the <a class="lui fancy link" href="https://github.com/cgross/angular-notify">angular-notify</a> library
 		</p>
 		<p>
-			uses <code>$translate</code>
+			uses <code>$translate</code> so you can use your own translations to display a message in the locale of the end user.
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Features</h4>
 		</div>
-<!-- 		<div class="lui dashed divider">
-			<h4 class="lui underline">Supported arguments</h4>
-		</div>
 		<p>
-			<ul class="lui unstyled">
-				<li><code>ng-model</code>: the variable to bind to</li>
-				<li><code>ng-change</code>: events to launch when the value is updated</li>
-				<li><code>mode</code>: "dictionary", "|" or "pipe"</li>
-			</ul>
-		</p> -->
+			A method <code>config</code> to set just one on what element you want to append and how many space you want top as to not go over a nav or menu (it's here because of the banner)
+		</p>
+		<p>
+			Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as argument. the message will be displayed in the popup while both message and detaqils will be logged in the browser console using <code>$log</code>
+		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
 		</div>
 		<p>
-			<pre hljs no-escape language="html">angular.controller("myCtrl", function(luisNotify) { ...
-luisNotify.error("ERROR_CODE");</pre>
+			<pre hljs no-escape language="js">// to configure, needs to be done just once
+angular.module("myApp").run(fumction(luisNotify){
+	luisNotify.config("myNamespace", 40);
+	// see namespaced distribution of lucca-ui
+});
+
+// to use in your controller
+angular.controller("myCtrl", function(luisNotify) { 
+	luisNotify.error("your message", "some details");
+});</pre>
 		</p>
 		<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
@@ -425,9 +429,9 @@ luisNotify.error("ERROR_CODE");</pre>
 				</div>
 			</p>
 			<p>
-				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+				<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
 				<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
-				<button class="lui primary button" ng-click="notifySuccess(message, details)">success</button>
+				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
 			</p>
 		</div>
 	</article>
