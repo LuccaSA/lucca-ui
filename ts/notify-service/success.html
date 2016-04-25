@@ -1,4 +1,4 @@
-<div class="lui callout notification-popup primary typeset"
+<div class="lui callout notification-popup green typeset"
 ng-class="[$classes, 
 $position === 'center' ? 'cg-notify-message-center' : '',
 $position === 'left' ? 'cg-notify-message-left' : '',
@@ -8,5 +8,5 @@ ng-style="{'margin-left': $centerMargin}">
 
 	<h5 ng-show="!$message">{{'NOTIFY_SUCCESS' | translate}}</h5>
 	<h5 ng-hide="!$message">{{ $message | translate}}</h5>
-	<div ng-show="$messageTemplate" class="cg-notify-message-template"></div>
+	<!-- <div ng-show="$messageTemplate" class="cg-notify-message-template"></div> -->
 </div>
