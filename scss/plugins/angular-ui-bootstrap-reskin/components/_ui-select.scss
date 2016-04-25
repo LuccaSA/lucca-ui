@@ -161,4 +161,88 @@
 			padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
 		}
 	}
+
+
+	// Natural style
+	// ====
+	#{$prefix}.ui-select.natural,
+	#{$prefix}.ui-select-bootstrap.natural {
+		line-height: lui_rem(1);
+		margin-bottom: 1px;
+		min-width: 1em;
+
+		& + .natural {
+			margin-left: 0.25em;
+		}
+
+		&[search-enabled="false"] {
+			.ui-select-match { display: block !important; }
+		}
+
+		// Caret
+		&:before {
+			display: none;
+
+			position: absolute;
+			transform: translate(-50%, -50%);
+			left: 50%;
+			content: '';
+			width: 0; height: 0;
+			border-style: solid; border-color: transparent;
+			border-left-width: 0.5em;
+			border-right-width: 0.5em;
+		}
+
+		// On open
+		&.open {
+			box-shadow: none;
+			&:before { display: block; }
+			.dropdown-menu { animation-name: none; }
+		}
+
+		&.input > input,
+		&.input > .addon,
+		.ui-select-toggle,
+		.ui-select-search {
+			border-radius: 0;
+			padding: 0;
+			border: none;
+			border-bottom: map-gets($pluginVars, uiSelect, natural, border);
+			font-weight: map-gets($pluginVars, uiSelect, natural, fontWeight);
+			color: darken(luiTheme(element, typography, body, color), 20);
+			padding: 0 0.25em;
+		}
+		.ui-select-toggle:hover {
+			transition: background-color 0.25s;
+			background-color: luiPalette(light, color, light);
+		}
+
+		.dropdown-menu {
+			// Width must be even in order for transformX not to land on a half pixel and thus render blurry text
+			// By the way, this variable MUST be set in pixels, unfortunately. The lui_rem function can be used though, as it actually does returns pixel values.
+			$dropdownWidth: map-gets($pluginVars, uiSelect, natural, dropdownWidth)+0px;
+			@if not (($dropdownWidth / 1px) % 2 == 0) { $dropdownWidth: $dropdownWidth + 1px; }
+			min-width: $dropdownWidth; width: $dropdownWidth;
+			left: 50%; transform: translateX(-#{($dropdownWidth / 2)});
+		}
+
+		&.direction-up {
+			.dropdown-menu {
+				transform-origin: center bottom;
+				margin-bottom: 0.25em;
+				top: auto !important;
+				bottom: 100%;
+			}
+			&:before {
+				border-top: 0.5em solid luiPalette(light, color);
+				top: auto;
+				bottom: 100%;
+				margin-bottom: -1em;
+			}
+		}
+		&:not(.direction-up) {
+			.dropdown-menu { margin-top: 0.25em; }
+			&:before { border-bottom: 0.5em solid luiPalette(light, color); top: 100%; }
+		}
+	}
 }

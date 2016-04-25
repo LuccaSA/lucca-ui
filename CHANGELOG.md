@@ -21,6 +21,7 @@ No breaking changes have been identified, if some are present it is due to the u
 Based on ng-cloak angular's directive but use link directive function instead of compile function.
 - luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
 - lui icon - supports palette adjectives to change the icon color
+- ui-select - adds support for the timmi-like 'natural' styling
 
 ### Resolved issues
 - Popover: unnecessary !important property removed - may break things unexpectedly
