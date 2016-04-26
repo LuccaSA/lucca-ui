@@ -6,14 +6,14 @@ module Lui.Service {
 // ==========================================
 	export class ProgressBarService {
 		public static IID: string = "luisProgressBar";
-		public static $inject: string[] = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
+		public static $inject: string[] = ["$document", "$window", "$timeout", "$interval", "$log"];
 		public latencyThreshold = 200;
 		private httpResquestListening: boolean = false;
 		private $document: angular.IDocumentService;
 		private $window: angular.IWindowService;
-		private $rootScope: ng.IScope;
 		private $timeout: ng.ITimeoutService;
 		private $interval: ng.IIntervalService;
+		private $log: ng.ILogService;
 		private status: number = 0;
 		private currentPromiseInterval: ng.IPromise<any>;
 		private completeTimeout: ng.IPromise<any>;
@@ -24,23 +24,38 @@ module Lui.Service {
 		constructor(
 			$document: angular.IDocumentService,
 			$window: angular.IWindowService,
-			$rootScope: ng.IScope,
 			$timeout: ng.ITimeoutService,
-			$interval: ng.IIntervalService) {
+			$interval: ng.IIntervalService,
+			$log: ng.ILogService) {
 			this.$document = $document;
 			this.$window = $window;
-			this.$rootScope = $rootScope;
 			this.$timeout = $timeout;
 			this.$interval = $interval;
+			this.$log = $log;
 		}
 
-		public addProgressBar = (parent: angular.IAugmentedJQuery = angular.element(document).find("body"), palette: string = "primary") => {
+		public addProgressBar = (parentTagIdClass: string = "body", palette: string = "primary") => {
+			let parentElt: angular.IAugmentedJQuery;
+			// angular.element(document).find("body")
+			let byTag = document.getElementsByTagName(parentTagIdClass);
+			let byId = document.getElementById(parentTagIdClass);
+			let byClass = document.getElementsByClassName(parentTagIdClass);
+			if (!!byTag && byTag.length) {
+				parentElt = angular.element(byTag[0]);
+			} else if (!!byId) {
+				parentElt = angular.element(byId);
+			} else if (!!byClass && byClass.length) {
+				parentElt = angular.element(byClass[0]);
+			} else {
+				this.$log.warn("luisProgressBar - could not find a suitable element for tag/id/class: " + parentTagIdClass);
+				return;
+			}
 			if (!!this.progressbarEl) {
 				this.progressbarEl.remove();
 			}
 			this.progressbarEl = angular.element(this.progressBarTemplate);
 			this.progressbarEl.addClass(palette);
-			parent.append(this.progressbarEl);
+			parentElt.append(this.progressbarEl);
 		};
 
 		public setHttpResquestListening = (httpResquestListening: boolean): void => {
