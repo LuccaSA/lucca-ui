@@ -5,4 +5,11 @@
 	width: luiTheme(reference, breakpoints, mobile, break);
 	max-width: map-gets($vars, maxWidth);
 	left: 50%;
+	.close {
+		box-shadow: none;
+		border: 0;
+		position: absolute;
+		right: 0;
+		top: .5em;
+	}
 }
