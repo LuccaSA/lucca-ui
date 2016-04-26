@@ -647,10 +647,10 @@ $scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fr
 					A progress bar has been added to the page and will reload at a state change.
 				</p>
 				<p>
-					Clicking <a class="lui fancy link" ng-click="fastListen()">this</a> will make the progress bar reappear and load quickly
+					Clicking <button class="lui button" ng-click="fastListen()">this</button> will make the progress bar reappear and load quickly
 				</p>
 				<p>
-					Clicking <a class="lui fancy link" ng-click="slowListen()">this</a> will make the progress bar reappear and load slowly
+					Clicking <button class="lui button" ng-click="slowListen()">this</button> will make the progress bar reappear and load slowly
 				</p>
 				<p>
 					Or click here to change the color of the progress bar <span class="lui buttons"><button ng-repeat="palette in palettes" class="lui button" ng-click="changeColor(palette)" ng-class="{active: palette == currentPalette}">{{palette}}</button></span>
