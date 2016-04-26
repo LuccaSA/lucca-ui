@@ -156,8 +156,8 @@ module Lui.Service {
 
 	}
 	angular.module("lui.services").service(NotifyService.IID, NotifyService);
-	angular.module("lui.translates.notify").config(["$translateProvider", function($translateProvider) {
-		$translateProvider.translations('en', {
+	angular.module("lui.translates.notify").config(["$translateProvider", ($translateProvider: ng.translate.ITranslateProvider): void => {
+		$translateProvider.translations("en", {
 			"NOTIFY_SUCCESS": "Success",
 			"NOTIFY_WARNING": "Warning",
 			"NOTIFY_ERROR": "Error",
