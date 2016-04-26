@@ -90,6 +90,20 @@
 			$scope.count++;
 		}
 	}]);
+	angular.module("demoApp")
+	.controller("notifyCtrl", ["$scope", "luisNotify", function($scope, luisNotify){
+		$scope.message = "";
+		$scope.details = "open console with f12 to witness the logging";
+		$scope.notifyError = function(message, details) {
+			luisNotify.error(message, details);
+		};
+		$scope.notifyWarning = function(message, details) {
+			luisNotify.warning(message, details);
+		};
+		$scope.notifySuccess = function(message, details) {
+			luisNotify.success(message, details);
+		};
+	}]);
 
 		angular.module('demoApp')
 		.controller('tableGridCtrl', ['$scope', function ($scope) {

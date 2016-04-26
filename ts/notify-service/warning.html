@@ -1,0 +1,8 @@
+<div class="lui orange up callout luis-notify typeset"
+ng-style="{'margin-left': $centerMargin}">
+	<div class="lui small filling button icon cross close" ng-click="$close()"></div>
+
+	<h5 ng-show="!$message">{{'NOTIFY_WARNING' | translate}}</h5>
+	<h5 ng-hide="!$message">{{ $message | translate}}</h5>
+	<!-- <div ng-show="$messageTemplate" class="cg-notify-message-template"></div> -->
+</div>

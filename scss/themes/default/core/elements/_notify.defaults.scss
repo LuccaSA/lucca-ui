@@ -1,0 +1,5 @@
+$notify:(
+	maxWidth: 90%,
+	zIndex: 9999,
+);
+$luiTheme: luiSetTheme(element, notify, $notify);
