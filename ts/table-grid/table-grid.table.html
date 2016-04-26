@@ -18,19 +18,15 @@
 				<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.TEXT">
 					<input type="text" ng-change="updateFilteredRows()" ng-model="filters[$index].currentValues[0]" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
 				</div>
-				<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.MULTISELECT">
-					<ui-select multiple class="lui nguibs-ui-select" ng-model="filters[$index].currentValues" reset-search-input="false" on-remove="updateFilteredRows()"
+					<ui-select multiple class="lui fitting nguibs-ui-select" ng-model="filters[$index].currentValues" reset-search-input="false" on-remove="updateFilteredRows()" ng-if="header.filterType === FilterTypeEnum.MULTISELECT"
 					on-select="updateFilteredRows()">
 						<ui-select-match placeholder="{{ 'SELECT_ITEMS' | translate }}">{{ $item }}</ui-select-match>
 						<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
 					</ui-select>
-				</div>
-				<div class="lui fitting search input" ng-if="header.filterType === FilterTypeEnum.SELECT">
-					<ui-select class="lui nguibs-ui-select" ng-model="filters[$index].currentValues[0]" reset-search-input=true on-select="updateFilteredRows()" allow-clear>
+					<ui-select class="lui fitting nguibs-ui-select" ng-model="filters[$index].currentValues[0]" reset-search-input=true on-select="updateFilteredRows()" allow-clear ng-if="header.filterType === FilterTypeEnum.SELECT">
 						<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">{{ $select.selected }}</ui-select-match>
 						<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search">{{ value }}</ui-select-choices>
 					</ui-select>
-				</div>
 			</th>
 		</tr>
 	</thead>
