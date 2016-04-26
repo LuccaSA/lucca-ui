@@ -1,10 +1,6 @@
-<div class="lui callout notification-popup orange typeset"
-ng-class="[$classes, 
-$position === 'center' ? 'cg-notify-message-center' : '',
-$position === 'left' ? 'cg-notify-message-left' : '',
-$position === 'right' ? 'cg-notify-message-right' : '']"
+<div class="lui orange up callout luis-notify typeset"
 ng-style="{'margin-left': $centerMargin}">
-	<div class="lui small filling button icon cross right pulled" ng-click="$close()"></div>
+	<div class="lui small filling button icon cross close" ng-click="$close()"></div>
 
 	<h5 ng-show="!$message">{{'NOTIFY_WARNING' | translate}}</h5>
 	<h5 ng-hide="!$message">{{ $message | translate}}</h5>
