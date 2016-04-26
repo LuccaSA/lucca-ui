@@ -100,6 +100,23 @@
 		$scope.palette = "";
 		$scope.sizing = "";
 	}]);
+	angular.module('demoApp')
+	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
+		$scope.palettes = ["primary", "secondary", "grey", "light", "red", "orange", "yellow", "green"];
+		$scope.currentPalette = "light";
+		$scope.changeColor = function(palette) {
+			$scope.currentPalette = palette;
+			luisProgressBar.addProgressBar("demo", palette);
+		};
+		$scope.fastListen = function(){
+			luisProgressBar.setHttpResquestListening(true);
+			$http.get("/bogus-progress");
+		};
+		$scope.slowListen = function(){
+			luisProgressBar.setHttpResquestListening(true);
+			$http.get("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l");
+		};
+	}]);
 
 
 })();

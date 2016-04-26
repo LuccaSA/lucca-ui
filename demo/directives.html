@@ -601,9 +601,6 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			<p>
 				Can specify the parent element on the initialisation.
 			</p>
-			<p>
-				Can change the default color with <code>setColor()</code> method.
-			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
@@ -612,35 +609,53 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</p>
 			<p>
 				<pre hljs no-escape language="js">angular.module('demo').config(function($httpProvider) {
-	$httpProvider.interceptors.push("luccaHttpInterceptor");
-}</pre>
+	$httpProvider.interceptors.push("luiHttpInterceptor");
+});</pre>
 			</p>
 			<p>
 				Add progress bar in your module run method :
 			</p>
 			<p>
 				<pre hljs no-escape language="js">angular.module('demo').run(function(luisProgressBar) {
-	luisProgressBar.addProgressBar(angular.element(document).find("body"), "secondary");
-}</pre>
+	luisProgressBar.addProgressBar("demo", "grey");
+	// this method takes a tagName, id or class as first argument to find the elemnt it sould get appended to
+	// the second argument is the palette you want applied to the progress bar
+});</pre>
 			</p>
 			<p>
 				Specify when you want to listen http request.
 				For example, we can do that each time the ui-router state change :
-				<pre hljs no-escape language="js">$scope.$on("$stateChangeStart", (event: any, toState: any, toParams: any, fromState: any, fromParams: any) => {
+				<pre hljs no-escape language="js">// with ui-router
+$scope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) => {
+	luisProgressBar.setHttpResquestListening(true);
+});
+// with ngRoute
+$scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fromParams) => {
 	luisProgressBar.setHttpResquestListening(true);
 });</pre>
 			</p>
-
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
 			</div>
 			<div class="lui item">
-				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+<!-- 				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
 					<i class="lui icon search"></i>View in Plunker
-				</a>
+				</a> -->
+			</div>
+			<div ng-controller="progressCtrl" class="lui block round" id="demoProgress">
+				<p>
+					A progress bar has been added to the page and will reload at a state change.
+				</p>
+				<p>
+					Clicking <button class="lui button" ng-click="fastListen()">this</button> will make the progress bar reappear and load quickly
+				</p>
+				<p>
+					Clicking <button class="lui button" ng-click="slowListen()">this</button> will make the progress bar reappear and load slowly
+				</p>
+				<p>
+					Or click here to change the color of the progress bar <span class="lui buttons"><button ng-repeat="palette in palettes" class="lui button" ng-click="changeColor(palette)" ng-class="{active: palette == currentPalette}">{{palette}}</button></span>
+				</p>
 			</div>
 		</article>
-
-
 	</section>
 </div>
