@@ -619,15 +619,15 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				Add progress bar in your module run method :
 			</p>
 			<p>
-				<pre hljs no-escape language="js">angular.module('demo').run(function(progressBarService) {
-	 progressBarService.addProgressBar(angular.element(document).find("body"), "secondary");
+				<pre hljs no-escape language="js">angular.module('demo').run(function(luisProgressBar) {
+	luisProgressBar.addProgressBar(angular.element(document).find("body"), "secondary");
 }</pre>
 			</p>
 			<p>
 				Specify when you want to listen http request.
 				For example, we can do that each time the ui-router state change :
 				<pre hljs no-escape language="js">$scope.$on("$stateChangeStart", (event: any, toState: any, toParams: any, fromState: any, fromParams: any) => {
-	progressBarService.setHttpResquestListening(true);
+	luisProgressBar.setHttpResquestListening(true);
 });</pre>
 			</p>
 

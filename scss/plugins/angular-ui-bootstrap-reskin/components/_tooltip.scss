@@ -28,6 +28,10 @@
 			filter: drop-shadow($shadow);
 		}
 
+		> .tooltip-inner {
+			max-width: map-gets($pluginVars, tooltip, maxWidth);
+		}
+
 		> [class*="-inner"] {
 			padding: map-gets($pluginVars, tooltip, verticalPadding) map-gets($pluginVars, tooltip, horizontalPadding);
 			border-radius: map-gets($pluginVars, tooltip, borderRadius);
