@@ -113,10 +113,10 @@ describe('luidUserPicker', function(){
 
 			var overflow = {overflow: "5/20", id:-1};
 			expect(isolateScope.count).toBe(20);
-			expect(isolateScope.users.length).toBe(6); // 5 first users + overflow message ==> 6 items
+			expect(isolateScope.users.length).toBe(11); // 5 first users + overflow message ==> 6 items
 			var overflowMessage = _.last(isolateScope.users);
 			expect(overflowMessage.overflow).toEqual("LUIDUSERPICKER_OVERFLOW");
-			expect(overflowMessage.cnt).toEqual(5);
+			expect(overflowMessage.cnt).toEqual(10);
 			expect(overflowMessage.all).toEqual(20);
 		});
 	});
@@ -551,7 +551,7 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(5);
+			expect($scope.customCount.calls.count()).toBe(10);
 		});
 		it('should display the right count', function() {
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
@@ -573,12 +573,12 @@ describe('luidUserPicker', function(){
 			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(9);
+			expect($scope.customCount.calls.count()).toBe(14);
 
 			$scope.myUser = _.findWhere($scope.users, {id: 3});
 			$scope.$digest();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(10); // fetch info for the 5th user
+			expect($scope.customCount.calls.count()).toBe(15); // fetch info for the 5th user
 		});
 	});
 
@@ -612,7 +612,7 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(5);
+			expect($scope.customCountAsync.calls.count()).toBe(10);
 		});
 		it('should call $scope.customInfoAsync to fetch one more info when we do not select one of the first 5 users and we unselect him', function() {
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_end);
@@ -625,12 +625,12 @@ describe('luidUserPicker', function(){
 			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(9); // 4 previous call + 5 calls in find()
+			expect($scope.customCountAsync.calls.count()).toBe(14); // 4 previous call + 10 calls in find()
 
 			$scope.myUser = _.findWhere($scope.users, {id: 3});
 			$scope.$digest();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(10); // fetch info for the 5th user
+			expect($scope.customCountAsync.calls.count()).toBe(15); // fetch info for the 5th user
 		});
 	});
 
@@ -670,7 +670,7 @@ describe('luidUserPicker', function(){
 		});
 		it("should have the right order of displayed users", function(){
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,1,2,4,5,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([3,1,2,4,5,6,7,8,9,10,-1]); // the -1 is because of the overflow
 		});
 		it("should update the selected one ", function(){
 			$scope.myUser = sandrine;
@@ -683,7 +683,7 @@ describe('luidUserPicker', function(){
 			$scope.myUser = sandrine;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([11,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([11,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 	});
 
@@ -719,14 +719,14 @@ describe('luidUserPicker', function(){
 		it("should have the right order of displayed users when no user is selected", function(){
 			$httpBackend.flush();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([10,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$httpBackend.flush();
 			$scope.myUser = chloe;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,10,1,2,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([3,10,1,2,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should not display "me" when the selected user is "me"', function() {
 			$httpBackend.flush();
@@ -773,7 +773,7 @@ describe('luidUserPicker', function(){
 		});
 		it("should have the right order of displayed users when no user is selected", function() {
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([-1,1,2,3,4,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([-1,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$scope.myUser = chloe;
@@ -781,7 +781,7 @@ describe('luidUserPicker', function(){
 			var userIds = _.pluck(isolateScope.users, 'id');
 			expect(_.where(isolateScope.users, {isAll:true}).length).toBe(1);
 			expect(isolateScope.users[1].isAll).toBe(true);
-			expect(userIds).toEqual([3,-1,1,2,4,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([3,-1,1,2,4,5,6,7,8,9,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should not display "selected" when we select "all users"', function() {
 			$scope.myUser = allUsers;
@@ -824,13 +824,13 @@ describe('luidUserPicker', function(){
 		});
 		it('should display "all users" and "me" when find() is called and "me" is fetched', function() {
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([-1,10,1,2,3,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([-1,10,1,2,3,4,5,6,7,8,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$scope.myUser = chloe;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,-1,10,1,2,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([3,-1,10,1,2,4,5,6,7,8,-1]); // the -1 is because of "all users" and overflow
 		});
 	});
 
@@ -873,15 +873,15 @@ describe('luidUserPicker', function(){
 			it("should update displayed users", function() {
 				$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"});
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, -1]);
 
 				$scope.myUsers.push({"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"});
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 5, 6, 7, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 5, 6, 7, 8, 9, 10, 11, 12, -1]);
 
 				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 3)
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 4, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 4, 5, 6, 7, 8, 9, 10, 11, -1]);
 			});
 		});
 
@@ -922,11 +922,11 @@ describe('luidUserPicker', function(){
 
 				isolateScope.find();
 				$httpBackend.flush();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, -1]);
 
 				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 18)
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1]);
 			});
 		});
 	});
@@ -997,7 +997,7 @@ describe('luidUserPicker', function(){
 		it("should have the right order of displayed users when no user is selected", function(){
 			$httpBackend.flush();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([10,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should not display "me" when "me" is selected', function() {
 			$httpBackend.flush();
@@ -1115,7 +1115,7 @@ describe('luidUserPicker', function(){
 				$httpBackend.flush();
 			});
 			it("should add users to the list of displayed users in the right position", function() {
-				expect(_.pluck(isolateScope.users, "id")).toEqual([5, 7, 17, 18, 19, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([5, 7, 17, 18, 19, 20]);
 			});
 		});
 		describe("when the 2 users have access to the operations", function() {
@@ -1125,7 +1125,7 @@ describe('luidUserPicker', function(){
 				$httpBackend.flush();
 			});
 			it("should not update the order of displayed users", function() {
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1]);
 			});
 		});
 		describe("when the 2 users does not have access to the operations and should not be displayed", function() {
