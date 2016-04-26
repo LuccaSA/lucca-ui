@@ -5,7 +5,8 @@
 
 	angular.module('lui.directives', ['pascalprecht.translate', 'moment', 'underscore', 'ui.select', 'ui.bootstrap']);
 	angular.module('lui.filters', ['moment']);
-	angular.module('lui.services', []);
+	angular.module('lui.services', ['cgNotify']);
+
 
 	// all the templates in one module
 	angular.module('lui.templates.momentpicker', []); // module defined here and used in a different file so every page doesnt have to reference the right .js file
@@ -17,9 +18,11 @@
 	angular.module('lui.translates.userpicker', []);
 	angular.module('lui.translates.daterangepicker', []);
 	angular.module('lui.translates.tablegrid', []);
-	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker','lui.translates.tablegrid']);
+	angular.module('lui.translates.notify', []);
+	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker','lui.translates.tablegrid','lui.translates.notify']);
 
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates','lui.translates']);
+
 })();
 ;(function(){
 	'use strict';
@@ -147,7 +150,6 @@
 	}])
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
-		$scope.startingDay = moment.localeData().firstDayOfWeek();
 		$scope.internalUpdated = function(){
 			if (moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0) {
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
@@ -159,7 +161,6 @@
 			ctrl.updateValue($scope.internal.startsOn, $scope.internal.endsOn);
 			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
 		};
-
 		$scope.goToPeriod = function(period) {
 			$scope.internal.startsOn = moment(period.startsOn).toDate();
 			$scope.internal.endsOn = moment(period.endsOn).toDate();
@@ -189,7 +190,9 @@
 		};
 
 		// datepickers stuff
-		$scope.dayClass = function(date, mode){
+		var dayClass = function(data){
+			var date = data.date;
+			var mode = data.mode;
  			var className = '';
 			if (mode == 'day') {
 				if (moment(date).diff($scope.internal.startsOn) === 0) { className = 'start'; }
@@ -198,7 +201,13 @@
 			}
 			return className;
 		};
-
+		var startingDay = moment.localeData().firstDayOfWeek();
+		$scope.dpOptions = {
+			showWeeks: false,
+			customClass: dayClass,
+			startingDay: startingDay
+		};
+		
 	}]);
 
 
@@ -218,10 +227,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
@@ -244,7 +253,7 @@
 			'</div>'+
 
 			'<div ng-style="controller.monthStyleOverride()" ' +
-			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'class="month">{{controller.date | luifMoment: \'MMM\'}}'+
 			'</div>'+
 
 			'<div ng-style="controller.yearStyleOverride()" ' +
@@ -1360,7 +1369,7 @@
 	**  - ngSanitize as a result of the dependency to ui.select
 	**/
 
-	var MAX_COUNT = 5; // MAGIC_NUMBER
+	var MAX_COUNT = 10; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = [{
 		"label": "LUIDUSERPICKER_DEPARTMENT",
@@ -2503,7 +2512,12 @@
 		};
 	});
 })();
-;angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+;var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {
@@ -2529,8 +2543,163 @@ var Lui;
     var Service;
     (function (Service) {
         "use strict";
-        var LuccaHttpInterceptor = (function () {
-            function LuccaHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
+        var Log = (function () {
+            function Log(message, details) {
+                this.message = message;
+                this.details = details;
+            }
+            return Log;
+        }());
+        var errorTemplate = "lui/templates/notify-service/error.html";
+        var warningTemplate = "lui/templates/notify-service/warning.html";
+        var successTemplate = "lui/templates/notify-service/success.html";
+        var loadingTemplate = "lui/templates/notify-service/loading.html";
+        var ANotify = (function () {
+            function ANotify(duration, templateUrl, message) {
+                this.duration = duration;
+                this.templateUrl = templateUrl;
+                this.message = message;
+            }
+            return ANotify;
+        }());
+        var ErrorNotify = (function (_super) {
+            __extends(ErrorNotify, _super);
+            function ErrorNotify(message) {
+                _super.call(this, 20000, errorTemplate, message);
+            }
+            return ErrorNotify;
+        }(ANotify));
+        var WarningNotify = (function (_super) {
+            __extends(WarningNotify, _super);
+            function WarningNotify(message) {
+                _super.call(this, 10000, warningTemplate, message);
+            }
+            return WarningNotify;
+        }(ANotify));
+        var SuccessNotify = (function (_super) {
+            __extends(SuccessNotify, _super);
+            function SuccessNotify(message) {
+                _super.call(this, 5000, successTemplate, message);
+            }
+            return SuccessNotify;
+        }(ANotify));
+        var LoadingNotify = (function (_super) {
+            __extends(LoadingNotify, _super);
+            function LoadingNotify(scope, message) {
+                _super.call(this, 86400000, loadingTemplate, message);
+                this.scope = scope;
+            }
+            return LoadingNotify;
+        }(ANotify));
+        var NotifyService = (function () {
+            function NotifyService(notify, $q, $log, $rootScope, $timeout) {
+                this.cgNotify = notify;
+                this.$q = $q;
+                this.$log = $log;
+                this.$rootScope = $rootScope;
+                this.$timeout = $timeout;
+            }
+            NotifyService.prototype.config = function (elementId, startTop) {
+                this.cgNotify.config({
+                    container: document.getElementById(elementId),
+                    startTop: startTop,
+                });
+            };
+            NotifyService.prototype.error = function (message, details) {
+                this.$log.error(new Log(message, details));
+                this.cgNotify(new ErrorNotify(message));
+            };
+            NotifyService.prototype.warning = function (message, details) {
+                this.$log.warn(new Log(message, details));
+                this.cgNotify(new WarningNotify(message));
+            };
+            NotifyService.prototype.success = function (message, details) {
+                this.$log.log(new Log(message, details));
+                this.cgNotify(new SuccessNotify(message));
+            };
+            NotifyService.prototype.loading = function (loadingPromise, message, showProgress, cancelFn) {
+                var _this = this;
+                if (showProgress === void 0) { showProgress = true; }
+                var isolateScope = this.$rootScope.$new(true);
+                isolateScope.loading = true;
+                isolateScope.percentage = 0;
+                isolateScope.showProgress = showProgress;
+                isolateScope.calloutClass = "";
+                var cancelled = false;
+                var popup = this.cgNotify(new LoadingNotify(isolateScope, message));
+                var closePopup = function (ms) {
+                    _this.$timeout(function () {
+                        popup.close();
+                        isolateScope.$destroy();
+                    }, ms);
+                };
+                if (!!cancelFn) {
+                    isolateScope.canCancel = true;
+                    isolateScope.cancel = function () {
+                        cancelled = true;
+                        _this.$log.warn(new Log(message, "user cancelled"));
+                        isolateScope.calloutClass += showProgress ? "" : "orange";
+                        isolateScope.loading = false;
+                        isolateScope.cancelled = true;
+                        cancelFn();
+                        closePopup(10000);
+                    };
+                }
+                loadingPromise.then(function () {
+                    if (!cancelled) {
+                        isolateScope.percentage = 100;
+                        isolateScope.calloutClass += showProgress ? "" : "primary";
+                        isolateScope.loading = false;
+                        isolateScope.success = true;
+                        closePopup(5000);
+                    }
+                }, function (details) {
+                    if (!cancelled) {
+                        isolateScope.calloutClass += "filling red";
+                        isolateScope.loading = false;
+                        isolateScope.failure = true;
+                        _this.$log.error(new Log(message, details));
+                        closePopup(20000);
+                    }
+                }, function (percentage) {
+                    if (!cancelled) {
+                        isolateScope.percentage = percentage;
+                    }
+                });
+            };
+            NotifyService.IID = "luisNotify";
+            NotifyService.$inject = ["notify", "$q", "$log", "$rootScope", "$timeout"];
+            return NotifyService;
+        }());
+        Service.NotifyService = NotifyService;
+        angular.module("lui.services").service(NotifyService.IID, NotifyService);
+        angular.module("lui.translates.notify").config(["$translateProvider", function ($translateProvider) {
+                $translateProvider.translations("en", {
+                    "NOTIFY_SUCCESS": "Success",
+                    "NOTIFY_WARNING": "Warning",
+                    "NOTIFY_ERROR": "Error",
+                    "NOTIFY_LOADING": "Loading..."
+                });
+                $translateProvider.translations("de", {});
+                $translateProvider.translations("es", {});
+                $translateProvider.translations("fr", {
+                    "NOTIFY_SUCCESS": "Succès",
+                    "NOTIFY_WARNING": "Attention",
+                    "NOTIFY_ERROR": "Erreur",
+                    "NOTIFY_LOADING": "En cours..."
+                });
+                $translateProvider.translations("it", {});
+                $translateProvider.translations("nl", {});
+            }]);
+    })(Service = Lui.Service || (Lui.Service = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var LuiHttpInterceptor = (function () {
+            function LuiHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
                 var _this = this;
                 this.totalGetRequests = 0;
                 this.completedGetRequests = 0;
@@ -2617,12 +2786,12 @@ var Lui;
                 this.$timeout = $timeout;
                 this.progressBarService = progressBarService;
             }
-            LuccaHttpInterceptor.IID = "luccaHttpInterceptor";
-            LuccaHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "progressBarService"];
-            return LuccaHttpInterceptor;
+            LuiHttpInterceptor.IID = "luiHttpInterceptor";
+            LuiHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "luisProgressBar"];
+            return LuiHttpInterceptor;
         }());
-        Service.LuccaHttpInterceptor = LuccaHttpInterceptor;
-        angular.module("lui.services").service(LuccaHttpInterceptor.IID, LuccaHttpInterceptor);
+        Service.LuiHttpInterceptor = LuiHttpInterceptor;
+        angular.module("lui.services").service(LuiHttpInterceptor.IID, LuiHttpInterceptor);
     })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
 var Lui;
@@ -2631,21 +2800,38 @@ var Lui;
     (function (Service) {
         "use strict";
         var ProgressBarService = (function () {
-            function ProgressBarService($document, $window, $rootScope, $timeout, $interval) {
+            function ProgressBarService($document, $window, $timeout, $interval, $log) {
                 var _this = this;
                 this.latencyThreshold = 200;
                 this.httpResquestListening = false;
                 this.status = 0;
                 this.progressBarTemplate = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
-                this.addProgressBar = function (parent, palette) {
-                    if (parent === void 0) { parent = angular.element(document).find("body"); }
+                this.addProgressBar = function (parentTagIdClass, palette) {
+                    if (parentTagIdClass === void 0) { parentTagIdClass = "body"; }
                     if (palette === void 0) { palette = "primary"; }
+                    var parentElt;
+                    var byTag = document.getElementsByTagName(parentTagIdClass);
+                    var byId = document.getElementById(parentTagIdClass);
+                    var byClass = document.getElementsByClassName(parentTagIdClass);
+                    if (!!byTag && byTag.length) {
+                        parentElt = angular.element(byTag[0]);
+                    }
+                    else if (!!byId) {
+                        parentElt = angular.element(byId);
+                    }
+                    else if (!!byClass && byClass.length) {
+                        parentElt = angular.element(byClass[0]);
+                    }
+                    else {
+                        _this.$log.warn("luisProgressBar - could not find a suitable element for tag/id/class: " + parentTagIdClass);
+                        return;
+                    }
                     if (!!_this.progressbarEl) {
                         _this.progressbarEl.remove();
                     }
                     _this.progressbarEl = angular.element(_this.progressBarTemplate);
                     _this.progressbarEl.addClass(palette);
-                    parent.append(_this.progressbarEl);
+                    parentElt.append(_this.progressbarEl);
                 };
                 this.setHttpResquestListening = function (httpResquestListening) {
                     _this.httpResquestListening = httpResquestListening;
@@ -2668,7 +2854,12 @@ var Lui;
                             }
                             else {
                                 var remaining = 100 - _this.status;
-                                _this.setStatus(_this.status + (0.15 * Math.pow(Math.sqrt(remaining), 1.5)));
+                                if (remaining > 30) {
+                                    _this.setStatus(_this.status + (0.5 * Math.sqrt(remaining)));
+                                }
+                                else {
+                                    _this.setStatus(_this.status + (0.15 * Math.pow(1 - Math.sqrt(remaining), 2)));
+                                }
                             }
                         }, _this.latencyThreshold);
                     }
@@ -2713,12 +2904,12 @@ var Lui;
                 };
                 this.$document = $document;
                 this.$window = $window;
-                this.$rootScope = $rootScope;
                 this.$timeout = $timeout;
                 this.$interval = $interval;
+                this.$log = $log;
             }
-            ProgressBarService.IID = "progressBarService";
-            ProgressBarService.$inject = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
+            ProgressBarService.IID = "luisProgressBar";
+            ProgressBarService.$inject = ["$document", "$window", "$timeout", "$interval", "$log"];
             return ProgressBarService;
         }());
         Service.ProgressBarService = ProgressBarService;
@@ -2805,7 +2996,7 @@ var Lui;
                     });
                     return depth + 1;
                 };
-                var initFilter = function () {
+                $scope.initFilter = function () {
                     $scope.filters = [];
                     _.each($scope.datas, function (row) {
                         _.each($scope.colDefinitions, function (header, index) {
@@ -2851,7 +3042,6 @@ var Lui;
                         });
                         $scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
                     }
-                    initFilter();
                 };
                 var getCheckboxState = function () {
                     var selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
@@ -2881,8 +3071,19 @@ var Lui;
                             if (filter.header
                                 && !!filter.currentValues[0]
                                 && filter.currentValues[0] !== "") {
-                                var prop_1 = (filter.header.getValue(row) + "").toLowerCase();
-                                var containsProp = _.some(filter.currentValues, function (value) { return prop_1.indexOf(value.toLowerCase()) !== -1; });
+                                var propValue_1 = (filter.header.getValue(row) + "").toLowerCase();
+                                if (!!filter.header.getFilterValue) {
+                                    propValue_1 = filter.header.getFilterValue(row).toLowerCase();
+                                }
+                                var containsProp = _.some(filter.currentValues, function (value) {
+                                    if ((filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT)
+                                        && (propValue_1.indexOf("|") === -1)) {
+                                        return propValue_1 === value.toLowerCase();
+                                    }
+                                    else {
+                                        return propValue_1.indexOf(value.toLowerCase()) !== -1;
+                                    }
+                                });
                                 if (!containsProp) {
                                     result = false;
                                 }
@@ -3087,6 +3288,7 @@ var Lui;
                         scope.$watchCollection("datas", function () {
                             if (!!scope.datas) {
                                 scope.filteredAndOrderedRows = scope.datas;
+                                scope.initFilter();
                                 if (scope.selected.orderBy !== null) {
                                     scope.orderBySelectedHeader();
                                 }
@@ -3150,13 +3352,41 @@ var Lui;
 ;angular.module('lui.directives').run(['$templateCache', function($templateCache) {
   'use strict';
 
+  $templateCache.put('lui/templates/notify-service/error.html',
+    "<div class=\"lui callout filled luis-notify red typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small red button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_ERROR' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/loading.html',
+    "<div class=\"lui {{showProgress ? 'down' : ''}} callout notification-popup typeset\" ng-class=\"[$classes, \r" +
+    "\n" +
+    "$position === 'center' ? 'cg-notify-message-center' : '',\r" +
+    "\n" +
+    "$position === 'left' ? 'cg-notify-message-left' : '',\r" +
+    "\n" +
+    "$position === 'right' ? 'cg-notify-message-right' : '', \r" +
+    "\n" +
+    "calloutClass]\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross right pulled\" ng-click=$close() ng-if=\"success || failure || cancelled\"></div><div class=\"lui slim attached progressing progress\" ng-class=\"{light: loading, primary: success, red: failed, orange: cancelled}\" ng-if=showProgress><div class=indicator data-percentage={{percentage}} style=\"width: {{percentage}}%\"></div></div><div ng-if=!$message><h5 ng-show=loading><span class=\"lui loader\"></span> {{'NOTIFY_LOADING' | translate }} <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{'NOTIFY_SUCCESS' | translate }}</h5><h5 ng-show=failure>{{'NOTIFY_ERROR' | translate }}</h5><h5 ng-show=cancelled>{{'NOTIFY_WARNING' | translate }}</h5></div><div ng-if=!!$message><h5 ng-show=loading><span class=\"lui loader\"></span> {{ \"LOADING_\" + $message | translate }} <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{ \"SUCCESS_\" + $message | translate }}</h5><h5 ng-show=failure>{{ \"ERR_\" + $message | translate }}</h5><h5 ng-show=cancelled>{{ \"WARN_\" + $message | translate }}</h5></div></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/success.html',
+    "<div class=\"lui green up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_SUCCESS' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/warning.html',
+    "<div class=\"lui orange up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_WARNING' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
   $templateCache.put('lui/templates/table-grid/table-grid.html',
     "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=holder ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
   );
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\"><ui-select multiple class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);
