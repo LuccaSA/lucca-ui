@@ -138,7 +138,6 @@
 	}])
 	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
 		var ctrl = this;
-		$scope.startingDay = moment.localeData().firstDayOfWeek();
 		$scope.internalUpdated = function(){
 			if (moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0) {
 				$scope.internal.endsOn = moment($scope.internal.startsOn);
@@ -150,7 +149,6 @@
 			ctrl.updateValue($scope.internal.startsOn, $scope.internal.endsOn);
 			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
 		};
-
 		$scope.goToPeriod = function(period) {
 			$scope.internal.startsOn = moment(period.startsOn).toDate();
 			$scope.internal.endsOn = moment(period.endsOn).toDate();
@@ -180,7 +178,9 @@
 		};
 
 		// datepickers stuff
-		$scope.dayClass = function(date, mode){
+		var dayClass = function(data){
+			var date = data.date;
+			var mode = data.mode;
  			var className = '';
 			if (mode == 'day') {
 				if (moment(date).diff($scope.internal.startsOn) === 0) { className = 'start'; }
@@ -189,7 +189,13 @@
 			}
 			return className;
 		};
-
+		var startingDay = moment.localeData().firstDayOfWeek();
+		$scope.dpOptions = {
+			showWeeks: false,
+			customClass: dayClass,
+			startingDay: startingDay
+		};
+		
 	}]);
 
 
@@ -209,10 +215,10 @@
 			"	<div class=\"lui vertical pills shortcuts menu\">" +
 			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
 			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' show-weeks='false' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' show-weeks='false' min-date='internal.startsOn' custom-class='dayClass(date, mode)' starting-day='startingDay' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
+			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
 			"	<hr>" +
 			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
 			"</div>" +
@@ -235,7 +241,7 @@
 			'</div>'+
 
 			'<div ng-style="controller.monthStyleOverride()" ' +
-			'class="month">{{controller.date | luifMoment: \'MMM\' | limitTo : 3}}'+
+			'class="month">{{controller.date | luifMoment: \'MMM\'}}'+
 			'</div>'+
 
 			'<div ng-style="controller.yearStyleOverride()" ' +
@@ -1472,8 +1478,8 @@ var Lui;
     var Service;
     (function (Service) {
         "use strict";
-        var LuccaHttpInterceptor = (function () {
-            function LuccaHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
+        var LuiHttpInterceptor = (function () {
+            function LuiHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
                 var _this = this;
                 this.totalGetRequests = 0;
                 this.completedGetRequests = 0;
@@ -1560,12 +1566,12 @@ var Lui;
                 this.$timeout = $timeout;
                 this.progressBarService = progressBarService;
             }
-            LuccaHttpInterceptor.IID = "luccaHttpInterceptor";
-            LuccaHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "progressBarService"];
-            return LuccaHttpInterceptor;
+            LuiHttpInterceptor.IID = "luiHttpInterceptor";
+            LuiHttpInterceptor.$inject = ["$q", "$cacheFactory", "$timeout", "luisProgressBar"];
+            return LuiHttpInterceptor;
         }());
-        Service.LuccaHttpInterceptor = LuccaHttpInterceptor;
-        angular.module("lui.services").service(LuccaHttpInterceptor.IID, LuccaHttpInterceptor);
+        Service.LuiHttpInterceptor = LuiHttpInterceptor;
+        angular.module("lui.services").service(LuiHttpInterceptor.IID, LuiHttpInterceptor);
     })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
 var Lui;
@@ -1574,21 +1580,38 @@ var Lui;
     (function (Service) {
         "use strict";
         var ProgressBarService = (function () {
-            function ProgressBarService($document, $window, $rootScope, $timeout, $interval) {
+            function ProgressBarService($document, $window, $timeout, $interval, $log) {
                 var _this = this;
                 this.latencyThreshold = 200;
                 this.httpResquestListening = false;
                 this.status = 0;
                 this.progressBarTemplate = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
-                this.addProgressBar = function (parent, palette) {
-                    if (parent === void 0) { parent = angular.element(document).find("body"); }
+                this.addProgressBar = function (parentTagIdClass, palette) {
+                    if (parentTagIdClass === void 0) { parentTagIdClass = "body"; }
                     if (palette === void 0) { palette = "primary"; }
+                    var parentElt;
+                    var byTag = document.getElementsByTagName(parentTagIdClass);
+                    var byId = document.getElementById(parentTagIdClass);
+                    var byClass = document.getElementsByClassName(parentTagIdClass);
+                    if (!!byTag && byTag.length) {
+                        parentElt = angular.element(byTag[0]);
+                    }
+                    else if (!!byId) {
+                        parentElt = angular.element(byId);
+                    }
+                    else if (!!byClass && byClass.length) {
+                        parentElt = angular.element(byClass[0]);
+                    }
+                    else {
+                        _this.$log.warn("luisProgressBar - could not find a suitable element for tag/id/class: " + parentTagIdClass);
+                        return;
+                    }
                     if (!!_this.progressbarEl) {
                         _this.progressbarEl.remove();
                     }
                     _this.progressbarEl = angular.element(_this.progressBarTemplate);
                     _this.progressbarEl.addClass(palette);
-                    parent.append(_this.progressbarEl);
+                    parentElt.append(_this.progressbarEl);
                 };
                 this.setHttpResquestListening = function (httpResquestListening) {
                     _this.httpResquestListening = httpResquestListening;
@@ -1611,7 +1634,12 @@ var Lui;
                             }
                             else {
                                 var remaining = 100 - _this.status;
-                                _this.setStatus(_this.status + (0.15 * Math.pow(Math.sqrt(remaining), 1.5)));
+                                if (remaining > 30) {
+                                    _this.setStatus(_this.status + (0.5 * Math.sqrt(remaining)));
+                                }
+                                else {
+                                    _this.setStatus(_this.status + (0.15 * Math.pow(1 - Math.sqrt(remaining), 2)));
+                                }
                             }
                         }, _this.latencyThreshold);
                     }
@@ -1656,12 +1684,12 @@ var Lui;
                 };
                 this.$document = $document;
                 this.$window = $window;
-                this.$rootScope = $rootScope;
                 this.$timeout = $timeout;
                 this.$interval = $interval;
+                this.$log = $log;
             }
-            ProgressBarService.IID = "progressBarService";
-            ProgressBarService.$inject = ["$document", "$window", "$rootScope", "$timeout", "$interval"];
+            ProgressBarService.IID = "luisProgressBar";
+            ProgressBarService.$inject = ["$document", "$window", "$timeout", "$interval", "$log"];
             return ProgressBarService;
         }());
         Service.ProgressBarService = ProgressBarService;
@@ -1671,13 +1699,41 @@ var Lui;
 ;angular.module('lui.directives').run(['$templateCache', function($templateCache) {
   'use strict';
 
+  $templateCache.put('lui/templates/notify-service/error.html',
+    "<div class=\"lui callout filled luis-notify red typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small red button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_ERROR' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/loading.html',
+    "<div class=\"lui {{showProgress ? 'down' : ''}} callout notification-popup typeset\" ng-class=\"[$classes, \r" +
+    "\n" +
+    "$position === 'center' ? 'cg-notify-message-center' : '',\r" +
+    "\n" +
+    "$position === 'left' ? 'cg-notify-message-left' : '',\r" +
+    "\n" +
+    "$position === 'right' ? 'cg-notify-message-right' : '', \r" +
+    "\n" +
+    "calloutClass]\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross right pulled\" ng-click=$close() ng-if=\"success || failure || cancelled\"></div><div class=\"lui slim attached progressing progress\" ng-class=\"{light: loading, primary: success, red: failed, orange: cancelled}\" ng-if=showProgress><div class=indicator data-percentage={{percentage}} style=\"width: {{percentage}}%\"></div></div><div ng-if=!$message><h5 ng-show=loading><span class=\"lui loader\"></span> {{'NOTIFY_LOADING' | translate }} <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{'NOTIFY_SUCCESS' | translate }}</h5><h5 ng-show=failure>{{'NOTIFY_ERROR' | translate }}</h5><h5 ng-show=cancelled>{{'NOTIFY_WARNING' | translate }}</h5></div><div ng-if=!!$message><h5 ng-show=loading><span class=\"lui loader\"></span> {{ \"LOADING_\" + $message | translate }} <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{ \"SUCCESS_\" + $message | translate }}</h5><h5 ng-show=failure>{{ \"ERR_\" + $message | translate }}</h5><h5 ng-show=cancelled>{{ \"WARN_\" + $message | translate }}</h5></div></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/success.html',
+    "<div class=\"lui green up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_SUCCESS' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
+  $templateCache.put('lui/templates/notify-service/warning.html',
+    "<div class=\"lui orange up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>{{'NOTIFY_WARNING' | translate}}</h5><h5 ng-hide=!$message>{{ $message | translate}}</h5></div>"
+  );
+
+
   $templateCache.put('lui/templates/table-grid/table-grid.html',
     "<div class=\"lui tablegrid\"><div class=\"scrollable columns\" ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=holder ng-style=\"{'height': height + 'px'}\"><div class=virtualscroll ng-style=\"{'height': canvasHeight + 'px'}\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
   );
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\"><ui-select multiple class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select class=\"lui nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);
