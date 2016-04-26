@@ -1,6 +1,7 @@
-.notification-popup{
+.luis-notify {
 	@include lui_transition();
-	z-index: 99999;
+	z-index: map-gets($vars, zIndex);
 	position: fixed !important;
-	width: map-gets($vars, width);;
+	width: map-gets($vars, width);
+	left: 50%;
 }

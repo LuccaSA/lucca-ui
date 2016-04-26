@@ -1,4 +1,5 @@
 $notify:(
 	width: 30%,
+	zIndex: 9999,
 );
 $luiTheme: luiSetTheme(element, notify, $notify);
