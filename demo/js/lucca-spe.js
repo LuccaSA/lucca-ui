@@ -11,6 +11,7 @@
 		$scope.local = "lucca.local";
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
+		$scope.myUser.selected = {id: 12, firstName: "lol", lastName: "mdr"};
 
 		$scope.yearOfArrivalAsync = function(user) {
 			var dfd = $q.defer();
