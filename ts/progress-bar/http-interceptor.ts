@@ -13,7 +13,7 @@ module Lui.Service {
 
 		public completedRequests: number = 0;
 
-		private startTimeout: ng.IPromise<any>;
+		private completeTimeout: ng.IPromise<any>;
 
 		private $q: ng.IQService;
 		private $cacheFactory: ng.ICacheFactoryService;
