@@ -61,8 +61,9 @@ module Lui.Directives {
 
 			$scope.initFilter = () => {
 				$scope.filters = [];
-				_.each($scope.datas, (row: any) => {
-					_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
+
+				_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
+					_.each($scope.datas, (row: any) => {
 						if (!$scope.filters[index]) {
 							$scope.filters[index] = { header: header, selectValues: [], currentValues: [] };
 						}
@@ -81,7 +82,7 @@ module Lui.Directives {
 							});
 						}
 					});
-
+					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""});
 				});
 			};
 
@@ -158,7 +159,7 @@ module Lui.Directives {
 											&& (propValue.indexOf("|") === -1) ) {
 										return propValue === value.toLowerCase();
 									}else {
-										return propValue.indexOf(value.toLowerCase()) !== -1;
+										return propValue.split("|").indexOf(value.toLowerCase()) !== -1;
 									}
 								});
 								if (!containsProp) {
