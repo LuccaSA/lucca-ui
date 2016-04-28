@@ -117,16 +117,11 @@ module Lui.Service {
 		};
 
 		public complete = () => {
-			if (!!this.completeTimeout) {
-				this.$timeout.cancel(this.completeTimeout);
-			}
-			this.completeTimeout = this.$timeout(() => {
-				this.$interval.cancel(this.currentPromiseInterval);
-				this.isStarted = false;
-				this.httpResquestListening = false;
-				this.setStatus(100);
-				this.hide();
-			}, 200);
+			this.$interval.cancel(this.currentPromiseInterval);
+			this.isStarted = false;
+			this.httpResquestListening = false;
+			this.setStatus(100);
+			this.hide();
 		};
 
 		public getDomElement = () => {

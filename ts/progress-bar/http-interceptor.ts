@@ -13,7 +13,7 @@ module Lui.Service {
 
 		public completedGetRequests: number = 0;
 
-		private startTimeout: ng.IPromise<any>;
+		private completeTimeout: ng.IPromise<any>;
 
 		private $q: ng.IQService;
 		private $cacheFactory: ng.ICacheFactoryService;
@@ -111,10 +111,14 @@ module Lui.Service {
 		};
 
 		private setComplete = () => {
-			this.progressBarService.complete();
-			this.$timeout.cancel(this.startTimeout);
-			this.totalGetRequests = 0;
-			this.completedGetRequests = 0;
+			if (!!this.completeTimeout) {
+				this.$timeout.cancel(this.completeTimeout);
+			}
+			this.completeTimeout = this.$timeout(() => {
+				this.progressBarService.complete();
+				this.totalGetRequests = 0;
+				this.completedGetRequests = 0;
+			}, 200);
 		};
 
 		private endRequest = (httpMethod: string): void => {
