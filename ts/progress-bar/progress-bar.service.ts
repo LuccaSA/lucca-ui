@@ -59,13 +59,18 @@ module Lui.Service {
 			parentElt.append(this.progressbarEl);
 		};
 
-		public setHttpResquestListening = (httpResquestListening: boolean, httpRequestMethods?: string[]): void => {
-			this.httpResquestListening = httpResquestListening;
+		public startListening = ( httpRequestMethods?: string[]): void => {
+			this.httpResquestListening = true;
 			if (!!httpRequestMethods) {
 				this.httpRequestMethods = httpRequestMethods;
 			} else {
 				this.httpRequestMethods = ["GET"];
 			}
+			this.setStatus(0);
+		};
+
+		public stopListening = (): void => {
+			this.httpResquestListening = false;
 			this.setStatus(0);
 		};
 
@@ -75,7 +80,7 @@ module Lui.Service {
 
 		public getHttpRequestMethods = (): string[] => {
 			return this.httpRequestMethods;
-		}
+		};
 
 		public start = () => {
 			if (!this.isStarted) {

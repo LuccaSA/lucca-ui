@@ -110,10 +110,14 @@ module Lui.Service {
 		};
 
 		private setComplete = () => {
-			this.progressBarService.complete();
-			this.$timeout.cancel(this.startTimeout);
-			this.totalRequests = 0;
-			this.completedRequests = 0;
+			if (!!this.completeTimeout) {
+				this.$timeout.cancel(this.completeTimeout);
+			}
+			this.completeTimeout = this.$timeout(() => {
+				this.progressBarService.complete();
+				this.totalRequests = 0;
+				this.completedRequests = 0;
+			}, 200);
 		};
 
 		private endRequest = (httpMethod: string): void => {
