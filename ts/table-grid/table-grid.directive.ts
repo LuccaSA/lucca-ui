@@ -15,7 +15,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@", onRowClick: "&" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
