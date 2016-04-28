@@ -9,9 +9,9 @@ module Lui.Service {
 		public static IID: string = "luiHttpInterceptor";
 		public static $inject: Array<string> = ["$q", "$cacheFactory", "$timeout", "luisProgressBar"];
 
-		public totalGetRequests: number = 0;
+		public totalRequests: number = 0;
 
-		public completedGetRequests: number = 0;
+		public completedRequests: number = 0;
 
 		private startTimeout: ng.IPromise<any>;
 
@@ -97,32 +97,30 @@ module Lui.Service {
 
 		private startRequest = (httpMethod: string): void => {
 			if (this.progressBarService.isHttpResquestListening()) {
-				//We are only interested by 'GET' http request.
-				if (httpMethod === "GET") {
-					if (this.totalGetRequests === 0) {
+				if (this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
+					if (this.totalRequests === 0) {
 						this.progressBarService.start();
 					}
-					this.totalGetRequests++;
+					this.totalRequests++;
 				}
 			} else {
-				this.totalGetRequests = 0;
-				this.completedGetRequests = 0;
+				this.totalRequests = 0;
+				this.completedRequests = 0;
 			}
 		};
 
 		private setComplete = () => {
 			this.progressBarService.complete();
 			this.$timeout.cancel(this.startTimeout);
-			this.totalGetRequests = 0;
-			this.completedGetRequests = 0;
+			this.totalRequests = 0;
+			this.completedRequests = 0;
 		};
 
 		private endRequest = (httpMethod: string): void => {
 			if (this.progressBarService.isHttpResquestListening()) {
-				//We are only interested by 'GET' http request.
-				if (httpMethod === "GET") {
-					this.completedGetRequests++;
-					if (this.completedGetRequests >= this.totalGetRequests) {
+				if (this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
+					this.completedRequests++;
+					if (this.completedRequests >= this.totalRequests) {
 						this.setComplete();
 					}
 				}

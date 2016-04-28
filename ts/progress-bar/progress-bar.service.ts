@@ -9,6 +9,7 @@ module Lui.Service {
 		public static $inject: string[] = ["$document", "$window", "$timeout", "$interval", "$log"];
 		public latencyThreshold = 200;
 		private httpResquestListening: boolean = false;
+		private httpRequestMethods: string[];
 		private $document: angular.IDocumentService;
 		private $window: angular.IWindowService;
 		private $timeout: ng.ITimeoutService;
@@ -58,14 +59,23 @@ module Lui.Service {
 			parentElt.append(this.progressbarEl);
 		};
 
-		public setHttpResquestListening = (httpResquestListening: boolean): void => {
+		public setHttpResquestListening = (httpResquestListening: boolean, httpRequestMethods?: string[]): void => {
 			this.httpResquestListening = httpResquestListening;
+			if (!!httpRequestMethods) {
+				this.httpRequestMethods = httpRequestMethods;
+			} else {
+				this.httpRequestMethods = ["GET"];
+			}
 			this.setStatus(0);
 		};
 
 		public isHttpResquestListening = (): boolean => {
 			return this.httpResquestListening;
 		};
+
+		public getHttpRequestMethods = (): string[] => {
+			return this.httpRequestMethods;
+		}
 
 		public start = () => {
 			if (!this.isStarted) {
