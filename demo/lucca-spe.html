@@ -467,6 +467,7 @@ angular.controller("myCtrl", function(luisNotify) {
 					<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
 					<li><code>default-order</code> : At first load, your table will be order by the header of which the label is the value of this attribute.
 									The value can be optionally prefixed with + or - to control ascending or descending sort order. </li>
+					<li><code>on-row-click</code> : can specify a function which will be called on a row tablegrid click. The function take one parameter containing the row object.
 				</ul>
 			</p>
 
@@ -515,7 +516,7 @@ children: [
 				<h4 class="lui underline">Demo</h4>
 			</div>
 			<div ng-controller="tableGridCtrl" class="lui block round">
-				<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500" default-order="+name"></luid-table-grid>
+				<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500" default-order="+name" on-row-click="alertRow(row)"></luid-table-grid>
 			</div>
 			<div class="lui dashed divider"></div>
 			<div ng-controller="tableGridCtrl" class="lui block round">

@@ -31,7 +31,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles">
+		<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles" ng-click="onRowClick({row: row})">
 			<td ng-if="isSelectable" style="width: 3.5em" class="locked" colspan="1" rowspan="1">
 				<div class="lui solo checkbox">
 					<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked" />

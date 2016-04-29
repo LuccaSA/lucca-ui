@@ -348,6 +348,10 @@
 				]
 			};
 
+			$scope.alertRow = function(row) {
+				alert(JSON.stringify(row));
+			}
+
 		}]);
 
 })();

@@ -15,6 +15,7 @@ No breaking changes have been identified, if some are present it is due to the u
 - updated moment 2.10 -> 2.13
 
 ### New features
+- luidTableGrid: on-row-click attribute - possibility to call a function when the user click on a row of the tablegrid
 - `luisProgressBar` : Display a progress bar depending on get http requests
 - luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
 - directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
