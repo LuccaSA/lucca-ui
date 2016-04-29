@@ -627,12 +627,17 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				For example, we can do that each time the ui-router state change :
 				<pre hljs no-escape language="js">// with ui-router
 $scope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) => {
-	luisProgressBar.setHttpResquestListening(true);
+	luisProgressBar.startListening();
 });
 // with ngRoute
 $scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fromParams) => {
-	luisProgressBar.setHttpResquestListening(true);
+	luisProgressBar.startListening();
 });</pre>
+			</p>
+			<p>
+				You can specify what http methods you want to listen to.
+				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get methods
+luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put</pre>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>

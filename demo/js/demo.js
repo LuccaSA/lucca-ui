@@ -53,7 +53,7 @@
 	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope) {
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
-			luisProgressBar.setHttpResquestListening(true);
+			luisProgressBar.startListening();
 		});
 		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('icons.html').passThrough();
