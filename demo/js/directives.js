@@ -109,11 +109,11 @@
 			luisProgressBar.addProgressBar("demo", palette);
 		};
 		$scope.fastListen = function(){
-			luisProgressBar.setHttpResquestListening(true);
+			luisProgressBar.startListening();
 			$http.get("/bogus-progress");
 		};
 		$scope.slowListen = function(){
-			luisProgressBar.setHttpResquestListening(true);
+			luisProgressBar.startListening();
 			$http.get("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l");
 		};
 	}]);
