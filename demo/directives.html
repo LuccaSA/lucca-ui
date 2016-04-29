@@ -634,6 +634,11 @@ $scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fr
 	luisProgressBar.startListening();
 });</pre>
 			</p>
+			<p>
+				You can specify what http methods you want to listen to.
+				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get methods
+luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put</pre>
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
 			</div>
