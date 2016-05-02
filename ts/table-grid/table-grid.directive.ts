@@ -45,6 +45,8 @@ module Lui.Directives {
 				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
 				let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
 
+				let minRowsCountForVS = 200;
+
 				attrs.selectable = angular.isDefined(attrs.selectable);
 
 				// ==========================================
@@ -153,6 +155,12 @@ module Lui.Directives {
 				// ==========================================
 
 				let updateVisibleRows = () => {
+					// Do not use virtual scroll if number of rows are less than
+					if (scope.filteredAndOrderedRows.length <= minRowsCountForVS) {
+						scope.visibleRows = scope.filteredAndOrderedRows;
+						scope.canvasHeight = (scope.filteredAndOrderedRows.length) * (rowHeightMin);
+						return;
+					}
 					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
 					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
 
@@ -160,7 +168,6 @@ module Lui.Directives {
 						return;
 					}
 
-					//let firstCell = Math.max(Math.floor(scrollableArea.scrollTop / rowHeightMin) - rowsPerPage, 0);
 					let startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
 					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
 					currentMarginTop = startNumRow * rowHeightMin;
@@ -181,8 +188,11 @@ module Lui.Directives {
 
 				scope.updateViewAfterFiltering = () => {
 					scrollableArea.scrollTop = 0;
+					tables[0].style.marginTop = "0px";
+					scrollableAreaVS.style.marginTop = "0px";
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = 0;
+						tables[1].style.marginTop = "0px";
 					}
 					updateVisibleRows();
 					this.$timeout(() => {
@@ -217,10 +227,12 @@ module Lui.Directives {
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
 					}
-					headers[0].style.left = - scrollableArea.scrollLeft + "px";
-					updateVisibleRows();
+					headers[0].style.left = -scrollableArea.scrollLeft + "px";
+					if (scope.visibleRows.length !== scope.filteredAndOrderedRows.length) {
+						updateVisibleRows();
+						scope.$digest();
+					}
 					lastScrollTop = scrollableArea.scrollTop;
-					scope.$apply();
 				});
 			}, 0);
 		};
