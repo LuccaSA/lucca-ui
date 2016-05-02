@@ -1,4 +1,3 @@
-/// <reference path="../references.ts" />
 
 module Lui.Directives.TableGrid {
 	"use strict";
