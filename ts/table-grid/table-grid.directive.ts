@@ -40,7 +40,7 @@ module Lui.Directives {
 				let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
 
 				let lockedColumns: any = tablegrid.querySelector(".locked.columns");
-				let lockedColumnsVS: any = lockedColumns.querySelector(".holder .virtualscroll");
+				let lockedColumnsVS: any = (!!lockedColumns) ? lockedColumns.querySelector(".holder .virtualscroll") : undefined;
 				let lockedColumnsSynced: any = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
 
 				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
@@ -119,6 +119,7 @@ module Lui.Directives {
 					}
 				};
 
+				let canvasHeight;
 				let updateWidth = () => {
 					let tablegridWidth: number = 0;
 					tablegridWidth = (scrollableArea.clientHeight < canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
@@ -155,7 +156,6 @@ module Lui.Directives {
 				// ---- from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
 				// ==========================================
 
-				let canvasHeight;
 				let updateVisibleRows = () => {
 					// Do not use virtual scroll if number of rows are less than
 					if (scope.filteredAndOrderedRows.length <= minRowsCountForVS) {
