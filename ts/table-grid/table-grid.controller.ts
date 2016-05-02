@@ -155,11 +155,10 @@ module Lui.Directives {
 								}
 								let containsProp = _.some(filter.currentValues, (value: string) => {
 									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
-									if ( (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT)
-											&& (propValue.indexOf("|") === -1) ) {
-										return propValue === value.toLowerCase();
+									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
+										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
 									}else {
-										return propValue.split("|").indexOf(value.toLowerCase()) !== -1;
+										return propValue.indexOf(value.toLowerCase()) !== -1;
 									}
 								});
 								if (!containsProp) {
@@ -206,14 +205,14 @@ module Lui.Directives {
 			};
 
 			$scope.onMasterCheckBoxChange = () => {
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.tableGridProperties.isChecked; })) {
 					if ($scope.masterCheckBoxCssClass === "partial") {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = false; });
 					} else {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = true; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = true; });
 					}
 				} else {
-					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = false; });
 				}
 				$scope.masterCheckBoxCssClass = getCheckboxState();
 			};
@@ -223,7 +222,7 @@ module Lui.Directives {
 				if (!$scope.masterCheckBoxCssClass) {
 					$scope.allChecked.value = false;
 				}
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row.tableGridProperties.isChecked; })) {
 					$scope.allChecked.value = true;
 				}
 			};
