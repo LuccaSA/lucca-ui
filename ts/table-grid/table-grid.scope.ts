@@ -18,7 +18,6 @@ module Lui.Directives {
 		//Properties
 		allChecked: any;
 		bodyRows: TableGrid.Header[][];
-		canvasHeight: number;
 		colDefinitions: TableGrid.Header[];
 		existFixedRow: boolean;
 		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
