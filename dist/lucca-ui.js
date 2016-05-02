@@ -1481,8 +1481,8 @@ var Lui;
         var LuiHttpInterceptor = (function () {
             function LuiHttpInterceptor($q, $cacheFactory, $timeout, progressBarService) {
                 var _this = this;
-                this.totalGetRequests = 0;
-                this.completedGetRequests = 0;
+                this.totalRequests = 0;
+                this.completedRequests = 0;
                 this.request = function (config) {
                     if (!_this.isCached(config)) {
                         _this.startRequest(config.method);
@@ -1533,29 +1533,33 @@ var Lui;
                 };
                 this.startRequest = function (httpMethod) {
                     if (_this.progressBarService.isHttpResquestListening()) {
-                        if (httpMethod === "GET") {
-                            if (_this.totalGetRequests === 0) {
+                        if (_this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
+                            if (_this.totalRequests === 0) {
                                 _this.progressBarService.start();
                             }
-                            _this.totalGetRequests++;
+                            _this.totalRequests++;
                         }
                     }
                     else {
-                        _this.totalGetRequests = 0;
-                        _this.completedGetRequests = 0;
+                        _this.totalRequests = 0;
+                        _this.completedRequests = 0;
                     }
                 };
                 this.setComplete = function () {
-                    _this.progressBarService.complete();
-                    _this.$timeout.cancel(_this.startTimeout);
-                    _this.totalGetRequests = 0;
-                    _this.completedGetRequests = 0;
+                    if (!!_this.completeTimeout) {
+                        _this.$timeout.cancel(_this.completeTimeout);
+                    }
+                    _this.completeTimeout = _this.$timeout(function () {
+                        _this.progressBarService.complete();
+                        _this.totalRequests = 0;
+                        _this.completedRequests = 0;
+                    }, 200);
                 };
                 this.endRequest = function (httpMethod) {
                     if (_this.progressBarService.isHttpResquestListening()) {
-                        if (httpMethod === "GET") {
-                            _this.completedGetRequests++;
-                            if (_this.completedGetRequests >= _this.totalGetRequests) {
+                        if (_this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
+                            _this.completedRequests++;
+                            if (_this.completedRequests >= _this.totalRequests) {
                                 _this.setComplete();
                             }
                         }
@@ -1613,12 +1617,25 @@ var Lui;
                     _this.progressbarEl.addClass(palette);
                     parentElt.append(_this.progressbarEl);
                 };
-                this.setHttpResquestListening = function (httpResquestListening) {
-                    _this.httpResquestListening = httpResquestListening;
+                this.startListening = function (httpRequestMethods) {
+                    _this.httpResquestListening = true;
+                    if (!!httpRequestMethods) {
+                        _this.httpRequestMethods = httpRequestMethods;
+                    }
+                    else {
+                        _this.httpRequestMethods = ["GET"];
+                    }
+                    _this.setStatus(0);
+                };
+                this.stopListening = function () {
+                    _this.httpResquestListening = false;
                     _this.setStatus(0);
                 };
                 this.isHttpResquestListening = function () {
                     return _this.httpResquestListening;
+                };
+                this.getHttpRequestMethods = function () {
+                    return _this.httpRequestMethods;
                 };
                 this.start = function () {
                     if (!_this.isStarted) {
@@ -1668,16 +1685,11 @@ var Lui;
                     }
                 };
                 this.complete = function () {
-                    if (!!_this.completeTimeout) {
-                        _this.$timeout.cancel(_this.completeTimeout);
-                    }
-                    _this.completeTimeout = _this.$timeout(function () {
-                        _this.$interval.cancel(_this.currentPromiseInterval);
-                        _this.isStarted = false;
-                        _this.httpResquestListening = false;
-                        _this.setStatus(100);
-                        _this.hide();
-                    }, 200);
+                    _this.$interval.cancel(_this.currentPromiseInterval);
+                    _this.isStarted = false;
+                    _this.httpResquestListening = false;
+                    _this.setStatus(100);
+                    _this.hide();
                 };
                 this.getDomElement = function () {
                     return _this.progressbarEl;
@@ -1733,7 +1745,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"onRowClick({row: row})\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);
