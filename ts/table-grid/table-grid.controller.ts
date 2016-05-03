@@ -21,6 +21,12 @@ module Lui.Directives {
 
 			$scope.isSelectable = angular.isDefined($scope.selectable);
 
+			$scope.internalRowClick = (event: any, row: any) => {
+				if (event.target.type !== "checkbox") {
+					$scope.onRowClick({row: row});
+				}
+			};
+
 			// private methods
 			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
 
@@ -154,11 +160,10 @@ module Lui.Directives {
 								}
 								let containsProp = _.some(filter.currentValues, (value: string) => {
 									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
-									if ( (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT)
-											&& (propValue.indexOf("|") === -1) ) {
-										return propValue === value.toLowerCase();
+									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
+										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
 									}else {
-										return propValue.split("|").indexOf(value.toLowerCase()) !== -1;
+										return propValue.indexOf(value.toLowerCase()) !== -1;
 									}
 								});
 								if (!containsProp) {
@@ -169,7 +174,7 @@ module Lui.Directives {
 						return result;
 					});
 				$scope.filteredAndOrderedRows = temp.value();
-
+				$scope.orderBySelectedHeader();
 				$scope.updateViewAfterFiltering();
 			};
 
