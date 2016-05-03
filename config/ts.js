@@ -13,14 +13,20 @@ module.exports = function(grunt, options){
 				"!ts/**/*.e2e.ts",
 				"!ts/table-grid/**/*.*",
 				"!ts/notify-service/**/*.*",
+				"typings/tsd.d.ts"
 			],
 			dest: ".temp/lucca-ui-ts.js",
-			options: {
-				declaration: true,
-			},
+			// options: {
+			// 	declaration: true,
+			// },
 		},
 		distspe:{
-			src: ["ts/**/*.ts", "!ts/**/*.spec.ts", "!ts/**/*.e2e.ts"],
+			src: [
+				"ts/**/*.ts",
+				"!ts/**/*.spec.ts",
+				"!ts/**/*.e2e.ts",
+				"typings/tsd.d.ts"
+			],
 			dest: ".temp/lucca-ui-spe-ts.js",
 			options: {
 				declaration: true,
