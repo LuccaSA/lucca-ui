@@ -135,7 +135,7 @@ module Lui.Directives {
 			};
 
 			let getCheckboxState = () => {
-				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { _luiTableGridRow: { isChecked: true }}).length;
+				let selectedCheckboxesCount = _.filter($scope.filteredAndOrderedRows, (row: any) =>  row._luiTableGridRow.isChecked).length;
 				if (selectedCheckboxesCount === 0) {
 					return "";
 				}
