@@ -4,7 +4,7 @@
 
 ### Breaking changes
 
-No breaking changes have been identified, if some are present it is due to the update of dependencies
+- tablegrid - the property isChecked is now wrapped in object _luiTableGridRow
 
 ### Dependencies
 - updated angular from 1.4 to 1.5
@@ -25,6 +25,7 @@ Based on ng-cloak angular's directive but use link directive function instead of
 - ui-select - adds support for the timmi-like 'natural' styling
 - `luisNotify` - wrapper of the library [angular-notify](https://github.com/cgross/angular-notify) with some templates. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 - `userpicker` - displays the 10 first results instead of just 5
+- tablegrid - possibility to retrieve the number of row in the filtered dataset
 
 ### Resolved issues
 - Popover: unnecessary !important property removed - may break things unexpectedly
