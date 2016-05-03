@@ -88,7 +88,7 @@ module Lui.Directives {
 							});
 						}
 					});
-					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""});
+					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""; });
 				});
 			};
 
