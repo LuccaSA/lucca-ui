@@ -169,7 +169,7 @@ module Lui.Directives {
 						return result;
 					});
 				$scope.filteredAndOrderedRows = temp.value();
-
+				$scope.orderBySelectedHeader();
 				$scope.updateViewAfterFiltering();
 			};
 
