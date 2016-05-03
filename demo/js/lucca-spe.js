@@ -352,6 +352,12 @@
 				alert(JSON.stringify(row));
 			}
 
+			$scope.numberOfRow = function(data) {
+				return _.filter(data, function(d) {
+					return d._luiTableGridRow.isInFilteredDataset;
+				}).length;
+			}
+
 		}]);
 
 })();
