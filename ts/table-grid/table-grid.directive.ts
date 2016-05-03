@@ -45,7 +45,7 @@ module Lui.Directives {
 				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
 				let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
 
-				let minRowsCountForVS = 200;
+				let MINROWSCOUNTFORVS = 200; //MAGIC NUMBER
 
 				attrs.selectable = angular.isDefined(attrs.selectable);
 
@@ -88,8 +88,8 @@ module Lui.Directives {
 				let scrollbarThickness: number = getScrollbarThickness();
 				let height: number = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
 				scrollableArea.style.height = height + "px";
-				let rowHeightMin = 32; // # MAGIC NUMBER
-				let rowsPerPage = Math.round(height / rowHeightMin);
+				let ROWHEIGHTMIN = 32; // # MAGIC NUMBER
+				let rowsPerPage = Math.round(height / ROWHEIGHTMIN);
 				let numberOfRows = rowsPerPage * 3;
 				let resizeTimer: any;
 				let lastScrollTop = 0; //last scroll position, to determine the scroll direction
@@ -157,9 +157,9 @@ module Lui.Directives {
 
 				let updateVisibleRows = () => {
 					// Do not use virtual scroll if number of rows are less than
-					if (scope.filteredAndOrderedRows.length <= minRowsCountForVS) {
+					if (scope.filteredAndOrderedRows.length <= MINROWSCOUNTFORVS) {
 						scope.visibleRows = scope.filteredAndOrderedRows;
-						canvasHeight = scope.filteredAndOrderedRows.length * rowHeightMin;
+						canvasHeight = scope.filteredAndOrderedRows.length * ROWHEIGHTMIN;
 						scrollableAreaVS.style.height = canvasHeight + "px";
 						lockedColumnsVS.style.height = canvasHeight + "px";
 						return;
@@ -171,11 +171,11 @@ module Lui.Directives {
 						return;
 					}
 
-					let startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
+					let startNumRow = Math.floor(scrollableArea.scrollTop / ROWHEIGHTMIN);
 					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
-					currentMarginTop = startNumRow * rowHeightMin;
+					currentMarginTop = startNumRow * ROWHEIGHTMIN;
 					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
-					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * rowHeightMin;
+					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * ROWHEIGHTMIN;
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
 						lockedColumnsVS.style.height = canvasHeight + "px";
