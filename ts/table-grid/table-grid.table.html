@@ -31,10 +31,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles" ng-click="onRowClick({row: row})">
+		<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles" ng-click="internalRowClick($event, row);">
 			<td ng-if="isSelectable" style="width: 3.5em" class="locked" colspan="1" rowspan="1">
 				<div class="lui solo checkbox">
-					<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked" />
+					<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row.isChecked"/>
 					<label>&nbsp;</label>
 				</div>
 			</td>

@@ -22,6 +22,12 @@ module Lui.Directives {
 
 			$scope.isSelectable = angular.isDefined($scope.selectable);
 
+			$scope.internalRowClick = (event: any, row: any) => {
+				if (event.target.type !== "checkbox") {
+					$scope.onRowClick({row: row});
+				}
+			};
+
 			// private methods
 			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
 

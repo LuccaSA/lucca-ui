@@ -35,6 +35,8 @@ module Lui.Directives {
 		initFilter: () => void;
 		onCheckBoxChange: () => void;
 		onMasterCheckBoxChange: () => void;
+		internalRowClick: (event: any, row: any) => void;
+		onRowClick: (row: any) => void;
 		orderBySelectedHeader: () => void;
 		refresh: () => void;
 		resizedHeaders: () => void;
