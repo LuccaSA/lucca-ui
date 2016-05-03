@@ -123,6 +123,10 @@ module Lui.Directives {
 
 				// Init _luiTableGridRow
 				_.each($scope.datas, (row) => {
+					row._luiTableGridRow = {
+						isInFilteredDataset: true
+					};
+
 					if($scope.isSelectable){
 						row._luiTableGridRow.isChecked = false;
 					}
@@ -155,6 +159,9 @@ module Lui.Directives {
 				}
 
 				let temp = _.chain($scope.datas)
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = false;
+					})
 					.filter((row: any) => {
 						let result = true;
 						$scope.filters.forEach((filter: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }) => {
@@ -179,6 +186,9 @@ module Lui.Directives {
 							}
 						});
 						return result;
+					})
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = true;
 					});
 				$scope.filteredAndOrderedRows = temp.value();
 				$scope.orderBySelectedHeader();
