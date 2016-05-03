@@ -205,14 +205,14 @@ module Lui.Directives {
 			};
 
 			$scope.onMasterCheckBoxChange = () => {
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.tableGridProperties.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
 					if ($scope.masterCheckBoxCssClass === "partial") {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = false; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
 					} else {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = true; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = true; });
 					}
 				} else {
-					_.each($scope.filteredAndOrderedRows, (row: any) => { row.tableGridProperties.isChecked = false; });
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
 				}
 				$scope.masterCheckBoxCssClass = getCheckboxState();
 			};
@@ -222,7 +222,7 @@ module Lui.Directives {
 				if (!$scope.masterCheckBoxCssClass) {
 					$scope.allChecked.value = false;
 				}
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row.tableGridProperties.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row.isChecked; })) {
 					$scope.allChecked.value = true;
 				}
 			};
