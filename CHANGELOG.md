@@ -4,7 +4,8 @@
 
 ### Breaking changes
 
-- tablegrid - the property isChecked is now wrapped in object _luiTableGridRow
+- tablegrid - the property `isChecked` is now wrapped in object `luiTableGridRow`
+- UI-select - fixes the sizing bug on opening
 
 ### Dependencies
 - updated angular from 1.4 to 1.5
