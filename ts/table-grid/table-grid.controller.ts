@@ -21,6 +21,12 @@ module Lui.Directives {
 
 			$scope.isSelectable = angular.isDefined($scope.selectable);
 
+			$scope.internalRowClick = (event: any, row: any) => {
+				if (event.target.type !== "checkbox") {
+					$scope.onRowClick({row: row});
+				}
+			};
+
 			// private methods
 			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
 
@@ -115,10 +121,21 @@ module Lui.Directives {
 					$scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
 				}
 
+				// Init _luiTableGridRow
+				_.each($scope.datas, (row) => {
+					row._luiTableGridRow = {
+						isInFilteredDataset: true
+					};
+
+					if($scope.isSelectable){
+						row._luiTableGridRow.isChecked = false;
+					}
+				});
+
 			};
 
 			let getCheckboxState = () => {
-				let selectedCheckboxesCount = _.where($scope.filteredAndOrderedRows, { isChecked: true }).length;
+				let selectedCheckboxesCount = _.filter($scope.filteredAndOrderedRows, (row: any) =>  row._luiTableGridRow.isChecked).length;
 				if (selectedCheckboxesCount === 0) {
 					return "";
 				}
@@ -136,12 +153,15 @@ module Lui.Directives {
 				if ($scope.isSelectable) {
 					$scope.allChecked.value = false;
 					_.each($scope.filteredAndOrderedRows, (row: any) => {
-						row.isChecked = false;
+						row._luiTableGridRow.isChecked = false;
 					});
 					$scope.masterCheckBoxCssClass = getCheckboxState();
 				}
 
 				let temp = _.chain($scope.datas)
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = false;
+					})
 					.filter((row: any) => {
 						let result = true;
 						$scope.filters.forEach((filter: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }) => {
@@ -154,11 +174,10 @@ module Lui.Directives {
 								}
 								let containsProp = _.some(filter.currentValues, (value: string) => {
 									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
-									if ( (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT)
-											&& (propValue.indexOf("|") === -1) ) {
-										return propValue === value.toLowerCase();
+									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
+										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
 									}else {
-										return propValue.split("|").indexOf(value.toLowerCase()) !== -1;
+										return propValue.indexOf(value.toLowerCase()) !== -1;
 									}
 								});
 								if (!containsProp) {
@@ -167,9 +186,12 @@ module Lui.Directives {
 							}
 						});
 						return result;
+					})
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = true;
 					});
 				$scope.filteredAndOrderedRows = temp.value();
-
+				$scope.orderBySelectedHeader();
 				$scope.updateViewAfterFiltering();
 			};
 
@@ -205,14 +227,14 @@ module Lui.Directives {
 			};
 
 			$scope.onMasterCheckBoxChange = () => {
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row._luiTableGridRow.isChecked; })) {
 					if ($scope.masterCheckBoxCssClass === "partial") {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = false; });
 					} else {
-						_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = true; });
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = true; });
 					}
 				} else {
-					_.each($scope.filteredAndOrderedRows, (row: any) => { row.isChecked = false; });
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = false; });
 				}
 				$scope.masterCheckBoxCssClass = getCheckboxState();
 			};
@@ -222,7 +244,7 @@ module Lui.Directives {
 				if (!$scope.masterCheckBoxCssClass) {
 					$scope.allChecked.value = false;
 				}
-				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row.isChecked; })) {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row._luiTableGridRow.isChecked; })) {
 					$scope.allChecked.value = true;
 				}
 			};

@@ -216,6 +216,12 @@ module Lui.Directives {
 						if (scope.selected.orderBy !== null) {
 							scope.orderBySelectedHeader();
 						}
+						// Reset isInFilteredDataset
+						_.each(scope.datas, (row) => {
+							row._luiTableGridRow = {
+								isInFilteredDataset: true
+							};
+						});
 						updateVisibleRows();
 						this.$timeout(() => { resize(); }, 100);
 
