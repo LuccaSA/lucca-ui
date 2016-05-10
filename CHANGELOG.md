@@ -26,6 +26,7 @@ Based on ng-cloak angular's directive but use link directive function instead of
 - ui-select - adds support for the timmi-like 'natural' styling
 - `luisNotify` - wrapper of the library [angular-notify](https://github.com/cgross/angular-notify) with some templates. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 - `userpicker` - displays the 10 first results instead of just 5
+- luidTableGrid : if dataset contains less than 200 elements, virtual scroll is not activate.
 - tablegrid - possibility to retrieve the number of row in the filtered dataset
 
 ### Resolved issues

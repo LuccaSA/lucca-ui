@@ -39,10 +39,13 @@ module Lui.Directives {
 				let bodies: any = tablegrid.querySelectorAll("tbody"); 			// Both table bodies
 
 				let lockedColumns: any = tablegrid.querySelector(".locked.columns");
+				let lockedColumnsVS: any = (!!lockedColumns) ? lockedColumns.querySelector(".holder .virtualscroll") : undefined;
 				let lockedColumnsSynced: any = lockedColumns ? lockedColumns.querySelector(".holder") : undefined;
 
 				let scrollableArea: any = tablegrid.querySelector(".scrollable.columns"); // scrollable area
 				let scrollableAreaVS: any = scrollableArea.querySelector(".virtualscroll");
+
+				let MINROWSCOUNTFORVS = 200; //MAGIC NUMBER
 
 				attrs.selectable = angular.isDefined(attrs.selectable);
 
@@ -84,13 +87,13 @@ module Lui.Directives {
 				// ==========================================
 				let scrollbarThickness: number = getScrollbarThickness();
 				let height: number = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
-				let rowHeightMin = 32; // # MAGIC NUMBER
-				let rowsPerPage = Math.round(height / rowHeightMin);
+				scrollableArea.style.height = height + "px";
+				let ROWHEIGHTMIN = 32; // # MAGIC NUMBER
+				let rowsPerPage = Math.round(height / ROWHEIGHTMIN);
 				let numberOfRows = rowsPerPage * 3;
 				let resizeTimer: any;
 				let lastScrollTop = 0; //last scroll position, to determine the scroll direction
 				scope.visibleRows = []; //current elements in DOM
-				scope.canvasHeight = 0; //The total height of the canvas. It is calculated by multiplying the total records by rowHeight.
 				let currentMarginTop: number = 0;
 
 				let headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
@@ -115,9 +118,10 @@ module Lui.Directives {
 					}
 				};
 
+				let canvasHeight;
 				let updateWidth = () => {
 					let tablegridWidth: number = 0;
-					tablegridWidth = (scrollableArea.clientHeight < scope.canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
+					tablegridWidth = (scrollableArea.clientHeight < canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
 
 					// Vertical scrollbar
 					for (let header of headers) {
@@ -152,6 +156,14 @@ module Lui.Directives {
 				// ==========================================
 
 				let updateVisibleRows = () => {
+					// Do not use virtual scroll if number of rows are less than
+					if (scope.filteredAndOrderedRows.length <= MINROWSCOUNTFORVS) {
+						scope.visibleRows = scope.filteredAndOrderedRows;
+						canvasHeight = scope.filteredAndOrderedRows.length * ROWHEIGHTMIN;
+						scrollableAreaVS.style.height = canvasHeight + "px";
+						lockedColumnsVS.style.height = canvasHeight + "px";
+						return;
+					}
 					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
 					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
 
@@ -159,19 +171,20 @@ module Lui.Directives {
 						return;
 					}
 
-					//let firstCell = Math.max(Math.floor(scrollableArea.scrollTop / rowHeightMin) - rowsPerPage, 0);
-					let startNumRow = Math.floor(scrollableArea.scrollTop / rowHeightMin);
+					let startNumRow = Math.floor(scrollableArea.scrollTop / ROWHEIGHTMIN);
 					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
-					currentMarginTop = startNumRow * rowHeightMin;
+					currentMarginTop = startNumRow * ROWHEIGHTMIN;
 					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
+					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * ROWHEIGHTMIN;
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
+						lockedColumnsVS.style.height = canvasHeight + "px";
 					}
 					tables[0].style.marginTop = currentMarginTop + "px";
 
 					scrollableAreaVS.style.marginTop = currentMarginTop + "px";
 
-					scope.canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * rowHeightMin;
+					scrollableAreaVS.style.height = canvasHeight + "px";
 				};
 
 				scope.updateViewAfterOrderBy = () => {
@@ -180,8 +193,11 @@ module Lui.Directives {
 
 				scope.updateViewAfterFiltering = () => {
 					scrollableArea.scrollTop = 0;
+					tables[0].style.marginTop = "0px";
+					scrollableAreaVS.style.marginTop = "0px";
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = 0;
+						tables[1].style.marginTop = "0px";
 					}
 					updateVisibleRows();
 					this.$timeout(() => {
@@ -222,10 +238,12 @@ module Lui.Directives {
 					if (scope.existFixedRow || attrs.selectable) {
 						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
 					}
-					headers[0].style.left = - scrollableArea.scrollLeft + "px";
-					updateVisibleRows();
+					headers[0].style.left = -scrollableArea.scrollLeft + "px";
+					if (scope.visibleRows.length !== scope.filteredAndOrderedRows.length) {
+						updateVisibleRows();
+						scope.$digest();
+					}
 					lastScrollTop = scrollableArea.scrollTop;
-					scope.$apply();
 				});
 			}, 0);
 		};
