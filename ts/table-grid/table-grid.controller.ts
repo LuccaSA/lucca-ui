@@ -87,7 +87,7 @@ module Lui.Directives {
 							});
 						}
 					});
-					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""});
+					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""; });
 				});
 			};
 
@@ -127,7 +127,7 @@ module Lui.Directives {
 						isInFilteredDataset: true
 					};
 
-					if($scope.isSelectable){
+					if ($scope.isSelectable) {
 						row._luiTableGridRow.isChecked = false;
 					}
 				});
