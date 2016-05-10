@@ -415,6 +415,7 @@ angular.controller("myCtrl", function(luisNotify) {
 			</div>
 		</div>
 		<div ng-controller="notifyCtrl" class="lui block round">
+			<h5>Notifications</h5>
 			<p>
 				<div class="lui field">
 					<label>message displayed</label>
@@ -433,6 +434,21 @@ angular.controller("myCtrl", function(luisNotify) {
 				<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
 				<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
 				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+			</p>
+			<hr class="lui dashed divider">
+			<h5>Alerts and confirms</h5>
+			<p>
+				<div class="lui field">
+					<label>message displayed</label>
+					<span class="lui long input">
+						<input type="text" ng-model="message2">
+					</span>
+				</div>
+			</p>
+			<p>
+				<button class="lui button" ng-click="notifyAlert(message2)">alert</button>
+				<button class="lui button" ng-click="notifyConfirm(message2)">confirm</button>
+				{{confirmationMessage}}
 			</p>
 		</div>
 	</article>

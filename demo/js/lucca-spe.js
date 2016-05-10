@@ -103,6 +103,22 @@
 		$scope.notifySuccess = function(message, details) {
 			luisNotify.success(message, details);
 		};
+		$scope.message2 = "are you really sure?";
+		$scope.notifyAlert = function(message) {
+			luisNotify.alert(message);
+		};
+		$scope.notifyConfirm = function(message) {
+			luisNotify.confirm(message)
+			.then(function (hasConfirmed) {
+				if (hasConfirmed) {
+					$scope.confirmationMessage = "the user clicked ok";
+				} else {
+					$scope.confirmationMessage = "the user clicked cancel";
+				}
+			}, function() {
+				$scope.confirmationMessage = "the user clicked outside";
+			});
+		};
 	}]);
 
 		angular.module('demoApp')
