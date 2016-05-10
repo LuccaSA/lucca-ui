@@ -2,8 +2,8 @@
 ng-style="{'margin-left': $centerMargin}">
 	<div class="lui small red button icon cross close" ng-click="$close()"></div>
 
-	<h5 ng-show="!$message">{{'NOTIFY_ERROR' | translate}}</h5>
-	<h5 ng-hide="!$message">{{ $message | translate}}</h5>
+	<h5 ng-show="!$message">Error</h5>
+	<h5 ng-hide="!$message">{{ $message }}</h5>
 	<!-- <div ng-show="$messageTemplate" class="cg-notify-message-template"></div> -->
 
 </div>
