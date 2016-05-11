@@ -14,7 +14,7 @@ ng-style="{'margin-left': $centerMargin}">
 	<div ng-if="!$message">
 		<h5 ng-show="loading">
 			<span class="lui loader"></span> 
-			{{'NOTIFY_LOADING' | translate }}
+			Loading
 			<span ng-show="canCancel" class="lui flat x-small button" ng-click="cancel()">{{"CANCEL" | translate}}</span>
 		</h5>
 		<h5 ng-show="success">{{'NOTIFY_SUCCESS' | translate }}</h5>
@@ -24,7 +24,7 @@ ng-style="{'margin-left': $centerMargin}">
 	<div ng-if="!!$message">
 		<h5 ng-show="loading">
 			<span class="lui loader"></span> 
-			{{ "LOADING_" + $message | translate }}
+			{{ $message }}
 			<span ng-show="canCancel" class="lui flat x-small button" ng-click="cancel()">{{"CANCEL" | translate}}</span>
 		</h5>
 		<h5 ng-show="success">{{ "SUCCESS_" + $message | translate }}</h5>

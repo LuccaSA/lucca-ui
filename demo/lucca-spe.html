@@ -380,19 +380,27 @@ $scope.yearOfArrivalAsync = function(user){
 		<h2 class="lui divider below">luisNotify</h2>
 
 		<p>
-			a service to display notifications using the <a class="lui fancy link" href="https://github.com/cgross/angular-notify">angular-notify</a> library
-		</p>
-		<p>
-			uses <code>$translate</code> so you can use your own translations to display a message in the locale of the end user.
+			a service to display notifications using the <a class="lui fancy link" href="https://github.com/cgross/angular-notify">angular-notify</a> library and have a better <code>alert</code> and <code>confirm</code> methods
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Features</h4>
 		</div>
 		<p>
-			A method <code>config</code> to set just one on what element you want to append and how many space you want top as to not go over a nav or menu (it's here because of the banner)
+			A method <code>config</code> where you can set
+			<ul>
+				<li><code>parentTagIdClass</code>: the tag/id/class of the element you want to append to, for when you are using a namespaced distribution of lucca-ui, default: <code>"body"</code></li>
+				<li><code>prefix</code>: the prefix or your distribution, default <code>"lui"</code></li>
+				<li><code>startTop</code>: the margin in px between the top of the screen and the first notification, to prevent it to go over an horizontal menu, default <code>40</code></li>
+				<li><code>okLabel</code>: the label you want for the button ok in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Ok"</code></li>
+				<li><code>cancelLabel</code>: the label you want for the button cancel in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Cancel"</code></li>
+				<li><code>canDismissConfim</code>: if set to <code>true</code>, the user will be able to close the confirmation modal by clicking outside of it, when set to <code>false</code> the user will have to click either Ok or Cancel to cose the modal, default <code>false</code></li>
+			</ul>
 		</p>
 		<p>
-			Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as argument. the message will be displayed in the popup while both message and detaqils will be logged in the browser console using <code>$log</code>
+			Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as arguments. the message will be displayed in the popup while both message and details will be logged in the browser console using <code>$log</code>
+		</p>
+		<p>
+			Methods <code>alert</code>, and<code>confirm</code> taking <code>message</code>, <code>okLabel</code> and <code>cancelLabel</code> as arguments. returns a <code>ng.IPromise&lt;boolean&gt;</code> that resolves with <code>true</code> if user clicked Ok and <code>false</code> if user clicked cancel, rejects if user clicked outside of the modal
 		</p>
 		<div class="lui dashed divider">
 			<h4 class="lui underline">Usage:</h4>
@@ -400,14 +408,25 @@ $scope.yearOfArrivalAsync = function(user){
 		<p>
 			<pre hljs no-escape language="js">// to configure, needs to be done just once
 angular.module("myApp").run(fumction(luisNotify){
-	luisNotify.config("myNamespace", 40);
-	// see namespaced distribution of lucca-ui
+	luisNotify.config({
+		parentTagIdClass: "demo",
+		startTop: 60,
+		prefix: "lui",
+		canDismissConfim: true
+	});
 });
 
 // to use in your controller
 angular.controller("myCtrl", function(luisNotify) { 
 	luisNotify.error("your message", "some details");
-});</pre>
+	luisNotify.confirm("This action is irreversible, are you really sure you want to do it?", "Yes I am", "No i'm not")
+	.then(function(isSure) {
+		if (isSure) {
+			doTheStuff();
+		}
+	});
+});
+</pre>
 		</p>
 		<div class="lui bottom dashed divider menu" id="demoBlock">
 			<div class="lui header vertical menu">
@@ -415,6 +434,7 @@ angular.controller("myCtrl", function(luisNotify) {
 			</div>
 		</div>
 		<div ng-controller="notifyCtrl" class="lui block round">
+			<h5>Notifications</h5>
 			<p>
 				<div class="lui field">
 					<label>message displayed</label>
@@ -433,6 +453,21 @@ angular.controller("myCtrl", function(luisNotify) {
 				<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
 				<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
 				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+			</p>
+			<hr class="lui dashed divider">
+			<h5>Alerts and confirms</h5>
+			<p>
+				<div class="lui field">
+					<label>message displayed</label>
+					<span class="lui long input">
+						<input type="text" ng-model="message2">
+					</span>
+				</div>
+			</p>
+			<p>
+				<button class="lui button" ng-click="notifyAlert(message2)">alert</button>
+				<button class="lui button" ng-click="notifyConfirm(message2)">confirm</button>
+				{{confirmationMessage}}
 			</p>
 		</div>
 	</article>

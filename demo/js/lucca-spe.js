@@ -92,7 +92,7 @@
 	}]);
 	angular.module("demoApp")
 	.controller("notifyCtrl", ["$scope", "luisNotify", function($scope, luisNotify){
-		$scope.message = "";
+		$scope.message = "this is a notification";
 		$scope.details = "open console with f12 to witness the logging";
 		$scope.notifyError = function(message, details) {
 			luisNotify.error(message, details);
@@ -102,6 +102,31 @@
 		};
 		$scope.notifySuccess = function(message, details) {
 			luisNotify.success(message, details);
+		};
+		$scope.message2 = "are you really sure?";
+		$scope.notifyAlert = function(message) {
+			luisNotify.alert(message)
+			.then(function (hasConfirmed) {
+				if (hasConfirmed) {
+					$scope.confirmationMessage = "the user clicked ok";
+				} else {
+					$scope.confirmationMessage = "the user clicked cancel";
+				}
+			}, function() {
+				$scope.confirmationMessage = "the user clicked outside";
+			});
+		};
+		$scope.notifyConfirm = function(message) {
+			luisNotify.confirm(message)
+			.then(function (hasConfirmed) {
+				if (hasConfirmed) {
+					$scope.confirmationMessage = "the user clicked ok";
+				} else {
+					$scope.confirmationMessage = "the user clicked cancel";
+				}
+			}, function() {
+				$scope.confirmationMessage = "the user clicked outside";
+			});
 		};
 	}]);
 
