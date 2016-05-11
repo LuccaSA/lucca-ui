@@ -393,6 +393,7 @@ $scope.yearOfArrivalAsync = function(user){
 				<li><code>startTop</code>: the margin in px between the top of the screen and the first notification, to prevent it to go over an horizontal menu, default <code>40</code></li>
 				<li><code>okLabel</code>: the label you want for the button ok in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Ok"</code></li>
 				<li><code>cancelLabel</code>: the label you want for the button cancel in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Cancel"</code></li>
+				<li><code>canDismissConfim</code>: if set to <code>true</code>, the user will be able to close the confirmation modal by clicking outside of it, when set to <code>false</code> the user will have to click either Ok or Cancel to cose the modal, default <code>false</code></li>
 			</ul>
 		</p>
 		<p>
@@ -411,6 +412,7 @@ angular.module("myApp").run(fumction(luisNotify){
 		parentTagIdClass: "demo",
 		startTop: 60,
 		prefix: "lui",
+		canDismissConfim: true
 	});
 });
 

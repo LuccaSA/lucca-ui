@@ -69,6 +69,7 @@
 			parentTagIdClass: "demo",
 			startTop: 60,
 			prefix: "lui",
+			canDismissConfirm: true,
 		});
 	})
 })();
