@@ -117,8 +117,8 @@ module Lui.Service {
 			this.$log.log(new Log(message, details));
 			this.cgNotify(new SuccessNotify(message));
 		}
-		public alert(message: string, okLabel: string = "Ok"): void {
-			this.$uibModal.open(<IModalSettings>{
+		public alert(message: string, okLabel: string = "Ok"): ng.IPromise<boolean> {
+			return this.$uibModal.open(<IModalSettings>{
 				templateUrl: alertTemplate,
 				controller: NotifyModalController.IID,
 				appendTo: this.parentElt,
@@ -140,7 +140,7 @@ module Lui.Service {
 						return false;
 					},
 				}
-			});
+			}).result;
 		}
 		public confirm(message: string, details?: string, okLabel: string = "Ok", cancelLabel: string = "Cancel"): ng.IPromise<boolean> {
 			return this.$uibModal.open(<IModalSettings>{
