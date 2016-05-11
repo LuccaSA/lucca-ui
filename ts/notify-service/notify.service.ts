@@ -8,6 +8,13 @@ module Lui.Service {
 			this.details = details;
 		}
 	}
+	export interface INotifyConfig {
+		parentTagIdClass: string;
+		prefix: string;
+		startTop: number;
+		okLabel: string;
+		cancelLabel: string;
+	}
 	interface ILoadingIsolateScope extends ng.IScope {
 		loading: boolean;
 		success: boolean;
@@ -75,6 +82,7 @@ module Lui.Service {
 		private $uibModal: ng.ui.bootstrap.IModalService;
 		private cgNotify: any;
 		private parentElt: ng.IAugmentedJQuery;
+		private conf: INotifyConfig;
 
 		constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService) {
 			this.cgNotify = notify;
@@ -85,10 +93,12 @@ module Lui.Service {
 			this.$uibModal = $uibModal;
 		}
 
-		public config(parentTagIdClass: string, startTop: number, prefix: string = "lui"): void {
-			let byTag = document.getElementsByTagName(parentTagIdClass);
-			let byId = document.getElementById(parentTagIdClass);
-			let byClass = document.getElementsByClassName(parentTagIdClass);
+		public config(config: INotifyConfig): void {
+			this.conf = config;
+			let tagIdClass = config.parentTagIdClass || "body";
+			let byTag = document.getElementsByTagName(tagIdClass);
+			let byId = document.getElementById(tagIdClass);
+			let byClass = document.getElementsByClassName(tagIdClass);
 			if (!!byTag && byTag.length) {
 				this.parentElt = angular.element(byTag[0]);
 			} else if (!!byId) {
@@ -96,12 +106,12 @@ module Lui.Service {
 			} else if (!!byClass && byClass.length) {
 				this.parentElt = angular.element(byClass[0]);
 			} else {
-				this.$log.warn("luisNotify - could not find a suitable element for tag/id/class: " + parentTagIdClass);
+				this.$log.warn("luisNotify - could not find a suitable element for tag/id/class: " + tagIdClass);
 				return;
 			}
 			this.cgNotify.config({
 				container: this.parentElt,
-				startTop: startTop,
+				startTop: config.startTop || 40,
 			});
 		}
 
@@ -117,24 +127,24 @@ module Lui.Service {
 			this.$log.log(new Log(message, details));
 			this.cgNotify(new SuccessNotify(message));
 		}
-		public alert(message: string, okLabel: string = "Ok"): ng.IPromise<boolean> {
+		public alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
 			return this.$uibModal.open(<IModalSettings>{
 				templateUrl: alertTemplate,
 				controller: NotifyModalController.IID,
 				appendTo: this.parentElt,
 				size: "mobile",
-				windowClass: "lui",
+				windowClass: this.conf.prefix || "lui",
 				backdrop: true,
-				backdropClass: "lui",
+				backdropClass: this.conf.prefix || "lui",
 				resolve: {
 					message: (): string => {
 						return message;
 					},
 					okLabel: (): string => {
-						return okLabel;
+						return okLabel || this.conf.okLabel || "Ok";
 					},
 					cancelLabel: (): string => {
-						return "";
+						return cancelLabel || this.conf.cancelLabel || "Cancel";
 					},
 					preventDismiss: (): boolean => {
 						return false;
@@ -142,24 +152,24 @@ module Lui.Service {
 				}
 			}).result;
 		}
-		public confirm(message: string, details?: string, okLabel: string = "Ok", cancelLabel: string = "Cancel"): ng.IPromise<boolean> {
+		public confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
 			return this.$uibModal.open(<IModalSettings>{
 				templateUrl: confirmTemplate,
 				controller: NotifyModalController.IID,
 				appendTo: this.parentElt,
 				size: "mobile",
-				windowClass: "lui",
+				windowClass: this.conf.prefix || "lui",
 				backdrop: true,
-				backdropClass: "lui",
+				backdropClass: this.conf.prefix || "lui",
 				resolve: {
 					message: (): string => {
 						return message;
 					},
 					okLabel: (): string => {
-						return okLabel;
+						return okLabel || this.conf.okLabel || "Ok";
 					},
 					cancelLabel: (): string => {
-						return cancelLabel;
+						return cancelLabel || this.conf.cancelLabel || "Cancel";
 					},
 					preventDismiss: (): boolean => {
 						return true;
@@ -228,6 +238,7 @@ module Lui.Service {
 		ok: () => void;
 		cancel: () => void;
 	}
+	// should have been in the nguibs typings :(
 	interface IModalSettings extends ng.ui.bootstrap.IModalSettings {
 		appendTo: ng.IAugmentedJQuery;
 	}
