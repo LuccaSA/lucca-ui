@@ -44,10 +44,17 @@
 		$translateProvider.preferredLanguage(culture);
 		$translateProvider.fallbackLanguage(['en', 'fr']);
 		moment.locale(culture)
-	}]);
+	}])
+	.config(function($httpProvider) {
+		$httpProvider.interceptors.push("luiHttpInterceptor");
+	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend) {
+	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope) {
+		luisProgressBar.addProgressBar("demo", "grey");
+		$rootScope.$on("$routeChangeStart", function() {
+			luisProgressBar.startListening();
+		});
 		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('icons.html').passThrough();
 		$httpBackend.whenGET('animations.html').passThrough();
@@ -55,5 +62,14 @@
 		$httpBackend.whenGET('filters.html').passThrough();
 		$httpBackend.whenGET('directives.html').passThrough();
 		$httpBackend.whenGET('lucca-spe.html').passThrough();
-	});
+		$httpBackend.whenGET('/bogus-progress').respond(200, {});
+		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
+
+		luisNotify.config({
+			parentTagIdClass: "demo",
+			startTop: 60,
+			prefix: "lui",
+			canDismissConfirm: true,
+		});
+	})
 })();

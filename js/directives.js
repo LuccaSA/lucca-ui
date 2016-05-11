@@ -100,144 +100,23 @@
 		$scope.palette = "";
 		$scope.sizing = "";
 	}]);
-
 	angular.module('demoApp')
-		.controller('tableGridCtrl', ['$scope', function ($scope) {
-			$scope.people = [];
-			_.each(_.range(5000), function (index) {
-				$scope.people[0 + 5 * index] = {
-					id: 0 + 5 * index,
-					name: "john cena",
-					adress: "1234 avenue john cena",
-					phone: "0123456789",
-					mail: "john.cena@john.cena.com"
-				};
-				$scope.people[1 + 5 * index] = {
-					id: 1 + 5 * index,
-					name: "hubert robert",
-					adress: "cette adresse est vraiment très très très très très très longue !",
-					phone: "0607080910",
-					mail: "hrobert@yahoo.fr"
-				};
-				$scope.people[2 + 5 * index] = {
-					id: 2 + 5 * index,
-					name: "George Monck",
-					adress: "10 downing street",
-					phone: "0123456789",
-					mail: "g.monck@britishgovernment.co.uk"
-				};
-				$scope.people[3 + 5 * index] = {
-					id: 3 + 5 * index,
-					name: "Marie Pogz",
-					adress: "4 place pigalle",
-					phone: "0607080910",
-					mail: "m.pogz@yopmail.com"
-				};
-				$scope.people[4 + 5 * index] = {
-					id: 4 + 5 * index,
-					name: "Obi Wan Kenobi",
-					adress: "Jedi Temple, Coruscant",
-					phone: "0123456789",
-					mail: "owkenobi@theforce.com"
-				};
-			});
+	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
+		$scope.palettes = ["primary", "secondary", "grey", "light", "red", "orange", "yellow", "green"];
+		$scope.currentPalette = "light";
+		$scope.changeColor = function(palette) {
+			$scope.currentPalette = palette;
+			luisProgressBar.addProgressBar("demo", palette);
+		};
+		$scope.fastListen = function(){
+			luisProgressBar.startListening();
+			$http.get("/bogus-progress");
+		};
+		$scope.slowListen = function(){
+			luisProgressBar.startListening();
+			$http.get("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l");
+		};
+	}]);
 
-			$scope.headerTree = {
-				node: null,
-				children: [
-					{
-						node: {
-							filterType: Lui.Directives.FilterTypeEnum.TEXT,
-							fixed: true,
-							label: "id",
-							width: 20,
-							getValue: function (someone) { return someone.id; },
-							getOrderByValue: function (someone) { return someone.id; },
-							colspan: null,
-							hidden: false,
-							rowspan: null,
-							textAlign: "right",
-						},
-						children: [],
-					},
-					{
-						node: {
-							filterType: Lui.Directives.FilterTypeEnum.SELECT,
-							fixed: false,
-							label: "name",
-							width: 20,
-							getFilterValue: function (someone) { return someone.name; },
-							getValue: function (someone) { return "<span>" + someone.name + "</span>"; },
-							colspan: null,
-							hidden: false,
-							rowspan: null,
-							textAlign: "left",
-						},
-						children: [],
-					},
-					{
-						node: {
-							filterType: Lui.Directives.FilterTypeEnum.TEXT,
-							fixed: false,
-							label: "adress",
-							width: 20,
-							getValue: function (someone) { return someone.adress; },
-							getOrderByValue: function (someone) { return someone.adress; },
-							colspan: null,
-							hidden: false,
-							rowspan: null,
-							textAlign: "left",
-						},
-						children: [],
-					},
-					{
-						node: {
-							filterType: Lui.Directives.FilterTypeEnum.TEXT,
-							fixed: false,
-							label: "contacts",
-							width: 20,
-							getValue: function (someone) { return; },
-							getOrderByValue: function (someone) { return; },
-							colspan: null,
-							hidden: false,
-							rowspan: null,
-							textAlign: "right",
-						},
-						children: [
-							{
-								node: {
-									filterType: Lui.Directives.FilterTypeEnum.MULTISELECT,
-									fixed: false,
-									label: "phone",
-									width: 20,
-									getValue: function (someone) { return someone.phone; },
-									getOrderByValue: function (someone) { return someone.phone; },
-									colspan: null,
-									hidden: false,
-									rowspan: null,
-									textAlign: "right",
-								},
-								children: [],
-							},
-							{
-								node: {
-									filterType: Lui.Directives.FilterTypeEnum.TEXT,
-									fixed: false,
-									label: "mail",
-									width: 20,
-									getValue: function (someone) { return someone.mail; },
-									getOrderByValue: function (someone) { return someone.mail; },
-									colspan: null,
-									hidden: false,
-									rowspan: null,
-									textAlign: "center",
-								},
-								children: [],
-							},
-						],
-					},
-				]
-			};
-		}]);
 
 })();
