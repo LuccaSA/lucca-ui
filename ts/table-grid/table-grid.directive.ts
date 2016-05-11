@@ -87,7 +87,7 @@ module Lui.Directives {
 				// ==========================================
 				let scrollbarThickness: number = getScrollbarThickness();
 				let height: number = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
-				scrollableArea.style.height = height + "px";
+				scrollableArea.style.maxHeight = height + "px";
 				let ROWHEIGHTMIN = 32; // # MAGIC NUMBER
 				let rowsPerPage = Math.round(height / ROWHEIGHTMIN);
 				let numberOfRows = rowsPerPage * 3;
@@ -134,7 +134,7 @@ module Lui.Directives {
 					let lockedColumnsWidth: any = getLockedColumnsWidth();
 					if (lockedColumnsWidth) {
 						//it's necessary to do this height compute in width method because of the dependance between twice.
-						lockedColumnsSynced.style.height = (bodies[0].clientWidth > tablegridWidth) ? + height + headerHeight - scrollbarThickness + "px" : + height + headerHeight + "px";
+						lockedColumnsSynced.style.maxHeight = (bodies[0].clientWidth > tablegridWidth) ? + height + headerHeight - scrollbarThickness + "px" : + height + headerHeight + "px";
 						lockedColumns.style.width = lockedColumnsWidth + "px";
 						scrollableArea.style.marginLeft = lockedColumnsWidth + "px";
 						scrollableAreaVS.style.marginLeft = -lockedColumnsWidth + "px";
@@ -161,7 +161,9 @@ module Lui.Directives {
 						scope.visibleRows = scope.filteredAndOrderedRows;
 						canvasHeight = scope.filteredAndOrderedRows.length * ROWHEIGHTMIN;
 						scrollableAreaVS.style.height = canvasHeight + "px";
-						lockedColumnsVS.style.height = canvasHeight + "px";
+						if (!!lockedColumnsVS) {
+							lockedColumnsVS.style.height = canvasHeight + "px";
+						}
 						return;
 					}
 					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
@@ -189,6 +191,9 @@ module Lui.Directives {
 
 				scope.updateViewAfterOrderBy = () => {
 					updateVisibleRows();
+					this.$timeout(() => {
+						updateHeight();
+					}, 0);
 				};
 
 				scope.updateViewAfterFiltering = () => {
