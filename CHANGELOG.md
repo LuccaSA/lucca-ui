@@ -1,6 +1,12 @@
 # Change log
 
-## 2.2.0 - in dev - [beta](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2-beta)
+## 2.2.1 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.2.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.0)
 
 ### Breaking changes
 
