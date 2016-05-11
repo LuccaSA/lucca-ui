@@ -14,6 +14,7 @@ module Lui.Service {
 		startTop: number;
 		okLabel: string;
 		cancelLabel: string;
+		canDismissConfirm: boolean;
 	}
 	interface ILoadingIsolateScope extends ng.IScope {
 		loading: boolean;
@@ -91,14 +92,21 @@ module Lui.Service {
 			this.$rootScope = $rootScope;
 			this.$timeout = $timeout;
 			this.$uibModal = $uibModal;
+			this.conf = <INotifyConfig>{};
 		}
 
 		public config(config: INotifyConfig): void {
-			this.conf = config;
-			let tagIdClass = config.parentTagIdClass || "body";
-			let byTag = document.getElementsByTagName(tagIdClass);
-			let byId = document.getElementById(tagIdClass);
-			let byClass = document.getElementsByClassName(tagIdClass);
+			// sets the defaults
+			this.conf.parentTagIdClass = config.parentTagIdClass || "body";
+			this.conf.prefix = config.prefix || "lui";
+			this.conf.startTop = config.startTop || 40;
+			this.conf.okLabel = config.okLabel || "Ok";
+			this.conf.cancelLabel = config.cancelLabel || "Cancel";
+			this.conf.canDismissConfirm = config.canDismissConfirm;
+
+			let byTag = document.getElementsByTagName(this.conf.parentTagIdClass);
+			let byId = document.getElementById(this.conf.parentTagIdClass);
+			let byClass = document.getElementsByClassName(this.conf.parentTagIdClass);
 			if (!!byTag && byTag.length) {
 				this.parentElt = angular.element(byTag[0]);
 			} else if (!!byId) {
@@ -106,12 +114,12 @@ module Lui.Service {
 			} else if (!!byClass && byClass.length) {
 				this.parentElt = angular.element(byClass[0]);
 			} else {
-				this.$log.warn("luisNotify - could not find a suitable element for tag/id/class: " + tagIdClass);
+				this.$log.warn("luisNotify - could not find a suitable element for tag/id/class: " + this.conf.parentTagIdClass);
 				return;
 			}
 			this.cgNotify.config({
 				container: this.parentElt,
-				startTop: config.startTop || 40,
+				startTop: this.conf.startTop,
 			});
 		}
 
@@ -128,54 +136,10 @@ module Lui.Service {
 			this.cgNotify(new SuccessNotify(message));
 		}
 		public alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
-			return this.$uibModal.open(<IModalSettings>{
-				templateUrl: alertTemplate,
-				controller: NotifyModalController.IID,
-				appendTo: this.parentElt,
-				size: "mobile",
-				windowClass: this.conf.prefix || "lui",
-				backdrop: true,
-				backdropClass: this.conf.prefix || "lui",
-				resolve: {
-					message: (): string => {
-						return message;
-					},
-					okLabel: (): string => {
-						return okLabel || this.conf.okLabel || "Ok";
-					},
-					cancelLabel: (): string => {
-						return cancelLabel || this.conf.cancelLabel || "Cancel";
-					},
-					preventDismiss: (): boolean => {
-						return false;
-					},
-				}
-			}).result;
+			return this.openModal(alertTemplate, message, okLabel || this.conf.okLabel, cancelLabel || this.conf.cancelLabel, false);
 		}
 		public confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
-			return this.$uibModal.open(<IModalSettings>{
-				templateUrl: confirmTemplate,
-				controller: NotifyModalController.IID,
-				appendTo: this.parentElt,
-				size: "mobile",
-				windowClass: this.conf.prefix || "lui",
-				backdrop: true,
-				backdropClass: this.conf.prefix || "lui",
-				resolve: {
-					message: (): string => {
-						return message;
-					},
-					okLabel: (): string => {
-						return okLabel || this.conf.okLabel || "Ok";
-					},
-					cancelLabel: (): string => {
-						return cancelLabel || this.conf.cancelLabel || "Cancel";
-					},
-					preventDismiss: (): boolean => {
-						return true;
-					},
-				}
-			}).result;
+			return this.openModal(confirmTemplate, message, okLabel || this.conf.okLabel, cancelLabel || this.conf.cancelLabel, !this.conf.canDismissConfirm);
 		}
 		// public loading(loadingPromise: ng.IPromise<string>, message?: string, showProgress: boolean = true, cancelFn?: () => void): void {
 		// 	let isolateScope: ILoadingIsolateScope = <ILoadingIsolateScope>this.$rootScope.$new(true);
@@ -230,6 +194,31 @@ module Lui.Service {
 		// 		}
 		// 	});
 		// }
+		private openModal(templateUrl: string, message: string, okLabel: string, cancelLabel: string, preventDismiss: boolean): ng.IPromise<boolean> {
+			return this.$uibModal.open(<IModalSettings>{
+				templateUrl: templateUrl,
+				controller: NotifyModalController.IID,
+				appendTo: this.parentElt,
+				size: "mobile",
+				windowClass: this.conf.prefix,
+				backdrop: true,
+				backdropClass: this.conf.prefix,
+				resolve: {
+					message: (): string => {
+						return message;
+					},
+					okLabel: (): string => {
+						return okLabel;
+					},
+					cancelLabel: (): string => {
+						return cancelLabel;
+					},
+					preventDismiss: (): boolean => {
+						return preventDismiss;
+					},
+				}
+			}).result;
+		}
 	}
 	interface INotifyModalScope extends ng.IScope {
 		message: string;
