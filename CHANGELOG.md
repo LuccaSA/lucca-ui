@@ -3,6 +3,11 @@
 ## 2.2.1 - in dev
 
 ### New features
+Major refactoring of the sass code structure. Here are the consequences:
+- should prevent "You may not extend an outer selector from within media" errors (sass-node >3.7.x) thanks to accessible mixin definitions
+- makes the "namespaced | global" distinction null and void: framework adapts itself
+- any element now implements a `enabled: true|false` theme variable
+Note: should not contain any breaking change (unless mistakes were made) as of now, but both `lucca-ui.namespaced.scss` and `lucca-ui.global.scss` files should eventually merge into one as they are now identical and a breaking change it will be.
 
 ### Resolved issues
 
