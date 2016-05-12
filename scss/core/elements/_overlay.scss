@@ -1,10 +1,14 @@
-@if map-get($vars, enabled) {
-	#{$prefix}.overlay {
-		position: fixed;
-		top: 0; left: 0;
-		height: 100%;
-		width: 100%;
-		z-index: map-gets($vars, zIndex);
-		background-color: map-gets($vars, background);
+@if luiTheme(element, overlay, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, overlay);
+
+		#{$prefix}.overlay {
+			position: fixed;
+			top: 0; left: 0;
+			height: 100%;
+			width: 100%;
+			z-index: map-gets($vars, zIndex);
+			background-color: map-gets($vars, background);
+		}
 	}
 }

@@ -1,38 +1,46 @@
-// Lists
-// ====
-%lui_unstyled_list {
-	list-style: none; padding: 0; margin: 0;
-}
-ul#{$prefix}.unstyled, ol#{$prefix}.unstyled {
-	@extend %lui_unstyled_list;
-}
-// Links
-// ====
-a#{$prefix}.unstyled {
-	text-decoration: none;
-}
-
-// Buttons
-// =====
-button#{$prefix}.unstyled {
-	cursor: pointer;
-	outline: none;
-	border: none;
-	text-decoration: none;
-	font-style: normal;
-	line-height: 1;
-	font-weight: normal;
-	background-color: transparent;
-	border-radius: 0;
-	@extend %lui_user_select_none;
-	&:active, &:focus {	outline: none; outline: 0; }
-}
-
-
-// Helpers
-// ====
-%lui_user_select_none {
+@mixin lui_user_select_none() {
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
+}
+
+@if (luiTheme(adjective, unstyled, enabled)) {
+	%lui_user_select_none {
+		@include lui_user_select_none();
+	}
+	%lui_unstyled_list {
+		list-style: none; padding: 0; margin: 0;
+	}
+
+	@at-root #{$namespace} {
+
+		// Lists
+		// ====
+		ul#{$prefix}.unstyled,
+		ol#{$prefix}.unstyled {
+			@extend %lui_unstyled_list;
+		}
+
+		// Links
+		// ====
+		a#{$prefix}.unstyled {
+			text-decoration: none;
+		}
+
+		// Buttons
+		// =====
+		button#{$prefix}.unstyled {
+			cursor: pointer;
+			outline: none;
+			border: none;
+			text-decoration: none;
+			font-style: normal;
+			line-height: 1;
+			font-weight: normal;
+			background-color: transparent;
+			border-radius: 0;
+			@extend %lui_user_select_none;
+			&:active, &:focus {	outline: none; outline: 0; }
+		}
+	}
 }

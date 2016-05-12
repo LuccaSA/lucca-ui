@@ -49,6 +49,20 @@
 // =========== Adjectives ============
 // ===================================
 
+// Unstyled
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/adjectives/unstyled.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/unstyled.overrides";
+	$luiTheme: luiSetTheme(adjective, unstyled, $myTheme);
+}
+
+
 // Animated
 // ===================================
 
@@ -116,6 +130,20 @@
 	// Theme overrides
 	@import "core/adjectives/stuck.overrides";
 	$luiTheme: luiSetTheme(adjective, stuck, $myTheme);
+}
+
+
+// Visible
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/adjectives/visible.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/visible.overrides";
+	$luiTheme: luiSetTheme(adjective, visible, $myTheme);
 }
 
 

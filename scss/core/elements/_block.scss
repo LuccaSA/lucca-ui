@@ -1,38 +1,41 @@
-@if map-get($vars, enabled) {
+@if luiTheme(element, block, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, block);
 
-	#{$prefix}.block {
-		border: map-gets($vars, border);
-		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-
-		> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+		#{$prefix}.block {
+			border: map-gets($vars, border);
 			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+
+			> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+				padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+			}
+
+			> .header, #{$prefix}.header {
+				margin: (-(map-gets($vars, verticalPadding))) (-(map-gets($vars, horizontalPadding))) 0 (-(map-gets($vars, horizontalPadding)));
+				border-bottom: map-gets($vars, border);
+			}
+			> .footer, #{$prefix}.footer {
+				margin: 0 -(map-gets($vars, horizontalPadding)) -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding));
+				border-top: map-gets($vars, border);
+			}
 		}
 
-		> .header, #{$prefix}.header {
-			margin: (-(map-gets($vars, verticalPadding))) (-(map-gets($vars, horizontalPadding))) 0 (-(map-gets($vars, horizontalPadding)));
-			border-bottom: map-gets($vars, border);
-		}
-		> .footer, #{$prefix}.footer {
-			margin: 0 -(map-gets($vars, horizontalPadding)) -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding));
-			border-top: map-gets($vars, border);
-		}
-	}
-
-	#{$prefix}.block.inverted {
-		border-color: map-gets($vars, invertedBorder);
-
-		> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+		#{$prefix}.block.inverted {
 			border-color: map-gets($vars, invertedBorder);
-		}
-	}
 
-	#{$prefix}.block.round {
-		border-radius: map-gets($vars, borderRadius);
-		> .header, #{$prefix}.header {
-			border-radius: map-gets($vars, borderRadius) map-gets($vars, borderRadius) 0 0;
+			> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
+				border-color: map-gets($vars, invertedBorder);
+			}
 		}
-		> .footer, #{$prefix}.footer {
-			border-radius: 0 0 map-gets($vars, borderRadius) map-gets($vars, borderRadius);
+
+		#{$prefix}.block.round {
+			border-radius: map-gets($vars, borderRadius);
+			> .header, #{$prefix}.header {
+				border-radius: map-gets($vars, borderRadius) map-gets($vars, borderRadius) 0 0;
+			}
+			> .footer, #{$prefix}.footer {
+				border-radius: 0 0 map-gets($vars, borderRadius) map-gets($vars, borderRadius);
+			}
 		}
 	}
 }

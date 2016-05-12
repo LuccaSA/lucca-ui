@@ -1,8 +1,3 @@
-// Sizing support
-// ===================================
-luid-day-block#{$prefix} {
-	@include lui_supports_sizing();
-}
 
 
 
@@ -34,54 +29,66 @@ luid-day-block#{$prefix} {
 	}
 }
 
-luid-day-block {
-	display: inline-block;
-	width: map-gets($vars, width);
-	margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+@if luiTheme(element, dayblock, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, dayblock);
 
-	text-align: map-gets($vars, textAlign);
-	text-transform: map-gets($vars, textTransform);
+		luid-day-block {
+			display: inline-block;
+			width: map-gets($vars, width);
+			margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
 
-	.day {
-		padding: map-gets($vars, day, verticalPadding) 0;
+			text-align: map-gets($vars, textAlign);
+			text-transform: map-gets($vars, textTransform);
 
-		border-top-left-radius: map-gets($vars, borderRadius);
-		border-top-right-radius: map-gets($vars, borderRadius);
+			.day {
+				padding: map-gets($vars, day, verticalPadding) 0;
 
-		border-width: map-gets($vars, borderWidth);
-		border-style: solid;
+				border-top-left-radius: map-gets($vars, borderRadius);
+				border-top-right-radius: map-gets($vars, borderRadius);
 
-		font-size: map-gets($vars, day, fontSize);
-		font-weight: map-gets($vars, day, fontWeigh);
+				border-width: map-gets($vars, borderWidth);
+				border-style: solid;
+
+				font-size: map-gets($vars, day, fontSize);
+				font-weight: map-gets($vars, day, fontWeigh);
+			}
+
+			.month {
+				padding: map-gets($vars, day, verticalPadding) 0;
+
+				border-left-width: map-gets($vars, borderWidth);
+				border-right-width: map-gets($vars, borderWidth);
+				border-left-style: solid;
+				border-right-style: solid;
+
+				font-size: map-gets($vars, month, fontSize);
+				font-weight: map-gets($vars, month, fontWeigh);
+			}
+
+			.year {
+				padding: map-gets($vars, day, verticalPadding) 0;
+
+				border-bottom-left-radius: map-gets($vars, borderRadius);
+				border-bottom-right-radius: map-gets($vars, borderRadius);
+
+				border-width: map-gets($vars, borderWidth);
+				border-style: solid;
+
+				border-top: none;
+
+				font-size: map-gets($vars, year, fontSize);
+				font-weight: map-gets($vars, year, fontWeigh);
+			}
+
+			@include lui_datestamp_coloring(luiTheme(reference, palettes, colors, light));
+			// @include lui_datestamp_coloring((text: map-gets($vars, textColor), color: map-gets($vars, borderColor)));
+		}
+
+		// Sizing support
+		// ===================================
+		luid-day-block#{$prefix} {
+			@include lui_supports_sizing();
+		}
 	}
-
-	.month {
-		padding: map-gets($vars, day, verticalPadding) 0;
-
-		border-left-width: map-gets($vars, borderWidth);
-		border-right-width: map-gets($vars, borderWidth);
-		border-left-style: solid;
-		border-right-style: solid;
-
-		font-size: map-gets($vars, month, fontSize);
-		font-weight: map-gets($vars, month, fontWeigh);
-	}
-
-	.year {
-		padding: map-gets($vars, day, verticalPadding) 0;
-
-		border-bottom-left-radius: map-gets($vars, borderRadius);
-		border-bottom-right-radius: map-gets($vars, borderRadius);
-
-		border-width: map-gets($vars, borderWidth);
-		border-style: solid;
-
-		border-top: none;
-
-		font-size: map-gets($vars, year, fontSize);
-		font-weight: map-gets($vars, year, fontWeigh);
-	}
-
-	@include lui_datestamp_coloring(luiTheme(reference, palettes, colors, light));
-	// @include lui_datestamp_coloring((text: map-gets($vars, textColor), color: map-gets($vars, borderColor)));
 }

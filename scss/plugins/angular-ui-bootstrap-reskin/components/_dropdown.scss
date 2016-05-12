@@ -9,147 +9,151 @@
 }
 
 @if map-get($pluginVars, enabled) {
-	%lui_nguibs_dropdown {
-		position: relative;
-		display: inline-block;
-		overflow: visible !important; // IE fix
+	@at-root #{$namespace} {
+		$inputVars: luiTheme(element, input);
 
-		.btn { cursor: pointer; }
-
-		.dropdown-menu {
-			box-sizing: border-box;
-			visibility: hidden;
-
-			@extend ul#{$prefix}.unstyled;
-			position: absolute; z-index: 1000;
-			margin-top: -1px;
-			top: 100%; left: 0;
-			width: map-gets($pluginVars, dropdown, width);
-			min-width: map-gets($pluginVars, dropdown, minWidth);
-
-			border: 1px solid map-get($inputVars, borderColor);
-			border-top: none;
-			background-color: map-get($inputVars, background);
-
-			box-shadow: map-get($inputVars, shadow);
-
-			max-height: map-gets($pluginVars, dropdown, maxHeight);
-			overflow-x: hidden;
-
-			-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
-			backface-visibility: hidden;
-
-			@include lui_target_IE9 { box-sizing: content-box; }
-
-			a:hover { background-color: map-gets($pluginVars, dropdown, hoverBackground); }
-			.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
-
-			a {
-				color: luiTheme(element, typography, body, color);
-				text-decoration: none;
-				display: block;
-				padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
-				border-top: 1px solid map-get($inputVars, borderColor);
-
-				> span { vertical-align: middle; }
-			}
-
-			.divider {
-				margin: 0;
-				padding: 0;
-				& + li a {
-					border-top: none;
-				}
-			}
-		}
-
-
-		// Dividers
-		.dividing {
+		%lui_nguibs_dropdown {
 			position: relative;
-			&:after {
-				display: block; content: "";
-				position: absolute; top: 100%; left: 0; right: 0;
-				border-bottom: 2px solid map-get($inputVars, borderColor);
-			}
-		}
-		.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
-		.dropdown-header {
-			padding: 0.5em 1em;
-			font-size: 1.1em;
-			font-weight: 600;
-			&:empty { padding-top: 0; padding-bottom: 0; }
-		}
+			display: inline-block;
+			overflow: visible !important; // IE fix
 
-		&.open .dropdown-menu {
-			visibility: visible;
+			.btn { cursor: pointer; }
 
-			@if (map-gets($pluginVars, dropdown, isAnimated)) {
-				@include lui_is_animated("up slide in");
-				@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
-					animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+			.dropdown-menu {
+				box-sizing: border-box;
+				visibility: hidden;
+
+				@extend ul#{$prefix}.unstyled;
+				position: absolute; z-index: 1000;
+				margin-top: -1px;
+				top: 100%; left: 0;
+				width: map-gets($pluginVars, dropdown, width);
+				min-width: map-gets($pluginVars, dropdown, minWidth);
+
+				border: 1px solid map-get($inputVars, borderColor);
+				border-top: none;
+				background-color: map-get($inputVars, background);
+
+				box-shadow: map-get($inputVars, shadow);
+
+				max-height: map-gets($pluginVars, dropdown, maxHeight);
+				overflow-x: hidden;
+
+				-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+				backface-visibility: hidden;
+
+				@include lui_target_IE9 { box-sizing: content-box; }
+
+				a:hover { background-color: map-gets($pluginVars, dropdown, hoverBackground); }
+				.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
+
+				a {
+					color: luiTheme(element, typography, body, color);
+					text-decoration: none;
+					display: block;
+					padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
+					border-top: 1px solid map-get($inputVars, borderColor);
+
+					> span { vertical-align: middle; }
+				}
+
+				.divider {
+					margin: 0;
+					padding: 0;
+					& + li a {
+						border-top: none;
+					}
 				}
 			}
 
-			@include lui_target_IE9 {
-				display: block;
-				opacity: 1;
-				height: auto;
+
+			// Dividers
+			.dividing {
+				position: relative;
+				&:after {
+					display: block; content: "";
+					position: absolute; top: 100%; left: 0; right: 0;
+					border-bottom: 2px solid map-get($inputVars, borderColor);
+				}
 			}
-		}
-
-		// Direction up support
-		// ============================================================
-		&.direction-up {
-			.dropdown-menu {
-				border-top: 1px solid map-get($inputVars, borderColor);
-				border-bottom: none;
-				margin-top: 2px;
-
-				> .ui-select-choices-row:first-child a, > a:first-child { border-top: none; }
+			.divider { 	@extend %lui_divider_base; margin: 0.5em 0; }
+			.dropdown-header {
+				padding: 0.5em 1em;
+				font-size: 1.1em;
+				font-weight: 600;
+				&:empty { padding-top: 0; padding-bottom: 0; }
 			}
-			@if (map-gets($pluginVars, dropdown, isAnimated)) {
-				&.open {
-					.dropdown-menu {
-						@include lui_is_animated("down slide in");
 
-						@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
-							animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+			&.open .dropdown-menu {
+				visibility: visible;
+
+				@if (map-gets($pluginVars, dropdown, isAnimated)) {
+					@include lui_is_animated("up slide in");
+					@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
+						animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+					}
+				}
+
+				@include lui_target_IE9 {
+					display: block;
+					opacity: 1;
+					height: auto;
+				}
+			}
+
+			// Direction up support
+			// ============================================================
+			&.direction-up {
+				.dropdown-menu {
+					border-top: 1px solid map-get($inputVars, borderColor);
+					border-bottom: none;
+					margin-top: 2px;
+
+					> .ui-select-choices-row:first-child a, > a:first-child { border-top: none; }
+				}
+				@if (map-gets($pluginVars, dropdown, isAnimated)) {
+					&.open {
+						.dropdown-menu {
+							@include lui_is_animated("down slide in");
+
+							@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
+								animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+							}
 						}
 					}
 				}
 			}
-		}
 
 
-		// Coloring support
-		// ============================================================
-		@each $name, $scheme in luiPalettes() {
-			&.#{map-get($scheme, class)} {
-				@include lui_nguibs_dropdown_coloring($scheme);
+			// Coloring support
+			// ============================================================
+			@each $name, $scheme in luiPalettes() {
+				&.#{map-get($scheme, class)} {
+					@include lui_nguibs_dropdown_coloring($scheme);
+				}
 			}
+
+			// Sizing support
+			// ============================================================
+			@include lui_supports_sizing();
 		}
 
-		// Sizing support
-		// ============================================================
-		@include lui_supports_sizing();
-	}
+		#{$prefix}.dropdown {
+			@extend %lui_nguibs_dropdown;
 
-	#{$prefix}.dropdown {
-		@extend %lui_nguibs_dropdown;
+			&:not(.buttons) > #{$prefix}.button { margin: 0; }
 
-		&:not(.buttons) > #{$prefix}.button { margin: 0; }
+			&.open #{$prefix}.button { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
-		&.open #{$prefix}.button { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+			a { cursor: pointer; }
 
-		a { cursor: pointer; }
+			&:not(.aligned) { text-align: left; }
+		}
 
-		&:not(.aligned) { text-align: left; }
-	}
-
-	#{$prefix}.inline.field {
-		label + #{$prefix}.dropdown {
-			margin-left: 0.5em;
+		#{$prefix}.inline.field {
+			label + #{$prefix}.dropdown {
+				margin-left: 0.5em;
+			}
 		}
 	}
 }

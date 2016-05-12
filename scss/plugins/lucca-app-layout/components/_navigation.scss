@@ -1,127 +1,130 @@
-@if map-get($vars, enabled) {
-	#main-navigation {
-		background: map-gets($vars, navigation, background);
-		width: map-gets($vars, navigation, width);
+@if map-get($pluginVars, enabled) {
+	@at-root #{$namespace} {
 
-		border: none;
+		#main-navigation {
+			background: map-gets($vars, navigation, background);
+			width: map-gets($vars, navigation, width);
 
-		// Text and links coloring
-		&, a {
-			color: lighten(map-gets($vars, navigation, background), 25);
-		}
-	}
+			border: none;
 
-	// Menu item
-	#main-navigation a.item {
-		text-align: center;
-
-		&:before {
-			margin-left: 0;
+			// Text and links coloring
+			&, a {
+				color: lighten(map-gets($vars, navigation, background), 25);
+			}
 		}
 
-		// Hover and active states
-		&:hover, &:active {
-			background: darken(map-gets($vars, navigation, background), 1);
-			color: #FFF;
+		// Menu item
+		#main-navigation a.item {
+			text-align: center;
+
+			&:before {
+				margin-left: 0;
+			}
+
+			// Hover and active states
+			&:hover, &:active {
+				background: darken(map-gets($vars, navigation, background), 1);
+				color: #FFF;
+			}
+			&:hover, &.active {
+				background: darken(map-gets($vars, navigation, background), 5);
+				color: #FFF;
+			}
+			// Item icon
+			> i.icon {
+				position: relative;
+				font-size: map-gets($vars, navigation, iconSize);
+				display: block;
+				margin-bottom: 0.5em;
+			}
+
+			// Item title
+			> span.item-name {
+				font-size: map-gets($vars, navigation, fontSize);
+				font-weight: map-gets($vars, navigation, fontWeight);
+			}
+
+			// Updates / Todo styling
+			span.item-updates {
+				display: none;
+
+				position: absolute;
+				top: map-gets($vars, navigation, iconSize) + 0.15em;
+				right: 1em;
+			}
+			&.has-updates span.item-updates {
+				display: block;
+			}
 		}
-		&:hover, &.active {
-			background: darken(map-gets($vars, navigation, background), 5);
-			color: #FFF;
-		}
-		// Item icon
-		> i.icon {
-			position: relative;
-			font-size: map-gets($vars, navigation, iconSize);
+
+		// Application logo
+		#main-navigation #app-logo {
+			box-sizing: content-box;
+			padding-top: map-gets($vars, topOffset);
+
 			display: block;
-			margin-bottom: 0.5em;
+			overflow: hidden;
+			height: map-gets($vars, header, height);
+			line-height: map-gets($vars, header, height);
+
+			background-color: luiPalette(primary, color);
+			text-align: center;
+			font-size: map-gets($vars, logoFontSize);
+			font-weight: lighter;
+
+			&, a {
+				color: luiPalette(primary, text);
+			}
+
+			// Navigation mobile toggle
+			.navigation-toggle {
+				display: none;
+			}
 		}
 
-		// Item title
-		> span.item-name {
-			font-size: map-gets($vars, navigation, fontSize);
-			font-weight: map-gets($vars, navigation, fontWeight);
-		}
+		// Mobile version
+		#main-navigation {
+			@include lui_screens_smaller_than(tablet) {
+				background: transparent;
+				position: relative !important;
+				left: 0; right: 0; bottom: auto;
+				z-index: 100;
+				width: 100%; max-height: 100vh; overflow: auto;
+				height: auto;
 
-		// Updates / Todo styling
-		span.item-updates {
-			display: none;
+				#app-logo {
+					a, .navigation-toggle {
+						display: inline-block;
+						vertical-align: middle;
+						text-decoration: none;
+					}
+				}
 
-			position: absolute;
-			top: map-gets($vars, navigation, iconSize) + 0.15em;
-			right: 1em;
-		}
-		&.has-updates span.item-updates {
-			display: block;
-		}
-	}
+				a.item {
+					background: map-gets($vars, navigation, background);
+				}
 
-	// Application logo
-	#main-navigation #app-logo {
-		box-sizing: content-box;
-		padding-top: map-gets($vars, topOffset);
-
-		display: block;
-		overflow: hidden;
-		height: map-gets($vars, header, height);
-		line-height: map-gets($vars, header, height);
-
-		background-color: luiPalette(primary, color);
-		text-align: center;
-		font-size: map-gets($vars, logoFontSize);
-		font-weight: lighter;
-
-		&, a {
-			color: luiPalette(primary, text);
-		}
-
-		// Navigation mobile toggle
-		.navigation-toggle {
-			display: none;
-		}
-	}
-
-	// Mobile version
-	#main-navigation {
-		@include lui_screens_smaller_than(tablet) {
-			background: transparent;
-			position: relative !important;
-			left: 0; right: 0; bottom: auto;
-			z-index: 100;
-			width: 100%; max-height: 100vh; overflow: auto;
-			height: auto;
-
-			#app-logo {
-				a, .navigation-toggle {
+				a.item span.item-name,
+				a.item i.icon {
 					display: inline-block;
 					vertical-align: middle;
-					text-decoration: none;
 				}
-			}
+				a.item i.icon {
+					margin-bottom: 0;
+					margin-right: lui_rem(0.5);
+				}
+				a.item.has-updates span.item-updates {
+					display: inline-block;
+					position: relative;
+					float: none;
+					top: auto; left: auto; right: auto;
+				}
 
-			a.item {
-				background: map-gets($vars, navigation, background);
-			}
-
-			a.item span.item-name,
-			a.item i.icon {
-				display: inline-block;
-				vertical-align: middle;
-			}
-			a.item i.icon {
-				margin-bottom: 0;
-				margin-right: lui_rem(0.5);
-			}
-			a.item.has-updates span.item-updates {
-				display: inline-block;
-				position: relative;
-				float: none;
-				top: auto; left: auto; right: auto;
-			}
-
-			// Dropped state
-			.item { display: none; }
-			&.dropped a.item {
-				display: block;
+				// Dropped state
+				.item { display: none; }
+				&.dropped a.item {
+					display: block;
+				}
 			}
 		}
 	}
