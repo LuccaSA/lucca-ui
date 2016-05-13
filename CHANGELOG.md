@@ -1,6 +1,12 @@
 # Change log
 
-## 2.2.1 - in dev
+## 2.2.2 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.2.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 
 ### New features
 Major refactoring of the sass code structure. Here are the consequences:
@@ -12,6 +18,10 @@ Note: should not contain any breaking change (unless mistakes were made) as of n
 ### Resolved issues
 
 ## 2.2.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.0)
+
+### Important
+
+Some problems have been identified with the sass code structure right after this release. This version builds with node-sass v3.4.2 but not with node-sass ^3.5. It is highly recommended to use release 2.2.1 that fixed this issue and builds with the latest version of node-sass (3.7 at time of writing)
 
 ### Breaking changes
 
