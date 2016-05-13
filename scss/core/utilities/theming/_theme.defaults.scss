@@ -49,6 +49,20 @@
 // =========== Adjectives ============
 // ===================================
 
+// Unstyled
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/adjectives/unstyled.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/unstyled.overrides";
+	$luiTheme: luiSetTheme(adjective, unstyled, $myTheme);
+}
+
+
 // Animated
 // ===================================
 
@@ -119,6 +133,20 @@
 }
 
 
+// Visible
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/adjectives/visible.defaults";
+
+	// Theme overrides
+	@import "core/adjectives/visible.overrides";
+	$luiTheme: luiSetTheme(adjective, visible, $myTheme);
+}
+
+
 
 // ===================================
 // ============ Elements =============
@@ -130,11 +158,11 @@
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/icons.defaults";
+	@import "../../../themes/default/core/elements/icon.defaults";
 
 	// Theme overrides
-	@import "core/elements/icons.overrides";
-	$luiTheme: luiSetTheme(element, icons, $myTheme);
+	@import "core/elements/icon.overrides";
+	$luiTheme: luiSetTheme(element, icon, $myTheme);
 }
 
 

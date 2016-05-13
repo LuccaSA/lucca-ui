@@ -1,32 +1,35 @@
-@if map-get($vars, enabled) {
+@if luiTheme(element, breadcrumbs, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, breadcrumbs);
 
-	#{$prefix}.breadcrumbs {
-		@extend ul#{$prefix}.unstyled;
+		#{$prefix}.breadcrumbs {
+			@extend ul#{$prefix}.unstyled;
 
-		> li {
-			position: relative;
-			display: inline-block;
-			vertical-align: middle;
-			padding: map-gets($vars, padding);
-
-			&:after {
+			> li {
+				position: relative;
 				display: inline-block;
-				font-family: map-gets($vars, dividers, fontFamily);
-				content: map-gets($vars, dividers, character);
 				vertical-align: middle;
-				margin: map-gets($vars, dividers, margin);
-			}
-			&:last-child:after { content: ""; }
+				padding: map-gets($vars, padding);
 
-			> a { display: inline-block; }
+				&:after {
+					display: inline-block;
+					font-family: map-gets($vars, dividers, fontFamily);
+					content: map-gets($vars, dividers, character);
+					vertical-align: middle;
+					margin: map-gets($vars, dividers, margin);
+				}
+				&:last-child:after { content: ""; }
 
-			h1, h2, h3, h4, h5, h6 {
-				display: inline-block;
-				vertical-align: bottom;
+				> a { display: inline-block; }
+
+				h1, h2, h3, h4, h5, h6 {
+					display: inline-block;
+					vertical-align: bottom;
+				}
 			}
+
+			// Changes inter-items dividers with slashes rather than the default ">"
+			&.slashes > li:after { content: "/"; }
 		}
-
-		// Changes inter-items dividers with slashes rather than the default ">"
-		&.slashes > li:after { content: "/"; }
 	}
 }

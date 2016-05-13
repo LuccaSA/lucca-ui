@@ -1,8 +1,5 @@
 // Import lucca-UI dependencies
 // =============================================
-// Input
-$inputVars: luiTheme(element, input);
-
 
 // Plugin theming
 // =============================================
@@ -19,21 +16,13 @@ $vars: $pluginVars;
 
 // Plugin components
 // =============================================
-// Dropdown
-@import "components/dropdown";
-// UI select
-@import "components/ui-select";
-// Tooltip
-@import "components/tooltip";
-// Datepicker
-@import "components/datepicker";
-// Popover
-@import "components/popover";
-// Modal
-@import "components/modal";
-// Collapse
-@import "components/collapse";
-// Daterange
-@import "components/daterange";
-// Pagination
-@import "components/pagination";
+@import
+	"components/dropdown",
+	"components/ui-select",
+	"components/tooltip",
+	"components/datepicker",
+	"components/popover",
+	"components/modal",
+	"components/collapse",
+	"components/daterange",
+	"components/pagination";
