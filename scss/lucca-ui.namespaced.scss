@@ -1,13 +1,12 @@
-
 // ===================================
 // ======== CORE & UTILITIES =========
 // ===================================
 
+
 // Utility functions
 // ===================================
-@import
-	"core/utilities/functions/maps",
-	"core/utilities/functions/strings";
+@import	"core/utilities/functions/maps",
+		"core/utilities/functions/strings";
 
 
 // Initialization
@@ -23,16 +22,15 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 
 // Mixins
 // ===================================
-@import
-	"core/utilities/mixins/ie9-support",
-	"core/utilities/mixins/flex",
-	"core/utilities/mixins/responsive",
-	"core/utilities/mixins/transition",
-	"core/utilities/mixins/is-animated",
-	"core/utilities/mixins/supports-sizing",
-	"core/utilities/mixins/supports-text-coloring",
-	"core/utilities/mixins/loader",
-	"core/utilities/mixins/points-towards";
+@import	"core/utilities/mixins/ie9-support",
+		"core/utilities/mixins/flex",
+		"core/utilities/mixins/responsive",
+		"core/utilities/mixins/transition",
+		"core/utilities/mixins/is-animated",
+		"core/utilities/mixins/supports-sizing",
+		"core/utilities/mixins/supports-text-coloring",
+		"core/utilities/mixins/loader",
+		"core/utilities/mixins/points-towards";
 
 
 
@@ -40,62 +38,53 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 // ===================================
 // =========== ADJECTIVES ============
 // ===================================
-@import
-	"core/adjectives/unstyled",
-	"core/adjectives/animated",
-	"core/adjectives/pointing",
-	"core/adjectives/raised",
-	"core/adjectives/rounded",
-	"core/adjectives/stuck",
-	"core/adjectives/visible";
+@import	"core/adjectives/unstyled",
+		"core/adjectives/animated",
+		"core/adjectives/pointing",
+		"core/adjectives/raised",
+		"core/adjectives/rounded",
+		"core/adjectives/stuck",
+		"core/adjectives/visible";
+
 
 
 
 // ===================================
 // ============ ELEMENTS =============
 // ===================================
+@import	"core/elements/icon",
+		"core/elements/grid",
+		"core/elements/typography",
+		"core/elements/input",
+		"core/elements/button",
+		"core/elements/divider",
+		"core/elements/table",
+		"core/elements/menu",
+		"core/elements/breadcrumbs",
+		"core/elements/label",
+		"core/elements/callout",
+		"core/elements/block", // @TODO: under construction
+		"core/elements/overlay",
+		"core/elements/progress",
+		"core/elements/day-block",
+		"core/elements/tablegrid",
+		"core/elements/notify";
 
-// Lucca icons
-// ===================================
-// Vars
-$luccaIcons_icon-base-selector: luiTheme(element, icons, iconBaseSelector);
-$luccaIcons_font-create-classes: luiTheme(element, icons, createClasses);
-// Import
-@import "bower_components/lucca-icons/src/lucca-icons";
-// Sizing support
-#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
-i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
-// We define a mixin alias here for better support
-@mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
-@import
-	"core/elements/grid",
-	"core/elements/typography",
-	"core/elements/input",
-	"core/elements/button",
-	"core/elements/divider",
-	"core/elements/table",
-	"core/elements/menu",
-	"core/elements/breadcrumbs",
-	"core/elements/label",
-	"core/elements/callout",
-	"core/elements/block", // @TODO: under construction
-	"core/elements/overlay",
-	"core/elements/progress",
-	"core/elements/day-block",
-	"core/elements/tablegrid",
-	"core/elements/notify";
 
 
 // ===================================
 // ============= PLUGINS =============
 // ===================================
 
+
 // Angular UI Bootstrap reskin
 // ===================================
 @at-root #{$namespace} {
 	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 }
+
+
 // Lucca App Lqyout
 // ===================================
 @at-root #{$namespace} {
