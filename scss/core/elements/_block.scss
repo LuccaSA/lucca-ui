@@ -1,6 +1,6 @@
-@if luiTheme(element, block, enabled) {
+@if luiTheme(elements, block, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, block);
+		$vars: luiTheme(elements, block);
 
 		#{$prefix}.block {
 			border: map-gets($vars, border);

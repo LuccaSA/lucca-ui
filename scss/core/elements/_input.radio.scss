@@ -1,6 +1,6 @@
-@if luiTheme(element, input, enabled) {
+@if luiTheme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, input);
+		$vars: luiTheme(elements, input);
 
 		#{$prefix}.radio {
 			@extend %lui_input_holder_base;
@@ -20,7 +20,7 @@
 				opacity: 0;
 			}
 			label {
-				color: luiTheme(element, typography, body, color);
+				color: luiTheme(elements, typography, body, color);
 				display: block;
 				position: relative;
 				padding: 0;

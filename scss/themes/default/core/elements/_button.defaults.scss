@@ -27,7 +27,7 @@ $button: (
 
 	defaultColoring: (
 		color:					#FFF,
-		text:					luiTheme(element, typography, body, color),
+		text:					luiTheme(elements, typography, body, color),
 		lod:					false
 	),
 
@@ -50,7 +50,7 @@ $button: (
 	),
 
 	defaultBorderWidth:			1px,
-	defaultBorderColor:			luiTheme(element, divider, color),
+	defaultBorderColor:			luiTheme(elements, divider, color),
 
 	disabledOpacity: 			0.5,
 	disabledGrayscale: 			50%,

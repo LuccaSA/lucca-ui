@@ -4,7 +4,7 @@
 	user-select: none;
 }
 
-@if (luiTheme(adjective, unstyled, enabled)) {
+@if (luiTheme(adjectives, unstyled, enabled)) {
 	%lui_user_select_none {
 		@include lui_user_select_none();
 	}

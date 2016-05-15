@@ -5,12 +5,13 @@
 // Retrieves all active theme palettes
 // ====
 @function luiPalettes() {
-	@return luiTheme(reference, palettes, colors);
+	@return luiTheme(references, palettes, colors);
 }
 
 // Given palette is light text over a dark background
 // ====
 @function luiIsLod($palette) {
+	@return true;
 	@return lightness(map-get($palette, color)) < lightness(map-get($palette, text));
 }
 
@@ -19,14 +20,14 @@
 // ====
 @function luiPalette($colorName, $property, $manipulation: false) {
 	$colors: luiPalettes();
-	$manipulations: luiTheme(reference, palettes, manipulations);
+	$manipulations: luiTheme(references, palettes, manipulations);
 
 	// Color is unknown!
 	@if not map-has-key($colors, $colorName) {
 		@error "Color #{$colorName} was not found in theme palettes.";
 	}
 
-	$palette: 	map-get($colors, $colorName);
+	$palette: map-get($colors, $colorName);
 
 	// Is it a 'light on dark' palette
 	@if $property == 'lod' { @return luiLod($palette); }

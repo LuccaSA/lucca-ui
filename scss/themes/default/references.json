@@ -1,0 +1,97 @@
+{
+    "breakpoints": {
+        "mobile": {
+            "break": "320px",
+            "spacing": "1em"
+        },
+        "tablet": {
+            "break": "768px",
+            "spacing": "2em"
+        },
+        "desktop": {
+            "break": "992px",
+            "spacing": "3em"
+        },
+        "large": {
+            "break": "1200px",
+            "spacing": "5em"
+        }
+    },
+    "palettes": {
+        "colors": {
+            "grey": {
+                "class": "grey",
+                "color": "#666",
+                "text": "#fff"
+            },
+            "light": {
+                "class": "light",
+                "color": "#CCC",
+                "text": "#666"
+            },
+            "primary": {
+                "class": "primary",
+                "color": "#FFC900",
+                "text": "#666"
+            },
+            "secondary": {
+                "class": "secondary",
+                "color": "#F60",
+                "text": "#FFF"
+            },
+            "red": {
+                "class": "red",
+                "color": "#F60",
+                "text": "#FFF"
+            },
+            "orange": {
+                "class": "orange",
+                "color": "#F90",
+                "text": "#FFF"
+            },
+            "green": {
+                "class": "green",
+                "color": "#5cb85c",
+                "text": "#FFF"
+            },
+            "yellow": {
+                "class": "yellow",
+                "color": "#FFC900",
+                "text": "#666"
+            }
+        },
+        "manipulations": {
+            "x-dark": [
+                "darken",
+                25
+            ],
+            "dark": [
+                "darken",
+                15
+            ],
+            "x-light": [
+                "lighten",
+                25
+            ],
+            "light": [
+                "lighten",
+                15
+            ],
+            "accent": [
+                "saturate",
+                "15%"
+            ],
+            "x-accent": [
+                "saturate",
+                "25%"
+            ]
+        }
+    },
+    "sizes": {
+        "x-small": "0.7em",
+        "small": "0.85em",
+        "regular": "13px",
+        "large": "1.25em",
+        "x-large": "1.5em"
+    }
+}

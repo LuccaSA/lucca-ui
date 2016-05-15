@@ -29,9 +29,9 @@
 // ============ Elements =============
 // ===================================
 
-@if luiTheme(element, input, enabled) {
+@if luiTheme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, input);
+		$vars: luiTheme(elements, input);
 
 		#{$prefix}.input {
 			@each $name, $scheme in luiPalettes() {

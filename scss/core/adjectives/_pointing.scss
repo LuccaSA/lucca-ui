@@ -1,6 +1,6 @@
-@if luiTheme(adjective, pointing, enabled) {
+@if luiTheme(adjectives, pointing, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(adjective, pointing);
+		$vars: luiTheme(adjectives, pointing);
 
 		#{$prefix}.pointing:after {
 			content: '';

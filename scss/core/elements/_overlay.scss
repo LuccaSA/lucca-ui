@@ -1,6 +1,6 @@
-@if luiTheme(element, overlay, enabled) {
+@if luiTheme(elements, overlay, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, overlay);
+		$vars: luiTheme(elements, overlay);
 
 		#{$prefix}.overlay {
 			position: fixed;

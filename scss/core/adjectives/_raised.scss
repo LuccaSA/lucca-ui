@@ -1,11 +1,11 @@
 @mixin lui_raised($height: default) {
 	// $height: 'default' | 'high'
-	box-shadow: unquote(luiTheme(adjective, raised, $height, box-shadow));
+	box-shadow: unquote(luiTheme(adjectives, raised, $height, box-shadow));
 }
 %lui_raised { @include lui_raised(); }
 %lui_high_raised { @include lui_raised(high); }
 
-@if luiTheme(adjective, raised, enabled) {
+@if luiTheme(adjectives, raised, enabled) {
 	@at-root #{$namespace} {
 
 		#{$prefix}.raised { @extend %lui_raised; }

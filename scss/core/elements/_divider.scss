@@ -1,6 +1,6 @@
-@if luiTheme(element, divider, enabled) {
+@if luiTheme(elements, divider, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, divider);
+		$vars: luiTheme(elements, divider);
 
 		%lui_divider_base {
 			width: 100%; box-sizing: border-box;

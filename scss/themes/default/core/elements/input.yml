@@ -1,0 +1,88 @@
+enabled: true
+
+# Common
+background: '#FFF'
+borderRadius: 3px
+color: '#666'
+padding:
+    top: 0.66em
+    right: 1em
+    bottom: 0.66em
+    left: 1em
+
+borderWidth: 1px
+borderColor: 'luiPalette(light, color)'
+focusBorderColor: 'luiPalette(light, color, dark)'
+
+invalidColor: 'luiPalette(red, color)'
+shadow: '0 2px 2px 0 luiTheme(element, divider, color)'
+
+placeholder:
+    color: rgba(0, 0, 0, 0.5)
+    style: italic
+
+# Field element specifics
+field:
+    verticalMargin: 0.5em
+    labelFontWeight: 600
+
+# Input lengths
+lengths:
+    x-short: 5em
+    short: 8em
+    medium: 15em
+    long: 20em
+    x-long: 25em
+
+# INPUT TYPES SPECIFICS
+# Checkbox
+checkbox:
+    enabled: true
+    color: 'luiPalette(primary, color)'
+    size: 1.5em
+# Radio buttons
+radio:
+    enabled: true
+    color: 'luiPalette(primary, color)'
+    size: 1.5em
+    lineHeight: 1.5
+
+# Switch / Toggle
+switch:
+    enabled: true
+    width: 4.5em
+    height: 2.25em
+    background: '#666'
+    color: darken(#666, 15)
+    activeBackground: 'luiPalette(primary, color)'
+    activeColor: 'luiPalette(primary, color, dark)'
+    grabLinesColor: 'luiPalette(light, color)'
+
+# Search input
+search:
+    enabled: true
+    paddingLeft: 2.5em
+    tag:
+        padding: 0.25em 0.5em
+        margin: 0.1em
+        background: 'luiPalette(light, color, light)'
+        borderColor: 'luiPalette(light, color)'
+        borderRadius: 'luiTheme(adjective, rounded, radius)'
+        selectedColor: 'luiPalette(primary, color)'
+
+# Timespanpicker: lucca-ui directive
+timespanpicker:
+    enabled: true
+    width: 5em
+
+# Momentpicker: lucca-ui directive
+momentpicker:
+    enabled: true
+    width: 2.2em
+    maxWidth: 5.25em
+
+# Translation: lucca-ui directive
+translations:
+    background: '#FFF'
+    dropdownPadding: 0.5em
+    zIndex: 3

@@ -1,0 +1,4 @@
+enabled: true
+
+createClasses: true
+iconBaseSelector: "'#{$prefix}.icon'"

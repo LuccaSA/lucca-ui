@@ -1,6 +1,6 @@
-@if luiTheme(element, table, enabled) {
+@if luiTheme(elements, table, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, table);
+		$vars: luiTheme(elements, table);
 
 		#{$prefix}.table {
 			display: table;

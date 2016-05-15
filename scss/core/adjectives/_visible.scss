@@ -1,6 +1,6 @@
-@if luiTheme(adjective, visible, enabled) {
+@if luiTheme(adjectives, visible, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(adjective, visible);
+		$vars: luiTheme(adjectives, visible);
 
 		#{$prefix}.shown { display: block; }
 		#{$prefix}.hidden { display: none; }

@@ -29,7 +29,7 @@
 						width: $width;
 					}
 				}
-				@each $size, $props in luiTheme(reference, breakpoints) {
+				@each $size, $props in luiTheme(references, breakpoints) {
 					&.modal-#{$size} {
 						width: map-get($props, break);
 					}
@@ -38,8 +38,8 @@
 
 			.modal-content { padding: map-gets($pluginVars, modal, padding); }
 			.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($pluginVars, modal, padding)}"); padding: map-gets($pluginVars, modal, padding); }
-			.modal-header { margin-bottom: unquote("#{map-gets($pluginVars, modal, padding)}"); border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
-			.modal-footer { margin-top: unquote("#{map-gets($pluginVars, modal, padding)}"); border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+			.modal-header { margin-bottom: unquote("#{map-gets($pluginVars, modal, padding)}"); border-bottom: luiTheme(elements, divider, width) solid luiTheme(elements, divider, color); }
+			.modal-footer { margin-top: unquote("#{map-gets($pluginVars, modal, padding)}"); border-top: luiTheme(elements, divider, width) solid luiTheme(elements, divider, color); }
 		}
 
 		#{$prefix}.modal-backdrop {

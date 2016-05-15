@@ -46,9 +46,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, progress, enabled) {
+@if luiTheme(elements, progress, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, progress);
+		$vars: luiTheme(elements, progress);
 
 		#{$prefix}.progress {
 			background: map-gets($vars, background);

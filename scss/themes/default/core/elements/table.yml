@@ -1,0 +1,11 @@
+enabled: true
+
+background: '#fff'
+border: 1px solid '#d6d6d6'
+padding: 0.5em 1em
+zebraBackground: rgba(200, 200, 200,0.25)
+verticalMargin: 1em
+horizontalMargin: 0
+textAlignment: 		left
+
+coloredBorderWidth: 5px

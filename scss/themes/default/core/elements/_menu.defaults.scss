@@ -13,7 +13,7 @@ $menu: (
 	verticalPadding: 			0,
 	horizontalPadding: 			0,
 
-	borderColor: 				luiTheme(element, divider, color),
+	borderColor: 				luiTheme(elements, divider, color),
 	invertedBorderColor: 		rgba(255, 255, 255, 0.2),
 	borderStyle:				solid,
 
@@ -38,10 +38,10 @@ $menu: (
 	),
 
 	dividing: (
-		itemColor:				luiTheme(element, typography, body, color),
-		dividerColor: 			luiTheme(element, divider, color),
+		itemColor:				luiTheme(elements, typography, body, color),
+		dividerColor: 			luiTheme(elements, divider, color),
 		dividerWidth: 			1px,
-		activeDividerWidth: 	luiTheme(element, divider, fatWidth),
+		activeDividerWidth: 	luiTheme(elements, divider, fatWidth),
 		activeDividerColor: 	luiPalette(primary, color)
 	),
 
@@ -49,7 +49,7 @@ $menu: (
 		padding: 				0 lui_rem(1),
 		background: 			#FAFAFA,
 		activeBackground: 		#FFF,
-		borderColor: 			luiTheme(element, divider, color),
+		borderColor: 			luiTheme(elements, divider, color),
 		activeBorderWidth: 		3px,
 		bottomSpacing: 			5px
 	),

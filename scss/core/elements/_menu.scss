@@ -29,9 +29,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, menu, enabled) {
+@if luiTheme(elements, menu, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, menu);
+		$vars: luiTheme(elements, menu);
 
 		// Menu
 		// ===================================
@@ -147,7 +147,7 @@
 		#{$prefix}.menu > a.item {
 			cursor: pointer;
 			&, &:hover, &:visited {
-				color: luiTheme(element, typography, links, color);
+				color: luiTheme(elements, typography, links, color);
 			}
 			&:hover, &.active {
 				text-decoration: underline;
@@ -415,7 +415,7 @@
 			padding: map-gets($vars, tabbed, padding);
 			border: 1px solid map-gets($vars, tabbed, borderColor);
 			border-bottom: none;
-			margin-top: 2*map-gets($vars, item, horizontal, verticalPadding);
+			margin-top: 2*#{map-gets($vars, item, horizontal, verticalPadding)};
 
 			&.bordered > .item, > .item {
 				position: relative; z-index: 2;
@@ -426,7 +426,7 @@
 
 			> a.item.active, > a.item:hover {
 				background: map-gets($vars, tabbed, activeBackground);
-				padding-top: 2*map-gets($vars, item, horizontal, verticalPadding); margin-top: -(map-gets($vars, item, horizontal, verticalPadding));
+				padding-top: 2*#{map-gets($vars, item, horizontal, verticalPadding); margin-top: -(map-gets($vars, item, horizontal, verticalPadding))};
 
 				border-top-color: map-gets($vars, tabbed, borderColor);
 				border-left-color: map-gets($vars, tabbed, borderColor);
@@ -494,7 +494,7 @@
 		// Container menu
 		// ===================================
 
-		@each $name, $props in luiTheme(reference, breakpoints) {
+		@each $name, $props in luiTheme(references, breakpoints) {
 			@media (min-width: map-get($props, break)) {
 				#{$prefix}.menu.container {
 					padding-left: map-get($props, spacing);

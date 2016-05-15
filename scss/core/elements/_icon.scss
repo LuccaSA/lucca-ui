@@ -1,11 +1,11 @@
 
-$luccaIcons_icon-base-selector: luiTheme(element, icon, iconBaseSelector);
-$luccaIcons_font-create-classes: luiTheme(element, icon, createClasses);
+$luccaIcons_icon-base-selector: luiTheme(elements, icon, iconBaseSelector);
+$luccaIcons_font-create-classes: luiTheme(elements, icon, createClasses);
 @import "bower_components/lucca-icons/src/lucca-icons";
 
 @mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
-@if luiTheme(element, icon, enabled) {
+@if luiTheme(elements, icon, enabled) {
 	@at-root #{$namespace} {
 		#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
 		i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };

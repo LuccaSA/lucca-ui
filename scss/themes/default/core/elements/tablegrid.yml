@@ -1,0 +1,22 @@
+background: '#FFF'
+textAlignment: left
+
+toolbar:
+    background: 'luiPalette(grey, color)'
+    text: 'luiPalette(grey, text)'
+
+header:
+    background: 'luiPalette(light, color, light)'
+    borderColor: 'luiPalette(light, color)'
+    text: 'luiPalette(light, text, light)'
+    cellPaddingTop: 2em
+    fontWeight: normal
+    textAlignment: left
+
+rows:
+    zebraColor: 'luiPalette(light, color, light)'
+    hoverColor: 'luiPalette(primary, color, x-light)'
+
+cell:
+    minWidth: 5em
+    padding: 0.5em 1em

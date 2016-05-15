@@ -1,23 +1,37 @@
-// ===================================
-// ======== CORE & UTILITIES =========
-// ===================================
 
+// ===================================
+// ========= INITIALIZATION ==========
+// ===================================
 
 // Utility functions
 // ===================================
 @import	"core/utilities/functions/maps",
 		"core/utilities/functions/strings";
 
-
-// Initialization
+// Namespace discovery
 // ===================================
 $prefix: '' !default;
 $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: str-replace(to-string($namespace), '#', '');
 
+// Theme building
+// ===================================
+@import "themes/default/references.json";
+@import "themes/default/adjectives.json";
+@import "themes/default/elements.json";
+$theme: (core: (references: $references, adjectives: $adjectives, elements: $elements));
+
+@import "core/utilities/theming/theming";
+
+// ===================================
+// ======== CORE & UTILITIES =========
+// ===================================
+
+
+
+
 
 // Build theme
 // ===================================
-@import "core/utilities/theming/theming";
 
 
 // Mixins
@@ -54,21 +68,22 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 // ===================================
 @import	"core/elements/icon",
 		"core/elements/grid",
-		"core/elements/typography",
-		"core/elements/input",
-		"core/elements/button",
 		"core/elements/divider",
-		"core/elements/table",
-		"core/elements/menu",
-		"core/elements/breadcrumbs",
-		"core/elements/label",
-		"core/elements/callout",
-		"core/elements/block", // @TODO: under construction
-		"core/elements/overlay",
-		"core/elements/progress",
-		"core/elements/day-block",
-		"core/elements/tablegrid",
-		"core/elements/notify";
+		"core/elements/typography"
+		// "core/elements/input",
+		// "core/elements/button",
+		// "core/elements/table",
+		// "core/elements/menu",
+		// "core/elements/breadcrumbs",
+		// "core/elements/label",
+		// "core/elements/callout",
+		// "core/elements/block", // @TODO: under construction
+		// "core/elements/overlay",
+		// "core/elements/progress",
+		// "core/elements/day-block",
+		// "core/elements/tablegrid",
+		// "core/elements/notify"
+		;
 
 
 
@@ -80,13 +95,13 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 
 // Angular UI Bootstrap reskin
 // ===================================
-@at-root #{$namespace} {
-	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
-}
+// @at-root #{$namespace} {
+// 	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+// }
 
 
 // Lucca App Lqyout
 // ===================================
-@at-root #{$namespace} {
-	@import "plugins/lucca-app-layout/lucca-app-layout";
-}
+// @at-root #{$namespace} {
+// 	@import "plugins/lucca-app-layout/lucca-app-layout";
+// }

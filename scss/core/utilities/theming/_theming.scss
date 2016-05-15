@@ -4,6 +4,7 @@
 @import "palette";
 
 $luiTheme: () !default;
+$theme: () !default;
 
 // Get / set theming variables
 // ===================================
@@ -20,7 +21,7 @@ $luiTheme: () !default;
 }
 
 @function luiTheme($type, $keys...) {
-	$vars: map-get($luiTheme, "#{$type}s");
+	$vars: map-gets($theme, core, $type);
 	@each $key in $keys { $vars: map-get($vars, $key); }
 	@return $vars;
 }
@@ -38,12 +39,13 @@ $luiTheme: () !default;
 
 @function lui_rem($number: 1) {
 	// Remove $number unit if specified and multiply it by bodyFontSize
-	@return round(($number / ($number * 0 + 1)) * map-gets($luiTheme, elements, typography, body, fontSize));
+	@return 0.1;
+	@return round(($number / ($number * 0 + 1)) * luiTheme(element, typography, body, fontSize));
 }
 
 
 // Load core defaults
 // @import "core/theming/defaults.values";
 @at-root {
-	@import "theme.defaults";
+	// @import "theme.defaults";
 }

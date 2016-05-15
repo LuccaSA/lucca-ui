@@ -1,0 +1,12 @@
+mobile:
+    break: 320px
+    spacing: 1em
+tablet:
+    break: 768px
+    spacing: 2em
+desktop:
+    break: 992px
+    spacing: 3em
+large:
+    break: 1200px
+    spacing: 5em

@@ -1,12 +1,12 @@
-@if luiTheme(element, notify, enabled) {
+@if luiTheme(elements, notify, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, notify);
+		$vars: luiTheme(elements, notify);
 
 		.luis-notify {
 			@include lui_transition();
 			z-index: map-gets($vars, zIndex);
 			position: fixed !important;
-			width: luiTheme(reference, breakpoints, mobile, break);
+			width: luiTheme(references, breakpoints, mobile, break);
 			max-width: map-gets($vars, maxWidth);
 			left: 50%;
 			.close {

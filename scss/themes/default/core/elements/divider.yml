@@ -1,0 +1,6 @@
+enabled: true
+
+width: 1px
+fatWidth: 3px
+color: rgba(50, 50, 50, 0.2)
+invertedColor: rgba(255, 255, 255, 0.2)

@@ -7,9 +7,9 @@
 // ===================================
 
 @mixin lui_loop_columns($device, $spacing) {
-	$column: 100% / luiTheme(element, grid, columns);
+	$column: 100% / luiTheme(elements, grid, columns);
 
-	@for $i from 0 through luiTheme(element, grid, columns) {
+	@for $i from 0 through luiTheme(elements, grid, columns) {
 		@if $i > 0 {
 			#{$prefix}.container #{$prefix}.column.#{$device}-#{$i} { width: $column * $i; }
 		}
@@ -37,9 +37,9 @@ body, html { width: 100%; height: 100%; }
 %lui_clearfix { @include lui_clearfix(); }
 
 
-@if luiTheme(element, grid, enabled) {
+@if luiTheme(elements, grid, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, grid);
+		$vars: luiTheme(elements, grid);
 
 
 		#{$prefix}.clear {
@@ -88,8 +88,8 @@ body, html { width: 100%; height: 100%; }
 		// Build grid
 		// ===================================
 
-		@each $device, $props in luiTheme(reference, breakpoints) {
-			$i: index($device, luiTheme(reference, breakpoints));
+		@each $device, $props in luiTheme(references, breakpoints) {
+			$i: index($device, luiTheme(references, breakpoints));
 			$breakAt: map-get($props, break);
 			$spacing: map-get($props, spacing);
 

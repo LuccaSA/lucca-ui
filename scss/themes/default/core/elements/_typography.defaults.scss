@@ -14,7 +14,7 @@ $typography: (
 		boldWeight: 			600
 	),
 
-	smallSize:	 				luiTheme(reference, sizes, small),
+	smallSize:	 				luiTheme(references, sizes, small),
 
 	headings: (
 		fontFamily: 			"'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif",
@@ -57,7 +57,7 @@ $typography: (
 
 		sub: (
 			color: 				lighten(#666, 20),
-			fontSize: 			luiTheme(reference, sizes, small),
+			fontSize: 			luiTheme(references, sizes, small),
 			fontWeight: 		400
 		)
 	),
@@ -80,7 +80,7 @@ $typography: (
 		border: (
 			width: 				1px,
 			style: 				solid,
-			color: 				luiTheme(element, divider, color)
+			color: 				luiTheme(elements, divider, color)
 		),
 		margin: (
 			top: 				1em,
@@ -106,7 +106,7 @@ $typography: (
 		fontFamily: 			monospace,
 		color: 					#666,
 		background: 			#EFEFEF,
-		borderRadius: 			luiTheme(adjective, rounded, radius),
+		borderRadius: 			luiTheme(adjectives, rounded, radius),
 		padding: (
 			top: 				0.25em,
 			right: 				0.5em,

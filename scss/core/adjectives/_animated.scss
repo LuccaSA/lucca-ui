@@ -1,8 +1,8 @@
-@if luiTheme(adjective, animated, enabled) {
+@if luiTheme(adjectives, animated, enabled) {
 
 	%#{$cleanNamespace}-animated {
-		animation-timing-function: luiTheme(adjective, animated, transitions, animationEasing);
-		animation-duration: luiTheme(adjective, animated, transitions, animationDuration);
+		animation-timing-function: luiTheme(adjectives, animated, transitions, animationEasing);
+		animation-duration: luiTheme(adjectives, animated, transitions, animationDuration);
 		animation-fill-mode: none;
 
 		-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
@@ -12,12 +12,12 @@
 		opacity: 1;
 	}
 	%#{$cleanNamespace}-static-animated {
-		animation-timing-function: luiTheme(adjective, animated, static, animationEasing);
-		animation-duration: luiTheme(adjective, animated, static, animationDuration);
+		animation-timing-function: luiTheme(adjectives, animated, static, animationEasing);
+		animation-duration: luiTheme(adjectives, animated, static, animationDuration);
 	}
 
 	@at-root #{$namespace} {
-		$vars: luiTheme(adjective, animated);
+		$vars: luiTheme(adjectives, animated);
 
 		#{$prefix}.animated {
 			@extend %#{$cleanNamespace}-animated;

@@ -10,7 +10,7 @@
 
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(element, input);
+		$inputVars: luiTheme(elements, input);
 
 		%lui_nguibs_dropdown {
 			position: relative;
@@ -48,7 +48,7 @@
 				.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
 
 				a {
-					color: luiTheme(element, typography, body, color);
+					color: luiTheme(elements, typography, body, color);
 					text-decoration: none;
 					display: block;
 					padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");

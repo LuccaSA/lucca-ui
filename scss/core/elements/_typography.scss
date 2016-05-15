@@ -6,10 +6,10 @@
 // ===================================
 
 @mixin lui_body_typeset {
-	font-size: luiTheme(element, typography, body, fontSize);
-	font-family: unquote(luiTheme(element, typography, body, fontFamily));
-	color: luiTheme(element, typography, body, color);
-	line-height: luiTheme(element, typography, body, lineHeight);
+	font-size: luiTheme(elements, typography, body, fontSize);
+	font-family: unquote(luiTheme(elements, typography, body, fontFamily));
+	color: luiTheme(elements, typography, body, color);
+	line-height: luiTheme(elements, typography, body, lineHeight);
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -20,15 +20,15 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, typography, enabled) {
+@if luiTheme(elements, typography, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, typography);
+		$vars: luiTheme(elements, typography);
 
 		// Common and shortcuts
 		// ===================================
 		@include lui_body_typeset;
 
-		#{$prefix}.small, small { font-size: map-get($vars, smallSize); }
+		#{$prefix}.small, small { font-size: #{map-get($vars, smallSize)}; }
 
 		#{$prefix}.italic { font-style: italic; }
 

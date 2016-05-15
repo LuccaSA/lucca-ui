@@ -1,6 +1,6 @@
-@if luiTheme(element, breadcrumbs, enabled) {
+@if luiTheme(elements, breadcrumbs, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, breadcrumbs);
+		$vars: luiTheme(elements, breadcrumbs);
 
 		#{$prefix}.breadcrumbs {
 			@extend ul#{$prefix}.unstyled;

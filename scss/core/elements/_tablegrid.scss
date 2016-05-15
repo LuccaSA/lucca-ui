@@ -1,6 +1,6 @@
-@if luiTheme(element, tablegrid, enabled) {
+@if luiTheme(elements, tablegrid, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, tablegrid);
+		$vars: luiTheme(elements, tablegrid);
 
 		#{$prefix}.tablegrid {
 			position: relative;
@@ -70,7 +70,7 @@
 						font-size: 0.6em;
 						padding: 0.5em;
 						line-height: 1;
-						border-radius: luiTheme(adjective, rounded, radius);
+						border-radius: luiTheme(adjectives, rounded, radius);
 						color: map-gets($vars, header, background);
 						background-color: map-gets($vars, header, text);
 					}

@@ -37,9 +37,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, callout, enabled) {
+@if luiTheme(elements, callout, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, callout);
+		$vars: luiTheme(elements, callout);
 
 		#{$prefix}.callout {
 			display: block;

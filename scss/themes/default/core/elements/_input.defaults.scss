@@ -19,7 +19,7 @@ $input: (
 	borderColor: 				luiPalette(light, color),
 	focusBorderColor: 			luiPalette(light, color, dark),
 	invalidColor:  				luiPalette(red, color),
-	shadow: 					0 2px 2px 0 luiTheme(element, divider, color),
+	shadow: 					0 2px 2px 0 luiTheme(elements, divider, color),
 
 	placeholder: (
 		color: 					rgba(0, 0, 0, 0.5),
@@ -76,7 +76,7 @@ $input: (
 			margin: 			0.1em,
 			background: 		luiPalette(light, color, light),
 			borderColor: 		luiPalette(light, color),
-			borderRadius: 		luiTheme(adjective, rounded, radius),
+			borderRadius: 		luiTheme(adjectives, rounded, radius),
 			selectedColor: 		luiPalette(primary, color)
 		)
 	),

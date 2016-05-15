@@ -22,7 +22,7 @@
 	&.inverted:not(.flat) {
 		background: transparent;
 		&:hover {
-			box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
+			box-shadow: 0 0 0 luiTheme(elements, button, wired, borderWidth) map-get($scheme, color) inset;
 			color: map-gets($scheme, color);
 		}
 		&.filling:hover {
@@ -50,7 +50,7 @@
 		&:not(.inverted):hover,
 		&:not(.inverted):active,
 		&:not(.inverted).active {
-			box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
+			box-shadow: 0 0 0 luiTheme(elements, button, wired, borderWidth) map-get($scheme, color) inset;
 			color: map-get($scheme, color);
 
 			&[class*="with addon"] > .addon {
@@ -81,9 +81,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, button, enabled) {
+@if luiTheme(elements, button, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, button);
+		$vars: luiTheme(elements, button);
 
 		%lui_button_sizing {
 			line-height: 1;

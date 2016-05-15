@@ -25,7 +25,7 @@
 			pointer-events: none;
 
 			& {
-				$shadow: unquote(luiTheme(adjective, raised, default, filter));
+				$shadow: unquote(luiTheme(adjectives, raised, default, filter));
 				-webkit-filter: drop-shadow($shadow);
 				filter: drop-shadow($shadow);
 			}

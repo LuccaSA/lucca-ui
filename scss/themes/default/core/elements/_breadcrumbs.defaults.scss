@@ -12,7 +12,7 @@ $breadcrumbs: (
 		fontFamily: 			'',
 		character: 				"\003e",
 		margin: 				0 0.5em,
-		color:					luiTheme(element, divider, color)
+		color:					luiTheme(elements, divider, color)
 	)
 );
 $luiTheme: luiSetTheme(element, breadcrumbs, $breadcrumbs);

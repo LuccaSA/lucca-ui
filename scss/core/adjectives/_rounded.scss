@@ -1,6 +1,6 @@
-@if luiTheme(adjective, rounded, enabled) {
+@if luiTheme(adjectives, rounded, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(adjective, rounded);
+		$vars: luiTheme(adjectives, rounded);
 
 		#{$prefix}.rounded {
 			border-radius: map-get($vars, radius);

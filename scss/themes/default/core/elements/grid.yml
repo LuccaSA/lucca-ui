@@ -1,0 +1,5 @@
+enabled: true
+
+gutter: 1em
+columns: 12
+containerWidth: auto

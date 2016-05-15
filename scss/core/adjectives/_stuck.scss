@@ -1,6 +1,6 @@
-@if luiTheme(adjective, stuck, enabled) {
+@if luiTheme(adjectives, stuck, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(adjective, stuck);
+		$vars: luiTheme(adjectives, stuck);
 
 		#{$prefix}.stuck { position: fixed !important; z-index: map-gets($vars, zIndex); }
 

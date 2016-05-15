@@ -1,6 +1,6 @@
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(element, input);
+		$inputVars: luiTheme(elements, input);
 
 		#{$prefix}.datepicker {
 			@extend %lui_input_holder_base;

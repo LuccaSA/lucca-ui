@@ -10,6 +10,8 @@
 		background: map-get($scheme, color);
 		color: map-get($scheme, text);
 		@if luiIsLod($scheme) {
+			@warn "#{type-of(map-get($scheme, color))}";
+			@warn "#{#{map-get($scheme, color)}}";
 			text-shadow: 1px 0 1px darken(map-get($scheme, color), 5);
 		}
 	}
@@ -23,9 +25,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(element, label, enabled) {
+@if luiTheme(elements, label, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, label);
+		$vars: luiTheme(elements, label);
 
 		#{$prefix}.label {
 			display: inline-block;

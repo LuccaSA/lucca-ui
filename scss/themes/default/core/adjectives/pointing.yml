@@ -1,0 +1,3 @@
+enabled: true
+triangleColor: luiPalette(light, color)
+triangleWidth: 0.5em

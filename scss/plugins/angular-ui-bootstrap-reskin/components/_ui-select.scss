@@ -1,7 +1,7 @@
 
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(element, input);
+		$inputVars: luiTheme(elements, input);
 
 		#{$prefix}.ui-select,
 		#{$prefix}.ui-select-bootstrap {
@@ -145,7 +145,7 @@
 			.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
 
 			// Supports sizing
-			@each $class, $length in luiTheme(element, input, lengths) {
+			@each $class, $length in luiTheme(elements, input, lengths) {
 				&.#{$class} {
 					width: $length;
 				}
@@ -212,7 +212,7 @@
 				border: none;
 				border-bottom: map-gets($pluginVars, uiSelect, natural, border);
 				font-weight: map-gets($pluginVars, uiSelect, natural, fontWeight);
-				color: darken(luiTheme(element, typography, body, color), 20);
+				color: darken(luiTheme(elements, typography, body, color), 20);
 				padding: 0 0.25em;
 			}
 			.ui-select-toggle:hover {

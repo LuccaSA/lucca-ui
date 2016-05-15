@@ -29,9 +29,9 @@ luid-day-block#{$prefix} {
 	}
 }
 
-@if luiTheme(element, dayblock, enabled) {
+@if luiTheme(elements, dayblock, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, dayblock);
+		$vars: luiTheme(elements, dayblock);
 
 		luid-day-block {
 			display: inline-block;
@@ -81,7 +81,7 @@ luid-day-block#{$prefix} {
 				font-weight: map-gets($vars, year, fontWeigh);
 			}
 
-			@include lui_datestamp_coloring(luiTheme(reference, palettes, colors, light));
+			@include lui_datestamp_coloring(luiTheme(references, palettes, colors, light));
 			// @include lui_datestamp_coloring((text: map-gets($vars, textColor), color: map-gets($vars, borderColor)));
 		}
 

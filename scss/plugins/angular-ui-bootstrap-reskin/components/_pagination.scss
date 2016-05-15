@@ -24,13 +24,13 @@
 			li {
 				display: inline-block;
 
-				a { @extend %lui_basic_button; background-color: map-gets($pluginVars, pagination, background); color: luiTheme(element, typography, body, color); }
+				a { @extend %lui_basic_button; background-color: map-gets($pluginVars, pagination, background); color: luiTheme(elements, typography, body, color); }
 
 				// Page numbers
 				// ====
 				&.pagination-page a {
 					box-shadow: none;
-					transition: background-color luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+					transition: background-color luiTheme(adjectives, animated, animationDuration) luiTheme(adjectives, animated, animationEasing);
 					text-align: center;
 					font-weight: 600;
 				}
@@ -66,7 +66,7 @@
 						height: map-gets($pluginVars, pagination, dividing, borderWidth);
 
 						transform: scale(0, 1);
-						transition: transform luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+						transition: transform luiTheme(adjectives, animated, animationDuration) luiTheme(adjectives, animated, animationEasing);
 					}
 
 					&.active a:after { transform: scale(1, 1); }
@@ -81,13 +81,13 @@
 			&.bordered {
 				a { margin: 0 !important; border-radius: 0 !important; }
 				li.pagination-page a {
-					box-shadow: 0 0 0 luiTheme(element, button, defaultBorderWidth) luiTheme(element, button, defaultBorderColor) inset;
+					box-shadow: 0 0 0 luiTheme(elements, button, defaultBorderWidth) luiTheme(elements, button, defaultBorderColor) inset;
 				}
 				li + li {
 					margin-left: -1px;
 				}
-				li:first-child a { border-top-left-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjective, rounded, radius) !important; }
-				li:last-child a { border-top-right-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjective, rounded, radius) !important; }
+				li:first-child a { border-top-left-radius: luiTheme(adjectives, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjectives, rounded, radius) !important; }
+				li:last-child a { border-top-right-radius: luiTheme(adjectives, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjectives, rounded, radius) !important; }
 			}
 
 			@include lui_nguibs_pagination_coloring(map-gets($pluginVars, pagination, defaultColoring));

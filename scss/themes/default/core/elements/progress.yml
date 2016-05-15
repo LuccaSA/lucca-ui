@@ -1,0 +1,20 @@
+enabled: true
+
+height: 1.5em
+slimHeight: 5px
+
+verticalMargin: 1em
+borderRadius: 'luiTheme(adjective, rounded, radius)'
+background: '#EFEFEF'
+
+defaultColoring:
+    color: '#CCC'
+    text: '#666'
+
+status:
+    fontWeight: 600
+
+progressBar:
+    zIndex: 1000
+    height: 2px
+    fadeInDuration: 0.25s
