@@ -5,7 +5,10 @@ module.exports = function(grunt, options){
 		options: {
 			nospawn: true
 		},
-
+		theme: {
+			files: ['scss/themes/**/*.yml'],
+			tasks: ['data-merge', 'sass']
+		},
 		sass: {
 			files: ['scss/**/*.scss', 'scss/*.sass'],
 			tasks: ['sass']
