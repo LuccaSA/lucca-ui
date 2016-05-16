@@ -1,0 +1,37 @@
+{
+	"core": {
+		"references": [
+			"breakpoints",
+			"palettes",
+			"sizes"
+		],
+		"adjectives": [
+			"animated",
+			"pointing",
+			"raised",
+			"rounded",
+			"stuck",
+			"unstyled",
+			"visible"
+		],
+		"elements": [
+			"block",
+			"breadcrumbs",
+			"button",
+			"callout",
+			"dayblock",
+			"divider",
+			"grid",
+			"icon",
+			"input",
+			"label",
+			"menu",
+			"notify",
+			"overlay",
+			"progress",
+			"table",
+			"tablegrid",
+			"typography"
+		]
+	}
+}

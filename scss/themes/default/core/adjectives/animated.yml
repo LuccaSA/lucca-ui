@@ -1,13 +1,17 @@
-enabled: true
+theme:
+    core:
+        adjectives:
+            animated:
+                enabled: true
 
-transitions:
-    animationDuration: 0.25s
-    animationEasing: ease-out
-    fadeTranslationDistance: 1em
-    scaleAnimationRatio: 25
+                transitions:
+                    animationDuration: 0.25s
+                    animationEasing: ease-out
+                    fadeTranslationDistance: 1em
+                    scaleAnimationRatio: 25
 
-static:
-    animationDuration: 0.5s
-    animationEasing: ease-out
+                static:
+                    animationDuration: 0.5s
+                    animationEasing: ease-out
 
-    bounceDistance: 2em
+                    bounceDistance: 2em

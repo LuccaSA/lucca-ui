@@ -1,0 +1,555 @@
+theme:
+    core:
+
+        # ////////////////////////////////////////////////////////////////////
+        # ---------------------------- REFERENCES ----------------------------
+        # ////////////////////////////////////////////////////////////////////
+        references:
+
+            # Breakpoints
+            # ----------------------------------------------------------------
+            breakpoints:
+                mobile:
+                    break: 320px
+                    spacing: !rem 1
+                tablet:
+                    break: 768px
+                    spacing: 2em
+                desktop:
+                    break: 992px
+                    spacing: 3em
+                large:
+                    break: 1200px
+                    spacing: 5em
+
+            # Palettes: colorschemes
+            # ----------------------------------------------------------------
+            palettes:
+                # Actual colorschemes
+                colors:
+                    grey: &greyPalette
+                        class: 'grey'
+                        color: &greyColor '#666'
+                        text: &greyTextColor '#fff'
+
+                    light: &lightPalette
+                        class: 'light'
+                        color: &lightColor '#CCC'
+                        text: &lightTextColor '#666'
+
+                    primary: &primaryPalette
+                        class: 'primary'
+                        color: &primaryColor '#FFC900'
+                        text: &primaryTextColor'#666'
+
+                    secondary: &secondaryPalette
+                        class: 'secondary'
+                        color: &secondaryColor'#F60'
+                        text: &secondaryTextColor '#FFF'
+
+                    red: &redPalette
+                        class: 'red'
+                        color: &redColor '#F60'
+                        text: &redTextColor '#FFF'
+
+                    orange: &orangePalette
+                        class: 'orange'
+                        color: &orangeColor '#F90'
+                        text: &orangeTextColor '#FFF'
+
+                    green:
+                        class: 'green'
+                        color: &greenColor '#5cb85c'
+                        text: &greenTextColor '#FFF'
+
+                    yellow:
+                        class: 'yellow'
+                        color: '#FFC900'
+                        text: '#666'
+
+                # Color manipulations
+                manipulations:
+                    x-dark: &xDarkManipulation
+                        - darken
+                        - 25
+                    dark: &darkManipulation
+                        - darken
+                        - 15
+                    x-light: &xLightManipulation
+                        - lighten
+                        - 25
+                    light: &lightManipulation
+                        - lighten
+                        - 15
+                    accent: &accentManipulation
+                        - saturate
+                        - 15%
+                    x-accent: &xAccentManipulation
+                        - saturate
+                        - 25%
+
+            # Sizes
+            # ----------------------------------------------------------------
+            sizes:
+                - x-small: &xSmallSize 0.7em
+                - small: &smallSize 0.85em
+                - regular: &regularSize 13px
+                - large: &largeSize 1.25em
+                - x-large: &xLargeSize 1.5em
+
+
+        # ////////////////////////////////////////////////////////////////////
+        # ---------------------------- ADJECTIVES ----------------------------
+        # ////////////////////////////////////////////////////////////////////
+        adjectives:
+
+            # Animated
+            # ----------------------------------------------------------------
+            animated:
+                enabled: true
+
+                transitions:
+                    animationDuration: 0.25s
+                    animationEasing: ease-out
+                    fadeTranslationDistance: 1em
+                    scaleAnimationRatio: 25
+
+                static:
+                    animationDuration: 0.5s
+                    animationEasing: ease-out
+                    bounceDistance: 2em
+
+            # Pointing: triangle towards
+            # ----------------------------------------------------------------
+            pointing:
+                enabled: true
+                triangleColor: *lightColor
+                triangleWidth: 0.5em
+
+            # Raised
+            # ----------------------------------------------------------------
+            raised:
+                enabled: true
+                default:
+                    box-shadow: &raisedDefaultShadow "'0 1px 2px 0 rgba(0, 0, 0, 0.2)'"
+                    filter: &raisedDefaultShadowFilter "'0 1px 2px rgba(0, 0, 0, 0.2)'"
+                high:
+                    box-shadow: &raisedHighShadow "'0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)'"
+                    filter: &raisedHighShadowFilter "'0 5px 5px rgba(0, 0, 0, 0.24)'"
+
+            # Rounded
+            # ----------------------------------------------------------------
+            rounded:
+                enabled: true
+                radius: &defaultBorderRadius 3px
+
+            # Stuck
+            # ----------------------------------------------------------------
+            stuck:
+                enabled: true
+                zIndex: 3
+
+            # Unstyled
+            # ----------------------------------------------------------------
+            unstyled:
+                enabled: true
+
+            # Visible
+            # ----------------------------------------------------------------
+            visible:
+                enabled: true
+
+
+        # ////////////////////////////////////////////////////////////////////
+        # ----------------------------- ELEMENTS -----------------------------
+        # ////////////////////////////////////////////////////////////////////
+        elements:
+
+            # Divider
+            # ----------------------------------------------------------------
+            divider:
+                enabled: true
+
+                default: &defaultDividerBorder
+                    width: &defaultDividerBorderWidth "1px"
+                    style: &defaultDividerBorderStyle "solid"
+                    color: &defaultDividerBorderColor "rgba(50, 50, 50, 0.2)"
+
+                fat: &fatDividerBorder
+                    width: &fatDividerBorderWidth "3px"
+                    style: *defaultDividerBorderStyle
+                    color: *defaultDividerBorderColor
+
+                inverted:
+                    width: *defaultDividerBorderWidth
+                    style: *defaultDividerBorderStyle
+                    color: &invertedDividerBorderColor rgba(255, 255, 255, 0.2)
+
+
+            # Grid
+            # ----------------------------------------------------------------
+            grid:
+                enabled: true
+
+                gutter: 1em
+                columns: 12
+                containerWidth: auto
+
+
+            # Icon
+            # ----------------------------------------------------------------
+            icon:
+                enabled: true
+
+                createClasses: true
+                iconBaseSelector: "'#{$prefix}.icon'"
+
+
+            # Typography
+            # ----------------------------------------------------------------
+            typography:
+                enabled: true
+
+                # Body & commons
+                body:
+                    fontFamily: &bodyFontFamily "'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif"
+                    fontSize: 13px
+                    color: &bodyTextColor '#666'
+                    lineHeight: 1.4em
+                    boldWeight: 600
+
+                smallSize: *smallSize
+
+                # Headings
+                headings:
+                    fontFamily: "'Source Sans Pro', 'Tahoma', Verdana, Geneva, Helvetica, Arial, sans-serif"
+                    lineHeight: 1.25em
+                    verticalMargin: 0
+                    fontWeight: normal
+
+                    h1:
+                        fontSize: 2.75em
+                        lineHeight: 1.25em
+                        fontWeight: 300
+                    h2:
+                        fontSize: 2.25em
+                        lineHeight: 1.25em
+                        fontWeight: 300
+                    h3:
+                        fontSize: 1.8em
+                        lineHeight: 1.3em
+                        fontWeight: 400
+                    h4:
+                        fontSize: 1.5em
+                        lineHeight: 1.3em
+                        fontWeight: 400
+                    h5:
+                        fontSize: 1.25em
+                        lineHeight: 1em
+                        fontWeight: 400
+                    h6:
+                        fontSize: 1.1em
+                        lineHeight: 1em
+                        fontWeight: 600
+
+                    iconSize: 0.8em
+
+                    sub:
+                        color: lighten(#666, 20)
+                        fontSize: *smallSize
+                        fontWeight: 400
+
+                # Links
+                links:
+                    color: '#00b2ed'
+                    decoration: none
+                    hover:
+                        color: lighten(#00b2ed, 10)
+                        decoration: underline
+                    visited:
+                        color: darken(#00b2ed, 10)
+
+                # Blockauotes
+                quote:
+                    fontSize: 1em
+                    fontStyle: normal
+                    border: *defaultDividerBorder
+                    margin:
+                        top: 1em
+                        left: 0
+                        right: 0
+                        bottom: 1em
+                    padding:
+                        top: 0
+                        left: 1em
+                        right: 0
+                        bottom: 0
+                    cite:
+                        fontSize: 1em
+                        fontStyle: normal
+                        fontWeight: 400
+
+                # Keyboard key
+                kbd:
+                    fontSize: 0.9em
+                    fontFamily: monospace
+                    color: '#666'
+                    background: '#EFEFEF'
+                    borderRadius: *defaultBorderRadius
+                    padding:
+                        top: 0.25em
+                        right: 0.5em
+                        bottom: 0.25em
+                        left: 0.5em
+                    border:
+                        width: 1px
+                        style: solid
+                        color: darken(#EFEFEF, 10)
+                    extrude: 2px
+
+                # Definition list
+                definitionList:
+                    divider: "':'"
+                    gutter: 2em
+                    termWidth: 10em
+                    termWeight: 600
+                    definitionWeight: 400
+                    itemVerticalSpacing: 1em
+
+
+            # Block
+            # ----------------------------------------------------------------
+            block:
+                enabled: true
+                verticalPadding: 1em
+                horizontalPadding: 1em
+                border: *defaultDividerBorder
+                invertedBorder: *invertedDividerBorderColor
+                borderRadius: 3px
+
+
+            # Breadcrumbs
+            # ----------------------------------------------------------------
+            breadcrumbs:
+                enabled: true
+                itemPadding: 0.5em 0
+                dividers:
+                    fontFamily: "''"
+                    character: "003e"
+                    margin: 0 0.5em
+                    color: *defaultDividerBorder
+
+
+            # Button
+            # ----------------------------------------------------------------
+            button:
+                enabled: true
+
+                # Sizing
+                minHeight: 1em
+                minWidth: 3em
+                verticalPadding: 0.66em
+                horizontalPadding: 1em
+                verticalMargin: 0.25em
+                horizontalMargin: 0.25em
+
+                # Text
+                textTransform: normal
+                textShadow: none
+
+                # STYLES
+                # Default
+                borderRadius: 3px
+                hoverShadow: *raisedDefaultShadow
+                defaultColoring:
+                    color: '#FFFFFF'
+                    text: *bodyTextColor
+                defaultBorderWidth: 1px
+                defaultBorderColor: *defaultDividerBorder
+                # Inverted
+                inverted:
+                    color: rgba(200, 200, 200, 0.75)
+                # Flat
+                flat:
+                    background: transparent
+                    textDecoration: underline
+                    hoverBackground: rgba(0, 0, 0, 0.05)
+                    activeBackground: rgba(0, 0, 0, 0.1)
+                    activeShadow: 	0 0 0 1px rgba(50, 50, 50, .1)
+                    invertedHoverBackground: rgba(200, 200, 200, 0.1)
+                    invertedActiveBackground: rgba(255, 255, 255, .25)
+                # Wired
+                wired:
+                    borderWidth: 2px
+
+                # Disabled
+                disabledOpacity: 0.5
+                disabledGrayscale: 50%
+
+                # Addon specifics
+                addon:
+                    width: 2.5em
+                    background: rgba(0, 0, 0, 0.1)
+
+
+            # Callout
+            # ----------------------------------------------------------------
+            callout:
+                enabled: true
+
+                background: '#FFF'
+                borderColor: *lightColor
+                borderWidth: 5px
+
+                verticalPadding: 1em
+                horizontalPadding: 2em
+                verticalMargin: 1em
+                horizontalMargin: 0
+
+                defaultColoring: !palette
+                    palette: light
+
+
+            # Dayblock
+            # ----------------------------------------------------------------
+            dayblock:
+                enabled: true
+
+                test: !theme
+                    family: references
+                    object: sizes
+                    property: small
+
+                width: 5em
+                verticalMargin: 1em
+                horizontalMargin: 0
+
+                textTransform: uppercase
+                textAlign: center
+                textColor: *bodyTextColor
+
+                borderRadius: *defaultBorderRadius
+                borderWidth: 1px
+                borderColor: *defaultDividerBorderColor
+
+                day:
+                    verticalPadding: 0.25em
+                    fontSize: 3em
+                    fontWeight: 600
+
+                month:
+                    verticalPadding: 0
+                    fontSize: 1.5em
+                    fontWeight: 600
+
+                year:
+                    verticalPadding: 0.1em
+                    fontSize: 1em
+                    fontWeight: 400
+
+
+            # Input
+            # ----------------------------------------------------------------
+            input:
+                enabled: true
+
+                # Common
+                background: '#FFF'
+                borderRadius: 3px
+                color: '#666'
+                padding:
+                    top: 0.66em
+                    right: 1em
+                    bottom: 0.66em
+                    left: 1em
+
+                borderWidth: 1px
+                borderColor: *lightColor
+                focusBorderColor: 'luiPalette(light, color, dark)'
+
+                invalidColor: &redColor
+                shadow: &raisedDefaultShadow
+
+                placeholder:
+                    color: rgba(0, 0, 0, 0.5)
+                    style: italic
+
+                # Field element specifics
+                field:
+                    verticalMargin: 0.5em
+                    labelFontWeight: 600
+
+                # Input lengths
+                lengths:
+                    x-short: 5em
+                    short: 8em
+                    medium: 15em
+                    long: 20em
+                    x-long: 25em
+
+                # INPUT TYPES SPECIFICS
+                # Checkbox
+                checkbox:
+                    enabled: true
+                    color: &primaryColor
+                    size: 1.5em
+                # Radio buttons
+                radio:
+                    enabled: true
+                    color: &primaryColor
+                    size: 1.5em
+                    lineHeight: 1.5
+
+                # Switch / Toggle
+                switch:
+                    enabled: true
+                    width: 4.5em
+                    height: 2.25em
+                    background: '#666'
+                    color: darken(#666, 15)
+                    activeBackground: !palette
+                        palette: primary
+                        property: color
+                    activeColor: !palette
+                        palette: primary
+                        property: color
+                        manipulation: dark
+                    grabLinesColor: !palette
+                        palette: light
+                        property: color
+
+                # Search input
+                search:
+                    enabled: true
+                    paddingLeft: 2.5em
+                    tag:
+                        padding: 0.25em 0.5em
+                        margin: 0.1em
+                        background: !palette
+                            palette: light
+                            property: color
+                            manipulation: light
+                        borderColor: !palette
+                            palette: light
+                            property: color
+                        borderRadius: &defaultborderRadius
+                        selectedColor: !palette
+                            palette: primary
+                            property: color
+
+                # Timespanpicker: lucca-ui directive
+                timespanpicker:
+                    enabled: true
+                    width: 5em
+
+                # Momentpicker: lucca-ui directive
+                momentpicker:
+                    enabled: true
+                    width: 2.2em
+                    maxWidth: 5.25em
+
+                # Translation: lucca-ui directive
+                translations:
+                    background: '#FFF'
+                    dropdownPadding: 0.5em
+                    zIndex: 3

@@ -1,28 +1,41 @@
-enabled: true
+theme:
+    core:
+        elements:
+            dayblock:
+                enabled: true
 
-width: 5em
-verticalMargin: 1em
-horizontalMargin: 0
+                width: 5em
+                verticalMargin: 1em
+                horizontalMargin: 0
 
-textTransform: uppercase
-textAlign: center
-textColor: 'luiTheme(element, typography, body, color)'
+                textTransform: uppercase
+                textAlign: center
+                textColor: !theme
+                    family: elements
+                    object: typography
+                    property: body.color
 
-borderRadius: 'luiTheme(adjective, rounded, radius)'
-borderWidth: 1px
-borderColor: 'luiTheme(element, divider, color)'
+                borderRadius: !theme
+                    family: adjectives
+                    object: rounded
+                    property: radius
+                borderWidth: 1px
+                borderColor: !theme
+                    family: elements
+                    object: divider
+                    property: default.color
 
-day:
-    verticalPadding: 0.25em
-    fontSize: 3em
-    fontWeight: 600
+                day:
+                    verticalPadding: 0.25em
+                    fontSize: 3em
+                    fontWeight: 600
 
-month:
-    verticalPadding: 0
-    fontSize: 1.5em
-    fontWeight: 600
+                month:
+                    verticalPadding: 0
+                    fontSize: 1.5em
+                    fontWeight: 600
 
-year:
-    verticalPadding: 0.1em
-    fontSize: 1em
-    fontWeight: 400
+                year:
+                    verticalPadding: 0.1em
+                    fontSize: 1em
+                    fontWeight: 400

@@ -1,5 +1,9 @@
-enabled: true
+theme:
+    core:
+        elements:
+            grid:
+                enabled: true
 
-gutter: 1em
-columns: 12
-containerWidth: auto
+                gutter: 1em
+                columns: 12
+                containerWidth: auto

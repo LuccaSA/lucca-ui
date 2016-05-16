@@ -1,6 +1,16 @@
-enabled: true
-verticalPadding: 1em
-horizontalPadding: 1em
-border: 1px solid luiTheme(element, divider, color)
-invertedBorder: rgba(255, 255, 255, 0.2)
-borderRadius: 3px
+theme:
+    core:
+        elements:
+            block:
+                enabled: true
+                verticalPadding: 1em
+                horizontalPadding: 1em
+                border: !theme
+                    family: elements
+                    object: divider
+                    property: default
+                invertedBorder: !theme
+                    family: elements
+                    object: divider
+                    property: inverted.color
+                borderRadius: 3px

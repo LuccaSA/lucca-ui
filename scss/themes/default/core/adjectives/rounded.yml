@@ -1,2 +1,6 @@
-enabled: true
-radius: '3px'
+theme:
+    core:
+        adjectives:
+            rounded:
+                enabled: true
+                radius: '3px'

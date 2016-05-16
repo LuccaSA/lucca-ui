@@ -1,20 +1,26 @@
-enabled: true
+theme:
+    core:
+        elements:
+            progress:
+                enabled: true
 
-height: 1.5em
-slimHeight: 5px
+                height: 1.5em
+                slimHeight: 5px
 
-verticalMargin: 1em
-borderRadius: 'luiTheme(adjective, rounded, radius)'
-background: '#EFEFEF'
+                verticalMargin: 1em
+                borderRadius: !theme
+                    family: adjectives
+                    object: rounded
+                    property: radius
+                background: '#EFEFEF'
 
-defaultColoring:
-    color: '#CCC'
-    text: '#666'
+                defaultColoring: !palette
+                    palette: light
 
-status:
-    fontWeight: 600
+                status:
+                    fontWeight: 600
 
-progressBar:
-    zIndex: 1000
-    height: 2px
-    fadeInDuration: 0.25s
+                progressBar:
+                    zIndex: 1000
+                    height: 2px
+                    fadeInDuration: 0.25s

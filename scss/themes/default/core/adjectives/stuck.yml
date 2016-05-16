@@ -1,2 +1,6 @@
-enabled: true
-zIndex: 3
+theme:
+    core:
+        adjectives:
+            stuck:
+                enabled: true
+                zIndex: 3

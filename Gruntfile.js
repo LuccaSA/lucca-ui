@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-sass');
-	grunt.loadNpmTasks('grunt-merge-data');
+	grunt.loadNpmTasks('grunt-data-merge');
+	grunt.loadNpmTasks('grunt-yaml');
 	grunt.loadNpmTasks('grunt-ts');
 	grunt.loadNpmTasks('grunt-angular-templates');
 

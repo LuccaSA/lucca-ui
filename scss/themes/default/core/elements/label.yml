@@ -1,20 +1,26 @@
-enabled: true
+theme:
+    core:
+        elements:
+            label:
+                enabled: true
 
-fontSize: 0.85em
-lineHeight: 1
-textAlign: center
+                fontSize: 0.85em
+                lineHeight: 1
+                textAlign: center
 
-verticalPadding: 0.25em
-horizontalPadding: 0.5em
+                verticalPadding: 0.25em
+                horizontalPadding: 0.5em
 
-verticalMargin: 0
-horizontalMargin: 0.5em
+                verticalMargin: 0
+                horizontalMargin: 0.5em
 
-borderRadius: 3px
+                borderRadius: 3px
 
-defaultColoring:
-    color: 'luiPalette(light, color)'
-    text: '#666'
+                defaultColoring:
+                    color: !palette
+                        palette: light
+                        property: color
+                    text: '#666'
 
-addonBackground: rgba(0, 0, 0, 0.2)
-iconMargin: 0.25em
+                addonBackground: rgba(0, 0, 0, 0.2)
+                iconMargin: 0.25em

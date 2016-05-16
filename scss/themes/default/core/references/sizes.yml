@@ -1,5 +1,9 @@
-x-small: 0.7em
-small: 0.85em
-regular: 13px
-large: 1.25em
-x-large: 1.5em
+theme:
+    core:
+        references:
+            sizes:
+                x-small: 0.7em
+                small: 0.85em
+                regular: 13px
+                large: 1.25em
+                x-large: 1.5em

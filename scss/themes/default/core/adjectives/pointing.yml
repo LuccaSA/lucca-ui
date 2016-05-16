@@ -1,3 +1,9 @@
-enabled: true
-triangleColor: luiPalette(light, color)
-triangleWidth: 0.5em
+theme:
+    core:
+        adjectives:
+            pointing:
+                enabled: true
+                triangleColor: !palette
+                    palette: light
+                    property: color
+                triangleWidth: 0.5em
