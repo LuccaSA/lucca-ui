@@ -5,6 +5,7 @@
 ### New features
 
 ### Resolved issues
+ - fix style of table grid and notify that was disabled by default
 
 ## 2.2.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 
