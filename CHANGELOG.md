@@ -1,8 +1,12 @@
 # Change log
 
-## 2.2.2 - in dev
+## 2.2.3 - in dev
 
 ### New features
+
+### Resolved issues
+
+## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 
 ### Resolved issues
  - fix style of table grid and notify that was disabled by default
