@@ -5,6 +5,7 @@
 ### New features
 
 ### Resolved issues
+ - fix invalid inputs with addon were not bordered correctly
 
 ## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 

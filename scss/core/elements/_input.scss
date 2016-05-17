@@ -257,6 +257,11 @@
 					> select,
 					> textarea { @extend %lui_invalid_input_base; }
 				}
+				.with.addon, .with.addons {
+					.addon {
+						border-color: map-gets($vars, invalidColor);
+					}
+				}
 			}
 		}
 		#{$prefix}.fields {
