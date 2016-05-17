@@ -3,6 +3,7 @@
 ## 2.2.3 - in dev
 
 ### New features
+- UI-Select now supports class `.invalid`
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
