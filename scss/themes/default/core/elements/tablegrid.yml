@@ -1,44 +1,22 @@
-theme:
-    core:
-        elements:
-            tablegrid:
-                background: '#FFF'
-                textAlignment: left
+background: '#FFF'
+textAlignment: left
 
-                toolbar:
-                    background: !palette
-                        palette: grey
-                        property: color
-                    text: !palette
-                        palette: grey
-                        property: text
+toolbar:
+    background: !palette grey.color
+    text: !palette grey.text
 
-                header:
-                    background: !palette
-                        palette: light
-                        property: color
-                        manipulation: light
-                    borderColor: !palette
-                        palette: light
-                        property: color
-                    text: !palette
-                        palette: light
-                        property: text
-                        manipulation: light
-                    cellPaddingTop: 2em
-                    fontWeight: normal
-                    textAlignment: left
+header:
+    background: !palette light.color|light
+    borderColor: !palette light.color
+    text: !palette light.text|light
+    cellPaddingTop: 2em
+    fontWeight: normal
+    textAlignment: left
 
-                rows:
-                    zebraColor: !palette
-                        palette: light
-                        property: color
-                        manipulation: light
-                    hoverColor: !palette
-                        palette: primary
-                        property: color
-                        manipulation: x-light
+rows:
+    zebraColor: !palette light.color|light
+    hoverColor: !palette primary.color|x-light
 
-                cell:
-                    minWidth: 5em
-                    padding: 0.5em 1em
+cell:
+    minWidth: 5em
+    padding: 0.5em 1em

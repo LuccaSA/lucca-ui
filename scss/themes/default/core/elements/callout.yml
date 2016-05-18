@@ -1,22 +1,12 @@
-theme:
-    core:
-        elements:
-            callout:
-                enabled: true
+background: '#FFF'
+borderColor: !palette light.color
+borderWidth: 5px
 
-                background: '#FFF'
-                borderColor: !palette
-                    palette: light
-                    property: color
-                borderWidth: 5px
+verticalPadding: 1em
+horizontalPadding: 2em
+verticalMargin: 1em
+horizontalMargin: 0
 
-                verticalPadding: 1em
-                horizontalPadding: 2em
-                verticalMargin: 1em
-                horizontalMargin: 0
-
-                defaultColoring:
-                    color: !palette
-                        palette: light
-                        property: color
-                    text: '#222'
+defaultColoring:
+    color: !palette light.color
+    text: '#222'

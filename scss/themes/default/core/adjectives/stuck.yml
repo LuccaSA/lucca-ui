@@ -1,6 +1,1 @@
-theme:
-    core:
-        adjectives:
-            stuck:
-                enabled: true
-                zIndex: 3
+zIndex: 3

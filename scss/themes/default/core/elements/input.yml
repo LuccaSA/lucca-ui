@@ -1,123 +1,86 @@
-theme:
-    core:
-        elements:
-            input:
-                enabled: true
+# Common
+background: '#FFF'
+borderRadius: 3px
+color: '#666'
+padding:
+    top: 0.66em
+    right: 1em
+    bottom: 0.66em
+    left: 1em
 
-                # Common
-                background: '#FFF'
-                borderRadius: 3px
-                color: '#666'
-                padding:
-                    top: 0.66em
-                    right: 1em
-                    bottom: 0.66em
-                    left: 1em
+borderWidth: 1px
+borderColor: !palette light.color
+focusBorderColor: !palette light.color|dark
 
-                borderWidth: 1px
-                borderColor: !palette
-                    palette: light
-                    property: color
-                focusBorderColor: !palette
-                    palette: light
-                    property: color
-                    manipulation: dark
+invalidColor: !palette red.color
+shadow: !theme adjectives.raised.default.box-shadow
 
-                invalidColor: !palette
-                    palette: red
-                    property: color
-                shadow: !theme
-                    family: adjectives
-                    object: raised
-                    property: default.box-shadow
+placeholder:
+    color: rgba(0, 0, 0, 0.5)
+    style: italic
 
-                placeholder:
-                    color: rgba(0, 0, 0, 0.5)
-                    style: italic
+# Field element specifics
+field:
+    verticalMargin: 0.5em
+    labelFontWeight: 600
 
-                # Field element specifics
-                field:
-                    verticalMargin: 0.5em
-                    labelFontWeight: 600
+# Input lengths
+lengths:
+    x-short: 5em
+    short: 8em
+    medium: 15em
+    long: 20em
+    x-long: 25em
 
-                # Input lengths
-                lengths:
-                    x-short: 5em
-                    short: 8em
-                    medium: 15em
-                    long: 20em
-                    x-long: 25em
+# INPUT TYPES SPECIFICS
+# Checkbox
+checkbox:
+    enabled: true
+    color: !palette primary.color
+    size: 1.5em
+# Radio buttons
+radio:
+    enabled: true
+    color: !palette primary.color
+    size: 1.5em
+    lineHeight: 1.5
 
-                # INPUT TYPES SPECIFICS
-                # Checkbox
-                checkbox:
-                    enabled: true
-                    color: !palette
-                        palette: primary
-                        property: color
-                    size: 1.5em
-                # Radio buttons
-                radio:
-                    enabled: true
-                    color: !palette
-                        palette: primary
-                        property: color
-                    size: 1.5em
-                    lineHeight: 1.5
+# Switch / Toggle
+switch:
+    enabled: true
+    width: 4.5em
+    height: 2.25em
+    background: '#666'
+    color: darken(#666, 15)
+    activeBackground: !palette primary.color
+    activeColor: !palette primary.color|dark
+    grabLinesColor: !palette light.color
 
-                # Switch / Toggle
-                switch:
-                    enabled: true
-                    width: 4.5em
-                    height: 2.25em
-                    background: '#666'
-                    color: darken(#666, 15)
-                    activeBackground: !palette
-                        palette: primary
-                        property: color
-                    activeColor: !palette
-                        palette: primary
-                        property: color
-                        manipulation: dark
-                    grabLinesColor: !palette
-                        palette: light
-                        property: color
+# Search input
+search:
+    enabled: true
+    paddingLeft: 2.5em
+    tag:
+        padding: 0.25em 0.5em
+        margin: 0.1em
+        background: !palette light.color|light
+        borderColor: !palette light.color
+        borderRadius: !theme adjectives.rounded.radius
+        selectedColor: !palette primary.color
 
-                # Search input
-                search:
-                    enabled: true
-                    paddingLeft: 2.5em
-                    tag:
-                        padding: 0.25em 0.5em
-                        margin: 0.1em
-                        background: !palette
-                            palette: light
-                            property: color
-                            manipulation: light
-                        borderColor: !palette
-                            palette: light
-                            property: color
-                        borderRadius: !theme
-                            family: adjectives
-                            object: rounded
-                            property: radius
-                        selectedColor: !palette
-                            palette: primary
-                            property: color
+# Timespanpicker: lucca-ui directive
+timespanpicker:
+    enabled: true
+    width: 5em
 
-                # Timespanpicker: lucca-ui directive
-                timespanpicker:
-                    enabled: true
-                    width: 5em
+# Momentpicker: lucca-ui directive
+momentpicker:
+    enabled: true
+    width: 2.2em
+    maxWidth: 5.25em
 
-                # Momentpicker: lucca-ui directive
-                momentpicker:
-                    enabled: true
-                    width: 2.2em
-                    maxWidth: 5.25em
-
-                # Translation: lucca-ui directive
-                translations:
-                    background: '#FFF'
-                    dropdownPadding: 0.5em
-                    zIndex: 3
+# Translation: lucca-ui directive
+translations:
+    background: '#FFF'
+    dropdownPadding: 0.5em
+    zIndex: 3

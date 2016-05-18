@@ -1,81 +1,55 @@
-theme:
-    core:
-        elements:
-            menu:
-                enabled: true
+defaultColoring:
+    color: '#666'
+    text: '#FFF'
 
-                defaultColoring:
-                    color: '#666'
-                    text: '#FFF'
+verticalMargin: 0
+horizontalMargin: 0
+verticalPadding: 0
+horizontalPadding: 0
 
-                verticalMargin: 0
-                horizontalMargin: 0
-                verticalPadding: 0
-                horizontalPadding: 0
+borderColor: !theme elements.divider.default.color
+invertedBorderColor: rgba(255, 255, 255, 0.2)
+borderStyle: solid
 
-                borderColor: !theme
-                    family: elements
-                    object: divider
-                    property: default.color
-                invertedBorderColor: rgba(255, 255, 255, 0.2)
-                borderStyle: solid
+borderWidth: 1px
 
-                borderWidth: 1px
+# Items - item
+item:
+    vertical:
+        verticalPadding: !rem 1
+        horizontalPadding: !rem 1.5
+        verticalMargin: 0
+        horizontalMargin: 0
 
-                # Items - item
-                item:
-                    vertical:
-                        verticalPadding: !rem 1
-                        horizontalPadding: !rem 1.5
-                        verticalMargin: 0
-                        horizontalMargin: 0
+    horizontal:
+        verticalPadding: !rem 1
+        horizontalPadding: !rem 1.5
+        verticalMargin: 0
+        horizontalMargin: 0
 
-                    horizontal:
-                        verticalPadding: !rem 1
-                        horizontalPadding: !rem 1.5
-                        verticalMargin: 0
-                        horizontalMargin: 0
+    # Items - header
+    header:
+        fontSize: "''"
 
-                    # Items - header
-                    header:
-                        fontSize: "''"
+# MENU STYLES
+# Dividing style
+dividing:
+    itemColor: !theme elements.typography.body.color
+    dividerColor: !theme elements.divider.default.color
+    dividerWidth: 1px
+    activeDividerWidth: !theme elements.divider.fat.width
+    activeDividerColor: !palette primary.color
 
-                # MENU STYLES
-                # Dividing style
-                dividing:
-                    itemColor: !theme
-                        family: elements
-                        object: typography
-                        property: body.color
-                    dividerColor: !theme
-                        family: elements
-                        object: divider
-                        property: default.color
-                    dividerWidth: 1px
-                    activeDividerWidth: !theme
-                        family: elements
-                        object: divider
-                        property: fat.width
-                    activeDividerColor: !palette
-                        palette: primary
-                        property: color
+# Tabbed style
+tabbed:
+    verticalPadding: 0
+    horizontalPadding: !rem 1
+    background: '#FAFAFA'
+    activeBackground: '#FFF'
+    borderColor: !theme elements.divider.default.color
+    activeBorderWidth: 3px
+    bottomSpacing: 5px
 
-                # Tabbed style
-                tabbed:
-                    verticalPadding: 0
-                    horizontalPadding: !rem 1
-                    background: '#FAFAFA'
-                    activeBackground: '#FFF'
-                    borderColor: !theme
-                        family: elements
-                        object: divider
-                        property: default.color
-                    activeBorderWidth: 3px
-                    bottomSpacing: 5px
-
-                # Pills style
-                pills:
-                    borderRadius: !theme
-                        family: adjectives
-                        object: rounded
-                        property: radius
+# Pills style
+pills:
+    borderRadius: !theme adjectives.rounded.radius

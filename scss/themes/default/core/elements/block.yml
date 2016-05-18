@@ -1,16 +1,5 @@
-theme:
-    core:
-        elements:
-            block:
-                enabled: true
-                verticalPadding: 1em
-                horizontalPadding: 1em
-                border: !theme
-                    family: elements
-                    object: divider
-                    property: default
-                invertedBorder: !theme
-                    family: elements
-                    object: divider
-                    property: inverted.color
-                borderRadius: 3px
+verticalPadding: 1em
+horizontalPadding: 1em
+border: !theme elements.divider.default
+invertedBorder: !theme elements.divider.inverted.color
+borderRadius: 3px

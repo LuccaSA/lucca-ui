@@ -1,14 +1,6 @@
-theme:
-    core:
-        elements:
-            breadcrumbs:
-                enabled: true
-                itemPadding: 0.5em 0
-                dividers:
-                    fontFamily: "''"
-                    character: 003e
-                    margin: 0 0.5em
-                    color: !theme
-                        family: elements
-                        object: divider
-                        property: default.color
+itemPadding: 0.5em 0
+dividers:
+    fontFamily: "''"
+    character: 003e
+    margin: 0 0.5em
+    color: !theme elements.divider.default.color

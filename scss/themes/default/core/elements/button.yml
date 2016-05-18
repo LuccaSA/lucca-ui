@@ -1,62 +1,47 @@
-theme:
-    core:
-        elements:
-            button:
-                enabled: true
+# Sizing
+minHeight: 1em
+minWidth: 3em
+verticalPadding: 0.66em
+horizontalPadding: 1em
+verticalMargin: 0.25em
+horizontalMargin: 0.25em
 
-                # Sizing
-                minHeight: 1em
-                minWidth: 3em
-                verticalPadding: 0.66em
-                horizontalPadding: 1em
-                verticalMargin: 0.25em
-                horizontalMargin: 0.25em
+# Text
+textTransform: normal
+textShadow: none
 
-                # Text
-                textTransform: normal
-                textShadow: none
+# STYLES
+# Default
+borderRadius: 3px
+hoverShadow: !theme adjectives.raised.default.box-shadow
+defaultColoring:
+    color: '#FFFFFF'
+    text: !theme elements.typography.body.color
+defaultBorderWidth: 1px
+defaultBorderColor: !theme elements.divider.default.color
 
-                # STYLES
-                # Default
-                borderRadius: 3px
-                hoverShadow: !theme
-                    family: adjectives
-                    object: raised
-                    property: default.box-shadow
-                defaultColoring:
-                    color: '#FFFFFF'
-                    text: !theme
-                        family: elements
-                        object: typography
-                        property: body.color
-                defaultBorderWidth: 1px
-                defaultBorderColor: !theme
-                    family: elements
-                    object: divider
-                    property: default.color
+# Inverted
+inverted:
+    color: rgba(200, 200, 200, 0.75)
 
-                # Inverted
-                inverted:
-                    color: rgba(200, 200, 200, 0.75)
+# Flat
+flat:
+    background: transparent
+    textDecoration: underline
+    hoverBackground: rgba(0, 0, 0, 0.05)
+    activeBackground: rgba(0, 0, 0, 0.1)
+    activeShadow: 	0 0 0 1px rgba(50, 50, 50, .1)
+    invertedHoverBackground: rgba(200, 200, 200, 0.1)
+    invertedActiveBackground: rgba(255, 255, 255, .25)
+# Wired
+wired:
+    borderWidth: 2px
 
-                # Flat
-                flat:
-                    background: transparent
-                    textDecoration: underline
-                    hoverBackground: rgba(0, 0, 0, 0.05)
-                    activeBackground: rgba(0, 0, 0, 0.1)
-                    activeShadow: 	0 0 0 1px rgba(50, 50, 50, .1)
-                    invertedHoverBackground: rgba(200, 200, 200, 0.1)
-                    invertedActiveBackground: rgba(255, 255, 255, .25)
-                # Wired
-                wired:
-                    borderWidth: 2px
+# Disabled
+disabledOpacity: 0.5
+disabledGrayscale: 50%
 
-                # Disabled
-                disabledOpacity: 0.5
-                disabledGrayscale: 50%
-
-                # Addon specifics
-                addon:
-                    width: 2.5em
-                    background: rgba(0, 0, 0, 0.1)
+# Addon specifics
+addon:
+    width: 2.5em
+    background: rgba(0, 0, 0, 0.1)

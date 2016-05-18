@@ -1,7 +1,2 @@
-theme:
-    core:
-        elements:
-            notify:
-                enabled: true
-                max-width: 90%
-                z-index: 9999
+max-width: 90%
+z-index: 9999

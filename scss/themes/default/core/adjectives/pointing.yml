@@ -1,9 +1,2 @@
-theme:
-    core:
-        adjectives:
-            pointing:
-                enabled: true
-                triangleColor: !palette
-                    palette: light
-                    property: color
-                triangleWidth: 0.5em
+triangleColor: !palette light.color
+triangleWidth: 0.5em

@@ -1,20 +1,14 @@
-theme:
-    core:
-        elements:
-            divider:
-                enabled: true
+default:
+    width: &defaultWidth "1px"
+    style: &defaultStyle "solid"
+    color: &defaultColor "rgba(50, 50, 50, 0.2)"
 
-                default:
-                    width: &defaultWidth "1px"
-                    style: &defaultStyle "solid"
-                    color: &defaultColor "rgba(50, 50, 50, 0.2)"
+fat:
+    width: 3px
+    style: *defaultStyle
+    color: *defaultColor
 
-                fat:
-                    width: 3px
-                    style: *defaultStyle
-                    color: *defaultColor
-
-                inverted:
-                    width: *defaultWidth
-                    style: *defaultStyle
-                    color: rgba(255, 255, 255, 0.2)
+inverted:
+    width: *defaultWidth
+    style: *defaultStyle
+    color: rgba(255, 255, 255, 0.2)

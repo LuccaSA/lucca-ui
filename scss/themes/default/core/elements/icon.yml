@@ -1,8 +1,2 @@
-theme:
-    core:
-        elements:
-            icon:
-                enabled: true
-
-                createClasses: true
-                iconBaseSelector: "'#{$prefix}.icon'"
+createClasses: true
+iconBaseSelector: "'#{$prefix}.icon'"
