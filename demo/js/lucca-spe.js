@@ -247,6 +247,7 @@
 							width: 20,
 							getValue: function (someone) { return someone.id; },
 							getOrderByValue: function (someone) { return someone.id; },
+							getStyle: function (someone) { return someone.id % 2 ===0 ? 'green' : ''; },
 							colspan: null,
 							hidden: false,
 							rowspan: null,
