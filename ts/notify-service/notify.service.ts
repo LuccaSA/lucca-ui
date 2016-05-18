@@ -143,8 +143,6 @@ module Lui.Service {
 			isolateScope.calloutClass = "light";
 			isolateScope.message = message;
 
-			let cancelled: boolean = false;
-
 			let popup = this.cgNotify(new LoadingNotify(isolateScope, message));
 
 			let closePopup = (ms: number) => {
@@ -168,7 +166,7 @@ module Lui.Service {
 				isolateScope.calloutClass = "green";
 				isolateScope.loading = false;
 				closePopup(5000);
-			}, (newMessage:string) => {
+			}, (newMessage: string) => {
 				isolateScope.message = newMessage;
 				isolateScope.calloutClass = "red";
 				isolateScope.loading = false;
