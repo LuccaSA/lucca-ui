@@ -4,6 +4,7 @@
 
 ### New features
 - UI-Select now supports class `.invalid`
+- `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
