@@ -400,6 +400,16 @@ $scope.yearOfArrivalAsync = function(user){
 			Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as arguments. the message will be displayed in the popup while both message and details will be logged in the browser console using <code>$log</code>
 		</p>
 		<p>
+			A method <code>loading</code> taking a <code>ng.IPromise&lt;string&gt;</code>, a <code>message</code> and a <code>cancel function</code> as arguments. Will display a notification with a spinner and the provided message.
+			<ul>
+				<li>notifying the promise with a new message will change the message displayed</li>
+				<li>resolving the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the success notification</li>
+				<li>rejecting the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the error notification</li>
+				<li>if you do not provide a <code>cancel function</code>, the <i class="lui small cross icon"></i> won't be present while the promise isn't resolved/rejected</li>
+				<li>if you do provide a <code>cancel function</code>, clicking <i class="lui small cross icon"></i> while the promise isn't resolved/rejected will cal said function before closing the notification</li>
+			</ul>
+		</p>
+		<p>
 			Methods <code>alert</code>, and<code>confirm</code> taking <code>message</code>, <code>okLabel</code> and <code>cancelLabel</code> as arguments. returns a <code>ng.IPromise&lt;boolean&gt;</code> that resolves with <code>true</code> if user clicked Ok and <code>false</code> if user clicked cancel, rejects if user clicked outside of the modal
 		</p>
 		<div class="lui dashed divider">
@@ -422,7 +432,14 @@ angular.controller("myCtrl", function(luisNotify) {
 	luisNotify.confirm("This action is irreversible, are you really sure you want to do it?", "Yes I am", "No i'm not")
 	.then(function(isSure) {
 		if (isSure) {
-			doTheStuff();
+			var loadingDfd = $q.defer();
+			luisNotify.loading(loadingDfd.promise, "doing the stuff");
+			doTheStuff()
+			.then( function() {
+				loadingDfd.resolve("the stuff is done");
+			}, function() {
+				loadingDfd.reject("an error happened :'(");
+			});
 		}
 	});
 });
@@ -453,6 +470,34 @@ angular.controller("myCtrl", function(luisNotify) {
 				<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
 				<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
 				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+			</p>
+			<hr class="lui dashed divider">
+			<h5>Loading notification</h5>
+			<p>
+				<div class="lui field">
+					<label>message displayed while loading</label>
+					<span class="lui input">
+						<input type="text" ng-model="loadingMessage">
+					</span>
+				</div>
+				<div class="lui field">
+					<label>message displayed when resolved</label>
+					<span class="lui input">
+						<input type="text" ng-model="resolvedMessage">
+					</span>
+				</div>
+				<div class="lui field">
+					<label>message displayed when rejected</label>
+					<span class="lui input">
+						<input type="text" ng-model="rejectedMessage">
+					</span>
+				</div>
+			</p>
+			<p>
+				<button class="lui button" ng-click="notifyLoading(loadingMessage)" ng-disabled="loading">loading</button>
+				<button class="lui button" ng-click="changeLoading(loadingMessage)" ng-disabled="!loading">change message</button>
+				<button class="lui green button" ng-click="resolveLoading(resolvedMessage)" ng-disabled="!loading">resolve loading</button>
+				<button class="lui red button" ng-click="rejectLoading(rejectedMessage)" ng-disabled="!loading">reject loading</button>
 			</p>
 			<hr class="lui dashed divider">
 			<h5>Alerts and confirms</h5>
