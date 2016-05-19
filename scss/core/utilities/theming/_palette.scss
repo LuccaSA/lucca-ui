@@ -5,7 +5,7 @@
 // Retrieves all active theme palettes
 // ====
 @function luiPalettes() {
-	@return luiTheme(references, palettes, colors);
+	@return theme(references, palettes, colors);
 }
 
 // Given palette is light text over a dark background
@@ -20,7 +20,7 @@
 // ====
 @function luiPalette($colorName, $property, $manipulation: false) {
 	$colors: luiPalettes();
-	$manipulations: luiTheme(references, palettes, manipulations);
+	$manipulations: theme(references, palettes, manipulations);
 
 	// Color is unknown!
 	@if not map-has-key($colors, $colorName) {

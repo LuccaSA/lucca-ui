@@ -3,27 +3,25 @@
 
 @import "palette";
 
-$luiTheme: () !default;
 $theme: () !default;
 
 // Get / set theming variables
 // ===================================
 
-@function luiSetTheme($type, $name, $map, $inherit: true) {
+@function setTheme($type, $name, $map, $inherit: true) {
 	@if length($map) > 0 and $inherit {
-		$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)), true);
-		$luiTheme: $luiTheme !global; // Make it globally known
+		$theme: map-extend($theme, ("#{$type}s": ($name: $map)), true);
+		$theme: $theme !global; // Make it globally known
 	} @else if length($map) > 0 {
-		$luiTheme: map-extend($luiTheme, ("#{$type}s": ($name: $map)));
-		$luiTheme: $luiTheme !global; // Make it globally known
+		$theme: map-extend($theme, ("#{$type}s": ($name: $map)));
+		$theme: $theme !global; // Make it globally known
 	}
-	@return $luiTheme;
+	@return $theme;
 }
 
-@function luiTheme($type, $keys...) {
-	$vars: map-gets($theme, core, $type);
-	@each $key in $keys { $vars: map-get($vars, $key); }
-	@return $vars;
+// Only core variables can be accessed
+@function theme($keys) {
+	@return result($theme, join(core, $keys)...);
 }
 
 
@@ -31,16 +29,16 @@ $theme: () !default;
 // ===================================
 
 @function lui_theme_shadow() {
-	@return unquote(luiTheme(adjective, raised, default, box-shadow));
+	@return unquote(theme(adjective, raised, default, box-shadow));
 }
 
 // Get root unit size
 // ===================================
 
-@function lui_rem($number: 1) {
+@function rem($number: 1) {
 	// Remove $number unit if specified and multiply it by bodyFontSize
 	@return 0.1;
-	@return round(($number / ($number * 0 + 1)) * luiTheme(element, typography, body, fontSize));
+	@return round(($number / ($number * 0 + 1)) * theme(element, typography, body, fontSize));
 }
 
 

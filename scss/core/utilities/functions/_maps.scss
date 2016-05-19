@@ -2,12 +2,26 @@
 // Maps helpers
 // ===================================
 
-@function map-gets($map, $keys...) {
+@function result($map, $keys...) {
 	@each $key in $keys {
-		$map: map-get($map, $key);
+		@if map-has-key($map, $key) {
+			$map: map-get($map, $key);
+		} @else {
+			@warn "Map #{$map} does not have a #{$key} key!";
+			@return null;
+		}
 	}
-
 	@return $map;
+}
+
+// Lodash _.result(object, path, default) equivalent
+@function result($map, $path, $default: null) {
+	$map: result($map, $path...);
+	@if $map {
+		@return $map;
+	} @else {
+		@return $default;
+	}
 }
 
 @function map-extend($map, $maps.../*, $deep */) {
