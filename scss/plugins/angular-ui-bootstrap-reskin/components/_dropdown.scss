@@ -10,7 +10,7 @@
 
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(elements, input);
+		$inputVars: theme(elements, input);
 
 		%lui_nguibs_dropdown {
 			position: relative;
@@ -27,8 +27,8 @@
 				position: absolute; z-index: 1000;
 				margin-top: -1px;
 				top: 100%; left: 0;
-				width: map-gets($pluginVars, dropdown, width);
-				min-width: map-gets($pluginVars, dropdown, minWidth);
+				width: result($pluginVars, dropdown, width);
+				min-width: result($pluginVars, dropdown, minWidth);
 
 				border: 1px solid map-get($inputVars, borderColor);
 				border-top: none;
@@ -36,7 +36,7 @@
 
 				box-shadow: map-get($inputVars, shadow);
 
-				max-height: map-gets($pluginVars, dropdown, maxHeight);
+				max-height: result($pluginVars, dropdown, maxHeight);
 				overflow-x: hidden;
 
 				-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
@@ -44,14 +44,14 @@
 
 				@include lui_target_IE9 { box-sizing: content-box; }
 
-				a:hover { background-color: map-gets($pluginVars, dropdown, hoverBackground); }
-				.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
+				a:hover { background-color: result($pluginVars, dropdown, hoverBackground); }
+				.active a { background-color: result($pluginVars, dropdown, activeBackground); }
 
 				a {
-					color: luiTheme(elements, typography, body, color);
+					color: theme(elements, typography, body, color);
 					text-decoration: none;
 					display: block;
-					padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
+					padding: unquote("0.5em #{result($inputVars, padding, right)} 0.5em #{result($inputVars, padding, left)}");
 					border-top: 1px solid map-get($inputVars, borderColor);
 
 					> span { vertical-align: middle; }
@@ -87,10 +87,10 @@
 			&.open .dropdown-menu {
 				visibility: visible;
 
-				@if (map-gets($pluginVars, dropdown, isAnimated)) {
+				@if (result($pluginVars, dropdown, isAnimated)) {
 					@include lui_is_animated("up slide in");
-					@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
-						animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+					@if (map-has-key(map-get($pluginVars, dropdown), animation-duration)) {
+						animation-duration: result($pluginVars, dropdown, animation-duration);
 					}
 				}
 
@@ -111,13 +111,13 @@
 
 					> .ui-select-choices-row:first-child a, > a:first-child { border-top: none; }
 				}
-				@if (map-gets($pluginVars, dropdown, isAnimated)) {
+				@if (result($pluginVars, dropdown, isAnimated)) {
 					&.open {
 						.dropdown-menu {
 							@include lui_is_animated("down slide in");
 
-							@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
-								animation-duration: map-gets($pluginVars, dropdown, animationDuration);
+							@if (map-has-key(map-get($pluginVars, dropdown), animation-duration)) {
+								animation-duration: result($pluginVars, dropdown, animation-duration);
 							}
 						}
 					}

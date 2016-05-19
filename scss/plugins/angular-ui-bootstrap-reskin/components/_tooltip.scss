@@ -21,22 +21,22 @@
 
 		#{$prefix}.tooltip {
 			position: absolute;
-			z-index: map-gets($pluginVars, tooltip, zIndex);
+			z-index: result($pluginVars, tooltip, zIndex);
 			pointer-events: none;
 
 			& {
-				$shadow: unquote(luiTheme(adjectives, raised, default, filter));
+				$shadow: unquote(theme(adjectives, raised, default, filter));
 				-webkit-filter: drop-shadow($shadow);
 				filter: drop-shadow($shadow);
 			}
 
 			> .tooltip-inner {
-				max-width: map-gets($pluginVars, tooltip, maxWidth);
+				max-width: result($pluginVars, tooltip, maxWidth);
 			}
 
 			> [class*="-inner"] {
-				padding: map-gets($pluginVars, tooltip, verticalPadding) map-gets($pluginVars, tooltip, horizontalPadding);
-				border-radius: map-gets($pluginVars, tooltip, borderRadius);
+				padding: result($pluginVars, tooltip, verticalPadding) result($pluginVars, tooltip, horizontalPadding);
+				border-radius: result($pluginVars, tooltip, borderRadius);
 			}
 
 			// Animations
@@ -103,7 +103,7 @@
 		// ============================================================
 
 		#{$prefix}.tooltip {
-			@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, tooltip, defaultColoring));
+			@include lui_nguibs_tooltip_coloring(result($pluginVars, tooltip, defaultColoring));
 
 			@each $name, $scheme in luiPalettes() {
 				&.#{map-get($scheme, class)} {

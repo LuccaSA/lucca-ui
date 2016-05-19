@@ -2,14 +2,14 @@
 	@at-root #{$namespace} {
 
 		#main-navigation {
-			background: map-gets($vars, navigation, background);
-			width: map-gets($vars, navigation, width);
+			background: result($vars, navigation, background);
+			width: result($vars, navigation, width);
 
 			border: none;
 
 			// Text and links coloring
 			&, a {
-				color: lighten(map-gets($vars, navigation, background), 25);
+				color: lighten(result($vars, navigation, background), 25);
 			}
 		}
 
@@ -23,25 +23,25 @@
 
 			// Hover and active states
 			&:hover, &:active {
-				background: darken(map-gets($vars, navigation, background), 1);
+				background: darken(result($vars, navigation, background), 1);
 				color: #FFF;
 			}
 			&:hover, &.active {
-				background: darken(map-gets($vars, navigation, background), 5);
+				background: darken(result($vars, navigation, background), 5);
 				color: #FFF;
 			}
 			// Item icon
 			> i.icon {
 				position: relative;
-				font-size: map-gets($vars, navigation, iconSize);
+				font-size: result($vars, navigation, iconSize);
 				display: block;
 				margin-bottom: 0.5em;
 			}
 
 			// Item title
 			> span.item-name {
-				font-size: map-gets($vars, navigation, fontSize);
-				font-weight: map-gets($vars, navigation, fontWeight);
+				font-size: result($vars, navigation, fontSize);
+				font-weight: result($vars, navigation, fontWeight);
 			}
 
 			// Updates / Todo styling
@@ -49,7 +49,7 @@
 				display: none;
 
 				position: absolute;
-				top: map-gets($vars, navigation, iconSize) + 0.15em;
+				top: result($vars, navigation, iconSize) + 0.15em;
 				right: 1em;
 			}
 			&.has-updates span.item-updates {
@@ -60,16 +60,16 @@
 		// Application logo
 		#main-navigation #app-logo {
 			box-sizing: content-box;
-			padding-top: map-gets($vars, topOffset);
+			padding-top: result($vars, topOffset);
 
 			display: block;
 			overflow: hidden;
-			height: map-gets($vars, header, height);
-			line-height: map-gets($vars, header, height);
+			height: result($vars, header, height);
+			line-height: result($vars, header, height);
 
 			background-color: luiPalette(primary, color);
 			text-align: center;
-			font-size: map-gets($vars, logoFontSize);
+			font-size: result($vars, logoFontSize);
 			font-weight: lighter;
 
 			&, a {
@@ -101,7 +101,7 @@
 				}
 
 				a.item {
-					background: map-gets($vars, navigation, background);
+					background: result($vars, navigation, background);
 				}
 
 				a.item span.item-name,

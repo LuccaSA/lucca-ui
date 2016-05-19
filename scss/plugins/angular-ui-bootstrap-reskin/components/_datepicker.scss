@@ -1,6 +1,6 @@
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(elements, input);
+		$inputVars: theme(elements, input);
 
 		#{$prefix}.datepicker {
 			@extend %lui_input_holder_base;
@@ -20,7 +20,7 @@
 
 			&:not([role="application"]) {
 				@include lui_make_icon("calendar", right);
-				> input { padding-right: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
+				> input { padding-right: 2.5em; width: result($pluginVars, datepicker, inputWidth); }
 				&:before, &:after {
 					cursor: text;
 					display: inline-block;
@@ -35,10 +35,10 @@
 
 			// Datepicker styling
 			&[role="application"], .dropdown-menu {
-				z-index: map-gets($pluginVars, datepicker, dropdownZindex);
-				background-color: map-gets($pluginVars, datepicker, background);
-				min-width: map-gets($pluginVars, datepicker, minWidth);
-				border: 1px solid map-gets($inputVars, borderColor);
+				z-index: result($pluginVars, datepicker, dropdownZindex);
+				background-color: result($pluginVars, datepicker, background);
+				min-width: result($pluginVars, datepicker, minWidth);
+				border: 1px solid result($inputVars, borderColor);
 			}
 
 			// Datepicker in dropdown
@@ -102,7 +102,7 @@
 
 			li[ng-if="showButtonBar"] {
 				@extend #{$prefix}.clear;
-				border-top: 1px solid map-gets($inputVars, borderColor);
+				border-top: 1px solid result($inputVars, borderColor);
 				.btn {
 					@extend %lui_basic_button;
 				}

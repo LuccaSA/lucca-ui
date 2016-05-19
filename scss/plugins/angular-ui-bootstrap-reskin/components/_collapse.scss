@@ -2,7 +2,7 @@
 	@at-root #{$namespace} {
 
 		[uib-collapse] {
-			transition: height map-gets($pluginVars, collapse, transitionDuration) map-gets($pluginVars, collapse, transitionEasing);
+			transition: height result($pluginVars, collapse, transitionDuration) result($pluginVars, collapse, transitionEasing);
 			&.collapse:not(.in), &.collapsing { overflow: hidden; }
 		}
 	}

@@ -1,14 +1,14 @@
 
 @if map-get($pluginVars, enabled) {
 	@at-root #{$namespace} {
-		$inputVars: luiTheme(elements, input);
+		$inputVars: theme(elements, input);
 
 		#{$prefix}.ui-select,
 		#{$prefix}.ui-select-bootstrap {
 			@extend %lui_input_holder_base;
 			@extend %lui_nguibs_dropdown;
 
-			min-width: map-gets($pluginVars, uiSelect, minWidth);
+			min-width: result($pluginVars, uiSelect, minWidth);
 
 			// Displays the arrow icon
 			@include lui_make_icon("south arrow");
@@ -17,12 +17,12 @@
 				font-size: lui_rem(0.6);
 				position: absolute;
 				z-index: 4;
-				right: map-gets($inputVars, padding, right);
+				right: result($inputVars, padding, right);
 				top: 50%; transform: translateY(-50%);
 				@include lui_target_IE9 { margin-top: -0.5em; } }
 
 			.ui-select-choices {
-				border-color: map-gets($inputVars, focusBorderColor);
+				border-color: result($inputVars, focusBorderColor);
 			}
 
 			.btn { box-sizing: border-box; }
@@ -54,7 +54,7 @@
 
 			// Multiselect mode
 			&.ui-select-multiple {
-				> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
+				> div { padding: 0 result($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
 
 				input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
 
@@ -68,14 +68,14 @@
 					font-size: 0.9em;
 					margin: 0 0.1em;
 					padding: 0.1em 0.5em;
-					border: 1px solid map-gets($inputVars, borderColor);
-					border-radius: map-gets($inputVars, borderRadius);
+					border: 1px solid result($inputVars, borderColor);
+					border-radius: result($inputVars, borderRadius);
 
-					background-color: map-gets($inputVars, background);
+					background-color: result($inputVars, background);
 
 					@include lui_is_animated("down scale in");
 
-					> span > span { line-height: map-gets($pluginVars, uiSelect, multiple, closeSize); }
+					> span > span { line-height: result($pluginVars, uiSelect, multiple, closeSize); }
 
 					// active state ~ selected
 					&.btn-primary { background-color: #EEE; }
@@ -84,7 +84,7 @@
 					.ui-select-match-close {
 						cursor: pointer;
 						float: right;
-						font-size: map-gets($pluginVars, uiSelect, multiple, closeSize);
+						font-size: result($pluginVars, uiSelect, multiple, closeSize);
 						font-weight: 600;
 					}
 				}
@@ -93,7 +93,7 @@
 
 			// Dropped state
 			&.open {
-				box-shadow:  map-gets($inputVars, shadow);
+				box-shadow:  result($inputVars, shadow);
 				&:not(.ui-select-multiple) .ui-select-match { display: none; }
 				&:not(.ui-select-multiple) .ui-select-search { display: block; }
 
@@ -103,14 +103,14 @@
 
 				> .ui-select-search,
 				&.ui-select-multiple:not(.direction-up) > div {
-					border-color:  map-gets($inputVars, focusBorderColor);
+					border-color:  result($inputVars, focusBorderColor);
 					border-bottom-color: transparent !important;
 					border-bottom-left-radius: 0;
 					border-bottom-right-radius: 0;
 				}
 				&.ui-select-multiple.direction-up > div {
 					z-index: 1001;
-					border-color:  map-gets($inputVars, focusBorderColor);
+					border-color:  result($inputVars, focusBorderColor);
 					border-top-left-radius: 0;
 					border-top-right-radius: 0;
 				}
@@ -118,8 +118,8 @@
 
 			// Thumbnail support
 			.ui-select-choices-row .thumbnail {
-				width: map-gets($pluginVars, uiSelect, thumbSize);
-				height: map-gets($pluginVars, uiSelect, thumbSize);
+				width: result($pluginVars, uiSelect, thumbSize);
+				height: result($pluginVars, uiSelect, thumbSize);
 				vertical-align: middle;
 				margin-right: 0.5em;
 			}
@@ -145,7 +145,7 @@
 			.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
 
 			// Supports sizing
-			@each $class, $length in luiTheme(elements, input, lengths) {
+			@each $class, $length in theme(elements, input, lengths) {
 				&.#{$class} {
 					width: $length;
 				}
@@ -160,8 +160,8 @@
 
 		luid-user-picker {
 			.dividing {
-				margin: unquote("-0.5em -#{map-gets($inputVars, padding, right)} -0.5em -#{map-gets($inputVars, padding, left)}");
-				padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
+				margin: unquote("-0.5em -#{result($inputVars, padding, right)} -0.5em -#{result($inputVars, padding, left)}");
+				padding: unquote("0.5em #{result($inputVars, padding, right)} 0.5em #{result($inputVars, padding, left)}");
 			}
 		}
 
@@ -210,9 +210,9 @@
 				border-radius: 0;
 				padding: 0;
 				border: none;
-				border-bottom: map-gets($pluginVars, uiSelect, natural, border);
-				font-weight: map-gets($pluginVars, uiSelect, natural, fontWeight);
-				color: darken(luiTheme(elements, typography, body, color), 20);
+				border-bottom: result($pluginVars, uiSelect, natural, border);
+				font-weight: result($pluginVars, uiSelect, natural, fontWeight);
+				color: darken(theme(elements, typography, body, color), 20);
 				padding: 0 0.25em;
 			}
 			.ui-select-toggle:hover {
@@ -223,7 +223,7 @@
 			.dropdown-menu {
 				// Width must be even in order for transformX not to land on a half pixel and thus render blurry text
 				// By the way, this variable MUST be set in pixels, unfortunately. The lui_rem function can be used though, as it actually does returns pixel values.
-				$dropdownWidth: map-gets($pluginVars, uiSelect, natural, dropdownWidth)+0px;
+				$dropdownWidth: result($pluginVars, uiSelect, natural, dropdownWidth)+0px;
 				@if not (($dropdownWidth / 1px) % 2 == 0) { $dropdownWidth: $dropdownWidth + 1px; }
 				min-width: $dropdownWidth; width: $dropdownWidth;
 				left: 50%; transform: translateX(-#{($dropdownWidth / 2)});
