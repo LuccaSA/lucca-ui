@@ -33,5 +33,9 @@
 			"tablegrid",
 			"typography"
 		]
-	}
+	},
+	"plugins": [
+		"angular-ui-bootstrap-reskin",
+		"lucca-app-layout"
+	]
 }
