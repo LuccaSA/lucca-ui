@@ -46,22 +46,22 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(elements, progress, enabled) {
+@if theme(elements, progress, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, progress);
+		$vars: theme(elements, progress);
 
 		#{$prefix}.progress {
-			background: map-gets($vars, background);
-			border-radius: map-gets($vars, borderRadius);
-			margin: map-gets($vars, verticalMargin) 0;
+			background: result($vars, background);
+			border-radius: result($vars, borderRadius);
+			margin: result($vars, verticalMargin) 0;
 		}
 
 		// Progress indicator
 		// ===================================
 		#{$prefix}.progress > .indicator {
 			position: relative;
-			height: map-gets($vars, height);
-			border-radius: map-gets($vars, borderRadius);
+			height: result($vars, height);
+			border-radius: result($vars, borderRadius);
 
 			transition: width 0.3s ease-out;
 
@@ -70,7 +70,7 @@
 				position: absolute;
 				top: 0; bottom: 0; right: 0.5em;
 				content: attr(data-percentage) "%";
-				line-height: map-gets($vars, height);
+				line-height: result($vars, height);
 			}
 		}
 
@@ -79,7 +79,7 @@
 		// ===================================
 		#{$prefix}.progress .status {
 			text-align: center;
-			font-weight: map-gets($vars, status, fontWeight);
+			font-weight: result($vars, status, fontWeight);
 		}
 
 		// Progressing: play animation
@@ -99,9 +99,9 @@
 		// Slim progress bar
 		// ===================================
 		#{$prefix}.progress.slim {
-			margin-top: (1em + map-gets($vars, verticalMargin));
+			margin-top: (1em + result($vars, verticalMargin));
 			> .indicator {
-				height: map-gets($vars, slimHeight);
+				height: result($vars, slimHeight);
 				&:after {
 					right: 0;
 					-ms-transform: translateX(50%);
@@ -133,20 +133,20 @@
 		.progress-bar {
 			position: fixed;
 			top: 0px;
-			z-index: map-gets($vars, progressBar, zIndex);
+			z-index: result($vars, progressBar, zIndex);
 			width: 100%;
 			overflow: hidden;
 			background-color: transparent;
 			margin: 0 !important;
 
 			transition-property: opacity, height;
-			transition-duration: map-gets($vars, progressBar, fadeInDuration);
+			transition-duration: result($vars, progressBar, fadeInDuration);
 			transition-timing-function:  ease-out;
 		}
 
 		.progress-bar.in{
 			opacity: 1;
-			height: map-gets($vars, progressBar, height);
+			height: result($vars, progressBar, height);
 		}
 
 

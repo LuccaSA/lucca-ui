@@ -1,35 +1,38 @@
-@if luiTheme(elements, breadcrumbs, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(elements, breadcrumbs);
+#{$prefix}.breadcrumbs {
+	list-style: none;
+	padding: result($vars, padding vertical) result($vars, padding horizontal);
+	margin: result($vars, margin vertical) result($vars, margin horizontal);
 
-		#{$prefix}.breadcrumbs {
-			@extend ul#{$prefix}.unstyled;
+	> li {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		padding: result($vars, item padding vertical) result($vars, item padding horizontal);
+		margin: result($vars, item margin vertical) result($vars, item margin horizontal);
 
-			> li {
-				position: relative;
-				display: inline-block;
-				vertical-align: middle;
-				padding: map-gets($vars, padding);
-
-				&:after {
-					display: inline-block;
-					font-family: map-gets($vars, dividers, fontFamily);
-					content: map-gets($vars, dividers, character);
-					vertical-align: middle;
-					margin: map-gets($vars, dividers, margin);
-				}
-				&:last-child:after { content: ""; }
-
-				> a { display: inline-block; }
-
-				h1, h2, h3, h4, h5, h6 {
-					display: inline-block;
-					vertical-align: bottom;
-				}
-			}
-
-			// Changes inter-items dividers with slashes rather than the default ">"
-			&.slashes > li:after { content: "/"; }
+		&:after {
+			display: inline-block;
+			font-family: result($vars, divider font-family);
+			content: result($vars, divider character);
+			vertical-align: middle;
+			margin: result($vars, divider margin vertical) result($vars, divider margin horizontal);
 		}
+		&:last-child:after {
+			content: "";
+		}
+
+		> a {
+			display: inline-block;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			display: inline-block;
+			vertical-align: bottom;
+		}
+	}
+
+	// Changes inter-items dividers with slashes rather than the default ">"
+	&.slashes > li:after {
+		content: "/";
 	}
 }

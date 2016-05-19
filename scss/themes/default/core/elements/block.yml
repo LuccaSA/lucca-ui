@@ -1,5 +1,7 @@
-verticalPadding: 1em
-horizontalPadding: 1em
-border: !theme elements.divider.default
-invertedBorder: !theme elements.divider.inverted.color
-borderRadius: 3px
+padding:
+    vertical: 1em
+    horizontal: 1em
+border:
+    default: !theme elements.divider.default
+    inverted: !theme elements.divider.inverted.color
+border-radius: 3px

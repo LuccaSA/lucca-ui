@@ -1,41 +1,37 @@
-@if luiTheme(elements, block, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(elements, block);
+#{$prefix}.block {
+	border: result($vars, border);
+	padding: result($vars, vertical padding) result($vars, horizontal padding);
 
-		#{$prefix}.block {
-			border: map-gets($vars, border);
-			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+	> .header, #{$prefix}.header,
+	> .footer, #{$prefix}.footer {
+		padding: result($vars, vertical padding) result($vars, horizontal padding);
+	}
 
-			> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
-				padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-			}
+	> .header, #{$prefix}.header {
+		margin: (-(result($vars, vertical padding))) (-(result($vars, horizontal padding))) 0 (-(result($vars, horizontal padding)));
+		border-bottom: result($vars, border);
+	}
+	> .footer, #{$prefix}.footer {
+		margin: 0 -(result($vars, horizontal padding)) -(result($vars, vertical padding)) -(result($vars, horizontal padding));
+		border-top: result($vars, border);
+	}
+}
 
-			> .header, #{$prefix}.header {
-				margin: (-(map-gets($vars, verticalPadding))) (-(map-gets($vars, horizontalPadding))) 0 (-(map-gets($vars, horizontalPadding)));
-				border-bottom: map-gets($vars, border);
-			}
-			> .footer, #{$prefix}.footer {
-				margin: 0 -(map-gets($vars, horizontalPadding)) -(map-gets($vars, verticalPadding)) -(map-gets($vars, horizontalPadding));
-				border-top: map-gets($vars, border);
-			}
-		}
+#{$prefix}.block.inverted {
+	border-color: result($vars, border inverted);
 
-		#{$prefix}.block.inverted {
-			border-color: map-gets($vars, invertedBorder);
+	> .header, #{$prefix}.header,
+	> .footer, #{$prefix}.footer {
+		border-color: result($vars, border inverted);
+	}
+}
 
-			> .header, #{$prefix}.header, > .footer, #{$prefix}.footer {
-				border-color: map-gets($vars, invertedBorder);
-			}
-		}
-
-		#{$prefix}.block.round {
-			border-radius: map-gets($vars, borderRadius);
-			> .header, #{$prefix}.header {
-				border-radius: map-gets($vars, borderRadius) map-gets($vars, borderRadius) 0 0;
-			}
-			> .footer, #{$prefix}.footer {
-				border-radius: 0 0 map-gets($vars, borderRadius) map-gets($vars, borderRadius);
-			}
-		}
+#{$prefix}.block.round {
+	border-radius: result($vars, border-radius);
+	> .header, #{$prefix}.header {
+		border-radius: result($vars, border-radius) result($vars, border-radius) 0 0;
+	}
+	> .footer, #{$prefix}.footer {
+		border-radius: 0 0 result($vars, border-radius) result($vars, border-radius);
 	}
 }

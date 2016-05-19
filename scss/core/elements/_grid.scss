@@ -1,3 +1,4 @@
+
 // ===================================
 // ============= Mixins ==============
 // ===================================
@@ -7,119 +8,154 @@
 // ===================================
 
 @mixin lui_loop_columns($device, $spacing) {
-	$column: 100% / luiTheme(elements, grid, columns);
+	$column: 100% / theme(elements grid columns);
 
-	@for $i from 0 through luiTheme(elements, grid, columns) {
+	@for $i from 0 through theme(elements grid columns) {
 		@if $i > 0 {
-			#{$prefix}.container #{$prefix}.column.#{$device}-#{$i} { width: $column * $i; }
+			#{$prefix}.container #{$prefix}.column.#{$device}-#{$i} {
+				width: $column * $i;
+			}
 		}
 		// Offset
-		#{$prefix}.container #{$prefix}.column.#{$device}-offset-#{$i} { margin-left: $column * $i; }
+		#{$prefix}.container #{$prefix}.column.#{$device}-offset-#{$i} {
+			margin-left: $column * $i;
+		}
 		// Reordering: Pulling
-		#{$prefix}.container #{$prefix}.column.#{$device}-pull-#{$i} { left: -$column * $i; }
+		#{$prefix}.container #{$prefix}.column.#{$device}-pull-#{$i} {
+			left: -$column * $i;
+		}
 		// Reordering: Pushing
-		#{$prefix}.container #{$prefix}.column.#{$device}-push-#{$i} { left: $column * $i; }
+		#{$prefix}.container #{$prefix}.column.#{$device}-push-#{$i} {
+			left: $column * $i;
+		}
 	}
 }
 
 // Common classes
 // ===================================
 
-body, html { width: 100%; height: 100%; }
+body, html {
+	width: 100%;
+	height: 100%;
+}
 
 @mixin lui_clearfix() {
-	zoom:1; /* For IE 6/7 (trigger hasLayout) */
+	zoom: 1; /* For IE 6/7 (triggers hasLayout) */
 
 	&:before,
-	&:after { content: ""; display: table; }
-	&:after { clear:both; }
+	&:after {
+		content: "";
+		display: table;
+	}
+	&:after {
+		clear:both;
+	}
 }
-%lui_clearfix { @include lui_clearfix(); }
+%lui_clearfix {
+	@include lui_clearfix();
+}
 
 
-@if luiTheme(elements, grid, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(elements, grid);
+#{$prefix}.clear {
+	@extend %lui_clearfix;
+}
+#{$prefix}[class*="left pulled"] {
+	float: left;
+}
+#{$prefix}[class*="right pulled"] {
+	float: right;
+}
 
 
-		#{$prefix}.clear {
-			@extend %lui_clearfix;
-		}
-		#{$prefix}[class*="left pulled"] { float: left; }
-		#{$prefix}[class*="right pulled"] { float: right; }
+// Elements
+// ===================================
+
+#{$prefix}.container {
+	padding: 0;
+	width: map-get($vars, container-width);
+	@extend #{$prefix}.clear;
+}
+#{$prefix}.container #{$prefix}.column, {
+	float: left;
+	box-sizing: border-box;
+	width: 100%;
+}
+#{$prefix}.container #{$prefix}.column[class*="-pull-"],
+#{$prefix}.container #{$prefix}.column[class*="-push-"] {
+	position: relative;
+}
+
+// Bootstrap '.row' equivalent
+#{$prefix}.container #{$prefix}.columns {
+	@extend #{$prefix}.clear;
+}
 
 
-		// Elements
-		// ===================================
+// Grid styles
+// ===================================
 
+// Fitting container
+// Takes up the whole available width
+#{$prefix}.fitting.container {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+// Spaced container
+// Adds gutter
+#{$prefix}.container.spaced #{$prefix}.column,
+#{$prefix}.columns.spaced #{$prefix}.column,
+#{$prefix}.container #{$prefix}.column.spaced { padding: 0 map-get($vars, gutter); }
+
+#{$prefix}.container.spaced .columns { margin: 0 (-(map-get($vars, gutter))); }
+
+
+// Build grid
+// ===================================
+
+@each $device, $props in theme(references breakpoints) {
+	$i: index($device, theme(references breakpoints));
+	$breakAt: map-get($props, break);
+	$spacing: map-get($props, spacing);
+
+	@if $i == 1 { // Mobile first
+		// Container
 		#{$prefix}.container {
-			padding: 0;
-			width: map-get($vars, containerWidth);
-			@extend #{$prefix}.clear;
+			margin: 0 $spacing;
 		}
-		#{$prefix}.container #{$prefix}.column, {
-			float: left;
-			box-sizing: border-box;
-			width: 100%;
+
+		// Hide / Show
+		.#{$device}-hide {
+			display: none !important;
 		}
-		#{$prefix}.container #{$prefix}.column[class*="-pull-"],
-		#{$prefix}.container #{$prefix}.column[class*="-push-"] { position: relative; }
+		.#{$device}-show {
+			display: block !important;
+		}
+		@include lui_loop_columns($device, $spacing);
 
-		// Bootstrap '.row' equivalent
-		#{$prefix}.container #{$prefix}.columns { @extend #{$prefix}.clear; }
-
-
-		// Grid styles
-		// ===================================
-
-		// Fitting container
-		// Takes up the whole available width
-		#{$prefix}.fitting.container { margin-left: 0 !important; margin-right: 0 !important; }
-
-		// Spaced container
-		// Adds gutter
-		#{$prefix}.container.spaced #{$prefix}.column,
-		#{$prefix}.columns.spaced #{$prefix}.column,
-		#{$prefix}.container #{$prefix}.column.spaced { padding: 0 map-get($vars, gutter); }
-
-		#{$prefix}.container.spaced .columns { margin: 0 (-(map-get($vars, gutter))); }
-
-
-		// Build grid
-		// ===================================
-
-		@each $device, $props in luiTheme(references, breakpoints) {
-			$i: index($device, luiTheme(references, breakpoints));
-			$breakAt: map-get($props, break);
-			$spacing: map-get($props, spacing);
-
-			@if $i == 1 { // Mobile first
+	} @else {
+		@media (min-width: $breakAt) {
 				// Container
-				#{$prefix}.container { margin: 0 $spacing; }
-				// Hide / Show
-				.#{$device}-hide { display: none !important; }
-				.#{$device}-show { display: block !important; }
-				@include lui_loop_columns($device, $spacing);
-
-			} @else {
-				@media (min-width: $breakAt) {
-						// Container
-						#{$prefix}.container { margin: 0  $spacing; }
-						// Hide / Show
-						.#{$device}-hide { display: none !important; }
-						.#{$device}-show { display: block !important; }
-
-						@include lui_loop_columns($device, $spacing);
+				#{$prefix}.container {
+					margin: 0  $spacing;
 				}
-			}
-		}
+				// Hide / Show
+				.#{$device}-hide {
+					display: none !important;
+				}
+				.#{$device}-show {
+					display: block !important;
+				}
 
-
-		// Same height columns
-		// ===================================
-		#{$prefix}.fitting.columns {
-			@include display-flex();
-			overflow: hidden;
+				@include lui_loop_columns($device, $spacing);
 		}
 	}
+}
+
+
+// Same height columns
+// ===================================
+#{$prefix}.fitting.columns {
+	@include display-flex();
+	overflow: hidden;
 }

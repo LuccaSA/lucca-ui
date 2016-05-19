@@ -1,14 +1,16 @@
 default:
-    width: &defaultWidth "1px"
-    style: &defaultStyle "solid"
-    color: &defaultColor "rgba(50, 50, 50, 0.2)"
+    width: 1px
+    style: solid
+    color: rgba(50, 50, 50, 0.2)
 
 fat:
     width: 3px
-    style: *defaultStyle
-    color: *defaultColor
+    style: solid
+    color: rgba(50, 50, 50, 0.2)
 
 inverted:
-    width: *defaultWidth
-    style: *defaultStyle
+    width: 1px
+    style: solid
     color: rgba(255, 255, 255, 0.2)
+
+image-url: data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGhlaWdodD0iMSIgd2lkdGg9IjEwMCUiPg0KICA8bGluZSB4MT0iMCIgeTE9IjAiIHgyPSIxMDAlIiB5Mj0iMCIgc3R5bGU9InN0cm9rZTpyZ2JhKDUwLDUwLDUwLC41KTtzdHJva2Utd2lkdGg6MSIgLz4NCjwvc3ZnPg0K

@@ -1,14 +1,14 @@
-@if luiTheme(elements, overlay, enabled) {
+@if theme(elements, overlay, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, overlay);
+		$vars: theme(elements, overlay);
 
 		#{$prefix}.overlay {
 			position: fixed;
 			top: 0; left: 0;
 			height: 100%;
 			width: 100%;
-			z-index: map-gets($vars, zIndex);
-			background-color: map-gets($vars, background);
+			z-index: result($vars, zIndex);
+			background-color: result($vars, background);
 		}
 	}
 }

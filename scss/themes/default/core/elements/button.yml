@@ -1,45 +1,58 @@
 # Sizing
-minHeight: 1em
-minWidth: 3em
-verticalPadding: 0.66em
-horizontalPadding: 1em
-verticalMargin: 0.25em
-horizontalMargin: 0.25em
+min-height: 1em
+min-width: 3em
+
+padding:
+    vertical: 0.66em
+    horizontal: 1em
+margin:
+    vertical: 0.25em
+    horizontal: 0.25em
 
 # Text
-textTransform: normal
-textShadow: none
+text-transform: normal
+text-shadow: none
 
 # STYLES
-# Default
-borderRadius: 3px
-hoverShadow: !theme adjectives.raised.default.box-shadow
-defaultColoring:
-    color: '#FFFFFF'
-    text: !theme elements.typography.body.color
-defaultBorderWidth: 1px
-defaultBorderColor: !theme elements.divider.default.color
+styles:
+    # Default
+    default:
+        hover-shadow: !theme adjectives.raised.default.box-shadow
+        coloring:
+            color: '#FFFFFF'
+            text: !theme elements.typography.body.color
+        border:
+            width: 1px
+            color: !theme elements.divider.default.color
+        border-radius: 3px
 
-# Inverted
-inverted:
-    color: rgba(200, 200, 200, 0.75)
+    # Inverted
+    inverted:
+        border:
+            color: rgba(200, 200, 200, 0.75)
 
-# Flat
-flat:
-    background: transparent
-    textDecoration: underline
-    hoverBackground: rgba(0, 0, 0, 0.05)
-    activeBackground: rgba(0, 0, 0, 0.1)
-    activeShadow: 	0 0 0 1px rgba(50, 50, 50, .1)
-    invertedHoverBackground: rgba(200, 200, 200, 0.1)
-    invertedActiveBackground: rgba(255, 255, 255, .25)
-# Wired
-wired:
-    borderWidth: 2px
+    # Flat
+    flat:
+        background: transparent
+        text-decoration: underline
+        hover-background: rgba(0, 0, 0, 0.05)
+        active:
+            background: rgba(0, 0, 0, 0.1)
+            shadow: 	0 0 0 1px rgba(50, 50, 50, .1)
+        inverted:
+            hover:
+                background: rgba(200, 200, 200, 0.1)
+            active:
+                background: rgba(255, 255, 255, .25)
+    # Wired
+    wired:
+        border:
+            width: 2px
 
-# Disabled
-disabledOpacity: 0.5
-disabledGrayscale: 50%
+    # Disabled
+    disabled:
+        opacity: 0.5
+        greyscale: 50%
 
 # Addon specifics
 addon:

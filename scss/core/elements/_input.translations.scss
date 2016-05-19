@@ -1,13 +1,13 @@
-@if luiTheme(elements, input, enabled) {
+@if theme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, input);
+		$vars: theme(elements, input);
 
 		.luid-translations {
 			display: inline-block;
 			position: relative;
 
 			.luid-translations-dropdown {
-				position: absolute; z-index: map-gets($vars, translations, zIndex);
+				position: absolute; z-index: result($vars, translations, zIndex);
 				top: 100%; left: -1px; right: -1px;
 				@include display-flex(true);
 				@include flex-direction(column);
@@ -20,14 +20,14 @@
 
 			&.open,
 			.luid-translations-dropdown {
-				background-color: map-gets($vars, translations, background);
-				padding: map-gets($vars, translations, dropdownPadding);
+				background-color: result($vars, translations, background);
+				padding: result($vars, translations, dropdownPadding);
 				border: 1px solid luiPalette(light, color);
 				@extend #{$prefix}.raised;
 			}
 
 			&.open {
-				margin: calc(-#{map-gets($vars, translations, dropdownPadding)} - 1px);
+				margin: calc(-#{result($vars, translations, dropdownPadding)} - 1px);
 				border-bottom: none;
 
 				.luid-translations-dropdown {
@@ -44,7 +44,7 @@
 			}
 
 			// Inputs length (horizontal sizing)
-			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+			@each $sizeName, $sizeEms in result($vars, lengths) {
 				&.#{$sizeName} input { min-width: $sizeEms !important; }
 			}
 			&.fitting {

@@ -4,43 +4,43 @@
 	user-select: none;
 }
 
-@if (luiTheme(adjectives, unstyled, enabled)) {
-	%lui_user_select_none {
-		@include lui_user_select_none();
-	}
-	%lui_unstyled_list {
-		list-style: none; padding: 0; margin: 0;
-	}
+%lui_user_select_none {
+@include lui_user_select_none();
+}
+%lui_unstyled_list {
+list-style: none; padding: 0; margin: 0;
+}
 
-	@at-root #{$namespace} {
+// Lists
+// ====
+ul#{$prefix}.unstyled,
+ol#{$prefix}.unstyled {
+	@extend %lui_unstyled_list;
+}
 
-		// Lists
-		// ====
-		ul#{$prefix}.unstyled,
-		ol#{$prefix}.unstyled {
-			@extend %lui_unstyled_list;
-		}
+// Links
+// ====
+a#{$prefix}.unstyled {
+	text-decoration: none;
+}
 
-		// Links
-		// ====
-		a#{$prefix}.unstyled {
-			text-decoration: none;
-		}
-
-		// Buttons
-		// =====
-		button#{$prefix}.unstyled {
-			cursor: pointer;
-			outline: none;
-			border: none;
-			text-decoration: none;
-			font-style: normal;
-			line-height: 1;
-			font-weight: normal;
-			background-color: transparent;
-			border-radius: 0;
-			@extend %lui_user_select_none;
-			&:active, &:focus {	outline: none; outline: 0; }
-		}
+// Buttons
+// =====
+button#{$prefix}.unstyled {
+	cursor: pointer;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	font-style: normal;
+	line-height: 1;
+	font-weight: normal;
+	background-color: transparent;
+	border-radius: 0;
+	@extend %lui_user_select_none;
+	
+	&:active,
+	&:focus {
+		outline: none;
+		outline: 0;
 	}
 }

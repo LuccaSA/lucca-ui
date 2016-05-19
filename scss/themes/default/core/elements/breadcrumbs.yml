@@ -1,6 +1,22 @@
-itemPadding: 0.5em 0
-dividers:
-    fontFamily: "''"
-    character: 003e
-    margin: 0 0.5em
+padding:
+    vertical: 0
+    horizontal: 0
+margin:
+    vertical: 0
+    horizontal: 0
+
+item:
+    padding:
+        vertical: 0.5em
+        horizontal: 0
+    margin:
+        vertical: 0
+        horizontal: 0
+
+divider:
+    font-family: inherit
+    character: "\u003e"
+    margin:
+        vertical: 0
+        horizontal: 0.5em
     color: !theme elements.divider.default.color

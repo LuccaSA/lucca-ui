@@ -1,14 +1,23 @@
+/**
+ * Component comes in two flavours: high and normal raised
+ */
+
+// Mixin
+// ====
 @mixin lui_raised($height: default) {
-	// $height: 'default' | 'high'
-	box-shadow: unquote(luiTheme(adjectives, raised, $height, box-shadow));
+	box-shadow: unquote(theme(adjectives raised $height box-shadow));
 }
-%lui_raised { @include lui_raised(); }
-%lui_high_raised { @include lui_raised(high); }
 
-@if luiTheme(adjectives, raised, enabled) {
-	@at-root #{$namespace} {
-
-		#{$prefix}.raised { @extend %lui_raised; }
-		#{$prefix}.high.raised { @extend %lui_high_raised; }
-	}
+// Placeholders
+// ====
+%lui_raised {
+	@include lui_raised();
 }
+%lui_high_raised {
+	@include lui_raised(high);
+}
+
+// Classes
+// ====
+#{$prefix}.raised { @extend %lui_raised; }
+#{$prefix}.high.raised { @extend %lui_high_raised; }

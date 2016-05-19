@@ -29,9 +29,9 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(elements, menu, enabled) {
+@if theme(elements, menu, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, menu);
+		$vars: theme(elements, menu);
 
 		// Menu
 		// ===================================
@@ -43,8 +43,8 @@
 			@include display-flex();
 			@include flex-wrap(wrap);
 
-			margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
-			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+			margin: result($vars, verticalMargin) result($vars, horizontalMargin);
+			padding: result($vars, verticalPadding) result($vars, horizontalPadding);
 
 			&:first-child { margin-top: 0; }
 			&:last-child { margin-bottom: 0; }
@@ -84,36 +84,36 @@
 
 		// Base
 		#{$prefix}.menu.bordered {
-			border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
-			&.inverted { border: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor); }
+			border: result($vars, borderWidth) result($vars, borderStyle) result($vars, borderColor);
+			&.inverted { border: result($vars, borderWidth) result($vars, borderStyle) result($vars, invertedBorderColor); }
 		}
 		// Horizontal
 		#{$prefix}.menu.bordered:not(.vertical) {
 			> .item:not([class*="right item"]),
 			> .menu:not([class*="right menu"]) {
-				border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
+				border-right: result($vars, borderWidth) result($vars, borderStyle) result($vars, borderColor);
 			}
 			&.inverted > .item:not([class*="right item"]),
 			&.inverted > .menu:not([class*="right menu"]) {
-				border-right: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
+				border-right: result($vars, borderWidth) result($vars, borderStyle) result($vars, invertedBorderColor);
 			}
 		}
 		// Vertical
 		#{$prefix}.menu.vertical.bordered {
 			> .item:not([class*="bottom item"]),
 			> .menu:not([class*="bottom menu"]) {
-				border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, borderColor);
+				border-bottom: result($vars, borderWidth) result($vars, borderStyle) result($vars, borderColor);
 			}
 			&.inverted > .item:not([class*="bottom item"]),
 			&.inverted > .menu:not([class*="bottom menu"]) {
-				border-bottom: map-gets($vars, borderWidth) map-gets($vars, borderStyle) map-gets($vars, invertedBorderColor);
+				border-bottom: result($vars, borderWidth) result($vars, borderStyle) result($vars, invertedBorderColor);
 			}
 		}
 
 		#{$prefix}.dividing.menu > a.item,
 		#{$prefix}.tabbed.menu > a.item,
 		#{$prefix}.pills.menu > a.item {
-			&, &:hover, &.active, &:visited { color: map-gets($vars, dividing, itemColor); text-decoration: none; }
+			&, &:hover, &.active, &:visited { color: result($vars, dividing, itemColor); text-decoration: none; }
 		}
 
 		// Dividing support - horizontal
@@ -147,7 +147,7 @@
 		#{$prefix}.menu > a.item {
 			cursor: pointer;
 			&, &:hover, &:visited {
-				color: luiTheme(elements, typography, links, color);
+				color: theme(elements, typography, links, color);
 			}
 			&:hover, &.active {
 				text-decoration: underline;
@@ -170,7 +170,7 @@
 			padding-bottom: 0 !important;
 		}
 		#{$prefix}.menu > .item.header {
-			font-size: map-gets($vars, item, header, fontSize);
+			font-size: result($vars, item, header, fontSize);
 		}
 
 
@@ -180,8 +180,8 @@
 			width: auto;
 		}
 		#{$prefix}.menu:not(.vertical) > .item.divider:not(.header) {
-			border: none; padding-right: 0; margin-right: map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin);
-			border-right: 1px solid map-gets($vars, borderColor);
+			border: none; padding-right: 0; margin-right: result($vars, item, horizontal, horizontalPadding) + result($vars, item, horizontal, horizontalMargin);
+			border-right: 1px solid result($vars, borderColor);
 			&.dashed { border-right-style: dashed; }
 			&.dotted { border-right-style: dotted; }
 		}
@@ -255,14 +255,14 @@
 			float: left;
 			@include display-flex();
 			@include flex-align-items(center);
-			padding: map-gets($vars, item, horizontal, verticalPadding) map-gets($vars, item, horizontal, horizontalPadding);
-			margin: map-gets($vars, item, horizontal, verticalMargin) map-gets($vars, item, horizontal, horizontalMargin);
+			padding: result($vars, item, horizontal, verticalPadding) result($vars, item, horizontal, horizontalPadding);
+			margin: result($vars, item, horizontal, verticalMargin) result($vars, item, horizontal, horizontalMargin);
 		}
 		// Vertical menu item
 		#{$prefix}.menu.vertical > .item {
 			display: block;
-			padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
-			margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
+			padding: result($vars, item, vertical, verticalPadding) result($vars, item, vertical, horizontalPadding);
+			margin: result($vars, item, vertical, verticalMargin) result($vars, item, vertical, horizontalMargin);
 		}
 		// Vertical
 		#{$prefix}.menu.vertical > .menu:not(.horizontal),
@@ -295,7 +295,7 @@
 		// Coloring
 		#{$prefix}.menu {
 			// Default coloring scheme
-			@include lui_menu_coloring(map-gets($vars, defaultColoring));
+			@include lui_menu_coloring(result($vars, defaultColoring));
 			// Coloring support
 			@each $name, $scheme in luiPalettes() {
 				&.#{map-get($scheme, class)} {
@@ -313,12 +313,12 @@
 		}
 		// Dividing - Common
 		#{$prefix}.menu.dividing {
-			border-color: map-gets($vars, dividing, dividerColor);
+			border-color: result($vars, dividing, dividerColor);
 			@include flex-align-content(stretch);
 			> .item {
 				@include flex-align-self(stretch);
-				padding: map-gets($vars, item, horizontal, verticalPadding) 0;
-				margin: map-gets($vars, item, horizontal, verticalMargin) (map-gets($vars, item, horizontal, horizontalMargin) + map-gets($vars, item, horizontal, horizontalPadding));
+				padding: result($vars, item, horizontal, verticalPadding) 0;
+				margin: result($vars, item, horizontal, verticalMargin) (result($vars, item, horizontal, horizontalMargin) + result($vars, item, horizontal, horizontalPadding));
 			}
 
 			> a.item:not(.active):not(:hover) { opacity: 0.75; }
@@ -331,7 +331,7 @@
 			}
 
 			&.bordered > .item {
-				padding: map-gets($vars, item, horizontal, verticalPadding) (map-gets($vars, item, horizontal, horizontalMargin) + map-gets($vars, item, horizontal, horizontalPadding));
+				padding: result($vars, item, horizontal, verticalPadding) (result($vars, item, horizontal, horizontalMargin) + result($vars, item, horizontal, horizontalPadding));
 				margin: 0;
 			}
 		}
@@ -341,25 +341,25 @@
 			> a.item:before {
 				left: 0; right: 0;
 				margin: 0 auto;
-				width: 0; height: map-gets($vars, dividing, activeDividerWidth);
+				width: 0; height: result($vars, dividing, activeDividerWidth);
 			}
 
 			// Dividing is down
 			&:not([class*="top dividing"]) {
-				border-bottom-width: map-gets($vars, dividing, dividerWidth);
+				border-bottom-width: result($vars, dividing, dividerWidth);
 				border-bottom-style: solid;
 				> a.item:after {
-					bottom: -(map-gets($vars, item, horizontal, verticalMargin) + map-gets($vars, verticalPadding));
+					bottom: -(result($vars, item, horizontal, verticalMargin) + result($vars, verticalPadding));
 				}
 				> a.item:not(.disabled):hover:after, > a.item:active:after, > a.item.active:after { width: 100%; }
 			}
 
 			// Dividing is up
 			&[class*="top dividing"] {
-				border-top-width: map-gets($vars, dividing, dividerWidth);
+				border-top-width: result($vars, dividing, dividerWidth);
 				border-top-style: solid;
 				> a.item:before {
-					top: -(map-gets($vars, item, horizontal, verticalMargin) + map-gets($vars, verticalPadding));
+					top: -(result($vars, item, horizontal, verticalMargin) + result($vars, verticalPadding));
 				}
 				> a.item:not(.disabled):hover:before, > a.item:active:before, > a.item.active:before { width: 100%; }
 			}
@@ -368,36 +368,36 @@
 		// Dividing - Vertical
 		#{$prefix}.menu.dividing.vertical {
 			> .item {
-				margin: map-gets($vars, item, vertical, verticalMargin) map-gets($vars, item, vertical, horizontalMargin);
-				padding: map-gets($vars, item, vertical, verticalPadding) map-gets($vars, item, vertical, horizontalPadding);
+				margin: result($vars, item, vertical, verticalMargin) result($vars, item, vertical, horizontalMargin);
+				padding: result($vars, item, vertical, verticalPadding) result($vars, item, vertical, horizontalPadding);
 			}
 			> a.item:after,
 			> a.item:before {
 				top: 50%; bottom: 0;
 				-ms-transform: translate(0, -50%);
 				transform: translate(0, -50%);
-				width: map-gets($vars, dividing, activeDividerWidth); height: 0;
+				width: result($vars, dividing, activeDividerWidth); height: 0;
 			}
 
 			// Divider is left
 			&:not([class*="right dividing"]),
 			&[class*="left dividing"] {
-				border-left-width: map-gets($vars, dividing, dividerWidth);
+				border-left-width: result($vars, dividing, dividerWidth);
 				border-left-style: solid;
 				> a.item:before {
-					margin-left: -(map-gets($vars, dividing, dividerWidth));
-					left: -(map-gets($vars, item, vertical, horizontalMargin) + map-gets($vars, horizontalPadding));
+					margin-left: -(result($vars, dividing, dividerWidth));
+					left: -(result($vars, item, vertical, horizontalMargin) + result($vars, horizontalPadding));
 				}
 				> a.item:not(.disabled):hover:before, > a.item:active:before, > a.item.active:before { height: 100%; }
 			}
 
 			// Divider is right
 			&[class*="right dividing"] {
-				border-right-width: map-gets($vars, dividing, dividerWidth);
+				border-right-width: result($vars, dividing, dividerWidth);
 				border-right-style: solid;
 				> a.item:after {
-					margin-right: -(map-gets($vars, dividing, dividerWidth));
-					right: -(map-gets($vars, item, vertical, horizontalMargin) + map-gets($vars, horizontalPadding));
+					margin-right: -(result($vars, dividing, dividerWidth));
+					right: -(result($vars, item, vertical, horizontalMargin) + result($vars, horizontalPadding));
 				}
 				> a.item:not(.disabled):hover:after, > a.item:active:after, > a.item.active:after { height: 100%; }
 			}
@@ -411,11 +411,11 @@
 		// ====
 		#{$prefix}.menu.tabbed {
 			position: relative;
-			background: map-gets($vars, tabbed, background);
-			padding: map-gets($vars, tabbed, padding);
-			border: 1px solid map-gets($vars, tabbed, borderColor);
+			background: result($vars, tabbed, background);
+			padding: result($vars, tabbed, padding);
+			border: 1px solid result($vars, tabbed, borderColor);
 			border-bottom: none;
-			margin-top: 2*#{map-gets($vars, item, horizontal, verticalPadding)};
+			margin-top: 2*#{result($vars, item, horizontal, verticalPadding)};
 
 			&.bordered > .item, > .item {
 				position: relative; z-index: 2;
@@ -425,26 +425,26 @@
 			}
 
 			> a.item.active, > a.item:hover {
-				background: map-gets($vars, tabbed, activeBackground);
-				padding-top: 2*#{map-gets($vars, item, horizontal, verticalPadding); margin-top: -(map-gets($vars, item, horizontal, verticalPadding))};
+				background: result($vars, tabbed, activeBackground);
+				padding-top: 2*#{result($vars, item, horizontal, verticalPadding); margin-top: -(result($vars, item, horizontal, verticalPadding))};
 
-				border-top-color: map-gets($vars, tabbed, borderColor);
-				border-left-color: map-gets($vars, tabbed, borderColor);
-				border-right-color: map-gets($vars, tabbed, borderColor);
+				border-top-color: result($vars, tabbed, borderColor);
+				border-left-color: result($vars, tabbed, borderColor);
+				border-right-color: result($vars, tabbed, borderColor);
 			}
 
 			> a.item.active {
-				border-top-width: map-gets($vars, tabbed, activeBorderWidth);
+				border-top-width: result($vars, tabbed, activeBorderWidth);
 			}
 
 			&:after {
 				visibility: visible;
 				position: absolute; top: 100%; left: -1px; right: -1px;
 				display: block; content: "";
-				height: map-gets($vars, tabbed, bottomSpacing);
-				border: 1px solid map-gets($vars, tabbed, borderColor);
+				height: result($vars, tabbed, bottomSpacing);
+				border: 1px solid result($vars, tabbed, borderColor);
 			}
-			margin-bottom: map-gets($vars, tabbed, bottomSpacing);
+			margin-bottom: result($vars, tabbed, bottomSpacing);
 		}
 
 		// Pills style
@@ -455,7 +455,7 @@
 			}
 
 			> a.item {
-				border-radius: map-gets($vars, pills, borderRadius);
+				border-radius: result($vars, pills, borderRadius);
 				margin: 0;
 				@include lui_transition_properties(background);
 			}
@@ -463,10 +463,10 @@
 			&[class*="squared pills"] > a.item { border-radius: 0; }
 		}
 		#{$prefix}.menu.pills:not(.vertical) > a.item {
-			padding: (map-gets($vars, item, horizontal, verticalPadding) + map-gets($vars, item, horizontal, verticalMargin)) (map-gets($vars, item, horizontal, horizontalPadding) + map-gets($vars, item, horizontal, horizontalMargin));
+			padding: (result($vars, item, horizontal, verticalPadding) + result($vars, item, horizontal, verticalMargin)) (result($vars, item, horizontal, horizontalPadding) + result($vars, item, horizontal, horizontalMargin));
 		}
 		#{$prefix}.menu.pills.vertical > a.item {
-			padding: (map-gets($vars, item, vertical, verticalPadding) + map-gets($vars, item, vertical, verticalMargin)) (map-gets($vars, item, vertical, horizontalPadding) + map-gets($vars, item, vertical, horizontalMargin));
+			padding: (result($vars, item, vertical, verticalPadding) + result($vars, item, vertical, verticalMargin)) (result($vars, item, vertical, horizontalPadding) + result($vars, item, vertical, horizontalMargin));
 		}
 
 
@@ -494,7 +494,7 @@
 		// Container menu
 		// ===================================
 
-		@each $name, $props in luiTheme(references, breakpoints) {
+		@each $name, $props in theme(references, breakpoints) {
 			@media (min-width: map-get($props, break)) {
 				#{$prefix}.menu.container {
 					padding-left: map-get($props, spacing);

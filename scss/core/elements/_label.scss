@@ -25,21 +25,21 @@
 // ============= Element =============
 // ===================================
 
-@if luiTheme(elements, label, enabled) {
+@if theme(elements, label, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, label);
+		$vars: theme(elements, label);
 
 		#{$prefix}.label {
 			display: inline-block;
 			vertical-align: middle;
 			font-size: map-get($vars, fontSize);
-			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+			padding: result($vars, verticalPadding) result($vars, horizontalPadding);
 			margin: (map-get($vars, verticalMargin)) (map-get($vars, horizontalMargin));
 			font-weight: normal;
 			line-height: map-get($vars, lineHeight);
 			text-align: map-get($vars, textAlign);
 			white-space: nowrap;
-			border-radius: map-gets($vars, borderRadius);
+			border-radius: result($vars, borderRadius);
 
 			// Icon support
 			// ====
@@ -79,12 +79,12 @@
 			> .addon {
 				display: inline-block;
 				vertical-align: top;
-				background: map-gets($vars, addonBackground);
-				padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-				margin: (- map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding));
+				background: result($vars, addonBackground);
+				padding: result($vars, verticalPadding) result($vars, horizontalPadding);
+				margin: (- result($vars, verticalPadding)) (result($vars, horizontalPadding)) (- result($vars, verticalPadding)) (- result($vars, horizontalPadding));
 				&[class*="right addon"] {
-					margin-right: -(map-gets($vars, horizontalPadding));
-					margin-left: map-gets($vars, horizontalPadding);
+					margin-right: -(result($vars, horizontalPadding));
+					margin-left: result($vars, horizontalPadding);
 				}
 			}
 		}
@@ -110,7 +110,7 @@
 
 		#{$prefix}.label {
 			// Default coloring scheme
-			@include lui_label_coloring(map-gets($vars, defaultColoring));
+			@include lui_label_coloring(result($vars, defaultColoring));
 			// Coloring support
 			@each $name, $scheme in luiPalettes() {
 				&.#{map-get($scheme, class)} {

@@ -1,6 +1,6 @@
-@if luiTheme(elements, tablegrid, enabled) {
+@if theme(elements, tablegrid, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, tablegrid);
+		$vars: theme(elements, tablegrid);
 
 		#{$prefix}.tablegrid {
 			position: relative;
@@ -8,7 +8,7 @@
 
 			// Common
 			// ====
-			text-align: map-gets($vars, textAlignment);
+			text-align: result($vars, textAlignment);
 
 			table {
 				table-layout: fixed;
@@ -45,7 +45,7 @@
 			// Cells
 			// ====
 			th, td {
-				padding: map-gets($vars, cell, padding);
+				padding: result($vars, cell, padding);
 				box-sizing: border-box;
 
 				border: 1px solid luiPalette(light, color);
@@ -70,9 +70,9 @@
 						font-size: 0.6em;
 						padding: 0.5em;
 						line-height: 1;
-						border-radius: luiTheme(adjectives, rounded, radius);
-						color: map-gets($vars, header, background);
-						background-color: map-gets($vars, header, text);
+						border-radius: theme(adjectives, rounded, radius);
+						color: result($vars, header, background);
+						background-color: result($vars, header, text);
 					}
 				}
 			}
@@ -89,22 +89,22 @@
 			thead {
 				position: absolute; top: 0;
 				min-width: 100%;
-				color: map-gets($vars, header, text);
-				font-weight: map-gets($vars, header, fontWeight);
-				text-align: map-gets($vars, header, textAlignment);
+				color: result($vars, header, text);
+				font-weight: result($vars, header, fontWeight);
+				text-align: result($vars, header, textAlignment);
 
 				a {
-					color: map-gets($vars, header, text);
+					color: result($vars, header, text);
 					text-decoration: none;
 				}
 
 				th {
-					background-color: map-gets($vars, header, background);
+					background-color: result($vars, header, background);
 					vertical-align: bottom;
-					border-color: map-gets($vars, header, borderColor);
+					border-color: result($vars, header, borderColor);
 				}
 				tr:not(.filters) th:not([colspan]) {
-					padding-top: map-gets($vars, header, cellPaddingTop);
+					padding-top: result($vars, header, cellPaddingTop);
 				}
 			}
 
@@ -114,7 +114,7 @@
 			tbody {
 				min-width: 100%;
 				height: auto;
-				background-color: map-gets($vars, background);
+				background-color: result($vars, background);
 			}
 
 
@@ -122,13 +122,13 @@
 			// ====
 			&.zebra {
 				tbody > tr:nth-child(2n) {
-					background-color: map-gets($vars, rows, zebraColor);
+					background-color: result($vars, rows, zebraColor);
 				}
 			}
 
 			// Hover color
 			tr.hovering {
-				background-color: map-gets($vars, rows, hoverColor) !important;
+				background-color: result($vars, rows, hoverColor) !important;
 			}
 
 			// IE9: no support for locked columns

@@ -1,11 +1,11 @@
-@if luiTheme(elements, input, enabled) {
+@if theme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, input);
+		$vars: theme(elements, input);
 
 		#{$prefix}.search.input {
 			@include lui_make_icon("search");
 
-			> input { padding-left: map-gets($vars, search, paddingLeft); }
+			> input { padding-left: result($vars, search, paddingLeft); }
 
 			&.searching {
 				@include lui_loader();
@@ -39,7 +39,7 @@
 				right: 1em;
 				&:before { right:  0.6em; margin: 0; }
 
-				background: map-gets($vars, borderColor);
+				background: result($vars, borderColor);
 				color: #FFF;
 			}
 
@@ -51,7 +51,7 @@
 
 				@include display-flex();
 
-				padding-left: map-gets($vars, search, paddingLeft);
+				padding-left: result($vars, search, paddingLeft);
 
 				> input {
 					display: inline-block;
@@ -68,14 +68,14 @@
 					display: inline-block;
 					line-height: 1;
 					font-weight: 600;
-					padding: map-gets($vars, search, tag, padding);
-					margin: map-gets($vars, search, tag, margin);
-					background-color: map-gets($vars, search, tag, background);
-					border: 1px solid map-gets($vars, search, tag, borderColor);
-					border-radius: map-gets($vars, search, tag, borderRadius);
+					padding: result($vars, search, tag, padding);
+					margin: result($vars, search, tag, margin);
+					background-color: result($vars, search, tag, background);
+					border: 1px solid result($vars, search, tag, borderColor);
+					border-radius: result($vars, search, tag, borderRadius);
 
 					&.selected {
-						border-color: map-gets($vars, search, tag, selectedColor);
+						border-color: result($vars, search, tag, selectedColor);
 					}
 
 					a.close {

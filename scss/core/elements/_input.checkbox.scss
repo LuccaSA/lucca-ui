@@ -1,82 +1,94 @@
-@if luiTheme(elements, input, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(elements, input);
+#{$prefix}.checkbox {
+	@extend %lui_input_holder_base;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	line-height: 1;
 
-		#{$prefix}.checkbox {
-			@extend %lui_input_holder_base;
+	input, label { margin: 0; }
+
+	input[type="checkbox"] {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		opacity: 0;
+	}
+
+	label {
+		color: theme(elements typography body color);
+		display: block;
+		position: relative;
+		padding: 0;
+		padding-left: result($vars, checkbox size) + 1em;
+		line-height: result($vars, checkbox size);
+
+		@include lui_make_icon("checkbox");
+
+		&:before {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
 			display: inline-block;
-			vertical-align: middle;
-			position: relative;
-			line-height: 1;
-
-			input, label { margin: 0; }
-
-			input[type="checkbox"] {
-				position: absolute;
-				left: 0; top: 0;
-				z-index: 2;
-				width: 100%;
-				height: 100%;
-				cursor: pointer;
-				opacity: 0;
-			}
-
-			label {
-				color: luiTheme(elements, typography, body, color);
-				display: block;
-				position: relative;
-				padding: 0;
-				padding-left: map-gets($vars, checkbox, size) + 1em;
-				line-height: map-gets($vars, checkbox, size);
-
-				@include lui_make_icon("checkbox");
-
-				&:before { position: absolute; top: 50%; transform: translateY(-50%); left: 0; display: inline-block; font-size:  map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
-				&:after { display: inline-block; content: ""; }
-			}
-
-			input:checked ~ label {
-				@include lui_make_icon("checkbox checked");
-				&:before { color: map-gets($vars, checkbox, color); }
-			}
-			input.partial:checked ~ label {
-				@include lui_make_icon("checkbox partial");
-			}
-
-			& + label {
-				margin-left: 1em;
-			}
-
-			// Read only state
-			// ====
-			&.readonly {
-				label, input { cursor: default; }
-				input { display: none; }
-			}
-
-			// Fitting size
-			&.fitting {
-				float: left;
-				clear: both;
-			}
-
-			&.solo {
-				label {
-					padding-left: map-gets($vars, checkbox, size);
-				}
-			}
+			font-size: result($vars, checkbox size);
+			color: result($vars, border-color);
 		}
-
-		// Icon version
-		// ====
-		#{$prefix}.checkbox.icon {
-			&[class*="checkbox checked"]:before { color: map-gets($vars, checkbox, color); }
-
-			&:before { font-size: map-gets($vars, checkbox, size); color: map-gets($vars, borderColor); }
-		}
-		#{$prefix}.checkbox.icon.button {
-			padding: 0.25em;
-			&:before { margin: auto; }
+		&:after {
+			display: inline-block;
+			content: "";
 		}
 	}
+
+	input:checked ~ label {
+		@include lui_make_icon("checkbox checked");
+		&:before {
+			color: result($vars, checkbox color);
+		}
+	}
+	input.partial:checked ~ label {
+		@include lui_make_icon("checkbox partial");
+	}
+
+	& + label {
+		margin-left: 1em;
+	}
+
+	// Read only state
+	// ====
+	&.readonly {
+		label, input {
+			cursor: default;
+		}
+		input {
+			display: none;
+		}
+	}
+
+	// Fitting size
+	&.fitting {
+		float: left;
+		clear: both;
+	}
+
+	&.solo {
+		label {
+			padding-left: result($vars, checkbox size);
+		}
+	}
+}
+
+// Icon version
+// ====
+#{$prefix}.checkbox.icon {
+	&[class*="checkbox checked"]:before { color: result($vars, checkbox, color); }
+
+	&:before { font-size: result($vars, checkbox, size); color: result($vars, borderColor); }
+}
+#{$prefix}.checkbox.icon.button {
+	padding: 0.25em;
+	&:before { margin: auto; }
 }

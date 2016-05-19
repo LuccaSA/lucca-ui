@@ -1,26 +1,35 @@
 width: 5em
-verticalMargin: 1em
-horizontalMargin: 0
 
-textTransform: uppercase
-textAlign: center
-textColor: !theme elements.typography.body.color
+margin:
+    vertical: 1em
+    horizontal: 0
 
-borderRadius: !theme adjectives.rounded.radius
-borderWidth: 1px
-borderColor: !theme elements.divider.default.color
+text-transform: uppercase
+text-align: center
+text-color: !theme elements.typography.body.color
+
+border-radius: !theme adjectives.rounded.radius
+border:
+    width: 1px
+    color: !theme elements.divider.default.color
 
 day:
-    verticalPadding: 0.25em
-    fontSize: 3em
-    fontWeight: 600
+    padding:
+        vertical: 0.25em
+        horizontal: 0
+    font-size: 3em
+    font-weight: 600
 
 month:
-    verticalPadding: 0
-    fontSize: 1.5em
-    fontWeight: 600
+    padding:
+        vertical: 0
+        horizontal: 0
+    font-size: 1.5em
+    font-weight: 600
 
 year:
-    verticalPadding: 0.1em
-    fontSize: 1em
-    fontWeight: 400
+    padding:
+        vertical: 0.1em
+        horizontal: 0
+    font-size: 1em
+    font-weight: 400

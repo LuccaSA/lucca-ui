@@ -1,10 +1,4 @@
-@if luiTheme(adjectives, rounded, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(adjectives, rounded);
-
-		#{$prefix}.rounded {
-			border-radius: map-get($vars, radius);
-			background-clip: padding-box;
-		}
-	}
+#{$prefix}.rounded {
+	border-radius: result($vars, radius);
+	background-clip: padding-box;
 }

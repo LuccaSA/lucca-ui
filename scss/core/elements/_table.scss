@@ -1,6 +1,6 @@
-@if luiTheme(elements, table, enabled) {
+@if theme(elements, table, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, table);
+		$vars: theme(elements, table);
 
 		#{$prefix}.table {
 			display: table;
@@ -8,9 +8,9 @@
 			width: 100%;
 			border-spacing: 0;
 			border-collapse: collapse;
-			text-align: map-gets($vars, textAlignment);
-			margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
-			background-color: map-gets($vars, background);
+			text-align: result($vars, textAlignment);
+			margin: (result($vars, verticalMargin)) (result($vars, horizontalMargin));
+			background-color: result($vars, background);
 
 			> .thead .tr, > .tbody .tr,
 			> thead tr, > tbody tr {
@@ -21,7 +21,7 @@
 
 			> .thead > .tr:not(:first-child) > .th, > .tbody > .tr:not(:first-child) > .td,
 			> thead > tr:not(:first-child) > th, > tbody > tr:not(:first-child) > td {
-				border-top: map-gets($vars, border);
+				border-top: result($vars, border);
 			}
 
 			> .thead > .tr > .th, > .tbody > .tr > .td,
@@ -29,15 +29,15 @@
 				display: table-cell;
 				float: none;
 				vertical-align: top;
-				padding: map-gets($vars, padding);
+				padding: result($vars, padding);
 			}
 
 			// thead
 			// ====
 			> .thead, > thead {
 				display: table-header-group;
-				padding: map-gets($vars, padding);
-				border: map-gets($vars, border);
+				padding: result($vars, padding);
+				border: result($vars, border);
 			}
 			> .thead > .tr > .th, > thead > tr > th {
 				font-weight: 600;
@@ -50,9 +50,9 @@
 			// ====
 			> .tbody, > tbody {
 				display: table-row-group;
-				border: map-gets($vars, border);
+				border: result($vars, border);
 				border-top: none;
-				background-color: map-gets($vars, background);
+				background-color: result($vars, background);
 			}
 
 			// Zebra table
@@ -61,7 +61,7 @@
 				> tbody > tr, .tbody > .tr {
 					border: none;
 					&:nth-child(odd) {
-						background-color: map-gets($vars, zebraBackground);
+						background-color: result($vars, zebraBackground);
 					}
 				}
 			}
@@ -100,7 +100,7 @@
 					display: block;
 					content: "";
 					top: 0px; bottom: -1px; left: -1px;
-					width: map-gets($vars, coloredBorderWidth);
+					width: result($vars, coloredBorderWidth);
 					min-height: 100%;
 				}
 			}

@@ -1,13 +1,13 @@
-@if luiTheme(elements, notify, enabled) {
+@if theme(elements, notify, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, notify);
+		$vars: theme(elements, notify);
 
 		.luis-notify {
 			@include lui_transition();
-			z-index: map-gets($vars, zIndex);
+			z-index: result($vars, zIndex);
 			position: fixed !important;
-			width: luiTheme(references, breakpoints, mobile, break);
-			max-width: map-gets($vars, maxWidth);
+			width: theme(references, breakpoints, mobile, break);
+			max-width: result($vars, maxWidth);
 			left: 50%;
 			.close {
 				box-shadow: none;

@@ -1,0 +1,86 @@
+
+// Coloring support
+// ===================================
+
+@mixin lui_datestamp_coloring($scheme) {
+	& {
+		.day {
+			background-color: map-get($scheme, color);
+			border-color: map-get($scheme, color);
+			color: map-get($scheme, text);
+		}
+		.month, .year {
+			border-color: map-get($scheme, color);
+			color: map-get($scheme, color);
+
+			@if not (luiIsLod($scheme)) {
+				color: map-get($scheme, text);
+			}
+		}
+	}
+}
+
+luid-day-block#{$prefix} {
+	@each $name, $scheme in luiPalettes() {
+		&.#{map-get($scheme, class)} {
+			@include lui_datestamp_coloring($scheme);
+		}
+	}
+}
+
+luid-day-block {
+	display: inline-block;
+	width: result($vars, width);
+	margin: result($vars, margin vertical) result($vars, margin horizontal);
+
+	text-align: result($vars, text-align);
+	text-transform: result($vars, text-transform);
+
+	.day {
+		padding: result($vars, day padding vertical) result($vars, day padding horizontal);
+
+		border-top-left-radius: result($vars, border-radius);
+		border-top-right-radius: result($vars, border-radius);
+
+		border-width: result($vars, border width);
+		border-style: solid;
+
+		font-size: result($vars, day font-size);
+		font-weight: result($vars, day font-weight);
+	}
+
+	.month {
+		padding: result($vars, month padding vertical) result($vars, month padding horizontal);
+
+		border-left-width: result($vars, border width);
+		border-right-width: result($vars, border width);
+		border-left-style: solid;
+		border-right-style: solid;
+
+		font-size: result($vars, month font-size);
+		font-weight: result($vars, month font-weight);
+	}
+
+	.year {
+		padding: result($vars, day padding vertical) result($vars, year padding horizontal);
+
+		border-bottom-left-radius: result($vars, border-radius);
+		border-bottom-right-radius: result($vars, border-radius);
+
+		border-width: result($vars, border width);
+		border-style: solid;
+
+		border-top: none;
+
+		font-size: result($vars, year font-size);
+		font-weight: result($vars, year font-weight);
+	}
+
+	@include lui_datestamp_coloring(luiPalette(light));
+}
+
+// Sizing support
+// ===================================
+luid-day-block#{$prefix} {
+	@include lui_supports_sizing();
+}

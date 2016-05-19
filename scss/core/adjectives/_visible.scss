@@ -1,42 +1,48 @@
-@if luiTheme(adjectives, visible, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(adjectives, visible);
+#{$prefix}.shown {
+	display: block;
+}
+#{$prefix}.hidden {
+	display: none;
+}
 
-		#{$prefix}.shown { display: block; }
-		#{$prefix}.hidden { display: none; }
+#{$prefix}.invisible {
+	pointer-events: none;
+	visibility: hidden;
+	opacity: 0;
+}
 
-		#{$prefix}.invisible {
-			pointer-events: none;
-			visibility: hidden;
-			opacity: 0;
-		}
-
-		#{$prefix}.faded {
-			opacity: 0.5;
-			&.strongly { opacity: 0.25; }
-			&.lightly { opacity: 0.75; }
-		}
-
-		#{$prefix}.desaturated {
-			-webkit-filter: grayscale(50%);
-			filter: grayscale(50%);
-			&.strongly {
-				-webkit-filter: grayscale(75%);
-				filter: grayscale(75%);
-			}
-			&.lightly {
-				-webkit-filter: grayscale(25%);
-				filter: grayscale(25%);
-			}
-			&.fully {
-				-webkit-filter: grayscale(100%);
-				filter: grayscale(100%);
-			}
-		}
-
-		// Deferred cloack
-		&[deferred-cloak], &[data-deferred-cloak], &[x-deferred-cloak], &.deferred-cloak {
-			display: none !important;
-		}
+#{$prefix}.faded {
+	opacity: 0.5;
+	&.strongly {
+		opacity: 0.25;
 	}
+	&.lightly {
+		opacity: 0.75;
+	}
+}
+
+#{$prefix}.desaturated {
+	-webkit-filter: grayscale(50%);
+	filter: grayscale(50%);
+	&.strongly {
+		-webkit-filter: grayscale(75%);
+		filter: grayscale(75%);
+	}
+	&.lightly {
+		-webkit-filter: grayscale(25%);
+		filter: grayscale(25%);
+	}
+	&.fully {
+		-webkit-filter: grayscale(100%);
+		filter: grayscale(100%);
+	}
+}
+
+// Deferred cloack
+// ====
+&[deferred-cloak],
+&[data-deferred-cloak],
+&[x-deferred-cloak],
+&.deferred-cloak {
+	display: none !important;
 }

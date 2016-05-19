@@ -1,3 +1,4 @@
+
 // ===================================
 // ============= Mixins ==============
 // ===================================
@@ -29,9 +30,9 @@
 // ============ Elements =============
 // ===================================
 
-@if luiTheme(elements, input, enabled) {
+@if theme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, input);
+		$vars: theme(elements, input);
 
 		#{$prefix}.input {
 			@each $name, $scheme in luiPalettes() {
@@ -57,27 +58,27 @@
 		}
 		%lui_input_field_base {
 			width: 100%;
-			border-radius: map-gets($vars, borderRadius);
-			border: map-gets($vars, borderWidth) solid map-gets($vars, borderColor);
-			background: map-gets($vars, background);
-			color: map-gets($vars, color);
+			border-radius: result($vars, borderRadius);
+			border: result($vars, borderWidth) solid result($vars, borderColor);
+			background: result($vars, background);
+			color: result($vars, color);
 			font-weight: normal;
 
 			&:focus, &:active {
 				outline: 0; outline: none;
-				border-color: map-gets($vars, focusBorderColor);
+				border-color: result($vars, focusBorderColor);
 			}
 			@include lui_placeholder() {
-				color: map-gets($vars, placeholderColor);
-				font-style: map-gets($vars, placeholderStyle);
+				color: result($vars, placeholderColor);
+				font-style: result($vars, placeholderStyle);
 			}
 		}
 		%lui_input_text_field {
-			padding: 0  map-gets($vars, padding, right) 0  map-gets($vars, padding, left);
-			line-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+			padding: 0  result($vars, padding, right) 0  result($vars, padding, left);
+			line-height: (1em + result($vars, padding, top) + result($vars, padding, bottom));
 
 			// Fix for Internet Explorer
-			min-height: (1em + map-gets($vars, padding, top) + map-gets($vars, padding, bottom));
+			min-height: (1em + result($vars, padding, top) + result($vars, padding, bottom));
 			display: inline-block;
 			@include flex();
 
@@ -107,17 +108,17 @@
 		#{$prefix}.input > input, #{$prefix}.input > textarea { cursor: text; }
 		#{$prefix}.input > input[type="checkbox"] { cursor: pointer; }
 		#{$prefix}.input > textarea {
-			padding: map-gets($vars, padding, top) map-gets($vars, padding, right) map-gets($vars, padding, bottom) map-gets($vars, padding, left);
+			padding: result($vars, padding, top) result($vars, padding, right) result($vars, padding, bottom) result($vars, padding, left);
 		}
 		#{$prefix}.input > select {
-			padding: (map-gets($vars, padding, top) / 2) map-gets($vars, padding, right) (map-gets($vars, padding, bottom) / 2) map-gets($vars, padding, left);
+			padding: (result($vars, padding, top) / 2) result($vars, padding, right) (result($vars, padding, bottom) / 2) result($vars, padding, left);
 		}
 
 		// Fitting size
 		#{$prefix}.fitting.input { width: 100%; }
 
 		// Inputs length (horizontal sizing)
-		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+		@each $sizeName, $sizeEms in result($vars, lengths) {
 			#{$prefix}.#{$sizeName}.input > input,
 			#{$prefix}.#{$sizeName}.field > input { min-width: 0; width: $sizeEms !important; }
 		}
@@ -166,25 +167,25 @@
 				display: inline-block;
 				position: relative; z-index: 2;
 				vertical-align: middle;
-				border: 1px solid map-gets($vars, borderColor);
-				padding: 0 map-gets($vars, padding, right) 0 map-gets($vars, padding, left);
-				background: map-gets($vars, background);
-				line-height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
-				// height: 1 +  map-gets($vars, padding, top) +  map-gets($vars, padding, bottom);
+				border: 1px solid result($vars, borderColor);
+				padding: 0 result($vars, padding, right) 0 result($vars, padding, left);
+				background: result($vars, background);
+				line-height: 1 +  result($vars, padding, top) +  result($vars, padding, bottom);
+				// height: 1 +  result($vars, padding, top) +  result($vars, padding, bottom);
 				box-sizing: border-box;
 			}
 
 			&:not(.addons) > #{$prefix}.addon:not([class*="right addon"]),
 			&.addons > #{$prefix}.addon:first-child {
 				border-right: none;
-				border-radius: map-gets($vars, borderRadius) 0 0 map-gets($vars, borderRadius);
-				& + input { border-radius: 0 map-gets($vars, borderRadius) map-gets($vars, borderRadius) 0; }
+				border-radius: result($vars, borderRadius) 0 0 result($vars, borderRadius);
+				& + input { border-radius: 0 result($vars, borderRadius) result($vars, borderRadius) 0; }
 			}
 
 			&:not(.addons) > #{$prefix}[class*="right addon"],
 			&.addons #{$prefix}.addon:last-child {
-				border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
-				margin-left: -(map-gets($vars, borderRadius));
+				border-radius: 0 (result($vars, borderRadius)) (result($vars, borderRadius)) 0;
+				margin-left: -(result($vars, borderRadius));
 			}
 
 			&.addons > input {
@@ -238,7 +239,7 @@
 			// ====
 			> label {
 				white-space: pre;
-				font-weight: map-gets($vars, field, labelFontWeight);
+				font-weight: result($vars, field, labelFontWeight);
 			}
 
 			> label, > .input {
@@ -249,7 +250,7 @@
 			// ====
 			&.invalid {
 				> label {
-					color: map-gets($vars, invalidColor);
+					color: result($vars, invalidColor);
 				}
 				> .input {
 					&,
@@ -298,8 +299,8 @@
 		// ===================================
 
 		%lui_invalid_input_base {
-			color: map-gets($vars, invalidColor);
-			border-color: map-gets($vars, invalidColor);
+			color: result($vars, invalidColor);
+			border-color: result($vars, invalidColor);
 		}
 		#{$prefix}.input.invalid,
 		#{$prefix}.input.ng-invalid {

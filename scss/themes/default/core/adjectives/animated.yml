@@ -1,11 +1,13 @@
 transitions:
-    animationDuration: 0.25s
-    animationEasing: ease-out
-    fadeTranslationDistance: 1em
-    scaleAnimationRatio: 25
+    animation-duration: 0.25s
+    animation-easing: ease-out
+    fade:
+        translation-distance: 1em
+    scale:
+        ratio: 25
 
 static:
-    animationDuration: 0.5s
-    animationEasing: ease-out
+    animation-duration: 0.5s
+    animation-easing: ease-out
 
-    bounceDistance: 2em
+    bounce-distance: 2em

@@ -1,6 +1,6 @@
-@if luiTheme(elements, input, enabled) {
+@if theme(elements, input, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(elements, input);
+		$vars: theme(elements, input);
 
 		luid-timespan {
 			@extend %lui_input_holder_base;
@@ -8,7 +8,7 @@
 			> input {
 				@extend %lui_input_field_base;
 				@extend %lui_input_text_field;
-				width: map-gets($vars, timespanpicker, width);
+				width: result($vars, timespanpicker, width);
 			}
 		}
 		// Invalid field

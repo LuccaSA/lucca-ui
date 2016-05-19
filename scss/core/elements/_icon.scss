@@ -1,13 +1,19 @@
 
-$luccaIcons_icon-base-selector: luiTheme(elements, icon, iconBaseSelector);
-$luccaIcons_font-create-classes: luiTheme(elements, icon, createClasses);
+$luccaIcons_icon-base-selector: theme(elements, icon, iconBaseSelector);
+$luccaIcons_font-create-classes: theme(elements, icon, createClasses);
 @import "bower_components/lucca-icons/src/lucca-icons";
 
-@mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
+@mixin lui_make_icon($name, $position: left) {
+	@include luccaIcons_make($name, $position);
+}
 
-@if luiTheme(elements, icon, enabled) {
+@if theme(elements, icon, enabled) {
 	@at-root #{$namespace} {
-		#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
-		i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
+		#{$luccaIcons_icon-base-selector} {
+			@include lui_supports_sizing();
+		};
+		i#{$luccaIcons_icon-base-selector} {
+			@include lui_supports_text_coloring();
+		};
 	}
 }

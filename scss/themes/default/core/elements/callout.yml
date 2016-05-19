@@ -1,12 +1,21 @@
 background: '#FFF'
-borderColor: !palette light.color
-borderWidth: 5px
 
-verticalPadding: 1em
-horizontalPadding: 2em
-verticalMargin: 1em
-horizontalMargin: 0
-
-defaultColoring:
+border:
+    z-index: 2
+    width: 5px
     color: !palette light.color
-    text: '#222'
+
+padding:
+    vertical: 1em
+    horizontal: 2em
+
+margin:
+    vertical: 1em
+    horizontal: 0
+
+styles:
+    default:
+        coloring: !palette light
+
+progress:
+    z-index: 3
