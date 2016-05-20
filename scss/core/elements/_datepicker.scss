@@ -1,0 +1,151 @@
+@at-root #{$namespace} {
+	$vars: (
+		header: (
+			font-size: 1.5em,
+			font-weight: light,
+			padding: (
+				vertical: lui-rem(1),
+				horizontal: 0
+			)
+		),
+
+		heads: (
+			font-weight: normal,
+			color: luiPalette(light, color, dark)
+		),
+
+		day: (
+			size: 2.5em,
+
+			empty: (
+				border: (
+					width: 1px,
+					style: solid,
+					color: #FAFAFA
+				)
+			),
+
+			default: (
+				background-color: #FFF,
+				color: luiPalette(grey, color),
+
+				border: (
+					width: 1px,
+					style: double,
+					color: luiPalette(light, color)
+				),
+
+				hover: (
+					background-color: luiPalette(light, color, light),
+					color: luiPalette(grey, color)
+				)
+			),
+			selected: (
+				background-color: luiPalette(primary, color),
+				color: luiPalette(primary, text),
+
+				border: (
+					width: 1px,
+					style: double,
+					color: darken(luiPalette(primary, color), 3),
+				),
+
+				hover: (
+					background-color: darken(luiPalette(primary, color), 3),
+					color: luiPalette(primary, text)
+				)
+			),
+			in-between: (
+				background-color: luiPalette(primary, color, light),
+				color: luiPalette(primary, text),
+
+				border: (
+					width: 1px,
+					style: double,
+					color: luiPalette(primary, color),
+				),
+
+				hover: (
+					background-color: darken(luiPalette(primary, color, light), 10),
+					color: luiPalette(primary, text),
+				)
+			)
+		)
+	);
+
+	luid-datepicker {
+		display: block;
+
+		> table {
+			border-collapse: collapse;
+
+			> caption {
+				padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
+
+				font-size: map-gets($vars, header, font-size);
+				font-weight: map-gets($vars, header, font-weight);
+			}
+
+			> tbody > tr > td,
+			> thead > tr > th {
+				width: map-gets($vars, day, size);
+				height: map-gets($vars, day, size);
+			}
+
+			> thead > tr > th {
+				color: map-gets($vars, heads, color);
+				font-weight: map-gets($vars, heads, font-weight);
+			}
+
+			> tbody > tr > td {
+				text-align: center;
+				color: map-gets($vars, day, color);
+				-moz-user-select: none;
+				-ms-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+			}
+
+			> tbody > tr > td.empty {
+				border: map-gets($vars, day, empty, border, width) map-gets($vars, day, empty, border, style) map-gets($vars, day, empty, border, color);
+			}
+
+			> tbody > tr > td:not(.empty) {
+				cursor: pointer;
+				border: map-gets($vars, day, default, border, width) map-gets($vars, day, default, border, style) map-gets($vars, day, default, border, color);
+
+				color: map-gets($vars, day, default, color);
+				background-color: map-gets($vars, day, default, background-color);
+
+				&:hover {
+					color: map-gets($vars, day, default, hover, color);
+					background-color: map-gets($vars, day, default, hover, background-color);
+				}
+
+				&.in-between {
+					color: map-gets($vars, day, in-between, color);
+					background-color: map-gets($vars, day, in-between, background-color);
+					border: map-gets($vars, day, in-between, border, width) map-gets($vars, day, in-between, border, style) map-gets($vars, day, in-between, border, color);
+
+					&:hover {
+						color: map-gets($vars, day, in-between, hover, color);
+						background-color: map-gets($vars, day, in-between, hover, background-color);
+					}
+				}
+
+				&.selected {
+					z-index: 2;
+					color: map-gets($vars, day, selected, color);
+					background-color: map-gets($vars, day, selected, background-color);
+					border: map-gets($vars, day, selected, border, width) map-gets($vars, day, selected, border, style) map-gets($vars, day, selected, border, color);
+
+					&:hover {
+						color: map-gets($vars, day, selected, hover, color);
+						background-color: map-gets($vars, day, selected, hover, background-color);
+					}
+				}
+			}
+		}
+	}
+
+}
