@@ -1,5 +1,3 @@
-/// <reference path="../references.ts" />
-
 module Lui.Directives {
 
 	"use strict";
