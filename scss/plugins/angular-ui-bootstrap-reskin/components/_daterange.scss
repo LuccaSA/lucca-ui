@@ -1,59 +1,62 @@
 @if map-get($pluginVars, enabled) {
-	$popoverWidth: 50em;
-	$shortcutsWidth: 15em;
+	@at-root #{$namespace} {
 
-	#{$prefix}.daterange {
-		.popover-inner { width: $popoverWidth; }
-		&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
-		.shortcuts.menu {
-			width: $shortcutsWidth;
-			float: right;
-			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
-		}
-		.datepicker { float: left; border: none; }
-		.datepicker + .datepicker { margin-left: 1em; }
+		$popoverWidth: 50em;
+		$shortcutsWidth: 15em;
 
-		.datepicker .in-between,
-		.datepicker .start,
-		.datepicker .end {
-			background-color: luiPalette(primary, color, x-light);
-			color: luiPalette(primary, text);
-		}
-
-		.datepicker td.start {
-			border-top-left-radius: 1em;
-			border-bottom-left-radius: 1em;
-		}
-		.datepicker td.end {
-			border-top-right-radius: 1em;
-			border-bottom-right-radius: 1em;
-		}
-		.datepicker td.startend button,
-		.datepicker td.start button,
-		.datepicker td.end button {
-			border-radius: 1em;
-			box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
-
-			&:hover {
-				background: #FFF;
+		#{$prefix}.daterange {
+			.popover-inner { width: $popoverWidth; }
+			&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
+			.shortcuts.menu {
+				width: $shortcutsWidth;
+				float: right;
+				.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
 			}
-		}
-		.datepicker.start-date td.start button,
-		.datepicker.end-date td.end button {
-			background-color: #FFF;
-		}
+			.datepicker { float: left; border: none; }
+			.datepicker + .datepicker { margin-left: 1em; }
 
-		tbody button.active { background-color: transparent; }
+			.datepicker .in-between,
+			.datepicker .start,
+			.datepicker .end {
+				background-color: luiPalette(primary, color, x-light);
+				color: luiPalette(primary, text);
+			}
 
-		footer {
-			border-top: 1px solid luiTheme(element, divider, color);
-			margin-top: 1em;
-			padding-top: 0.25em;
-		}
+			.datepicker td.start {
+				border-top-left-radius: 1em;
+				border-bottom-left-radius: 1em;
+			}
+			.datepicker td.end {
+				border-top-right-radius: 1em;
+				border-bottom-right-radius: 1em;
+			}
+			.datepicker td.startend button,
+			.datepicker td.start button,
+			.datepicker td.end button {
+				border-radius: 1em;
+				box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
 
-		hr {
-			clear: both;
-			@extend %lui_divider_base;
+				&:hover {
+					background: #FFF;
+				}
+			}
+			.datepicker.start-date td.start button,
+			.datepicker.end-date td.end button {
+				background-color: #FFF;
+			}
+
+			tbody button.active { background-color: transparent; }
+
+			footer {
+				border-top: 1px solid luiTheme(element, divider, color);
+				margin-top: 1em;
+				padding-top: 0.25em;
+			}
+
+			hr {
+				clear: both;
+				@extend %lui_divider_base;
+			}
 		}
 	}
 }

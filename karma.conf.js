@@ -16,6 +16,7 @@ module.exports = function(config) {
 			'bower_components/ui-select/dist/select.js',
 			'bower_components/moment/min/moment-with-locales.js',
 			'bower_components/underscore/underscore-min.js',
+			'bower_components/angular-notify/dist/angular-notify.min.js',
 
 			'bower_components/angular-mocks/angular-mocks.js',
 

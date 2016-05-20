@@ -1,107 +1,111 @@
 @if map-get($pluginVars, enabled) {
-	#{$prefix}.datepicker {
-		@extend %lui_input_holder_base;
-		> input {
-			@extend %lui_input_field_base; @extend %lui_input_text_field;
-			&.invalid,
-			&.ng-invalid {
-				@extend %lui_invalid_input_base;
+	@at-root #{$namespace} {
+		$inputVars: luiTheme(element, input);
+
+		#{$prefix}.datepicker {
+			@extend %lui_input_holder_base;
+			> input {
+				@extend %lui_input_field_base; @extend %lui_input_text_field;
+				&.invalid,
+				&.ng-invalid {
+					@extend %lui_invalid_input_base;
+				}
 			}
-		}
 
-		button { @extend button#{$prefix}.unstyled; }
-		button[disabled] { opacity: 0.5; cursor: default; }
+			button { @extend button#{$prefix}.unstyled; }
+			button[disabled] { opacity: 0.5; cursor: default; }
 
-		// IE 9 fix
-		overflow: visible !important;
+			// IE 9 fix
+			overflow: visible !important;
 
-		&:not([role="application"]) {
-			@include lui_make_icon("calendar", right);
-			> input { padding-right: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
-			&:before, &:after {
-				cursor: text;
-				display: inline-block;
+			&:not([role="application"]) {
+				@include lui_make_icon("calendar", right);
+				> input { padding-right: 2.5em; width: map-gets($pluginVars, datepicker, inputWidth); }
+				&:before, &:after {
+					cursor: text;
+					display: inline-block;
+					position: absolute;
+					top: 50%; right: 1em;
+					-ms-transform: translate(0, -50%);
+					transform: translate(0, -50%);
+					@extend %lui_user_select_none;
+					pointer-events: none;
+				}
+			}
+
+			// Datepicker styling
+			&[role="application"], .dropdown-menu {
+				z-index: map-gets($pluginVars, datepicker, dropdownZindex);
+				background-color: map-gets($pluginVars, datepicker, background);
+				min-width: map-gets($pluginVars, datepicker, minWidth);
+				border: 1px solid map-gets($inputVars, borderColor);
+			}
+
+			// Datepicker in dropdown
+			.dropdown-menu {
+				@extend ul#{$prefix}.unstyled;
 				position: absolute;
-				top: 50%; right: 1em;
-				-ms-transform: translate(0, -50%);
-				transform: translate(0, -50%);
-				@extend %lui_user_select_none;
-				pointer-events: none;
+				left: 0; top: 100%;
+				margin-top: -1px;
+
+				&:not(.ng-leave) {
+					@include lui_is_animated("down fade in");
+				}
+				&.ng-leave {
+					@include lui_is_animated("down fade out");
+				}
+				@extend #{$prefix}.raised;
 			}
-		}
 
-		// Datepicker styling
-		&[role="application"], .dropdown-menu {
-			z-index: map-gets($pluginVars, datepicker, dropdownZindex);
-			background-color: map-gets($pluginVars, datepicker, background);
-			min-width: map-gets($pluginVars, datepicker, minWidth);
-			border: 1px solid map-gets($inputVars, borderColor);
-		}
-
-		// Datepicker in dropdown
-		.dropdown-menu {
-			@extend ul#{$prefix}.unstyled;
-			position: absolute;
-			left: 0; top: 100%;
-			margin-top: -1px;
-
-			&:not(.ng-leave) {
-				@include lui_is_animated("down fade in");
+			table {
+				width: 100%; margin-bottom: 0.5em;
+				&:focus { outline: 0; }
+				text-align: center;
 			}
-			&.ng-leave {
-				@include lui_is_animated("down fade out");
-			}
-			@extend #{$prefix}.raised;
-		}
+			thead tr {
+				// Month & year
+				&:first-child {
+					background-color: luiPalette(primary, color);
+					border: none;
+					margin: 0;
 
-		table {
-			width: 100%; margin-bottom: 0.5em;
-			&:focus { outline: 0; }
-			text-align: center;
-		}
-		thead tr {
-			// Month & year
-			&:first-child {
-				background-color: luiPalette(primary, color);
-				border: none;
-				margin: 0;
+					button {
+						color: luiPalette(primary, text);
+						padding: 1em;
+						border-radius: 0;
+						font-size: 1.1em;
 
-				button {
-					color: luiPalette(primary, text);
-					padding: 1em;
-					border-radius: 0;
-					font-size: 1.1em;
-
-					&:not([disabled]):hover, &:not([disabled]):active, &:not([disabled]):focus {
-						background-color: luiPalette(primary, color, light);
+						&:not([disabled]):hover, &:not([disabled]):active, &:not([disabled]):focus {
+							background-color: luiPalette(primary, color, light);
+						}
 					}
 				}
 			}
-		}
 
-		.pull-left { float: left; }
-		.pull-right { float: right; }
-		.glyphicon-chevron-left { @include lui_make_icon("west arrow"); }
-		.glyphicon-chevron-right { @include lui_make_icon("east arrow"); }
+			.pull-left { float: left; }
+			.pull-right { float: right; }
+			.glyphicon-chevron-left { @include lui_make_icon("west arrow"); }
+			.glyphicon-chevron-right { @include lui_make_icon("east arrow"); }
 
-		tbody {
-			button {
-				padding: 0.5em 1em;
-				color: luiPalette(grey, color);
-				@include lui_transition_properties(background-color);
+			tbody {
+				button {
+					padding: 0.5em 1em;
+					color: luiPalette(grey, color);
+					@include lui_transition_properties(background-color);
 
-				&:not([disabled]):hover { background-color: #EEE; }
+					&:not([disabled]):hover { background-color: #EEE; }
 
-				&.active { color: luiPalette(grey, color, dark); background-color: luiPalette(primary, color, x-light); }
+					&.active { color: luiPalette(grey, color, dark); background-color: luiPalette(primary, color, x-light); }
+				}
+				.text-muted { color: luiPalette(light, color); }
 			}
-			.text-muted { color: luiPalette(light, color); }
-		}
 
-		li[ng-if="showButtonBar"] {
-			@extend #{$prefix}.clear;
-			border-top: 1px solid map-gets($inputVars, borderColor);
-			.btn {
-				@extend %lui_basic_button;
+			li[ng-if="showButtonBar"] {
+				@extend #{$prefix}.clear;
+				border-top: 1px solid map-gets($inputVars, borderColor);
+				.btn {
+					@extend %lui_basic_button;
+				}
 			}
 		}
 	}

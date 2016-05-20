@@ -1,18 +1,99 @@
 # Change log
 
-## 2.0.16 - in dev
+## 2.2.3 - in dev
 
 ### New features
+- UI-Select now supports class `.invalid`
+- `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
+
+### Resolved issues
+ - fix invalid inputs with addon were not bordered correctly
+
+## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
+
+### Resolved issues
+ - fix style of table grid and notify that was disabled by default
+
+## 2.2.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
+
+### New features
+Major refactoring of the sass code structure. Here are the consequences:
+- should prevent "You may not extend an outer selector from within media" errors (sass-node >3.7.x) thanks to accessible mixin definitions
+- makes the "namespaced | global" distinction null and void: framework adapts itself
+- any element now implements a `enabled: true|false` theme variable
+Note: should not contain any breaking change (unless mistakes were made) as of now, but both `lucca-ui.namespaced.scss` and `lucca-ui.global.scss` files should eventually merge into one as they are now identical and a breaking change it will be.
+
+### Resolved issues
+
+## 2.2.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.0)
+
+### Important
+
+Some problems have been identified with the sass code structure right after this release. This version builds with node-sass v3.4.2 but not with node-sass ^3.5. It is highly recommended to use release 2.2.1 that fixed this issue and builds with the latest version of node-sass (3.7 at time of writing)
+
+### Breaking changes
+
+- tablegrid - the property `isChecked` is now wrapped in object `luiTableGridRow`
+- UI-select - fixes the sizing bug on opening
+
+### Dependencies
+- updated angular from 1.4 to 1.5
+- updated angular-ui-bootstrap from 1.1 to 1.3
+- updated angular-translate from 2.8 to 2.11
+- updated ui.select from 0.12 to 0.16
+- updated lucca-icons 1.1.8 - fix Breaking bug in the sass of lucca-icons
+- updated moment 2.10 -> 2.13
+
+### New features
+- luidTableGrid: on-row-click attribute - possibility to call a function when the user click on a row of the tablegrid
+- `luisProgressBar` : Display a progress bar depending on get http requests
+- luidTableGrid: default-order attribute - possibility to specify the default column on which the sort order will be apply at first load.
+- directive deferred-cloak : Used to prevent the Angular html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading.
+Based on ng-cloak angular's directive but use link directive function instead of compile function.
+- luidUserPicker: `bypass-operations-for` attribute - bypass operations filter for a list of user ids
+- lui icon - supports palette adjectives to change the icon color
+- ui-select - adds support for the timmi-like 'natural' styling
+- `luisNotify` - wrapper of the library [angular-notify](https://github.com/cgross/angular-notify) with some templates. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
+- `userpicker` - displays the 10 first results instead of just 5
+- luidTableGrid : if dataset contains less than 200 elements, virtual scroll is not activate.
+- tablegrid - possibility to retrieve the number of row in the filtered dataset
+
+### Resolved issues
+- Popover: unnecessary !important property removed - may break things unexpectedly
+- day block - fix issue with july and june displayed the same in french
+- Libsass: moving to Delorean version caused transpilation fails
+- tooltip : Adds a max-width to tooltips
+
+## 2.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.1.0)
+
+Moved to 2.1.0 because of all the shenanigans with the table grid
+
+it is recommended to not use releases 2.0.12 onwards and move to this release. If you were not using the table grid directive, you are not concerned by the breaking changes
+
+### Breaking changes
+- Table-Grid directive has been removed from the standard distribution and add to the specific Lucca distribution because of many specifics dependancies it uses.
+
+### New features
+- Directive `luid-user-picker` to handle custom $http service.
+- Directive `luid-user-picker-multiple` to handle custom $http service.
+
+### Resolved issues
+
+## 2.0.16 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.16)
+
+### New features
+- luidTableGrid: selectable attribute - possibility to display checkboxes as fixed first column.
 
 ### Resolved issues
 - [issue #178](https://github.com/LuccaSA/lucca-ui/issues/178) - Clicking on datepicker icon now opens the datepicker popup
 - [issue #179](https://github.com/LuccaSA/lucca-ui/issues/179) - Checkbox now supports partial state (add the `partial` class to the checkbox input)
 - [issue #181](https://github.com/LuccaSA/lucca-ui/issues/181) - checkbox with empty label
+- [issue #193](https://github.com/LuccaSA/lucca-ui/issues/193) - Frantic static animations
 - Fixes input addon sizing
 - Adds relative positioning to tabbed menus (fix)
 - Fixes afterglow for animations in Chrome
 
-## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.14)
+## 2.0.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.0.15)
 
 ### New features
 - lucca-icons 1.1.7

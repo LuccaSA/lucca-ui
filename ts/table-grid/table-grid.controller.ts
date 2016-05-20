@@ -1,17 +1,31 @@
-/// <reference path="../references.ts" />
 
 module Lui.Directives {
 
 	"use strict";
 
+	export class FilterTypeEnum {
+		public static NONE = "none";
+		public static TEXT = "text";
+		public static SELECT = "select";
+		public static MULTISELECT = "multiselect";
+	}
+
 	export class LuidTableGridController {
 		public static IID: string = "luidTableGridController";
-		public static $inject: Array<string> = ["$filter", "$scope", "$translate"];
+		public static $inject: Array<string> = ["$filter", "$scope", "$translate", "$timeout"];
 
-		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService) {
+		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService, $timeout: ng.ITimeoutService) {
 
 			// private members
 			let maxDepth = 0;
+
+			$scope.isSelectable = angular.isDefined($scope.selectable);
+
+			$scope.internalRowClick = (event: any, row: any) => {
+				if (event.target.type !== "checkbox") {
+					$scope.onRowClick({row: row});
+				}
+			};
 
 			// private methods
 			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
@@ -27,25 +41,17 @@ module Lui.Directives {
 				if (result.tree.children.length) {
 					result.subDepth++;
 				} else {
-					if (result.tree.node.fixed) {
-						$scope.fixedRowDefinition.push(result.tree.node);
-					} else {
-						$scope.scrollableRowDefinition.push(result.tree.node);
-					}
+					$scope.colDefinitions.push(result.tree.node);
 				}
 
 				if (result.tree.node) {
 					result.tree.node.rowspan = maxDepth - result.depth - result.subDepth;
 					result.tree.node.colspan = result.subChildren;
-					if (!result.tree.children.length && !result.tree.node.filterable) {
+					if (!result.tree.children.length && result.tree.node.filterType === FilterTypeEnum.NONE) {
 						result.tree.node.rowspan++;
 					}
 
-					if (result.tree.node.fixed) {
-						$scope.fixedHeaderRows[result.depth] ? $scope.fixedHeaderRows[result.depth].push(result.tree.node) : $scope.fixedHeaderRows[result.depth] = [result.tree.node];
-					} else {
-						$scope.scrollableHeaderRows[result.depth] ? $scope.scrollableHeaderRows[result.depth].push(result.tree.node) : $scope.scrollableHeaderRows[result.depth] = [result.tree.node];
-					}
+					$scope.headerRows[result.depth] ? $scope.headerRows[result.depth].push(result.tree.node) : $scope.headerRows[result.depth] = [result.tree.node];
 				}
 				return result;
 			};
@@ -58,99 +64,191 @@ module Lui.Directives {
 				return depth + 1;
 			};
 
-			let init = () => {
+			$scope.initFilter = () => {
+				$scope.filters = [];
 
-				$scope.fixedHeaderRows = [];
-				$scope.fixedRowDefinition = [];
-				$scope.scrollableHeaderRows = [];
-				$scope.scrollableRowDefinition = [];
+				_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
+					_.each($scope.datas, (row: any) => {
+						if (!$scope.filters[index]) {
+							$scope.filters[index] = { header: header, selectValues: [], currentValues: [] };
+						}
+						if (header.filterType === FilterTypeEnum.SELECT
+								|| header.filterType === FilterTypeEnum.MULTISELECT) {
+							let value = header.getValue(row);
+							if (!!header.getFilterValue) {
+								value = header.getFilterValue(row);
+							}
+
+							let valuesToCheck = value.split("|");
+							_.each(valuesToCheck, (val: string) => {
+								if (!_.contains($scope.filters[index].selectValues, val)) {
+									$scope.filters[index].selectValues.push(val);
+								}
+							});
+						}
+					});
+					$scope.filters[index].selectValues = _.sortBy($scope.filters[index].selectValues, (val) => { return !!val ? val.toLowerCase() : ""; });
+				});
+			};
+
+			let init = () => {
+				$scope.FilterTypeEnum = FilterTypeEnum;
+				$scope.headerRows = [];
+				$scope.bodyRows = [];
+				$scope.colDefinitions = [];
+				$scope.allChecked = {value: false};
 
 				maxDepth = getTreeDepth($scope.header);
 
 				browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
 
-				let diff = $scope.fixedHeaderRows.length - $scope.scrollableHeaderRows.length;
-				if (diff > 0) {
-					for (let i = 1; i <= diff; i++) {
-						$scope.scrollableHeaderRows.push([]);
-					}
-				} else if (diff < 0) {
-					for (let i = 1; i <= -diff; i++) {
-						$scope.fixedHeaderRows.push([]);
-					}
-				}
+				$scope.existFixedRow = _.some($scope.colDefinitions, (colDef: TableGrid.Header) => {
+					return colDef.fixed;
+				});
 
 				$scope.selected = { orderBy: null, reverse: false };
 
-				$scope.leftFilters = [];
-				$scope.rightFilters = [];
+				if (!!$scope.defaultOrder) {
+					let firstChar = $scope.defaultOrder.substr(0, 1);
+					if (firstChar === "-" || firstChar === "+") {
+						$scope.defaultOrder = $scope.defaultOrder.substr(1);
+
+						$scope.selected.reverse = firstChar === "-" ? true : false;
+					}
+					let orderByHeader = _.find($scope.colDefinitions, (header: TableGrid.Header) => {
+						return header.label === $scope.defaultOrder;
+					});
+					$scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
+				}
+
+				// Init _luiTableGridRow
+				_.each($scope.datas, (row) => {
+					row._luiTableGridRow = {
+						isInFilteredDataset: true
+					};
+
+					if ($scope.isSelectable) {
+						row._luiTableGridRow.isChecked = false;
+					}
+				});
+
 			};
 
-			let updateFilteredAndOrderedRows = () => {
+			let getCheckboxState = () => {
+				let selectedCheckboxesCount = _.filter($scope.filteredAndOrderedRows, (row: any) =>  row._luiTableGridRow.isChecked).length;
+				if (selectedCheckboxesCount === 0) {
+					return "";
+				}
+				if (selectedCheckboxesCount === $scope.filteredAndOrderedRows.length) {
+					return "checked";
+				}
+				if (selectedCheckboxesCount < $scope.filteredAndOrderedRows.length) {
+					return "partial";
+				}
+				return "";
+			};
+
+			$scope.updateFilteredRows = () => {
+				//Management of checkboxes if tablegrid is selectable
+				if ($scope.isSelectable) {
+					$scope.allChecked.value = false;
+					_.each($scope.filteredAndOrderedRows, (row: any) => {
+						row._luiTableGridRow.isChecked = false;
+					});
+					$scope.masterCheckBoxCssClass = getCheckboxState();
+				}
+
 				let temp = _.chain($scope.datas)
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = false;
+					})
 					.filter((row: any) => {
 						let result = true;
-						let filters = $scope.leftFilters.concat($scope.rightFilters);
-						filters.forEach((filter: { header: TableGrid.Header, value: string }) => {
-							if (filter.header && filter.value && filter.value !== "") {
-								let prop = (filter.header.getValue(row) + "").toLowerCase();
-								if (prop.indexOf(filter.value.toLowerCase()) === -1) {
+						$scope.filters.forEach((filter: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }) => {
+							if (filter.header
+									&& !!filter.currentValues[0]
+									&& filter.currentValues[0] !== "") {
+								let propValue = (filter.header.getValue(row) + "").toLowerCase();
+								if (!!filter.header.getFilterValue) {
+									propValue = filter.header.getFilterValue(row).toLowerCase();
+								}
+								let containsProp = _.some(filter.currentValues, (value: string) => {
+									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
+									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
+										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
+									}else {
+										return propValue.indexOf(value.toLowerCase()) !== -1;
+									}
+								});
+								if (!containsProp) {
 									result = false;
 								}
 							}
 						});
 						return result;
+					})
+					.each((row: any) => {
+						row._luiTableGridRow.isInFilteredDataset = true;
 					});
+				$scope.filteredAndOrderedRows = temp.value();
+				$scope.orderBySelectedHeader();
+				$scope.updateViewAfterFiltering();
+			};
+
+			$scope.orderBySelectedHeader = () => {
 				if ($scope.selected && $scope.selected.orderBy) {
-					temp = temp.sortBy((row: any) => {
-						return $scope.selected.orderBy.getOrderByValue(row);
+					$scope.filteredAndOrderedRows = _.sortBy($scope.filteredAndOrderedRows, (row: any) => {
+						let orderByValue = $scope.selected.orderBy.getValue(row);
+						if ( $scope.selected.orderBy.getOrderByValue != null) {
+							orderByValue = $scope.selected.orderBy.getOrderByValue(row);
+						}
+						return orderByValue;
 					});
 				}
-				let filteredAndOrderedRows = temp.value();
-				$scope.filteredAndOrderedRows = $scope.selected.reverse ? filteredAndOrderedRows.reverse() : filteredAndOrderedRows;
-				$scope.updateVirtualScroll();
+				$scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
 			};
 
-			// orderBys and filterBys
-
-			$scope.updateFilterBy = (header: TableGrid.Header, index: number) => {
-				let value = header.fixed ? $scope.leftFilters[index].value : $scope.rightFilters[index].value;
-				if (!header) { return; }
-				if (!header.filterable) { return; }
-				if (value === null || value === "") {
-					header.fixed ? $scope.leftFilters[index] = { header: null, value: "" } : $scope.rightFilters[index] = { header: null, value: "" };
-				}
-				header.fixed ? $scope.leftFilters[index] = { header: header, value: value } : $scope.rightFilters[index] = { header: header, value: value };
-
-				updateFilteredAndOrderedRows();
-			};
-
-			$scope.updateOrderBy = (header: TableGrid.Header) => {
-				if (header.getOrderByValue != null) {
-					if (header === $scope.selected.orderBy) {
-						if ($scope.selected.reverse) {
-							$scope.selected.orderBy = null;
-							$scope.selected.reverse = false;
-						} else {
-							$scope.selected.reverse = true;
-						}
-					} else {
-						$scope.selected.orderBy = header;
+			$scope.updateOrderedRows = (header: TableGrid.Header) => {
+				if (header === $scope.selected.orderBy) {
+					if ($scope.selected.reverse) {
+						$scope.selected.orderBy = null;
 						$scope.selected.reverse = false;
+					} else {
+						$scope.selected.reverse = true;
 					}
+				} else {
+					$scope.selected.orderBy = header;
+					$scope.selected.reverse = false;
 				}
 
-				updateFilteredAndOrderedRows();
+				$scope.orderBySelectedHeader();
+
+				$scope.updateViewAfterOrderBy();
 			};
 
-			// strip html for display in title attribute
-			$scope.stripHtml = (html) => {
-				let tmp = document.createElement("DIV");
-				tmp.innerHTML = html;
-				return tmp.textContent || tmp.innerText || "";
+			$scope.onMasterCheckBoxChange = () => {
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return !row._luiTableGridRow.isChecked; })) {
+					if ($scope.masterCheckBoxCssClass === "partial") {
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = false; });
+					} else {
+						_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = true; });
+					}
+				} else {
+					_.each($scope.filteredAndOrderedRows, (row: any) => { row._luiTableGridRow.isChecked = false; });
+				}
+				$scope.masterCheckBoxCssClass = getCheckboxState();
 			};
 
-			// playing init
+			$scope.onCheckBoxChange = () => {
+				$scope.masterCheckBoxCssClass = getCheckboxState();
+				if (!$scope.masterCheckBoxCssClass) {
+					$scope.allChecked.value = false;
+				}
+				if (_.some($scope.filteredAndOrderedRows, (row: any) => { return row._luiTableGridRow.isChecked; })) {
+					$scope.allChecked.value = true;
+				}
+			};
+
 			init();
 		}
 	}

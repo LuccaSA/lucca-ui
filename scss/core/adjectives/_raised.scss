@@ -1,4 +1,14 @@
-@if map-get($vars, enabled) {
-	#{$prefix}.raised { box-shadow: unquote(map-gets($vars, default, box-shadow)); }
-	#{$prefix}.high.raised { box-shadow: unquote(map-gets($vars, high, box-shadow)); }
+@mixin lui_raised($height: default) {
+	// $height: 'default' | 'high'
+	box-shadow: unquote(luiTheme(adjective, raised, $height, box-shadow));
+}
+%lui_raised { @include lui_raised(); }
+%lui_high_raised { @include lui_raised(high); }
+
+@if luiTheme(adjective, raised, enabled) {
+	@at-root #{$namespace} {
+
+		#{$prefix}.raised { @extend %lui_raised; }
+		#{$prefix}.high.raised { @extend %lui_high_raised; }
+	}
 }

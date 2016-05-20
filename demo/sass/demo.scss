@@ -7,13 +7,14 @@ html, body {
 	@import "../../scss/lucca-ui.namespaced.scss";
 	$light: luiPalette(light, color);
 	// Table of contents
-	$toc-width: 10em;
+	$toc-width: 11em;
 	$banner-height: 4em;
 
 
 	#banner {
 		background: #FFF;
 		height: $banner-height;
+		z-index: 999;
 	}
 	#toc {
 		margin-top: $banner-height + 1;
@@ -26,7 +27,7 @@ html, body {
 		.header {
 			padding: 0;
 			h4 {
-				padding-bottom: 17px; 
+				padding-bottom: 17px;
 			}
 		}
 	}
@@ -68,7 +69,7 @@ html, body {
 		border-radius: 3px;
 	}
 
-	// Style for default .hljs 
+	// Style for default .hljs
 	// See https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css
 	// We do not want to directly apply .hljs because they have 'display: block' property and we want inline elements
 	code {

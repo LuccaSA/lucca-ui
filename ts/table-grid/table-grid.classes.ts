@@ -1,4 +1,3 @@
-/// <reference path="../references.ts" />
 
 module Lui.Directives.TableGrid {
 	"use strict";
@@ -10,7 +9,7 @@ module Lui.Directives.TableGrid {
 
 	export class Header {
 		public label: string;
-		public filterable: boolean;
+		public filterType: string;
 		public hidden: boolean;
 		public width: number;
 		public fixed: boolean;
@@ -19,6 +18,7 @@ module Lui.Directives.TableGrid {
 		public textAlign: string;
 		public getValue: (object: any) => string;
 		public getOrderByValue: (object: any) => any;
+		public getFilterValue: (object: any) => any;
 	}
 
 	export class BrowseResult {

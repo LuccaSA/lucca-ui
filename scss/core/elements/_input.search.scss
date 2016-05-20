@@ -1,104 +1,108 @@
-@if map-get($vars, enabled) {
-	#{$prefix}.search.input {
-		@include lui_make_icon("search");
+@if luiTheme(element, input, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, input);
 
-		> input { padding-left: map-gets($vars, search, paddingLeft); }
+		#{$prefix}.search.input {
+			@include lui_make_icon("search");
 
-		&.searching {
-			@include lui_loader();
-			&:after { margin-left: 0; left: 1em; }
-		}
+			> input { padding-left: map-gets($vars, search, paddingLeft); }
 
-		&:before, &:after {
-			cursor: text;
-			display: inline-block;
-			position: absolute;
-			top: 50%; left: 1em;
-			-ms-transform: translate(0, -50%);
-			transform: translate(0, -50%);
-			@extend %lui_user_select_none;
-		}
+			&.searching {
+				@include lui_loader();
+				&:after { margin-left: 0; left: 1em; }
+			}
 
-		i.empty {
-			@include lui_make_icon("cross");
-			font-style: normal;
-			cursor: pointer;
-
-			font-size: lui_rem((1/2));
-			width: lui_rem(1.25); height: lui_rem(1.25);
-			text-align: center;
-			border-radius: 50%;
-
-			&, &:before {
+			&:before, &:after {
+				cursor: text;
+				display: inline-block;
 				position: absolute;
-				top: 50%; transform: translateY(-50%);
-			}
-			right: 1em;
-			&:before { right:  0.6em; margin: 0; }
-
-			background: map-gets($vars, borderColor);
-			color: #FFF;
-		}
-
-		// Tags
-		// ====
-		&.tagged {
-			@extend %lui_input_field_base;
-			@extend %lui_input_text_field;
-
-			@include display-flex();
-
-			padding-left: map-gets($vars, search, paddingLeft);
-
-			> input {
-				display: inline-block;
-				border: none;
-				width: auto;
-				padding-left: 0;
-				padding-right: 0;
-
-				min-width: 15em;
-				@include flex(1, 1, 0%);
+				top: 50%; left: 1em;
+				-ms-transform: translate(0, -50%);
+				transform: translate(0, -50%);
+				@extend %lui_user_select_none;
 			}
 
-			.tag {
-				display: inline-block;
-				line-height: 1;
-				font-weight: 600;
-				padding: map-gets($vars, search, tag, padding);
-				margin: map-gets($vars, search, tag, margin);
-				background-color: map-gets($vars, search, tag, background);
-				border: 1px solid map-gets($vars, search, tag, borderColor);
-				border-radius: map-gets($vars, search, tag, borderRadius);
+			i.empty {
+				@include lui_make_icon("cross");
+				font-style: normal;
+				cursor: pointer;
 
-				&.selected {
-					border-color: map-gets($vars, search, tag, selectedColor);
+				font-size: lui_rem((1/2));
+				width: lui_rem(1.25); height: lui_rem(1.25);
+				text-align: center;
+				border-radius: 50%;
+
+				&, &:before {
+					position: absolute;
+					top: 50%; transform: translateY(-50%);
 				}
+				right: 1em;
+				&:before { right:  0.6em; margin: 0; }
 
-				a.close {
+				background: map-gets($vars, borderColor);
+				color: #FFF;
+			}
+
+			// Tags
+			// ====
+			&.tagged {
+				@extend %lui_input_field_base;
+				@extend %lui_input_text_field;
+
+				@include display-flex();
+
+				padding-left: map-gets($vars, search, paddingLeft);
+
+				> input {
 					display: inline-block;
-					vertical-align: middle;
-					@include lui_make_icon("cross", right);
-					color: lighten(map-get($vars, color), 10);
-					font-size: 0.5em;
-					padding: 0.25em;
-					margin-top: -0.1em;
+					border: none;
+					width: auto;
+					padding-left: 0;
+					padding-right: 0;
+
+					min-width: 15em;
+					@include flex(1, 1, 0%);
+				}
+
+				.tag {
+					display: inline-block;
+					line-height: 1;
+					font-weight: 600;
+					padding: map-gets($vars, search, tag, padding);
+					margin: map-gets($vars, search, tag, margin);
+					background-color: map-gets($vars, search, tag, background);
+					border: 1px solid map-gets($vars, search, tag, borderColor);
+					border-radius: map-gets($vars, search, tag, borderRadius);
+
+					&.selected {
+						border-color: map-gets($vars, search, tag, selectedColor);
+					}
+
+					a.close {
+						display: inline-block;
+						vertical-align: middle;
+						@include lui_make_icon("cross", right);
+						color: lighten(map-get($vars, color), 10);
+						font-size: 0.5em;
+						padding: 0.25em;
+						margin-top: -0.1em;
+					}
 				}
 			}
-		}
 
-		@include lui_target_IE9 {
-			display: table;
-			table-layout: auto;
-			width: 100% !important;
-			> input, > .tags {
-				display: table-cell;
+			@include lui_target_IE9 {
+				display: table;
+				table-layout: auto;
+				width: 100% !important;
+				> input, > .tags {
+					display: table-cell;
+				}
+				.tags {
+					width: 1%;
+					white-space:nowrap;
+				}
+				> input { width: 100%; }
 			}
-			.tags {
-				width: 1%;
-				white-space:nowrap;
-			}
-			> input { width: 100%; }
 		}
 	}
 }

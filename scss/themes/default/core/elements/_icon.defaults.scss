@@ -1,13 +1,13 @@
 
-// Lucca iconss
+// Lucca icons
 // @type: element
 // ===================================
 
-$icons: (
+$icon: (
 	enabled: 					true,
 
 	createClasses: 				true,
 	iconBaseSelector: 			"#{$prefix}.icon"
 
 );
-$luiTheme: luiSetTheme(element, icons, $icons);
+$luiTheme: luiSetTheme(element, icon, $icon);

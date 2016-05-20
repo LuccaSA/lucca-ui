@@ -147,7 +147,7 @@
 	angular.module('e2eApp')
 		.controller('luidTableGridCtrl', ['$scope', function ($scope) {
 			$scope.people = [];
-			_.each(_.range(5000), function (index) {
+			_.each(_.range(100), function (index) {
 				$scope.people[0 + 5 * index] = {
 					id: 0 + 5 * index,
 					name: "john cena",
@@ -190,7 +190,7 @@
 				children: [
 					{
 						node: {
-							filterable: true,
+							filterType: "text",
 							fixed: true,
 							label: "id",
 							width: 20,
@@ -205,7 +205,7 @@
 					},
 					{
 						node: {
-							filterable: true,
+							filterType: "text",
 							fixed: false,
 							label: "things",
 							width: 20,
@@ -220,7 +220,7 @@
 
 							{
 								node: {
-									filterable: true,
+									filterType: "multiselect",
 									fixed: false,
 									label: "name",
 									width: 20,
@@ -235,7 +235,7 @@
 							},
 							{
 								node: {
-									filterable: true,
+									filterType: "text",
 									fixed: false,
 									label: "adress",
 									width: 20,
@@ -250,7 +250,7 @@
 							},
 							{
 								node: {
-									filterable: true,
+									filterType: "text",
 									fixed: false,
 									label: "contacts",
 									width: 20,
@@ -264,7 +264,7 @@
 								children: [
 									{
 										node: {
-											filterable: true,
+											filterType: "select",
 											fixed: false,
 											label: "phone",
 											width: 20,
@@ -279,7 +279,7 @@
 									},
 									{
 										node: {
-											filterable: true,
+											filterType: "text",
 											fixed: false,
 											label: "mail",
 											width: 20,

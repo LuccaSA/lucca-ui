@@ -1,27 +1,47 @@
-/// <reference path="../references.ts" />
 
 module Lui.Directives {
 
 	"use strict";
 
 	export interface IDataGridScope extends angular.IScope {
-		canvasHeight: any;
-		datas: any[];
-		filteredAndOrderedRows: any[];
-		fixedHeaderRows: TableGrid.Header[][];
-		fixedRowDefinition: TableGrid.Header[];
+
+		//Enum
+		FilterTypeEnum: FilterTypeEnum;
+
+		//Directive attributes
 		header: TableGrid.Tree;
-		leftFilters: {header: TableGrid.Header, value: string}[];
-		rightFilters: {header: TableGrid.Header, value: string}[];
-		scrollableHeaderRows: TableGrid.Header[][];
+		datas: any[];
+		selectable: boolean;
+		defaultOrder: string;
+
+		//Properties
+		allChecked: any;
+		bodyRows: TableGrid.Header[][];
+		colDefinitions: TableGrid.Header[];
+		existFixedRow: boolean;
+		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
+		filteredAndOrderedRows: any[];
+		headerRows: TableGrid.Header[][];
+		isSelectable: boolean;
+		lockedWidth: number;
+		masterCheckBoxCssClass: string;
 		scrollableRowDefinition: TableGrid.Header[];
 		selected: { orderBy: TableGrid.Header, reverse: boolean };
 		visibleRows: any[];
 
-		stripHtml(html: string): string;
-		updateFilterBy(header: TableGrid.Header, index: number): void;
-		updateOrderBy(header: TableGrid.Header): void;
-		updateVirtualScroll(): void;
+		//Methods
+		initFilter: () => void;
+		onCheckBoxChange: () => void;
+		onMasterCheckBoxChange: () => void;
+		internalRowClick: (event: any, row: any) => void;
+		onRowClick: (row: any) => void;
+		orderBySelectedHeader: () => void;
+		refresh: () => void;
+		resizedHeaders: () => void;
+		stripHtml: (html: string) => string;
+		updateFilteredRows: () => void;
+		updateOrderedRows: (header: TableGrid.Header) => void;
+		updateViewAfterFiltering: () => void;
+		updateViewAfterOrderBy: () => void;
 	}
-
 }

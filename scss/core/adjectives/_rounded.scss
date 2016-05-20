@@ -1,6 +1,10 @@
-@if map-get($vars, enabled) {
-	#{$prefix}.rounded {
-		border-radius: map-get($vars, radius);
-		background-clip: padding-box;
+@if luiTheme(adjective, rounded, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(adjective, rounded);
+
+		#{$prefix}.rounded {
+			border-radius: map-get($vars, radius);
+			background-clip: padding-box;
+		}
 	}
 }

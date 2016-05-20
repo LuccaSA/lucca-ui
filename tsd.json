@@ -37,12 +37,6 @@
     },
     "underscore/underscore.d.ts": {
       "commit": "1a5b2a729d35b1d41e2d15818db013a3644c6ba4"
-    },
-    "angular-protractor/angular-protractor.d.ts": {
-      "commit": "45530e67e7f846a3024880de42e4464d290e7aef"
-    },
-    "selenium-webdriver/selenium-webdriver.d.ts": {
-      "commit": "45530e67e7f846a3024880de42e4464d290e7aef"
     }
   }
 }

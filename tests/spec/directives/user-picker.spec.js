@@ -25,14 +25,14 @@ describe('luidUserPicker', function(){
 	** INITIALISATION    **
 	**********************/
 	describe("initialisation", function(){
-		// it might not be possible to test this 
+		// it might not be possible to test this
 		// as the refresh attribute from the ui-select-choice directive
 		// https://github.com/angular-ui/ui-select/wiki/ui-select-choices
 		// might be triggered by the browser and not by $compile
 		// or it is triggered before we spyOn it and not by the $scope.$digest
 
 		// yeah, here find is not called either during $compile or $scope.$digest
-		// you can modify this plunkr 
+		// you can modify this plunkr
 		// http://plnkr.co/edit/a3KlK8dKH3wwiiksDSn2?p=preview
 		// you can see that refreshAddresses is called during the loading of the page
 		// but i have no idea how to trigger it here
@@ -113,10 +113,10 @@ describe('luidUserPicker', function(){
 
 			var overflow = {overflow: "5/20", id:-1};
 			expect(isolateScope.count).toBe(20);
-			expect(isolateScope.users.length).toBe(6); // 5 first users + overflow message ==> 6 items
+			expect(isolateScope.users.length).toBe(11); // 5 first users + overflow message ==> 6 items
 			var overflowMessage = _.last(isolateScope.users);
 			expect(overflowMessage.overflow).toEqual("LUIDUSERPICKER_OVERFLOW");
-			expect(overflowMessage.cnt).toEqual(5);
+			expect(overflowMessage.cnt).toEqual(10);
 			expect(overflowMessage.all).toEqual(20);
 		});
 	});
@@ -273,7 +273,7 @@ describe('luidUserPicker', function(){
 		var findApiWithoutClue = /api\/v3\/users\/find\?/;
 		var standardFilters = /formerEmployees=false\&limit=\d*/;
 		var operationsFilters = /\&appinstanceid=86\&operations=1,2,3/;
-		
+
 		beforeEach(function(){
 			$scope.ops = [1,2,3];
 			$scope.appId = 86;
@@ -551,7 +551,7 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(5);
+			expect($scope.customCount.calls.count()).toBe(10);
 		});
 		it('should display the right count', function() {
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
@@ -573,12 +573,12 @@ describe('luidUserPicker', function(){
 			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(9);
+			expect($scope.customCount.calls.count()).toBe(14);
 
 			$scope.myUser = _.findWhere($scope.users, {id: 3});
 			$scope.$digest();
 			expect($scope.customCount).toHaveBeenCalled();
-			expect($scope.customCount.calls.count()).toBe(10); // fetch info for the 5th user
+			expect($scope.customCount.calls.count()).toBe(15); // fetch info for the 5th user
 		});
 	});
 
@@ -612,7 +612,7 @@ describe('luidUserPicker', function(){
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(5);
+			expect($scope.customCountAsync.calls.count()).toBe(10);
 		});
 		it('should call $scope.customInfoAsync to fetch one more info when we do not select one of the first 5 users and we unselect him', function() {
 			$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_end);
@@ -625,12 +625,12 @@ describe('luidUserPicker', function(){
 			$httpBackend.expectGET(findApi).respond(200, RESPONSE_20_users);
 			$httpBackend.flush();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(9); // 4 previous call + 5 calls in find()
+			expect($scope.customCountAsync.calls.count()).toBe(14); // 4 previous call + 10 calls in find()
 
 			$scope.myUser = _.findWhere($scope.users, {id: 3});
 			$scope.$digest();
 			expect($scope.customCountAsync).toHaveBeenCalled();
-			expect($scope.customCountAsync.calls.count()).toBe(10); // fetch info for the 5th user
+			expect($scope.customCountAsync.calls.count()).toBe(15); // fetch info for the 5th user
 		});
 	});
 
@@ -670,7 +670,7 @@ describe('luidUserPicker', function(){
 		});
 		it("should have the right order of displayed users", function(){
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,1,2,4,5,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([3,1,2,4,5,6,7,8,9,10,-1]); // the -1 is because of the overflow
 		});
 		it("should update the selected one ", function(){
 			$scope.myUser = sandrine;
@@ -683,7 +683,7 @@ describe('luidUserPicker', function(){
 			$scope.myUser = sandrine;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([11,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([11,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 	});
 
@@ -719,14 +719,14 @@ describe('luidUserPicker', function(){
 		it("should have the right order of displayed users when no user is selected", function(){
 			$httpBackend.flush();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([10,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$httpBackend.flush();
 			$scope.myUser = chloe;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,10,1,2,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([3,10,1,2,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should not display "me" when the selected user is "me"', function() {
 			$httpBackend.flush();
@@ -773,7 +773,7 @@ describe('luidUserPicker', function(){
 		});
 		it("should have the right order of displayed users when no user is selected", function() {
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([-1,1,2,3,4,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([-1,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$scope.myUser = chloe;
@@ -781,7 +781,7 @@ describe('luidUserPicker', function(){
 			var userIds = _.pluck(isolateScope.users, 'id');
 			expect(_.where(isolateScope.users, {isAll:true}).length).toBe(1);
 			expect(isolateScope.users[1].isAll).toBe(true);
-			expect(userIds).toEqual([3,-1,1,2,4,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([3,-1,1,2,4,5,6,7,8,9,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should not display "selected" when we select "all users"', function() {
 			$scope.myUser = allUsers;
@@ -824,13 +824,13 @@ describe('luidUserPicker', function(){
 		});
 		it('should display "all users" and "me" when find() is called and "me" is fetched', function() {
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([-1,10,1,2,3,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([-1,10,1,2,3,4,5,6,7,8,-1]); // the -1 is because of "all users" and overflow
 		});
 		it('should update the order of users when a user is selected', function() {
 			$scope.myUser = chloe;
 			$scope.$digest();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([3,-1,10,1,2,-1]); // the -1 is because of "all users" and overflow
+			expect(userIds).toEqual([3,-1,10,1,2,4,5,6,7,8,-1]); // the -1 is because of "all users" and overflow
 		});
 	});
 
@@ -873,15 +873,15 @@ describe('luidUserPicker', function(){
 			it("should update displayed users", function() {
 				$scope.myUsers.push({"id":4,"firstName":"Clément","lastName":"Barbotin"});
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, -1]);
 
 				$scope.myUsers.push({"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"});
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 5, 6, 7, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 5, 6, 7, 8, 9, 10, 11, 12, -1]);
 
 				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 3)
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 4, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 4, 5, 6, 7, 8, 9, 10, 11, -1]);
 			});
 		});
 
@@ -922,11 +922,11 @@ describe('luidUserPicker', function(){
 
 				isolateScope.find();
 				$httpBackend.flush();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, -1]);
 
 				$scope.myUsers = _.rest($scope.myUsers, 1); // Only keep the last selected user (id = 18)
 				$scope.$digest();
-				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, -1]);
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1]);
 			});
 		});
 	});
@@ -997,7 +997,7 @@ describe('luidUserPicker', function(){
 		it("should have the right order of displayed users when no user is selected", function(){
 			$httpBackend.flush();
 			var userIds = _.pluck(isolateScope.users, 'id');
-			expect(userIds).toEqual([10,1,2,3,4,-1]); // the -1 is because of the overflow
+			expect(userIds).toEqual([10,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 		});
 		it('should not display "me" when "me" is selected', function() {
 			$httpBackend.flush();
@@ -1006,6 +1006,147 @@ describe('luidUserPicker', function(){
 			expect(_.every(isolateScope.users, function(user) {
 				return !user.isMe;
 			})).toBe(true);
+		});
+	});
+
+	/**************************
+	** CUSTOM HTTP SERVICE   **
+	***************************/
+	describe("with customHttpService", function(){
+		var chloe = { id:3,
+			firstName:"Chloé",
+			lastName:"Azibert Yekdah"
+		};
+		var customHttpService = {
+			get: function(query){
+				return $q.defer().promise;
+			}
+		};
+		var meApi = /api\/v3\/users\/me/;
+		it('should call the given "get" method', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			$scope.$digest();
+			expect($scope.customHttpService.get).toHaveBeenCalled();
+		});
+		it('should call the $http "get" method if no CustomHttpService', function() {
+			var tpl = angular.element('<luid-user-picker ng-model="chloe"></luid-user-picker>');
+			$scope.customHttpService = customHttpService;
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			spyOn($scope.customHttpService, 'get').and.callThrough();
+			isolateScope.find();
+			expect($scope.customHttpService.get).not.toHaveBeenCalled();
+		});
+		describe("and homonyms", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = {
+					get: function(query){
+						var deferred = $q.defer();
+						deferred.resolve({data: RESPONSE_20_users_4_homonyms});
+						return deferred.promise;
+					}
+				};
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + homonyms
+			});
+		});
+		describe("and with me", function() {
+			it("should still not call $http.get", function(){
+				var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
+				$scope.customHttpService = customHttpService;
+				spyOn($scope.customHttpService, 'get').and.callThrough();
+				elt = $compile(tpl)($scope);
+				isolateScope = elt.isolateScope();
+				expect($scope.customHttpService.get.calls.count()).toEqual(0);
+				isolateScope.find();
+				$scope.$digest();
+				expect($scope.customHttpService.get.calls.count()).toEqual(2); // Find + Display-me
+			});
+		});
+	});
+
+	/****************************
+	** BYPASS OPERATIONS FOR   **
+	****************************/
+	describe("with bypassOperationsFor", function() {
+		beforeEach(function(){
+			$scope.ops = [1,2,3];
+			$scope.appId = 86;
+			$scope.idsToBypass = [5, 7];
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" bypass-operations-for="idsToBypass" operations="ops" app-id="appId"></luid-user-picker>');
+
+			$scope.myUser = {};
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+
+			isolateScope.find();
+		});
+		it("should send one more request without operations filter", function() {
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+			$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+			expect($httpBackend.flush).not.toThrow();
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the end of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_3_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 5, 7]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but should be displayed at the beginning of the list", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users_end);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should add users to the list of displayed users in the right position", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([5, 7, 17, 18, 19, 20]);
+			});
+		});
+		describe("when the 2 users have access to the operations", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_20_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_20_users);
+				$httpBackend.flush();
+			});
+			it("should not update the order of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations and should not be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_4_users);
+				$httpBackend.flush();
+			});
+			it("should not add users to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4]);
+			});
+		});
+		describe("when the 2 users does not have access to the operations but one of them should be displayed", function() {
+			beforeEach(function() {
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000\&appinstanceid=86\&operations=1,2,3/i).respond(200, RESPONSE_4_users);
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false\&limit=10000/i).respond(200, RESPONSE_1_user);
+				$httpBackend.flush();
+			});
+			it("should add the user to the list of displayed users", function() {
+				expect(_.pluck(isolateScope.users, "id")).toEqual([1, 2, 3, 4, 7]);
+			});
 		});
 	});
 
@@ -1024,9 +1165,11 @@ describe('luidUserPicker', function(){
 	var RESPONSE_me = {"header":{},"data":{"id":10}};
 	// N users, no former employees, no homonyms
 	var RESPONSE_0_users = {header:{}, data:{items:[]}};
+	var RESPONSE_3_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"}]}};
 	var RESPONSE_4_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"}]}};
 	var RESPONSE_20_users = {"header":{},"data":{"items":[{"id":1,"firstName":"Guillaume","lastName":"Allain"},{"id":2,"firstName":"Elsa","lastName":"Arrou-Vignod"},{"id":3,"firstName":"Chloé","lastName":"Azibert Yekdah"},{"id":4,"firstName":"Clément","lastName":"Barbotin"},{"id":5,"firstName":"Lucien","lastName":"Bertin"},{"id":6,"firstName":"Jean-Baptiste","lastName":"Beuzelin"},{"id":7,"firstName":"Kevin","lastName":"Brochet"},{"id":8,"firstName":"Alex","lastName":"Carpentieri"},{"id":9,"firstName":"Bruno","lastName":"Catteau"},{"id":10,"firstName":"Orion","lastName":"Charlier"},{"id":11,"firstName":"Sandrine","lastName":"Conraux"},{"id":12,"firstName":"Tristan","lastName":"Couëtoux du Tertre"},{"id":13,"firstName":"Patrick","lastName":"Dai"},{"id":14,"firstName":"Larissa","lastName":"De Andrade Gaulia"},{"id":15,"firstName":"Christophe","lastName":"Demarle"},{"id":16,"firstName":"Manon","lastName":"Desbordes"},{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
 	var RESPONSE_4_users_end = {"header":{},"data":{"items":[{"id":17,"firstName":"Nicolas","lastName":"Faugout"},{"id":18,"firstName":"Brice","lastName":"Francois"},{"id":19,"firstName":"Tristan","lastName":"Goguillot"},{"id":20,"firstName":"Julia","lastName":"Ivanets"}]}};
+	var RESPONSE_1_user = {"header":{},"data":{"items":[{"id":7,"firstName":"Kevin","lastName":"Brochet"}]}};
 
 	// N users, SOME former employees, no homonyms
 	var RESPONSE_4_users_FE = {header:{}, data:{items:[{"id": 1,"firstName": "Frédéric","lastName": "Pot","dtContractEnd": null},{"id": 2,"firstName": "Catherine","lastName": "Foliot","dtContractEnd": "2003-06-30T00:00:00"},{"id": 3,"firstName": "Catherine","lastName": "Lenzi","dtContractEnd": "2003-04-28T00:00:00"},{"id": 4,"firstName": "Bruno","lastName": "Catteau","dtContractEnd": null}]}};

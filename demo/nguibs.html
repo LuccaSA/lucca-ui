@@ -68,6 +68,17 @@
 					{{color}}
 				</ui-select-choices>
 			</ui-select>
+
+			<p>
+				<span>I seriously want to hire</span>
+				<ui-select ng-model="person.selected" class="lui natural" search-enabled="false">
+					<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="person in people | filter: $select.search">
+						<span ng-bind-html="person.name | highlight: $select.search"></span>
+					</ui-select-choices>
+				</ui-select>
+				<span>because he/she just rocks at organizing LAN parties.</span>
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage:</h4>
 			</div>

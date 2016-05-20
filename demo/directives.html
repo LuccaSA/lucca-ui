@@ -6,8 +6,7 @@
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
-		<a class="item" href="#/directives#luid-table-grid">luid-table-grid</a>
-		<a class="item" href="#/directives#luid-daterange-picker">luid-daterange-picker</a>
+		<a class="item" href="#/directives#luid-progress-bar">luid-progress-bar</a>
 	</nav>
 	</nav>
 
@@ -21,9 +20,9 @@
 				The exact list of dependencies which can be found in the bower.json file is:
 				<ul class="lui unstyled">
 					<li><a class="lui fancy link" href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
-					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.4</span></li>
-					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">1.1</span></li>
-					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.10</span></li>
+					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.5</span></li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">1.3</span></li>
+					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.13</span></li>
 				</ul>
 			</p>
 		</div>
@@ -587,82 +586,80 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</div>
 		</article>
 
-		<article id="luid-table-grid">
-			<h2 class="lui divider below">luid-table-grid</h2>
-			<p>
-				A table directive to display any data
-			</p>
+		<article id="luid-progress-bar">
+			<h2 class="lui divider below">luid-progress-bar</h2>
 
+			<p>
+				A service that allow to display a progress bar depending on http get requests.
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Features</h4>
 			</div>
-			<ul class="lui unstyled">
-				<li>Show datas as a table.</li>
-				<li>Handles fixed colums and scrollable columns.</li>
-				<li>Can take any form of data as a n input.</li>
-				<li>Filtering and order by supported.</li>
-				<li>Show custom html in cells.</li>
-				<li>Handles nested headers.</li>
-				<li>Text alignment property : left/center/right</li>
-			</ul>
-
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Supported arguments</h4>
-			</div>
 			<p>
-				<ul class="lui unstyled">
-					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
-					<li><code>datas</code> : a list of things you want to display.</li>
-					<li><code>height</code> : your table won't be higher than that (px).</li>
-				</ul>
+				When the progress-bar-service is listening, a progress bar element appears and is loading until all http get requests are finished.
 			</p>
-
+			<p>
+				Can specify the parent element on the initialisation.
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
-			<pre hljs no-escape language="html"> &lt;luid-table-grid header=&quot;headerTree&quot; datas=&quot;people&quot; height=&quot;500&quot;&gt;&lt;/luid-table-grid&gt;</pre>
-			<pre hljs no-escape language="js"> // example header
- {
- 	node: null,
- 	children: [
- 		{
- 			node: {
- 				filterable: true,
- 				fixed: true,
- 				label: &quot;id&quot;,
- 				width: 20,
- 				getValue: function (someone) { return someone.id; },
- 				getOrderByValue: function (someone) { return someone.id; },
- 				colspan: null,
- 				hidden: false,
- 				rowspan: null,
- 				textAlign: &quot;right&quot;,
- 			},
- 			children: [],
- 		},
- 		{
- 			node: {
- 				filterable: true,
- 				fixed: false,
- 				label: &quot;name&quot;,
- 				width: 20,
- 				getValue: function (someone) { return someone.name; },
- 				getOrderByValue: function (someone) { return someone.name; },
- 				colspan: null,
- 				hidden: false,
- 				rowspan: null,
- 				textAlign: &quot;left&quot;,
- 			},
- 			children: [],
- 		},
- 	]
- }</pre>
-
+			<p>
+				Add http interceptor in your module config method :
+			</p>
+			<p>
+				<pre hljs no-escape language="js">angular.module('demo').config(function($httpProvider) {
+	$httpProvider.interceptors.push("luiHttpInterceptor");
+});</pre>
+			</p>
+			<p>
+				Add progress bar in your module run method :
+			</p>
+			<p>
+				<pre hljs no-escape language="js">angular.module('demo').run(function(luisProgressBar) {
+	luisProgressBar.addProgressBar("demo", "grey");
+	// this method takes a tagName, id or class as first argument to find the elemnt it sould get appended to
+	// the second argument is the palette you want applied to the progress bar
+});</pre>
+			</p>
+			<p>
+				Specify when you want to listen http request.
+				For example, we can do that each time the ui-router state change :
+				<pre hljs no-escape language="js">// with ui-router
+$scope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) => {
+	luisProgressBar.startListening();
+});
+// with ngRoute
+$scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fromParams) => {
+	luisProgressBar.startListening();
+});</pre>
+			</p>
+			<p>
+				You can specify what http methods you want to listen to.
+				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get methods
+luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put</pre>
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
 			</div>
-			<div ng-controller="tableGridCtrl" class="lui block round">
-				<luid-table-grid header="headerTree" datas="people" height="500"></luid-table-grid>
+			<div class="lui item">
+<!-- 				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+					<i class="lui icon search"></i>View in Plunker
+				</a> -->
+			</div>
+			<div ng-controller="progressCtrl" class="lui block round" id="demoProgress">
+				<p>
+					A progress bar has been added to the page and will reload at a state change.
+				</p>
+				<p>
+					Clicking <button class="lui button" ng-click="fastListen()">this</button> will make the progress bar reappear and load quickly
+				</p>
+				<p>
+					Clicking <button class="lui button" ng-click="slowListen()">this</button> will make the progress bar reappear and load slowly
+				</p>
+				<p>
+					Or click here to change the color of the progress bar <span class="lui buttons"><button ng-repeat="palette in palettes" class="lui button" ng-click="changeColor(palette)" ng-class="{active: palette == currentPalette}">{{palette}}</button></span>
+				</p>
 			</div>
 		</article>
 

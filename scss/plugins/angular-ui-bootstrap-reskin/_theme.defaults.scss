@@ -30,7 +30,8 @@ $dropdown: (
 	isAnimated: 				true,
 	animationDuration: 			100ms,
 
-	minWidth: 					100%,
+	width: 						100%,
+	minWidth: 					15em,
 	maxHeight: 					15em,
 
 	hoverBackground: 			luiPalette(light, color, light),
@@ -48,6 +49,11 @@ $uiSelect: (
 	horizontalPadding: 			5px,
 	multiple: (
 		closeSize: 				1.5em
+	),
+	natural: (
+		border: 1px dotted luiPalette(light, color),
+		fontWeight: 600,
+		dropdownWidth: lui_rem(15)
 	)
 );
 $pluginVars: map-extend($pluginVars, (uiSelect: $uiSelect));
@@ -79,6 +85,7 @@ $pluginVars: map-extend($pluginVars, (modal: $modal));
 
 $tooltip: (
 	zIndex: 					1000,
+	maxWidth: 					15em,
 	verticalPadding: 			0.25em,
 	horizontalPadding: 			0.5em,
 	borderRadius: 				3px,

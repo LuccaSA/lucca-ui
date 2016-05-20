@@ -8,7 +8,7 @@
 	**  - ngSanitize as a result of the dependency to ui.select
 	**/
 
-	var MAX_COUNT = 5; // MAGIC_NUMBER
+	var MAX_COUNT = 10; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = [{
 		"label": "LUIDUSERPICKER_DEPARTMENT",
@@ -91,6 +91,10 @@
 				displayMeFirst: "=", // boolean
 				/*** DISPLAY ALL USERS ***/
 				displayAllUsers: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=", // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -151,6 +155,10 @@
 				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
 				/*** DISPLAY ME FIRST ***/
 				displayMeFirst: "=", // boolean
+				/*** CUSTOM HTTP SERVICE ***/
+				customHttpService: "=", // Custom $http
+				/*** BYPASS OPERATIONS FOR ***/
+				bypassOperationsFor: "=" // Display these users if they does not have access to the operations but are in the results set
 			},
 			link: function (scope, elt, attrs, ctrls) {
 				var upCtrl = ctrls[0];
@@ -187,6 +195,14 @@
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
 		var init = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+
+		/** HttpService **/
+		var getHttpMethod = function(method){
+			if($scope.customHttpService &&  $scope.customHttpService[method]){
+				return $scope.customHttpService[method];
+			}
+			return $http[method];
+		};
 
 		/****************/
 		/***** FIND *****/
@@ -293,26 +309,54 @@
 			return limit;
 		};
 
-		var getUsersAsync = function(input) {
+		var getUsersPromises = function(input) {
 			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
 			var limit = "&limit=" + getLimit();
 			var clue = "clue=" + input;
 			var operations = "";
 			var appInstanceId = "";
 			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
-			var deferred = $q.defer();
+			var promises = [];
 
 			// Both attributes should be defined
 			if ($scope.appId && $scope.operations && $scope.operations.length) {
 				appInstanceId = "&appinstanceid=" + $scope.appId;
 				operations = "&operations=" + $scope.operations.join(',');
 			}
-			query += (appInstanceId + operations);
 
-			getUsersPromise = $http.get(query);
-			getUsersPromise
-			.then(function(response) {
-				deferred.resolve(response.data.data.items);
+			promises.push(getHttpMethod("get")(query + appInstanceId + operations));
+			// Send query without operations filter if both bypassOperationsFor and operations are defined
+			if (!!$scope.bypassOperationsFor && !!$scope.bypassOperationsFor.length && !!$scope.operations && !!$scope.operations.length) {
+				promises.push(getHttpMethod("get")(query));
+			}
+
+			return promises;
+		};
+
+		var getUsersAsync = function(input) {
+			var deferred = $q.defer();
+
+			$q.all(getUsersPromises(input))
+			.then(function(responses) {
+				var users = responses[0].data.data.items;
+				if (!!responses[1]) {
+					// For each user to bypass, if he belongs to the set of results without operations filter, add it to the results
+					_.each($scope.bypassOperationsFor, function(userId) {
+						var userToAdd = _.find(responses[1].data.data.items, function(user) { return user.id === userId; });
+						if (!!userToAdd) {
+							users.push(userToAdd);
+						}
+					});
+					users = _.chain(users)
+					.uniq(function(user) {
+						return user.id;
+					})
+					.sortBy(function(user) {
+						return user.lastName;
+					})
+					.value();
+				}
+				deferred.resolve(users);
 			}, function(response) {
 				deferred.reject(response.data.Message);
 			});
@@ -370,7 +414,7 @@
 		// 	var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
 
 		// 	delete timeout.count;
-		// 	$http.get(query).then(
+		// 	getHttpMethod("get")(query).then(
 		// 		function(response) {
 		// 			deferred.resolve(response.data.data.count);
 		// 		},
@@ -540,7 +584,7 @@
 				}
 			});
 
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				deferred.resolve(response.data.data.items);
 			}, function(response) {
@@ -634,7 +678,7 @@
 		var getMeAsync = function() {
 			var query = "/api/v3/users/me?fields=id";
 			var dfd = $q.defer();
-			$http.get(query)
+			getHttpMethod("get")(query)
 			.then(function(response) {
 				dfd.resolve(response.data.data.id);
 			}, function(response) {
