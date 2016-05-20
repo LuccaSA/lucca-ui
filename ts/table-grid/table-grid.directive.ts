@@ -227,8 +227,7 @@ module Lui.Directives {
 								isInFilteredDataset: true
 							};
 						});
-						updateVisibleRows();
-						this.$timeout(() => { resize(); }, 100);
+						scope.updateViewAfterFiltering();
 
 					}
 				});
