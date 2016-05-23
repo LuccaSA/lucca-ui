@@ -57,7 +57,13 @@ module Lui.Directives {
 
 	class Month {
 		public date: moment.Moment;
+		public currentYear: boolean;
 		public weeks: Week[];
+		constructor(date: moment.Moment, offset: number){
+			this.date = moment(date).add(offset, "months").startOf("month");
+			this.weeks = [];
+			this.currentYear = this.date.year() === moment().year();
+		}
 	}
 	class Week {
 		public days: Day[];
@@ -206,7 +212,8 @@ module Lui.Directives {
 			});
 		}
 		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
-			let month: Month = { date: moment(selectedDate).add(offset, "months").startOf("month"), weeks: [] };
+			let month: Month = new Month(selectedDate, offset); 
+
 			let weekStart = moment(month.date).startOf("week");
 			while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
 				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate))
