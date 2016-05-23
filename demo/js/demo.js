@@ -50,7 +50,8 @@
 	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope) {
+	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment) {
+		moment.locale("fr");
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
 			luisProgressBar.startListening();
