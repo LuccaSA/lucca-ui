@@ -1,68 +1,11 @@
 <table>
-	<caption>Août 2016</caption>
+	<caption>{{ month.date | luifMoment : "MMMM" }}</caption>
 	<thead>
-		<th>Lu</th>
-		<th>Ma</th>
-		<th>Me</th>
-		<th>Je</th>
-		<th>Ve</th>
-		<th>Sa</th>
-		<th>Di</th>
+		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td class="selected">3</td>
-			<td class="in-between">4</td>
-			<td class="in-between">5</td>
-			<td class="in-between">6</td>
-			<td class="in-between">7</td>
-			<td class="in-between">8</td>
-		</tr>
-		<tr>
-			<td class="in-between">9</td>
-			<td class="selected">10</td>
-			<td>11</td>
-			<td>12</td>
-			<td>13</td>
-			<td>14</td>
-			<td>15</td>
-		</tr>
-		<tr>
-			<td>16</td>
-			<td>17</td>
-			<td>18</td>
-			<td>19</td>
-			<td>20</td>
-			<td>21</td>
-			<td>22</td>
-		</tr>
-		<tr>
-			<td>23</td>
-			<td>24</td>
-			<td>25</td>
-			<td>26</td>
-			<td>27</td>
-			<td>28</td>
-			<td>29</td>
-		</tr>
-		<tr>
-			<td>30</td>
-			<td>31</td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
-			<td class="empty"></td>
+		<tr ng-repeat="week in month.weeks">
+			<td ng-repeat="day in week.days" class="{{::day.class}}">{{ ::day.dayNum }}</td>
 		</tr>
 	</tbody>
 </table>
