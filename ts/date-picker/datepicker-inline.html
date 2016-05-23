@@ -1,5 +1,9 @@
 <table ng-repeat="month in months">
-	<caption>{{ month.date | luifMoment : "MMMM" }}</caption>
+	<caption>
+		<i class="lui west arrow icon left pulled" ng-if="$first" ng-click="previousMonth()"></i>
+		{{ month.date | luifMoment : "MMMM" }}
+		<i class="lui east arrow icon right pulled" ng-if="$last" ng-click="nextMonth()"></i>
+	</caption>
 	<thead>
 		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
 	</thead>

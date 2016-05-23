@@ -79,6 +79,8 @@ module Lui.Directives {
 		months: Month[];
 
 		selectDay: (day: Day) => void;
+		previousMonth: () => void;
+		nextMonth: () => void;
 
 		displayStr: string;
 		displayFormat: string;
@@ -96,6 +98,7 @@ module Lui.Directives {
 		private format: string;
 		private displayFormat: string;
 		private monthsCnt: number;
+		private monthOffset: number = 0;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
@@ -119,6 +122,12 @@ module Lui.Directives {
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = () => {
 				this.togglePopover();
+			};
+			$scope.previousMonth = () => {
+				this.changeMonths(-1);
+			};
+			$scope.nextMonth = () => {
+				this.changeMonths(1);
 			};
 		}
 		private initDayLabels($scope: IDatePickerScope): void {
@@ -162,6 +171,7 @@ module Lui.Directives {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
 				let date = this.parseValue(ngModelCtrl.$viewValue);
+				this.monthOffset = 0;
 				this.$scope.months = this.constructMonths(date);
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
@@ -180,14 +190,21 @@ module Lui.Directives {
 			}
 		}
 		private setViewValue(value: any): void {
+			this.monthOffset = 0;
 			this.ngModelCtrl.$setViewValue(value);
+		}
+		private getViewValue(): moment.Moment {
+			return this.parseValue(this.ngModelCtrl.$viewValue);
+		}
+		public changeMonths(offset: number) {
+			this.monthOffset += offset;
+			this.$scope.months = this.constructMonths(this.getViewValue());
 		}
 		public constructMonths(selectedDate: moment.Moment): Month[] {
 			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
-				return this.constructMonth(selectedDate, offset);
+				return this.constructMonth(selectedDate, offset + this.monthOffset);
 			});
 		}
-
 		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
 			let month: Month = { date: moment(selectedDate).add(offset, "months").startOf("month"), weeks: [] };
 			let weekStart = moment(month.date).startOf("week");
