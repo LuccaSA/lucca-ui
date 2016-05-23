@@ -107,6 +107,8 @@
 			}
 
 			> tbody > tr > td.empty {
+				opacity: 0;
+				pointer-events: none;
 				border: map-gets($vars, day, empty, border, width) map-gets($vars, day, empty, border, style) map-gets($vars, day, empty, border, color);
 			}
 
