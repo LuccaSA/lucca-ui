@@ -31,6 +31,7 @@ module Lui.Directives {
 		public require = ["ngModel", "luidDatePickerPopup"];
 		public scope = {
 			format: "@",
+			displayFormat: "@",
 		};
 		public controller: string = LuidDatePickerController.IID;
 
@@ -46,6 +47,7 @@ module Lui.Directives {
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
+			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 		}
 	}
 
@@ -66,6 +68,8 @@ module Lui.Directives {
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
+		displayStr: string;
+		displayFormat: string;
 		format: string;
 
 		dayLabels: string[];
@@ -85,6 +89,7 @@ module Lui.Directives {
 		private ngModelCtrl: ng.INgModelController;
 		private $scope: IDatePickerScope;
 		private format: string;
+		private displayFormat: string;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
@@ -99,6 +104,9 @@ module Lui.Directives {
 				day.class = "selected";
 
 				this.setViewValue(this.formatValue(day.date));
+				$scope.displayStr = this.getDisplayStr(day.date);
+
+				this.closePopover();
 			}
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = () => {
@@ -145,13 +153,22 @@ module Lui.Directives {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				this.$scope.month = this.constructMonth(this.parseValue(ngModelCtrl.$viewValue));
+				let date = this.parseValue(ngModelCtrl.$viewValue);
+				this.$scope.month = this.constructMonth(date);
+				this.$scope.displayStr = this.getDisplayStr(date);
 			};
 		}
 		public setFormat(format: string): void {
 			this.format = format || "moment";
 		}
-		private setViewValue(value): void {
+		public setDisplayFormat(displayFormat: string): void {
+			if (this.format !== "moment" && this.format !== "date"){
+				this.displayFormat = displayFormat || this.format || "L";
+			} else {
+				this.displayFormat = displayFormat || "L";
+			}
+		}
+		private setViewValue(value: any): void {
 			this.ngModelCtrl.$setViewValue(value);
 		}
 		public constructMonth(selectedDate: moment.Moment): Month {
@@ -179,12 +196,19 @@ module Lui.Directives {
 		}
 		private togglePopover(): void {
 			if (this.$scope.popover.isOpen) {
-				this.$scope.popover.isOpen = false;
-				// debind click inside and click outside
+				this.closePopover();
 			} else {
-				this.$scope.popover.isOpen = true;
-
+				this.openPopover();
 			}
+		}
+		private closePopover(): void {
+			this.$scope.popover.isOpen = false;
+		}
+		private openPopover(): void {
+			this.$scope.popover.isOpen = true;
+		}
+		private getDisplayStr(date: moment.Moment): string {
+			return !!date ? date.format(this.displayFormat) : undefined;
 		}
 	}
 
