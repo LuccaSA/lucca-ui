@@ -101,6 +101,11 @@
 		$scope.sizing = "";
 	}]);
 	angular.module('demoApp')
+	.controller('datepickerCtrl', ['$scope', function($scope){
+		$scope.date1 = undefined;
+		// $scope.date1 = moment().startOf("day");
+	}]);
+	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
 		$scope.palettes = ["primary", "secondary", "grey", "light", "red", "orange", "yellow", "green"];
 		$scope.currentPalette = "light";
