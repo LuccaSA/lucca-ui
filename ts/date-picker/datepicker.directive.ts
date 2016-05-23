@@ -73,7 +73,7 @@ module Lui.Directives {
 	}
 	interface IDatePickerScope extends ng.IScope {
 		format: string;
-		displayedMonths: number;
+		displayedMonths: string;
 
 		dayLabels: string[];
 		months: Month[];
