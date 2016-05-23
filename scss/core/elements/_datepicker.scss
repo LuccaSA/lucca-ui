@@ -77,6 +77,8 @@
 		display: block;
 
 		> table {
+			display: inline;
+			margin: .5em;
 			border-collapse: collapse;
 
 			> caption {
