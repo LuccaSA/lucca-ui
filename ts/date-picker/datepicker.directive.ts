@@ -7,6 +7,7 @@ module Lui.Directives {
 		public require = ["ngModel", "luidDatePicker"];
 		public scope = {
 			format: "@",
+			displayedMonths: "@",
 		};
 		public controller: string = LuidDatePickerController.IID;
 
@@ -22,6 +23,7 @@ module Lui.Directives {
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
+			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 		}
 	}
 	class LuidDatePickerPopup implements angular.IDirective {
@@ -32,6 +34,7 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
+			displayedMonths: "@",
 		};
 		public controller: string = LuidDatePickerController.IID;
 
@@ -48,6 +51,7 @@ module Lui.Directives {
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
+			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 		}
 	}
 
@@ -68,15 +72,16 @@ module Lui.Directives {
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
-		displayStr: string;
-		displayFormat: string;
 		format: string;
+		displayedMonths: number;
 
 		dayLabels: string[];
-		month: Month;
+		months: Month[];
 
 		selectDay: (day: Day) => void;
 
+		displayStr: string;
+		displayFormat: string;
 		popover: {
 			isOpen: boolean;
 		};
@@ -90,13 +95,16 @@ module Lui.Directives {
 		private $scope: IDatePickerScope;
 		private format: string;
 		private displayFormat: string;
+		private monthsCnt: number;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
 			this.initDayLabels($scope);
 			$scope.selectDay = (day: Day) => {
 				// unselect previously selected day
-				let allDays: Day[] = _.chain($scope.month.weeks)
+				let allDays: Day[] = _.chain($scope.months)
+					.pluck("weeks")
+					.flatten()
 					.pluck("days")
 					.flatten()
 					.value();
@@ -154,9 +162,12 @@ module Lui.Directives {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
 				let date = this.parseValue(ngModelCtrl.$viewValue);
-				this.$scope.month = this.constructMonth(date);
+				this.$scope.months = this.constructMonths(date);
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
+		}
+		public setMonthsCnt(cntStr: string): void {
+			this.monthsCnt = parseInt(cntStr) || 1;
 		}
 		public setFormat(format: string): void {
 			this.format = format || "moment";
@@ -171,8 +182,14 @@ module Lui.Directives {
 		private setViewValue(value: any): void {
 			this.ngModelCtrl.$setViewValue(value);
 		}
-		public constructMonth(selectedDate: moment.Moment): Month {
-			let month: Month = { date: moment(selectedDate).startOf("month"), weeks: [] };
+		public constructMonths(selectedDate: moment.Moment): Month[] {
+			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
+				return this.constructMonth(selectedDate, offset);
+			});
+		}
+
+		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
+			let month: Month = { date: moment(selectedDate).add(offset, "months").startOf("month"), weeks: [] };
 			let weekStart = moment(month.date).startOf("week");
 			while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
 				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate))

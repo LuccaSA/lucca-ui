@@ -1,4 +1,4 @@
-<table>
+<table ng-repeat="month in months">
 	<caption>{{ month.date | luifMoment : "MMMM" }}</caption>
 	<thead>
 		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
