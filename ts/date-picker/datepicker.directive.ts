@@ -52,6 +52,8 @@ module Lui.Directives {
 			datePickerCtrl.setFormat(scope.format);
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			datePickerCtrl.setElt(element);
+
 		}
 	}
 
@@ -93,7 +95,7 @@ module Lui.Directives {
 		popover: {
 			isOpen: boolean;
 		};
-		togglePopover: () => void;
+		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
 
 	class LuidDatePickerController {
@@ -105,6 +107,8 @@ module Lui.Directives {
 		private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
+		private elt: angular.IAugmentedJQuery;
+		private body: angular.IAugmentedJQuery;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
@@ -126,8 +130,8 @@ module Lui.Directives {
 				this.closePopover();
 			}
 			$scope.popover = { isOpen: false };
-			$scope.togglePopover = () => {
-				this.togglePopover();
+			$scope.togglePopover = ($event: ng.IAngularEvent) => {
+				this.togglePopover($event);
 			};
 			$scope.previousMonth = () => {
 				this.changeMonths(-1);
@@ -188,6 +192,10 @@ module Lui.Directives {
 		public setFormat(format: string): void {
 			this.format = format || "moment";
 		}
+		public setElt(elt: angular.IAugmentedJQuery): void {
+			this.elt = elt;
+			this.body = angular.element(document.getElementsByTagName("body")[0]);
+		}
 		public setDisplayFormat(displayFormat: string): void {
 			if (this.format !== "moment" && this.format !== "date"){
 				this.displayFormat = displayFormat || this.format || "L";
@@ -235,18 +243,28 @@ module Lui.Directives {
 			});
 			return week;
 		}
-		private togglePopover(): void {
+		private togglePopover($event: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
 				this.closePopover();
 			} else {
-				this.openPopover();
+				this.openPopover($event);
 			}
 		}
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
+			this.body.off("click");
+			this.elt.off("click");
 		}
-		private openPopover(): void {
+		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
+			this.body.on("click", () => {
+				this.closePopover();
+				this.$scope.$digest();
+			});
+			this.elt.on("click", ($event: JQueryEventObject) => {
+				$event.stopPropagation();
+			});
+			$event.stopPropagation();
 		}
 		private getDisplayStr(date: moment.Moment): string {
 			return !!date ? date.format(this.displayFormat) : undefined;
