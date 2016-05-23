@@ -102,8 +102,7 @@
 	}]);
 	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
-		$scope.date1 = undefined;
-		// $scope.date1 = moment().startOf("day");
+		$scope.dateMoment = moment().add(22, "days").startOf("day");
 	}]);
 	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
