@@ -252,8 +252,10 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
-			this.body.off("click");
-			this.elt.off("click");
+			if (!!this.body) {
+				this.body.off("click");
+				this.elt.off("click");
+			}
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
