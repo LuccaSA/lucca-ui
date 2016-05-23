@@ -511,7 +511,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</div>
 			<p>
 				<ul class="lui unstyled">
-					<li><code>date</code> : The date you want to display, see <a class="lui fancy link" href="#filters#luifMoment">luifMoment</a>						for supported values. </li>
+					<li><code>date</code> : The date you want to display, see <a class="lui fancy link" href="#filters#luifMoment">luifMoment</a> for supported values. </li>
 					<li><code>show-day</code> : this argument must be a boolean, if true the directive shows the name of the day on top.</li>
 					<li><code>primary-color</code> : use these two arguments to have your own color palette. </li>
 					<li><code>secondary-color</code> : see above</li>
@@ -589,6 +589,35 @@ $scope.myMappings = { 13: enterPressed };</pre>
 
 		<article id="luid-date-picker">
 			<h2 class="lui divider below">luid-date-picker</h2>
+			<p>
+				A directive to pick a date in a calendar, a bit like the <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> from angular ui bootstrap but with different options
+			</p>
+			<p>
+				For example you can use it with a <code>moment</code>, a <code>date</code> or any <code>string</code> if you provide a format
+			</p>
+			<p>
+				It exists inline or in a popup.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: the variable to bind to</li>
+					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>displayed-months</code>: number of months you want displayed next to one another, default <code>1</code></li>
+					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;luid-date-picker ng-model="myDate"&gt;&lt;/luid-date-picker&gt;
+&lt;luid-date-picker ng-model="myDate" format="YYYY-MM-DD" displayed-month="3"&gt;&lt;/luid-date-picker&gt;
+&lt;luid-date-picker-popup ng-model="myDate" display-format="dddd Do, MMMM"&gt;&lt;/luid-date-picker-popup&gt;</pre>
+
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
 			</div>
