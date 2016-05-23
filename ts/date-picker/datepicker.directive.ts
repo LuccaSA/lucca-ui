@@ -20,11 +20,9 @@ module Lui.Directives {
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 
-			ngModelCtrl.$render = () => {
-				scope.date = datePickerCtrl.parseValue(ngModelCtrl.$viewValue);
-				scope.month = datePickerCtrl.constructMonth(scope.date);
-			};
+
 
 		}
 	}
@@ -48,22 +46,50 @@ module Lui.Directives {
 		dayLabels: string[];
 		date: moment.Moment;
 		month: Month;
+
+		selectDay: (day: Day) => void;
 	}
 
 	class LuidDatePickerController {
 		public static IID: string = "luidDatePickerController";
 		public static $inject: Array<string> = ["$scope"];
+		private ngModelCtrl: ng.INgModelController;
+		private $scope: IDatePickerScope;
 
 		constructor($scope: IDatePickerScope) {
+			this.$scope = $scope;
 			this.initDayLabels($scope);
+			$scope.selectDay = (day: Day) => {
+				// unselect previously selected day
+				let allDays: Day[] = _.chain($scope.month.weeks)
+					.pluck("days")
+					.flatten()
+					.value();
+				(_.findWhere(allDays, { class: "selected" }) || { class: "" }).class = "";
+				day.class = "selected";
+				this.setViewValue(this.formatValue(day.date));
+			}
 		}
 		private initDayLabels($scope: IDatePickerScope): void {
 			$scope.dayLabels = _.map(_.range(7), (i: number): string => {
 				return moment().startOf("week").add(i, "days").format("dd");
 			});
 		}
-		public parseValue(value: any): moment.Moment {
+		private parseValue(value: any): moment.Moment {
 			return value ? moment(value) : undefined;
+		}
+		private formatValue(value: moment.Moment): any {
+			return value;
+		}
+		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
+			this.ngModelCtrl = ngModelCtrl;
+			ngModelCtrl.$render = () => {
+				this.$scope.date = this.parseValue(ngModelCtrl.$viewValue);
+				this.$scope.month = this.constructMonth(this.$scope.date);
+			};
+		}
+		private setViewValue(value): void {
+			this.ngModelCtrl.$setViewValue(value);
 		}
 		public constructMonth(selectedDate: moment.Moment): Month {
 			let month: Month = { date: moment(selectedDate).startOf("month"), weeks: [] };

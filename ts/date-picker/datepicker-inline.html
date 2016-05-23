@@ -5,7 +5,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="week in month.weeks">
-			<td ng-repeat="day in week.days" class="{{::day.class}}">{{ ::day.dayNum }}</td>
+			<td ng-repeat="day in week.days" ng-class="[day.class]" ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
 		</tr>
 	</tbody>
 </table>
