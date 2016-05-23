@@ -21,9 +21,7 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
-
-
-
+			datePickerCtrl.setFormat(scope.format);
 		}
 	}
 	class Month {
@@ -43,8 +41,9 @@ module Lui.Directives {
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
+		format: string;
+
 		dayLabels: string[];
-		date: moment.Moment;
 		month: Month;
 
 		selectDay: (day: Day) => void;
@@ -55,6 +54,7 @@ module Lui.Directives {
 		public static $inject: Array<string> = ["$scope"];
 		private ngModelCtrl: ng.INgModelController;
 		private $scope: IDatePickerScope;
+		private format: string;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
@@ -67,6 +67,7 @@ module Lui.Directives {
 					.value();
 				(_.findWhere(allDays, { class: "selected" }) || { class: "" }).class = "";
 				day.class = "selected";
+
 				this.setViewValue(this.formatValue(day.date));
 			}
 		}
@@ -75,18 +76,46 @@ module Lui.Directives {
 				return moment().startOf("week").add(i, "days").format("dd");
 			});
 		}
-		private parseValue(value: any): moment.Moment {
-			return value ? moment(value) : undefined;
+		public parseValue(value: any): moment.Moment {
+			switch (this.format) {
+				case "moment": return this.parseMoment(value);
+				case "date": return this.parseDate(value);
+				default: return this.parseString(value);
+			}
 		}
-		private formatValue(value: moment.Moment): any {
-			return value;
+		public formatValue(value: moment.Moment): any {
+			switch (this.format) {
+				case "moment": return this.formatMoment(value);
+				case "date": return this.formatDate(value);
+				default: return this.formatString(value);
+			}
+		}
+		private parseMoment(value: moment.Moment): moment.Moment {
+			return !!value ? moment(value) : undefined;
+		}
+		private parseDate(value: Date): moment.Moment {
+			return !!value ? moment(value) : undefined;
+		}
+		private parseString(value: string): moment.Moment {
+			return !!value && moment(value, this.format).isValid() ? moment(value, this.format) : undefined;
+		}
+		private formatMoment(value: moment.Moment): moment.Moment {
+			return moment(value);
+		}
+		private formatDate(value: moment.Moment): Date {
+			return value.toDate();
+		}
+		private formatString(value: moment.Moment): string {
+			return value.format(this.format);
 		}
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				this.$scope.date = this.parseValue(ngModelCtrl.$viewValue);
-				this.$scope.month = this.constructMonth(this.$scope.date);
+				this.$scope.month = this.constructMonth(this.parseValue(ngModelCtrl.$viewValue));
 			};
+		}
+		public setFormat(format: string): void {
+			this.format = format || "moment";
 		}
 		private setViewValue(value): void {
 			this.ngModelCtrl.$setViewValue(value);
@@ -94,7 +123,7 @@ module Lui.Directives {
 		public constructMonth(selectedDate: moment.Moment): Month {
 			let month: Month = { date: moment(selectedDate).startOf("month"), weeks: [] };
 			let weekStart = moment(month.date).startOf("week");
-			while (weekStart.month() === month.date.month()) {
+			while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
 				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate))
 				weekStart.add(1, "week");
 			}
