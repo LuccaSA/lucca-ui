@@ -24,17 +24,42 @@ module Lui.Directives {
 			datePickerCtrl.setFormat(scope.format);
 		}
 	}
+	class LuidDatePickerPopup implements angular.IDirective {
+		public static IID: string = "luidDatePickerPopup";
+		public restrict = "E";
+		public templateUrl = "lui/templates/date-picker/datepicker-popup.html";
+		public require = ["ngModel", "luidDatePickerPopup"];
+		public scope = {
+			format: "@",
+		};
+		public controller: string = LuidDatePickerController.IID;
+
+		public static factory(): angular.IDirectiveFactory {
+			let directive = () => {
+				return new LuidDatePickerPopup();
+			};
+			return directive;
+		}
+
+		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
+			let ngModelCtrl = <ng.INgModelController>ctrls[0];
+			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+			datePickerCtrl.setFormat(scope.format);
+		}
+	}
+
 	class Month {
-		date: moment.Moment;
-		weeks: Week[];
+		public date: moment.Moment;
+		public weeks: Week[];
 	}
 	class Week {
-		days: Day[];
+		public days: Day[];
 	}
 	class Day {
-		date: moment.Moment;
-		dayNum: number;
-		class: string;
+		public date: moment.Moment;
+		public dayNum: number;
+		public class: string;
 		constructor(date: moment.Moment) {
 			this.date = date;
 			this.dayNum = date.date();
@@ -47,6 +72,11 @@ module Lui.Directives {
 		month: Month;
 
 		selectDay: (day: Day) => void;
+
+		popover: {
+			isOpen: boolean;
+		};
+		togglePopover: () => void;
 	}
 
 	class LuidDatePickerController {
@@ -70,6 +100,10 @@ module Lui.Directives {
 
 				this.setViewValue(this.formatValue(day.date));
 			}
+			$scope.popover = { isOpen: false };
+			$scope.togglePopover = () => {
+				this.togglePopover();
+			};
 		}
 		private initDayLabels($scope: IDatePickerScope): void {
 			$scope.dayLabels = _.map(_.range(7), (i: number): string => {
@@ -143,8 +177,18 @@ module Lui.Directives {
 			});
 			return week;
 		}
+		private togglePopover(): void {
+			if (this.$scope.popover.isOpen) {
+				this.$scope.popover.isOpen = false;
+				// debind click inside and click outside
+			} else {
+				this.$scope.popover.isOpen = true;
+
+			}
+		}
 	}
 
 	angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
 	angular.module("lui.directives").directive(LuidDatePicker.IID, LuidDatePicker.factory());
+	angular.module("lui.directives").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
 }
