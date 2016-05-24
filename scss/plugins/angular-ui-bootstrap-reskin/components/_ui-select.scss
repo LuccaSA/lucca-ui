@@ -153,6 +153,11 @@
 			&.fitting {
 				width: 100%;
 			}
+
+			// Invalid
+			&.invalid .ui-select-match span {
+				border-color: map-gets($inputVars, invalidColor);
+			}
 		}
 
 		#{$prefix}.field:not(.inline) > label + #{$prefix}.ui-select-bootstrap { margin-top: 0.5em; }

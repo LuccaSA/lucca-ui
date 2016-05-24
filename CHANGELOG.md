@@ -4,8 +4,11 @@
 - `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 
 ### New features
+- UI-Select now supports class `.invalid`
+- `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 
 ### Resolved issues
+ - fix invalid inputs with addon were not bordered correctly
 
 ## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 

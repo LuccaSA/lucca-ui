@@ -18,15 +18,11 @@ module Lui.Service {
 	}
 	interface ILoadingIsolateScope extends ng.IScope {
 		loading: boolean;
-		success: boolean;
-		failure: boolean;
-		cancelled: boolean;
-		percentage: number;
 		calloutClass: string;
 		canCancel: boolean;
 		cancel: () => void;
 		$close: () => void;
-		showProgress: boolean;
+		message: string;
 	}
 
 	let errorTemplate = "lui/templates/notify-service/error.html";
@@ -141,59 +137,45 @@ module Lui.Service {
 		public confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
 			return this.openModal(confirmTemplate, message, okLabel || this.conf.okLabel, cancelLabel || this.conf.cancelLabel, !this.conf.canDismissConfirm);
 		}
-		// public loading(loadingPromise: ng.IPromise<string>, message?: string, showProgress: boolean = true, cancelFn?: () => void): void {
-		// 	let isolateScope: ILoadingIsolateScope = <ILoadingIsolateScope>this.$rootScope.$new(true);
-		// 	isolateScope.loading = true;
-		// 	isolateScope.percentage = 0;
-		// 	isolateScope.showProgress = showProgress;
-		// 	isolateScope.calloutClass = "";
+		public loading(loadingPromise: ng.IPromise<string>, message?: string, cancelFn?: () => void): void {
+			let isolateScope: ILoadingIsolateScope = <ILoadingIsolateScope>this.$rootScope.$new(true);
+			isolateScope.loading = true;
+			isolateScope.calloutClass = "light";
+			isolateScope.message = message;
 
-		// 	let cancelled: boolean = false;
+			let popup = this.cgNotify(new LoadingNotify(isolateScope, message));
 
-		// 	let popup = this.cgNotify(new LoadingNotify(isolateScope, message));
+			let closePopup = (ms: number) => {
+				this.$timeout(() => {
+					popup.close();
+					isolateScope.$destroy();
+				}, ms);
+			};
 
-		// 	let closePopup = (ms: number) => {
-		// 		this.$timeout(() => {
-		// 			popup.close();
-		// 			isolateScope.$destroy();
-		// 		}, ms);
-		// 	};
+			if (!!cancelFn) {
+				isolateScope.canCancel = true;
+				isolateScope.cancel = () => {
+					this.$log.warn(new Log(message, "user cancelled"));
+					cancelFn();
+					closePopup(0);
+				};
+			}
 
-		// 	if (!!cancelFn) {
-		// 		isolateScope.canCancel = true;
-		// 		isolateScope.cancel = () => {
-		// 			cancelled = true;
-		// 			this.$log.warn(new Log(message, "user cancelled"));
-		// 			isolateScope.calloutClass += showProgress ? "" : "orange";
-		// 			isolateScope.loading = false;
-		// 			isolateScope.cancelled = true;
-		// 			cancelFn();
-		// 			closePopup(10000);
-		// 		};
-		// 	}
-
-		// 	loadingPromise.then(() => {
-		// 		if (!cancelled) {
-		// 			isolateScope.percentage = 100;
-		// 			isolateScope.calloutClass += showProgress ? "" : "primary";
-		// 			isolateScope.loading = false;
-		// 			isolateScope.success = true;
-		// 			closePopup(5000);
-		// 		}
-		// 	}, (details: string) => {
-		// 		if (!cancelled) {
-		// 			isolateScope.calloutClass += "filling red";
-		// 			isolateScope.loading = false;
-		// 			isolateScope.failure = true;
-		// 			this.$log.error(new Log(message, details));
-		// 			closePopup(20000);
-		// 		}
-		// 	}, (percentage: number) => {
-		// 		if (!cancelled) {
-		// 			isolateScope.percentage = percentage;
-		// 		}
-		// 	});
-		// }
+			loadingPromise.then((newMessage: string) => {
+				isolateScope.message = newMessage;
+				isolateScope.calloutClass = "green";
+				isolateScope.loading = false;
+				closePopup(5000);
+			}, (newMessage: string) => {
+				isolateScope.message = newMessage;
+				isolateScope.calloutClass = "red";
+				isolateScope.loading = false;
+				this.$log.error(new Log(message, ""));
+				closePopup(20000);
+			}, (newMessage: string) => {
+				isolateScope.message = newMessage;
+			});
+		}
 		private openModal(templateUrl: string, message: string, okLabel: string, cancelLabel: string, preventDismiss: boolean): ng.IPromise<boolean> {
 			return this.$uibModal.open(<IModalSettings>{
 				templateUrl: templateUrl,
