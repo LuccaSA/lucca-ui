@@ -10,14 +10,12 @@ module Lui.Directives {
 			displayedMonths: "@",
 		};
 		public controller: string = LuidDatePickerController.IID;
-
 		public static factory(): angular.IDirectiveFactory {
 			let directive = () => {
 				return new LuidDatePicker();
 			};
 			return directive;
 		}
-
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
@@ -37,14 +35,12 @@ module Lui.Directives {
 			displayedMonths: "@",
 		};
 		public controller: string = LuidDatePickerController.IID;
-
 		public static factory(): angular.IDirectiveFactory {
 			let directive = () => {
 				return new LuidDatePickerPopup();
 			};
 			return directive;
 		}
-
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
@@ -53,7 +49,6 @@ module Lui.Directives {
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			datePickerCtrl.setElt(element);
-
 		}
 	}
 
@@ -61,7 +56,7 @@ module Lui.Directives {
 		public date: moment.Moment;
 		public currentYear: boolean;
 		public weeks: Week[];
-		constructor(date: moment.Moment, offset: number){
+		constructor(date: moment.Moment, offset: number) {
 			this.date = moment(date).add(offset, "months").startOf("month");
 			this.weeks = [];
 			this.currentYear = this.date.year() === moment().year();
@@ -128,7 +123,7 @@ module Lui.Directives {
 				$scope.displayStr = this.getDisplayStr(day.date);
 
 				this.closePopover();
-			}
+			};
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
@@ -140,11 +135,44 @@ module Lui.Directives {
 				this.changeMonths(1);
 			};
 		}
-		private initDayLabels($scope: IDatePickerScope): void {
-			$scope.dayLabels = _.map(_.range(7), (i: number): string => {
-				return moment().startOf("week").add(i, "days").format("dd");
+		// set stuff - is called in the linq function
+		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
+			this.ngModelCtrl = ngModelCtrl;
+			ngModelCtrl.$render = () => {
+				let date = this.parseValue(ngModelCtrl.$viewValue);
+				this.monthOffset = 0;
+				this.$scope.months = this.constructMonths(date);
+				this.$scope.displayStr = this.getDisplayStr(date);
+			};
+		}
+		public setMonthsCnt(cntStr: string): void {
+			this.monthsCnt = parseInt(cntStr, 10) || 1;
+		}
+		public setFormat(format: string): void {
+			this.format = format || "moment";
+		}
+		public setElt(elt: angular.IAugmentedJQuery): void {
+			this.elt = elt;
+			this.body = angular.element(document.getElementsByTagName("body")[0]);
+		}
+		public setDisplayFormat(displayFormat: string): void {
+			if (this.format !== "moment" && this.format !== "date") {
+				this.displayFormat = displayFormat || this.format || "L";
+			} else {
+				this.displayFormat = displayFormat || "L";
+			}
+		}
+		public changeMonths(offset: number): void {
+			this.monthOffset += offset;
+			this.$scope.months = this.constructMonths(this.getViewValue());
+		}
+		public constructMonths(selectedDate: moment.Moment): Month[] {
+			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
+				return this.constructMonth(selectedDate, offset + this.monthOffset);
 			});
 		}
+
+		// parse - format
 		public parseValue(value: any): moment.Moment {
 			switch (this.format) {
 				case "moment": return this.parseMoment(value);
@@ -177,32 +205,15 @@ module Lui.Directives {
 		private formatString(value: moment.Moment): string {
 			return value.format(this.format);
 		}
-		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
-			this.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$render = () => {
-				let date = this.parseValue(ngModelCtrl.$viewValue);
-				this.monthOffset = 0;
-				this.$scope.months = this.constructMonths(date);
-				this.$scope.displayStr = this.getDisplayStr(date);
-			};
+
+		// init stuff
+		private initDayLabels($scope: IDatePickerScope): void {
+			$scope.dayLabels = _.map(_.range(7), (i: number): string => {
+				return moment().startOf("week").add(i, "days").format("dd");
+			});
 		}
-		public setMonthsCnt(cntStr: string): void {
-			this.monthsCnt = parseInt(cntStr) || 1;
-		}
-		public setFormat(format: string): void {
-			this.format = format || "moment";
-		}
-		public setElt(elt: angular.IAugmentedJQuery): void {
-			this.elt = elt;
-			this.body = angular.element(document.getElementsByTagName("body")[0]);
-		}
-		public setDisplayFormat(displayFormat: string): void {
-			if (this.format !== "moment" && this.format !== "date"){
-				this.displayFormat = displayFormat || this.format || "L";
-			} else {
-				this.displayFormat = displayFormat || "L";
-			}
-		}
+
+		// ng-model logic
 		private setViewValue(value: any): void {
 			this.monthOffset = 0;
 			this.ngModelCtrl.$setViewValue(value);
@@ -210,21 +221,14 @@ module Lui.Directives {
 		private getViewValue(): moment.Moment {
 			return this.parseValue(this.ngModelCtrl.$viewValue);
 		}
-		public changeMonths(offset: number) {
-			this.monthOffset += offset;
-			this.$scope.months = this.constructMonths(this.getViewValue());
-		}
-		public constructMonths(selectedDate: moment.Moment): Month[] {
-			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
-				return this.constructMonth(selectedDate, offset + this.monthOffset);
-			});
-		}
+
+		// month construction
 		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
-			let month: Month = new Month(selectedDate, offset); 
+			let month: Month = new Month(selectedDate, offset);
 
 			let weekStart = moment(month.date).startOf("week");
 			while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
-				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate))
+				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate));
 				weekStart.add(1, "week");
 			}
 			return month;
@@ -243,6 +247,8 @@ module Lui.Directives {
 			});
 			return week;
 		}
+
+		// popover logic
 		private togglePopover($event: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
 				this.closePopover();
@@ -263,8 +269,8 @@ module Lui.Directives {
 				this.closePopover();
 				this.$scope.$digest();
 			});
-			this.elt.on("click", ($event: JQueryEventObject) => {
-				$event.stopPropagation();
+			this.elt.on("click", (otherEvent: JQueryEventObject) => {
+				otherEvent.stopPropagation();
 			});
 			$event.stopPropagation();
 		}
