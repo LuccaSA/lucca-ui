@@ -240,7 +240,7 @@ module Lui.Directives {
 				if (day.date.month() !== monthStart.month()) {
 					day.class = "empty";
 				}
-				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD")) {
+				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && day.class !== "empty") {
 					day.class = "selected";
 				}
 				return day;
