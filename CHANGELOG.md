@@ -1,6 +1,7 @@
 # Change log
 
 ## 2.2.3 - in dev
+- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 
 ### New features
 
