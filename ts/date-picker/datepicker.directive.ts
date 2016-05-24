@@ -119,6 +119,9 @@ module Lui.Directives {
 				(_.findWhere(allDays, { class: "selected" }) || { class: "" }).class = "";
 				day.class = "selected";
 
+
+				this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
+
 				this.setViewValue(this.formatValue(day.date));
 				$scope.displayStr = this.getDisplayStr(day.date);
 
@@ -215,7 +218,6 @@ module Lui.Directives {
 
 		// ng-model logic
 		private setViewValue(value: any): void {
-			this.monthOffset = 0;
 			this.ngModelCtrl.$setViewValue(value);
 		}
 		private getViewValue(): moment.Moment {
