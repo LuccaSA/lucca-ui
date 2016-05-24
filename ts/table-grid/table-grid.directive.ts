@@ -150,6 +150,16 @@ module Lui.Directives {
 					updateWidth();
 				};
 
+				let setCanvasHeight = (startNumRowIn: number) => {
+					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRowIn) * ROWHEIGHTMIN;
+					if (canvasHeight > height) {
+						scrollableAreaVS.style.height = canvasHeight + "px";
+						if (!!lockedColumnsVS) {
+							lockedColumnsVS.style.height = canvasHeight + "px";
+						}
+					}
+				};
+
 				// ==========================================
 				// ---- Virtual scroll
 				// ---- from http://twofuckingdevelopers.com/2014/11/angularjs-virtual-list-directive-tutorial/
@@ -159,11 +169,7 @@ module Lui.Directives {
 					// Do not use virtual scroll if number of rows are less than
 					if (scope.filteredAndOrderedRows.length <= MINROWSCOUNTFORVS) {
 						scope.visibleRows = scope.filteredAndOrderedRows;
-						canvasHeight = scope.filteredAndOrderedRows.length * ROWHEIGHTMIN;
-						scrollableAreaVS.style.height = canvasHeight + "px";
-						if (!!lockedColumnsVS) {
-							lockedColumnsVS.style.height = canvasHeight + "px";
-						}
+						setCanvasHeight(0);
 						return;
 					}
 					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
@@ -177,16 +183,14 @@ module Lui.Directives {
 					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
 					currentMarginTop = startNumRow * ROWHEIGHTMIN;
 					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
-					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRow) * ROWHEIGHTMIN;
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
-						lockedColumnsVS.style.height = canvasHeight + "px";
 					}
 					tables[0].style.marginTop = currentMarginTop + "px";
 
 					scrollableAreaVS.style.marginTop = currentMarginTop + "px";
 
-					scrollableAreaVS.style.height = canvasHeight + "px";
+					setCanvasHeight(startNumRow);
 				};
 
 				scope.updateViewAfterOrderBy = () => {
