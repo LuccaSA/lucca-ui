@@ -4,7 +4,7 @@ module Lui.Directives.Datepicker.Test {
 	beforeEach(angular.mock.module("lui.directives"));
 	describe("luid-date-picker controller", () => {
 		let createController:() => any;
-		let $scope: ng.IScope;
+		let $scope: any;
 		beforeEach(inject((
 			_$controller_: ng.IControllerService,
 			_$rootScope_: ng.IRootScopeService
@@ -93,7 +93,7 @@ module Lui.Directives.Datepicker.Test {
 			});
 		});
 		describe("changeMonths", () => {
-			let ctrl: { setMonthsCnt: (n?: number) => void, changeMonths: (offset: number) => any[], constructMonth: (selectedDate?: moment.Moment, offset?: number) => any, getViewValue: () => moment.Moment };
+			let ctrl: { setMonthsCnt: (n?: number) => void, changeMonths: (offset: number) => void, constructMonth: (selectedDate?: moment.Moment, offset?: number) => any, getViewValue: () => moment.Moment };
 			beforeEach(() => {
 				ctrl = createController();
 				ctrl.setMonthsCnt();
@@ -108,13 +108,50 @@ module Lui.Directives.Datepicker.Test {
 			});
 		});
 		describe("$scope.selectDay", () => {
-
-		});
-		describe("$scope.nextMonth", () => {
-
+			let ctrl: { constructMonths: (selectedDate?: moment.Moment) => any[], setMonthsCnt: (n?: number) => void, setViewValue: (v: any) => void, formatValue: (m: moment.Moment) => any };
+			let day: { date: moment.Moment, class: string };
+			beforeEach(() => {
+				ctrl = createController();
+				spyOn(ctrl, "setViewValue");
+				spyOn(ctrl, "formatValue").and.returnValue({});
+				ctrl.setMonthsCnt();
+				$scope.months = ctrl.constructMonths(moment("2016-05-24"));
+				day = { date: moment("2016-05-01"), class: "" };
+			});
+			it("should call setViewValue with the formatted value", () => {
+				$scope.selectDay(day);
+				expect(ctrl.formatValue).toHaveBeenCalledWith(day.date);
+				expect(ctrl.setViewValue).toHaveBeenCalled();
+			});
+			it("should remove the class selected from the day previously selected", () => {
+				let may24 = $scope.months[0].weeks[4].days[1];
+				expect(may24.class).toBe("selected");
+				$scope.selectDay(day);
+				expect(may24.class).toBeFalsy();
+				expect(day.class).toBe("selected");
+			});
 		});
 		describe("$scope.previousMonth", () => {
-
+			let ctrl: { changeMonths: (offset: number) => void };
+			beforeEach(() => {
+				ctrl = createController();
+				spyOn(ctrl, "changeMonths");
+			});
+			it("should call changeMonths(-1)", () => {
+				$scope.previousMonth();
+				expect(ctrl.changeMonths).toHaveBeenCalledWith(-1);
+			});
+		});
+		describe("$scope.nextMonth", () => {
+			let ctrl: { changeMonths: (offset: number) => void };
+			beforeEach(() => {
+				ctrl = createController();
+				spyOn(ctrl, "changeMonths");
+			});
+			it("should call changeMonths(1)", () => {
+				$scope.nextMonth();
+				expect(ctrl.changeMonths).toHaveBeenCalledWith(1);
+			});
 		});
 	});
 	describe("luid-date-picker directive", () => {
