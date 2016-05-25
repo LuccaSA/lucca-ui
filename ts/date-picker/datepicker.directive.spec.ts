@@ -86,10 +86,10 @@ module Lui.Directives.Datepicker.Test {
 			it("constructing 2 months from now and one month in a month should return the same month (obv)", () => {
 				let march = ctrl.constructMonths(moment("2016-03-21"))[0];
 				expect(march.weeks.length).toBe(5);
-				expect(march.weeks[0].days[0].class).toBe("empty");
+				expect(march.weeks[0].days[0].class).toBe(" empty");
 				expect(march.weeks[0].days[1].dayNum).toBe(1);
-				expect(march.weeks[3].days[0].class).toBe("selected");
-				expect(march.weeks[4].days[4].class).toBe("empty");
+				expect(march.weeks[3].days[0].class).toBe(" selected");
+				expect(march.weeks[4].days[4].class).toBe(" empty");
 			});
 		});
 		describe("changeMonths", () => {
@@ -125,10 +125,10 @@ module Lui.Directives.Datepicker.Test {
 			});
 			it("should remove the class selected from the day previously selected", () => {
 				let may24 = $scope.months[0].weeks[4].days[1];
-				expect(may24.class).toBe("selected");
+				expect(may24.class).toBe(" selected");
 				$scope.selectDay(day);
 				expect(may24.class).toBeFalsy();
-				expect(day.class).toBe("selected");
+				expect(day.class).toBe(" selected");
 			});
 		});
 		describe("$scope.previousMonth", () => {

@@ -121,8 +121,8 @@ module Lui.Directives {
 					.pluck("days")
 					.flatten()
 					.value();
-				(_.findWhere(allDays, { class: "selected" }) || { class: "" }).class = "";
-				day.class = "selected";
+				(_.findWhere(allDays, { class: " selected" }) || { class: "" }).class = "";
+				day.class = " selected";
 
 
 				this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
