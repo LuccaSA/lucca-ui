@@ -1,8 +1,8 @@
 <table ng-repeat="month in months">
 	<caption>
-		<i class="lui west arrow icon left pulled" ng-if="$first" ng-click="previousMonth()"></i>
-		{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}
-		<i class="lui east arrow icon right pulled" ng-if="$last" ng-click="nextMonth()"></i>
+		<button class="previous" ng-if="$first" ng-click="previousMonth()"></button>
+		<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+		<button class="next" ng-if="$last" ng-click="nextMonth()"></button>
 	</caption>
 	<thead>
 		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>

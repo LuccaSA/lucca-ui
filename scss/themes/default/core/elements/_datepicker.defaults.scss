@@ -2,11 +2,13 @@
 // @type: element
 // ===================================
 $datepicker: (
+	enabled: true,
+
 	header: (
 		font-size: 1.5em,
-		font-weight: light,
+		font-weight: normal,
 		padding: (
-			vertical: lui-rem(1),
+			vertical: lui-rem(0.5),
 			horizontal: 0
 		)
 	),
@@ -24,6 +26,17 @@ $datepicker: (
 				width: 1px,
 				style: solid,
 				color: #FAFAFA
+			)
+		),
+
+		disabled: (
+			background-color: #FFF,
+			color: luiPalette(light, color),
+
+			border: (
+				width: 1px,
+				style: double,
+				color: luiPalette(light, color)
 			)
 		),
 
