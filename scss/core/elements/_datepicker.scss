@@ -148,6 +148,11 @@
 						background-color: map-gets($vars, day, selected, hover, background-color);
 					}
 				}
+
+				&.disabled {
+					opacity: .5;
+					pointer-events: none;
+				}
 			}
 		}
 	}

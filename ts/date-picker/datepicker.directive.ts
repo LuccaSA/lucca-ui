@@ -8,6 +8,8 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayedMonths: "@",
+			min: "=",
+			max: "=",
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -72,11 +74,14 @@ module Lui.Directives {
 		constructor(date: moment.Moment) {
 			this.date = date;
 			this.dayNum = date.date();
+			this.class = "";
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
 		format: string;
 		displayedMonths: string;
+		min: any;
+		max: any;
 
 		dayLabels: string[];
 		months: Month[];
@@ -236,14 +241,22 @@ module Lui.Directives {
 			return month;
 		}
 		private constructWeek(weekStart: moment.Moment, monthStart: moment.Moment, selectedDate: moment.Moment): Week {
+			let min: moment.Moment = this.parseValue(this.$scope.min);
+			let max: moment.Moment = this.parseValue(this.$scope.max);
 			let week: Week = { days: [] };
 			week.days = _.map(_.range(7), (i: number) => {
 				let day: Day = new Day(moment(weekStart).add(i, "days"));
 				if (day.date.month() !== monthStart.month()) {
-					day.class = "empty";
+					day.class += " empty";
 				}
 				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && day.class !== "empty") {
-					day.class = "selected";
+					day.class += " selected";
+				}
+				if (!!min && min.diff(day.date) > 0) {
+					day.class += " disabled";
+				}
+				if (!!max && max.diff(day.date) < 0) {
+					day.class += " disabled";
 				}
 				return day;
 			});
