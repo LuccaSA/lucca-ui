@@ -2,6 +2,16 @@
 
 	@if luiTheme(element, datepicker, enabled) {
 		$vars: luiTheme(element, datepicker);
+		luid-date-picker-popup {
+			> .lui.input {
+				width: map-gets($vars, input, width);
+			}
+		};
+		luid-daterange-picker {
+			> .lui.tagged.input {
+				width: 2 * map-gets($vars, input, width);
+			}
+		};
 		luid-date-picker, luid-date-picker-popup > .popover > .popover-inner > .popover-content{
 			display: inline-block;
 
