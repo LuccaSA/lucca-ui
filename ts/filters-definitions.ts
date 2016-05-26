@@ -8,11 +8,11 @@ module Lui {
 	}
 
 	export class Period {
-		public start: moment.Moment & string & Date;
-		public startsOn: moment.Moment & string & Date;
-		public startsAt: moment.Moment & string & Date;
-		public end: moment.Moment & string & Date;
-		public endsOn: moment.Moment & string & Date;
-		public endsAt: moment.Moment & string & Date;
+		public start: moment.Moment | string | Date;
+		public startsOn: moment.Moment | string | Date;
+		public startsAt: moment.Moment | string | Date;
+		public end: moment.Moment | string | Date;
+		public endsOn: moment.Moment | string | Date;
+		public endsAt: moment.Moment | string | Date;
 	}
 }
