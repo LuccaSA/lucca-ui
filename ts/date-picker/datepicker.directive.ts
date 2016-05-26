@@ -10,6 +10,7 @@ module Lui.Directives {
 			displayedMonths: "@",
 			min: "=",
 			max: "=",
+			customClass: "=",
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -35,6 +36,9 @@ module Lui.Directives {
 			format: "@",
 			displayFormat: "@",
 			displayedMonths: "@",
+			min: "=",
+			max: "=",
+			customClass: "=",
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -73,6 +77,7 @@ module Lui.Directives {
 		public empty: boolean;
 		public disabled: boolean;
 		public selected: boolean;
+		public customClass: string;
 		constructor(date: moment.Moment) {
 			this.date = date;
 			this.dayNum = date.date();
@@ -83,6 +88,7 @@ module Lui.Directives {
 		displayedMonths: string;
 		min: any;
 		max: any;
+		customClass: (date: moment.Moment) => string;
 
 		dayLabels: string[];
 		months: Month[];
@@ -305,6 +311,9 @@ module Lui.Directives {
 				}
 				if (!!max && max.diff(day.date) < 0) {
 					day.disabled = true;
+				}
+				if (!!this.$scope.customClass) {
+					day.customClass = this.$scope.customClass(day.date);
 				}
 			});
 		}

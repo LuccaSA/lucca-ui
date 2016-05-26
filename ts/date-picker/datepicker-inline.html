@@ -9,7 +9,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="week in month.weeks">
-			<td ng-repeat="day in week.days" ng-class="{disabled: day.disabled, empty: day.empty, selected: day.selected}" ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
+			<td ng-repeat="day in week.days" ng-class="[{disabled: day.disabled, empty: day.empty, selected: day.selected}, day.customClass]" ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
 		</tr>
 	</tbody>
 </table>
