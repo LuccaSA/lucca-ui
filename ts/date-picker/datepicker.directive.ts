@@ -100,6 +100,10 @@ module Lui.Directives {
 		};
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
+	interface IDatePickerValidators extends ng.IModelValidators {
+		min: (modelValue: any, viewValue: any) => boolean;
+		max: (modelValue: any, viewValue: any) => boolean;
+	}
 
 	class LuidDatePickerController {
 		public static IID: string = "luidDatePickerController";
@@ -155,6 +159,13 @@ module Lui.Directives {
 				this.$scope.months = this.constructMonths(date);
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
+			(<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
+				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.min) || this.parseValue(this.$scope.min).diff(this.parseValue(viewValue)) <= 0;
+			};
+			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
+				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
+			};
+
 		}
 		public setMonthsCnt(cntStr: string): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
