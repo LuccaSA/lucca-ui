@@ -1,0 +1,49 @@
+@if luiTheme(element, input, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, input);
+
+		#{$prefix}.tagged.input {
+
+			@extend %lui_input_field_base;
+			@extend %lui_input_text_field;
+
+			@include display-flex();
+
+			> input {
+				display: inline-block;
+				border: none;
+				width: auto;
+				padding-left: 0;
+				padding-right: 0;
+
+				min-width: 15em;
+				@include flex(1, 1, 0%);
+			}
+
+			.tag {
+				display: inline-block;
+				line-height: 1;
+				font-weight: 600;
+				padding: map-gets($vars, tag, padding);
+				margin: map-gets($vars, tag, margin);
+				background-color: map-gets($vars, tag, background);
+				border: 1px solid map-gets($vars, tag, borderColor);
+				border-radius: map-gets($vars, tag, borderRadius);
+
+				&.selected {
+					background-color: map-gets($vars, tag, selectedColor);
+				}
+
+				a.close {
+					display: inline-block;
+					vertical-align: middle;
+					@include lui_make_icon("cross", right);
+					color: lighten(map-get($vars, color), 10);
+					font-size: 0.5em;
+					padding: 0.25em;
+					margin-top: -0.1em;
+				}
+			}
+		}
+	}
+}
