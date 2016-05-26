@@ -8,6 +8,7 @@
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
+ - Adds support for disabled state on ui-selet (issue #264)
 
 ## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 
