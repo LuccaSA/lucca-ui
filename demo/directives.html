@@ -7,6 +7,7 @@
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
 		<a class="item" href="#/directives#luid-date-picker">luid-date-picker</a>
+		<a class="item" href="#/directives#luid-daterange-picker">luid-daterange-picker</a>
 		<a class="item" href="#/directives#luid-progress-bar">luid-progress-bar</a>
 	</nav>
 
@@ -729,6 +730,40 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					<luid-date-picker-popup ng-model="dateMoment" displayed-months="3"></luid-date-picker-popup>
 				</p>
 				
+			</div>
+		</article>
+				<article id="luid-daterange-picker">
+			<h2 class="lui divider below">luid-daterange-picker</h2>
+			<p>
+
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: the variable to bind to</li>
+					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
+					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html"></pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div class="lui item">
+<!-- 				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+					<i class="lui icon search"></i>View in Plunker
+				</a> -->
+			</div>
+			<div ng-controller="daterangepickerCtrl" class="lui block round">
+			<luid-daterange-picker ng-model="myDaterange"></luid-daterange-picker>
 			</div>
 		</article>
 

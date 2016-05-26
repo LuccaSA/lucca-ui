@@ -113,6 +113,11 @@
 		};
 	}]);
 	angular.module('demoApp')
+	.controller('daterangepickerCtrl', ['$scope', function($scope){
+		$scope.myDaterange = { start: moment().startOf("day"), end: moment().startOf("day").add(3, "days") };
+
+	}]);
+	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
 		$scope.palettes = ["primary", "secondary", "grey", "light", "red", "orange", "yellow", "green"];
 		$scope.currentPalette = "light";
