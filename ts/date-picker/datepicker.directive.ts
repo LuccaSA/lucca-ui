@@ -70,14 +70,12 @@ module Lui.Directives {
 	class Day {
 		public date: moment.Moment;
 		public dayNum: number;
-		// public classes: string[];
-		empty: boolean;
-		disabled: boolean;
-		selected: boolean;
+		public empty: boolean;
+		public disabled: boolean;
+		public selected: boolean;
 		constructor(date: moment.Moment) {
 			this.date = date;
 			this.dayNum = date.date();
-			// this.classes = [];
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
@@ -149,6 +147,31 @@ module Lui.Directives {
 			$scope.nextMonth = () => {
 				this.changeMonths(1);
 			};
+
+			$scope.$watch("min", (): void => {
+				// revalidate
+				this.validate();
+				// reassign classes for each day
+				let allDays: Day[] = _.chain($scope.months)
+					.pluck("weeks")
+					.flatten()
+					.pluck("days")
+					.flatten()
+					.value();
+				this.assignClasses(allDays, this.getViewValue());
+			});
+			$scope.$watch("max", (): void => {
+				// revalidate
+				this.validate();
+				// reassign classes for each day
+				let allDays: Day[] = _.chain($scope.months)
+					.pluck("weeks")
+					.flatten()
+					.pluck("days")
+					.flatten()
+					.value();
+				this.assignClasses(allDays, this.getViewValue());
+			});
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -165,7 +188,6 @@ module Lui.Directives {
 			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
 				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
 			};
-
 		}
 		public setMonthsCnt(cntStr: string): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
@@ -242,6 +264,9 @@ module Lui.Directives {
 		private getViewValue(): moment.Moment {
 			return this.parseValue(this.ngModelCtrl.$viewValue);
 		}
+		private validate(): void {
+			this.ngModelCtrl.$validate();
+		}
 
 		// month construction
 		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
@@ -255,14 +280,23 @@ module Lui.Directives {
 			return month;
 		}
 		private constructWeek(weekStart: moment.Moment, monthStart: moment.Moment, selectedDate: moment.Moment): Week {
-			let min: moment.Moment = this.parseValue(this.$scope.min);
-			let max: moment.Moment = this.parseValue(this.$scope.max);
 			let week: Week = { days: [] };
 			week.days = _.map(_.range(7), (i: number) => {
 				let day: Day = new Day(moment(weekStart).add(i, "days"));
 				if (day.date.month() !== monthStart.month()) {
 					day.empty = true;
 				}
+				return day;
+			});
+			this.assignClasses(week.days, selectedDate);
+			return week;
+		}
+		private assignClasses(days: Day[], selectedDate: moment.Moment): void {
+			let min: moment.Moment = this.parseValue(this.$scope.min);
+			let max: moment.Moment = this.parseValue(this.$scope.max);
+			_.each(days, (day: Day): void => {
+				day.selected = false;
+				day.disabled = false;
 				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && !day.empty) {
 					day.selected = true;
 				}
@@ -272,9 +306,7 @@ module Lui.Directives {
 				if (!!max && max.diff(day.date) < 0) {
 					day.disabled = true;
 				}
-				return day;
 			});
-			return week;
 		}
 
 		// popover logic
