@@ -70,11 +70,14 @@ module Lui.Directives {
 	class Day {
 		public date: moment.Moment;
 		public dayNum: number;
-		public class: string;
+		// public classes: string[];
+		empty: boolean;
+		disabled: boolean;
+		selected: boolean;
 		constructor(date: moment.Moment) {
 			this.date = date;
 			this.dayNum = date.date();
-			this.class = "";
+			// this.classes = [];
 		}
 	}
 	interface IDatePickerScope extends ng.IScope {
@@ -121,8 +124,8 @@ module Lui.Directives {
 					.pluck("days")
 					.flatten()
 					.value();
-				(_.findWhere(allDays, { class: " selected" }) || { class: "" }).class = "";
-				day.class = " selected";
+				(_.findWhere(allDays, { selected: true }) || { selected: true }).selected = false;
+				day.selected = true;
 
 
 				this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
@@ -247,16 +250,16 @@ module Lui.Directives {
 			week.days = _.map(_.range(7), (i: number) => {
 				let day: Day = new Day(moment(weekStart).add(i, "days"));
 				if (day.date.month() !== monthStart.month()) {
-					day.class += " empty";
+					day.empty = true;
 				}
-				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && day.class !== "empty") {
-					day.class += " selected";
+				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && !day.empty) {
+					day.selected = true;
 				}
 				if (!!min && min.diff(day.date) > 0) {
-					day.class += " disabled";
+					day.disabled = true;
 				}
 				if (!!max && max.diff(day.date) < 0) {
-					day.class += " disabled";
+					day.disabled = true;
 				}
 				return day;
 			});
