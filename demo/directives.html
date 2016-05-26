@@ -605,6 +605,8 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<ul class="lui unstyled">
 					<li><code>ng-model</code>: the variable to bind to</li>
 					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>min</code>: self explainatory</li>
+					<li><code>max</code>: self explainatory</li>
 					<li><code>displayed-months</code>: number of months you want displayed next to one another, default <code>1</code></li>
 					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
 				</ul>
@@ -616,7 +618,6 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<pre hljs no-escape language="html">&lt;luid-date-picker ng-model="myDate"&gt;&lt;/luid-date-picker&gt;
 &lt;luid-date-picker ng-model="myDate" format="YYYY-MM-DD" displayed-month="3"&gt;&lt;/luid-date-picker&gt;
 &lt;luid-date-picker-popup ng-model="myDate" display-format="dddd Do, MMMM"&gt;&lt;/luid-date-picker-popup&gt;</pre>
-
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
@@ -633,7 +634,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 							Basic use, linked to a moment
 						</p>
 						<p>
-							<luid-date-picker ng-model="dateMoment"></luid-date-picker>
+							<luid-date-picker ng-model="dateMoment" min="dateMin" max="datePopup1"></luid-date-picker>
 						</p>
 						<p>
 							My date: <code>{{ dateMoment | luifMoment : "LL"}}</code>
@@ -644,7 +645,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 							Linked to a string with format <code>YYYY-MM-DD</code>
 						</p>
 						<p>
-							<luid-date-picker ng-model="dateStr" format="YYYY-MM-DD"></luid-date-picker>
+							<luid-date-picker ng-model="dateStr" min="dateMin" format="YYYY-MM-DD"></luid-date-picker>
 						</p>
 						<p>
 							My date:
@@ -683,6 +684,22 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				</p>
 				<p>
 					value in my $scope: <code>{{ datePopup2 }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with min/max
+				</p>
+				<p ng-form="datepickerForm">
+					<luid-date-picker name="withMinMax" ng-model="dateMoment" min="min" max="max"></luid-date-picker>
+				</p>
+				<p>
+					min: <luid-date-picker-popup ng-model="min" display-format="LL"></luid-date-picker-popup>
+					max: <luid-date-picker-popup ng-model="max" display-format="LL"></luid-date-picker-popup>
+				</p>
+				<p>
+					validity: <span class="lui green label" ng-show=" datepickerForm.withMinMax.$valid">ng-valid</span>
+					<span class="lui red label" ng-show=" datepickerForm.withMinMax.$invalid">ng-invalid</span>
+					<span class="lui red label" ng-repeat="(key, value) in datepickerForm.withMinMax.$error">ng-invalid-{{key}}</span>
 				</p>
 				<hr class="lui dashed divider">
 				<p>

@@ -103,6 +103,8 @@
 	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
 		$scope.dateMoment = moment().add(22, "days").startOf("day");
+		$scope.dateMin = moment().add(-22, "days").startOf("day");
+		$scope.dateMax = moment().add(22, "days").startOf("day");
 	}]);
 	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){
