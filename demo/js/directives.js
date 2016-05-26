@@ -105,6 +105,12 @@
 		$scope.dateMoment = moment().add(22, "days").startOf("day");
 		$scope.dateMin = moment().add(-22, "days").startOf("day");
 		$scope.dateMax = moment().add(22, "days").startOf("day");
+		$scope.disableWeekends = function (date) {
+			return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
+		};
+		$scope.highlightThisWeek = function (date) {
+			return date.week() === moment().week() ? "in-between" : "";
+		};
 	}]);
 	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){

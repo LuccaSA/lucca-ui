@@ -607,6 +607,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
 					<li><code>min</code>: self explainatory</li>
 					<li><code>max</code>: self explainatory</li>
+					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
 					<li><code>displayed-months</code>: number of months you want displayed next to one another, default <code>1</code></li>
 					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
 				</ul>
@@ -645,7 +646,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 							Linked to a string with format <code>YYYY-MM-DD</code>
 						</p>
 						<p>
-							<luid-date-picker ng-model="dateStr" min="dateMin" format="YYYY-MM-DD"></luid-date-picker>
+							<luid-date-picker ng-model="dateStr" format="YYYY-MM-DD"></luid-date-picker>
 						</p>
 						<p>
 							My date:
@@ -700,6 +701,16 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					validity: <span class="lui green label" ng-show=" datepickerForm.withMinMax.$valid">ng-valid</span>
 					<span class="lui red label" ng-show=" datepickerForm.withMinMax.$invalid">ng-invalid</span>
 					<span class="lui red label" ng-repeat="(key, value) in datepickerForm.withMinMax.$error">ng-invalid-{{key}}</span>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with custom classes
+				</p>
+				<p ng-form="datepickerForm">
+					this one applies the class <code>disabled</code> to weekends <luid-date-picker-popup ng-model="customClasses" custom-class="disableWeekends"></luid-date-picker-popup>
+				</p>
+				<p ng-form="datepickerForm">
+					this one highlights the current week <luid-date-picker-popup ng-model="customClasses" custom-class="highlightThisWeek"></luid-date-picker-popup>
 				</p>
 				<hr class="lui dashed divider">
 				<p>
