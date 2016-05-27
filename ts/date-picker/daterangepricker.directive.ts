@@ -95,8 +95,8 @@ module Lui.Directives {
 		private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
-		private elt: angular.IAugmentedJQuery;
-		private body: angular.IAugmentedJQuery;
+		// private elt: angular.IAugmentedJQuery;
+		// private body: angular.IAugmentedJQuery;
 
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
 			this.$scope = $scope;
@@ -121,10 +121,10 @@ module Lui.Directives {
 
 			// 	this.closePopover();
 			// };
-			// $scope.popover = { isOpen: false };
-			// $scope.togglePopover = ($event: ng.IAngularEvent) => {
-			// 	this.togglePopover($event);
-			// };
+			$scope.popover = { isOpen: false };
+			$scope.togglePopover = ($event: ng.IAngularEvent) => {
+				this.togglePopover($event);
+			};
 			// $scope.previousMonth = () => {
 			// 	this.changeMonths(-1);
 			// };
@@ -168,6 +168,7 @@ module Lui.Directives {
 					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, true);
 				} else {
 					this.$scope.period = undefined;
+					this.$scope.displayStr = undefined;
 				}
 				// let date = this.parseValue(ngModelCtrl.$viewValue);
 				// this.monthOffset = 0;
@@ -314,21 +315,21 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
-			if (!!this.body) {
-				this.body.off("click");
-				this.elt.off("click");
-			}
+			// if (!!this.body) {
+			// 	this.body.off("click");
+			// 	this.elt.off("click");
+			// }
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
-			this.body.on("click", () => {
-				this.closePopover();
-				this.$scope.$digest();
-			});
-			this.elt.on("click", (otherEvent: JQueryEventObject) => {
-				otherEvent.stopPropagation();
-			});
-			$event.stopPropagation();
+			// this.body.on("click", () => {
+			// 	this.closePopover();
+			// 	this.$scope.$digest();
+			// });
+			// this.elt.on("click", (otherEvent: JQueryEventObject) => {
+			// 	otherEvent.stopPropagation();
+			// });
+			// $event.stopPropagation();
 		}
 		// private getDisplayStr(date: moment.Moment): string {
 		// 	return !!date ? date.format(this.displayFormat) : undefined;
