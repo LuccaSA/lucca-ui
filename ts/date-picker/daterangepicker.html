@@ -6,8 +6,8 @@
 	ng-click="togglePopover($event)">
 	<input type="text" ng-hide="popover.isOpen" ng-model="displayStr">
 	<span class="tags" ng-show="popover.isOpen">
-		<span class="tag" ng-class="{ selected: editStart }">{{ period.start | luifMoment : momentFormat }}</span>
+		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ period.start | luifMoment : momentFormat }}</span>
 		<i class="lui east arrow icon"></i>
-		<span class="tag" ng-class="{ selected: editEnd }">{{ period.end | luifMoment : momentFormat }}</span>
+		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ period.end | luifMoment : momentFormat }}</span>
 	</span>
 </span>

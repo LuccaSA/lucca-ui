@@ -10,9 +10,9 @@ module Lui.Directives {
 			format: "@",
 			displayFormat: "@",
 			// displayedMonths: "@",
-			min: "=",
-			max: "=",
-			customClass: "=",
+			// min: "=",
+			// max: "=",
+			// customClass: "=",
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -60,12 +60,16 @@ module Lui.Directives {
 	}
 	interface IDaterangePickerScope extends ng.IScope {
 		format: string;
-		displayedMonths: string;
-		min: any;
-		max: any;
-		customClass: (date: moment.Moment) => string;
+		// displayedMonths: string;
+		// min: any;
+		// max: any;
+		// customClass: (date: moment.Moment) => string;
 
 		period: Lui.Period;
+
+		editingStart: boolean;
+		editStart: ($event: ng.IAngularEvent) => void;
+		editEnd: ($event: ng.IAngularEvent) => void;
 
 		dayLabels: string[];
 		months: Month[];
@@ -82,10 +86,10 @@ module Lui.Directives {
 		};
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
-	interface IDatePickerValidators extends ng.IModelValidators {
-		min: (modelValue: any, viewValue: any) => boolean;
-		max: (modelValue: any, viewValue: any) => boolean;
-	}
+	// interface IDatePickerValidators extends ng.IModelValidators {
+	// 	min: (modelValue: any, viewValue: any) => boolean;
+	// 	max: (modelValue: any, viewValue: any) => boolean;
+	// }
 
 	class LuidDaterangePickerController {
 		public static IID: string = "luidDaterangePickerController";
@@ -123,6 +127,14 @@ module Lui.Directives {
 
 			// 	this.closePopover();
 			// };
+			$scope.editStart = ($event: ng.IAngularEvent) => {
+				$event.stopPropagation();
+				$scope.editingStart = true;
+			};
+			$scope.editEnd = ($event: ng.IAngularEvent) => {
+				$event.stopPropagation();
+				$scope.editingStart = false;
+			};
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
@@ -307,9 +319,9 @@ module Lui.Directives {
 				// if (!!max && max.diff(day.date) < 0) {
 				// 	day.disabled = true;
 				// }
-				if (!!this.$scope.customClass) {
-					day.customClass = this.$scope.customClass(day.date);
-				}
+				// if (!!this.$scope.customClass) {
+				// 	day.customClass = this.$scope.customClass(day.date);
+				// }
 			});
 		}
 
@@ -332,6 +344,7 @@ module Lui.Directives {
 			this.$scope.popover.isOpen = true;
 			let vv: Lui.Period = <Lui.Period>this.getViewValue();
 			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());
+			this.$scope.editingStart = true;
 			// this.body.on("click", () => {
 			// 	this.closePopover();
 			// 	this.$scope.$digest();
