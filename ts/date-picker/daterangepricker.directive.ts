@@ -109,7 +109,7 @@ module Lui.Directives {
 			this.$filter = $filter;
 			this.initDayLabels($scope);
 			$scope.selectDay = (day: Day) => {
-				if ($scope.editingStart) {
+				if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
 					$scope.period.start = day.date;
 					$scope.editEnd();
 				} else {
