@@ -43,7 +43,7 @@
 		$translateProvider.use(culture);
 		$translateProvider.preferredLanguage(culture);
 		$translateProvider.fallbackLanguage(['en', 'fr']);
-		moment.locale(culture)
+		// moment.locale(culture);
 	}])
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
