@@ -68,8 +68,8 @@ module Lui.Directives {
 		period: Lui.Period;
 
 		editingStart: boolean;
-		editStart: ($event: ng.IAngularEvent) => void;
-		editEnd: ($event: ng.IAngularEvent) => void;
+		editStart: ($event?: ng.IAngularEvent) => void;
+		editEnd: ($event?: ng.IAngularEvent) => void;
 
 		dayLabels: string[];
 		months: Month[];
@@ -108,16 +108,23 @@ module Lui.Directives {
 			this.$scope = $scope;
 			this.$filter = $filter;
 			this.initDayLabels($scope);
-			// $scope.selectDay = (day: Day) => {
-			// 	// unselect previously selected day
-			// 	let allDays: Day[] = _.chain($scope.months)
-			// 		.pluck("weeks")
-			// 		.flatten()
-			// 		.pluck("days")
-			// 		.flatten()
-			// 		.value();
-			// 	(_.findWhere(allDays, { selected: true }) || { selected: true }).selected = false;
-			// 	day.selected = true;
+			$scope.selectDay = (day: Day) => {
+				if ($scope.editingStart) {
+					$scope.period.start = day.date;
+					$scope.editEnd();
+				} else {
+					$scope.period.end = day.date;
+					this.closePopover();
+				}
+				// unselect previously selected day
+				// let allDays: Day[] = _.chain($scope.months)
+				// 	.pluck("weeks")
+				// 	.flatten()
+				// 	.pluck("days")
+				// 	.flatten()
+				// 	.value();
+				// (_.findWhere(allDays, { selected: true }) || { selected: true }).selected = false;
+				// day.selected = true;
 
 
 			// 	this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
@@ -126,13 +133,17 @@ module Lui.Directives {
 			// 	$scope.displayStr = this.getDisplayStr(day.date);
 
 			// 	this.closePopover();
-			// };
-			$scope.editStart = ($event: ng.IAngularEvent) => {
-				$event.stopPropagation();
+			};
+			$scope.editStart = ($event?: ng.IAngularEvent) => {
+				if (!!$event) {
+					$event.stopPropagation();
+				}
 				$scope.editingStart = true;
 			};
-			$scope.editEnd = ($event: ng.IAngularEvent) => {
-				$event.stopPropagation();
+			$scope.editEnd = ($event?: ng.IAngularEvent) => {
+				if (!!$event) {
+					$event.stopPropagation();
+				}
 				$scope.editingStart = false;
 			};
 			$scope.popover = { isOpen: false };
@@ -265,8 +276,11 @@ module Lui.Directives {
 		}
 
 		// ng-model logic
-		private setViewValue(value: any): void {
-			this.ngModelCtrl.$setViewValue(value);
+		private setViewValue(value: Lui.Period): void {
+			let period = <Lui.Period>this.ngModelCtrl.$viewValue;
+			period.start = this.formatValue(moment(value.start));
+			period.end = this.formatValue(moment(value.end));
+			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
 			if (!!this.ngModelCtrl.$viewValue) {
@@ -335,6 +349,8 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
+			this.setViewValue(this.$scope.period);
+			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, true);
 			// if (!!this.body) {
 			// 	this.body.off("click");
 			// 	this.elt.off("click");
