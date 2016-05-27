@@ -51,7 +51,9 @@ module Lui.Directives {
 		public dayNum: number;
 		public empty: boolean;
 		public disabled: boolean;
-		public selected: boolean;
+		public start: boolean;
+		public end: boolean;
+		public inBetween: boolean;
 		public customClass: string;
 		constructor(date: moment.Moment) {
 			this.date = date;
@@ -75,6 +77,8 @@ module Lui.Directives {
 		months: Month[];
 
 		selectDay: (day: Day) => void;
+		onMouseEnter: (day: Day, $event?: ng.IAngularEvent) => void;
+		onMouseLeave: (day: Day, $event?: ng.IAngularEvent) => void;
 		previousMonth: () => void;
 		nextMonth: () => void;
 
@@ -112,6 +116,10 @@ module Lui.Directives {
 				if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
 					$scope.period.start = day.date;
 					$scope.editEnd();
+					if (!!$scope.period.end && $scope.period.start.isAfter($scope.period.end)) {
+						$scope.period.end = undefined;
+					}
+					this.assignInBetween(this.extractDays(), $scope.period.start, $scope.period.end);
 				} else {
 					$scope.period.end = day.date;
 					this.closePopover();
@@ -146,6 +154,16 @@ module Lui.Directives {
 				}
 				$scope.editingStart = false;
 			};
+			$scope.onMouseEnter = (day: Day, $event?: ng.IAngularEvent) => {
+				if (!$scope.editingStart && !this.$scope.period.end) {
+					let days = this.extractDays();
+					this.assignInBetween(days, this.$scope.period.start, day.date);
+				}
+			}
+			$scope.onMouseLeave = (day: Day, $event?: ng.IAngularEvent) => {
+				let days = this.extractDays();
+				this.assignInBetween(days, this.$scope.period.start, $scope.period.end);
+			}
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
@@ -187,10 +205,8 @@ module Lui.Directives {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
 				if (ngModelCtrl.$viewValue){
-					this.$scope.period = new Lui.Period();
-					this.$scope.period.start = this.parseValue(ngModelCtrl.$viewValue.start);
-					this.$scope.period.end = this.parseValue(ngModelCtrl.$viewValue.end);
-					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, true);
+					this.$scope.period = this.getViewValue();
+					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 				} else {
 					this.$scope.period = undefined;
 					this.$scope.displayStr = undefined;
@@ -277,17 +293,18 @@ module Lui.Directives {
 
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
-			let period = <Lui.Period>this.ngModelCtrl.$viewValue;
+			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue;
 			period.start = this.formatValue(moment(value.start));
 			period.end = this.formatValue(moment(value.end));
 			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
 			if (!!this.ngModelCtrl.$viewValue) {
-				let period = new Lui.Period()
-				period.start = this.parseValue(this.ngModelCtrl.$viewValue.start);
-				period.end = this.parseValue(this.ngModelCtrl.$viewValue.end);
-				return period;
+				let format = this.format;
+				if (format === "moment" || format === "date") {
+					format = undefined;
+				}
+				return new Lui.Period(<Lui.IPeriod>this.ngModelCtrl.$viewValue, format);
 			}
 			return undefined;
 		}
@@ -318,15 +335,13 @@ module Lui.Directives {
 			// this.assignClasses(week.days, selectedDate);
 			return week;
 		}
-		private assignClasses(days: Day[]): void {
+		private assignClasses(): void {
 			// let min: moment.Moment = this.parseValue(this.$scope.min);
 			// let max: moment.Moment = this.parseValue(this.$scope.max);
+			let days = this.extractDays();
+			let period: Lui.Period = this.$scope.period;
+			this.assignInBetween(days, period.start, period.end);
 			_.each(days, (day: Day): void => {
-				day.selected = false;
-				day.disabled = false;
-				// if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && !day.empty) {
-				// 	day.selected = true;
-				// }
 				// if (!!min && min.diff(day.date) > 0) {
 				// 	day.disabled = true;
 				// }
@@ -337,6 +352,35 @@ module Lui.Directives {
 				// 	day.customClass = this.$scope.customClass(day.date);
 				// }
 			});
+		}
+		private assignInBetween(days: Day[], start?: moment.Moment, end?: moment.Moment): void {
+			let period = this.$scope.period;
+			_.each(days, (day: Day): void => {
+				day.start = false;
+				day.end = false;
+				day.inBetween = false;
+				if (!!start && day.date.format("YYYYMMDD") === moment(start).format("YYYYMMDD")) {
+					day.start = true;
+				}
+				if (!!end && day.date.format("YYYYMMDD") === moment(end).format("YYYYMMDD")) {
+					day.end = true;
+				}
+				if (!!start && !!end && day.date.isAfter(start) && day.date.isBefore(end)) {
+					day.inBetween = true;
+				}
+			});
+
+		}
+		private extractDays(): Day[] {
+			return _.chain(this.$scope.months)
+			.pluck("weeks")
+			.flatten()
+			.pluck("days")
+			.flatten()
+			.reject((day: Day) => {
+				return day.empty;
+			})
+			.value();
 		}
 
 		// popover logic
@@ -350,7 +394,7 @@ module Lui.Directives {
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
 			this.setViewValue(this.$scope.period);
-			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, true);
+			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 			// if (!!this.body) {
 			// 	this.body.off("click");
 			// 	this.elt.off("click");
@@ -360,6 +404,7 @@ module Lui.Directives {
 			this.$scope.popover.isOpen = true;
 			let vv: Lui.Period = <Lui.Period>this.getViewValue();
 			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());
+			this.assignClasses();
 			this.$scope.editingStart = true;
 			// this.body.on("click", () => {
 			// 	this.closePopover();

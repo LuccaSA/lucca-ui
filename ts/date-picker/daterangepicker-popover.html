@@ -9,7 +9,10 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="week in month.weeks">
-			<td ng-repeat="day in week.days" ng-class="[{disabled: day.disabled, empty: day.empty, selected: day.selected}, day.customClass]" ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
+			<td ng-repeat="day in week.days"
+			ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
+			ng-click="selectDay(day)"
+			ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
 		</tr>
 	</tbody>
 </table>

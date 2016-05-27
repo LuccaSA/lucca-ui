@@ -118,7 +118,7 @@
 						}
 					}
 
-					&.selected {
+					&.selected, &.start, &.end {
 						z-index: 2;
 						color: map-gets($vars, day, selected, color);
 						background-color: map-gets($vars, day, selected, background-color);
