@@ -294,8 +294,13 @@ module Lui.Directives {
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
 			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue;
-			period.start = this.formatValue(moment(value.start));
-			period.end = this.formatValue(moment(value.end));
+			if (!value || !value.start || !value.end) {
+				period.start = undefined;
+				period.end = undefined;
+			} else {
+				period.start = this.formatValue(moment(value.start));
+				period.end = this.formatValue(moment(value.end));
+			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
@@ -306,7 +311,7 @@ module Lui.Directives {
 				}
 				return new Lui.Period(<Lui.IPeriod>this.ngModelCtrl.$viewValue, format);
 			}
-			return undefined;
+			return { start: undefined, end: undefined };
 		}
 		private validate(): void {
 			this.ngModelCtrl.$validate();
@@ -393,14 +398,19 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.popover.isOpen = false;
-			this.setViewValue(this.$scope.period);
-			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			if (!!this.$scope.period.start && !!this.$scope.period.end) {
+				this.setViewValue(this.$scope.period);
+				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			} else {
+				this.$scope.period = this.getViewValue();
+			}
 			// if (!!this.body) {
 			// 	this.body.off("click");
 			// 	this.elt.off("click");
 			// }
 		}
 		private openPopover($event: ng.IAngularEvent): void {
+			this.$scope.period = this.getViewValue();
 			this.$scope.popover.isOpen = true;
 			let vv: Lui.Period = <Lui.Period>this.getViewValue();
 			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());

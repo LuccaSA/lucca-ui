@@ -42,8 +42,13 @@
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
 			if(!_block){ return; }
-			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
-			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
+			var start = _block.startsAt || _block.startsOn || _block.startDate || _block.start;
+			var end = _block.endsAt || _block.endsOn || _block.endDate || _block.end;
+			if (!start && !end) {
+				return "";
+			}
+			start = moment(start);
+			end = moment(end);
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
