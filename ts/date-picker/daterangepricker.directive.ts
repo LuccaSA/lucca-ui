@@ -27,6 +27,7 @@ module Lui.Directives {
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
+			datePickerCtrl.setMonthsCnt("1");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			// datePickerCtrl.setElt(element);
 		}
@@ -36,8 +37,8 @@ module Lui.Directives {
 		public date: moment.Moment;
 		public currentYear: boolean;
 		public weeks: Week[];
-		constructor(date: moment.Moment, offset: number) {
-			this.date = moment(date).add(offset, "months").startOf("month");
+		constructor(date: moment.Moment) {
+			this.date = moment(date).startOf("month");
 			this.weeks = [];
 			this.currentYear = this.date.year() === moment().year();
 		}
@@ -75,6 +76,7 @@ module Lui.Directives {
 
 		displayStr: string;
 		displayFormat: string;
+		momentFormat: string;
 		popover: {
 			isOpen: boolean;
 		};
@@ -92,7 +94,7 @@ module Lui.Directives {
 		private $scope: IDaterangePickerScope;
 		private $filter: Lui.ILuiFilters;
 		private format: string;
-		private displayFormat: string;
+		// private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
 		// private elt: angular.IAugmentedJQuery;
@@ -101,7 +103,7 @@ module Lui.Directives {
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
 			this.$scope = $scope;
 			this.$filter = $filter;
-			// this.initDayLabels($scope);
+			this.initDayLabels($scope);
 			// $scope.selectDay = (day: Day) => {
 			// 	// unselect previously selected day
 			// 	let allDays: Day[] = _.chain($scope.months)
@@ -182,9 +184,9 @@ module Lui.Directives {
 			// 	return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
 			// };
 		}
-		// public setMonthsCnt(cntStr: string): void {
-		// 	this.monthsCnt = parseInt(cntStr, 10) || 1;
-		// }
+		public setMonthsCnt(cntStr: string): void {
+			this.monthsCnt = parseInt(cntStr, 10) || 1;
+		}
 		public setFormat(format: string): void {
 			this.format = format || "moment";
 		}
@@ -194,20 +196,20 @@ module Lui.Directives {
 		// }
 		public setDisplayFormat(displayFormat: string): void {
 			if (this.format !== "moment" && this.format !== "date") {
-				this.displayFormat = displayFormat || this.format || "L";
+				this.$scope.momentFormat = displayFormat || this.format || "L";
 			} else {
-				this.displayFormat = displayFormat || "L";
+				this.$scope.momentFormat = displayFormat || "L";
 			}
 		}
 		// public changeMonths(offset: number): void {
 		// 	this.monthOffset += offset;
 		// 	this.$scope.months = this.constructMonths(this.getViewValue());
 		// }
-		// public constructMonths(selectedDate: moment.Moment): Month[] {
-		// 	return _.map(_.range(this.monthsCnt), (offset: number): Month => {
-		// 		return this.constructMonth(selectedDate, offset + this.monthOffset);
-		// 	});
-		// }
+		public constructMonths(start: moment.Moment): Month[] {
+			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
+				return this.constructMonth(moment(start).add(offset, "months").startOf("month"));
+			});
+		}
 
 		// parse - format
 		public parseValue(value: any): moment.Moment {
@@ -243,36 +245,42 @@ module Lui.Directives {
 			return value.format(this.format);
 		}
 
-		// // init stuff
-		// private initDayLabels($scope: IDaterangePickerScope): void {
-		// 	$scope.dayLabels = _.map(_.range(7), (i: number): string => {
-		// 		return moment().startOf("week").add(i, "days").format("dd");
-		// 	});
-		// }
+		// init stuff
+		private initDayLabels($scope: IDaterangePickerScope): void {
+			$scope.dayLabels = _.map(_.range(7), (i: number): string => {
+				return moment().startOf("week").add(i, "days").format("dd");
+			});
+		}
 
 		// ng-model logic
 		private setViewValue(value: any): void {
 			this.ngModelCtrl.$setViewValue(value);
 		}
-		private getViewValue(): moment.Moment {
-			return this.parseValue(this.ngModelCtrl.$viewValue);
+		private getViewValue(): Lui.Period {
+			if (!!this.ngModelCtrl.$viewValue) {
+				let period = new Lui.Period()
+				period.start = this.parseValue(this.ngModelCtrl.$viewValue.start);
+				period.end = this.parseValue(this.ngModelCtrl.$viewValue.end);
+				return period;
+			}
+			return undefined;
 		}
 		private validate(): void {
 			this.ngModelCtrl.$validate();
 		}
 
 		// month construction
-		private constructMonth(selectedDate: moment.Moment, offset: number): Month {
-			let month: Month = new Month(selectedDate, offset);
+		private constructMonth(monthStart: moment.Moment): Month {
+			let month: Month = new Month(monthStart);
 
 			let weekStart = moment(month.date).startOf("week");
 			while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
-				month.weeks.push(this.constructWeek(weekStart, month.date, selectedDate));
+				month.weeks.push(this.constructWeek(weekStart, month.date));
 				weekStart.add(1, "week");
 			}
 			return month;
 		}
-		private constructWeek(weekStart: moment.Moment, monthStart: moment.Moment, selectedDate: moment.Moment): Week {
+		private constructWeek(weekStart: moment.Moment, monthStart: moment.Moment): Week {
 			let week: Week = { days: [] };
 			week.days = _.map(_.range(7), (i: number) => {
 				let day: Day = new Day(moment(weekStart).add(i, "days"));
@@ -281,24 +289,24 @@ module Lui.Directives {
 				}
 				return day;
 			});
-			this.assignClasses(week.days, selectedDate);
+			// this.assignClasses(week.days, selectedDate);
 			return week;
 		}
-		private assignClasses(days: Day[], selectedDate: moment.Moment): void {
-			let min: moment.Moment = this.parseValue(this.$scope.min);
-			let max: moment.Moment = this.parseValue(this.$scope.max);
+		private assignClasses(days: Day[]): void {
+			// let min: moment.Moment = this.parseValue(this.$scope.min);
+			// let max: moment.Moment = this.parseValue(this.$scope.max);
 			_.each(days, (day: Day): void => {
 				day.selected = false;
 				day.disabled = false;
-				if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && !day.empty) {
-					day.selected = true;
-				}
-				if (!!min && min.diff(day.date) > 0) {
-					day.disabled = true;
-				}
-				if (!!max && max.diff(day.date) < 0) {
-					day.disabled = true;
-				}
+				// if (!!selectedDate && day.date.format("YYYYMMDD") === moment(selectedDate).format("YYYYMMDD") && !day.empty) {
+				// 	day.selected = true;
+				// }
+				// if (!!min && min.diff(day.date) > 0) {
+				// 	day.disabled = true;
+				// }
+				// if (!!max && max.diff(day.date) < 0) {
+				// 	day.disabled = true;
+				// }
 				if (!!this.$scope.customClass) {
 					day.customClass = this.$scope.customClass(day.date);
 				}
@@ -322,6 +330,8 @@ module Lui.Directives {
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
+			let vv: Lui.Period = <Lui.Period>this.getViewValue();
+			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());
 			// this.body.on("click", () => {
 			// 	this.closePopover();
 			// 	this.$scope.$digest();

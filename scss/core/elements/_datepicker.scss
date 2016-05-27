@@ -12,7 +12,9 @@
 				width: 2 * map-gets($vars, input, width);
 			}
 		};
-		luid-date-picker, luid-date-picker-popup > .popover > .popover-inner > .popover-content{
+		luid-date-picker,
+		luid-date-picker-popup > .popover > .popover-inner > .popover-content,
+		luid-daterange-picker > .popover > .popover-inner > .popover-content {
 			display: inline-block;
 
 			> table {
