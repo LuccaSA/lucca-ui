@@ -104,7 +104,7 @@ module Lui.Directives {
 		private format: string;
 		// private displayFormat: string;
 		private monthsCnt: number;
-		private monthOffset: number = 0;
+		private currentMonth: moment.Moment = moment().startOf("month");
 		private elt: angular.IAugmentedJQuery;
 		private body: angular.IAugmentedJQuery;
 
@@ -151,12 +151,12 @@ module Lui.Directives {
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
 			};
-			// $scope.previousMonth = () => {
-			// 	this.changeMonths(-1);
-			// };
-			// $scope.nextMonth = () => {
-			// 	this.changeMonths(1);
-			// };
+			$scope.previousMonth = () => {
+				this.changeMonths(-1);
+			};
+			$scope.nextMonth = () => {
+				this.changeMonths(1);
+			};
 
 			// $scope.$watch("min", (): void => {
 			// 	// revalidate
@@ -223,10 +223,11 @@ module Lui.Directives {
 				this.$scope.momentFormat = displayFormat || "L";
 			}
 		}
-		// public changeMonths(offset: number): void {
-		// 	this.monthOffset += offset;
-		// 	this.$scope.months = this.constructMonths(this.getViewValue());
-		// }
+		public changeMonths(offset: number): void {
+			this.currentMonth.add(offset, "months").startOf("month");
+			this.$scope.months = this.constructMonths(this.currentMonth);
+			this.assignClasses();
+		}
 		public constructMonths(start: moment.Moment): Month[] {
 			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
 				return this.constructMonth(moment(start).add(offset, "months").startOf("month"));
@@ -396,7 +397,8 @@ module Lui.Directives {
 			this.$scope.period = this.getViewValue();
 			this.$scope.popover.isOpen = true;
 			let vv: Lui.Period = <Lui.Period>this.getViewValue();
-			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());
+			this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
+			this.$scope.months = this.constructMonths(this.currentMonth);
 			this.assignClasses();
 			this.$scope.editingStart = true;
 			this.body.on("click", () => {
@@ -408,9 +410,6 @@ module Lui.Directives {
 			});
 			$event.stopPropagation();
 		}
-		// private getDisplayStr(date: moment.Moment): string {
-		// 	return !!date ? date.format(this.displayFormat) : undefined;
-		// }
 	}
 
 	angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
