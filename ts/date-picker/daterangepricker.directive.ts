@@ -27,7 +27,7 @@ module Lui.Directives {
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
-			datePickerCtrl.setMonthsCnt("1");
+			datePickerCtrl.setMonthsCnt("2");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			datePickerCtrl.setElt(element);
 		}
@@ -130,12 +130,26 @@ module Lui.Directives {
 					$event.stopPropagation();
 				}
 				$scope.editingStart = true;
+
+				// rebuild calendar if the start is not currently displayed
+				if (!!this.$scope.period.start && moment(this.currentMonth).diff(this.$scope.period.start) > 0) {
+					this.currentMonth = moment(this.$scope.period.start).startOf("month");
+					this.$scope.months = this.constructMonths(this.currentMonth);
+					this.assignClasses();
+				}
 			};
 			$scope.editEnd = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
 					$event.stopPropagation();
 				}
 				$scope.editingStart = false;
+
+				// rebuild calendar to have the end in the last displayed mnth
+				if (!!this.$scope.period.end && moment(this.currentMonth).add(this.monthsCnt, "months").diff(this.$scope.period.end) <= 0) {
+					this.currentMonth = moment(this.$scope.period.end).add(-this.monthsCnt + 1, "months").startOf("month");
+					this.$scope.months = this.constructMonths(this.currentMonth);
+					this.assignClasses();
+				}
 			};
 			$scope.onMouseEnter = (day: Day, $event?: ng.IAngularEvent) => {
 				if (!$scope.editingStart && !this.$scope.period.end) {
@@ -277,7 +291,7 @@ module Lui.Directives {
 
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
-			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue;
+			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue || {};
 			if (!value || !value.start || !value.end) {
 				period.start = undefined;
 				period.end = undefined;
