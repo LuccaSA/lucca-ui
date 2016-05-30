@@ -10,6 +10,9 @@
 		luid-daterange-picker {
 			> .lui.tagged.input {
 				width: 2 * map-gets($vars, input, width);
+				.tag {
+					cursor: pointer;
+				}
 			}
 			.popover-inner {
 				// TEMP

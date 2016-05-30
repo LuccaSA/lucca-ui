@@ -14,6 +14,8 @@ module Lui.Directives {
 			// max: "=",
 			// customClass: "=",
 			excludeEnd: "@",
+			startProperty: "@",
+			endProperty: "@",
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -32,6 +34,7 @@ module Lui.Directives {
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			datePickerCtrl.setElt(element);
 			datePickerCtrl.setExcludeEnd(scope.excludeEnd);
+			datePickerCtrl.setProperties(scope.startProperty, scope.endProperty);
 		}
 	}
 
@@ -69,6 +72,8 @@ module Lui.Directives {
 		// max: any;
 		// customClass: (date: moment.Moment) => string;
 		excludeEnd: string;
+		startProperty: string;
+		endProperty: string;
 
 		period: Lui.Period;
 
@@ -111,6 +116,8 @@ module Lui.Directives {
 		private elt: angular.IAugmentedJQuery;
 		private body: angular.IAugmentedJQuery;
 		private excludeEnd: boolean;
+		private startProperty: string;
+		private endProperty: string;
 
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
 			this.$scope = $scope;
@@ -224,6 +231,10 @@ module Lui.Directives {
 			// 	return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
 			// };
 		}
+		public setProperties(startProperty: string, endProperty: string): void {
+			this.startProperty = startProperty || "start";
+			this.endProperty = endProperty || "end";
+		}
 		public setExcludeEnd(excludeEnd: string): void {
 			this.excludeEnd = excludeEnd === "true";
 		}
@@ -300,11 +311,11 @@ module Lui.Directives {
 		private setViewValue(value: Lui.Period): void {
 			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue || {};
 			if (!value || !value.start || !value.end) {
-				period.start = undefined;
-				period.end = undefined;
+				period[this.startProperty] = undefined;
+				period[this.endProperty] = undefined;
 			} else {
-				period.start = this.formatValue(moment(value.start));
-				period.end = this.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+				period[this.startProperty] = this.formatValue(moment(value.start));
+				period[this.endProperty] = this.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
