@@ -8,6 +8,7 @@
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
+ - fix links in tablegrid do not trigger `onRowClick` anymore
 
 ## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 
