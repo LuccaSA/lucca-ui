@@ -11,6 +11,10 @@
 			> .lui.tagged.input {
 				width: 2 * map-gets($vars, input, width);
 			}
+			.popover-inner {
+				// TEMP
+				width: 40em;
+			}
 		};
 		luid-date-picker,
 		luid-date-picker-popup > .popover > .popover-inner > .popover-content,
