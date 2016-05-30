@@ -29,7 +29,7 @@ module Lui.Directives {
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 			datePickerCtrl.setMonthsCnt("1");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
-			// datePickerCtrl.setElt(element);
+			datePickerCtrl.setElt(element);
 		}
 	}
 
@@ -105,8 +105,8 @@ module Lui.Directives {
 		// private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
-		// private elt: angular.IAugmentedJQuery;
-		// private body: angular.IAugmentedJQuery;
+		private elt: angular.IAugmentedJQuery;
+		private body: angular.IAugmentedJQuery;
 
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
 			this.$scope = $scope;
@@ -124,23 +124,6 @@ module Lui.Directives {
 					$scope.period.end = day.date;
 					this.closePopover();
 				}
-				// unselect previously selected day
-				// let allDays: Day[] = _.chain($scope.months)
-				// 	.pluck("weeks")
-				// 	.flatten()
-				// 	.pluck("days")
-				// 	.flatten()
-				// 	.value();
-				// (_.findWhere(allDays, { selected: true }) || { selected: true }).selected = false;
-				// day.selected = true;
-
-
-			// 	this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
-
-			// 	this.setViewValue(this.formatValue(day.date));
-			// 	$scope.displayStr = this.getDisplayStr(day.date);
-
-			// 	this.closePopover();
 			};
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
@@ -229,10 +212,10 @@ module Lui.Directives {
 		public setFormat(format: string): void {
 			this.format = format || "moment";
 		}
-		// public setElt(elt: angular.IAugmentedJQuery): void {
-		// 	this.elt = elt;
-		// 	this.body = angular.element(document.getElementsByTagName("body")[0]);
-		// }
+		public setElt(elt: angular.IAugmentedJQuery): void {
+			this.elt = elt;
+			this.body = angular.element(document.getElementsByTagName("body")[0]);
+		}
 		public setDisplayFormat(displayFormat: string): void {
 			if (this.format !== "moment" && this.format !== "date") {
 				this.$scope.momentFormat = displayFormat || this.format || "L";
@@ -404,10 +387,10 @@ module Lui.Directives {
 			} else {
 				this.$scope.period = this.getViewValue();
 			}
-			// if (!!this.body) {
-			// 	this.body.off("click");
-			// 	this.elt.off("click");
-			// }
+			if (!!this.body) {
+				this.body.off("click");
+				this.elt.off("click");
+			}
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.period = this.getViewValue();
@@ -416,14 +399,14 @@ module Lui.Directives {
 			this.$scope.months = this.constructMonths(!!vv ? moment(vv.start) : moment());
 			this.assignClasses();
 			this.$scope.editingStart = true;
-			// this.body.on("click", () => {
-			// 	this.closePopover();
-			// 	this.$scope.$digest();
-			// });
-			// this.elt.on("click", (otherEvent: JQueryEventObject) => {
-			// 	otherEvent.stopPropagation();
-			// });
-			// $event.stopPropagation();
+			this.body.on("click", () => {
+				this.closePopover();
+				this.$scope.$digest();
+			});
+			this.elt.on("click", (otherEvent: JQueryEventObject) => {
+				otherEvent.stopPropagation();
+			});
+			$event.stopPropagation();
 		}
 		// private getDisplayStr(date: moment.Moment): string {
 		// 	return !!date ? date.format(this.displayFormat) : undefined;
