@@ -10,8 +10,8 @@ module Lui.Directives {
 			format: "@",
 			displayFormat: "@",
 			// displayedMonths: "@",
-			// min: "=",
-			// max: "=",
+			min: "=",
+			max: "=",
 			// customClass: "=",
 			excludeEnd: "@",
 			startProperty: "@",
@@ -68,8 +68,8 @@ module Lui.Directives {
 	interface IDaterangePickerScope extends ng.IScope {
 		format: string;
 		// displayedMonths: string;
-		// min: any;
-		// max: any;
+		min: any;
+		max: any;
 		// customClass: (date: moment.Moment) => string;
 		excludeEnd: string;
 		startProperty: string;
@@ -98,10 +98,10 @@ module Lui.Directives {
 		};
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
-	// interface IDatePickerValidators extends ng.IModelValidators {
-	// 	min: (modelValue: any, viewValue: any) => boolean;
-	// 	max: (modelValue: any, viewValue: any) => boolean;
-	// }
+	interface IDatePickerValidators extends ng.IModelValidators {
+		min: (modelValue: any, viewValue: any) => boolean;
+		max: (modelValue: any, viewValue: any) => boolean;
+	}
 
 	class LuidDaterangePickerController {
 		public static IID: string = "luidDaterangePickerController";
@@ -182,31 +182,6 @@ module Lui.Directives {
 			$scope.nextMonth = () => {
 				this.changeMonths(1);
 			};
-
-			// $scope.$watch("min", (): void => {
-			// 	// revalidate
-			// 	this.validate();
-			// 	// reassign classes for each day
-			// 	let allDays: Day[] = _.chain($scope.months)
-			// 		.pluck("weeks")
-			// 		.flatten()
-			// 		.pluck("days")
-			// 		.flatten()
-			// 		.value();
-			// 	this.assignClasses(allDays, this.getViewValue());
-			// });
-			// $scope.$watch("max", (): void => {
-			// 	// revalidate
-			// 	this.validate();
-			// 	// reassign classes for each day
-			// 	let allDays: Day[] = _.chain($scope.months)
-			// 		.pluck("weeks")
-			// 		.flatten()
-			// 		.pluck("days")
-			// 		.flatten()
-			// 		.value();
-			// 	this.assignClasses(allDays, this.getViewValue());
-			// });
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -219,17 +194,17 @@ module Lui.Directives {
 					this.$scope.period = undefined;
 					this.$scope.displayStr = undefined;
 				}
-				// let date = this.parseValue(ngModelCtrl.$viewValue);
-				// this.monthOffset = 0;
-				// this.$scope.months = this.constructMonths(date);
-				// this.$scope.displayStr = this.getDisplayStr(date);
 			};
-			// (<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
-			// 	return !this.parseValue(viewValue) || !this.parseValue(this.$scope.min) || this.parseValue(this.$scope.min).diff(this.parseValue(viewValue)) <= 0;
-			// };
-			// (<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
-			// 	return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
-			// };
+			(<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
+				let start = this.getViewValue().start;
+				let min = this.parseValue(this.$scope.min);
+				return !start || !min || min.diff(start) <= 0;
+			};
+			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
+				let end = this.getViewValue().end;
+				let max = this.parseValue(this.$scope.max);
+				return !end || !max || max.diff(end) >= 0;
+			};
 		}
 		public setProperties(startProperty: string, endProperty: string): void {
 			this.startProperty = startProperty || "start";
@@ -361,18 +336,18 @@ module Lui.Directives {
 			return week;
 		}
 		private assignClasses(): void {
-			// let min: moment.Moment = this.parseValue(this.$scope.min);
-			// let max: moment.Moment = this.parseValue(this.$scope.max);
+			let min: moment.Moment = this.parseValue(this.$scope.min);
+			let max: moment.Moment = this.parseValue(this.$scope.max);
 			let days = this.extractDays();
 			let period: Lui.Period = this.$scope.period;
 			this.assignInBetween(days, period.start, period.end);
 			_.each(days, (day: Day): void => {
-				// if (!!min && min.diff(day.date) > 0) {
-				// 	day.disabled = true;
-				// }
-				// if (!!max && max.diff(day.date) < 0) {
-				// 	day.disabled = true;
-				// }
+				if (!!min && min.diff(day.date) > 0) {
+					day.disabled = true;
+				}
+				if (!!max && max.diff(day.date) < 0) {
+					day.disabled = true;
+				}
 				// if (!!this.$scope.customClass) {
 				// 	day.customClass = this.$scope.customClass(day.date);
 				// }
