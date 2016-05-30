@@ -735,7 +735,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<article id="luid-daterange-picker">
 			<h2 class="lui divider below">luid-daterange-picker</h2>
 			<p>
-
+			An input allowing to chose a date range. inspired by the one used on the homepage of <a class="lui fancy link" href="https://www.airbnb.com/">airbnb</a>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Supported arguments:</h4>
@@ -744,15 +744,23 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<ul class="lui unstyled">
 					<li><code>ng-model</code>: the variable to bind to</li>
 					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>start-property</code>: will edit this property as the start, default <code>start</code></li>
+					<li><code>end-property</code>: will edit this property as the end, default <code>end</code></li>
+					<li><code>exclude-end</code> : if you want the end of the range in your scope to be excluded, default <code>false</code></li>
+					<li><code>min</code>: self explainatory</li>
+					<li><code>max</code>: self explainatory</li>
 					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
-					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+					<li><code>display-format</code>: used when the popover is open to display each date in its tag, uses <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
 				</ul>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="html"></pre>
+				<pre hljs no-escape language="html">&lt;luid-daterange-picker ng-model="myRange"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" min="min" max="max" custom-class="disableWeekends"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" start-property="foo" end-property="bar"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" min="'2016-05-01'" format="YYYY-MM-DD"&gt;&lt;/luid-daterange-picker&gt;</pre>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>
@@ -763,7 +771,35 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				</a> -->
 			</div>
 			<div ng-controller="daterangepickerCtrl" class="lui block round">
-			<luid-daterange-picker ng-model="myDaterange"></luid-daterange-picker>
+				<p>
+					basic usage
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange"></luid-daterange-picker>
+				</p>
+				<p>
+					start: <code>{{ myDateRange.start | luifMoment }}</code> - end: <code>{{ myDateRange.end | luifMoment }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with end excluded and weekend disabled
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends"></luid-daterange-picker>
+				</p>
+				<p>
+					start: <code>{{ myDateRange2.start | luifMoment }}</code> - end: <code>{{ myDateRange2.end | luifMoment }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with custom start and end properties (foo and bar), an exotic format, a different display format, a min and a max
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange3" start-property="foo" end-property="bar" format="YYYYMMDD" display-format="ddd Do MMM" min="'20160520'" max="'20160610'"></luid-daterange-picker>
+				</p>
+				<p>
+					foo: <code>{{ myDateRange3.foo }}</code> - bar: <code>{{ myDateRange3.bar }}</code>
+				</p>
 			</div>
 		</article>
 
