@@ -12,7 +12,7 @@ module Lui.Directives {
 			// displayedMonths: "@",
 			min: "=",
 			max: "=",
-			// customClass: "=",
+			customClass: "=",
 			excludeEnd: "@",
 			startProperty: "@",
 			endProperty: "@",
@@ -70,7 +70,7 @@ module Lui.Directives {
 		// displayedMonths: string;
 		min: any;
 		max: any;
-		// customClass: (date: moment.Moment) => string;
+		customClass: (date: moment.Moment) => string;
 		excludeEnd: string;
 		startProperty: string;
 		endProperty: string;
@@ -348,9 +348,9 @@ module Lui.Directives {
 				if (!!max && max.diff(day.date) < 0) {
 					day.disabled = true;
 				}
-				// if (!!this.$scope.customClass) {
-				// 	day.customClass = this.$scope.customClass(day.date);
-				// }
+				if (!!this.$scope.customClass) {
+					day.customClass = this.$scope.customClass(day.date);
+				}
 			});
 		}
 		private assignInBetween(days: Day[], start?: moment.Moment, end?: moment.Moment): void {
