@@ -13,6 +13,7 @@ module Lui.Directives {
 			// min: "=",
 			// max: "=",
 			// customClass: "=",
+			excludeEnd: "@",
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -30,6 +31,7 @@ module Lui.Directives {
 			datePickerCtrl.setMonthsCnt("2");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			datePickerCtrl.setElt(element);
+			datePickerCtrl.setExcludeEnd(scope.excludeEnd);
 		}
 	}
 
@@ -66,6 +68,7 @@ module Lui.Directives {
 		// min: any;
 		// max: any;
 		// customClass: (date: moment.Moment) => string;
+		excludeEnd: string;
 
 		period: Lui.Period;
 
@@ -107,6 +110,7 @@ module Lui.Directives {
 		private currentMonth: moment.Moment = moment().startOf("month");
 		private elt: angular.IAugmentedJQuery;
 		private body: angular.IAugmentedJQuery;
+		private excludeEnd: boolean;
 
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
 			this.$scope = $scope;
@@ -220,6 +224,9 @@ module Lui.Directives {
 			// 	return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
 			// };
 		}
+		public setExcludeEnd(excludeEnd: string): void {
+			this.excludeEnd = excludeEnd === "true";
+		}
 		public setMonthsCnt(cntStr: string): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
 		}
@@ -297,7 +304,7 @@ module Lui.Directives {
 				period.end = undefined;
 			} else {
 				period.start = this.formatValue(moment(value.start));
-				period.end = this.formatValue(moment(value.end));
+				period.end = this.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
@@ -307,7 +314,11 @@ module Lui.Directives {
 				if (format === "moment" || format === "date") {
 					format = undefined;
 				}
-				return new Lui.Period(<Lui.IPeriod>this.ngModelCtrl.$viewValue, format);
+				let period = new Lui.Period(<Lui.IPeriod>this.ngModelCtrl.$viewValue, format);
+				if (this.excludeEnd) {
+					period.end.add(-1, "day");
+				}
+				return period;
 			}
 			return { start: undefined, end: undefined };
 		}
