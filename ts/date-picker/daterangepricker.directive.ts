@@ -167,11 +167,11 @@ module Lui.Directives {
 					let days = this.extractDays();
 					this.assignInBetween(days, this.$scope.period.start, day.date);
 				}
-			}
+			};
 			$scope.onMouseLeave = (day: Day, $event?: ng.IAngularEvent) => {
 				let days = this.extractDays();
 				this.assignInBetween(days, this.$scope.period.start, $scope.period.end);
-			}
+			};
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
@@ -187,7 +187,7 @@ module Lui.Directives {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				if (ngModelCtrl.$viewValue){
+				if (ngModelCtrl.$viewValue) {
 					this.$scope.period = this.getViewValue();
 					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 				} else {
@@ -311,9 +311,6 @@ module Lui.Directives {
 			}
 			return { start: undefined, end: undefined };
 		}
-		private validate(): void {
-			this.ngModelCtrl.$validate();
-		}
 
 		// month construction
 		private constructMonth(monthStart: moment.Moment): Month {
@@ -357,7 +354,6 @@ module Lui.Directives {
 			});
 		}
 		private assignInBetween(days: Day[], start?: moment.Moment, end?: moment.Moment): void {
-			let period = this.$scope.period;
 			_.each(days, (day: Day): void => {
 				day.start = false;
 				day.end = false;
