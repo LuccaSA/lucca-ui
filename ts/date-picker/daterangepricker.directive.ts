@@ -300,7 +300,10 @@ module Lui.Directives {
 				if (format === "moment" || format === "date") {
 					format = undefined;
 				}
-				let period = new Lui.Period(<Lui.IPeriod>this.ngModelCtrl.$viewValue, format);
+				let iperiod: Lui.IPeriod = {};
+				iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
+				iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
+				let period = new Lui.Period(iperiod, format);
 				if (this.excludeEnd) {
 					period.end.add(-1, "day");
 				}
