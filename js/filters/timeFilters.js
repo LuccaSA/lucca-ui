@@ -5,6 +5,9 @@
 	**  - moment
 	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
+		if (!_moment) {
+			return "";
+		}
 		var m = moment(_moment);
 		return m.isValid() ? m.format(_format) : _moment;
 	};
