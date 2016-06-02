@@ -36,7 +36,7 @@ module Lui.Utils {
 		public open($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
 			this.body.on("click", () => {
-				this.clickedOutside();
+				this.onClickedOutside();
 				this.$scope.$digest();
 			});
 			this.elt.on("click", (otherEvent: JQueryEventObject) => {
