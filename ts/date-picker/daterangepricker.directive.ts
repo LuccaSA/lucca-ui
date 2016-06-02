@@ -109,7 +109,7 @@ module Lui.Directives {
 		private ngModelCtrl: ng.INgModelController;
 		private $scope: IDaterangePickerScope;
 		private $filter: Lui.ILuiFilters;
-		private format: string;
+		private formatter: Lui.Utils.MomentFormatter;
 		// private displayFormat: string;
 		private monthsCnt: number;
 		private currentMonth: moment.Moment = moment().startOf("month");
@@ -197,12 +197,12 @@ module Lui.Directives {
 			};
 			(<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let start = this.getViewValue().start;
-				let min = this.parseValue(this.$scope.min);
+				let min = this.formatter.parseValue(this.$scope.min);
 				return !start || !min || min.diff(start) <= 0;
 			};
 			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
 				let end = this.getViewValue().end;
-				let max = this.parseValue(this.$scope.max);
+				let max = this.formatter.parseValue(this.$scope.max);
 				return !end || !max || max.diff(end) >= 0;
 			};
 		}
@@ -217,18 +217,18 @@ module Lui.Directives {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
 		}
 		public setFormat(format: string): void {
-			this.format = format || "moment";
+			this.formatter = new Lui.Utils.MomentFormatter(format);
 		}
 		public setElt(elt: angular.IAugmentedJQuery): void {
 			this.elt = elt;
 			this.body = angular.element(document.getElementsByTagName("body")[0]);
 		}
 		public setDisplayFormat(displayFormat: string): void {
-			if (this.format !== "moment" && this.format !== "date") {
-				this.$scope.momentFormat = displayFormat || this.format || "L";
-			} else {
+			// if (this.format !== "moment" && this.format !== "date") {
+			// 	this.$scope.momentFormat = displayFormat || this.format || "L";
+			// } else {
 				this.$scope.momentFormat = displayFormat || "L";
-			}
+			// }
 		}
 		public changeMonths(offset: number): void {
 			this.currentMonth.add(offset, "months").startOf("month");
@@ -239,40 +239,6 @@ module Lui.Directives {
 			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
 				return this.constructMonth(moment(start).add(offset, "months").startOf("month"));
 			});
-		}
-
-		// parse - format
-		public parseValue(value: any): moment.Moment {
-			switch (this.format) {
-				case "moment": return this.parseMoment(value);
-				case "date": return this.parseDate(value);
-				default: return this.parseString(value);
-			}
-		}
-		public formatValue(value: moment.Moment): any {
-			switch (this.format) {
-				case "moment": return this.formatMoment(value);
-				case "date": return this.formatDate(value);
-				default: return this.formatString(value);
-			}
-		}
-		private parseMoment(value: moment.Moment): moment.Moment {
-			return !!value ? moment(value) : undefined;
-		}
-		private parseDate(value: Date): moment.Moment {
-			return !!value ? moment(value) : undefined;
-		}
-		private parseString(value: string): moment.Moment {
-			return !!value && moment(value, this.format).isValid() ? moment(value, this.format) : undefined;
-		}
-		private formatMoment(value: moment.Moment): moment.Moment {
-			return moment(value);
-		}
-		private formatDate(value: moment.Moment): Date {
-			return value.toDate();
-		}
-		private formatString(value: moment.Moment): string {
-			return value.format(this.format);
 		}
 
 		// init stuff
@@ -289,21 +255,17 @@ module Lui.Directives {
 				period[this.startProperty] = undefined;
 				period[this.endProperty] = undefined;
 			} else {
-				period[this.startProperty] = this.formatValue(moment(value.start));
-				period[this.endProperty] = this.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+				period[this.startProperty] = this.formatter.formatValue(moment(value.start));
+				period[this.endProperty] = this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
 			if (!!this.ngModelCtrl.$viewValue) {
-				let format = this.format;
-				if (format === "moment" || format === "date") {
-					format = undefined;
-				}
 				let iperiod: Lui.IPeriod = {};
 				iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
 				iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
-				let period = new Lui.Period(iperiod, format);
+				let period = new Lui.Period(iperiod, this.formatter);
 				if (this.excludeEnd) {
 					period.end.add(-1, "day");
 				}
@@ -332,12 +294,11 @@ module Lui.Directives {
 				}
 				return day;
 			});
-			// this.assignClasses(week.days, selectedDate);
 			return week;
 		}
 		private assignClasses(): void {
-			let min: moment.Moment = this.parseValue(this.$scope.min);
-			let max: moment.Moment = this.parseValue(this.$scope.max);
+			let min: moment.Moment = this.formatter.parseValue(this.$scope.min);
+			let max: moment.Moment = this.formatter.parseValue(this.$scope.max);
 			let days = this.extractDays();
 			let period: Lui.Period = this.$scope.period;
 			this.assignInBetween(days, period.start, period.end);

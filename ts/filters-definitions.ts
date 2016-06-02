@@ -18,16 +18,11 @@ module Lui {
 	export class Period implements IPeriod {
 		public start: moment.Moment;
 		public end: moment.Moment;
-		constructor(unformatted: IPeriod, format?: string) {
+		constructor(unformatted: IPeriod, formatter?: Lui.Utils.MomentFormatter) {
 			let start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
 			let end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
-			if (!!format) {
-				this.start = !!start ? moment(<string>start, format) : undefined;
-				this.end = !!end ? moment(<string>end, format) : undefined;
-			} else {
-				this.start = moment(start);
-				this.end = moment(end);
-			}
+			this.start = formatter.parseValue(start);
+			this.end = formatter.parseValue(end);
 		}
 	}
 }
