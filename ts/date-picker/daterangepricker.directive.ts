@@ -32,7 +32,7 @@ module Lui.Directives {
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 			datePickerCtrl.setMonthsCnt("2");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
-			datePickerCtrl.setElt(element);
+			datePickerCtrl.setPopoverTrigger(element, scope);
 			datePickerCtrl.setExcludeEnd(scope.excludeEnd);
 			datePickerCtrl.setProperties(scope.startProperty, scope.endProperty);
 		}
@@ -65,7 +65,7 @@ module Lui.Directives {
 			this.dayNum = date.date();
 		}
 	}
-	interface IDaterangePickerScope extends ng.IScope {
+	interface IDaterangePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope {
 		format: string;
 		// displayedMonths: string;
 		min: any;
@@ -93,9 +93,9 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 		momentFormat: string;
-		popover: {
-			isOpen: boolean;
-		};
+		// popover: {
+		// 	isOpen: boolean;
+		// };
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
 	interface IDatePickerValidators extends ng.IModelValidators {
@@ -113,8 +113,9 @@ module Lui.Directives {
 		// private displayFormat: string;
 		private monthsCnt: number;
 		private currentMonth: moment.Moment = moment().startOf("month");
-		private elt: angular.IAugmentedJQuery;
-		private body: angular.IAugmentedJQuery;
+		private popoverController: Lui.Utils.IPopoverController;
+		// private elt: angular.IAugmentedJQuery;
+		// private body: angular.IAugmentedJQuery;
 		private excludeEnd: boolean;
 		private startProperty: string;
 		private endProperty: string;
@@ -173,9 +174,9 @@ module Lui.Directives {
 				this.assignInBetween(days, this.$scope.period.start, $scope.period.end);
 			};
 			$scope.popover = { isOpen: false };
-			$scope.togglePopover = ($event: ng.IAngularEvent) => {
-				this.togglePopover($event);
-			};
+			// $scope.togglePopover = ($event: ng.IAngularEvent) => {
+			// 	this.toggle($event);
+			// };
 			$scope.previousMonth = () => {
 				this.changeMonths(-1);
 			};
@@ -219,9 +220,14 @@ module Lui.Directives {
 		public setFormat(format: string): void {
 			this.formatter = new Lui.Utils.MomentFormatter(format);
 		}
-		public setElt(elt: angular.IAugmentedJQuery): void {
-			this.elt = elt;
-			this.body = angular.element(document.getElementsByTagName("body")[0]);
+		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IDaterangePickerScope): void {
+			let onClosing = () => {
+				this.closePopover();
+			}
+			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope, onClosing);
+			scope.togglePopover = ($event: ng.IAngularEvent) => {
+				this.togglePopover($event);
+			}
 		}
 		public setDisplayFormat(displayFormat: string): void {
 			// if (this.format !== "moment" && this.format !== "date") {
@@ -343,6 +349,23 @@ module Lui.Directives {
 			.value();
 		}
 
+		private onOpenPopover(): void {
+			this.$scope.period = this.getViewValue();
+			let vv: Lui.Period = <Lui.Period>this.getViewValue();
+			this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
+			this.$scope.months = this.constructMonths(this.currentMonth);
+			this.assignClasses();
+			this.$scope.editingStart = true;
+		}
+		private onClosingPopover(): void {
+			this.closePopover();
+			// if (!!this.$scope.period.start && !!this.$scope.period.end) {
+			// 	this.setViewValue(this.$scope.period);
+			// 	this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			// } else {
+			// 	this.$scope.period = this.getViewValue();
+			// }
+		}
 		// popover logic
 		private togglePopover($event: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
@@ -352,34 +375,22 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
-			this.$scope.popover.isOpen = false;
 			if (!!this.$scope.period.start && !!this.$scope.period.end) {
 				this.setViewValue(this.$scope.period);
 				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 			} else {
 				this.$scope.period = this.getViewValue();
 			}
-			if (!!this.body) {
-				this.body.off("click");
-				this.elt.off("click");
-			}
+			this.popoverController.close();
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.$scope.period = this.getViewValue();
-			this.$scope.popover.isOpen = true;
 			let vv: Lui.Period = <Lui.Period>this.getViewValue();
 			this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
 			this.$scope.months = this.constructMonths(this.currentMonth);
 			this.assignClasses();
 			this.$scope.editingStart = true;
-			this.body.on("click", () => {
-				this.closePopover();
-				this.$scope.$digest();
-			});
-			this.elt.on("click", (otherEvent: JQueryEventObject) => {
-				otherEvent.stopPropagation();
-			});
-			$event.stopPropagation();
+			this.popoverController.open($event);
 		}
 	}
 
