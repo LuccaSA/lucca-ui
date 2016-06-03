@@ -46,6 +46,10 @@ module Lui.Directives {
 		onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
 
 	}
+	export interface ICalendarValidators extends ng.IModelValidators {
+		min: (modelValue: any, viewValue: any) => boolean;
+		max: (modelValue: any, viewValue: any) => boolean;
+	}
 	export abstract class ACalendarController {
 		protected monthsCnt: number;
 		protected formatter: Lui.Utils.MomentFormatter;

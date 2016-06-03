@@ -26,14 +26,14 @@ module Lui.Directives {
 		}
 		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
-			let datePickerCtrl = <LuidDaterangePickerController>ctrls[1];
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
-			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-			datePickerCtrl.setMonthsCnt("2");
+			let drCtrl = <LuidDaterangePickerController>ctrls[1];
+			drCtrl.setNgModelCtrl(ngModelCtrl);
+			drCtrl.setFormat(scope.format, scope.displayFormat);
+			drCtrl.setMonthsCnt("2");
 			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
-			datePickerCtrl.setPopoverTrigger(element, scope);
-			datePickerCtrl.setExcludeEnd(scope.excludeEnd);
-			datePickerCtrl.setProperties(scope.startProperty, scope.endProperty);
+			drCtrl.setPopoverTrigger(element, scope);
+			drCtrl.setExcludeEnd(scope.excludeEnd);
+			drCtrl.setProperties(scope.startProperty, scope.endProperty);
 		}
 	}
 
@@ -54,10 +54,7 @@ module Lui.Directives {
 		momentFormat: string;
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
-	interface IDatePickerValidators extends ng.IModelValidators {
-		min: (modelValue: any, viewValue: any) => boolean;
-		max: (modelValue: any, viewValue: any) => boolean;
-	}
+
 
 	class LuidDaterangePickerController extends ACalendarController {
 		public static IID: string = "luidDaterangePickerController";
@@ -141,12 +138,12 @@ module Lui.Directives {
 					this.$scope.displayStr = undefined;
 				}
 			};
-			(<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
+			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let start = this.getViewValue().start;
 				let min = this.formatter.parseValue(this.$scope.min);
 				return !start || !min || min.diff(start) <= 0;
 			};
-			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
+			(<ICalendarValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
 				let end = this.getViewValue().end;
 				let max = this.formatter.parseValue(this.$scope.max);
 				return !end || !max || max.diff(end) >= 0;
