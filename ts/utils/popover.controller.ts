@@ -43,7 +43,7 @@ module Lui.Utils {
 				this.elt.on("click", (otherEvent: JQueryEventObject) => {
 					otherEvent.stopPropagation();
 				});
-			},1);
+			}, 1);
 		}
 		private onClickedOutside($event?: ng.IAngularEvent): void {
 			if (this.clickedOutside) {
