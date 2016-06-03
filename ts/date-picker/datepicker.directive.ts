@@ -51,11 +51,9 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
-			datePickerCtrl.setFormat(scope.format);
-			datePickerCtrl.setDisplayFormat(scope.displayFormat);
+			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
 			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
 			datePickerCtrl.setPopoverTrigger(element, scope);
-			// datePickerCtrl.setElt(element);
 		}
 	}
 
@@ -109,7 +107,8 @@ module Lui.Directives {
 		public static $inject: Array<string> = ["$scope"];
 		private ngModelCtrl: ng.INgModelController;
 		private $scope: IDatePickerScope;
-		private format: string;
+		// private format: string;
+		private formatter: Lui.Utils.MomentFormatter;
 		private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
@@ -134,7 +133,7 @@ module Lui.Directives {
 
 				this.monthOffset = -Math.floor(moment.duration(day.date.diff($scope.months[0].date)).asMonths());
 
-				this.setViewValue(this.formatValue(day.date));
+				this.setViewValue(this.formatter.formatValue(day.date));
 				$scope.displayStr = this.getDisplayStr(day.date);
 
 				this.closePopover();
@@ -179,41 +178,37 @@ module Lui.Directives {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				let date = this.parseValue(ngModelCtrl.$viewValue);
+				let date = this.formatter.parseValue(ngModelCtrl.$viewValue);
 				this.monthOffset = 0;
 				this.$scope.months = this.constructMonths(date);
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
-				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.min) || this.parseValue(this.$scope.min).diff(this.parseValue(viewValue)) <= 0;
+				return !this.formatter.parseValue(viewValue) || !this.formatter.parseValue(this.$scope.min) || this.formatter.parseValue(this.$scope.min).diff(this.formatter.parseValue(viewValue)) <= 0;
 			};
 			(<ICalendarValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
-				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
+				return !this.formatter.parseValue(viewValue) || !this.formatter.parseValue(this.$scope.max) || this.formatter.parseValue(this.$scope.max).diff(this.formatter.parseValue(viewValue)) >= 0;
 			};
 		}
 		public setMonthsCnt(cntStr: string): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
 		}
-		public setFormat(format: string): void {
-			this.format = format || "moment";
+		public setFormat(format: string, displayFormat?: string): void {
+			this.formatter = new Lui.Utils.MomentFormatter(format);
+			if (format !== "moment" && format !== "date") {
+				this.displayFormat = displayFormat || format || "L";
+			} else {
+				this.displayFormat = displayFormat || "L";
+			}
 		}
-		// public setElt(elt: angular.IAugmentedJQuery): void {
-		// 	this.elt = elt;
-		// 	this.body = angular.element(document.getElementsByTagName("body")[0]);
-		// }
+
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IDatePickerScope): void {
 			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope);
 			scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
 			};
 		}
-		public setDisplayFormat(displayFormat: string): void {
-			if (this.format !== "moment" && this.format !== "date") {
-				this.displayFormat = displayFormat || this.format || "L";
-			} else {
-				this.displayFormat = displayFormat || "L";
-			}
-		}
+
 		public changeMonths(offset: number): void {
 			this.monthOffset += offset;
 			this.$scope.months = this.constructMonths(this.getViewValue());
@@ -222,40 +217,6 @@ module Lui.Directives {
 			return _.map(_.range(this.monthsCnt), (offset: number): Month => {
 				return this.constructMonth(selectedDate, offset + this.monthOffset);
 			});
-		}
-
-		// parse - format
-		public parseValue(value: any): moment.Moment {
-			switch (this.format) {
-				case "moment": return this.parseMoment(value);
-				case "date": return this.parseDate(value);
-				default: return this.parseString(value);
-			}
-		}
-		public formatValue(value: moment.Moment): any {
-			switch (this.format) {
-				case "moment": return this.formatMoment(value);
-				case "date": return this.formatDate(value);
-				default: return this.formatString(value);
-			}
-		}
-		private parseMoment(value: moment.Moment): moment.Moment {
-			return !!value ? moment(value) : undefined;
-		}
-		private parseDate(value: Date): moment.Moment {
-			return !!value ? moment(value) : undefined;
-		}
-		private parseString(value: string): moment.Moment {
-			return !!value && moment(value, this.format).isValid() ? moment(value, this.format) : undefined;
-		}
-		private formatMoment(value: moment.Moment): moment.Moment {
-			return moment(value);
-		}
-		private formatDate(value: moment.Moment): Date {
-			return value.toDate();
-		}
-		private formatString(value: moment.Moment): string {
-			return value.format(this.format);
 		}
 
 		// init stuff
@@ -270,7 +231,7 @@ module Lui.Directives {
 			this.ngModelCtrl.$setViewValue(value);
 		}
 		private getViewValue(): moment.Moment {
-			return this.parseValue(this.ngModelCtrl.$viewValue);
+			return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
 		}
 		private validate(): void {
 			this.ngModelCtrl.$validate();
@@ -300,8 +261,8 @@ module Lui.Directives {
 			return week;
 		}
 		private assignClasses(days: Day[], selectedDate: moment.Moment): void {
-			let min: moment.Moment = this.parseValue(this.$scope.min);
-			let max: moment.Moment = this.parseValue(this.$scope.max);
+			let min: moment.Moment = this.formatter.parseValue(this.$scope.min);
+			let max: moment.Moment = this.formatter.parseValue(this.$scope.max);
 			_.each(days, (day: Day): void => {
 				day.selected = false;
 				day.disabled = false;
