@@ -9,12 +9,12 @@ module Lui.Service {
 		}
 	}
 	export interface INotifyConfig {
-		parentTagIdClass: string;
-		prefix: string;
-		startTop: number;
-		okLabel: string;
-		cancelLabel: string;
-		canDismissConfirm: boolean;
+		parentTagIdClass?: string;
+		prefix?: string;
+		startTop?: number;
+		okLabel?: string;
+		cancelLabel?: string;
+		canDismissConfirm?: boolean;
 	}
 	interface ILoadingIsolateScope extends ng.IScope {
 		loading: boolean;

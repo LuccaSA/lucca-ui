@@ -46,48 +46,7 @@
 			// Tags
 			// ====
 			&.tagged {
-				@extend %lui_input_field_base;
-				@extend %lui_input_text_field;
-
-				@include display-flex();
-
 				padding-left: map-gets($vars, search, paddingLeft);
-
-				> input {
-					display: inline-block;
-					border: none;
-					width: auto;
-					padding-left: 0;
-					padding-right: 0;
-
-					min-width: 15em;
-					@include flex(1, 1, 0%);
-				}
-
-				.tag {
-					display: inline-block;
-					line-height: 1;
-					font-weight: 600;
-					padding: map-gets($vars, search, tag, padding);
-					margin: map-gets($vars, search, tag, margin);
-					background-color: map-gets($vars, search, tag, background);
-					border: 1px solid map-gets($vars, search, tag, borderColor);
-					border-radius: map-gets($vars, search, tag, borderRadius);
-
-					&.selected {
-						border-color: map-gets($vars, search, tag, selectedColor);
-					}
-
-					a.close {
-						display: inline-block;
-						vertical-align: middle;
-						@include lui_make_icon("cross", right);
-						color: lighten(map-get($vars, color), 10);
-						font-size: 0.5em;
-						padding: 0.25em;
-						margin-top: -0.1em;
-					}
-				}
 			}
 
 			@include lui_target_IE9 {

@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - "5.4"
+  - "4.4"
 
 before_script:
   - npm install -g grunt grunt-cli bower tsd --progress=false
-  - bower install
+  - bower install --force-latest
   - tsd install
 
 script: 

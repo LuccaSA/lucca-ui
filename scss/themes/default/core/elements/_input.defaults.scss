@@ -70,15 +70,14 @@ $input: (
 		enabled: 				true,
 
 		paddingLeft: 			2.5em,
-
-		tag: (
-			padding: 			0.25em 0.5em,
-			margin: 			0.1em,
-			background: 		luiPalette(light, color, light),
-			borderColor: 		luiPalette(light, color),
-			borderRadius: 		luiTheme(adjective, rounded, radius),
-			selectedColor: 		luiPalette(primary, color)
-		)
+	),
+	tag: (
+		padding: 			0.25em 0.5em,
+		margin: 			0.1em,
+		background: 		luiPalette(light, color, light),
+		borderColor: 		luiPalette(light, color),
+		borderRadius: 		luiTheme(adjective, rounded, radius),
+		selectedColor: 		luiPalette(primary, color)
 	),
 
 

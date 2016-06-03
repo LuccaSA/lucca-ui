@@ -68,6 +68,7 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 		"core/elements/progress",
 		"core/elements/day-block",
 		"core/elements/tablegrid",
+		"core/elements/datepicker",
 		"core/elements/notify";
 
 
