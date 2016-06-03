@@ -22,8 +22,14 @@ module Lui.Directives {
 			$scope.isSelectable = angular.isDefined($scope.selectable);
 
 			$scope.internalRowClick = (event: any, row: any) => {
-				if (event.target.type !== "checkbox") {
-					$scope.onRowClick({row: row});
+				var currentNode = event.target;
+				var otherClickEventFired = false;
+				while (!otherClickEventFired && currentNode.nodeName !== event.currentTarget.nodeName) {
+					otherClickEventFired = !!currentNode.href || currentNode.type === "checkbox";
+					currentNode = currentNode.parentElement;
+				}
+				if (!otherClickEventFired) {
+					$scope.onRowClick({ row: row });
 				}
 			};
 
