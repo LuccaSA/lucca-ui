@@ -52,12 +52,13 @@ module Lui.Directives {
 	}
 	export class CalendarController {
 		protected monthsCnt: number;
-		protected formatter: Lui.Utils.IFormatter<moment.Moment>;
 		protected currentMonth: moment.Moment;
 		protected $scope: ICalendarScope;
 		protected selected: moment.Moment;
 		protected start: moment.Moment;
 		protected end: moment.Moment;
+		protected min: moment.Moment;
+		protected max: moment.Moment;
 		constructor($scope: ICalendarScope) {
 			this.$scope = $scope;
 			this.initCalendarScopeMethods($scope);
@@ -76,8 +77,6 @@ module Lui.Directives {
 			});
 		}
 		protected assignClasses(): void {
-			let min: moment.Moment = this.formatter.parseValue(this.$scope.min);
-			let max: moment.Moment = this.formatter.parseValue(this.$scope.max);
 			let days = this.extractDays();
 			_.each(days, (day: CalendarDay): void => {
 				day.selected = false;
@@ -96,10 +95,10 @@ module Lui.Directives {
 				if (!!this.start && !!this.end && day.date.isAfter(this.start) && day.date.isBefore(this.end)) {
 					day.inBetween = true;
 				}
-				if (!!min && min.diff(day.date) > 0) {
+				if (!!this.min && this.min.diff(day.date) > 0) {
 					day.disabled = true;
 				}
-				if (!!max && max.diff(day.date) < 0) {
+				if (!!this.max && this.max.diff(day.date) < 0) {
 					day.disabled = true;
 				}
 				if (!!this.$scope.customClass) {

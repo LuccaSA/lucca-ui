@@ -71,6 +71,7 @@ module Lui.Directives {
 		public static IID: string = "luidDatePickerController";
 		public static $inject: Array<string> = ["$scope"];
 		protected $scope: IDatePickerScope;
+		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
 		private popoverController: Lui.Utils.IPopoverController;
@@ -91,11 +92,13 @@ module Lui.Directives {
 
 			$scope.$watch("min", (): void => {
 				// revalidate
+				this.min = this.formatter.parseValue($scope.min);
 				this.validate();
 				this.selected = this.getViewValue();
 				this.assignClasses();
 			});
 			$scope.$watch("max", (): void => {
+				this.max = this.formatter.parseValue($scope.max);
 				this.validate();
 				this.selected = this.getViewValue();
 				this.assignClasses();
@@ -109,6 +112,8 @@ module Lui.Directives {
 				this.currentMonth = moment(date).startOf("month");
 				this.$scope.months = this.constructMonths();
 				this.selected = date;
+				this.min = this.formatter.parseValue(this.$scope.min);
+				this.max = this.formatter.parseValue(this.$scope.max);
 				this.assignClasses();
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};

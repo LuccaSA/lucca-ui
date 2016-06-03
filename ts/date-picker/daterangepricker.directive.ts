@@ -60,6 +60,7 @@ module Lui.Directives {
 		public static IID: string = "luidDaterangePickerController";
 		public static $inject: Array<string> = ["$scope", "$filter"];
 		protected $scope: IDaterangePickerScope;
+		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private $filter: Lui.ILuiFilters;
 		private popoverController: Lui.Utils.IPopoverController;
@@ -226,6 +227,8 @@ module Lui.Directives {
 				this.start = vv.start;
 				this.end = vv.end;
 			}
+			this.min = this.formatter.parseValue(this.$scope.min);
+			this.max = this.formatter.parseValue(this.$scope.max);
 			this.assignClasses();
 			this.$scope.editingStart = true;
 			this.popoverController.open($event);
