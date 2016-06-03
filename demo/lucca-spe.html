@@ -177,7 +177,7 @@
 	return user.firstName.length &lt;= 6;
 };</pre>
 				<p>
-					Select a filter: 
+					Select a filter:
 				</p>
 				<p>
 					<span class="lui buttons">
@@ -187,7 +187,7 @@
 					</span>
 				</p>
 				<p>
-					Set of users with the selected filter applied: 
+					Set of users with the selected filter applied:
 					<luid-user-picker ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
 					<luid-user-picker ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
 					<luid-user-picker ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
@@ -195,7 +195,7 @@
 				<hr />
 				<h5>Custom info</h5>
 				<p>
-					Number of letters in their first name: 
+					Number of letters in their first name:
 					<luid-user-picker ng-model="myUser.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker>, this info is computed synchronously
 				</p>
 				<p>
@@ -249,7 +249,7 @@ $scope.yearOfArrivalAsync = function(user){
 	return user.firstName.length &lt;= 6;
 };</pre>
 				<p>
-					Select a filter: 
+					Select a filter:
 				</p>
 				<p>
 					<span class="lui buttons">
@@ -259,7 +259,7 @@ $scope.yearOfArrivalAsync = function(user){
 					</span>
 				</p>
 				<p>
-					Set of users with the selected filter applied: 
+					Set of users with the selected filter applied:
 					<luid-user-picker-multiple ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUsers.filtered" custom-filter="hasShortName"></luid-user-picker-multiple>
 					<luid-user-picker-multiple ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUsers.filtered" custom-filter="beginsWithConsonant"></luid-user-picker-multiple>
 					<luid-user-picker-multiple ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUsers.filtered" custom-filter="nameContainsT"></luid-user-picker-multiple>
@@ -267,7 +267,7 @@ $scope.yearOfArrivalAsync = function(user){
 				<hr />
 				<h5>Custom info</h5>
 				<p>
-					Number of letters in their first name: 
+					Number of letters in their first name:
 					<luid-user-picker-multiple ng-model="myUsers.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker-multiple>, this info is computed synchronously
 				</p>
 				<p>
@@ -427,7 +427,7 @@ angular.module("myApp").run(fumction(luisNotify){
 });
 
 // to use in your controller
-angular.controller("myCtrl", function(luisNotify) { 
+angular.controller("myCtrl", function(luisNotify) {
 	luisNotify.error("your message", "some details");
 	luisNotify.confirm("This action is irreversible, are you really sure you want to do it?", "Yes I am", "No i'm not")
 	.then(function(isSure) {
@@ -544,6 +544,7 @@ angular.controller("myCtrl", function(luisNotify) {
 					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
 					<li><code>datas</code> : a list of things you want to display.</li>
 					<li><code>height</code> : your table won't be higher than that (px).</li>
+					<li><code>height-type</code> : (global | body, default: body) specify if the given height should be applied on the whole tablegrid (global), or on the body (body)</li>
 					<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
 					<li><code>default-order</code> : At first load, your table will be order by the header of which the label is the value of this attribute.
 									The value can be optionally prefixed with + or - to control ascending or descending sort order. </li>
