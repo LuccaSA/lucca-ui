@@ -54,7 +54,8 @@ module Lui.Directives {
 			datePickerCtrl.setFormat(scope.format);
 			datePickerCtrl.setDisplayFormat(scope.displayFormat);
 			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
-			datePickerCtrl.setElt(element);
+			datePickerCtrl.setPopoverTrigger(element, scope);
+			// datePickerCtrl.setElt(element);
 		}
 	}
 
@@ -83,7 +84,7 @@ module Lui.Directives {
 			this.dayNum = date.date();
 		}
 	}
-	interface IDatePickerScope extends ng.IScope {
+	interface IDatePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope {
 		format: string;
 		displayedMonths: string;
 		min: any;
@@ -99,14 +100,8 @@ module Lui.Directives {
 
 		displayStr: string;
 		displayFormat: string;
-		popover: {
-			isOpen: boolean;
-		};
+
 		togglePopover: ($event: ng.IAngularEvent) => void;
-	}
-	interface IDatePickerValidators extends ng.IModelValidators {
-		min: (modelValue: any, viewValue: any) => boolean;
-		max: (modelValue: any, viewValue: any) => boolean;
 	}
 
 	class LuidDatePickerController {
@@ -118,8 +113,9 @@ module Lui.Directives {
 		private displayFormat: string;
 		private monthsCnt: number;
 		private monthOffset: number = 0;
-		private elt: angular.IAugmentedJQuery;
-		private body: angular.IAugmentedJQuery;
+		// private elt: angular.IAugmentedJQuery;
+		// private body: angular.IAugmentedJQuery;
+		private popoverController: Lui.Utils.IPopoverController;
 
 		constructor($scope: IDatePickerScope) {
 			this.$scope = $scope;
@@ -188,10 +184,10 @@ module Lui.Directives {
 				this.$scope.months = this.constructMonths(date);
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
-			(<IDatePickerValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
+			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.min) || this.parseValue(this.$scope.min).diff(this.parseValue(viewValue)) <= 0;
 			};
-			(<IDatePickerValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
+			(<ICalendarValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
 				return !this.parseValue(viewValue) || !this.parseValue(this.$scope.max) || this.parseValue(this.$scope.max).diff(this.parseValue(viewValue)) >= 0;
 			};
 		}
@@ -201,9 +197,15 @@ module Lui.Directives {
 		public setFormat(format: string): void {
 			this.format = format || "moment";
 		}
-		public setElt(elt: angular.IAugmentedJQuery): void {
-			this.elt = elt;
-			this.body = angular.element(document.getElementsByTagName("body")[0]);
+		// public setElt(elt: angular.IAugmentedJQuery): void {
+		// 	this.elt = elt;
+		// 	this.body = angular.element(document.getElementsByTagName("body")[0]);
+		// }
+		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IDatePickerScope): void {
+			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope);
+			scope.togglePopover = ($event: ng.IAngularEvent) => {
+				this.togglePopover($event);
+			};
 		}
 		public setDisplayFormat(displayFormat: string): void {
 			if (this.format !== "moment" && this.format !== "date") {
@@ -327,22 +329,24 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
-			this.$scope.popover.isOpen = false;
-			if (!!this.body) {
-				this.body.off("click");
-				this.elt.off("click");
-			}
+			// this.$scope.popover.isOpen = false;
+			// if (!!this.body) {
+			// 	this.body.off("click");
+			// 	this.elt.off("click");
+			// }
+			this.popoverController.close();
 		}
 		private openPopover($event: ng.IAngularEvent): void {
-			this.$scope.popover.isOpen = true;
-			this.body.on("click", () => {
-				this.closePopover();
-				this.$scope.$digest();
-			});
-			this.elt.on("click", (otherEvent: JQueryEventObject) => {
-				otherEvent.stopPropagation();
-			});
-			$event.stopPropagation();
+			// this.$scope.popover.isOpen = true;
+			// this.body.on("click", () => {
+			// 	this.closePopover();
+			// 	this.$scope.$digest();
+			// });
+			// this.elt.on("click", (otherEvent: JQueryEventObject) => {
+			// 	otherEvent.stopPropagation();
+			// });
+			// $event.stopPropagation();
+			this.popoverController.open($event);
 		}
 		private getDisplayStr(date: moment.Moment): string {
 			return !!date ? date.format(this.displayFormat) : undefined;
