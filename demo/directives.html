@@ -636,7 +636,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 							Basic use, linked to a moment
 						</p>
 						<p>
-							<luid-date-picker ng-model="dateMoment" min="dateMin" max="datePopup1"></luid-date-picker>
+							<luid-date-picker ng-model="dateMoment"></luid-date-picker>
 						</p>
 						<p>
 							My date: <code>{{ dateMoment | luifMoment : "LL"}}</code>
@@ -691,17 +691,19 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				<p>
 					with min/max
 				</p>
-				<p ng-form="datepickerForm">
+				<p ng-form="myForm">
 					<luid-date-picker name="withMinMax" ng-model="dateMoment" min="min" max="max"></luid-date-picker>
+					<!-- <code> lol mdr {{myForm}}</code> -->
 				</p>
 				<p>
 					min: <luid-date-picker-popup ng-model="min" display-format="LL"></luid-date-picker-popup>
 					max: <luid-date-picker-popup ng-model="max" display-format="LL"></luid-date-picker-popup>
 				</p>
 				<p>
-					validity: <span class="lui green label" ng-show=" datepickerForm.withMinMax.$valid">ng-valid</span>
-					<span class="lui red label" ng-show=" datepickerForm.withMinMax.$invalid">ng-invalid</span>
-					<span class="lui red label" ng-repeat="(key, value) in datepickerForm.withMinMax.$error">ng-invalid-{{key}}</span>
+					<!-- <code>{{myForm.withMinMax}}</code> -->
+					validity: <span class="lui green label" ng-show=" myForm.withMinMax.$valid">ng-valid</span>
+					<span class="lui red label" ng-show=" myForm.withMinMax.$invalid">ng-invalid</span>
+					<span class="lui red label" ng-repeat="(key, value) in myForm.withMinMax.$error">ng-invalid-{{key}}</span>
 				</p>
 				<hr class="lui dashed divider">
 				<p>
