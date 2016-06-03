@@ -5,7 +5,16 @@ module Lui.Directives {
 
 	export interface ILuidTableGridAttributes extends ng.IAttributes {
 		height: string;
+		heightType: string;
 		selectable: boolean;
+	}
+
+	export class LuidTableGridHeightType {
+		public static GLOBAL = "global";
+		public static BODY = "body";
+		public static isTypeExisting(type: string) {
+			return type === LuidTableGridHeightType.GLOBAL || type === LuidTableGridHeightType.BODY;
+		}
 	}
 
 	export class LuidTableGrid implements angular.IDirective {
@@ -14,7 +23,7 @@ module Lui.Directives {
 		public static IID = "luidTableGrid";
 		public controller = "luidTableGridController";
 		public restrict = "AE";
-		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@", onRowClick: "&" };
+		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@", onRowClick: "&", heightType: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
 
@@ -87,7 +96,7 @@ module Lui.Directives {
 				// ==========================================
 				let scrollbarThickness: number = getScrollbarThickness();
 				let height: number = attrs.height ? parseFloat(attrs.height) : LuidTableGrid.defaultHeight;
-				scrollableArea.style.maxHeight = height + "px";
+				let headerHeightType = LuidTableGridHeightType.isTypeExisting(attrs.heightType) ? attrs.heightType : LuidTableGridHeightType.BODY;
 				let ROWHEIGHTMIN = 32; // # MAGIC NUMBER
 				let rowsPerPage = Math.round(height / ROWHEIGHTMIN);
 				let numberOfRows = rowsPerPage * 3;
@@ -112,6 +121,9 @@ module Lui.Directives {
 
 				let updateHeight = () => {
 					headerHeight = Math.max(headers[0].offsetHeight, (!!headers[1] ? headers[1].offsetHeight : 0));
+					let scrollableAreaHeight = height;
+					scrollableAreaHeight -= headerHeightType === LuidTableGridHeightType.GLOBAL ? headerHeight : 0;
+					scrollableArea.style.maxHeight = scrollableAreaHeight + "px";
 					tablegrid.style.paddingTop = headerHeight + "px";
 					if (!!tables[1]) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
