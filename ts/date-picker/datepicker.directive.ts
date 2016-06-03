@@ -118,10 +118,14 @@ module Lui.Directives {
 				this.$scope.displayStr = this.getDisplayStr(date);
 			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
-				return !this.formatter.parseValue(viewValue) || !this.formatter.parseValue(this.$scope.min) || this.formatter.parseValue(this.$scope.min).diff(this.formatter.parseValue(viewValue)) <= 0;
+				let min = this.min;
+				let value = this.getViewValue();
+				return !value || !min || min.diff(value) <= 0;
 			};
 			(<ICalendarValidators>ngModelCtrl.$validators).max = (modelValue: any, viewValue: any) => {
-				return !this.formatter.parseValue(viewValue) || !this.formatter.parseValue(this.$scope.max) || this.formatter.parseValue(this.$scope.max).diff(this.formatter.parseValue(viewValue)) >= 0;
+				let max = this.max;
+				let value = this.getViewValue();
+				return !value || !max || max.diff(value) >= 0;
 			};
 		}
 		public setFormat(format: string, displayFormat?: string): void {
