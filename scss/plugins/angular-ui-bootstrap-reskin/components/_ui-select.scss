@@ -116,6 +116,17 @@
 				}
 			}
 
+			// Disabled state
+			&[disabled="disabled"] {
+				&:before {
+					display: none;
+				}
+				.ui-select-toggle {
+					cursor: pointer;
+				}
+			}
+
+
 			// Thumbnail support
 			.ui-select-choices-row .thumbnail {
 				width: map-gets($pluginVars, uiSelect, thumbSize);
