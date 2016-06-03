@@ -133,7 +133,7 @@ module Lui.Directives {
 				let canvasHeight;
 				let updateWidth = () => {
 					let tablegridWidth: number = 0;
-					tablegridWidth = (scrollableArea.clientHeight < canvasHeight) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
+					tablegridWidth = (scrollableArea.clientHeight < Math.max(canvasHeight, scrollableAreaVS.clientHeight)) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
 
 					// Vertical scrollbar
 					for (let header of headers) {
