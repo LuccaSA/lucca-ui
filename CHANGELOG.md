@@ -1,14 +1,18 @@
 # Change log
 
 ## 2.2.3 - in dev
+- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
+- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 
 ### New features
 - UI-Select now supports class `.invalid`
 - `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
+- `tablegrid` - add the attribute `height-type` in order to specify if the given height should be applied on the whole tablegrid (`global`), or on the body (`body`)
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
  - fix links in tablegrid do not trigger `onRowClick` anymore
+ - Adds support for disabled state on ui-selet (issue #264)
 
 ## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
 

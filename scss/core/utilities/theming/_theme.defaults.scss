@@ -376,6 +376,20 @@
 	$luiTheme: luiSetTheme(element, tablegrid, $myTheme);
 }
 
+// Luid-datepicker
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/datepicker.defaults";
+
+	// Theme overrides
+	@import "core/elements/datepicker.overrides";
+	$luiTheme: luiSetTheme(element, datepicker, $myTheme);
+}
+
+
 // notify
 // ===================================
 
