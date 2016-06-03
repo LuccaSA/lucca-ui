@@ -1,7 +1,8 @@
 # Change log
 
 ## 2.2.3 - in dev
-- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
+- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
+- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 
 ### New features
 - UI-Select now supports class `.invalid`
