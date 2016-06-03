@@ -50,9 +50,9 @@ module Lui.Directives {
 		min: (modelValue: any, viewValue: any) => boolean;
 		max: (modelValue: any, viewValue: any) => boolean;
 	}
-	export abstract class ACalendarController {
+	export class CalendarController {
 		protected monthsCnt: number;
-		protected formatter: Lui.Utils.MomentFormatter;
+		protected formatter: Lui.Utils.IFormatter<moment.Moment>;
 		protected currentMonth: moment.Moment;
 		protected $scope: ICalendarScope;
 		protected selected: moment.Moment;
@@ -62,7 +62,7 @@ module Lui.Directives {
 			this.$scope = $scope;
 			this.initCalendarScopeMethods($scope);
 		}
-		public setMonthsCnt(cntStr: string): void {
+		public setMonthsCnt(cntStr?: string): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
 		}
 		protected constructMonths(): CalendarMonth[] {

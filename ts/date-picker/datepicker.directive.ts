@@ -67,7 +67,7 @@ module Lui.Directives {
 		togglePopover: ($event: ng.IAngularEvent) => void;
 	}
 
-	class LuidDatePickerController extends ACalendarController {
+	class LuidDatePickerController extends CalendarController {
 		public static IID: string = "luidDatePickerController";
 		public static $inject: Array<string> = ["$scope"];
 		protected $scope: IDatePickerScope;

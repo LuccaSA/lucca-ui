@@ -18,7 +18,7 @@ module Lui {
 	export class Period implements IPeriod {
 		public start: moment.Moment;
 		public end: moment.Moment;
-		constructor(unformatted: IPeriod, formatter?: Lui.Utils.MomentFormatter) {
+		constructor(unformatted: IPeriod, formatter?: Lui.Utils.IFormatter<moment.Moment>) {
 			let start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
 			let end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
 			this.start = formatter.parseValue(start);

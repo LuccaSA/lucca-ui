@@ -56,7 +56,7 @@ module Lui.Directives {
 	}
 
 
-	class LuidDaterangePickerController extends ACalendarController {
+	class LuidDaterangePickerController extends CalendarController {
 		public static IID: string = "luidDaterangePickerController";
 		public static $inject: Array<string> = ["$scope", "$filter"];
 		protected $scope: IDaterangePickerScope;
