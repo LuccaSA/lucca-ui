@@ -1,0 +1,18 @@
+<table ng-repeat="month in months">
+	<caption>
+		<button class="previous" ng-if="$first" ng-click="previousMonth()"></button>
+		<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+		<button class="next" ng-if="$last" ng-click="nextMonth()"></button>
+	</caption>
+	<thead>
+		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="week in month.weeks">
+			<td ng-repeat="day in week.days"
+			ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween, 'disabled': day.disabled }, day.customClass]"
+			ng-click="selectDay(day)"
+			ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
+		</tr>
+	</tbody>
+</table>

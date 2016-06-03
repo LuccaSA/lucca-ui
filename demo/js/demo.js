@@ -43,14 +43,15 @@
 		$translateProvider.use(culture);
 		$translateProvider.preferredLanguage(culture);
 		$translateProvider.fallbackLanguage(['en', 'fr']);
-		moment.locale(culture)
+		// moment.locale(culture);
 	}])
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
 	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope) {
+	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment) {
+		moment.locale("fr");
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
 			luisProgressBar.startListening();
