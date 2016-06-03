@@ -35,14 +35,15 @@ module Lui.Utils {
 		}
 		public open($event: ng.IAngularEvent): void {
 			this.$scope.popover.isOpen = true;
-			this.body.on("click", () => {
-				this.onClickedOutside();
-				this.$scope.$digest();
-			});
-			this.elt.on("click", (otherEvent: JQueryEventObject) => {
-				otherEvent.stopPropagation();
-			});
-			$event.stopPropagation();
+			setTimeout( () => {
+				this.body.on("click", () => {
+					this.onClickedOutside();
+					this.$scope.$digest();
+				});
+				this.elt.on("click", (otherEvent: JQueryEventObject) => {
+					otherEvent.stopPropagation();
+				});
+			},1);
 		}
 		private onClickedOutside($event?: ng.IAngularEvent): void {
 			if (this.clickedOutside) {
