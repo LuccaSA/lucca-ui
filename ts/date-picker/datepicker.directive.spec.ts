@@ -1,4 +1,3 @@
-/// <reference path="../references.spec.ts" />
 module Lui.Directives.Datepicker.Test {
 	"use strict";
 	beforeEach(angular.mock.module("lui.directives"));

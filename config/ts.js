@@ -13,7 +13,7 @@ module.exports = function(grunt, options){
 				"!ts/**/*.e2e.ts",
 				"!ts/table-grid/**/*.*",
 				"!ts/notify-service/**/*.*",
-				"typings/tsd.d.ts"
+				"typings/index.d.ts"
 			],
 			dest: ".temp/lucca-ui-ts.js",
 			// options: {
@@ -25,7 +25,7 @@ module.exports = function(grunt, options){
 				"ts/**/*.ts",
 				"!ts/**/*.spec.ts",
 				"!ts/**/*.e2e.ts",
-				"typings/tsd.d.ts"
+				"typings/index.d.ts"
 			],
 			dest: ".temp/lucca-ui-spe-ts.js",
 			options: {
@@ -33,7 +33,11 @@ module.exports = function(grunt, options){
 			},
 		},
 		test:{
-			src: ["ts/**/*.spec.ts"], 
+			src: [
+				"ts/**/*.spec.ts",
+				"typings/index.d.ts",
+				"dist/lucca-ui.d.ts",
+			], 
 			outDir: ".tests",
 			options: {
 				fast: 'never'
