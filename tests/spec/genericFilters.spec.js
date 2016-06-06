@@ -77,4 +77,15 @@ describe('luif.timefilters', function(){
 			expect(luifNumber(undefined,4,'nothing').$$unwrapTrustedValue()).toEqual("nothing<span style=\"opacity:0\">.0000</span>");
 		});
 	});
+	describe('luifStripAccent', function(){
+		var luifStripAccent;
+		beforeEach(function(){
+			luifStripAccent = $filter('luifStripAccent');
+		});
+		it('should work', function(){
+			expect(luifStripAccent('string without accented char')).toEqual('string without accented char');
+			expect(luifStripAccent('strîng wïth màny âccënted chars')).toEqual('string with many accented chars');
+			expect(luifStripAccent('Ît work on uppercÂsÉd tÔÕ')).toEqual('It work on uppercAsEd tOO');
+		});
+	});
 });
