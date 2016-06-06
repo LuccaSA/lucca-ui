@@ -22,8 +22,8 @@ module Lui.Directives {
 			$scope.isSelectable = angular.isDefined($scope.selectable);
 
 			$scope.internalRowClick = (event: any, row: any) => {
-				var currentNode = event.target;
-				var otherClickEventFired = false;
+				let currentNode = event.target;
+				let otherClickEventFired = false;
 				while (!otherClickEventFired && currentNode.nodeName !== event.currentTarget.nodeName) {
 					otherClickEventFired = !!currentNode.href || currentNode.type === "checkbox";
 					currentNode = currentNode.parentElement;
@@ -183,7 +183,7 @@ module Lui.Directives {
 									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
 										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
 									}else {
-										return propValue.indexOf(value.toLowerCase()) !== -1;
+										return $filter("luifStripAccents")(propValue).indexOf($filter("luifStripAccents")(value.toLowerCase())) !== -1;
 									}
 								});
 								if (!containsProp) {

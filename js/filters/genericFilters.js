@@ -36,7 +36,7 @@
 		return function(_input, _precision, _placeholder) {
 
 			function getRightSpan(decimalPart, separator) {
-				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; } 
+				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; }
 				if (parseInt(decimalPart) === 0) { return "<span style=\"opacity:0\">" + separator + decimalPart + "</span>"; }
 				return "<span>" + separator + decimalPart + "</span>";
 			}

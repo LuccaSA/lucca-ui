@@ -5,6 +5,7 @@ module Lui {
 		(name: "luifPlaceholder"): (input: any, placeholder: string) => string;
 		(name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean) => string;
 		(name: "luifDefaultCode"): (input: string) => string;
+		(name: "luifStripAccents"): (input: string) => string;
 	}
 
 	export interface IPeriod {
