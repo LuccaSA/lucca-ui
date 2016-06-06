@@ -9,6 +9,7 @@
 - `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 - `tablegrid` - add the attribute `height-type` in order to specify if the given height should be applied on the whole tablegrid (`global`), or on the body (`body`)
 - `tablegrid` filter is now accent insensitive
+- new filter `luifStripAccent` in order to replace accented chars with non-accented chars 
 
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
