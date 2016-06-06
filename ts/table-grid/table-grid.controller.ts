@@ -154,6 +154,27 @@ module Lui.Directives {
 				return "";
 			};
 
+			let diacriticsMap = {
+				a: /[àâä]/g,
+				e: /[éèêë]/g,
+				i: /[ìîï]/g,
+				o: /[ôöò]/g,
+				u: /[üûù]/g,
+				c: /[ç]/g
+			};
+
+			let stripAccent = function(input: string): string {
+				if (input === null || input === undefined) {
+					return "";
+				}
+
+				_.each(_.keys(diacriticsMap), (letter) => {
+					input = input.replace(diacriticsMap[letter], letter);
+				});
+
+				return input;
+			};
+
 			$scope.updateFilteredRows = () => {
 				//Management of checkboxes if tablegrid is selectable
 				if ($scope.isSelectable) {
@@ -183,7 +204,7 @@ module Lui.Directives {
 									if (filter.header.filterType === FilterTypeEnum.SELECT || filter.header.filterType === FilterTypeEnum.MULTISELECT) {
 										return propValue.indexOf("|") !== -1 ? propValue.split("|").indexOf(value.toLowerCase()) !== -1 : propValue === value.toLowerCase();
 									}else {
-										return propValue.indexOf(value.toLowerCase()) !== -1;
+										return stripAccent(propValue).indexOf(stripAccent(value.toLowerCase())) !== -1;
 									}
 								});
 								if (!containsProp) {
