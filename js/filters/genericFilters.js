@@ -36,7 +36,7 @@
 		return function(_input, _precision, _placeholder) {
 
 			function getRightSpan(decimalPart, separator) {
-				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; } 
+				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; }
 				if (parseInt(decimalPart) === 0) { return "<span style=\"opacity:0\">" + separator + decimalPart + "</span>"; }
 				return "<span>" + separator + decimalPart + "</span>";
 			}
@@ -59,5 +59,33 @@
 			var integerPart = text.split(separator)[0];
 			return $sce.trustAsHtml(integerPart + rightSpan);
 		};
-	}]);
+	}])
+	.filter('luifStripAccent', function () {
+		var diacriticsMap = {
+			a: /[ãáàâä]/g,
+			e: /[éèêë]/g,
+			i: /[ìîï]/g,
+			o: /[ôöõò]/g,
+			u: /[üûù]/g,
+			c: /[ç]/g,
+			A: /[ÂÄÂÁÀ]/g,
+			E: /[ÈÉÊË]/g,
+			I: /[ÎÏÌÍ]/g,
+			O: /[ÒÔÓÕÖ]/g,
+			U: /[ÙÚÛÜ]/g,
+			C: /[Ç]/g
+		};
+
+		return function (_input, start) {
+			if (_input === null || _input === undefined) {
+				return "";
+			}
+
+			_.each(_.keys(diacriticsMap), function(letter){
+				_input = _input.replace(diacriticsMap[letter], letter);
+			});
+
+			return _input;
+		};
+	});
 })();

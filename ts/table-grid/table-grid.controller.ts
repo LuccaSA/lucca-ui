@@ -154,26 +154,7 @@ module Lui.Directives {
 				return "";
 			};
 
-			let diacriticsMap = {
-				a: /[àâä]/g,
-				e: /[éèêë]/g,
-				i: /[ìîï]/g,
-				o: /[ôöò]/g,
-				u: /[üûù]/g,
-				c: /[ç]/g
-			};
-
-			let stripAccent = function(input: string): string {
-				if (input === null || input === undefined) {
-					return "";
-				}
-
-				_.each(_.keys(diacriticsMap), (letter) => {
-					input = input.replace(diacriticsMap[letter], letter);
-				});
-
-				return input;
-			};
+			let stripAccent = <(input: string) => string> $filter("luifStripAccent");
 
 			$scope.updateFilteredRows = () => {
 				//Management of checkboxes if tablegrid is selectable
