@@ -3,9 +3,9 @@ node_js:
   - "4.4"
 
 before_script:
-  - npm install -g grunt grunt-cli bower tsd --progress=false
+  - npm install -g grunt grunt-cli bower typings --progress=false
   - bower install --force-latest
-  - tsd install
+  - typings install
 
 script: 
   - grunt dist
