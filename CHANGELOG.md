@@ -1,8 +1,12 @@
 # Change log
 
-## 2.2.3 - in dev
-- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
-- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
+## 2.2.4 - in dev
+
+### New features
+
+### Resolved issues
+
+## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
 ### New features
 - UI-Select now supports class `.invalid`
@@ -11,12 +15,16 @@
 - `tablegrid` filter is now accent insensitive
 - new filter `luifStripAccent` in order to replace accented chars with non-accented chars 
 
+### New features still in beta - use at your own risks
+- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
+- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
+
 ### Resolved issues
  - fix invalid inputs with addon were not bordered correctly
  - fix links in tablegrid do not trigger `onRowClick` anymore
  - Adds support for disabled state on ui-selet (issue #264)
 
-## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.1)
+## 2.2.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
 ### Resolved issues
  - fix style of table grid and notify that was disabled by default
