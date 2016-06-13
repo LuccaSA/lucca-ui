@@ -169,6 +169,11 @@ module Lui.Directives {
 						if (!!lockedColumnsVS) {
 							lockedColumnsVS.style.height = canvasHeight + "px";
 						}
+					}else{
+						scrollableAreaVS.style.height = height + "px";
+						if (!!lockedColumnsVS) {
+							lockedColumnsVS.style.height = height + "px";
+						}
 					}
 				};
 
