@@ -5,6 +5,7 @@
 ### New features
 
 ### Resolved issues
+- UI-select disabled styling fix
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
