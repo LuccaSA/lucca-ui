@@ -39,7 +39,7 @@
 	.directive('luidFocusOn', function() {
 		return function(scope, elem, attr) {
 			scope.$on(attr.luidFocusOn, function(e) {
-				elem[0].focus();
+				setTimeout( function() { elem[0].focus(); scope.$apply(); }, 1);
 			});
 		};
 	});
