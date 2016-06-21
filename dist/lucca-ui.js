@@ -1208,7 +1208,7 @@
 		return function(_input, _precision, _placeholder) {
 
 			function getRightSpan(decimalPart, separator) {
-				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; } 
+				if (decimalPart === undefined) { return "<span style=\"opacity:0\"></span>"; }
 				if (parseInt(decimalPart) === 0) { return "<span style=\"opacity:0\">" + separator + decimalPart + "</span>"; }
 				return "<span>" + separator + decimalPart + "</span>";
 			}
@@ -1232,13 +1232,17 @@
 			return $sce.trustAsHtml(integerPart + rightSpan);
 		};
 	}]);
-})();;(function () {
+})();
+;(function () {
 	'use strict';
 	/**
 	** DEPENDENCIES
 	**  - moment
 	**/
 	var formatMoment = function (_moment, _format) { //expects a moment
+		if (!_moment) {
+			return "";
+		}
 		var m = moment(_moment);
 		return m.isValid() ? m.format(_format) : _moment;
 	};
@@ -1276,8 +1280,13 @@
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
 			if(!_block){ return; }
-			var start = moment(_block.startsAt || _block.startsOn || _block.startDate || _block.start);
-			var end = moment(_block.endsAt || _block.endsOn || _block.endDate || _block.end);
+			var start = _block.startsAt || _block.startsOn || _block.startDate || _block.start;
+			var end = _block.endsAt || _block.endsOn || _block.endDate || _block.end;
+			if (!start && !end) {
+				return "";
+			}
+			start = moment(start);
+			end = moment(end);
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
@@ -1452,7 +1461,532 @@
 		};
 	});
 })();
-;angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+;var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
+        var CalendarMonth = (function () {
+            function CalendarMonth(date) {
+                this.date = moment(date).startOf("month");
+                this.weeks = [];
+                this.currentYear = this.date.year() === moment().year();
+            }
+            return CalendarMonth;
+        }());
+        Directives.CalendarMonth = CalendarMonth;
+        var CalendarWeek = (function () {
+            function CalendarWeek() {
+            }
+            return CalendarWeek;
+        }());
+        Directives.CalendarWeek = CalendarWeek;
+        var CalendarDay = (function () {
+            function CalendarDay(date) {
+                this.date = date;
+                this.dayNum = date.date();
+            }
+            return CalendarDay;
+        }());
+        Directives.CalendarDay = CalendarDay;
+        var CalendarController = (function () {
+            function CalendarController($scope) {
+                this.$scope = $scope;
+                this.initCalendarScopeMethods($scope);
+            }
+            CalendarController.prototype.setMonthsCnt = function (cntStr) {
+                this.monthsCnt = parseInt(cntStr, 10) || 1;
+            };
+            CalendarController.prototype.constructMonths = function () {
+                var _this = this;
+                return _.map(_.range(this.monthsCnt), function (offset) {
+                    return _this.constructMonth(moment(_this.currentMonth).add(offset, "months").startOf("month"));
+                });
+            };
+            CalendarController.prototype.constructDayLabels = function () {
+                return _.map(_.range(7), function (i) {
+                    return moment().startOf("week").add(i, "days").format("dd");
+                });
+            };
+            CalendarController.prototype.assignClasses = function () {
+                var _this = this;
+                var days = this.extractDays();
+                _.each(days, function (day) {
+                    day.selected = false;
+                    day.start = false;
+                    day.end = false;
+                    day.inBetween = false;
+                    if (!!_this.selected && day.date.format("YYYYMMDD") === moment(_this.selected).format("YYYYMMDD")) {
+                        day.selected = true;
+                    }
+                    if (!!_this.start && day.date.format("YYYYMMDD") === moment(_this.start).format("YYYYMMDD")) {
+                        day.start = true;
+                    }
+                    if (!!_this.end && day.date.format("YYYYMMDD") === moment(_this.end).format("YYYYMMDD")) {
+                        day.end = true;
+                    }
+                    if (!!_this.start && !!_this.end && day.date.isAfter(_this.start) && day.date.isBefore(_this.end)) {
+                        day.inBetween = true;
+                    }
+                    if (!!_this.min && _this.min.diff(day.date) > 0) {
+                        day.disabled = true;
+                    }
+                    if (!!_this.max && _this.max.diff(day.date) < 0) {
+                        day.disabled = true;
+                    }
+                    if (!!_this.$scope.customClass) {
+                        day.customClass = _this.$scope.customClass(day.date);
+                    }
+                });
+            };
+            CalendarController.prototype.initCalendarScopeMethods = function ($scope) {
+                var _this = this;
+                $scope.dayLabels = this.constructDayLabels();
+                $scope.nextMonth = function () {
+                    _this.currentMonth.add(1, "month");
+                    $scope.months = _this.constructMonths();
+                    _this.assignClasses();
+                };
+                $scope.previousMonth = function () {
+                    _this.currentMonth.add(-1, "month");
+                    $scope.months = _this.constructMonths();
+                    _this.assignClasses();
+                };
+            };
+            CalendarController.prototype.constructMonth = function (monthStart) {
+                var month = new CalendarMonth(monthStart);
+                var weekStart = moment(month.date).startOf("week");
+                while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
+                    month.weeks.push(this.constructWeek(weekStart, month.date));
+                    weekStart.add(1, "week");
+                }
+                return month;
+            };
+            CalendarController.prototype.constructWeek = function (weekStart, monthStart) {
+                var week = { days: [] };
+                week.days = _.map(_.range(7), function (i) {
+                    var day = new CalendarDay(moment(weekStart).add(i, "days"));
+                    if (day.date.month() !== monthStart.month()) {
+                        day.empty = true;
+                    }
+                    return day;
+                });
+                return week;
+            };
+            CalendarController.prototype.extractDays = function () {
+                return _.chain(this.$scope.months)
+                    .pluck("weeks")
+                    .flatten()
+                    .pluck("days")
+                    .flatten()
+                    .reject(function (day) {
+                    return day.empty;
+                })
+                    .value();
+            };
+            return CalendarController;
+        }());
+        Directives.CalendarController = CalendarController;
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
+        var LuidDatePicker = (function () {
+            function LuidDatePicker() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/date-picker/datepicker-inline.html";
+                this.require = ["ngModel", "luidDatePicker"];
+                this.scope = {
+                    format: "@",
+                    displayedMonths: "@",
+                    min: "=",
+                    max: "=",
+                    customClass: "=",
+                };
+                this.controller = LuidDatePickerController.IID;
+            }
+            LuidDatePicker.factory = function () {
+                var directive = function () {
+                    return new LuidDatePicker();
+                };
+                return directive;
+            };
+            LuidDatePicker.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var datePickerCtrl = ctrls[1];
+                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+                datePickerCtrl.setFormat(scope.format);
+                datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+            };
+            LuidDatePicker.IID = "luidDatePicker";
+            return LuidDatePicker;
+        }());
+        var LuidDatePickerPopup = (function () {
+            function LuidDatePickerPopup() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/date-picker/datepicker-popup.html";
+                this.require = ["ngModel", "luidDatePickerPopup"];
+                this.scope = {
+                    format: "@",
+                    displayFormat: "@",
+                    displayedMonths: "@",
+                    min: "=",
+                    max: "=",
+                    customClass: "=",
+                };
+                this.controller = LuidDatePickerController.IID;
+            }
+            LuidDatePickerPopup.factory = function () {
+                var directive = function () {
+                    return new LuidDatePickerPopup();
+                };
+                return directive;
+            };
+            LuidDatePickerPopup.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var datePickerCtrl = ctrls[1];
+                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+                datePickerCtrl.setFormat(scope.format, scope.displayFormat);
+                datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+                datePickerCtrl.setPopoverTrigger(element, scope);
+            };
+            LuidDatePickerPopup.IID = "luidDatePickerPopup";
+            return LuidDatePickerPopup;
+        }());
+        var LuidDatePickerController = (function (_super) {
+            __extends(LuidDatePickerController, _super);
+            function LuidDatePickerController($scope) {
+                var _this = this;
+                _super.call(this, $scope);
+                this.$scope = $scope;
+                $scope.selectDay = function (day) {
+                    _this.setViewValue(day.date);
+                    $scope.displayStr = _this.getDisplayStr(day.date);
+                    _this.selected = day.date;
+                    _this.assignClasses();
+                    _this.closePopover();
+                };
+                $scope.togglePopover = function ($event) {
+                    _this.togglePopover($event);
+                };
+                $scope.$watch("min", function () {
+                    _this.min = _this.formatter.parseValue($scope.min);
+                    _this.validate();
+                    _this.selected = _this.getViewValue();
+                    _this.assignClasses();
+                });
+                $scope.$watch("max", function () {
+                    _this.max = _this.formatter.parseValue($scope.max);
+                    _this.validate();
+                    _this.selected = _this.getViewValue();
+                    _this.assignClasses();
+                });
+            }
+            LuidDatePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
+                var _this = this;
+                this.ngModelCtrl = ngModelCtrl;
+                ngModelCtrl.$render = function () {
+                    var date = _this.formatter.parseValue(ngModelCtrl.$viewValue);
+                    _this.currentMonth = moment(date).startOf("month");
+                    _this.$scope.months = _this.constructMonths();
+                    _this.selected = date;
+                    _this.min = _this.formatter.parseValue(_this.$scope.min);
+                    _this.max = _this.formatter.parseValue(_this.$scope.max);
+                    _this.assignClasses();
+                    _this.$scope.displayStr = _this.getDisplayStr(date);
+                };
+                ngModelCtrl.$validators.min = function (modelValue, viewValue) {
+                    var min = _this.min;
+                    var value = _this.getViewValue();
+                    return !value || !min || min.diff(value) <= 0;
+                };
+                ngModelCtrl.$validators.max = function (modelValue, viewValue) {
+                    var max = _this.max;
+                    var value = _this.getViewValue();
+                    return !value || !max || max.diff(value) >= 0;
+                };
+            };
+            LuidDatePickerController.prototype.setFormat = function (format, displayFormat) {
+                this.formatter = new Lui.Utils.MomentFormatter(format);
+                if (format !== "moment" && format !== "date") {
+                    this.displayFormat = displayFormat || format || "L";
+                }
+                else {
+                    this.displayFormat = displayFormat || "L";
+                }
+            };
+            LuidDatePickerController.prototype.setPopoverTrigger = function (elt, $scope) {
+                var _this = this;
+                this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope);
+                $scope.popover = { isOpen: false };
+                $scope.togglePopover = function ($event) {
+                    _this.togglePopover($event);
+                };
+            };
+            LuidDatePickerController.prototype.setViewValue = function (value) {
+                this.ngModelCtrl.$setViewValue(this.formatter.formatValue(value));
+            };
+            LuidDatePickerController.prototype.getViewValue = function () {
+                return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
+            };
+            LuidDatePickerController.prototype.validate = function () {
+                this.ngModelCtrl.$validate();
+            };
+            LuidDatePickerController.prototype.togglePopover = function ($event) {
+                if (this.$scope.popover.isOpen) {
+                    this.closePopover();
+                }
+                else {
+                    this.openPopover($event);
+                }
+            };
+            LuidDatePickerController.prototype.closePopover = function () {
+                if (!!this.popoverController) {
+                    this.popoverController.close();
+                }
+            };
+            LuidDatePickerController.prototype.openPopover = function ($event) {
+                if (!!this.popoverController) {
+                    this.popoverController.open($event);
+                }
+            };
+            LuidDatePickerController.prototype.getDisplayStr = function (date) {
+                return !!date ? date.format(this.displayFormat) : undefined;
+            };
+            LuidDatePickerController.IID = "luidDatePickerController";
+            LuidDatePickerController.$inject = ["$scope"];
+            return LuidDatePickerController;
+        }(Directives.CalendarController));
+        angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
+        angular.module("lui.directives").directive(LuidDatePicker.IID, LuidDatePicker.factory());
+        angular.module("lui.directives").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
+        var LuidDaterangePicker = (function () {
+            function LuidDaterangePicker() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/date-picker/daterangepicker.html";
+                this.require = ["ngModel", "luidDaterangePicker"];
+                this.scope = {
+                    format: "@",
+                    displayFormat: "@",
+                    min: "=",
+                    max: "=",
+                    customClass: "=",
+                    excludeEnd: "@",
+                    startProperty: "@",
+                    endProperty: "@",
+                };
+                this.controller = LuidDaterangePickerController.IID;
+            }
+            LuidDaterangePicker.factory = function () {
+                var directive = function () {
+                    return new LuidDaterangePicker();
+                };
+                return directive;
+            };
+            LuidDaterangePicker.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var drCtrl = ctrls[1];
+                drCtrl.setNgModelCtrl(ngModelCtrl);
+                drCtrl.setFormat(scope.format, scope.displayFormat);
+                drCtrl.setMonthsCnt("2");
+                drCtrl.setPopoverTrigger(element, scope);
+                drCtrl.setExcludeEnd(scope.excludeEnd);
+                drCtrl.setProperties(scope.startProperty, scope.endProperty);
+            };
+            LuidDaterangePicker.IID = "luidDaterangePicker";
+            return LuidDaterangePicker;
+        }());
+        var LuidDaterangePickerController = (function (_super) {
+            __extends(LuidDaterangePickerController, _super);
+            function LuidDaterangePickerController($scope, $filter) {
+                var _this = this;
+                _super.call(this, $scope);
+                this.$scope = $scope;
+                this.$filter = $filter;
+                $scope.selectDay = function (day) {
+                    if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
+                        $scope.period.start = day.date;
+                        _this.start = day.date;
+                        $scope.editEnd();
+                        if (!!$scope.period.end && $scope.period.start.isAfter($scope.period.end)) {
+                            $scope.period.end = undefined;
+                            _this.end = undefined;
+                        }
+                        _this.assignClasses();
+                    }
+                    else {
+                        $scope.period.end = day.date;
+                        _this.closePopover();
+                    }
+                };
+                $scope.editStart = function ($event) {
+                    if (!!$event) {
+                        $event.stopPropagation();
+                    }
+                    $scope.editingStart = true;
+                    if (!!_this.$scope.period.start && moment(_this.currentMonth).diff(_this.$scope.period.start) > 0) {
+                        _this.currentMonth = moment(_this.$scope.period.start).startOf("month");
+                        _this.$scope.months = _this.constructMonths();
+                        _this.assignClasses();
+                    }
+                };
+                $scope.editEnd = function ($event) {
+                    if (!!$event) {
+                        $event.stopPropagation();
+                    }
+                    $scope.editingStart = false;
+                    if (!!_this.$scope.period.end && moment(_this.currentMonth).add(_this.monthsCnt, "months").diff(_this.$scope.period.end) <= 0) {
+                        _this.currentMonth = moment(_this.$scope.period.end).add(-_this.monthsCnt + 1, "months").startOf("month");
+                        _this.$scope.months = _this.constructMonths();
+                        _this.assignClasses();
+                    }
+                };
+                $scope.onMouseEnter = function (day, $event) {
+                    if (!$scope.editingStart && !_this.$scope.period.end) {
+                        _this.end = day.date;
+                        _this.assignClasses();
+                    }
+                };
+                $scope.onMouseLeave = function (day, $event) {
+                    if (!$scope.editingStart && !_this.$scope.period.end) {
+                        _this.end = undefined;
+                        _this.assignClasses();
+                    }
+                };
+                $scope.popover = { isOpen: false };
+            }
+            LuidDaterangePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
+                var _this = this;
+                this.ngModelCtrl = ngModelCtrl;
+                ngModelCtrl.$render = function () {
+                    if (ngModelCtrl.$viewValue) {
+                        _this.$scope.period = _this.getViewValue();
+                        _this.$scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                    }
+                    else {
+                        _this.$scope.period = undefined;
+                        _this.$scope.displayStr = undefined;
+                    }
+                };
+                ngModelCtrl.$validators.min = function (modelValue, viewValue) {
+                    var start = _this.getViewValue().start;
+                    var min = _this.formatter.parseValue(_this.$scope.min);
+                    return !start || !min || min.diff(start) <= 0;
+                };
+                ngModelCtrl.$validators.max = function (modelValue, viewValue) {
+                    var end = _this.getViewValue().end;
+                    var max = _this.formatter.parseValue(_this.$scope.max);
+                    return !end || !max || max.diff(end) >= 0;
+                };
+            };
+            LuidDaterangePickerController.prototype.setProperties = function (startProperty, endProperty) {
+                this.startProperty = startProperty || "start";
+                this.endProperty = endProperty || "end";
+            };
+            LuidDaterangePickerController.prototype.setExcludeEnd = function (excludeEnd) {
+                this.excludeEnd = excludeEnd === "true";
+            };
+            LuidDaterangePickerController.prototype.setFormat = function (format, displayFormat) {
+                this.formatter = new Lui.Utils.MomentFormatter(format);
+                if (format !== "moment" && format !== "date") {
+                    this.$scope.momentFormat = displayFormat || format || "L";
+                }
+                else {
+                    this.$scope.momentFormat = displayFormat || "L";
+                }
+            };
+            LuidDaterangePickerController.prototype.setPopoverTrigger = function (elt, scope) {
+                var _this = this;
+                var onClosing = function () {
+                    _this.closePopover();
+                };
+                this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope, onClosing);
+                scope.togglePopover = function ($event) {
+                    _this.togglePopover($event);
+                };
+            };
+            LuidDaterangePickerController.prototype.setViewValue = function (value) {
+                var period = this.ngModelCtrl.$viewValue || {};
+                if (!value || !value.start || !value.end) {
+                    period[this.startProperty] = undefined;
+                    period[this.endProperty] = undefined;
+                }
+                else {
+                    period[this.startProperty] = this.formatter.formatValue(moment(value.start));
+                    period[this.endProperty] = this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+                }
+                this.ngModelCtrl.$setViewValue(period);
+            };
+            LuidDaterangePickerController.prototype.getViewValue = function () {
+                if (!!this.ngModelCtrl.$viewValue) {
+                    var iperiod = {};
+                    iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
+                    iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
+                    var period = new Lui.Period(iperiod, this.formatter);
+                    if (this.excludeEnd) {
+                        period.end.add(-1, "day");
+                    }
+                    return period;
+                }
+                return { start: undefined, end: undefined };
+            };
+            LuidDaterangePickerController.prototype.togglePopover = function ($event) {
+                if (this.$scope.popover.isOpen) {
+                    this.closePopover();
+                }
+                else {
+                    this.openPopover($event);
+                }
+            };
+            LuidDaterangePickerController.prototype.closePopover = function () {
+                if (!!this.$scope.period.start && !!this.$scope.period.end) {
+                    this.setViewValue(this.$scope.period);
+                    this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+                }
+                else {
+                    this.$scope.period = this.getViewValue();
+                }
+                this.popoverController.close();
+            };
+            LuidDaterangePickerController.prototype.openPopover = function ($event) {
+                var vv = this.getViewValue();
+                this.$scope.period = vv || { start: undefined, end: undefined };
+                this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
+                this.$scope.months = this.constructMonths();
+                if (!!vv) {
+                    this.start = vv.start;
+                    this.end = vv.end;
+                }
+                this.min = this.formatter.parseValue(this.$scope.min);
+                this.max = this.formatter.parseValue(this.$scope.max);
+                this.assignClasses();
+                this.$scope.editingStart = true;
+                this.popoverController.open($event);
+            };
+            LuidDaterangePickerController.IID = "luidDaterangePickerController";
+            LuidDaterangePickerController.$inject = ["$scope", "$filter"];
+            return LuidDaterangePickerController;
+        }(Directives.CalendarController));
+        angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
+        angular.module("lui.directives").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {
@@ -1467,11 +2001,120 @@ var Lui;
 (function (Lui) {
     "use strict";
     var Period = (function () {
-        function Period() {
+        function Period(unformatted, formatter) {
+            var start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
+            var end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
+            this.start = formatter.parseValue(start);
+            this.end = formatter.parseValue(end);
         }
         return Period;
     }());
     Lui.Period = Period;
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Filters;
+    (function (Filters) {
+        "use strict";
+        var diacriticsMap = [
+            { "base": "A", "letters": /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g },
+            { "base": "AA", "letters": /[\uA732]/g },
+            { "base": "AE", "letters": /[\u00C6\u01FC\u01E2]/g },
+            { "base": "AO", "letters": /[\uA734]/g },
+            { "base": "AU", "letters": /[\uA736]/g },
+            { "base": "AV", "letters": /[\uA738\uA73A]/g },
+            { "base": "AY", "letters": /[\uA73C]/g },
+            { "base": "B", "letters": /[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g },
+            { "base": "C", "letters": /[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g },
+            { "base": "D", "letters": /[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g },
+            { "base": "DZ", "letters": /[\u01F1\u01C4]/g },
+            { "base": "Dz", "letters": /[\u01F2\u01C5]/g },
+            { "base": "E", "letters": /[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g },
+            { "base": "F", "letters": /[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g },
+            { "base": "G", "letters": /[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g },
+            { "base": "H", "letters": /[\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D]/g },
+            { "base": "I", "letters": /[\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197]/g },
+            { "base": "J", "letters": /[\u004A\u24BF\uFF2A\u0134\u0248]/g },
+            { "base": "K", "letters": /[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g },
+            { "base": "L", "letters": /[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g },
+            { "base": "LJ", "letters": /[\u01C7]/g },
+            { "base": "Lj", "letters": /[\u01C8]/g },
+            { "base": "M", "letters": /[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g },
+            { "base": "N", "letters": /[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g },
+            { "base": "NJ", "letters": /[\u01CA]/g },
+            { "base": "Nj", "letters": /[\u01CB]/g },
+            { "base": "O", "letters": /[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g },
+            { "base": "OI", "letters": /[\u01A2]/g },
+            { "base": "OO", "letters": /[\uA74E]/g },
+            { "base": "OU", "letters": /[\u0222]/g },
+            { "base": "P", "letters": /[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g },
+            { "base": "Q", "letters": /[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g },
+            { "base": "R", "letters": /[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g },
+            { "base": "S", "letters": /[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g },
+            { "base": "T", "letters": /[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g },
+            { "base": "TZ", "letters": /[\uA728]/g },
+            { "base": "U", "letters": /[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g },
+            { "base": "V", "letters": /[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g },
+            { "base": "VY", "letters": /[\uA760]/g },
+            { "base": "W", "letters": /[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g },
+            { "base": "X", "letters": /[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g },
+            { "base": "Y", "letters": /[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g },
+            { "base": "Z", "letters": /[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g },
+            { "base": "a", "letters": /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g },
+            { "base": "aa", "letters": /[\uA733]/g },
+            { "base": "ae", "letters": /[\u00E6\u01FD\u01E3]/g },
+            { "base": "ao", "letters": /[\uA735]/g },
+            { "base": "au", "letters": /[\uA737]/g },
+            { "base": "av", "letters": /[\uA739\uA73B]/g },
+            { "base": "ay", "letters": /[\uA73D]/g },
+            { "base": "b", "letters": /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
+            { "base": "c", "letters": /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g },
+            { "base": "d", "letters": /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g },
+            { "base": "dz", "letters": /[\u01F3\u01C6]/g },
+            { "base": "e", "letters": /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g },
+            { "base": "f", "letters": /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
+            { "base": "g", "letters": /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g },
+            { "base": "h", "letters": /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g },
+            { "base": "hv", "letters": /[\u0195]/g },
+            { "base": "i", "letters": /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g },
+            { "base": "j", "letters": /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
+            { "base": "k", "letters": /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g },
+            { "base": "l", "letters": /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g },
+            { "base": "lj", "letters": /[\u01C9]/g },
+            { "base": "m", "letters": /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
+            { "base": "n", "letters": /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g },
+            { "base": "nj", "letters": /[\u01CC]/g },
+            { "base": "o", "letters": /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g },
+            { "base": "oi", "letters": /[\u01A3]/g },
+            { "base": "ou", "letters": /[\u0223]/g },
+            { "base": "oo", "letters": /[\uA74F]/g },
+            { "base": "p", "letters": /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
+            { "base": "q", "letters": /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
+            { "base": "r", "letters": /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g },
+            { "base": "s", "letters": /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g },
+            { "base": "t", "letters": /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g },
+            { "base": "tz", "letters": /[\uA729]/g },
+            { "base": "u", "letters": /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g },
+            { "base": "v", "letters": /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
+            { "base": "vy", "letters": /[\uA761]/g },
+            { "base": "w", "letters": /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g },
+            { "base": "x", "letters": /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
+            { "base": "y", "letters": /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g },
+            { "base": "z", "letters": /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g }
+        ];
+        function luifStripAccents() {
+            return function (input) {
+                if (input === null || input === undefined) {
+                    return "";
+                }
+                _.each(diacriticsMap, function (row) {
+                    input = input.replace(row.letters, row.base);
+                });
+                return input;
+            };
+        }
+        angular.module("lui.filters").filter("luifStripAccents", luifStripAccents);
+    })(Filters = Lui.Filters || (Lui.Filters = {}));
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
@@ -1708,8 +2351,127 @@ var Lui;
         angular.module("lui.services").service(ProgressBarService.IID, ProgressBarService);
     })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Utils;
+    (function (Utils) {
+        "use strict";
+        var MomentFormatter = (function () {
+            function MomentFormatter(format) {
+                this.format = format || "moment";
+            }
+            MomentFormatter.prototype.parseValue = function (value) {
+                switch (this.format) {
+                    case "moment": return this.parseMoment(value);
+                    case "date": return this.parseDate(value);
+                    default: return this.parseString(value);
+                }
+            };
+            MomentFormatter.prototype.formatValue = function (value) {
+                switch (this.format) {
+                    case "moment": return this.formatMoment(value);
+                    case "date": return this.formatDate(value);
+                    default: return this.formatString(value);
+                }
+            };
+            MomentFormatter.prototype.parseMoment = function (value) {
+                return !!value ? moment(value) : undefined;
+            };
+            MomentFormatter.prototype.parseDate = function (value) {
+                return !!value ? moment(value) : undefined;
+            };
+            MomentFormatter.prototype.parseString = function (value) {
+                return !!value && moment(value, this.format).isValid() ? moment(value, this.format) : undefined;
+            };
+            MomentFormatter.prototype.formatMoment = function (value) {
+                return moment(value);
+            };
+            MomentFormatter.prototype.formatDate = function (value) {
+                return value.toDate();
+            };
+            MomentFormatter.prototype.formatString = function (value) {
+                return value.format(this.format);
+            };
+            return MomentFormatter;
+        }());
+        Utils.MomentFormatter = MomentFormatter;
+    })(Utils = Lui.Utils || (Lui.Utils = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Utils;
+    (function (Utils) {
+        "use strict";
+        var ClickoutsideTrigger = (function () {
+            function ClickoutsideTrigger(elt, $scope, clickedOutside) {
+                this.elt = elt;
+                this.body = angular.element(document.getElementsByTagName("body")[0]);
+                this.$scope = $scope;
+                this.clickedOutside = clickedOutside;
+            }
+            ClickoutsideTrigger.prototype.toggle = function ($event) {
+                if (this.$scope.popover.isOpen) {
+                    this.close($event);
+                }
+                else {
+                    this.open($event);
+                }
+            };
+            ClickoutsideTrigger.prototype.close = function ($event) {
+                this.$scope.popover.isOpen = false;
+                if (!!this.body) {
+                    this.body.off("click");
+                    this.elt.off("click");
+                }
+            };
+            ClickoutsideTrigger.prototype.open = function ($event) {
+                var _this = this;
+                this.$scope.popover.isOpen = true;
+                setTimeout(function () {
+                    _this.body.on("click", function () {
+                        _this.onClickedOutside();
+                        _this.$scope.$digest();
+                    });
+                    _this.elt.on("click", function (otherEvent) {
+                        otherEvent.stopPropagation();
+                    });
+                }, 1);
+            };
+            ClickoutsideTrigger.prototype.onClickedOutside = function ($event) {
+                if (this.clickedOutside) {
+                    this.clickedOutside();
+                }
+                else {
+                    this.close();
+                }
+            };
+            return ClickoutsideTrigger;
+        }());
+        Utils.ClickoutsideTrigger = ClickoutsideTrigger;
+    })(Utils = Lui.Utils || (Lui.Utils = {}));
+})(Lui || (Lui = {}));
 ;angular.module('lui.directives').run(['$templateCache', function($templateCache) {
   'use strict';
+
+  $templateCache.put('lui/templates/date-picker/datepicker-inline.html',
+    "<table ng-repeat=\"month in months\"><caption><button class=previous ng-if=$first ng-click=previousMonth()></button> <span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <button class=next ng-if=$last ng-click=nextMonth()></button></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{disabled: day.disabled, empty: day.empty, selected: day.selected}, day.customClass]\" ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table>"
+  );
+
+
+  $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
+    "<span class=\"lui input\" uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=togglePopover($event)><input ng-disabled=popover.isOpen ng-model=displayStr></span>"
+  );
+
+
+  $templateCache.put('lui/templates/date-picker/daterangepicker-popover.html',
+    "<table ng-repeat=\"month in months\"><caption><button class=previous ng-if=$first ng-click=previousMonth()></button> <span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <button class=next ng-if=$last ng-click=nextMonth()></button></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween, 'disabled': day.disabled }, day.customClass]\" ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table>"
+  );
+
+
+  $templateCache.put('lui/templates/date-picker/daterangepicker.html',
+    "<span class=\"lui tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><input ng-hide=popover.isOpen ng-model=displayStr> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : \".................\" }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : \".................\" }}</span></span></span>"
+  );
+
 
   $templateCache.put('lui/templates/notify-service/alert.html',
     "<section>{{message}}</section><footer class=\"lui right aligned\"><button class=\"lui button\" ng-click=ok()>{{okLabel}}</button></footer>"
@@ -1727,15 +2489,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/notify-service/loading.html',
-    "<div class=\"lui {{showProgress ? 'down' : ''}} callout notification-popup typeset\" ng-class=\"[$classes, \r" +
-    "\n" +
-    "$position === 'center' ? 'cg-notify-message-center' : '',\r" +
-    "\n" +
-    "$position === 'left' ? 'cg-notify-message-left' : '',\r" +
-    "\n" +
-    "$position === 'right' ? 'cg-notify-message-right' : '', \r" +
-    "\n" +
-    "calloutClass]\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross right pulled\" ng-click=$close() ng-if=\"success || failure || cancelled\"></div><div class=\"lui slim attached progressing progress\" ng-class=\"{light: loading, primary: success, red: failed, orange: cancelled}\" ng-if=showProgress><div class=indicator data-percentage={{percentage}} style=\"width: {{percentage}}%\"></div></div><div ng-if=!$message><h5 ng-show=loading><span class=\"lui loader\"></span> Loading <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{'NOTIFY_SUCCESS' | translate }}</h5><h5 ng-show=failure>{{'NOTIFY_ERROR' | translate }}</h5><h5 ng-show=cancelled>{{'NOTIFY_WARNING' | translate }}</h5></div><div ng-if=!!$message><h5 ng-show=loading><span class=\"lui loader\"></span> {{ $message }} <span ng-show=canCancel class=\"lui flat x-small button\" ng-click=cancel()>{{\"CANCEL\" | translate}}</span></h5><h5 ng-show=success>{{ \"SUCCESS_\" + $message | translate }}</h5><h5 ng-show=failure>{{ \"ERR_\" + $message | translate }}</h5><h5 ng-show=cancelled>{{ \"WARN_\" + $message | translate }}</h5></div></div>"
+    "<div class=\"lui up callout luis-notify typeset\" ng-class=[calloutClass] ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close() ng-hide=loading></div><div class=\"lui small filling button icon cross close\" ng-click=cancel() ng-show=\"loading && canCancel\"></div><h5 ng-show=!message><span class=\"lui loader\" ng-show=loading></span>&nbsp;&nbsp;Loading</h5><h5 ng-hide=!message><span class=\"lui loader\" ng-show=loading></span>&nbsp;&nbsp;{{ message }}</h5></div>"
   );
 
 
@@ -1755,7 +2509,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in ::row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=false on-remove=updateFilteredRows() ng-if=\"::header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"::header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"internalRowClick($event, row);\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in ::row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=true on-remove=updateFilteredRows() ng-if=\"::header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"::header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"internalRowClick($event, row);\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);

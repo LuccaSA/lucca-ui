@@ -1,27 +1,98 @@
+declare module Lui.Directives {
+    class CalendarMonth {
+        date: moment.Moment;
+        currentYear: boolean;
+        weeks: CalendarWeek[];
+        constructor(date: moment.Moment);
+    }
+    class CalendarWeek {
+        days: CalendarDay[];
+    }
+    class CalendarDay {
+        date: moment.Moment;
+        dayNum: number;
+        empty: boolean;
+        disabled: boolean;
+        selected: boolean;
+        start: boolean;
+        end: boolean;
+        inBetween: boolean;
+        customClass: string;
+        constructor(date: moment.Moment);
+    }
+    interface ICalendarScope extends ng.IScope {
+        customClass: (date: moment.Moment) => string;
+        displayedMonths: string;
+        min: any;
+        max: any;
+        dayLabels: string[];
+        months: CalendarMonth[];
+        selectDay(day: CalendarDay): void;
+        previousMonth(): void;
+        nextMonth(): void;
+        onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
+        onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
+    }
+    interface ICalendarValidators extends ng.IModelValidators {
+        min: (modelValue: any, viewValue: any) => boolean;
+        max: (modelValue: any, viewValue: any) => boolean;
+    }
+    class CalendarController {
+        protected monthsCnt: number;
+        protected currentMonth: moment.Moment;
+        protected $scope: ICalendarScope;
+        protected selected: moment.Moment;
+        protected start: moment.Moment;
+        protected end: moment.Moment;
+        protected min: moment.Moment;
+        protected max: moment.Moment;
+        constructor($scope: ICalendarScope);
+        setMonthsCnt(cntStr?: string): void;
+        protected constructMonths(): CalendarMonth[];
+        protected constructDayLabels(): string[];
+        protected assignClasses(): void;
+        private initCalendarScopeMethods($scope);
+        private constructMonth(monthStart);
+        private constructWeek(weekStart, monthStart);
+        private extractDays();
+    }
+}
+declare module Lui.Directives {
+}
+declare module Lui.Directives {
+}
 declare module Lui {
     interface ILuiFilters extends ng.IFilterService {
         (name: "luifDuration"): (input: any, showSign?: boolean, unit?: string, precision?: string) => string;
         (name: "luifPlaceholder"): (input: any, placeholder: string) => string;
-        (name: "luifFriendlyRange"): (input: Period, excludeEnd: boolean) => string;
+        (name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean) => string;
         (name: "luifDefaultCode"): (input: string) => string;
+        (name: "luifStripAccents"): (input: string) => string;
     }
-    class Period {
-        start: moment.Moment & string & Date;
-        startsOn: moment.Moment & string & Date;
-        startsAt: moment.Moment & string & Date;
-        end: moment.Moment & string & Date;
-        endsOn: moment.Moment & string & Date;
-        endsAt: moment.Moment & string & Date;
+    interface IPeriod {
+        start?: moment.Moment | string | Date;
+        startsOn?: moment.Moment | string | Date;
+        startsAt?: moment.Moment | string | Date;
+        end?: moment.Moment | string | Date;
+        endsOn?: moment.Moment | string | Date;
+        endsAt?: moment.Moment | string | Date;
     }
+    class Period implements IPeriod {
+        start: moment.Moment;
+        end: moment.Moment;
+        constructor(unformatted: IPeriod, formatter?: Lui.Utils.IFormatter<moment.Moment>);
+    }
+}
+declare module Lui.Filters {
 }
 declare module Lui.Service {
     interface INotifyConfig {
-        parentTagIdClass: string;
-        prefix: string;
-        startTop: number;
-        okLabel: string;
-        cancelLabel: string;
-        canDismissConfirm: boolean;
+        parentTagIdClass?: string;
+        prefix?: string;
+        startTop?: number;
+        okLabel?: string;
+        cancelLabel?: string;
+        canDismissConfirm?: boolean;
     }
     class NotifyService {
         static IID: string;
@@ -41,6 +112,7 @@ declare module Lui.Service {
         success(message: string, details?: string): void;
         alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
         confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
+        loading(loadingPromise: ng.IPromise<string>, message?: string, cancelFn?: () => void): void;
         private openModal(templateUrl, message, okLabel, cancelLabel, preventDismiss);
     }
 }
@@ -140,7 +212,13 @@ declare module Lui.Directives {
 declare module Lui.Directives {
     interface ILuidTableGridAttributes extends ng.IAttributes {
         height: string;
+        heightType: string;
         selectable: boolean;
+    }
+    class LuidTableGridHeightType {
+        static GLOBAL: string;
+        static BODY: string;
+        static isTypeExisting(type: string): boolean;
     }
     class LuidTableGrid implements angular.IDirective {
         static defaultHeight: number;
@@ -154,6 +232,7 @@ declare module Lui.Directives {
             selectable: string;
             defaultOrder: string;
             onRowClick: string;
+            heightType: string;
         };
         templateUrl: string;
         private $timeout;
@@ -202,5 +281,46 @@ declare module Lui.Directives {
         updateOrderedRows: (header: TableGrid.Header) => void;
         updateViewAfterFiltering: () => void;
         updateViewAfterOrderBy: () => void;
+    }
+}
+declare module Lui.Utils {
+    interface IFormatter<T> {
+        parseValue(value: any): T;
+        formatValue(value: T): any;
+    }
+    class MomentFormatter implements IFormatter<moment.Moment> {
+        private format;
+        constructor(format?: string);
+        parseValue(value: any): moment.Moment;
+        formatValue(value: moment.Moment): any;
+        private parseMoment(value);
+        private parseDate(value);
+        private parseString(value);
+        private formatMoment(value);
+        private formatDate(value);
+        private formatString(value);
+    }
+}
+declare module Lui.Utils {
+    interface IPopoverController {
+        toggle($event?: ng.IAngularEvent): void;
+        open($event?: ng.IAngularEvent): void;
+        close($event?: ng.IAngularEvent): void;
+    }
+    interface IClickoutsideTriggerScope extends ng.IScope {
+        popover: {
+            isOpen: boolean;
+        };
+    }
+    class ClickoutsideTrigger implements IPopoverController {
+        private elt;
+        private body;
+        private $scope;
+        private clickedOutside;
+        constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void);
+        toggle($event?: ng.IAngularEvent): void;
+        close($event?: ng.IAngularEvent): void;
+        open($event: ng.IAngularEvent): void;
+        private onClickedOutside($event?);
     }
 }

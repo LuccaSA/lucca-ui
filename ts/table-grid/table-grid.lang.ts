@@ -10,8 +10,8 @@ angular.module("lui.translates.tablegrid").config(["$translateProvider", functio
 
 		});
 		$translateProvider.translations("fr", {
-			"SELECT_ITEM": "Séléctionnez un élément",
-			"SELECT_ITEMS": "Séléctionnez des éléments",
+			"SELECT_ITEM": "Sélectionnez un élément",
+			"SELECT_ITEMS": "Sélectionnez des éléments",
 		});
 		$translateProvider.translations("it", {
 
