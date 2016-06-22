@@ -174,6 +174,8 @@
 				box-sizing: border-box;
 			}
 
+			> .addon.icon:before { margin-top: 0; }
+
 			&:not(.addons) > #{$prefix}.addon:not([class*="right addon"]),
 			&.addons > #{$prefix}.addon:first-child {
 				border-right: none;
@@ -195,6 +197,10 @@
 		// Button addon
 		#{$prefix}.input[class*="with addon"] .addon.button {
 			border: 0; margin: 0;
+			&:not(.icon) {
+				padding-top: map-gets($vars, borderWidth);
+				padding-bottom: map-gets($vars, borderWidth);
+			}
 			min-width: inherit;
 			&:not(.right) {
 				border-top-right-radius: 0;

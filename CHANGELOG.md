@@ -6,8 +6,10 @@
 
 ### Resolved issues
 - UI-select disabled styling fix
+- UI-select: JS would sometimes mess up search input size
 - tablegrid : fixes a translation typo
 - [issue #276](https://github.com/LuccaSA/lucca-ui/issues/276) - tablegrid does not evaluate expression when injecting HTML as ui-select-choices
+- Inputs: fixes input addon sizing
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
@@ -16,7 +18,7 @@
 - `luisNotify` - add method `loading`, see [demo](https://luccasa.github.io/lucca-ui/#/directives#luis-notify) for more info
 - `tablegrid` - add the attribute `height-type` in order to specify if the given height should be applied on the whole tablegrid (`global`), or on the body (`body`)
 - `tablegrid` filter is now accent insensitive
-- new filter `luifStripAccent` in order to replace accented chars with non-accented chars 
+- new filter `luifStripAccent` in order to replace accented chars with non-accented chars
 
 ### New features still in beta - use at your own risks
 - `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
