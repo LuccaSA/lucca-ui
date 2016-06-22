@@ -9,6 +9,7 @@
 - UI-select: JS would sometimes mess up search input size
 - tablegrid : fixes a translation typo
 - [issue #276](https://github.com/LuccaSA/lucca-ui/issues/276) - tablegrid does not evaluate expression when injecting HTML as ui-select-choices
+- Inputs: fixes input addon sizing
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
