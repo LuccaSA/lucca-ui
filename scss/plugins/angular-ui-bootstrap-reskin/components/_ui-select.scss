@@ -37,6 +37,8 @@
 				@include lui_target_IE9 { width: 100%; }
 			}
 
+			.ui-select-search { width: 100% !important; } // Prevents JS from messing up sizing
+
 			&:not(.ui-select-multiple) .ui-select-search { display: none; }
 
 			.ui-select-toggle {
