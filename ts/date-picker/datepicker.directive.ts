@@ -39,6 +39,8 @@ module Lui.Directives {
 			min: "=",
 			max: "=",
 			customClass: "=",
+			shortcuts: "=",
+			groupedShortcuts: "=",
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {

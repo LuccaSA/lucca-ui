@@ -16,6 +16,9 @@ module Lui.Directives {
 			excludeEnd: "@",
 			startProperty: "@",
 			endProperty: "@",
+
+			shortcuts: "=",
+			groupedShortcuts: "=",
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {

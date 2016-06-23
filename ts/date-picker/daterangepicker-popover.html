@@ -19,9 +19,16 @@
 	</tbody>
 </table>
 
-<footer ng-if="!!shortcuts">
+<footer ng-if="!!shortcuts || !!groupedShortcuts">
 	<ul>
-		<li class="group" ng-repeat="group in shortcuts">
+		<li>
+			<ul>
+				<li class="shortcut" ng-repeat="shortcut in shortcuts">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
+				</li>
+			</ul>
+		</li>
+		<li class="group" ng-repeat="group in groupedShortcuts">
 			<ul>
 				<li class="shortcut" ng-repeat="shortcut in group">
 					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
