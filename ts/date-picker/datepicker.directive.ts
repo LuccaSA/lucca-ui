@@ -52,7 +52,7 @@ module Lui.Directives {
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
 			datePickerCtrl.setPopoverTrigger(element, scope);
 		}
 	}
@@ -70,15 +70,15 @@ module Lui.Directives {
 
 	class LuidDatePickerController extends CalendarController {
 		public static IID: string = "luidDatePickerController";
-		public static $inject: Array<string> = ["$scope"];
+		public static $inject: Array<string> = ["$scope", "$log"];
 		protected $scope: IDatePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
 		private popoverController: Lui.Utils.IPopoverController;
 
-		constructor($scope: IDatePickerScope) {
-			super($scope);
+		constructor($scope: IDatePickerScope, $log: ng.ILogService) {
+			super($scope, $log);
 			this.$scope = $scope;
 			$scope.selectDay = (day: CalendarDay) => {
 				this.setViewValue(day.date);

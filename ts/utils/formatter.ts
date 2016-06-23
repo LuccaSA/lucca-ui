@@ -17,7 +17,7 @@ module Lui.Utils {
 			}
 		}
 		public formatValue(value: moment.Moment): any {
-			if (!value) { 
+			if (!value) {
 				return value;
 			}
 			switch (this.format) {

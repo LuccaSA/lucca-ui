@@ -61,7 +61,7 @@ module Lui.Directives {
 
 	class LuidDaterangePickerController extends CalendarController {
 		public static IID: string = "luidDaterangePickerController";
-		public static $inject: Array<string> = ["$scope", "$filter"];
+		public static $inject: Array<string> = ["$scope", "$filter", "$log"];
 		protected $scope: IDaterangePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
@@ -71,8 +71,8 @@ module Lui.Directives {
 		private startProperty: string;
 		private endProperty: string;
 
-		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
-			super($scope);
+		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters, $log: ng.ILogService) {
+			super($scope, $log);
 			this.$scope = $scope;
 			this.$filter = $filter;
 
