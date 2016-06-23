@@ -52,7 +52,8 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 		momentFormat: string;
-		togglePopover: ($event: ng.IAngularEvent) => void;
+		togglePopover($event: ng.IAngularEvent): void;
+		clear($event: ng.IAngularEvent): void;
 	}
 
 
@@ -126,6 +127,13 @@ module Lui.Directives {
 				}
 			};
 			$scope.popover = { isOpen: false };
+			$scope.clear = ($event: ng.IAngularEvent) => {
+				$scope.period.start = undefined;
+				$scope.period.end = undefined;
+				this.setViewValue(undefined);
+				this.closePopover();
+				$event.stopPropagation();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -216,6 +224,7 @@ module Lui.Directives {
 				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 			} else {
 				this.$scope.period = this.getViewValue();
+				this.$scope.displayStr = "";
 			}
 			this.popoverController.close();
 		}
