@@ -41,6 +41,7 @@ module Lui.Directives {
 		selectDay(day: CalendarDay): void;
 		previousMonth(): void;
 		nextMonth(): void;
+		direction: string;
 
 		onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
 		onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
@@ -111,11 +112,13 @@ module Lui.Directives {
 			$scope.nextMonth = () => {
 				this.currentMonth.add(1, "month");
 				$scope.months = this.constructMonths();
+				$scope.direction = "next";
 				this.assignClasses();
 			};
 			$scope.previousMonth = () => {
 				this.currentMonth.add(-1, "month");
 				$scope.months = this.constructMonths();
+				$scope.direction = "previous";
 				this.assignClasses();
 			};
 		}

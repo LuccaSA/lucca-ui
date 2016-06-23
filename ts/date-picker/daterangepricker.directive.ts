@@ -210,6 +210,7 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			this.$scope.direction = "";
 			if (!!this.$scope.period.start && !!this.$scope.period.end) {
 				this.setViewValue(this.$scope.period);
 				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);

@@ -2,11 +2,37 @@
 
 	@if luiTheme(element, datepicker, enabled) {
 		$vars: luiTheme(element, datepicker);
-		luid-date-picker-popup {
+		luid-date-picker,
+		luid-date-picker-popup,
+		luid-daterange-picker {
+			display: inline-block;
+		}
+		luid-date-picker-popup,
+		luid-daterange-picker {
 			> .lui.input {
+				position: relative;
 				width: map-gets($vars, input, width);
+
+				input {
+					padding-right: 2.25em;
+				}
+
+				&.empty {
+					i.empty { display: none; }
+					@include lui_make_icon("calendar", right);
+					&:after {
+						position: absolute;
+						top: luiTheme(element, input, borderWidth);
+						right: 0.5em;
+						line-height: 1 +  luiTheme(element, input, padding, top) +  luiTheme(element, input, padding, bottom);
+					}
+				}
 			}
-		};
+			> .popover > .popover-inner {
+				text-align: center;
+			}
+
+		}
 		luid-daterange-picker {
 			> .lui.tagged.input {
 				width: 2 * map-gets($vars, input, width);
@@ -14,20 +40,61 @@
 					cursor: pointer;
 				}
 			}
-			.popover-inner {
-				// TEMP
-				width: 40em;
-			}
-		};
+		}
+
 		luid-date-picker,
-		luid-date-picker-popup > .popover > .popover-inner > .popover-content,
-		luid-daterange-picker > .popover > .popover-inner > .popover-content {
-			display: inline-block;
+		luid-date-picker-popup .popover-content,
+		luid-daterange-picker .popover-content {
+			position: relative;
+
+			> button.previous,
+			> button.next {
+				display: block;
+				background: transparent;
+				border: none;
+				outline: 0; outline: none;
+
+				position: absolute;
+				z-index: 2;
+				top: 0.5em;
+
+				padding: 0.5em 1em;
+				border-radius: 3px;
+
+				font-family: 'lucca-icons';
+				font-size: lui_rem(0.8);
+
+				&:hover {
+					background-color: luiPalette(light, color, light);
+				}
+			}
+			> button.previous {
+				left: 1em;
+				&:before {
+					content: "\e053";
+				}
+			}
+			> button.next {
+				right: 1em;
+				&:before {
+					content: "\e054";
+				}
+			}
 
 			> table {
-				display: inline;
-				margin: .5em;
+				display: inline-block;
+				vertical-align: top;
+				margin: 0 .25em;
 				border-collapse: collapse;
+
+				@extend %#{$cleanNamespace}-animated;
+
+				&.previous {
+					animation-name: leftFadeIn;
+				}
+				&.next {
+					animation-name: rightFadeIn;
+				}
 
 				> caption {
 					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
@@ -39,35 +106,6 @@
 						display: inline-block;
 						vertical-align: middle;
 					}
-
-					> button.previous,
-					> button.next {
-						display: inline-block;
-						background: transparent;
-						border: none;
-						outline: 0; outline: none;
-
-						padding: 0.5em 1em;
-						border-radius: 3px;
-
-						font-family: 'lucca-icons';
-						font-size: lui_rem(0.8);
-
-						&:hover {
-							background-color: luiPalette(light, color, light);
-						}
-					}
-					> button.previous {
-						float: left;
-						&:before {
-							content: "\e053";
-						}
-					}
-					> button.next {
-						float: right;
-						&:before {
-							content: "\e054";
-						}					}
 				}
 
 				> tbody > tr > td,
@@ -90,7 +128,7 @@
 					user-select: none;
 				}
 
-				> tbody > tr > td.disabled {
+				> tbody > tr > td[disabled="disabled"] {
 					border: map-gets($vars, day, disabled, border, width) map-gets($vars, day, disabled, border, style) map-gets($vars, day, disabled, border, color);
 					color: map-gets($vars, day, disabled, color);
 					background-color: map-gets($vars, day, disabled, background-color);
@@ -140,9 +178,56 @@
 						opacity: .5;
 						pointer-events: none;
 					}
-
 				}
 			}
+
+			> footer {
+				text-align: left;
+				padding: 1em 0;
+
+				ul { list-style: none; margin: 0; padding: 0; }
+				li { margin: 0; padding: 0; }
+
+				li.group {
+
+				}
+				li.shortcut {
+					display: inline-block;
+				}
+			}
+		}
+
+		luid-daterange-picker .popover-content,
+		luid-date-picker-popup .popover-content {
+			> footer {
+				background-color: map-gets($vars, popup, footer, background);
+				margin: 0.5em -1em -1em -1em;
+				padding: 0.5em 1em;
+				border-top: 1px solid luiTheme(element, divider, color);
+			}
+		}
+
+		luid-daterange-picker {
+			> .lui.input > .tags {
+				display: block;
+				width: 100%;
+				text-align: center;
+
+				user-select: none;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				-ms-user-select: none;
+
+				.arrow.icon {
+					font-size: 0.5em;
+					margin: 0 1em;
+				}
+			}
+		}
+
+		luid-daterange-picker,
+		luid-date-picker-popup[displayed-months="2"] {
+			.popover-inner { width: 40em; }
 		}
 	}
 }

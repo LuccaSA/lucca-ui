@@ -89,6 +89,12 @@ $datepicker: (
 				color: luiPalette(primary, text),
 			)
 		)
+	),
+
+	popup: (
+		footer: (
+			background: #FAFAFA
+		)
 	)
 );
 $luiTheme: luiSetTheme(element, datepicker, $datepicker);

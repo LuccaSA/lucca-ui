@@ -165,11 +165,13 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			this.$scope.direction = "";
 			if (!!this.popoverController) {
 				this.popoverController.close();
 			}
 		}
 		private openPopover($event: ng.IAngularEvent): void {
+			this.$scope.direction = "";
 			if (!!this.popoverController) {
 				this.popoverController.open($event);
 			}
