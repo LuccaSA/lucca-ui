@@ -7,7 +7,7 @@
 	ng-class="{ 'empty': !displayStr }"
 	ng-click="togglePopover($event)">
 	<input  type="text"
-			ng-disabled="popover.isOpen"
-			ng-model="displayStr">
-	<i class="empty" ng-click=""></i>
+	ng-disabled="popover.isOpen"
+	ng-model="displayStr">
+	<i class="empty" ng-click="clear($event)"></i>
 </span>

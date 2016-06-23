@@ -64,7 +64,8 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 
-		togglePopover: ($event: ng.IAngularEvent) => void;
+		togglePopover($event: ng.IAngularEvent): void;
+		clear($event: ng.IAngularEvent): void;
 	}
 
 	class LuidDatePickerController extends CalendarController {
@@ -103,6 +104,15 @@ module Lui.Directives {
 				this.selected = this.getViewValue();
 				this.assignClasses();
 			});
+
+			$scope.clear = ($event: ng.IAngularEvent) => {
+				this.setViewValue(undefined);
+				this.$scope.displayStr = "";
+				this.closePopover();
+				this.selected = undefined;
+				this.assignClasses();
+				$event.stopPropagation();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
