@@ -74,7 +74,7 @@ module Lui.Directives {
 			this.$scope = $scope;
 			this.$filter = $filter;
 			$scope.selectDay = (day: CalendarDay) => {
-				if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
+				if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
 					$scope.period.start = day.date;
 					this.start = day.date;
 					$scope.editEnd();
@@ -83,9 +83,12 @@ module Lui.Directives {
 						this.end = undefined;
 					}
 					this.assignClasses();
-				} else {
+				} else if (!$scope.editingStart && !!$scope.period.start) {
 					$scope.period.end = day.date;
 					this.closePopover();
+				} else {
+					$scope.period.end = day.date;
+					$scope.editStart();
 				}
 			};
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
