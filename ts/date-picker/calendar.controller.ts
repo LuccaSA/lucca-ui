@@ -37,11 +37,11 @@ module Lui.Directives {
 
 		dayLabels: string[];
 		months: CalendarMonth[];
+		direction: string;
 
 		selectDay(day: CalendarDay): void;
 		previousMonth(): void;
 		nextMonth(): void;
-		direction: string;
 
 		onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
 		onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
