@@ -128,12 +128,6 @@
 					user-select: none;
 				}
 
-				> tbody > tr > td[disabled="disabled"] {
-					border: map-gets($vars, day, disabled, border, width) map-gets($vars, day, disabled, border, style) map-gets($vars, day, disabled, border, color);
-					color: map-gets($vars, day, disabled, color);
-					background-color: map-gets($vars, day, disabled, background-color);
-				}
-
 				> tbody > tr > td.empty {
 					opacity: 0;
 					pointer-events: none;
@@ -174,9 +168,12 @@
 							background-color: map-gets($vars, day, selected, hover, background-color);
 						}
 					}
-					&.disabled {
-						opacity: .5;
+					&.disabled, &[disabled="disabled"] {
+						opacity: map-gets($vars, day, disabled, opacity);
 						pointer-events: none;
+						// border: map-gets($vars, day, disabled, border, width) map-gets($vars, day, disabled, border, style) map-gets($vars, day, disabled, border, color);
+						// color: map-gets($vars, day, disabled, color);
+						// background-color: map-gets($vars, day, disabled, background-color);
 					}
 				}
 			}
