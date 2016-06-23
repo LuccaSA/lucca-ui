@@ -8,8 +8,8 @@
 	<input type="text" ng-hide="popover.isOpen" ng-model="displayStr">
 	<i class="empty" ng-click="clear($event)"></i>
 	<span class="tags" ng-show="popover.isOpen">
-		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : "From" }}</span>
+		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span>
 		<i class="lui east arrow icon"></i>
-		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : "To" }}</span>
+		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span>
 	</span>
 </span>

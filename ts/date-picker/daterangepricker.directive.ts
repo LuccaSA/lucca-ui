@@ -52,6 +52,8 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 		momentFormat: string;
+		fromLabel: string;
+		toLabel: string;
 		togglePopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
 	}
@@ -73,6 +75,17 @@ module Lui.Directives {
 			super($scope);
 			this.$scope = $scope;
 			this.$filter = $filter;
+
+			switch (moment.locale()) {
+				case "fr":
+					$scope.fromLabel = "Du";
+					$scope.toLabel = "Au";
+					break;
+				default: // en
+					$scope.fromLabel = "From";
+					$scope.toLabel = "To";
+					break;
+			}
 			$scope.selectDay = (day: CalendarDay) => {
 				if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
 					$scope.period.start = day.date;
