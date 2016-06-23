@@ -18,11 +18,11 @@
 	</tbody>
 </table>
 
-<footer>
+<footer ng-if="!!shortcuts">
 	<ul>
-		<li class="group" ng-repeatt="group in shortcuts">
+		<li class="group" ng-repeat="group in shortcuts">
 			<ul>
-				<li class="shortcut" ng-repeatt="shortcut in group">
+				<li class="shortcut" ng-repeat="shortcut in group">
 					<a class="lui small grey wired button" ng-click="">Today</a>
 				</li>
 				<li class="shortcut">

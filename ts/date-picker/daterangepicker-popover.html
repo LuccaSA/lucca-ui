@@ -19,25 +19,12 @@
 	</tbody>
 </table>
 
-<footer>
+<footer ng-if="!!shortcuts">
 	<ul>
-		<li class="group" ng-repeatt="group in shortcuts">
+		<li class="group" ng-repeat="group in shortcuts">
 			<ul>
-				<li class="shortcut" ng-repeatt="shortcut in group">
-					<a class="lui small grey wired button" ng-click="">Today</a>
-				</li>
-				<li class="shortcut">
-					<a class="lui small grey wired button" ng-click="">Yesterday</a>
-				</li>
-			</ul>
-		</li>
-		<li class="group">
-			<ul>
-				<li class="shortcut" ng-repeatt="shortcut in group">
-					<a class="lui small grey wired button" ng-click="">This week</a>
-				</li>
-				<li class="shortcut">
-					<a class="lui small grey wired button" ng-click="">Last week</a>
+				<li class="shortcut" ng-repeat="shortcut in group">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>
