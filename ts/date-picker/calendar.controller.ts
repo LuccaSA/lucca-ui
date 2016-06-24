@@ -28,6 +28,10 @@ module Lui.Directives {
 			this.dayNum = date.date();
 		}
 	}
+	export class Shortcut {
+		public label: string;
+		public date: moment.Moment | Date | string;
+	}
 	export interface ICalendarScope extends ng.IScope {
 		customClass: (date: moment.Moment) => string;
 		displayedMonths: string;
@@ -40,6 +44,7 @@ module Lui.Directives {
 		direction: string;
 
 		selectDay(day: CalendarDay): void;
+		selectShortcut(shortcut: Shortcut): void;
 		previousMonth(): void;
 		nextMonth(): void;
 

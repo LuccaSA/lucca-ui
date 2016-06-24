@@ -107,6 +107,13 @@ module Lui.Directives {
 					$scope.editStart();
 				}
 			};
+			$scope.selectShortcut = (shortcut: Shortcut) => {
+				$scope.period = this.toPeriod(shortcut);
+				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+				this.setViewValue($scope.period);
+				this.closePopover();
+			};
+
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
 					$event.stopPropagation();
@@ -216,16 +223,19 @@ module Lui.Directives {
 		}
 		private getViewValue(): Lui.Period {
 			if (!!this.ngModelCtrl.$viewValue) {
-				let iperiod: Lui.IPeriod = {};
-				iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
-				iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
-				let period = new Lui.Period(iperiod, this.formatter);
-				if (this.excludeEnd) {
-					period.end.add(-1, "day");
-				}
-				return period;
+				return this.toPeriod(this.ngModelCtrl.$viewValue);
 			}
 			return { start: undefined, end: undefined };
+		}
+		private toPeriod(v: any): Lui.Period {
+			let iperiod: Lui.IPeriod = {};
+			iperiod.start = v[this.startProperty];
+			iperiod.end = v[this.endProperty];
+			let period = new Lui.Period(iperiod, this.formatter);
+			if (this.excludeEnd) {
+				period.end.add(-1, "day");
+			}
+			return period;
 		}
 
 		// popover logic
