@@ -611,6 +611,8 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
 					<li><code>displayed-months</code>: number of months you want displayed next to one another, default <code>1</code></li>
 					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+					<li><code>shortcuts</code>: unused inline, a list of objects <code>{ label: "string", date: "your format of date" }</code> to be displayed under the calendars to easily select a certain date</li>
+					<li><code>grouped-shortcuts</code>: unused inline, like <code>shortcuts</code> but you want them displayed on several lines for consistency, for example you want on one line <code>yesterday</code>, <code>today</code>, <code>tomorrow</code> and on another <code>last week</code>, <code>this week</code>, <code>next week</code></li>
 				</ul>
 			</p>
 			<div class="lui dashed divider">
@@ -696,8 +698,8 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					<!-- <code> lol mdr {{myForm}}</code> -->
 				</p>
 				<p>
-					min: <luid-date-picker-popup ng-model="min" display-format="LL"></luid-date-picker-popup>
-					max: <luid-date-picker-popup ng-model="max" display-format="LL"></luid-date-picker-popup>
+					min: <luid-date-picker-popup ng-model="min" display-format="LL" shortcuts="shortcuts"></luid-date-picker-popup>
+					max: <luid-date-picker-popup ng-model="max" display-format="LL" grouped-shortcuts="groupedShortcuts"></luid-date-picker-popup>
 				</p>
 				<p>
 					<!-- <code>{{myForm.withMinMax}}</code> -->
@@ -753,6 +755,8 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					<li><code>max</code>: self explainatory</li>
 					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
 					<li><code>display-format</code>: used when the popover is open to display each date in its tag, uses <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+					<li><code>shortcuts</code>: unused inline, a list of objects <code>{ label: "string", "your-start-property": "your format of date", "your-end-property": "your format of date" }</code> to be displayed under the calendars to easily select a certain daterange</li>
+					<li><code>grouped-shortcuts</code>: unused inline, like <code>shortcuts</code> but you want them displayed on several lines for consistency, for example you want on one line <code>yesterday</code>, <code>today</code>, <code>tomorrow</code> and on another <code>last week</code>, <code>this week</code>, <code>next week</code></li>
 				</ul>
 			</p>
 			<div class="lui dashed divider">
@@ -777,7 +781,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					basic usage
 				</p>
 				<p>
-					<luid-daterange-picker ng-model="myDaterange"></luid-daterange-picker>
+					<luid-daterange-picker ng-model="myDaterange" grouped-shortcuts="groupedShortcuts"></luid-daterange-picker>
 				</p>
 				<p>
 					start: <code>{{ myDaterange.start | luifMoment }}</code> - end: <code>{{ myDaterange.end | luifMoment }}</code>
@@ -787,7 +791,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					with end excluded and weekend disabled
 				</p>
 				<p>
-					<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends"></luid-daterange-picker>
+					<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends" shortcuts="shortcuts"></luid-daterange-picker>
 				</p>
 				<p>
 					start: <code>{{ myDaterange2.start | luifMoment }}</code> - end: <code>{{ myDaterange2.end | luifMoment }}</code>
