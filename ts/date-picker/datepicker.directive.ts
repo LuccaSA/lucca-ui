@@ -115,6 +115,14 @@ module Lui.Directives {
 				this.assignClasses();
 				$event.stopPropagation();
 			};
+			$scope.selectShortcut = (shortcut: Shortcut) => {
+				let date = this.formatter.parseValue(shortcut.date);
+				this.setViewValue(date);
+				this.$scope.displayStr = this.getDisplayStr(date);
+				this.closePopover();
+				this.selected = date;
+				this.assignClasses();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
