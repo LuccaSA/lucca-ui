@@ -65,6 +65,21 @@
 					padding-left: map-gets($vars, checkbox, size);
 				}
 			}
+
+			&.disabled input,
+			&.disabled label,
+			input[type="checkbox"][disabled="disabled"],
+			input[type="checkbox"][disabled="disabled"] ~ label {
+				cursor: default;
+				pointer-events: none;
+			}
+			&.disabled label,
+			input[type="checkbox"][disabled="disabled"] ~ label {
+				color: transparentize(luiTheme(element, typography, body, color), 0.5);
+				&:before {
+					color: transparentize(desaturate(map-gets($vars, checkbox, color), 50), 0.5) !important;
+				}
+			}
 		}
 
 		// Icon version
