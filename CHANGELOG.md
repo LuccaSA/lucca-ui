@@ -10,6 +10,8 @@
 - tablegrid : fixes a translation typo
 - [issue #276](https://github.com/LuccaSA/lucca-ui/issues/276) - tablegrid does not evaluate expression when injecting HTML as ui-select-choices
 - Inputs: fixes input addon sizing
+- [issue #280](https://github.com/LuccaSA/lucca-ui/issues/280) - Adds support for the disabled style on lui checkbox
+
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 
