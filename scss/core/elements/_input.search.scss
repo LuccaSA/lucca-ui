@@ -22,27 +22,6 @@
 				@extend %lui_user_select_none;
 			}
 
-			i.empty {
-				@include lui_make_icon("cross");
-				font-style: normal;
-				cursor: pointer;
-
-				font-size: lui_rem((1/2));
-				width: lui_rem(1.25); height: lui_rem(1.25);
-				text-align: center;
-				border-radius: 50%;
-
-				&, &:before {
-					position: absolute;
-					top: 50%; transform: translateY(-50%);
-				}
-				right: 1em;
-				&:before { right:  0.6em; margin: 0; }
-
-				background: map-gets($vars, borderColor);
-				color: #FFF;
-			}
-
 			// Tags
 			// ====
 			&.tagged {

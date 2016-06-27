@@ -18,12 +18,13 @@ module Lui.Directives.Test {
 		let ctrl: ICalendarController;
 		let $scope: ICalendarScope;
 		beforeEach(inject((
-			_$rootScope_: ng.IRootScopeService
+			_$rootScope_: ng.IRootScopeService,
+			_$log_: ng.ILogService
 		) => {
 			moment.locale("fr");
 			$scope = <ICalendarScope>_$rootScope_.$new();
 			createController = () => {
-				return <ICalendarController>(<any>new CalendarController($scope));
+				return <ICalendarController>(<any>new CalendarController($scope, _$log_));
 			};
 		}));
 		describe("constructMonths", () => {

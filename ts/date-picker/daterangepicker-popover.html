@@ -1,8 +1,9 @@
-<table ng-repeat="month in months">
+<button class="previous" ng-click="previousMonth()"></button>
+<button class="next" ng-click="nextMonth()"></button>
+
+<table ng-repeat="month in months" ng-class="[direction]">
 	<caption>
-		<button class="previous" ng-if="$first" ng-click="previousMonth()"></button>
 		<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-		<button class="next" ng-if="$last" ng-click="nextMonth()"></button>
 	</caption>
 	<thead>
 		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
@@ -10,9 +11,29 @@
 	<tbody>
 		<tr ng-repeat="week in month.weeks">
 			<td ng-repeat="day in week.days"
-			ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween, 'disabled': day.disabled }, day.customClass]"
-			ng-click="selectDay(day)"
-			ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
+				ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
+				ng-disabled="day.disabled"
+				ng-click="selectDay(day)"
+				ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
 		</tr>
 	</tbody>
 </table>
+
+<footer ng-if="!!shortcuts || !!groupedShortcuts">
+	<ul>
+		<li>
+			<ul>
+				<li class="shortcut" ng-repeat="shortcut in shortcuts">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
+				</li>
+			</ul>
+		</li>
+		<li class="group" ng-repeat="group in groupedShortcuts">
+			<ul>
+				<li class="shortcut" ng-repeat="shortcut in group">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</footer>

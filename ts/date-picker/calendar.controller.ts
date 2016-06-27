@@ -28,6 +28,10 @@ module Lui.Directives {
 			this.dayNum = date.date();
 		}
 	}
+	export class Shortcut {
+		public label: string;
+		public date: moment.Moment | Date | string;
+	}
 	export interface ICalendarScope extends ng.IScope {
 		customClass: (date: moment.Moment) => string;
 		displayedMonths: string;
@@ -37,8 +41,10 @@ module Lui.Directives {
 
 		dayLabels: string[];
 		months: CalendarMonth[];
+		direction: string;
 
 		selectDay(day: CalendarDay): void;
+		selectShortcut(shortcut: Shortcut): void;
 		previousMonth(): void;
 		nextMonth(): void;
 
@@ -54,17 +60,23 @@ module Lui.Directives {
 		protected monthsCnt: number;
 		protected currentMonth: moment.Moment;
 		protected $scope: ICalendarScope;
+		protected $log: ng.ILogService;
 		protected selected: moment.Moment;
 		protected start: moment.Moment;
 		protected end: moment.Moment;
 		protected min: moment.Moment;
 		protected max: moment.Moment;
-		constructor($scope: ICalendarScope) {
+		constructor($scope: ICalendarScope, $log: ng.ILogService) {
 			this.$scope = $scope;
+			this.$log = $log;
 			this.initCalendarScopeMethods($scope);
 		}
-		public setMonthsCnt(cntStr?: string): void {
+		public setMonthsCnt(cntStr?: string, inAPopover?: boolean): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
+			if (inAPopover && this.monthsCnt > 2) {
+				this.monthsCnt = 2;
+				this.$log.warn("no more than 2 months displayed in a date-picker popover");
+			}
 		}
 		protected constructMonths(): CalendarMonth[] {
 			return _.map(_.range(this.monthsCnt), (offset: number): CalendarMonth => {
@@ -111,11 +123,13 @@ module Lui.Directives {
 			$scope.nextMonth = () => {
 				this.currentMonth.add(1, "month");
 				$scope.months = this.constructMonths();
+				$scope.direction = "next";
 				this.assignClasses();
 			};
 			$scope.previousMonth = () => {
 				this.currentMonth.add(-1, "month");
 				$scope.months = this.constructMonths();
+				$scope.direction = "previous";
 				this.assignClasses();
 			};
 		}

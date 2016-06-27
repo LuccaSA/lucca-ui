@@ -10,6 +10,8 @@
 - tablegrid : fixes a translation typo
 - [issue #276](https://github.com/LuccaSA/lucca-ui/issues/276) - tablegrid does not evaluate expression when injecting HTML as ui-select-choices
 - Inputs: fixes input addon sizing
+- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
+- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 - [issue #280](https://github.com/LuccaSA/lucca-ui/issues/280) - Adds support for the disabled style on lui checkbox
 
 

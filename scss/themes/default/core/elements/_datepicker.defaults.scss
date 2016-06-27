@@ -36,6 +36,7 @@ $datepicker: (
 		disabled: (
 			background-color: #FFF,
 			color: luiPalette(light, color),
+			opacity: .5,
 
 			border: (
 				width: 1px,
@@ -88,6 +89,12 @@ $datepicker: (
 				background-color: darken(luiPalette(primary, color, light), 10),
 				color: luiPalette(primary, text),
 			)
+		)
+	),
+
+	popup: (
+		footer: (
+			background: #FAFAFA
 		)
 	)
 );

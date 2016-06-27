@@ -111,6 +111,22 @@
 		$scope.highlightThisWeek = function (date) {
 			return date.week() === moment().week() ? "in-between" : "";
 		};
+		$scope.shortcuts = [
+		{ label: "yesterday", date: moment().add(-1, "day").startOf("day") },
+		{ label: "today", date: moment().startOf("day") },
+		{ label: "tomorrow", date: moment().add(1, "day").startOf("day") },
+		{ label: "last monday", date: moment().add(-1, "week").startOf("week") },
+		{ label: "this monday", date: moment().startOf("week") },
+		{ label: "next monday", date: moment().add(1, "week").startOf("week") },
+		];
+		$scope.groupedShortcuts = [
+		[{ label: "yesterday", date: moment().add(-1, "day").startOf("day") },
+		{ label: "today", date: moment().startOf("day") },
+		{ label: "tomorrow", date: moment().add(1, "day").startOf("day") },],
+		[{ label: "last monday", date: moment().add(-1, "week").startOf("week") },
+		{ label: "this monday", date: moment().startOf("week") },
+		{ label: "next monday", date: moment().add(1, "week").startOf("week") },],
+		];
 	}]);
 	angular.module('demoApp')
 	.controller('daterangepickerCtrl', ['$scope', function($scope){
@@ -121,6 +137,19 @@
 		$scope.disableWeekends = function (date) {
 			return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
 		};
+		$scope.shortcuts = [
+		{ label: "last week", start: moment().add(-1, "week").startOf("week"), end: moment().startOf("week") },
+		{ label: "this week", start: moment().startOf("week"), end: moment().add(1, "week").startOf("week") },
+		{ label: "next week", start: moment().add(1, "week").startOf("week"), end: moment().add(2, "week").startOf("week") },
+		];
+		$scope.groupedShortcuts = [
+		[{ label: "last week", start: moment().add(-1, "week").startOf("week"), end: moment().startOf("week").add(-1, "day") },
+		{ label: "this week", start: moment().startOf("week"), end: moment().add(1, "week").startOf("week").add(-1, "day") },
+		{ label: "next week", start: moment().add(1, "week").startOf("week"), end: moment().add(2, "week").startOf("week").add(-1, "day") },],
+		[{ label: "last month", start: moment().add(-1, "month").startOf("month"), end: moment().startOf("month").add(-1, "day") },
+		{ label: "this month", start: moment().startOf("month"), end: moment().add(1, "month").startOf("month").add(-1, "day") },
+		{ label: "next month", start: moment().add(1, "month").startOf("month"), end: moment().add(2, "month").startOf("month").add(-1, "day") },],
+		];
 	}]);
 	angular.module('demoApp')
 	.controller('progressCtrl', ['$scope', '$http', 'luisProgressBar', function($scope, $http, luisProgressBar){

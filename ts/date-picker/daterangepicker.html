@@ -3,11 +3,13 @@
 	popover-placement="bottom-left"
 	popover-trigger="none" popover-is-open="popover.isOpen"
 	popover-class="lui luid-daterangepicker"
-	ng-click="togglePopover($event)">
+	ng-click="togglePopover($event)"
+	ng-class="{ 'open': popover.isOpen, 'empty': !displayStr }">
 	<input type="text" ng-hide="popover.isOpen" ng-model="displayStr">
+	<i class="empty" ng-click="clear($event)"></i>
 	<span class="tags" ng-show="popover.isOpen">
-		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : "................." }}</span>
+		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span>
 		<i class="lui east arrow icon"></i>
-		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : "................." }}</span>
+		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span>
 	</span>
 </span>

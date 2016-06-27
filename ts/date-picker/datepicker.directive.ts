@@ -39,6 +39,8 @@ module Lui.Directives {
 			min: "=",
 			max: "=",
 			customClass: "=",
+			shortcuts: "=",
+			groupedShortcuts: "=",
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -52,7 +54,7 @@ module Lui.Directives {
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
 			datePickerCtrl.setPopoverTrigger(element, scope);
 		}
 	}
@@ -64,20 +66,21 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 
-		togglePopover: ($event: ng.IAngularEvent) => void;
+		togglePopover($event: ng.IAngularEvent): void;
+		clear($event: ng.IAngularEvent): void;
 	}
 
 	class LuidDatePickerController extends CalendarController {
 		public static IID: string = "luidDatePickerController";
-		public static $inject: Array<string> = ["$scope"];
+		public static $inject: Array<string> = ["$scope", "$log"];
 		protected $scope: IDatePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
 		private popoverController: Lui.Utils.IPopoverController;
 
-		constructor($scope: IDatePickerScope) {
-			super($scope);
+		constructor($scope: IDatePickerScope, $log: ng.ILogService) {
+			super($scope, $log);
 			this.$scope = $scope;
 			$scope.selectDay = (day: CalendarDay) => {
 				this.setViewValue(day.date);
@@ -103,6 +106,23 @@ module Lui.Directives {
 				this.selected = this.getViewValue();
 				this.assignClasses();
 			});
+
+			$scope.clear = ($event: ng.IAngularEvent) => {
+				this.setViewValue(undefined);
+				this.$scope.displayStr = "";
+				this.closePopover();
+				this.selected = undefined;
+				this.assignClasses();
+				$event.stopPropagation();
+			};
+			$scope.selectShortcut = (shortcut: Shortcut) => {
+				let date = this.formatter.parseValue(shortcut.date);
+				this.setViewValue(date);
+				this.$scope.displayStr = this.getDisplayStr(date);
+				this.closePopover();
+				this.selected = date;
+				this.assignClasses();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -165,11 +185,13 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			this.$scope.direction = "";
 			if (!!this.popoverController) {
 				this.popoverController.close();
 			}
 		}
 		private openPopover($event: ng.IAngularEvent): void {
+			this.$scope.direction = "";
 			if (!!this.popoverController) {
 				this.popoverController.open($event);
 			}

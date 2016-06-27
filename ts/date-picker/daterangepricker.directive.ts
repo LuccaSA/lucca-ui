@@ -16,6 +16,9 @@ module Lui.Directives {
 			excludeEnd: "@",
 			startProperty: "@",
 			endProperty: "@",
+
+			shortcuts: "=",
+			groupedShortcuts: "=",
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -52,13 +55,16 @@ module Lui.Directives {
 		displayStr: string;
 		displayFormat: string;
 		momentFormat: string;
-		togglePopover: ($event: ng.IAngularEvent) => void;
+		fromLabel: string;
+		toLabel: string;
+		togglePopover($event: ng.IAngularEvent): void;
+		clear($event: ng.IAngularEvent): void;
 	}
 
 
 	class LuidDaterangePickerController extends CalendarController {
 		public static IID: string = "luidDaterangePickerController";
-		public static $inject: Array<string> = ["$scope", "$filter"];
+		public static $inject: Array<string> = ["$scope", "$filter", "$log"];
 		protected $scope: IDaterangePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
@@ -68,12 +74,23 @@ module Lui.Directives {
 		private startProperty: string;
 		private endProperty: string;
 
-		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters) {
-			super($scope);
+		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters, $log: ng.ILogService) {
+			super($scope, $log);
 			this.$scope = $scope;
 			this.$filter = $filter;
+
+			switch (moment.locale()) {
+				case "fr":
+					$scope.fromLabel = "Du";
+					$scope.toLabel = "Au";
+					break;
+				default: // en
+					$scope.fromLabel = "From";
+					$scope.toLabel = "To";
+					break;
+			}
 			$scope.selectDay = (day: CalendarDay) => {
-				if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
+				if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
 					$scope.period.start = day.date;
 					this.start = day.date;
 					$scope.editEnd();
@@ -82,11 +99,21 @@ module Lui.Directives {
 						this.end = undefined;
 					}
 					this.assignClasses();
-				} else {
+				} else if (!$scope.editingStart && !!$scope.period.start) {
 					$scope.period.end = day.date;
 					this.closePopover();
+				} else {
+					$scope.period.end = day.date;
+					$scope.editStart();
 				}
 			};
+			$scope.selectShortcut = (shortcut: Shortcut) => {
+				$scope.period = this.toPeriod(shortcut);
+				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+				this.setViewValue($scope.period);
+				this.closePopover();
+			};
+
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
 					$event.stopPropagation();
@@ -126,6 +153,13 @@ module Lui.Directives {
 				}
 			};
 			$scope.popover = { isOpen: false };
+			$scope.clear = ($event: ng.IAngularEvent) => {
+				$scope.period.start = undefined;
+				$scope.period.end = undefined;
+				this.setViewValue(undefined);
+				this.closePopover();
+				$event.stopPropagation();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -189,16 +223,19 @@ module Lui.Directives {
 		}
 		private getViewValue(): Lui.Period {
 			if (!!this.ngModelCtrl.$viewValue) {
-				let iperiod: Lui.IPeriod = {};
-				iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
-				iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
-				let period = new Lui.Period(iperiod, this.formatter);
-				if (this.excludeEnd) {
-					period.end.add(-1, "day");
-				}
-				return period;
+				return this.toPeriod(this.ngModelCtrl.$viewValue);
 			}
 			return { start: undefined, end: undefined };
+		}
+		private toPeriod(v: any): Lui.Period {
+			let iperiod: Lui.IPeriod = {};
+			iperiod.start = v[this.startProperty];
+			iperiod.end = v[this.endProperty];
+			let period = new Lui.Period(iperiod, this.formatter);
+			if (this.excludeEnd && !!period.end) {
+				period.end.add(-1, "day");
+			}
+			return period;
 		}
 
 		// popover logic
@@ -210,11 +247,13 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			this.$scope.direction = "";
 			if (!!this.$scope.period.start && !!this.$scope.period.end) {
 				this.setViewValue(this.$scope.period);
 				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 			} else {
 				this.$scope.period = this.getViewValue();
+				this.$scope.displayStr = "";
 			}
 			this.popoverController.close();
 		}

@@ -17,6 +17,9 @@ module Lui.Utils {
 			}
 		}
 		public formatValue(value: moment.Moment): any {
+			if (!value) {
+				return value;
+			}
 			switch (this.format) {
 				case "moment": return this.formatMoment(value);
 				case "date": return this.formatDate(value);
