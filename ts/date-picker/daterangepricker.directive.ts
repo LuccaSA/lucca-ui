@@ -232,7 +232,7 @@ module Lui.Directives {
 			iperiod.start = v[this.startProperty];
 			iperiod.end = v[this.endProperty];
 			let period = new Lui.Period(iperiod, this.formatter);
-			if (this.excludeEnd) {
+			if (this.excludeEnd && !!period.end) {
 				period.end.add(-1, "day");
 			}
 			return period;
