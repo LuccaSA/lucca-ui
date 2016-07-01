@@ -1,0 +1,20 @@
+@at-root #{$namespace} {
+
+	@if luiTheme(element, imagepicker, enabled) {
+		$vars: luiTheme(element, imagepicker);
+		luid-image-picker {
+			height: 100%;
+			> div {
+				height: 100%;
+				.luid-image-picker-picture {
+					width: 100%;
+					height: 100%;
+					background: map-gets($vars, placeholder-background);
+					background-size: cover;
+					vertical-align: middle;
+					border-image-width: 0;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+
+// Lucca imagepicker directive
+// @type: element
+// ===================================
+
+$imagepicker: (
+	enabled: 					true,
+	placeholder-background: url() no-repeat 50% 50%,
+);
+$luiTheme: luiSetTheme(element, imagepicker, $imagepicker);
