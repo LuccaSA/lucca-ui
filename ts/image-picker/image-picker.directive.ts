@@ -33,15 +33,23 @@ module Lui.Directives {
 
 	class LuidImagePickerController {
 		public static IID: string = "luidImagePickerController";
-		public static $inject: Array<string> = ["$scope"];
+		public static $inject: Array<string> = ["$scope", "uploaderService"];
 		private $scope: IImagepickerScope;
 		private ngModelCtrl: ng.INgModelController;
 		private placeholder: string;
 
-		constructor($scope: IImagepickerScope) {
+		constructor($scope: IImagepickerScope, uploaderService: Lui.Service.IUploaderService) {
 			this.$scope = $scope;
 			$scope.onCropped = (cropped) => {
 				$scope.uploading = true;
+				uploaderService.postDataURI(cropped)
+				.then( (file: IFile): void => {
+					$scope.uploading = false;
+					this.setViewValue(file);
+					this.$scope.pictureStyle = { "background-image": "url('" + file.href + "')" };
+				}, (message: string): void => {
+					$scope.uploading = false;
+				});
 			};
 		}
 		// set stuff - is called in the linq function
@@ -56,12 +64,15 @@ module Lui.Directives {
 				}
 			};
 		}
-		public setPlaceholder(placehoilder: string): void {
-			this.placeholder = placehoilder || "/static/common/images/placeholder-pp.png";
+		public setPlaceholder(placeholder: string): void {
+			this.placeholder = placeholder || "/static/common/images/placeholder-pp.png";
 		}
 
 		private getViewValue(): IFile {
 			return <IFile>this.ngModelCtrl.$viewValue;
+		}
+		private setViewValue(file: IFile): void {
+			return this.ngModelCtrl.$setViewValue(file);
 		}
 	}
 

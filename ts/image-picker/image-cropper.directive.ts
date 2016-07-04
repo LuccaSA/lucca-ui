@@ -24,8 +24,8 @@ module Lui.Directives {
 		public static IID = "luidImageCropper";
 		public controller = LuidImageCropperController.IID;
 		public restrict = "AE";
-		public scope = { 
-			onCropped: "=" 
+		public scope = {
+			onCropped: "=",
 		};
 
 		public static Factory(): angular.IDirectiveFactory {

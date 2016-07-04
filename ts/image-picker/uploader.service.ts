@@ -27,21 +27,19 @@ module Lui.Service {
 		public postFromUrl(url: string): ng.IPromise<Lui.IFile> {
 			let dfd = this.$q.defer();
 
-			// let req = new XMLHttpRequest();
-			// req.open("GET", url, true);
-			// req.responseType = "arraybuffer";
-			// req.onload = (event) => {
-			// 	let blob = new Blob([req.response], {type: "image/jpeg"});
-			// 	this.postBlob(blob).then(
-			// 		(response: ng.IHttpPromiseCallbackArg<Domain.ApiResponseItem<Domain.File>>) => {
-			// 			dfd.resolve(response);
-			// 		},
-			// 		(response: ng.IHttpPromiseCallbackArg<Domain.ApiError>) => {
-			// 			dfd.reject(response.data);
-			// 		}
-			// 	);
-			// };
-			// req.send();
+			let req = new XMLHttpRequest();
+			req.open("GET", url, true);
+			req.responseType = "arraybuffer";
+			req.onload = (event) => {
+				let blob = new Blob([req.response], {type: "image/jpeg"});
+				this.postBlob(blob)
+				.then((response: ng.IHttpPromiseCallbackArg<ApiResponseItem<IFile>>) => {
+					dfd.resolve(response);
+				}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
+					dfd.reject(response.data.Message);
+				});
+			};
+			req.send();
 
 			return dfd.promise;
 		}
@@ -53,27 +51,24 @@ module Lui.Service {
 
 		public postBlob(blob: Blob): ng.IPromise<Lui.IFile> {
 			let dfd = this.$q.defer();
-			// let url = this.mainApiUrl;
-			// let fd = new FormData();
-			// fd.append("file", blob, "file.png");
-			// this.$http({
-			// 		method: "POST",
-			// 		url: url,
-			// 		data: fd,
-			// 		headers: {
-			// 			"Content-Type": undefined,
-			// 			"Accept": undefined,
-			// 		},
-			// 		transformRequest: angular.identity,
-			// 	})
-			// 	.then(
-			// 	(response: ng.IHttpPromiseCallbackArg<Domain.ApiResponseItem<Domain.File>>) => {
-			// 		dfd.resolve(response.data.data);
-			// 	},
-			// 	(response: ng.IHttpPromiseCallbackArg<Domain.ApiError>) => {
-			// 		dfd.reject(response.data);
-			// 	}
-			// );
+			let url = this.mainApiUrl;
+			let fd = new FormData();
+			fd.append("file", blob, "file.png");
+			this.$http({
+				method: "POST",
+				url: url,
+				data: fd,
+				headers: {
+					"Content-Type": undefined,
+					"Accept": undefined,
+				},
+				transformRequest: angular.identity,
+			})
+			.then((response: ng.IHttpPromiseCallbackArg<ApiResponseItem<IFile>>) => {
+				dfd.resolve(response.data.data);
+			}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
+				dfd.reject(response.data.Message);
+			});
 			return dfd.promise;
 		}
 
@@ -96,6 +91,12 @@ module Lui.Service {
 			let bb = new Blob([ab], {type: mimeString});
 			return bb;
 		}
+	}
+	class ApiResponseItem<T> {
+		public data: T;
+	}
+	class ApiError {
+		Message: string;
 	}
 
 	angular.module("lui.services").service(UploaderService.IID, UploaderService);
