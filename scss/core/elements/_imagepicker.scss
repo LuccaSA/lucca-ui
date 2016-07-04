@@ -15,15 +15,13 @@
 					background-size: cover;
 					vertical-align: middle;
 					border-image-width: 0;
-					.input-overlay {
-						// display: none;
+					.input-overlay, .upload-overlay {
 						position: absolute;
 						left: 0;
 						bottom: 0;
 						right: 0;
-						cursor: pointer;
 						height: 0;
-						// height: map-gets($vars, overlay, height);
+						overflow: hidden;
 						opacity: map-gets($vars, overlay, opacity);
 						background-color: map-gets($vars, overlay, bg-color);
 						color: map-gets($vars, overlay, color);
@@ -33,6 +31,7 @@
 							padding: map-gets($vars, overlay, padding);
 						}
 						input {
+							cursor: pointer;
 							vertical-align: top;
 							font-size: 0;
 							height: 100%;
@@ -42,9 +41,11 @@
 							text-indent: -100%;
 						}
 					}
+					.upload-overlay.uploading {
+						height: 100%;
+					}
 					&:hover {
 						.input-overlay {
-							// display: block;
 							height: map-gets($vars, overlay, height);
 						}
 					}

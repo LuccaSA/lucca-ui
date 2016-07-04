@@ -26,6 +26,8 @@ module Lui.Directives {
 	interface IImagepickerScope extends ng.IScope {
 		pictureStyle: { "background-image": string };
 		placeholder: string;
+		uploading: boolean;
+		onCropped(cropped: string): void;
 	}
 
 
@@ -38,6 +40,9 @@ module Lui.Directives {
 
 		constructor($scope: IImagepickerScope) {
 			this.$scope = $scope;
+			$scope.onCropped = (cropped) => {
+				$scope.uploading = true;
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
