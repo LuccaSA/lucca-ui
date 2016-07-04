@@ -47,10 +47,18 @@
 	}])
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
+	})
+	.config(function(luisConfigProvider) {
+		luisConfigProvider.config = {
+			parentTagIdClass: "demo",
+			startTop: 60,
+			prefix: "lui",
+			canDismissConfirm: true,
+		}
 	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment) {
+	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment, luisConfig) {
 		moment.locale("fr");
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
