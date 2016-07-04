@@ -630,6 +630,16 @@ children: [
 				</div>
 			</div>
 			<div ng-controller="imagePickerCtrl" class="lui block round">
+				<p>
+					Reroute all calls to
+					<span class="lui input with addon">
+						<span class="lui addon">https://</span>
+						<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
+					</span>
+					<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
+					<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
+					<span class="lui red label with addon"ng-show="!authToken"><i class="lui addon icon warning"></i>authenticate to be able to upload pictures</span>
+				</p>
 				<div class="imagepicker-container">
 					<luid-image-picker ng-model="image" ng-disabled="false"></luid-image-picker>
 				</div>
