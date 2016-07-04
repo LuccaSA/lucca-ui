@@ -8,7 +8,7 @@ module Lui {
 }
 module Lui.Directives {
 	"use strict";
-		interface IImageUploaderScope extends angular.IScope {
+	interface IImageCropperScope extends angular.IScope {
 		image: string;
 		cropped: string;
 		cancelLabel: string;
@@ -16,17 +16,20 @@ module Lui.Directives {
 		cancel(): void;
 		crop(): void;
 		donotcrop(): void;
-		onFinished(file: IFile): void;
 		openCropper(): void;
+
+		onCropped(cropped: string): void;
 	}
-	export class LuidImageUploader implements angular.IDirective {
-		public static IID = "luidImageUploader";
-		public controller = LuidImageUploaderController.IID;
+	export class LuidImageCropper implements angular.IDirective {
+		public static IID = "luidImageCropper";
+		public controller = LuidImageCropperController.IID;
 		public restrict = "AE";
-		public scope = { onFinished: "&" };
+		public scope = { 
+			onCropped: "=" 
+		};
 
 		public static Factory(): angular.IDirectiveFactory {
-			let directive = () => { return new LuidImageUploader(); };
+			let directive = () => { return new LuidImageCropper(); };
 			directive.$inject = [];
 			return directive;
 		};
@@ -35,7 +38,7 @@ module Lui.Directives {
 			// Constructor code here
 		};
 
-		public link: ng.IDirectiveLinkFn = (scope: IImageUploaderScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void => {
+		public link: ng.IDirectiveLinkFn = (scope: IImageCropperScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void => {
 
 			let handleFileSelect = (evt) => {
 				let file = evt.currentTarget.files[0];
@@ -55,18 +58,18 @@ module Lui.Directives {
 			angular.element(element[0]).on("change", handleFileSelect);
 		};
 	}
-	class LuidImageUploaderController {
-		public static IID: string = "luidImageUploaderController";
-		public static $inject: Array<string> = ["$scope", "moment", "$uibModal", "uploaderService", "luisConfig"];
+	class LuidImageCropperController {
+		public static IID: string = "luidImageCropperController";
+		public static $inject: Array<string> = ["$scope", "moment", "$uibModal", "luisConfig"];
 
-		constructor($scope: IImageUploaderScope, moment: moment.MomentStatic, $uibModal: angular.ui.bootstrap.IModalService, uploaderService: Service.IUploaderService, luisConfig: Lui.IConfig) {
+		constructor($scope: IImageCropperScope, moment: moment.MomentStatic, $uibModal: angular.ui.bootstrap.IModalService, luisConfig: Lui.IConfig) {
 			$scope.image = "";
 			$scope.cropped = "";
 
 			$scope.openCropper = () => {
 				let modalOptions: ng.ui.bootstrap.IModalSettings & { appendTo: ng.IAugmentedJQuery } = {
-					templateUrl: "lui/templates/image-picker/image-uploader.modal.html",
-					controller: LuidImageUploadedrModalController.IID,
+					templateUrl: "lui/templates/image-picker/image-cropper.modal.html",
+					controller: LuidImageCropperModalController.IID,
 					size: "desktop",
 					windowClass: luisConfig.prefix,
 					backdropClass: luisConfig.prefix,
@@ -83,18 +86,16 @@ module Lui.Directives {
 				let modalInstance = $uibModal.open(modalOptions);
 				modalInstance.result.then((cropped: string) => {
 					$scope.cropped = cropped;
-					uploaderService.postDataURI(cropped).then((file: IFile) => {
-						$scope.onFinished(file);
-					}, () => { return; });
+					$scope.onCropped(cropped);
 				}, () => { return; });
 			};
 		}
 	}
-	class LuidImageUploadedrModalController {
-		public static IID: string = "luidImageUploadedrModalController";
+	class LuidImageCropperModalController {
+		public static IID: string = "luidImageCropperModalController";
 		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "cancelLabel"];
 
-		constructor($scope: IImageUploaderScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, cancelLabel: string) {
+		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, cancelLabel: string) {
 			let doClose: boolean = false;
 			$scope.image = image;
 			$scope.cancelLabel = cancelLabel;
@@ -119,7 +120,8 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").directive(LuidImageUploader.IID, LuidImageUploader.Factory());
-	angular.module("lui.directives").controller(LuidImageUploaderController.IID, LuidImageUploaderController);
-	angular.module("lui.directives").controller(LuidImageUploadedrModalController.IID, LuidImageUploadedrModalController);
+	angular.module("lui.directives").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
+	angular.module("lui.directives").controller(LuidImageCropperController.IID, LuidImageCropperController);
+	angular.module("lui.directives").controller(LuidImageCropperModalController.IID, LuidImageCropperModalController);
 }
+					// uploaderService.postDataURI(cropped).then((file: IFile) => {
