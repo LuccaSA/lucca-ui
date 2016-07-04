@@ -95,18 +95,27 @@ module Lui.Directives {
 		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "cancelLabel"];
 
 		constructor($scope: IImageUploaderScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, cancelLabel: string) {
+			let doClose: boolean = false;
 			$scope.image = image;
 			$scope.cancelLabel = cancelLabel;
 
 			$scope.crop = () => {
+				doClose = true;
 				$uibModalInstance.close($scope.cropped);
 			};
 			$scope.donotcrop = () => {
+				doClose = true;
 				$uibModalInstance.close($scope.image);
 			};
 			$scope.cancel = () => {
+				doClose = true;
 				$uibModalInstance.dismiss();
 			};
+			$scope.$on("modal.closing", ($event: ng.IAngularEvent): void => {
+				if (!doClose) {
+					$event.preventDefault();
+				}
+			});
 		}
 	}
 

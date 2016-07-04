@@ -12,6 +12,7 @@ $imagepicker: (
 		opacity: .8,
 		bg-color: black,
 		color: white,
+		transition: all luiTheme(adjective, animated, transitions, animationEasing) luiTheme(adjective, animated, transitions, animationDuration),
 	),
 	cropper: (
 		bg-color: luiPalette(light, color),

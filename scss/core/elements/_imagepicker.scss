@@ -16,16 +16,18 @@
 					vertical-align: middle;
 					border-image-width: 0;
 					.input-overlay {
-						display: none;
+						// display: none;
 						position: absolute;
 						left: 0;
 						bottom: 0;
 						right: 0;
 						cursor: pointer;
-						height: map-gets($vars, overlay, height);
+						height: 0;
+						// height: map-gets($vars, overlay, height);
 						opacity: map-gets($vars, overlay, opacity);
 						background-color: map-gets($vars, overlay, bg-color);
 						color: map-gets($vars, overlay, color);
+						transition: map-gets($vars, overlay, transition);
 						> div {
 							position: absolute;
 							padding: map-gets($vars, overlay, padding);
@@ -42,7 +44,8 @@
 					}
 					&:hover {
 						.input-overlay {
-							display: block;
+							// display: block;
+							height: map-gets($vars, overlay, height);
 						}
 					}
 				}
