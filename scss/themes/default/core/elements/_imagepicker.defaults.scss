@@ -6,5 +6,16 @@
 $imagepicker: (
 	enabled: 					true,
 	placeholder-background: url() no-repeat 50% 50%,
+	overlay: (
+		height: 5em,
+		padding: 1em,
+		opacity: .8,
+		bg-color: black,
+		color: white,
+	),
+	cropper: (
+		bg-color: luiPalette(light, color),
+		height: 40em,
+	),
 );
 $luiTheme: luiSetTheme(element, imagepicker, $imagepicker);

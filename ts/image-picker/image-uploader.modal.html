@@ -1,0 +1,8 @@
+<div class="luid-cropper">
+	<img-crop image="image" result-image="cropped" area-type="rectangle" result-image-size="'max'"></img-crop>
+</div>
+<footer class="modal-footer lui right aligned">
+	<div class="lui button" ng-click="crop()">{{ 'LUI_IMG_UPLOADER_CROP' | translate }}</div>
+	<div class="lui button" ng-click="donotcrop()">{{ 'LUI_IMG_UPLOADER_DO_NOT_CROP' | translate }}</div>
+	<div class="lui flat button" ng-click="cancel()">{{ cancelLabel }}</div>
+</footer>

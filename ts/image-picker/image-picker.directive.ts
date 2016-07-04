@@ -23,11 +23,6 @@ module Lui.Directives {
 		}
 	}
 
-	export interface IFile {
-		id?: string;
-		name?: string;
-		href: string;
-	}
 	interface IImagepickerScope extends ng.IScope {
 		pictureStyle: { "background-image": string };
 		placeholder: string;

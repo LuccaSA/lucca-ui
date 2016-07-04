@@ -1,3 +1,7 @@
 <div>
 	<div class="luid-image-picker-picture" ng-style="pictureStyle"/>
+	<div class="input-overlay">
+		<div>{{ "LUI_IMG_PICKER_UPLOAD_IMAGE" | translate }}</div>
+		<input accept="image/*" type="file" class="fileInput" file-model="image" luid-image-uploader/>
+	</div>
 </div>
