@@ -12,7 +12,8 @@ module Lui.Directives {
 		image: string;
 		cropped: string;
 		cancelLabel: string;
-
+		croppingRatio: number,
+		croppingDisabled: boolean,
 		cancel(): void;
 		crop(): void;
 		donotcrop(): void;
@@ -26,6 +27,8 @@ module Lui.Directives {
 		public restrict = "AE";
 		public scope = {
 			onCropped: "=",
+			croppingRatio: "=",
+			croppingDisabled: "=",
 		};
 
 		public static Factory(): angular.IDirectiveFactory {
@@ -48,8 +51,12 @@ module Lui.Directives {
 				reader.onload = (event: any) => {
 				/* tslint:enable */
 					scope.$apply(($scope) => {
-					scope.image = event.target.result;
-					scope.openCropper();
+						scope.image = event.target.result;
+						if (!scope.croppingDisabled) {
+							scope.openCropper();
+						} else {
+							scope.onCropped(scope.image);
+						}
 					});
 				};
 				reader.readAsDataURL(file);

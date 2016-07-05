@@ -6,7 +6,9 @@ module Lui.Directives {
 		public templateUrl = "lui/templates/image-picker/image-picker.html";
 		public require = ["ngModel", LuidImagePicker.IID];
 		public scope = {
-			placeholder: "@",
+			placeholderUrl: "@",
+			croppingRatio: "=",
+			croppingDisabled: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -19,13 +21,13 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let imgPickerCtrl = <LuidImagePickerController>ctrls[1];
 			imgPickerCtrl.setNgModelCtrl(ngModelCtrl);
-			imgPickerCtrl.setPlaceholder(scope.placeholder);
+			imgPickerCtrl.setPlaceholder(scope.placeholderUrl);
 		}
 	}
 
 	interface IImagepickerScope extends ng.IScope {
 		pictureStyle: { "background-image": string };
-		placeholder: string;
+		placeholderUrl: string;
 		uploading: boolean;
 		onCropped(cropped: string): void;
 	}
