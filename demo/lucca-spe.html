@@ -641,7 +641,7 @@ children: [
 					<span class="lui red label with addon"ng-show="!authToken"><i class="lui addon icon warning"></i>authenticate to be able to upload pictures</span>
 				</p>
 				<div class="imagepicker-container">
-					<luid-image-picker ng-model="image" ng-disabled="false"></luid-image-picker>
+					<luid-image-picker ng-model="image" ng-disabled="false" ng-change="changed()"></luid-image-picker>
 				</div>
 			</div>
 		</article>

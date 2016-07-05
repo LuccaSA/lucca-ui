@@ -8,7 +8,7 @@
 		$scope.apiCalls = [];
 		$scope.myUser = {};
 		$scope.myUsers = [];
-		$scope.local = "lucca.local";
+		$scope.local = "lucca.local.dev";
 		$scope.authToken;
 		$scope.customFilter = 'hasShortName'; // contains the custom filter selected
 
@@ -414,6 +414,9 @@
 	angular.module("demoApp")
 	.controller("imagePickerCtrl", ["$scope", "$httpBackend", "$http", function($scope, $httpBackend, $http){
 		$scope.image = { href: "http://www.lucienbertin.com/img/uni.png" };
+		$scope.changed = function() {
+			console.log($scope.image.href);
+		}
 
 		$scope.local = "lucca.local.dev";
 		$scope.auth = function(){
