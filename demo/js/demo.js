@@ -48,13 +48,13 @@
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
 	})
-	.config(function(luisConfigProvider) {
-		luisConfigProvider.config = {
+	.config(function(luisConfigProvider, $uibModalProvider) {
+		luisConfigProvider.setConfig({
 			parentTagIdClass: "demo",
 			startTop: 60,
 			prefix: "lui",
 			canDismissConfirm: true,
-		}
+		});
 	});
 
 	angular.module('demoApp')

@@ -157,7 +157,7 @@
 		$scope.currentPalette = "light";
 		$scope.changeColor = function(palette) {
 			$scope.currentPalette = palette;
-			luisProgressBar.addProgressBar("demo", palette);
+			luisProgressBar.addProgressBar(palette);
 		};
 		$scope.fastListen = function(){
 			luisProgressBar.startListening();
