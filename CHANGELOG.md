@@ -9,7 +9,7 @@
 
 ### New features
  - `luid-image-picker` directive that display an image and allows to upload a cropped one to a lucca web app through `/api/files`. see [demo page](https://luccasa.github.io/lucca-ui/#/lucca#luid-image-picker) for more info.
- - `luisConfigProvider` provider with a method `setConfig()` 
+ - `luisConfigProvider` provider with a method `setConfig()` to allow you to configure lucca-ui once and for all
 
 ### Resolved issues
 - UI-select disabled styling fix
