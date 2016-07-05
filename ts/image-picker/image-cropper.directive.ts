@@ -12,8 +12,8 @@ module Lui.Directives {
 		image: string;
 		cropped: string;
 		cancelLabel: string;
-		croppingRatio: number,
-		croppingDisabled: boolean,
+		croppingRatio: number;
+		croppingDisabled: boolean;
 		cancel(): void;
 		crop(): void;
 		donotcrop(): void;
@@ -74,13 +74,10 @@ module Lui.Directives {
 			$scope.cropped = "";
 
 			$scope.openCropper = () => {
-				let modalOptions: ng.ui.bootstrap.IModalSettings & { appendTo: ng.IAugmentedJQuery } = {
+				let modalOptions: ng.ui.bootstrap.IModalSettings = {
 					templateUrl: "lui/templates/image-picker/image-cropper.modal.html",
 					controller: LuidImageCropperModalController.IID,
 					size: "desktop",
-					windowClass: luisConfig.prefix,
-					backdropClass: luisConfig.prefix,
-					appendTo: luisConfig.parentElt,
 					resolve: {
 						image: (): string => {
 							return $scope.image;
