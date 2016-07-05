@@ -839,10 +839,11 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				Add progress bar in your module run method :
 			</p>
 			<p>
-				<pre hljs no-escape language="js">angular.module('demo').run(function(luisProgressBar) {
-	luisProgressBar.addProgressBar("demo", "grey");
-	// this method takes a tagName, id or class as first argument to find the elemnt it sould get appended to
-	// the second argument is the palette you want applied to the progress bar
+				<pre hljs no-escape language="js">angular.module("myApp").config(fumction(luisConfigProvider){
+	luisConfigProvider.setConfig({
+		parentTagIdClass: "demo",
+		prefix: "lui",
+	});
 });</pre>
 			</p>
 			<p>
@@ -859,8 +860,8 @@ $scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fr
 			</p>
 			<p>
 				You can specify what http methods you want to listen to.
-				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get methods
-luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put</pre>
+				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get requests
+luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put request</pre>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>

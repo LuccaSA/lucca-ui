@@ -427,6 +427,7 @@
 			.error(function(response){
 			});
 		};
+		$scope.auth();
 
 		$httpBackend.whenGET(/\/\/\w*.local\/.*/).passThrough();
 		$httpBackend.whenGET(/\/\/\w*.local.dev\/.*/).passThrough();

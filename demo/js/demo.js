@@ -74,11 +74,5 @@
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
 
-		luisNotify.config({
-			parentTagIdClass: "demo",
-			startTop: 60,
-			prefix: "lui",
-			canDismissConfirm: true,
-		});
-	})
+	});
 })();
