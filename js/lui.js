@@ -18,7 +18,8 @@
 	angular.module('lui.translates.userpicker', []);
 	angular.module('lui.translates.daterangepicker', []);
 	angular.module('lui.translates.tablegrid', []);
-	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker','lui.translates.tablegrid']);
+	angular.module('lui.translates.imagepicker', []);
+	angular.module('lui.translates', ['pascalprecht.translate','lui.translates.userpicker','lui.translates.daterangepicker','lui.translates.tablegrid', 'lui.translates.imagepicker']);
 
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates','lui.translates']);
 
