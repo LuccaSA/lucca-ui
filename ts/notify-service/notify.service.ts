@@ -8,14 +8,6 @@ module Lui.Service {
 			this.details = details;
 		}
 	}
-	export interface INotifyConfig {
-		parentTagIdClass?: string;
-		prefix?: string;
-		startTop?: number;
-		okLabel?: string;
-		cancelLabel?: string;
-		canDismissConfirm?: boolean;
-	}
 	interface ILoadingIsolateScope extends ng.IScope {
 		loading: boolean;
 		calloutClass: string;
@@ -36,16 +28,12 @@ module Lui.Service {
 		public duration: number;
 		public templateUrl: string;
 		public message: string;
-		// public messageTemplate: string;
 		public scope: ng.IScope;
 
 		constructor(duration: number, templateUrl: string, message: string) {
-		// constructor(duration: number, templateUrl: string, message: string, messageTemplate: string, scope: ng.IScope) {
 			this.duration = duration;
 			this.templateUrl = templateUrl;
 			this.message = message;
-			// this.messageTemplate = messageTemplate;
-			// this.scope = scope;
 		}
 	}
 	class ErrorNotify extends ANotify {
@@ -71,51 +59,28 @@ module Lui.Service {
 	}
 	export class NotifyService {
 		public static IID: string = "luisNotify";
-		public static $inject: Array<string> = ["notify", "$q", "$log", "$rootScope", "$timeout", "$uibModal"];
+		public static $inject: Array<string> = ["notify", "$q", "$log", "$rootScope", "$timeout", "$uibModal", "luisConfig"];
 		private $q: ng.IQService;
 		private $log: ng.ILogService;
 		private $rootScope: ng.IRootScopeService;
 		private $timeout: ng.ITimeoutService;
 		private $uibModal: ng.ui.bootstrap.IModalService;
 		private cgNotify: any;
-		private parentElt: ng.IAugmentedJQuery;
-		private conf: INotifyConfig;
+		// private parentElt: ng.IAugmentedJQuery;
+		private luisConfig: IConfig;
 
-		constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService) {
+		constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService, luisConfig: Lui.IConfig) {
 			this.cgNotify = notify;
 			this.$q = $q;
 			this.$log = $log;
 			this.$rootScope = $rootScope;
 			this.$timeout = $timeout;
 			this.$uibModal = $uibModal;
-			this.conf = <INotifyConfig>{};
-		}
+			this.luisConfig = luisConfig;
 
-		public config(config: INotifyConfig): void {
-			// sets the defaults
-			this.conf.parentTagIdClass = config.parentTagIdClass || "body";
-			this.conf.prefix = config.prefix || "lui";
-			this.conf.startTop = config.startTop || 40;
-			this.conf.okLabel = config.okLabel || "Ok";
-			this.conf.cancelLabel = config.cancelLabel || "Cancel";
-			this.conf.canDismissConfirm = config.canDismissConfirm;
-
-			let byTag = document.getElementsByTagName(this.conf.parentTagIdClass);
-			let byId = document.getElementById(this.conf.parentTagIdClass);
-			let byClass = document.getElementsByClassName(this.conf.parentTagIdClass);
-			if (!!byTag && byTag.length) {
-				this.parentElt = angular.element(byTag[0]);
-			} else if (!!byId) {
-				this.parentElt = angular.element(byId);
-			} else if (!!byClass && byClass.length) {
-				this.parentElt = angular.element(byClass[0]);
-			} else {
-				this.$log.warn("luisNotify - could not find a suitable element for tag/id/class: " + this.conf.parentTagIdClass);
-				return;
-			}
 			this.cgNotify.config({
-				container: this.parentElt,
-				startTop: this.conf.startTop,
+				container: this.luisConfig.parentElt,
+				startTop: this.luisConfig.startTop,
 			});
 		}
 
@@ -132,10 +97,10 @@ module Lui.Service {
 			this.cgNotify(new SuccessNotify(message));
 		}
 		public alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
-			return this.openModal(alertTemplate, message, okLabel || this.conf.okLabel, cancelLabel || this.conf.cancelLabel, false);
+			return this.openModal(alertTemplate, message, okLabel || this.luisConfig.okLabel, cancelLabel || this.luisConfig.cancelLabel, false);
 		}
 		public confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean> {
-			return this.openModal(confirmTemplate, message, okLabel || this.conf.okLabel, cancelLabel || this.conf.cancelLabel, !this.conf.canDismissConfirm);
+			return this.openModal(confirmTemplate, message, okLabel || this.luisConfig.okLabel, cancelLabel || this.luisConfig.cancelLabel, !this.luisConfig.canDismissConfirm);
 		}
 		public loading(loadingPromise: ng.IPromise<string>, message?: string, cancelFn?: () => void): void {
 			let isolateScope: ILoadingIsolateScope = <ILoadingIsolateScope>this.$rootScope.$new(true);
@@ -177,14 +142,10 @@ module Lui.Service {
 			});
 		}
 		private openModal(templateUrl: string, message: string, okLabel: string, cancelLabel: string, preventDismiss: boolean): ng.IPromise<boolean> {
-			return this.$uibModal.open(<IModalSettings>{
+			return this.$uibModal.open({
 				templateUrl: templateUrl,
 				controller: NotifyModalController.IID,
-				appendTo: this.parentElt,
 				size: "mobile",
-				windowClass: this.conf.prefix,
-				backdrop: true,
-				backdropClass: this.conf.prefix,
 				resolve: {
 					message: (): string => {
 						return message;
@@ -209,10 +170,7 @@ module Lui.Service {
 		ok: () => void;
 		cancel: () => void;
 	}
-	// should have been in the nguibs typings :(
-	interface IModalSettings extends ng.ui.bootstrap.IModalSettings {
-		appendTo: ng.IAugmentedJQuery;
-	}
+
 	class NotifyModalController {
 		public static IID: string = "notifyModalController";
 		public static $inject: string[] = ["$scope", "$uibModalInstance", "message", "okLabel", "cancelLabel", "preventDismiss"];

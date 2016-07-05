@@ -16,7 +16,6 @@ module Lui.Service {
 	"use strict";
 	export interface IConfigProvider {
 		setConfig(config: IConfig): void;
-		// configureNguibs($uibModalProvider: ng.ui.bootstrap.IModalProvider): void;
 	}
 	class LuipConfig implements IConfigProvider {
 		public static $inject: Array<string> = ["$uibModalProvider"];
@@ -30,16 +29,16 @@ module Lui.Service {
 		}
 		public setConfig(config: IConfig): void {
 			this.config = config;
-			this.configureNguibs();
-		}
-		private configureNguibs(): void {
 			let conf = new Config(this.config);
+			this.configureNguibs(conf);
+		}
+		private configureNguibs(config: IConfig): void {
 			this.$uibModalProvider.options = <ng.ui.bootstrap.IModalSettings & { appendTo: ng.IAugmentedJQuery }>{
-				windowClass: conf.prefix,
-				backdropClass: conf.prefix,
+				windowClass: config.prefix,
+				backdropClass: config.prefix,
 				animation: true,
 				backdrop: true,
-				appendTo: conf.parentElt,
+				appendTo: config.parentElt,
 				size: "large",
 			}
 		}
@@ -52,7 +51,7 @@ module Lui.Service {
 		public okLabel: string;
 		public cancelLabel: string;
 		public canDismissConfirm: boolean;
-		constructor(conf: IConfig, $log?: ng.ILogService) {
+		constructor(conf: IConfig, $log?: ng.ILogService, cgNotify?: any) {
 			_.extend(this, conf);
 			// find the parent element where we'll append all modals
 			if (!this.parentElt && !!this.parentTagIdClass) {
