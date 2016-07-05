@@ -29,8 +29,7 @@ module Lui.Service {
 			$timeout: ng.ITimeoutService,
 			$interval: ng.IIntervalService,
 			$log: ng.ILogService,
-			luisConfig: Lui.IConfig)
-		{
+			luisConfig: Lui.IConfig) {
 			this.$document = $document;
 			this.$window = $window;
 			this.$timeout = $timeout;
@@ -44,7 +43,8 @@ module Lui.Service {
 				this.progressbarEl.remove();
 			}
 			this.progressbarEl = angular.element(this.progressBarTemplate);
-			this.progressbarEl.addClass(palette);this.luisConfig.parentElt.append(this.progressbarEl);
+			this.progressbarEl.addClass(palette);
+			this.luisConfig.parentElt.append(this.progressbarEl);
 		};
 
 		public startListening = ( httpRequestMethods?: string[]): void => {

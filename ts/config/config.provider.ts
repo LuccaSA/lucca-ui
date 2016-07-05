@@ -40,7 +40,7 @@ module Lui.Service {
 				backdrop: true,
 				appendTo: config.parentElt,
 				size: "large",
-			}
+			};
 		}
 	}
 	class Config implements IConfig {
