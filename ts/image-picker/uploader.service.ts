@@ -96,7 +96,9 @@ module Lui.Service {
 		public data: T;
 	}
 	class ApiError {
-		Message: string;
+	/* tslint:disable */
+		public Message: string;
+	/* tslint:enable */
 	}
 
 	angular.module("lui.services").service(UploaderService.IID, UploaderService);
