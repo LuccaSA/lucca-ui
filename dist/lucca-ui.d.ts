@@ -1,3 +1,21 @@
+declare module Lui {
+    interface IConfig {
+        parentTagIdClass?: string;
+        parentElt?: ng.IAugmentedJQuery;
+        prefix?: string;
+        startTop?: number;
+        okLabel?: string;
+        cancelLabel?: string;
+        canDismissConfirm?: boolean;
+        cropLabel?: string;
+        noCropLabel?: string;
+    }
+}
+declare module Lui.Service {
+    interface IConfigProvider {
+        setConfig(config: IConfig): void;
+    }
+}
 declare module Lui.Directives {
     class CalendarMonth {
         date: moment.Moment;
@@ -20,6 +38,10 @@ declare module Lui.Directives {
         customClass: string;
         constructor(date: moment.Moment);
     }
+    class Shortcut {
+        label: string;
+        date: moment.Moment | Date | string;
+    }
     interface ICalendarScope extends ng.IScope {
         customClass: (date: moment.Moment) => string;
         displayedMonths: string;
@@ -27,10 +49,11 @@ declare module Lui.Directives {
         max: any;
         dayLabels: string[];
         months: CalendarMonth[];
+        direction: string;
         selectDay(day: CalendarDay): void;
+        selectShortcut(shortcut: Shortcut): void;
         previousMonth(): void;
         nextMonth(): void;
-        direction: string;
         onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
         onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
     }
@@ -42,13 +65,14 @@ declare module Lui.Directives {
         protected monthsCnt: number;
         protected currentMonth: moment.Moment;
         protected $scope: ICalendarScope;
+        protected $log: ng.ILogService;
         protected selected: moment.Moment;
         protected start: moment.Moment;
         protected end: moment.Moment;
         protected min: moment.Moment;
         protected max: moment.Moment;
-        constructor($scope: ICalendarScope);
-        setMonthsCnt(cntStr?: string): void;
+        constructor($scope: ICalendarScope, $log: ng.ILogService);
+        setMonthsCnt(cntStr?: string, inAPopover?: boolean): void;
         protected constructMonths(): CalendarMonth[];
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
@@ -86,15 +110,40 @@ declare module Lui {
 }
 declare module Lui.Filters {
 }
-declare module Lui.Service {
-    interface INotifyConfig {
-        parentTagIdClass?: string;
-        prefix?: string;
-        startTop?: number;
-        okLabel?: string;
-        cancelLabel?: string;
-        canDismissConfirm?: boolean;
+declare module Lui {
+    interface IFile {
+        id?: string;
+        name?: string;
+        href: string;
     }
+}
+declare module Lui.Directives {
+    class LuidImageCropper implements angular.IDirective {
+        static IID: string;
+        controller: string;
+        restrict: string;
+        scope: {
+            onCropped: string;
+            croppingRatio: string;
+            croppingDisabled: string;
+        };
+        static Factory(): angular.IDirectiveFactory;
+        constructor();
+        link: ng.IDirectiveLinkFn;
+    }
+}
+declare module Lui.Directives {
+}
+declare module Lui.Directive {
+}
+declare module Lui.Service {
+    interface IUploaderService {
+        postFromUrl(url: string): ng.IPromise<Lui.IFile>;
+        postDataURI(dataURI: string): ng.IPromise<Lui.IFile>;
+        postBlob(blob: Blob): ng.IPromise<Lui.IFile>;
+    }
+}
+declare module Lui.Service {
     class NotifyService {
         static IID: string;
         static $inject: Array<string>;
@@ -104,10 +153,8 @@ declare module Lui.Service {
         private $timeout;
         private $uibModal;
         private cgNotify;
-        private parentElt;
-        private conf;
-        constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService);
-        config(config: INotifyConfig): void;
+        private luisConfig;
+        constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService, luisConfig: Lui.IConfig);
         error(message: string, details?: string): void;
         warning(message: string, details?: string): void;
         success(message: string, details?: string): void;
@@ -152,14 +199,15 @@ declare module Lui.Service {
         private $timeout;
         private $interval;
         private $log;
+        private luisConfig;
         private status;
         private currentPromiseInterval;
         private completeTimeout;
         private progressBarTemplate;
         private progressbarEl;
         private isStarted;
-        constructor($document: angular.IDocumentService, $window: angular.IWindowService, $timeout: ng.ITimeoutService, $interval: ng.IIntervalService, $log: ng.ILogService);
-        addProgressBar: (parentTagIdClass?: string, palette?: string) => void;
+        constructor($document: angular.IDocumentService, $window: angular.IWindowService, $timeout: ng.ITimeoutService, $interval: ng.IIntervalService, $log: ng.ILogService, luisConfig: Lui.IConfig);
+        addProgressBar: (palette?: string) => void;
         startListening: (httpRequestMethods?: string[]) => void;
         stopListening: () => void;
         isHttpResquestListening: () => boolean;
