@@ -3,6 +3,7 @@ module Lui.Directives {
 	class LuidImagePicker implements angular.IDirective {
 		public static IID: string = "luidImagePicker";
 		public restrict = "E";
+		public replace = true;
 		public templateUrl = "lui/templates/image-picker/image-picker.html";
 		public require = ["ngModel", LuidImagePicker.IID];
 		public scope = {

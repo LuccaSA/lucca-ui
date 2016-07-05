@@ -2,53 +2,64 @@
 
 	@if luiTheme(element, imagepicker, enabled) {
 		$vars: luiTheme(element, imagepicker);
-		luid-image-picker {
+
+		.lui.image-picker {
 			height: 100%;
-			> div {
+			.luid-image-picker-picture {
+				text-align: center;
+				position: relative;
+				width: 100%;
 				height: 100%;
-				.luid-image-picker-picture {
+				background-color: map-gets($vars, default-background-color); // Pick a neutral grey color for white transparent images
+				background-position: map-gets($vars, background-position);
+				background-repeat: map-gets($vars, background-repeat);
+				background-size: map-gets($vars, background-size);
+				border-image-width: 0;
+
+				.input-overlay,
+				.upload-overlay {
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					height: 0;
+					overflow: hidden;
+					opacity: map-gets($vars, overlay, opacity);
+					background-color: map-gets($vars, overlay, bg-color);
+					color: map-gets($vars, overlay, color);
+					transition: map-gets($vars, overlay, transition);
+				}
+
+				.input-overlay {
 					text-align: center;
-					position: relative;
-					width: 100%;
-					height: 100%;
-					background: map-gets($vars, placeholder-background);
-					background-size: cover;
-					vertical-align: middle;
-					border-image-width: 0;
-					.input-overlay, .upload-overlay {
+					> span {
 						position: absolute;
-						left: 0;
-						bottom: 0;
-						right: 0;
-						height: 0;
-						overflow: hidden;
-						opacity: map-gets($vars, overlay, opacity);
-						background-color: map-gets($vars, overlay, bg-color);
-						color: map-gets($vars, overlay, color);
-						transition: map-gets($vars, overlay, transition);
-						> div {
-							position: absolute;
-							padding: map-gets($vars, overlay, padding);
-						}
-						input {
-							cursor: pointer;
-							vertical-align: top;
-							font-size: 0;
-							height: 100%;
-							width: 100%;
-							opacity: 0;
-							cursor: pointer;
-							text-indent: -100%;
-						}
+						left: 0; right: 0;
+						padding: map-gets($vars, overlay, padding);
 					}
-					.upload-overlay.uploading {
-						height: 100%;
+				}
+
+				input[type="file"] {
+					cursor: pointer;
+					vertical-align: top;
+					font-size: 0;
+					height: 100%;
+					width: 100%;
+					opacity: 0;
+					cursor: pointer;
+					text-indent: -100%;
+				}
+
+				&:hover {
+					.input-overlay {
+						height: map-gets($vars, overlay, height);
 					}
-					&:hover {
-						.input-overlay {
-							height: map-gets($vars, overlay, height);
-						}
-					}
+				}
+
+				.loader {
+					position: absolute;
+					top: 50%; left: 50%;
+					transform: translate(-50%, -50%);
 				}
 			}
 			&[disabled="disabled"] {
@@ -56,6 +67,11 @@
 				.input-overlay {
 					display: none !important;
 				}
+			}
+
+			&.uploading {
+				.input-overlay { display: none; }
+				.upload-overlay { height: 100%; }
 			}
 		}
 		.luid-cropper {

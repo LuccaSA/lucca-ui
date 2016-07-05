@@ -5,7 +5,10 @@
 
 $imagepicker: (
 	enabled: 					true,
-	placeholder-background: url() no-repeat 50% 50%,
+	background-color: 			#CCC,
+	background-position: 		50% 50%,
+	background-repeat: 			no-repeat,
+	background-size: 			cover,
 	overlay: (
 		height: 5em,
 		padding: 1em,
