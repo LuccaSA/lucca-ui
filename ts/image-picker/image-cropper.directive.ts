@@ -85,6 +85,9 @@ module Lui.Directives {
 						image: (): string => {
 							return $scope.image;
 						},
+						croppingRatio: (): number => {
+							return $scope.croppingRatio;
+						},
 						cancelLabel: (): string => {
 							return luisConfig.cancelLabel;
 						}
@@ -100,12 +103,13 @@ module Lui.Directives {
 	}
 	class LuidImageCropperModalController {
 		public static IID: string = "luidImageCropperModalController";
-		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "cancelLabel"];
+		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
 
-		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, cancelLabel: string) {
+		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, croppingRatio: number, cancelLabel: string) {
 			let doClose: boolean = false;
 			$scope.image = image;
 			$scope.cancelLabel = cancelLabel;
+			$scope.croppingRatio = croppingRatio;
 
 			$scope.crop = () => {
 				doClose = true;
