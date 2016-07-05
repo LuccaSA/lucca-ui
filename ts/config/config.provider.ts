@@ -14,11 +14,35 @@ module Lui {
 }
 module Lui.Service {
 	"use strict";
-	class LuipConfig {
-		public config: IConfig = {};
+	export interface IConfigProvider {
+		setConfig(config: IConfig): void;
+		// configureNguibs($uibModalProvider: ng.ui.bootstrap.IModalProvider): void;
+	}
+	class LuipConfig implements IConfigProvider {
+		public static $inject: Array<string> = ["$uibModalProvider"];
 		public $get = ["$log", ($log: ng.ILogService): Config => {
-			return new Config($log, this.config);
+			return new Config(this.config, $log);
 		}];
+		private config: IConfig = {};
+		private $uibModalProvider: ng.ui.bootstrap.IModalProvider;
+		constructor($uibModalProvider: ng.ui.bootstrap.IModalProvider) {
+			this.$uibModalProvider = $uibModalProvider;
+		}
+		public setConfig(config: IConfig): void {
+			this.config = config;
+			this.configureNguibs();
+		}
+		private configureNguibs(): void {
+			let conf = new Config(this.config);
+			this.$uibModalProvider.options = <ng.ui.bootstrap.IModalSettings & { appendTo: ng.IAugmentedJQuery }>{
+				windowClass: conf.prefix,
+				backdropClass: conf.prefix,
+				animation: true,
+				backdrop: true,
+				appendTo: conf.parentElt,
+				size: "large",
+			}
+		}
 	}
 	class Config implements IConfig {
 		public parentTagIdClass: string;
@@ -28,7 +52,7 @@ module Lui.Service {
 		public okLabel: string;
 		public cancelLabel: string;
 		public canDismissConfirm: boolean;
-		constructor($log: ng.ILogService, conf: IConfig) {
+		constructor(conf: IConfig, $log?: ng.ILogService) {
 			_.extend(this, conf);
 			// find the parent element where we'll append all modals
 			if (!this.parentElt && !!this.parentTagIdClass) {
@@ -42,7 +66,7 @@ module Lui.Service {
 					this.parentElt = angular.element(byId);
 				} else if (!!byClass && byClass.length) {
 					this.parentElt = angular.element(byClass[0]);
-				} else {
+				} else if (!!$log) {
 					$log.warn("luisConfig - could not find a suitable element for tag/id/class: " + parentTagIdClass);
 				}
 			}
