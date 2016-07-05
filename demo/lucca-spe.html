@@ -613,16 +613,39 @@ children: [
 		<article id="luid-image-picker">
 			<h2 class="lui divider below">luid-image-picker</h2>
 			<p>
+				An input for images that allow the user to upload its own picture and allow to crop it
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Features</h4>
 			</div>
-			<p></p>
+			<p>
+				<ul class="lui unstyled">
+					<li>Use <code>ng-model</code> like an input field</li>
+					<li>Supports <code>ng-change</code> and <code>ng-disabled</code></li>
+					<li>Posts the uploaded image to <code>/api/files</code>, so you dont have to embarass yourself with how to upload stuff to lucca</li>
+					<li>Display a modal to alow the user to crop the image he wants to upload</li>
+					<li>Takes all the space in its parent so ypu can use it for any kind of picture (portrait, scenery, ...)</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: self explanatory</li>
+					<li><code>ng-change</code>: self explanatory</li>
+					<li><code>ng-disabled</code>: if true, will display the picture but not allow uploading/cropping of a new one</li>
+					<li><code>cropping-ratio</code>: the ratio to use in the cropping modal</li>
+					<li><code>cropping-disabled</code>: will not display the cropping modal</li>
+					<li><code>placeholder-url</code>: the image to display if the model is undefined, if none is defined, will use <code>/static/common/images/placeholder-pp.png</code></li>
+				</ul>
+			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Usage:</h4>
 			</div>
 			<p>
-				<pre hljs no-escape language="js"></pre>
+				<pre hljs no-escape language="html">&lt;luid-image-picker ng-model="image"&gt;&lt;/luid-image-picker&gt;
+&lt;luid-image-picker ng-model="image" ng-disabled="disabled" ng-change="changed()"&gt;&lt;/luid-image-picker&gt;</pre>
 			</p>
 			<div class="lui bottom dashed divider menu" id="demoBlock">
 				<div class="lui header vertical menu">
@@ -640,9 +663,37 @@ children: [
 					<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
 					<span class="lui red label with addon"ng-show="!authToken"><i class="lui addon icon warning"></i>authenticate to be able to upload pictures</span>
 				</p>
-				<div class="imagepicker-container">
-					<luid-image-picker ng-model="image" ng-disabled="false" ng-change="changed()"></luid-image-picker>
-				</div>
+				<hr class="lui divider">
+				<p>
+					Basic use: the containing div of the second one is way more large. The second one is disabled and has a different placeholder.
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image"></luid-image-picker>
+					</div>
+					<div class="imagepicker-container" style="width:600px">
+						<luid-image-picker ng-model="image" ng-disabled="true" placeholder-url="http://www.lucienbertin.com/img/uni.png"></luid-image-picker>
+					</div>
+				</p>
+				<hr class="lui divider">
+				<p>
+					Cropping disabled and ng-change
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image2" cropping-disabled="true" ng-change="changed()"></luid-image-picker>
+					</div>
+					ng-change has been called {{ changeCnt }} times.
+				</p>
+				<hr class="lui divider">
+				<p>
+					With a cropping ratio
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image3" cropping-ratio=".75"></luid-image-picker>
+					</div>
+				</p>
 			</div>
 		</article>
 	</section>

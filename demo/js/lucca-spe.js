@@ -413,9 +413,9 @@
 
 	angular.module("demoApp")
 	.controller("imagePickerCtrl", ["$scope", "$httpBackend", "$http", function($scope, $httpBackend, $http){
-		$scope.image = { href: "http://www.lucienbertin.com/img/uni.png" };
+			$scope.changeCnt = 0;
 		$scope.changed = function() {
-			console.log($scope.image.href);
+			$scope.changeCnt++;
 		}
 
 		$scope.local = "lucca.local.dev";
