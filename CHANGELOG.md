@@ -1,5 +1,11 @@
 # Change log
 
+## 2.3.1 - in dev
+
+### New features
+
+### Resolved issues
+
 ## 2.3.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.3.0)
 
 ### Breaking changes
@@ -10,6 +16,8 @@
 ### New features
  - `luid-image-picker` directive that display an image and allows to upload a cropped one to a lucca web app through `/api/files`. see [demo page](https://luccasa.github.io/lucca-ui/#/lucca#luid-image-picker) for more info.
  - `luisConfigProvider` provider with a method `setConfig()` to allow you to configure lucca-ui once and for all
+ - `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
+ - `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 
 ### Resolved issues
 - UI-select disabled styling fix
@@ -17,8 +25,6 @@
 - tablegrid : fixes a translation typo
 - [issue #276](https://github.com/LuccaSA/lucca-ui/issues/276) - tablegrid does not evaluate expression when injecting HTML as ui-select-choices
 - Inputs: fixes input addon sizing
-- `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
-- `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 - [issue #280](https://github.com/LuccaSA/lucca-ui/issues/280) - Adds support for the disabled style on lui checkbox
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
