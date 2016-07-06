@@ -345,7 +345,7 @@
 	.directive('luidFocusOn', function() {
 		return function(scope, elem, attr) {
 			scope.$on(attr.luidFocusOn, function(e) {
-				elem[0].focus();
+				setTimeout( function() { elem[0].focus(); scope.$apply(); }, 1);
 			});
 		};
 	});
@@ -1468,6 +1468,74 @@
 };
 var Lui;
 (function (Lui) {
+    "use strict";
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var LuipConfig = (function () {
+            function LuipConfig($uibModalProvider) {
+                var _this = this;
+                this.$get = ["$log", function ($log) {
+                        return new Config(_this.config, $log);
+                    }];
+                this.config = {};
+                this.$uibModalProvider = $uibModalProvider;
+            }
+            LuipConfig.prototype.setConfig = function (config) {
+                this.config = config;
+                var conf = new Config(this.config);
+                this.configureNguibs(conf);
+            };
+            LuipConfig.prototype.configureNguibs = function (config) {
+                this.$uibModalProvider.options = {
+                    windowClass: config.prefix,
+                    backdropClass: config.prefix,
+                    animation: true,
+                    backdrop: true,
+                    appendTo: config.parentElt,
+                    size: "large",
+                };
+            };
+            LuipConfig.$inject = ["$uibModalProvider"];
+            return LuipConfig;
+        }());
+        var Config = (function () {
+            function Config(conf, $log, cgNotify) {
+                _.extend(this, conf);
+                if (!this.parentElt && !!this.parentTagIdClass) {
+                    var parentTagIdClass = this.parentTagIdClass || "body";
+                    var byTag = document.getElementsByTagName(parentTagIdClass);
+                    var byId = document.getElementById(parentTagIdClass);
+                    var byClass = document.getElementsByClassName(parentTagIdClass);
+                    if (!!byTag && byTag.length) {
+                        this.parentElt = angular.element(byTag[0]);
+                    }
+                    else if (!!byId) {
+                        this.parentElt = angular.element(byId);
+                    }
+                    else if (!!byClass && byClass.length) {
+                        this.parentElt = angular.element(byClass[0]);
+                    }
+                    else if (!!$log) {
+                        $log.warn("luisConfig - could not find a suitable element for tag/id/class: " + parentTagIdClass);
+                    }
+                }
+                this.prefix = this.prefix || "lui";
+                this.startTop = this.startTop || 40;
+                this.okLabel = this.okLabel || "Ok";
+                this.cancelLabel = this.cancelLabel || "Cancel";
+                this.canDismissConfirm = this.canDismissConfirm;
+            }
+            return Config;
+        }());
+        angular.module("lui.services").provider("luisConfig", LuipConfig);
+    })(Service = Lui.Service || (Lui.Service = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
     var Directives;
     (function (Directives) {
         "use strict";
@@ -1494,13 +1562,24 @@ var Lui;
             return CalendarDay;
         }());
         Directives.CalendarDay = CalendarDay;
+        var Shortcut = (function () {
+            function Shortcut() {
+            }
+            return Shortcut;
+        }());
+        Directives.Shortcut = Shortcut;
         var CalendarController = (function () {
-            function CalendarController($scope) {
+            function CalendarController($scope, $log) {
                 this.$scope = $scope;
+                this.$log = $log;
                 this.initCalendarScopeMethods($scope);
             }
-            CalendarController.prototype.setMonthsCnt = function (cntStr) {
+            CalendarController.prototype.setMonthsCnt = function (cntStr, inAPopover) {
                 this.monthsCnt = parseInt(cntStr, 10) || 1;
+                if (inAPopover && this.monthsCnt > 2) {
+                    this.monthsCnt = 2;
+                    this.$log.warn("no more than 2 months displayed in a date-picker popover");
+                }
             };
             CalendarController.prototype.constructMonths = function () {
                 var _this = this;
@@ -1550,11 +1629,13 @@ var Lui;
                 $scope.nextMonth = function () {
                     _this.currentMonth.add(1, "month");
                     $scope.months = _this.constructMonths();
+                    $scope.direction = "next";
                     _this.assignClasses();
                 };
                 $scope.previousMonth = function () {
                     _this.currentMonth.add(-1, "month");
                     $scope.months = _this.constructMonths();
+                    $scope.direction = "previous";
                     _this.assignClasses();
                 };
             };
@@ -1641,6 +1722,8 @@ var Lui;
                     min: "=",
                     max: "=",
                     customClass: "=",
+                    shortcuts: "=",
+                    groupedShortcuts: "=",
                 };
                 this.controller = LuidDatePickerController.IID;
             }
@@ -1655,7 +1738,7 @@ var Lui;
                 var datePickerCtrl = ctrls[1];
                 datePickerCtrl.setNgModelCtrl(ngModelCtrl);
                 datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-                datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+                datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
                 datePickerCtrl.setPopoverTrigger(element, scope);
             };
             LuidDatePickerPopup.IID = "luidDatePickerPopup";
@@ -1663,9 +1746,9 @@ var Lui;
         }());
         var LuidDatePickerController = (function (_super) {
             __extends(LuidDatePickerController, _super);
-            function LuidDatePickerController($scope) {
+            function LuidDatePickerController($scope, $log) {
                 var _this = this;
-                _super.call(this, $scope);
+                _super.call(this, $scope, $log);
                 this.$scope = $scope;
                 $scope.selectDay = function (day) {
                     _this.setViewValue(day.date);
@@ -1689,6 +1772,22 @@ var Lui;
                     _this.selected = _this.getViewValue();
                     _this.assignClasses();
                 });
+                $scope.clear = function ($event) {
+                    _this.setViewValue(undefined);
+                    _this.$scope.displayStr = "";
+                    _this.closePopover();
+                    _this.selected = undefined;
+                    _this.assignClasses();
+                    $event.stopPropagation();
+                };
+                $scope.selectShortcut = function (shortcut) {
+                    var date = _this.formatter.parseValue(shortcut.date);
+                    _this.setViewValue(date);
+                    _this.$scope.displayStr = _this.getDisplayStr(date);
+                    _this.closePopover();
+                    _this.selected = date;
+                    _this.assignClasses();
+                };
             }
             LuidDatePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
                 var _this = this;
@@ -1749,11 +1848,13 @@ var Lui;
                 }
             };
             LuidDatePickerController.prototype.closePopover = function () {
+                this.$scope.direction = "";
                 if (!!this.popoverController) {
                     this.popoverController.close();
                 }
             };
             LuidDatePickerController.prototype.openPopover = function ($event) {
+                this.$scope.direction = "";
                 if (!!this.popoverController) {
                     this.popoverController.open($event);
                 }
@@ -1762,7 +1863,7 @@ var Lui;
                 return !!date ? date.format(this.displayFormat) : undefined;
             };
             LuidDatePickerController.IID = "luidDatePickerController";
-            LuidDatePickerController.$inject = ["$scope"];
+            LuidDatePickerController.$inject = ["$scope", "$log"];
             return LuidDatePickerController;
         }(Directives.CalendarController));
         angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
@@ -1789,6 +1890,8 @@ var Lui;
                     excludeEnd: "@",
                     startProperty: "@",
                     endProperty: "@",
+                    shortcuts: "=",
+                    groupedShortcuts: "=",
                 };
                 this.controller = LuidDaterangePickerController.IID;
             }
@@ -1813,13 +1916,23 @@ var Lui;
         }());
         var LuidDaterangePickerController = (function (_super) {
             __extends(LuidDaterangePickerController, _super);
-            function LuidDaterangePickerController($scope, $filter) {
+            function LuidDaterangePickerController($scope, $filter, $log) {
                 var _this = this;
-                _super.call(this, $scope);
+                _super.call(this, $scope, $log);
                 this.$scope = $scope;
                 this.$filter = $filter;
+                switch (moment.locale()) {
+                    case "fr":
+                        $scope.fromLabel = "Du";
+                        $scope.toLabel = "Au";
+                        break;
+                    default:
+                        $scope.fromLabel = "From";
+                        $scope.toLabel = "To";
+                        break;
+                }
                 $scope.selectDay = function (day) {
-                    if ($scope.editingStart || !!$scope.period.start && day.date.isBefore($scope.period.start)) {
+                    if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
                         $scope.period.start = day.date;
                         _this.start = day.date;
                         $scope.editEnd();
@@ -1829,10 +1942,20 @@ var Lui;
                         }
                         _this.assignClasses();
                     }
-                    else {
+                    else if (!$scope.editingStart && !!$scope.period.start) {
                         $scope.period.end = day.date;
                         _this.closePopover();
                     }
+                    else {
+                        $scope.period.end = day.date;
+                        $scope.editStart();
+                    }
+                };
+                $scope.selectShortcut = function (shortcut) {
+                    $scope.period = _this.toPeriod(shortcut);
+                    $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                    _this.setViewValue($scope.period);
+                    _this.closePopover();
                 };
                 $scope.editStart = function ($event) {
                     if (!!$event) {
@@ -1869,6 +1992,13 @@ var Lui;
                     }
                 };
                 $scope.popover = { isOpen: false };
+                $scope.clear = function ($event) {
+                    $scope.period.start = undefined;
+                    $scope.period.end = undefined;
+                    _this.setViewValue(undefined);
+                    _this.closePopover();
+                    $event.stopPropagation();
+                };
             }
             LuidDaterangePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
                 var _this = this;
@@ -1934,16 +2064,19 @@ var Lui;
             };
             LuidDaterangePickerController.prototype.getViewValue = function () {
                 if (!!this.ngModelCtrl.$viewValue) {
-                    var iperiod = {};
-                    iperiod.start = this.ngModelCtrl.$viewValue[this.startProperty];
-                    iperiod.end = this.ngModelCtrl.$viewValue[this.endProperty];
-                    var period = new Lui.Period(iperiod, this.formatter);
-                    if (this.excludeEnd) {
-                        period.end.add(-1, "day");
-                    }
-                    return period;
+                    return this.toPeriod(this.ngModelCtrl.$viewValue);
                 }
                 return { start: undefined, end: undefined };
+            };
+            LuidDaterangePickerController.prototype.toPeriod = function (v) {
+                var iperiod = {};
+                iperiod.start = v[this.startProperty];
+                iperiod.end = v[this.endProperty];
+                var period = new Lui.Period(iperiod, this.formatter);
+                if (this.excludeEnd && !!period.end) {
+                    period.end.add(-1, "day");
+                }
+                return period;
             };
             LuidDaterangePickerController.prototype.togglePopover = function ($event) {
                 if (this.$scope.popover.isOpen) {
@@ -1954,12 +2087,14 @@ var Lui;
                 }
             };
             LuidDaterangePickerController.prototype.closePopover = function () {
+                this.$scope.direction = "";
                 if (!!this.$scope.period.start && !!this.$scope.period.end) {
                     this.setViewValue(this.$scope.period);
                     this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
                 }
                 else {
                     this.$scope.period = this.getViewValue();
+                    this.$scope.displayStr = "";
                 }
                 this.popoverController.close();
             };
@@ -1979,7 +2114,7 @@ var Lui;
                 this.popoverController.open($event);
             };
             LuidDaterangePickerController.IID = "luidDaterangePickerController";
-            LuidDaterangePickerController.$inject = ["$scope", "$filter"];
+            LuidDaterangePickerController.$inject = ["$scope", "$filter", "$log"];
             return LuidDaterangePickerController;
         }(Directives.CalendarController));
         angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
@@ -2118,6 +2253,307 @@ var Lui;
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
+    "use strict";
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
+        var LuidImageCropper = (function () {
+            function LuidImageCropper() {
+                this.controller = LuidImageCropperController.IID;
+                this.restrict = "AE";
+                this.scope = {
+                    onCropped: "=",
+                    croppingRatio: "=",
+                    croppingDisabled: "=",
+                };
+                this.link = function (scope, element, attrs) {
+                    var handleFileSelect = function (evt) {
+                        var file = evt.currentTarget.files[0];
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            scope.$apply(function ($scope) {
+                                scope.image = event.target.result;
+                                if (!scope.croppingDisabled) {
+                                    scope.openCropper();
+                                }
+                                else {
+                                    scope.onCropped(scope.image);
+                                }
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    };
+                    angular.element(element[0]).on("change", handleFileSelect);
+                };
+            }
+            LuidImageCropper.Factory = function () {
+                var directive = function () { return new LuidImageCropper(); };
+                directive.$inject = [];
+                return directive;
+            };
+            ;
+            ;
+            LuidImageCropper.IID = "luidImageCropper";
+            return LuidImageCropper;
+        }());
+        Directives.LuidImageCropper = LuidImageCropper;
+        var LuidImageCropperController = (function () {
+            function LuidImageCropperController($scope, moment, $uibModal, luisConfig) {
+                $scope.image = "";
+                $scope.cropped = "";
+                $scope.openCropper = function () {
+                    var modalOptions = {
+                        templateUrl: "lui/templates/image-picker/image-cropper.modal.html",
+                        controller: LuidImageCropperModalController.IID,
+                        size: "desktop",
+                        resolve: {
+                            image: function () {
+                                return $scope.image;
+                            },
+                            croppingRatio: function () {
+                                return $scope.croppingRatio;
+                            },
+                            cancelLabel: function () {
+                                return luisConfig.cancelLabel;
+                            }
+                        },
+                    };
+                    var modalInstance = $uibModal.open(modalOptions);
+                    modalInstance.result.then(function (cropped) {
+                        $scope.cropped = cropped;
+                        $scope.onCropped(cropped);
+                    }, function () { return; });
+                };
+            }
+            LuidImageCropperController.IID = "luidImageCropperController";
+            LuidImageCropperController.$inject = ["$scope", "moment", "$uibModal", "luisConfig"];
+            return LuidImageCropperController;
+        }());
+        var LuidImageCropperModalController = (function () {
+            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, croppingRatio, cancelLabel) {
+                var doClose = false;
+                $scope.image = image;
+                $scope.cancelLabel = cancelLabel;
+                $scope.croppingRatio = croppingRatio;
+                $scope.crop = function () {
+                    doClose = true;
+                    $uibModalInstance.close($scope.cropped);
+                };
+                $scope.donotcrop = function () {
+                    doClose = true;
+                    $uibModalInstance.close($scope.image);
+                };
+                $scope.cancel = function () {
+                    doClose = true;
+                    $uibModalInstance.dismiss();
+                };
+                $scope.$on("modal.closing", function ($event) {
+                    if (!doClose) {
+                        $event.preventDefault();
+                    }
+                });
+            }
+            LuidImageCropperModalController.IID = "luidImageCropperModalController";
+            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
+            return LuidImageCropperModalController;
+        }());
+        angular.module("lui.directives").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
+        angular.module("lui.directives").controller(LuidImageCropperController.IID, LuidImageCropperController);
+        angular.module("lui.directives").controller(LuidImageCropperModalController.IID, LuidImageCropperModalController);
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
+        var LuidImagePicker = (function () {
+            function LuidImagePicker() {
+                this.restrict = "E";
+                this.replace = true;
+                this.templateUrl = "lui/templates/image-picker/image-picker.html";
+                this.require = ["ngModel", LuidImagePicker.IID];
+                this.scope = {
+                    placeholderUrl: "@",
+                    croppingRatio: "=",
+                    croppingDisabled: "=",
+                };
+                this.controller = LuidImagePickerController.IID;
+            }
+            LuidImagePicker.factory = function () {
+                var directive = function () {
+                    return new LuidImagePicker();
+                };
+                return directive;
+            };
+            LuidImagePicker.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var imgPickerCtrl = ctrls[1];
+                imgPickerCtrl.setNgModelCtrl(ngModelCtrl);
+                imgPickerCtrl.setPlaceholder(scope.placeholderUrl);
+            };
+            LuidImagePicker.IID = "luidImagePicker";
+            return LuidImagePicker;
+        }());
+        var LuidImagePickerController = (function () {
+            function LuidImagePickerController($scope, uploaderService) {
+                var _this = this;
+                this.$scope = $scope;
+                $scope.onCropped = function (cropped) {
+                    $scope.uploading = true;
+                    uploaderService.postDataURI(cropped)
+                        .then(function (file) {
+                        $scope.uploading = false;
+                        _this.setViewValue(file);
+                        _this.$scope.pictureStyle = { "background-image": "url('" + file.href + "')" };
+                    }, function (message) {
+                        $scope.uploading = false;
+                    });
+                };
+            }
+            LuidImagePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
+                var _this = this;
+                this.ngModelCtrl = ngModelCtrl;
+                ngModelCtrl.$render = function () {
+                    var vv = _this.getViewValue();
+                    if (!!vv && !!vv.href) {
+                        _this.$scope.pictureStyle = { "background-image": "url('" + vv.href + "')" };
+                    }
+                    else {
+                        _this.$scope.pictureStyle = { "background-image": "url('" + _this.placeholder + "')" };
+                    }
+                };
+            };
+            LuidImagePickerController.prototype.setPlaceholder = function (placeholder) {
+                this.placeholder = placeholder || "/static/common/images/placeholder-pp.png";
+            };
+            LuidImagePickerController.prototype.getViewValue = function () {
+                return this.ngModelCtrl.$viewValue;
+            };
+            LuidImagePickerController.prototype.setViewValue = function (file) {
+                return this.ngModelCtrl.$setViewValue(file);
+            };
+            LuidImagePickerController.IID = "luidImagePickerController";
+            LuidImagePickerController.$inject = ["$scope", "uploaderService"];
+            return LuidImagePickerController;
+        }());
+        angular.module("lui.directives").directive(LuidImagePicker.IID, LuidImagePicker.factory());
+        angular.module("lui.directives").controller(LuidImagePickerController.IID, LuidImagePickerController);
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directive;
+    (function (Directive) {
+        "use strict";
+        angular.module("lui.translates.imagepicker").config(["$translateProvider", function ($translateProvider) {
+                $translateProvider.translations("en", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "change picture",
+                    "LUIIMGCROPPER_CROP": "Crop",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Do not crop",
+                });
+                $translateProvider.translations("de", {});
+                $translateProvider.translations("es", {});
+                $translateProvider.translations("fr", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "changer l'image",
+                    "LUIIMGCROPPER_CROP": "Recadrer",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Ne pas recadrer",
+                });
+                $translateProvider.translations("it", {});
+                $translateProvider.translations("nl", {});
+            }]);
+    })(Directive = Lui.Directive || (Lui.Directive = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Service;
+    (function (Service) {
+        "use strict";
+        var UploaderService = (function () {
+            function UploaderService($http, $q, _, moment) {
+                this.mainApiUrl = "/api/files";
+                this.$http = $http;
+                this.$q = $q;
+                this._ = _;
+                this.moment = moment;
+            }
+            UploaderService.prototype.postFromUrl = function (url) {
+                var _this = this;
+                var dfd = this.$q.defer();
+                var req = new XMLHttpRequest();
+                req.open("GET", url, true);
+                req.responseType = "arraybuffer";
+                req.onload = function (event) {
+                    var blob = new Blob([req.response], { type: "image/jpeg" });
+                    _this.postBlob(blob)
+                        .then(function (response) {
+                        dfd.resolve(response);
+                    }, function (response) {
+                        dfd.reject(response.data.Message);
+                    });
+                };
+                req.send();
+                return dfd.promise;
+            };
+            UploaderService.prototype.postDataURI = function (dataURI) {
+                var blob = this.dataURItoBlob(dataURI);
+                return this.postBlob(blob);
+            };
+            UploaderService.prototype.postBlob = function (blob) {
+                var dfd = this.$q.defer();
+                var url = this.mainApiUrl;
+                var fd = new FormData();
+                fd.append("file", blob, "file.png");
+                this.$http({
+                    method: "POST",
+                    url: url,
+                    data: fd,
+                    headers: {
+                        "Content-Type": undefined,
+                        "Accept": undefined,
+                    },
+                    transformRequest: angular.identity,
+                })
+                    .then(function (response) {
+                    dfd.resolve(response.data.data);
+                }, function (response) {
+                    dfd.reject(response.data.Message);
+                });
+                return dfd.promise;
+            };
+            UploaderService.prototype.dataURItoBlob = function (dataURI) {
+                var byteString = atob(dataURI.split(",")[1]);
+                var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+                var ab = new ArrayBuffer(byteString.length);
+                var ia = new Uint8Array(ab);
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                var bb = new Blob([ab], { type: mimeString });
+                return bb;
+            };
+            UploaderService.IID = "uploaderService";
+            UploaderService.$inject = ["$http", "$q", "_", "moment"];
+            return UploaderService;
+        }());
+        var ApiResponseItem = (function () {
+            function ApiResponseItem() {
+            }
+            return ApiResponseItem;
+        }());
+        var ApiError = (function () {
+            function ApiError() {
+            }
+            return ApiError;
+        }());
+        angular.module("lui.services").service(UploaderService.IID, UploaderService);
+    })(Service = Lui.Service || (Lui.Service = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
     var Service;
     (function (Service) {
         "use strict";
@@ -2227,38 +2663,20 @@ var Lui;
     (function (Service) {
         "use strict";
         var ProgressBarService = (function () {
-            function ProgressBarService($document, $window, $timeout, $interval, $log) {
+            function ProgressBarService($document, $window, $timeout, $interval, $log, luisConfig) {
                 var _this = this;
                 this.latencyThreshold = 200;
                 this.httpResquestListening = false;
                 this.status = 0;
                 this.progressBarTemplate = '<div class="lui slim progressing progress progress-bar"><div class="indicator" data-percentage="0" style="width: 0%;"></div></div>';
-                this.addProgressBar = function (parentTagIdClass, palette) {
-                    if (parentTagIdClass === void 0) { parentTagIdClass = "body"; }
+                this.addProgressBar = function (palette) {
                     if (palette === void 0) { palette = "primary"; }
-                    var parentElt;
-                    var byTag = document.getElementsByTagName(parentTagIdClass);
-                    var byId = document.getElementById(parentTagIdClass);
-                    var byClass = document.getElementsByClassName(parentTagIdClass);
-                    if (!!byTag && byTag.length) {
-                        parentElt = angular.element(byTag[0]);
-                    }
-                    else if (!!byId) {
-                        parentElt = angular.element(byId);
-                    }
-                    else if (!!byClass && byClass.length) {
-                        parentElt = angular.element(byClass[0]);
-                    }
-                    else {
-                        _this.$log.warn("luisProgressBar - could not find a suitable element for tag/id/class: " + parentTagIdClass);
-                        return;
-                    }
                     if (!!_this.progressbarEl) {
                         _this.progressbarEl.remove();
                     }
                     _this.progressbarEl = angular.element(_this.progressBarTemplate);
                     _this.progressbarEl.addClass(palette);
-                    parentElt.append(_this.progressbarEl);
+                    _this.luisConfig.parentElt.append(_this.progressbarEl);
                 };
                 this.startListening = function (httpRequestMethods) {
                     _this.httpResquestListening = true;
@@ -2342,9 +2760,10 @@ var Lui;
                 this.$timeout = $timeout;
                 this.$interval = $interval;
                 this.$log = $log;
+                this.luisConfig = luisConfig;
             }
             ProgressBarService.IID = "luisProgressBar";
-            ProgressBarService.$inject = ["$document", "$window", "$timeout", "$interval", "$log"];
+            ProgressBarService.$inject = ["$document", "$window", "$timeout", "$interval", "$log", "luisConfig"];
             return ProgressBarService;
         }());
         Service.ProgressBarService = ProgressBarService;
@@ -2368,6 +2787,9 @@ var Lui;
                 }
             };
             MomentFormatter.prototype.formatValue = function (value) {
+                if (!value) {
+                    return value;
+                }
                 switch (this.format) {
                     case "moment": return this.formatMoment(value);
                     case "date": return this.formatDate(value);
@@ -2454,22 +2876,32 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/date-picker/datepicker-inline.html',
-    "<table ng-repeat=\"month in months\"><caption><button class=previous ng-if=$first ng-click=previousMonth()></button> <span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <button class=next ng-if=$last ng-click=nextMonth()></button></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{disabled: day.disabled, empty: day.empty, selected: day.selected}, day.customClass]\" ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table>"
+    "<button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<span class=\"lui input\" uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=togglePopover($event)><input ng-disabled=popover.isOpen ng-model=displayStr></span>"
+    "<span class=\"lui input\" uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-class=\"{ 'empty': !displayStr }\" ng-click=togglePopover($event)><input ng-disabled=popover.isOpen ng-model=displayStr> <i class=empty ng-click=clear($event)></i></span>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker-popover.html',
-    "<table ng-repeat=\"month in months\"><caption><button class=previous ng-if=$first ng-click=previousMonth()></button> <span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <button class=next ng-if=$last ng-click=nextMonth()></button></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween, 'disabled': day.disabled }, day.customClass]\" ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table>"
+    "<button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<span class=\"lui tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><input ng-hide=popover.isOpen ng-model=displayStr> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : \".................\" }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : \".................\" }}</span></span></span>"
+    "<span class=\"lui tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event) ng-class=\"{ 'open': popover.isOpen, 'empty': !displayStr }\"><input ng-hide=popover.isOpen ng-model=displayStr> <i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span></span>"
+  );
+
+
+  $templateCache.put('lui/templates/image-picker/image-cropper.modal.html',
+    "<div class=luid-cropper><img-crop image=image result-image=cropped area-type=rectangle result-image-size=\"'max'\" aspect-ratio=croppingRatio></img-crop></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=crop()>{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=donotcrop()>{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=cancel()>{{ cancelLabel }}</div></footer>"
+  );
+
+
+  $templateCache.put('lui/templates/image-picker/image-picker.html',
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=luid-image-picker-picture ng-style=\"pictureStyle\"><div class=input-overlay><span class=\"lui capitalized sentence\" translate=LUIIMGPICKER_UPLOAD_IMAGE></span> <input accept=image/* type=file class=fileInput file-model=image luid-image-cropper on-cropped=onCropped cropping-disabled=croppingDisabled cropping-ratio=\"croppingRatio\"></div><div class=upload-overlay><div class=\"lui inverted x-large loader\"></div></div></div>"
   );
 
 
@@ -2509,7 +2941,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in ::row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=true on-remove=updateFilteredRows() ng-if=\"::header.filterType === FilterTypeEnum.MULTISELECT\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"::header.filterType === FilterTypeEnum.SELECT\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\">{{ value }}</ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"internalRowClick($event, row);\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=row ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in ::row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting search input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=true on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=value></span></ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=value></span></ui-select-choices></ui-select></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"internalRowClick($event, row);\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);
