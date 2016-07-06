@@ -32,6 +32,9 @@ $lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 		&:after { border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent; }
 	}
 
+	// Sizing support
+	@include lui_supports_sizing();
+
 	// IE9 support
 	@include lui_target_IE9 {
 		&:before { border: none; }
@@ -39,6 +42,10 @@ $lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 	}
 }
 
-#{$prefix}.loader {
+#{$prefix}.loader:not(.inverted) {
 	@include lui_loader();
+}
+
+#{$prefix}.loader.inverted {
+	@include lui_loader(true);
 }

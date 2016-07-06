@@ -47,10 +47,18 @@
 	}])
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
+	})
+	.config(function(luisConfigProvider, $uibModalProvider) {
+		luisConfigProvider.setConfig({
+			parentTagIdClass: "demo",
+			startTop: 60,
+			prefix: "lui",
+			canDismissConfirm: true,
+		});
 	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment) {
+	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment, luisConfig) {
 		moment.locale("fr");
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
@@ -66,11 +74,5 @@
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
 
-		luisNotify.config({
-			parentTagIdClass: "demo",
-			startTop: 60,
-			prefix: "lui",
-			canDismissConfirm: true,
-		});
-	})
+	});
 })();

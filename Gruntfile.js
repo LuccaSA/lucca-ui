@@ -37,6 +37,9 @@ module.exports = function(grunt) {
 	// this updates the dists and tests it, creates karma coverage
 	grunt.registerTask('test', ['dist', "ts:test", 'karma:debug', 'karma:coverage', "connect:server", 'protractor:singlerun', 'jshint']);
 
+	// default task
+	grunt.registerTask('default', ['debug']);
+
 
 	// used for travis integration
 	grunt.registerTask('travis-karma', ["ts:test", 'karma:travis']);

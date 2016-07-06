@@ -1,0 +1,25 @@
+
+// Lucca imagepicker directive
+// @type: element
+// ===================================
+
+$imagepicker: (
+	enabled: 					true,
+	background-color: 			#CCC,
+	background-position: 		50% 50%,
+	background-repeat: 			no-repeat,
+	background-size: 			cover,
+	overlay: (
+		height: 5em,
+		padding: 1em,
+		opacity: .8,
+		bg-color: black,
+		color: white,
+		transition: all luiTheme(adjective, animated, transitions, animationEasing) luiTheme(adjective, animated, transitions, animationDuration),
+	),
+	cropper: (
+		bg-color: luiPalette(light, color),
+		height: 40em,
+	),
+);
+$luiTheme: luiSetTheme(element, imagepicker, $imagepicker);

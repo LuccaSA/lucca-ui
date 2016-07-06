@@ -1,8 +1,15 @@
 # Change log
 
-## 2.2.4 - in dev
+## 2.3.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.3.0)
+
+### Breaking changes
+ - added a dependency to [ng-img-crop-full-extended](https://github.com/CrackerakiUA/ngImgCropFullExtended), see the `luid-image-picker` to understand why
+ - removed method `luisNotify.config({...})` in favor of the `luisConfigProvider.setConfig({...})` that does more.
+ - `luisProgressBar.add` method mow only takes a palette as argument, the parent element being fixed during the `luisConfigProvider.setConfig` method
 
 ### New features
+ - `luid-image-picker` directive that display an image and allows to upload a cropped one to a lucca web app through `/api/files`. see [demo page](https://luccasa.github.io/lucca-ui/#/lucca#luid-image-picker) for more info.
+ - `luisConfigProvider` provider with a method `setConfig()` to allow you to configure lucca-ui once and for all
 
 ### Resolved issues
 - UI-select disabled styling fix
@@ -13,7 +20,6 @@
 - `luid-date-picker` - an equivalent to [ui bootstrap datepicker](https://angular-ui.github.io/bootstrap/#/datepicker). see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-date-picker) for more info
 - `luid-daterange-picker` - the new and improved version of the luid-daterange. see [demo page](https://luccasa.github.io/lucca-ui/#/directives#luid-daterange-picker) for more info
 - [issue #280](https://github.com/LuccaSA/lucca-ui/issues/280) - Adds support for the disabled style on lui checkbox
-
 
 ## 2.2.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.2.2)
 

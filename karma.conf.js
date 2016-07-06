@@ -17,6 +17,7 @@ module.exports = function(config) {
 			'bower_components/moment/min/moment-with-locales.js',
 			'bower_components/underscore/underscore-min.js',
 			'bower_components/angular-notify/dist/angular-notify.min.js',
+			'bower_components/ng-img-crop-full-extended/compile/unminified/ng-img-crop.js',
 
 			'bower_components/angular-mocks/angular-mocks.js',
 
