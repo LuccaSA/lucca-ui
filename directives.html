@@ -6,11 +6,13 @@
 		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
+		<a class="item" href="#/directives#luid-date-picker">luid-date-picker</a>
+		<a class="item" href="#/directives#luid-daterange-picker">luid-daterange-picker</a>
 		<a class="item" href="#/directives#luid-progress-bar">luid-progress-bar</a>
-	</nav>
 	</nav>
 
 	<section class="lui typeset container">
+
 		<div class="lui callout primary">
 			<p>
 				<b>Important:</b> The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
@@ -510,7 +512,7 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</div>
 			<p>
 				<ul class="lui unstyled">
-					<li><code>date</code> : The date you want to display, see <a class="lui fancy link" href="#filters#luifMoment">luifMoment</a>						for supported values. </li>
+					<li><code>date</code> : The date you want to display, see <a class="lui fancy link" href="#filters#luifMoment">luifMoment</a> for supported values. </li>
 					<li><code>show-day</code> : this argument must be a boolean, if true the directive shows the name of the day on top.</li>
 					<li><code>primary-color</code> : use these two arguments to have your own color palette. </li>
 					<li><code>secondary-color</code> : see above</li>
@@ -586,6 +588,227 @@ $scope.myMappings = { 13: enterPressed };</pre>
 			</div>
 		</article>
 
+		<article id="luid-date-picker">
+			<h2 class="lui divider below">luid-date-picker</h2>
+			<p>
+				A directive to pick a date in a calendar, a bit like the <a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/datepicker">datepicker</a> from angular ui bootstrap but with different options
+			</p>
+			<p>
+				For example you can use it with a <code>moment</code>, a <code>date</code> or any <code>string</code> if you provide a format
+			</p>
+			<p>
+				It exists inline or in a popup.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: the variable to bind to</li>
+					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>min</code>: self explainatory</li>
+					<li><code>max</code>: self explainatory</li>
+					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
+					<li><code>displayed-months</code>: number of months you want displayed next to one another, default <code>1</code></li>
+					<li><code>display-format</code>: unused inline, the format to use to display the selected date in the input, will use <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+					<li><code>shortcuts</code>: unused inline, a list of objects <code>{ label: "string", date: "your format of date" }</code> to be displayed under the calendars to easily select a certain date</li>
+					<li><code>grouped-shortcuts</code>: unused inline, like <code>shortcuts</code> but you want them displayed on several lines for consistency, for example you want on one line <code>yesterday</code>, <code>today</code>, <code>tomorrow</code> and on another <code>last week</code>, <code>this week</code>, <code>next week</code></li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;luid-date-picker ng-model="myDate"&gt;&lt;/luid-date-picker&gt;
+&lt;luid-date-picker ng-model="myDate" format="YYYY-MM-DD" displayed-month="3"&gt;&lt;/luid-date-picker&gt;
+&lt;luid-date-picker-popup ng-model="myDate" display-format="dddd Do, MMMM"&gt;&lt;/luid-date-picker-popup&gt;</pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div class="lui item">
+<!-- 				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+					<i class="lui icon search"></i>View in Plunker
+				</a> -->
+			</div>
+			<div ng-controller="datepickerCtrl" class="lui block round">
+				<section class="lui fitting container">
+					<div class="lui desktop-3 tablet-6 column">
+						<p>
+							Basic use, linked to a moment
+						</p>
+						<p>
+							<luid-date-picker ng-model="dateMoment"></luid-date-picker>
+						</p>
+						<p>
+							My date: <code>{{ dateMoment | luifMoment : "LL"}}</code>
+						</p>
+					</div>
+					<div class="lui desktop-3 tablet-6 column">
+						<p>
+							Linked to a string with format <code>YYYY-MM-DD</code>
+						</p>
+						<p>
+							<luid-date-picker ng-model="dateStr" format="YYYY-MM-DD"></luid-date-picker>
+						</p>
+						<p>
+							My date:
+							<span class="lui input">
+								<input type="text" ng-model="dateStr">
+							</span>
+						</p>
+					</div>
+					<div class="lui desktop-3 tablet-6 column">
+						<p>
+							Linked to a <code>date</code>
+						</p>
+						<p>
+							<luid-date-picker ng-model="dateDate" format="date"></luid-date-picker>
+						</p>
+						<p>
+							My date:
+							<span class="lui datepicker">
+								<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="dateDate" is-open="status.opened" close-text="Close" ng-click="status.opened=true"/>
+							</span>
+						</p>
+					</div>
+				</section>
+				<hr class="lui dashed divider">
+				<p>
+					In a popup, to be easily incorporated in a form
+				</p>
+				<p>
+					<luid-date-picker-popup ng-model="datePopup1"></luid-date-picker-popup>
+				</p>
+				<p>
+					displaying the date with the <code>LL</code> format but binded to a string with the <code>L</code> format
+				</p>
+				<p>
+					<luid-date-picker-popup ng-model="datePopup2" display-format="LL" format="L"></luid-date-picker-popup>
+				</p>
+				<p>
+					value in my $scope: <code>{{ datePopup2 }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with min/max
+				</p>
+				<p ng-form="myForm">
+					<luid-date-picker name="withMinMax" ng-model="dateMoment" min="min" max="max"></luid-date-picker>
+					<!-- <code> lol mdr {{myForm}}</code> -->
+				</p>
+				<p>
+					min: <luid-date-picker-popup ng-model="min" display-format="LL" shortcuts="shortcuts"></luid-date-picker-popup>
+					max: <luid-date-picker-popup ng-model="max" display-format="LL" grouped-shortcuts="groupedShortcuts"></luid-date-picker-popup>
+				</p>
+				<p>
+					<!-- <code>{{myForm.withMinMax}}</code> -->
+					validity: <span class="lui green label" ng-show=" myForm.withMinMax.$valid">ng-valid</span>
+					<span class="lui red label" ng-show=" myForm.withMinMax.$invalid">ng-invalid</span>
+					<span class="lui red label" ng-repeat="(key, value) in myForm.withMinMax.$error">ng-invalid-{{key}}</span>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with custom classes
+				</p>
+				<p ng-form="datepickerForm">
+					this one applies the class <code>disabled</code> to weekends <luid-date-picker-popup ng-model="customClasses" custom-class="disableWeekends"></luid-date-picker-popup>
+				</p>
+				<p ng-form="datepickerForm">
+					this one highlights the current week <luid-date-picker-popup ng-model="customClasses" custom-class="highlightThisWeek"></luid-date-picker-popup>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					With multiple months displayed at once
+				</p>
+				<p>
+					<luid-date-picker ng-model="dateMoment" displayed-months="2"></luid-date-picker>
+				</p>
+				<p>
+					<luid-date-picker ng-model="dateMoment" displayed-months="2"></luid-date-picker>
+				</p>
+				<p>
+					With multiple months displayed at once in a popup
+				</p>
+				<p>
+					<luid-date-picker-popup ng-model="dateMoment" displayed-months="2"></luid-date-picker-popup>
+				</p>
+
+			</div>
+		</article>
+				<article id="luid-daterange-picker">
+			<h2 class="lui divider below">luid-daterange-picker</h2>
+			<p>
+			An input allowing to chose a date range. inspired by the one used on the homepage of <a class="lui fancy link" href="https://www.airbnb.com/">airbnb</a>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: the variable to bind to</li>
+					<li><code>format</code>: the format of the <code>ng-model</code> variable, <code>moment</code>, <code>date</code> or any format usable by <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs</a>, default <code>moment</code></li>
+					<li><code>start-property</code>: will edit this property as the start, default <code>start</code></li>
+					<li><code>end-property</code>: will edit this property as the end, default <code>end</code></li>
+					<li><code>exclude-end</code> : if you want the end of the range in your scope to be excluded, default <code>false</code></li>
+					<li><code>min</code>: self explainatory</li>
+					<li><code>max</code>: self explainatory</li>
+					<li><code>custom-class</code>: a function taking in a moment and returnung a string to apply specific classes to some days</li>
+					<li><code>display-format</code>: used when the popover is open to display each date in its tag, uses <code>format</code> if you provided any or the format <code>L</code> if you didn't</li>
+					<li><code>shortcuts</code>: unused inline, a list of objects <code>{ label: "string", "your-start-property": "your format of date", "your-end-property": "your format of date" }</code> to be displayed under the calendars to easily select a certain daterange</li>
+					<li><code>grouped-shortcuts</code>: unused inline, like <code>shortcuts</code> but you want them displayed on several lines for consistency, for example you want on one line <code>yesterday</code>, <code>today</code>, <code>tomorrow</code> and on another <code>last week</code>, <code>this week</code>, <code>next week</code></li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;luid-daterange-picker ng-model="myRange"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" min="min" max="max" custom-class="disableWeekends"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" start-property="foo" end-property="bar"&gt;&lt;/luid-daterange-picker&gt;
+&lt;luid-daterange-picker ng-model="myRange" min="'2016-05-01'" format="YYYY-MM-DD"&gt;&lt;/luid-daterange-picker&gt;</pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div class="lui item">
+<!-- 				<a class="lui button primary" href="http://plnkr.co/edit/gaTyMAWNr0Bn2iWqi6OS?p=preview">
+					<i class="lui icon search"></i>View in Plunker
+				</a> -->
+			</div>
+			<div ng-controller="daterangepickerCtrl" class="lui block round">
+				<p>
+					basic usage
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange" grouped-shortcuts="groupedShortcuts"></luid-daterange-picker>
+				</p>
+				<p>
+					start: <code>{{ myDaterange.start | luifMoment }}</code> - end: <code>{{ myDaterange.end | luifMoment }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with end excluded and weekend disabled
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends" shortcuts="shortcuts"></luid-daterange-picker>
+				</p>
+				<p>
+					start: <code>{{ myDaterange2.start | luifMoment }}</code> - end: <code>{{ myDaterange2.end | luifMoment }}</code>
+				</p>
+				<hr class="lui dashed divider">
+				<p>
+					with custom start and end properties (foo and bar), an exotic format, a different display format, a min and a max
+				</p>
+				<p>
+					<luid-daterange-picker ng-model="myDaterange3" start-property="foo" end-property="bar" format="YYYYMMDD" display-format="ddd Do MMM" min="'20160520'" max="'20160610'"></luid-daterange-picker>
+				</p>
+				<p>
+					foo: <code>{{ myDaterange3.foo }}</code> - bar: <code>{{ myDaterange3.bar }}</code>
+				</p>
+			</div>
+		</article>
+
 		<article id="luid-progress-bar">
 			<h2 class="lui divider below">luid-progress-bar</h2>
 
@@ -616,10 +839,11 @@ $scope.myMappings = { 13: enterPressed };</pre>
 				Add progress bar in your module run method :
 			</p>
 			<p>
-				<pre hljs no-escape language="js">angular.module('demo').run(function(luisProgressBar) {
-	luisProgressBar.addProgressBar("demo", "grey");
-	// this method takes a tagName, id or class as first argument to find the elemnt it sould get appended to
-	// the second argument is the palette you want applied to the progress bar
+				<pre hljs no-escape language="js">angular.module("myApp").config(fumction(luisConfigProvider){
+	luisConfigProvider.setConfig({
+		parentTagIdClass: "demo",
+		prefix: "lui",
+	});
 });</pre>
 			</p>
 			<p>
@@ -636,8 +860,8 @@ $scope.$on("$routeChangeStart", function(event, toState, toParams, fromState, fr
 			</p>
 			<p>
 				You can specify what http methods you want to listen to.
-				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get methods
-luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put</pre>
+				<pre hljs no-escape language="js">luisProgressBar.startListening(); // will listen to get requests
+luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and put request</pre>
 			</p>
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Demo</h4>

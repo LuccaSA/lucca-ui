@@ -4,6 +4,7 @@
 		<a class="item" href="#/lucca#luid-translations">luid-translations</a>
 		<a class="item" href="#/lucca#luis-notify">luis-notify</a>
 		<a class="item" href="#/lucca#luid-table-grid">luid-table-grid</a>
+		<a class="item" href="#/lucca#luid-image-picker">luid-image-picker</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -27,6 +28,7 @@
 					<li><a class="lui fancy link" href="https://github.com/angular/bower-angular-sanitize">angular sanitize</a> <span class="lui label">1.5</span></li>
 					<li><a class="lui fancy link" href="https://github.com/angular-translate/angular-translate">angular translate</a> <span class="lui label">2.11</span></li>
 					<li><a class="lui fancy link" href="https://github.com/cgross/angular-notify">angular notify</a> <span class="lui label">2.5</span></li>
+					<li><a class="lui fancy link" href="https://github.com/CrackerakiUA/ngImgCropFullExtended">ng-img-crop-full-extended</a> <span class="lui label">0.5</span></li>
 				</ul>
 			</p>
 		</div>
@@ -177,7 +179,7 @@
 	return user.firstName.length &lt;= 6;
 };</pre>
 				<p>
-					Select a filter: 
+					Select a filter:
 				</p>
 				<p>
 					<span class="lui buttons">
@@ -187,7 +189,7 @@
 					</span>
 				</p>
 				<p>
-					Set of users with the selected filter applied: 
+					Set of users with the selected filter applied:
 					<luid-user-picker ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
 					<luid-user-picker ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
 					<luid-user-picker ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
@@ -195,7 +197,7 @@
 				<hr />
 				<h5>Custom info</h5>
 				<p>
-					Number of letters in their first name: 
+					Number of letters in their first name:
 					<luid-user-picker ng-model="myUser.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker>, this info is computed synchronously
 				</p>
 				<p>
@@ -249,7 +251,7 @@ $scope.yearOfArrivalAsync = function(user){
 	return user.firstName.length &lt;= 6;
 };</pre>
 				<p>
-					Select a filter: 
+					Select a filter:
 				</p>
 				<p>
 					<span class="lui buttons">
@@ -259,7 +261,7 @@ $scope.yearOfArrivalAsync = function(user){
 					</span>
 				</p>
 				<p>
-					Set of users with the selected filter applied: 
+					Set of users with the selected filter applied:
 					<luid-user-picker-multiple ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUsers.filtered" custom-filter="hasShortName"></luid-user-picker-multiple>
 					<luid-user-picker-multiple ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUsers.filtered" custom-filter="beginsWithConsonant"></luid-user-picker-multiple>
 					<luid-user-picker-multiple ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUsers.filtered" custom-filter="nameContainsT"></luid-user-picker-multiple>
@@ -267,7 +269,7 @@ $scope.yearOfArrivalAsync = function(user){
 				<hr />
 				<h5>Custom info</h5>
 				<p>
-					Number of letters in their first name: 
+					Number of letters in their first name:
 					<luid-user-picker-multiple ng-model="myUsers.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker-multiple>, this info is computed synchronously
 				</p>
 				<p>
@@ -400,6 +402,16 @@ $scope.yearOfArrivalAsync = function(user){
 			Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as arguments. the message will be displayed in the popup while both message and details will be logged in the browser console using <code>$log</code>
 		</p>
 		<p>
+			A method <code>loading</code> taking a <code>ng.IPromise&lt;string&gt;</code>, a <code>message</code> and a <code>cancel function</code> as arguments. Will display a notification with a spinner and the provided message.
+			<ul>
+				<li>notifying the promise with a new message will change the message displayed</li>
+				<li>resolving the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the success notification</li>
+				<li>rejecting the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the error notification</li>
+				<li>if you do not provide a <code>cancel function</code>, the <i class="lui small cross icon"></i> won't be present while the promise isn't resolved/rejected</li>
+				<li>if you do provide a <code>cancel function</code>, clicking <i class="lui small cross icon"></i> while the promise isn't resolved/rejected will cal said function before closing the notification</li>
+			</ul>
+		</p>
+		<p>
 			Methods <code>alert</code>, and<code>confirm</code> taking <code>message</code>, <code>okLabel</code> and <code>cancelLabel</code> as arguments. returns a <code>ng.IPromise&lt;boolean&gt;</code> that resolves with <code>true</code> if user clicked Ok and <code>false</code> if user clicked cancel, rejects if user clicked outside of the modal
 		</p>
 		<div class="lui dashed divider">
@@ -407,8 +419,8 @@ $scope.yearOfArrivalAsync = function(user){
 		</div>
 		<p>
 			<pre hljs no-escape language="js">// to configure, needs to be done just once
-angular.module("myApp").run(fumction(luisNotify){
-	luisNotify.config({
+angular.module("myApp").config(fumction(luisConfigProvider){
+	luisConfigProvider.setConfig({
 		parentTagIdClass: "demo",
 		startTop: 60,
 		prefix: "lui",
@@ -417,12 +429,19 @@ angular.module("myApp").run(fumction(luisNotify){
 });
 
 // to use in your controller
-angular.controller("myCtrl", function(luisNotify) { 
+angular.controller("myCtrl", function(luisNotify) {
 	luisNotify.error("your message", "some details");
 	luisNotify.confirm("This action is irreversible, are you really sure you want to do it?", "Yes I am", "No i'm not")
 	.then(function(isSure) {
 		if (isSure) {
-			doTheStuff();
+			var loadingDfd = $q.defer();
+			luisNotify.loading(loadingDfd.promise, "doing the stuff");
+			doTheStuff()
+			.then( function() {
+				loadingDfd.resolve("the stuff is done");
+			}, function() {
+				loadingDfd.reject("an error happened :'(");
+			});
 		}
 	});
 });
@@ -453,6 +472,34 @@ angular.controller("myCtrl", function(luisNotify) {
 				<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
 				<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
 				<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+			</p>
+			<hr class="lui dashed divider">
+			<h5>Loading notification</h5>
+			<p>
+				<div class="lui field">
+					<label>message displayed while loading</label>
+					<span class="lui input">
+						<input type="text" ng-model="loadingMessage">
+					</span>
+				</div>
+				<div class="lui field">
+					<label>message displayed when resolved</label>
+					<span class="lui input">
+						<input type="text" ng-model="resolvedMessage">
+					</span>
+				</div>
+				<div class="lui field">
+					<label>message displayed when rejected</label>
+					<span class="lui input">
+						<input type="text" ng-model="rejectedMessage">
+					</span>
+				</div>
+			</p>
+			<p>
+				<button class="lui button" ng-click="notifyLoading(loadingMessage)" ng-disabled="loading">loading</button>
+				<button class="lui button" ng-click="changeLoading(loadingMessage)" ng-disabled="!loading">change message</button>
+				<button class="lui green button" ng-click="resolveLoading(resolvedMessage)" ng-disabled="!loading">resolve loading</button>
+				<button class="lui red button" ng-click="rejectLoading(rejectedMessage)" ng-disabled="!loading">reject loading</button>
 			</p>
 			<hr class="lui dashed divider">
 			<h5>Alerts and confirms</h5>
@@ -499,6 +546,7 @@ angular.controller("myCtrl", function(luisNotify) {
 					<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
 					<li><code>datas</code> : a list of things you want to display.</li>
 					<li><code>height</code> : your table won't be higher than that (px).</li>
+					<li><code>height-type</code> : (global | body, default: body) specify if the given height should be applied on the whole tablegrid (global), or on the body (body)</li>
 					<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
 					<li><code>default-order</code> : At first load, your table will be order by the header of which the label is the value of this attribute.
 									The value can be optionally prefixed with + or - to control ascending or descending sort order. </li>
@@ -558,6 +606,95 @@ children: [
 			<div ng-controller="tableGridCtrl" class="lui block round">
 				<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="200" default-order="-name"></luid-table-grid>
 				<div>{{numberOfRow(people2)}}/{{people2.length}} are in the filtered dataset</div>
+			</div>
+		</article>
+
+
+
+		<article id="luid-image-picker">
+			<h2 class="lui divider below">luid-image-picker</h2>
+			<p>
+				An input for images that allow the user to upload its own picture and allow to crop it
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li>Use <code>ng-model</code> like an input field</li>
+					<li>Supports <code>ng-change</code> and <code>ng-disabled</code></li>
+					<li>Posts the uploaded image to <code>/api/files</code>, so you dont have to embarass yourself with how to upload stuff to lucca</li>
+					<li>Display a modal to alow the user to crop the image he wants to upload</li>
+					<li>Takes all the space in its parent so ypu can use it for any kind of picture (portrait, scenery, ...)</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Supported arguments:</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li><code>ng-model</code>: self explanatory</li>
+					<li><code>ng-change</code>: self explanatory</li>
+					<li><code>ng-disabled</code>: if true, will display the picture but not allow uploading/cropping of a new one</li>
+					<li><code>cropping-ratio</code>: the ratio to use in the cropping modal</li>
+					<li><code>cropping-disabled</code>: will not display the cropping modal</li>
+					<li><code>placeholder-url</code>: the image to display if the model is undefined, if none is defined, will use <code>/static/common/images/placeholder-pp.png</code></li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage:</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;luid-image-picker ng-model="image"&gt;&lt;/luid-image-picker&gt;
+&lt;luid-image-picker ng-model="image" ng-disabled="disabled" ng-change="changed()"&gt;&lt;/luid-image-picker&gt;</pre>
+			</p>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo</h4>
+				</div>
+			</div>
+			<div ng-controller="imagePickerCtrl" class="lui block round">
+				<p>
+					Reroute all calls to
+					<span class="lui input with addon">
+						<span class="lui addon">https://</span>
+						<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
+					</span>
+					<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
+					<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
+					<span class="lui red label with addon"ng-show="!authToken"><i class="lui addon icon warning"></i>authenticate to be able to upload pictures</span>
+				</p>
+				<hr class="lui divider">
+				<p>
+					Basic use: the containing div of the second one is way more large. The second one is disabled and has a different placeholder.
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image"></luid-image-picker>
+					</div>
+					<div class="imagepicker-container" style="width:600px">
+						<luid-image-picker ng-model="image" ng-disabled="true" placeholder-url="http://www.lucienbertin.com/img/uni.png"></luid-image-picker>
+					</div>
+				</p>
+				<hr class="lui divider">
+				<p>
+					Cropping disabled and ng-change
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image2" cropping-disabled="true" ng-change="changed()"></luid-image-picker>
+					</div>
+					ng-change has been called {{ changeCnt }} times.
+				</p>
+				<hr class="lui divider">
+				<p>
+					With a cropping ratio
+				</p>
+				<p>
+					<div class="imagepicker-container">
+						<luid-image-picker ng-model="image3" cropping-ratio=".75"></luid-image-picker>
+					</div>
+				</p>
 			</div>
 		</article>
 	</section>
