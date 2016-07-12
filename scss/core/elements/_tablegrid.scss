@@ -18,6 +18,9 @@
 
 			// Columns
 			// ====
+			.columns {
+				background-color: map-gets($vars, background);
+			}
 			.locked.columns {
 				position: absolute;
 				overflow: hidden;
@@ -106,6 +109,9 @@
 				tr:not(.filters) th:not([colspan]) {
 					padding-top: map-gets($vars, header, cellPaddingTop);
 				}
+			}
+			.fitting.ui-select-container {
+				min-width: 1em;
 			}
 
 
