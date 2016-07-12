@@ -7,6 +7,7 @@
 ### Resolved issues
 - Fixes some styling inconsistencies on the tablegrid component
 
+
 ## 2.3.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.3.0)
 
 ### Breaking changes
