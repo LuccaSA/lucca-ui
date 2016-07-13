@@ -18,6 +18,9 @@
 
 			// Columns
 			// ====
+			.columns {
+				background-color: map-gets($vars, background);
+			}
 			.locked.columns {
 				position: absolute;
 				overflow: hidden;
@@ -90,7 +93,6 @@
 				position: absolute; top: 0;
 				min-width: 100%;
 				color: map-gets($vars, header, text);
-				font-weight: map-gets($vars, header, fontWeight);
 				text-align: map-gets($vars, header, textAlignment);
 
 				a {
@@ -102,10 +104,17 @@
 					background-color: map-gets($vars, header, background);
 					vertical-align: bottom;
 					border-color: map-gets($vars, header, borderColor);
+					
+					&:not(.filtering) {
+						font-weight: map-gets($vars, header, fontWeight);
+					}
 				}
 				tr:not(.filters) th:not([colspan]) {
 					padding-top: map-gets($vars, header, cellPaddingTop);
 				}
+			}
+			.fitting.ui-select-container {
+				min-width: 1em;
 			}
 
 
