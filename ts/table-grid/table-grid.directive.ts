@@ -128,12 +128,18 @@ module Lui.Directives {
 					if (!!tables[1]) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
 					}
+					if (canvasHeight < height) {
+						scrollableAreaVS.style.height = tables[0].clientHeight + "px";
+						if (!!lockedColumnsVS) {
+							lockedColumnsVS.style.height = tables[0].clientHeight + "px";
+						}
+					}
 				};
 
 				let canvasHeight;
 				let updateWidth = () => {
 					let tablegridWidth: number = 0;
-					tablegridWidth = (scrollableArea.clientHeight < Math.max(canvasHeight, scrollableAreaVS.clientHeight)) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
+					tablegridWidth = (Math.max(scrollableArea.clientHeight, height) < Math.max(canvasHeight, scrollableAreaVS.clientHeight)) ? tablegrid.clientWidth - scrollbarThickness : tablegrid.clientWidth;
 
 					// Vertical scrollbar
 					for (let header of headers) {
