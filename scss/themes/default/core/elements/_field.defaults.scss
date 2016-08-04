@@ -1,0 +1,60 @@
+
+// Field
+// @type: element
+// ===================================
+
+$field: (
+	enabled: 					true,
+
+	invalid-color: 				luiPalette(red, color),
+	valid-color:				luiPalette(green, color),
+	valid-icon-size:			0.75em,
+	vertical-margin: 			2em,
+
+	input: (
+		vertical-padding: 		0.5em,
+		font-size:				1.25em,
+	),
+
+	transition: (
+		duration:				100ms,
+		easing:					ease-out
+	),
+
+	label: (
+		color: 					luiPalette(light, color, dark),
+		displaced-font-size:	0.9em,
+	),
+
+	message: (
+		font-size: 				0.85em,
+		helper-color: 			luiPalette(light, color, dark)
+	),
+
+	fieldset: (
+		legend: (
+			font-size:			1em,
+			font-weight:		500
+		)
+	),
+
+	field: (
+		default-border-width: 	1px,
+		default-border-style: 	solid,
+		default-border-color:	luiPalette(light, color),
+
+		focus-border-width:		2px,
+		focus-border-style:		solid,
+		focus-border-color: 	luiPalette(primary, color)
+	),
+
+	lengths: (
+		x-short: 				lui_rem(5),
+		short: 					lui_rem(8),
+		medium:					lui_rem(15),
+		long: 					lui_rem(20),
+		x-long: 				lui_rem(25)
+	)
+);
+
+$luiTheme: luiSetTheme(element, field, $field);

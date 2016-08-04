@@ -1,56 +1,38 @@
-@if luiTheme(element, overlay, enabled) {
+%input_sizing {
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: baseline;
+
+	margin: 0; // Reset
+	margin-top: luiTheme(element, field, input, vertical-padding);
+
+	padding: 0; // Reset
+	padding-bottom: luiTheme(element, field, input, vertical-padding);
+
+	height: 1 + 2 * luiTheme(element, field, input, vertical-padding);
+
+	font-size: luiTheme(element, field, input, font-size);
+}
+
+%input_label_displaced {
+	top: -(2 - luiTheme(element, field, label, displaced-font-size)) !important;
+	font-size: luiTheme(element, field, label, displaced-font-size);
+}
+
+%field_input_inner_right_icon {
+	position: absolute;
+	top: 1 + luiTheme(element, field, input, vertical-padding);
+	line-height: 1;
+	transform: translate(-100%, -50%);
+	margin: 0 !important;
+	opacity: 0.5;
+}
+
+
+@if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
 
-		$vars: (
-			invalid-color: 				luiPalette(red, color),
-			valid-icon-size:			0.75em,
-			vertical-margin: 			2em,
-
-			input: (
-				vertical-padding: 		0.5em,
-				font-size:				1.25em,
-			),
-
-			transition: (
-				duration:				100ms,
-				easing:					ease-out
-			),
-
-			label: (
-				color: 					luiPalette(light, color, dark),
-				displaced-font-size:	0.9em,
-			),
-
-			message: (
-				font-size: 				0.85em,
-				helper-color: 			luiPalette(light, color, dark)
-			),
-
-			fieldset: (
-				legend: (
-					font-size:			1em,
-					font-weight:		500
-				)
-			),
-
-			field: (
-				default-border-width: 	1px,
-				default-border-style: 	solid,
-				default-border-color:	luiPalette(light, color),
-
-				focus-border-width:		2px,
-				focus-border-style:		solid,
-				focus-border-color: 	luiPalette(primary, color)
-			),
-
-			lengths: (
-				x-short: 				lui_rem(5),
-				short: 					lui_rem(8),
-				medium:					lui_rem(15),
-				long: 					lui_rem(20),
-				x-long: 				lui_rem(25)
-			)
-		);
+		$vars: luiTheme(element, field);
 
 		// Forms are a whole group of inputs.
 		// Best practice: You should have only one (displayed) form per page.
@@ -77,22 +59,6 @@
 
 		// Fields are a label coupled with an input and a potential validation message
 		// ====
-		%input_sizing {
-			box-sizing: border-box;
-			display: inline-block;
-			vertical-align: baseline;
-
-			margin: 0;
-			margin-top: map-gets($vars, input, vertical-padding);
-
-			padding: 0;
-			padding-bottom: map-gets($vars, input, vertical-padding);
-
-			height: 1 + 2 * map-gets($vars, input, vertical-padding);
-
-			font-size: map-gets($vars, input, font-size);
-		}
-
 		#{$prefix}.form .field,
 		#{$prefix}.field,
 		#{$prefix}.fieldset .field {
@@ -106,130 +72,16 @@
 			position: relative;
 			font-size: map-gets($vars, font-size);
 
-			.input {
-
-				// Input styling reset
-				> input:-webkit-autofill {
-					-webkit-box-shadow: 0 0 0 1000px white inset !important;
-				}
-				> input,
-				> textarea,
-				> select,
-				.unit {
-					@extend %input_sizing;
-				}
-				> input,
-				> textarea {
-					outline: 0;
-					background: transparent;
-
-					// Border
-					border: none;
-					border-bottom-width: map-gets($vars, field, default-border-width);
-					border-bottom-style: map-gets($vars, field, default-border-style);
-					border-bottom-color: map-gets($vars, field, default-border-color);
-
-					// Transitions
-					transition-property: border-bottom-color;
-					transition-duration: map-gets($vars, transition, duration);
-					transition-timing-function: map-gets($vars, transition, easing);
-
-					&:focus {
-						padding-top: map-gets($vars, field, focus-border-width) - map-gets($vars, field, default-border-width);
-
-						// Focused state
-						border-bottom-width: map-gets($vars, field, focus-border-width);
-						border-bottom-style: map-gets($vars, field, focus-border-style);
-						border-bottom-color: map-gets($vars, field, focus-border-color);
-
-						& > ~ label {
-							color: map-gets($vars, field, focus-border-color);
-						}
-					}
-				}
-
-				// Textarea specifics
-				// ====
-				textarea {
-					resize: vertical;
-				}
-
-				// label
-				// ====
-				> label {
-					position: absolute;
-					pointer-events: none;
-					top: map-gets($vars, input, vertical-padding);
-					left: 0;
-
-					font-size: map-gets($vars, input, font-size);
-					color: map-gets($vars, label, color);
-
-					transition-property: top, font-size, color;
-					transition-duration: map-gets($vars, transition, duration);
-					transition-timing-function: map-gets($vars, transition, easing);
-
-				}
-
-				// Unit
-				// ====
-				.unit {
-					font-weight: 600;
-					margin-left: 0.5em;
-					line-height: 1 + map-gets($vars, input, vertical-padding);
-					font-size: lui_rem(1);
-				}
-			}
-
-
-			// Label displacement when focused or filled
+			// Messages
 			// ====
-			&.filled > .input > label,
-			> .input > *:valid ~ label,
-			> .input > *:focus ~ label {
-				top: -(2 - map-gets($vars, label, displaced-font-size));
-				font-size: map-gets($vars, label, displaced-font-size);
-			}
-
-
-
-			// Invalid
-			// ====
-			&.ng-invalid {
-				> .input > label,
-				.error {
-					color: map-gets($vars, invalid-color) !important;
-				}
-				> .input > input,
-				> .input > textarea {
-					border-bottom-color: map-gets($vars, invalid-color);
-				}
-			}
-
-			// Valid
-			// ====
-			&.ng-valid.ng-dirty > .input {
-				@include lui_make_icon("check", right);
-
-				&:after {
-					top: 1 + map-gets($vars, input, vertical-padding);
-					margin: 0 0 0 0.5em !important;
-					line-height: 1 + map-gets($vars, input, vertical-padding);
-					font-size: map-gets($vars, valid-icon-size);
-					color: luiPalette(primary, color);
-				}
-			}
-
-			.helper,
-			.error,
-			.count {
+			.message {
 				display: block;
 				font-size: map-gets($vars, message, font-size);
 			}
 
 			// Helper
 			// ====
-			small.helper {
+			.helper.message {
 				color: map-gets($vars, message, helper-color);
 				margin-top: 0.25em;
 			}
@@ -239,80 +91,109 @@
 			.count {
 				text-align: right;
 			}
+		}
 
-			// Required
-			// ====
-			> .input > input[required] ~ label:after,
-			&.required > .input >> .input label:after {
-				position: absolute;
-				content: '*';
-				font-size: lui_rem(1.2);
-				display: inline-block;
-				margin-left: 0.25em;
-				color: luiPalette(red, color);
-			}
+		#{$prefix}.input {
+			@include display-flex();
+			@include flex-align-items(center);
 
-			// Inputs length (horizontal sizing)
-			// ====
-			// Defaults to medium
-			> .input > input,
-			> .input > textarea,
-			> .input > select,
-			> .input > label,
-			.error,
-			.helper,
-			.count {
-				width: map-gets($vars, lengths, medium);
+			// Input styling reset
+			> input:-webkit-autofill {
+				-webkit-box-shadow: 0 0 0 1000px white inset !important;
 			}
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea,
+			> select,
 			.unit {
-				left: map-gets($vars, lengths, medium);
+				@extend %input_sizing;
 			}
-			> .searchable.input:before {
-				left: map-gets($vars, lengths, medium);
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				outline: 0;
+				outline: none;
+				box-shadow: none;
+				background: transparent;
+
+				// Border
+				border: none;
+				border-bottom-width: map-gets($vars, field, default-border-width);
+				border-bottom-style: map-gets($vars, field, default-border-style);
+				border-bottom-color: map-gets($vars, field, default-border-color);
+
+				// Transitions
+				transition-property: border-bottom-color;
+				transition-duration: map-gets($vars, transition, duration);
+				transition-timing-function: map-gets($vars, transition, easing);
 			}
-			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-				&.#{$sizeName} {
-					> .input > input,
-					> .input > textarea,
-					> .input > select,
-					> .input > label,
-					.error,
-					.helper,
-					.count {
-						min-width: 0;
-						width: $sizeEms !important;
-					}
-					.unit {
-						left: $sizeEms;
-					}
-					> .searchable.input:before {
-						left: $sizeEms;
-					}
+			> input:not([type="checkbox"]):not([type="radio"]):focus,
+			> textarea:focus,
+			&.focused > input:not([type="checkbox"]):not([type="radio"]),
+			&.focused > textarea {
+				padding-top: map-gets($vars, field, focus-border-width) - map-gets($vars, field, default-border-width);
+
+				// Focused state
+				border-bottom-width: map-gets($vars, field, focus-border-width);
+				border-bottom-style: map-gets($vars, field, focus-border-style);
+				border-bottom-color: map-gets($vars, field, focus-border-color);
+
+				& > ~ label {
+					color: map-gets($vars, field, focus-border-color);
 				}
 			}
 
-			// Fitting size: takes up the whole available width
+			// Textarea specifics
 			// ====
-			&.fitting {
-				> .input > input,
-				> .input > textarea,
-				> .input > select,
-				> .input > label,
-				.error,
-				.helper,
-				.count {
-					width: 100%;
-				}
-				.searchable.input:before {
-					left: auto; right: -1em;
-				}
+			textarea {
+				resize: vertical;
 			}
 
+			// label
+			// ====
+			&:not(.radio):not(.checkbox) > label {
+				position: absolute;
+				pointer-events: none;
+				top: map-gets($vars, input, vertical-padding);
+				left: 0;
 
-			// Searchable field
+				color: map-gets($vars, label, color);
+
+				transition-property: top, font-size, color;
+				transition-duration: map-gets($vars, transition, duration);
+				transition-timing-function: map-gets($vars, transition, easing);
+			}
+
+			& > label {
+				font-size: map-gets($vars, input, font-size);
+				box-sizing: border-box;
+				overflow: hidden;
+				white-space: pre;
+				text-overflow: ellipsis;
+			}
+
+			// Unit
+			// ====
+			.unit {
+				font-weight: 600;
+				margin-left: 0.5em;
+				line-height: 1 + map-gets($vars, input, vertical-padding);
+				font-size: lui_rem(1);
+			}
+
+			// Label displacement when focused or filled
+			// ====
+			&.filled > label,
+			&.focused > label,
+			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
+				@extend %input_label_displaced;
+				width: auto !important;
+				min-width: 100%;
+			}
+
+			// Searchable input
 			// Displays a magnifier icon
 			// ====
-			> .searchable.input {
+			&.searchable {
 
 				@include lui_make_icon("search", left);
 				> input {
@@ -321,13 +202,106 @@
 					height: 1 + 2 * map-gets($vars, input, vertical-padding);
 				}
 				&:before {
-					position: absolute;
-					top: 1 + map-gets($vars, input, vertical-padding);
-					line-height: 1;
-					transform: translate(-100%, -50%);
-					margin: 0 !important;
-					opacity: 0.5;
+					@extend %field_input_inner_right_icon;
 				}
+			}
+
+			// Empty button
+			// ====
+			i.empty {
+				@include lui_make_icon("cross", right);
+				@extend %field_input_inner_right_icon;
+
+				cursor: pointer;
+			}
+		}
+
+
+		// Required
+		// ====
+		#{$prefix}.input > input[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after,
+		#{$prefix}.field.required > .input > .input label:after {
+			position: absolute;
+			content: '*';
+			font-size: lui_rem(1.2);
+			display: inline-block;
+			margin-left: 0.25em;
+			color: luiPalette(red, color);
+		}
+
+
+		// Invalid
+		// ====
+		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
+		#{$prefix}.input.ng-invalid > label,
+		#{$prefix}.field .error {
+			color: map-gets($vars, invalid-color) !important;
+		}
+		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
+			border-bottom-color: map-gets($vars, invalid-color) !important;
+		}
+
+
+		// Valid
+		// !!! This class goes on the .input div itself !!!
+		// ====
+		#{$prefix}.is-valid.input {
+			@include lui_make_icon("check", right);
+			&:after {
+				@include lui_is_animated('right fade in');
+
+				line-height: 1 + map-gets($vars, input, vertical-padding);
+				font-size: map-gets($vars, valid-icon-size);
+				color: map-gets($vars, valid-color);
+			}
+		}
+
+
+		// Field length (horizontal sizing)
+		// ====
+		// Defaults to medium
+		#{$prefix}.input > input:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > textarea,
+		#{$prefix}.input > select,
+		#{$prefix}.input:not(.checkbox):not(.radio) > label {
+			width: map-gets($vars, lengths, medium);
+		}
+		#{$prefix}.input .unit {
+			left: map-gets($vars, lengths, medium);
+		}
+		#{$prefix}.searchable.input:before {
+			left: map-gets($vars, lengths, medium);
+		}
+
+		// !!! Size goes on field
+		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+			#{$prefix}.field.#{$sizeName} > .input > input:not([type="checkbox"]):not([type="radio"]),
+			#{$prefix}.field.#{$sizeName} > .input > textarea,
+			#{$prefix}.field.#{$sizeName} > .input > label,
+			#{$prefix}.field.#{$sizeName} .message {
+				min-width: 0;
+				width: $sizeEms;
+			}
+			#{$prefix}.field.#{$sizeName} > .searchable.input:before {
+				left: $sizeEms;
+			}
+		}
+
+		// Fitting size: takes up the whole available width
+		// ====
+		#{$prefix}.fitting.field {
+			> .input > input:not([type="checkbox"]):not([type="radio"]),
+			> .input > textarea,
+			> .input > select,
+			> .input > label,
+			.message {
+				width: 100%;
+			}
+			.searchable.input:before {
+				left: auto;
+				right: -1em;
 			}
 		}
 
@@ -379,6 +353,7 @@
 				@extend %lui_unstyled_list;
 				@extend %lui_raised;
 				position: absolute;
+				z-index: 2;
 				top: map-gets($vars, input, vertical-padding); left: 0;
 
 				background-color: #FFF;

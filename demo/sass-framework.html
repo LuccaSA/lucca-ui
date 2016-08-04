@@ -25,22 +25,22 @@
 
 			<div class="lui inline field">
 				<div class="lui input">
-					<input type="text" name="name" value="" required>
-					<label for="">First name</label>
+					<input type="text" name="firstName" ng-model="firstName" required>
+					<label for="firstName">First name</label>
 				</div>
-				<small class="helper">Please type in your first name.</small>
+				<small class="message helper">Please type in your first name.</small>
 			</div>
-			<div class="lui inline field ng-invalid">
+			<div class="lui inline field">
 				<div class="lui input">
-					<input type="text" name="name" value="###" required>
+					<input type="text" ng-model="lastName" name="name" value="###" required>
 					<label for="">Last name</label>
 				</div>
-				<small class="error">Invalid last name.</small>
+				<small class="message error">Invalid last name.</small>
 			</div>
-			<div class="lui inline filled field">
-				<div class="lui select input" ng-click="open = !open" ng-class="{'open': open}">
+			<div class="lui inline field">
+				<div class="lui filled select input" ng-click="open = !open" ng-class="{'open': open}">
+					<span class="value" ng-model="pet">Dog</span>
 					<label for="">Pet</label>
-					<span class="value">Dog</span>
 					<ul class="choices">
 						<li>Cat</li>
 						<li>Parrot</li>
@@ -50,35 +50,37 @@
 				</div>
 			</div>
 			<div class="lui inline field">
-				<div class="lui searchable input">
-					<input type="text" name="name" value="" required>
+				<div class="lui searchable is-valid input">
+					<input type="text" name="name" ng-model="city">
 					<label for="">City</label>
 				</div>
-				<small class="helper">The city your reside in.</small>
+				<small class="message helper">The city your reside in.</small>
 			</div>
 
 			<div class="lui fitting field">
 				<div class="lui input">
-					<textarea name="name" required>I am a fitting field</textarea>
+					<textarea name="name" ng-model="bio">I am a fitting field</textarea>
 					<label for="">Biography</label>
-					<small class="count">120 / 140</small>
 				</div>
+				<small class="message count">120 / 140</small>
 			</div>
-			<div class="lui inline ng-valid ng-dirty field">
+			<div class="lui inline field">
 				<div class="lui input">
-					<input type="number" name="name" value="123000" required>
+					<input type="number" name="name" ng-model="price" required>
 					<label for="">Price</label>
 					<span class="unit">EUR</span>
 				</div>
 			</div>
 
-			<fieldset class="lui fieldset">
+			<fieldset class="lui inline fieldset">
 				<legend>Radio group</legend>
-				<div class="lui inline field">
+				<div class="lui field">
 					<div class="lui radio input">
 						<input id="radio-demo-1" type="radio" name="name">
 						<label for="radio-demo-1">Yes</label>
 					</div>
+				</div>
+				<div class="lui field">
 					<div class="lui radio input">
 						<input id="radio-demo-2" type="radio" name="name">
 						<label for="radio-demo-2">No</label>
@@ -86,13 +88,15 @@
 				</div>
 			</fieldset>
 
-			<fieldset class="lui fieldset">
+			<fieldset class="lui inline fieldset">
 				<legend>Checkbox group</legend>
-				<div class="lui inline field">
+				<div class="lui field">
 					<div class="lui checkbox input">
 						<input id="checkbox-demo-2" type="checkbox" name="name">
 						<label for="checkbox-demo-2">1</label>
 					</div>
+				</div>
+				<div class="lui field">
 					<div class="lui checkbox input">
 						<input id="checkbox-demo-1" type="checkbox" name="name">
 						<label for="checkbox-demo-1">2</label>

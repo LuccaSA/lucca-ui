@@ -2,6 +2,7 @@
 
 	@if luiTheme(element, datepicker, enabled) {
 		$vars: luiTheme(element, datepicker);
+
 		luid-date-picker,
 		luid-date-picker-popup,
 		luid-daterange-picker {
@@ -9,11 +10,12 @@
 		}
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			> .lui.input {
+			.lui.datepicker.input {
 				position: relative;
 				width: map-gets($vars, input, width);
 
-				input {
+				input, label {
+					width: 100% !important;
 					padding-right: 2.25em;
 				}
 
@@ -21,10 +23,7 @@
 					i.empty { display: none; }
 					@include lui_make_icon("calendar", right);
 					&:after {
-						position: absolute;
-						top: luiTheme(element, input, borderWidth);
-						right: 0.5em;
-						line-height: 1 +  luiTheme(element, input, padding, top) +  luiTheme(element, input, padding, bottom);
+						@extend %field_input_inner_right_icon;
 					}
 				}
 			}
@@ -34,7 +33,7 @@
 
 		}
 		luid-daterange-picker {
-			> .lui.tagged.input {
+			.lui.tagged.input {
 				width: 2 * map-gets($vars, input, width);
 				.tag {
 					cursor: pointer;

@@ -223,17 +223,17 @@
 }
 
 
-// Input(s)
+// Field
 // ===================================
 
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/input.defaults";
+	@import "../../../themes/default/core/elements/field.defaults";
 
 	// Theme overrides
-	@import "core/elements/input.overrides";
-	$luiTheme: luiSetTheme(element, input, $myTheme);
+	@import "core/elements/field.overrides";
+	$luiTheme: luiSetTheme(element, field, $myTheme);
 }
 
 
