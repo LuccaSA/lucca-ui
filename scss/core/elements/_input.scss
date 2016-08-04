@@ -139,8 +139,7 @@
 
 		// Inputs length (horizontal sizing)
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.#{$sizeName}.input > input,
-			#{$prefix}.#{$sizeName}.field > input { min-width: 0; width: $sizeEms !important; }
+			#{$prefix}.#{$sizeName}.input > input { min-width: 0; width: $sizeEms !important; }
 		}
 
 
@@ -233,89 +232,6 @@
 			}
 		}
 
-
-		// Field
-		// ===================================
-
-		#{$prefix}.field,
-		#{$prefix}.fields {
-			margin: 0.5em 0;
-		}
-		#{$prefix}.field {
-			vertical-align: middle;
-			@include display-flex(true);
-			@include flex-direction(column);
-			@include flex-align-items(flex-start);
-
-			> .input { width: 100%; }
-
-			> label + .input,
-			> .input  + label {
-				margin-top: 0.25em;
-			}
-
-			// Fitting: takes the whole available horizontal space
-			&.fitting {
-				width: 100%;
-				@include display-flex();
-				display: flex !important;
-			}
-
-			// Label styling
-			// ====
-			> label {
-				white-space: pre;
-				font-weight: map-gets($vars, field, labelFontWeight);
-			}
-
-			> label, > .input {
-				display: block;
-			}
-
-			// invalid
-			// ====
-			&.invalid {
-				> label {
-					color: map-gets($vars, invalidColor);
-				}
-				> .input {
-					&,
-					> input,
-					> select,
-					> textarea { @extend %lui_invalid_input_base; }
-				}
-				.with.addon, .with.addons {
-					.addon {
-						border-color: map-gets($vars, invalidColor);
-					}
-				}
-			}
-		}
-		#{$prefix}.fields {
-			@extend %lui_clearfix;
-
-			.field:not(:last-of-type) {
-				padding-right: 1em;
-			}
-
-			@include lui_screens_smaller_than(tablet) {
-				> .field {
-					width: 100% !important;
-					padding-right: 0 !important;
-				}
-			}
-		}
-
-		#{$prefix}.inline.field,
-		#{$prefix}.inline.fields > .field {
-			@include flex-direction(row);
-			@include flex-align-items(center);
-
-			> label + .input,
-			> .input  + label {
-				margin-left: 0.5em;
-			}
-		}
 
 
 		// Sizing support
