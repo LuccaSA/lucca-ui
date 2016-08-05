@@ -41,19 +41,25 @@
 			<div class="lui dashed divider">
 				<h4 class="lui underline">Simple select</h4>
 			</div>
-			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui">
-				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
-				<ui-select-choices repeat="person in people | filter: $select.search">
-					<span ng-bind-html="person.name | highlight: $select.search"></span>
-				</ui-select-choices>
-			</ui-select>
+			<div class="lui field">
+				<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui">
+					<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="person in people | filter: $select.search">
+						<span ng-bind-html="person.name | highlight: $select.search"></span>
+					</ui-select-choices>
+				</ui-select>
+				<label for="">User</label>
+			</div>
 
-			<ui-select ng-model="person.selected" ng-disabled="disabled" class="lui">
-				<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
-				<ui-select-choices repeat="person in people | filter: $select.search">
-					<span ng-bind-html="person.name | highlight: $select.search"></span>
-				</ui-select-choices>
-			</ui-select>
+			<div class="lui field">
+				<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+					<ui-select-match>{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="person in people | filter: $select.search">
+						<span ng-bind-html="person.name | highlight: $select.search"></span>
+					</ui-select-choices>
+				</ui-select>
+				<label for="">User</label>
+			</div>
 
 			<div class="lui long input">
 				<input type="text" name="name" placeholder="This is a lui long input">

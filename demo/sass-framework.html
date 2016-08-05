@@ -38,18 +38,6 @@
 				<small class="message error">Invalid last name.</small>
 			</div>
 			<div class="lui inline field">
-				<div class="lui filled select input" ng-click="open = !open" ng-class="{'open': open}">
-					<span class="value" ng-model="pet">Dog</span>
-					<label for="">Pet</label>
-					<ul class="choices">
-						<li>Cat</li>
-						<li>Parrot</li>
-						<li>Mouse</li>
-						<li class="selected">Dog</li>
-					</ul>
-				</div>
-			</div>
-			<div class="lui inline field">
 				<div class="lui searchable is-valid input">
 					<input type="text" name="name" ng-model="city">
 					<label for="">City</label>
@@ -498,13 +486,15 @@
 				<input type="search" placeholder="Searching..." name="name" value="">
 			</div>
 
-			<div class="lui tagged search input">
-				<span class="tags">
-					<span class="tag">#tag 1 <a class="close"></a></span>
-					<span class="tag">#tag 2 <a class="close"></a></span>
-					<span class="selected tag">#tag 3 <a class="close"></a></span>
-				</span>
-				<input type="search" >
+			<div class="lui fitting field">
+				<div class="lui tagged searchable input">
+					<span class="tags">
+						<span class="tag">#tag 1 <a class="close"></a></span>
+						<span class="tag">#tag 2 <a class="close"></a></span>
+						<span class="selected tag">#tag 3 <a class="close"></a></span>
+					</span>
+					<input type="search" >
+				</div>
 			</div>
 
 			<div class="lui dashed divider">
