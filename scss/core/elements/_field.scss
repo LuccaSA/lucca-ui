@@ -550,7 +550,7 @@
 				position: absolute;
 				z-index: 2;
 				top: 100%;
-				right: 0;
+				left: 0;
 
 				min-width: 100%;
 
@@ -558,7 +558,7 @@
 
 				opacity: 0;
 				transform: scale(0);
-				transform-origin: top right;
+				transform-origin: top center;
 				transition-property: opacity, transform;
 				transition-duration: map-gets($vars, transition, duration);
 				transition-timing-function: map-gets($vars, transition, easing);
@@ -707,7 +707,6 @@
 					left: 50%;
 
 					transform: scale(0) translateX(-50%);
-					transform-origin: top center;
 					&:not(.ng-hide) {
 						transform: scale(1) translateX(-50%);
 					}
