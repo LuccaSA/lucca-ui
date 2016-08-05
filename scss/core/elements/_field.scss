@@ -1,33 +1,150 @@
-%input_sizing {
+%lui_input_reset {
+	outline: 0;
+	outline: none;
+	box-shadow: none;
+	background: transparent;
+	margin: 0;
+
+	// Border
+	border: none;
+	border-bottom-width: luiTheme(element, field, field, default-border-width);
+	border-bottom-style: luiTheme(element, field, field, default-border-style);
+	border-bottom-color: luiTheme(element, field, field, default-border-color);
+
+	// Transitions
+	transition-property: border-bottom-color;
+	transition-duration: luiTheme(element, field, transition, duration);
+	transition-timing-function: luiTheme(element, field, transition, easing);
+
+	&:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0 1000px white inset !important;
+	}
+}
+
+%lui_input_focus {
+	// Focused state
+	border-bottom-width: luiTheme(element, field, field, focus-border-width);
+	border-bottom-style: luiTheme(element, field, field, focus-border-style);
+	border-bottom-color: luiTheme(element, field, field, focus-border-color);
+
+	& > ~ label {
+		color: luiTheme(element, field, field, focus-border-color);
+	}
+}
+
+%lui_input_sizing {
 	box-sizing: border-box;
-	display: inline-block;
+	display: block;
 	vertical-align: baseline;
+	width: 100%;
 
-	margin: 0; // Reset
-	margin-top: luiTheme(element, field, input, vertical-padding);
+	margin: 0;
+	padding: luiTheme(element, field, input, vertical-padding) 0;
 
-	padding: 0; // Reset
-	padding-bottom: luiTheme(element, field, input, vertical-padding);
-
-	height: 1 + 2 * luiTheme(element, field, input, vertical-padding);
+	height: luiTheme(element, field, input, font-size) + 2 * luiTheme(element, field, input, vertical-padding);
 
 	font-size: luiTheme(element, field, input, font-size);
 }
 
-%input_label_displaced {
+%lui_input_clear {
+	@extend %lui_field_input_inner_right_icon;
+	width: 1em;
+	height: 1em;
+	text-align: center;
+	border-radius: 50%;
+	color: luiTheme(element, typography, body, color);
+
+	&:before {
+		font-size: 1.5em;
+		line-height: 0.5em;
+		display: block;
+		content: "\00d7";
+	}
+
+	&:hover {
+		background-color: luiPalette(light, color, light);
+	}
+}
+
+%lui_input_label {
+	font-size: luiTheme(element, field, input, font-size);
+	line-height: normal;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: pre;
+	text-overflow: ellipsis;
+}
+
+%lui_input_label_displacable {
+	position: absolute;
+	pointer-events: none;
+	top: luiTheme(element, field, input, vertical-padding);
+	left: 0;
+
+	color: luiTheme(element, field, label, color);
+
+	transition-property: top, font-size, color;
+	transition-duration: luiTheme(element, field, transition, duration);
+	transition-timing-function: luiTheme(element, field, transition, easing);
+}
+
+%lui_input_label_displaced {
 	top: -(2 - luiTheme(element, field, label, displaced-font-size)) !important;
 	font-size: luiTheme(element, field, label, displaced-font-size);
 }
 
-%field_input_inner_right_icon {
+%lui_field_input_inner_right_icon {
 	position: absolute;
-	top: 1 + luiTheme(element, field, input, vertical-padding);
+	bottom: lui_rem(luiTheme(element, field, input, vertical-padding) * (1 + luiTheme(element, field, input, font-size)));
+	right: 0;
 	line-height: 1;
-	transform: translate(-100%, -50%);
+	transform: translate(-50%, 50%);
 	margin: 0 !important;
 	opacity: 0.5;
+
+	&.is-valid {
+		right: 1em;
+	}
 }
 
+%lui_searchable_input {
+	@include lui_make_icon("search", left);
+	> input {
+		padding-right: 1.2em;
+	}
+	&:before {
+		@extend %lui_field_input_inner_right_icon;
+	}
+}
+
+%lui_tagged_input {
+	@include display-flex();
+	@include flex-wrap(wrap);
+}
+%lui_tagged_input_tag {
+	display: inline-block;
+	background-color: luiPalette(light, color, light);
+	border-radius: 2em;
+	padding: 0.25em 0.5em;
+	margin: 0.1em 0.5em 0.1em 0;
+}
+%lui_tagged_input_tag_active {
+	background-color: luiPalette(primary, color);
+	color: luiPalette(primary, text);
+}
+%lui_tagged_input_input {
+	min-width: 10em;
+	@include flex(1, 1, 0%);
+}
+%lui_tagged_input_close {
+	float: right;
+	font-size: lui_rem(1.5);
+	opacity: 0.5;
+	margin-left: 0.25em;
+	&:hover {
+		opacity: 1;
+	}
+}
 
 @if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
@@ -43,7 +160,6 @@
 
 		// Fieldsets are a group of fields
 		// ====
-		#{$prefix}.form .fieldset,
 		#{$prefix}.form fieldset,
 		#{$prefix}.fieldset {
 
@@ -59,7 +175,6 @@
 
 		// Fields are a label coupled with an input and a potential validation message
 		// ====
-		#{$prefix}.form .field,
 		#{$prefix}.field,
 		#{$prefix}.fieldset .field {
 
@@ -77,13 +192,14 @@
 			.message {
 				display: block;
 				font-size: map-gets($vars, message, font-size);
+				line-height: normal;
+				margin-top: 0.5em;
 			}
 
 			// Helper
 			// ====
 			.helper.message {
 				color: map-gets($vars, message, helper-color);
-				margin-top: 0.25em;
 			}
 
 
@@ -93,52 +209,30 @@
 			}
 		}
 
+
 		#{$prefix}.input {
+			position: relative;
+
 			@include display-flex();
 			@include flex-align-items(center);
 
-			// Input styling reset
-			> input:-webkit-autofill {
-				-webkit-box-shadow: 0 0 0 1000px white inset !important;
-			}
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
 			> select,
 			.unit {
-				@extend %input_sizing;
+				@extend %lui_input_sizing;
 			}
+
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea {
-				outline: 0;
-				outline: none;
-				box-shadow: none;
-				background: transparent;
-
-				// Border
-				border: none;
-				border-bottom-width: map-gets($vars, field, default-border-width);
-				border-bottom-style: map-gets($vars, field, default-border-style);
-				border-bottom-color: map-gets($vars, field, default-border-color);
-
-				// Transitions
-				transition-property: border-bottom-color;
-				transition-duration: map-gets($vars, transition, duration);
-				transition-timing-function: map-gets($vars, transition, easing);
+				@extend %lui_input_reset;
 			}
+
 			> input:not([type="checkbox"]):not([type="radio"]):focus,
 			> textarea:focus,
 			&.focused > input:not([type="checkbox"]):not([type="radio"]),
 			&.focused > textarea {
-				padding-top: map-gets($vars, field, focus-border-width) - map-gets($vars, field, default-border-width);
-
-				// Focused state
-				border-bottom-width: map-gets($vars, field, focus-border-width);
-				border-bottom-style: map-gets($vars, field, focus-border-style);
-				border-bottom-color: map-gets($vars, field, focus-border-color);
-
-				& > ~ label {
-					color: map-gets($vars, field, focus-border-color);
-				}
+				@extend %lui_input_focus;
 			}
 
 			// Textarea specifics
@@ -150,33 +244,20 @@
 			// label
 			// ====
 			&:not(.radio):not(.checkbox) > label {
-				position: absolute;
-				pointer-events: none;
-				top: map-gets($vars, input, vertical-padding);
-				left: 0;
-
-				color: map-gets($vars, label, color);
-
-				transition-property: top, font-size, color;
-				transition-duration: map-gets($vars, transition, duration);
-				transition-timing-function: map-gets($vars, transition, easing);
+				@extend %lui_input_label_displacable;
 			}
 
 			& > label {
-				font-size: map-gets($vars, input, font-size);
-				box-sizing: border-box;
-				overflow: hidden;
-				white-space: pre;
-				text-overflow: ellipsis;
+				@extend %lui_input_label;
 			}
 
 			// Unit
 			// ====
 			.unit {
+				width: auto;
 				font-weight: 600;
 				margin-left: 0.5em;
-				line-height: 1 + map-gets($vars, input, vertical-padding);
-				font-size: lui_rem(1);
+				margin-bottom: map-gets($vars, input, default-border-width);
 			}
 
 			// Label displacement when focused or filled
@@ -185,7 +266,7 @@
 			&.focused > label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
-				@extend %input_label_displaced;
+				@extend %lui_input_label_displaced;
 				width: auto !important;
 				min-width: 100%;
 			}
@@ -194,23 +275,13 @@
 			// Displays a magnifier icon
 			// ====
 			&.searchable {
-
-				@include lui_make_icon("search", left);
-				> input {
-					border-top:	1px solid transparent;
-					padding-right: 1.2em;
-					height: 1 + 2 * map-gets($vars, input, vertical-padding);
-				}
-				&:before {
-					@extend %field_input_inner_right_icon;
-				}
+				@extend %lui_searchable_input;
 			}
 
 			// Empty button
 			// ====
 			i.empty {
-				@include lui_make_icon("cross", right);
-				@extend %field_input_inner_right_icon;
+				@extend %lui_input_clear;
 
 				cursor: pointer;
 			}
@@ -262,46 +333,26 @@
 		// Field length (horizontal sizing)
 		// ====
 		// Defaults to medium
-		#{$prefix}.input > input:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > textarea,
-		#{$prefix}.input > select,
+		#{$prefix}.input:not(.checkbox):not(.radio),
 		#{$prefix}.input:not(.checkbox):not(.radio) > label {
 			width: map-gets($vars, lengths, medium);
 		}
-		#{$prefix}.input .unit {
-			left: map-gets($vars, lengths, medium);
-		}
-		#{$prefix}.searchable.input:before {
-			left: map-gets($vars, lengths, medium);
-		}
 
-		// !!! Size goes on field
+		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > input:not([type="checkbox"]):not([type="radio"]),
-			#{$prefix}.field.#{$sizeName} > .input > textarea,
-			#{$prefix}.field.#{$sizeName} > .input > label,
+			#{$prefix}.field.#{$sizeName} > .input,
 			#{$prefix}.field.#{$sizeName} .message {
 				min-width: 0;
 				width: $sizeEms;
-			}
-			#{$prefix}.field.#{$sizeName} > .searchable.input:before {
-				left: $sizeEms;
 			}
 		}
 
 		// Fitting size: takes up the whole available width
 		// ====
 		#{$prefix}.fitting.field {
-			> .input > input:not([type="checkbox"]):not([type="radio"]),
-			> .input > textarea,
-			> .input > select,
-			> .input > label,
+			> .input,
 			.message {
 				width: 100%;
-			}
-			.searchable.input:before {
-				left: auto;
-				right: -1em;
 			}
 		}
 
@@ -318,88 +369,6 @@
 
 			& + .field.inline {
 				margin-left: 1em;
-			}
-		}
-
-
-		// Select input
-		// ====
-		#{$prefix}.select.input {
-			padding-top: map-gets($vars, field, default-border-width);
-			.value {
-				position: relative;
-				display: block;
-				box-sizing: border-box;
-
-				cursor: pointer;
-
-				border-bottom-width: map-gets($vars, field, default-border-width);
-				border-bottom-style: map-gets($vars, field, default-border-style);
-				border-bottom-color: map-gets($vars, field, default-border-color);
-
-				@extend %input_sizing;
-				height: 1 + 2 * map-gets($vars, input, vertical-padding);
-				line-height: 1;
-
-				@include lui_make_icon('south chevron', right);
-				&:after {
-					position: absolute;
-					right: 1px;
-					margin-top: 0.5em;
-					font-size: 8px;
-				}
-			}
-			ul {
-				@extend %lui_unstyled_list;
-				@extend %lui_raised;
-				position: absolute;
-				z-index: 2;
-				top: map-gets($vars, input, vertical-padding); left: 0;
-
-				background-color: #FFF;
-
-				opacity: 0;
-				transform: scale(0);
-				transform-origin: top right;
-				transition-property: opacity, transform;
-				transition-duration: map-gets($vars, transition, duration);
-				transition-timing-function: map-gets($vars, transition, easing);
-
-			}
-			&.open ul {
-				transform: scale(1);
-				opacity: 1;
-			}
-			li {
-				padding: map-gets($vars, input, vertical-padding) 1em;
-				font-size: map-gets($vars, input, font-size);
-				display: block;
-
-				cursor: pointer;
-				box-sizing: border-box;
-
-				&:hover {
-					background-color: luiPalette(light, color, light);
-				}
-
-				&.selected {
-					background-color: transparentize(luiPalette(primary, color), 0.9);
-					&:hover {
-						background-color: transparentize(luiPalette(primary, color), 0.75);
-					}
-				}
-			}
-			// Defaults to medium length
-			.value, li {
-				width: map-gets($vars, lengths, medium);
-			}
-			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-				&.#{$sizeName} {
-					.value,
-					li {
-						width: $sizeEms !important;
-					}
-				}
 			}
 		}
 
@@ -478,6 +447,322 @@
 				input {
 					display: none;
 				}
+			}
+		}
+
+
+		// Tagged input
+		// ====
+		#{$prefix}.tagged.input {
+			@extend %lui_tagged_input;
+			.tag {
+				@extend %lui_tagged_input_tag;
+
+				&.selected {
+					@extend %lui_tagged_input_tag_active;
+				}
+			}
+			.close {
+				color: luiTheme(element, typography, body, color);
+				text-decoration: none;
+				@extend %lui_tagged_input_close;
+				&:after {
+					content: "\00d7";
+				}
+			}
+			input {
+				@extend %lui_tagged_input_input;
+			}
+		}
+
+
+		// Angular UI bootstrap UI-select
+		// ====
+		#{$prefix}.ui-select-container {
+			position: relative;
+			margin: map-gets($vars, vertical-margin) 0;
+
+			// Label
+			// ====
+			& ~ label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+			}
+			&.open ~ label,
+			&.ng-not-empty ~ label {
+				@extend %lui_input_label_displaced;
+			}
+
+			&.open:not([search-enabled="false"]) {
+				@extend %lui_searchable_input;
+			}
+
+			.btn {
+				cursor: pointer;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				outline: 0;
+				outline: none;
+
+				@extend %lui_user_select_none;
+			}
+
+			.ui-select-offscreen {
+				display: none;
+			}
+
+			.ui-select-match .ui-select-toggle,
+			.ui-select-search {
+				@extend %lui_input_sizing;
+				@extend %lui_input_reset;
+
+				width: 100%;
+
+				@include lui_make_icon('south chevron', right);
+				&:after {
+					@extend %lui_field_input_inner_right_icon;
+					font-size: 8px;
+				}
+			}
+
+			.ui-select-placeholder,
+			.ui-select-search::-webkit-input-placeholder {
+				font-size: lui_rem(1);
+				white-space: pre;
+			}
+
+			&.open .ui-select-search {
+				@extend %lui_input_focus;
+			}
+			&:not(.ui-select-multiple) .ui-select-search {
+				width: 100% !important;
+			}
+
+			// Clear
+			.glyphicon-remove {
+				@extend %lui_input_clear;
+				right: 0.75em;
+			}
+
+			.ui-select-choices {
+				@extend %lui_unstyled_list;
+				@extend %lui_raised;
+				position: absolute;
+				z-index: 2;
+				top: 100%;
+				right: 0;
+
+				min-width: 100%;
+
+				background-color: #FFF;
+
+				opacity: 0;
+				transform: scale(0);
+				transform-origin: top right;
+				transition-property: opacity, transform;
+				transition-duration: map-gets($vars, transition, duration);
+				transition-timing-function: map-gets($vars, transition, easing);
+
+				max-height: 20em;
+				overflow: auto;
+
+				&.ng-hide {
+					display: block !important;
+				}
+
+				&:not(.ng-hide) {
+					transform: scale(1);
+					opacity: 1;
+				}
+
+				a {
+					display: block;
+					font-size: map-gets($vars, input, font-size);
+					color: luiTheme(element, typography, body, color);
+					padding: map-gets($vars, input, vertical-padding) 1em;
+					text-decoration: none;
+
+					.label {
+						float: right;
+						margin-right: 0;
+						font-size: lui_rem(0.9);
+						font-weight: 600;
+					}
+				}
+			}
+
+			.ui-select-choices-row {
+				position: relative;
+
+				&.disabled a {
+					cursor: default;
+				}
+				&:not(.disabled) a {
+					&:hover {
+						background-color: luiPalette(light, color, light);
+					}
+				}
+				&.active a {
+					background-color: transparentize(luiPalette(primary, color), 0.9);
+					&:hover {
+						background-color: transparentize(luiPalette(primary, color), 0.75);
+					}
+				}
+			}
+
+			&.direction-up {
+				.ui-select-choices {
+					top: auto !important;
+					bottom: 100%;
+					transform-origin: bottom right;
+				}
+				&[search-enabled="false"] .ui-select-choices {
+					bottom: 0 !important;
+				}
+			}
+
+			&[search-enabled="false"] {
+				.ui-select-match.ng-hide {
+					display: block !important;
+				}
+				.ui-select-choices {
+					top: 0;
+				}
+			}
+
+			// Invalid
+			// ====
+			&.ng-invalid.ng-touched {
+				.ui-select-toggle,
+				.ui-select-search {
+					border-bottom-color: map-gets($vars, invalid-color) !important;
+				}
+
+				& ~ label {
+					color: map-gets($vars, invalid-color);
+				}
+			}
+
+
+			// Multiselect
+			// ====
+			&.ui-select-multiple {
+				// Angular UI hack: input width calculus is all wrong
+				margin-top: -1px;
+				margin-bottom: -1px;
+				.ui-select-search {
+					padding-top: 0;
+					padding-bottom: 0;
+					padding-right: 10px;
+					box-sizing: content-box;
+				}
+
+				> div {
+					@extend %lui_tagged_input;
+				}
+
+				.ui-select-search {
+					@extend %lui_tagged_input_input;
+				}
+				.ui-select-match-item {
+					@extend %lui_tagged_input_tag;
+				}
+				.close {
+					@extend %lui_tagged_input_close;
+				}
+				.btn-primary {
+					@extend %lui_tagged_input_tag_active;
+				}
+			}
+
+			// Sizing
+			// ====
+			width: map-gets($vars, lengths, medium);
+
+			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+				&.#{$sizeName} {
+					width: $sizeEms !important;
+				}
+			}
+
+			// Natural style
+			// ====
+			&.natural {
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 0.5em;
+				margin-bottom: map-gets($vars, input, vertical-padding);
+				width: auto;
+
+				.ui-select-toggle {
+					padding-right: 1.5em;
+				}
+
+				&, .ui-select-toggle, a {
+					font-size: 1em;
+				}
+
+				.ui-select-choices {
+					min-width: 15em;
+					left: 50%;
+
+					transform: scale(0) translateX(-50%);
+					transform-origin: top center;
+					&:not(.ng-hide) {
+						transform: scale(1) translateX(-50%);
+					}
+				}
+			}
+		}
+
+
+		// Percentage
+		// ====
+		luid-percentage {
+			> .input {
+				input {
+					width: 2.5em !important;
+					text-align: right;
+				}
+			}
+		}
+
+
+		// Timespan picker
+		// ====
+		luid-timespan {
+			input {
+				width: 4em !important;
+			}
+		}
+
+
+		// Moment picker
+		// ====
+		luid-moment {
+			input {
+				text-align: center;
+			}
+			.input {
+				width: 3em !important;
+			}
+		}
+
+
+		// User picker
+		// ====
+		luid-user-picker {
+			.dividing:after {
+				display: block;
+				content: '';
+				position: absolute;
+				z-index: 1;
+				top: 100%;
+				left: 0; right: 0;
+				border-bottom: 1px solid map-gets($vars, field, default-border-color);
+			}
+			.selected-first {
+				font-weight: 600;
 			}
 		}
 	}

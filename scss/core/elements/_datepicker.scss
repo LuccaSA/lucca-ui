@@ -23,7 +23,7 @@
 					i.empty { display: none; }
 					@include lui_make_icon("calendar", right);
 					&:after {
-						@extend %field_input_inner_right_icon;
+						@extend %lui_field_input_inner_right_icon;
 					}
 				}
 			}
