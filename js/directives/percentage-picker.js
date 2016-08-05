@@ -50,7 +50,11 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
+			template: `
+				<div class='lui input'>
+					<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'>
+					<span class='unit'>%</span>
+				</div>`
 		};
 	})
 	.controller('luidPercentageController', ['$scope', function ($scope) {
@@ -79,7 +83,7 @@
 
 			var newValue = duration === undefined ? undefined : format(duration);
 			$scope.ngModelCtrl.$setViewValue(newValue);
-		}		
+		}
 
 		// events - key 'enter'
 		this.setupEvents = function (elt) {
