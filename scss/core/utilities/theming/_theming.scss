@@ -26,13 +26,6 @@ $luiTheme: () !default;
 }
 
 
-// Shortcuts
-// ===================================
-
-@function lui_theme_shadow() {
-	@return unquote(luiTheme(adjective, raised, default, box-shadow));
-}
-
 // Get root unit size
 // ===================================
 

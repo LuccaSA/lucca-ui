@@ -1,14 +1,24 @@
-@mixin lui_raised($height: default) {
-	// $height: 'default' | 'high'
-	box-shadow: unquote(luiTheme(adjective, raised, $height, box-shadow));
+@mixin lui_raised($z: 1) {
+	box-shadow: unquote(map-get(luiTheme(adjective, raised, elevations), $z));
 }
-%lui_raised { @include lui_raised(); }
-%lui_high_raised { @include lui_raised(high); }
 
-@if luiTheme(adjective, raised, enabled) {
-	@at-root #{$namespace} {
 
-		#{$prefix}.raised { @extend %lui_raised; }
-		#{$prefix}.high.raised { @extend %lui_high_raised; }
+// Z-depth levels based on Material Design
+// Based on https://medium.com/@Florian/freebie-google-material-design-shadow-helper-2a0501295a2d
+
+// Level 1: switch
+// Level 2: raised button, card, search box, refresh indicator
+// Level 3: menu, sub menu, bottom nav bar
+// Level 4: nav drawer, right drawer, modal bottom sheet
+// Level 5: dialog, picker
+// ====
+
+#{$prefix}.raised {
+	@include lui_raised(1);
+}
+@for $i from 1 through length(luiTheme(adjective, raised, elevations)) {
+	@warn #{$i};
+	#{$prefix}.raised[elevation="#{$i}"] {
+		@include lui_raised($i);
 	}
 }

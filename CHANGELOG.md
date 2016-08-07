@@ -1,5 +1,12 @@
 # Change log
 
+## 3.0.0 - in dev
+
+### New features
+- Major refactoring of the raised adjective, based upon material design guidelines. The `lui_theme_shadow` function disappears, and the .lui.raised class should not be @extended any longer.
+
+## Resolved issues
+
 ## 2.3.1 - in dev
 
 ### New features

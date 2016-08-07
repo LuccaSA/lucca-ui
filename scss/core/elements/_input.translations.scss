@@ -23,7 +23,7 @@
 				background-color: map-gets($vars, translations, background);
 				padding: map-gets($vars, translations, dropdownPadding);
 				border: 1px solid luiPalette(light, color);
-				@extend #{$prefix}.raised;
+				@include lui_raised(2);
 			}
 
 			&.open {
