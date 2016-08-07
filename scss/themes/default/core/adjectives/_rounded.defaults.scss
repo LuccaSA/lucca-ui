@@ -3,5 +3,8 @@
 // @type: adjective
 // ===================================
 
-$rounded: 						( enabled: true, radius: 3px );
+$rounded: (
+	enabled: 						true,
+	radius: 						2px
+);
 $luiTheme: luiSetTheme(adjective, rounded, $rounded);
