@@ -4,6 +4,7 @@
 
 ### New features
 - Major refactoring of the raised adjective, based upon material design guidelines. The `lui_theme_shadow` function disappears, and the .lui.raised class should not be @extended any longer.
+- Default border-radius is now 2px
 
 ## Resolved issues
 
