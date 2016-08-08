@@ -17,7 +17,6 @@
 	@include lui_raised(1);
 }
 @for $i from 1 through length(luiTheme(adjective, raised, elevations)) {
-	@warn #{$i};
 	#{$prefix}.raised[elevation="#{$i}"] {
 		@include lui_raised($i);
 	}
