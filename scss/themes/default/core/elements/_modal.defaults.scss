@@ -1,0 +1,23 @@
+
+// Modal
+// @type: element
+// ===================================
+
+$modal: (
+	enabled: 					true,
+
+	z-index: 					999,
+	top-margin: 				5em,
+	bottom-margin: 				0,
+	background: 				#FFF,
+	padding: 					1.5em,
+
+	max-width: 					90%,
+
+	sizes: (
+		sm: 					35em,
+		md:						60em,
+		lg: 					90%
+	)
+);
+$luiTheme: luiSetTheme(element, modal, $modal);
