@@ -415,3 +415,57 @@
 	@import "core/elements/notify.overrides";
 	$luiTheme: luiSetTheme(element, notify, $myTheme);
 }
+
+
+// Tooltip
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/tooltip.defaults";
+
+	// Theme overrides
+	@import "core/elements/tooltip.overrides";
+	$luiTheme: luiSetTheme(element, tooltip, $myTheme);
+}
+
+
+// Popover
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/popover.defaults";
+
+	// Theme overrides
+	@import "core/elements/popover.overrides";
+	$luiTheme: luiSetTheme(element, popover, $myTheme);
+}
+
+// Modal
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/modal.defaults";
+
+	// Theme overrides
+	@import "core/elements/modal.overrides";
+	$luiTheme: luiSetTheme(element, modal, $myTheme);
+}
+
+// Pagination
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/pagination.defaults";
+
+	// Theme overrides
+	@import "core/elements/pagination.overrides";
+	$luiTheme: luiSetTheme(element, pagination, $myTheme);
+}
