@@ -1,0 +1,105 @@
+// Coloring support
+// ============================================================
+
+@mixin lui_nguibs_pagination_coloring($scheme) {
+	&:not(.dividing) {
+		li.pagination-page.active a,
+		li.pagination-page a:hover { background: map-get($scheme, color); border-color: map-get($scheme, color); color: map-get($scheme, text); }
+	}
+	&.dividing li.pagination-page.active a:after {
+		background-color: map-get($scheme, color);
+	}
+}
+
+
+@if luiTheme(element, pagination, enabled) {
+	@at-root #{$namespace} {
+
+		$vars: luiTheme(element, pagination);
+
+		#{$prefix}.pagination {
+			margin: map-gets($vars, vertical-margin) map-gets($vars, horizontal-margin);
+
+			@include display-flex();
+			@include flex-justify-content(center);
+			@include flex-align-items(center);
+
+			li {
+				display: inline-block;
+
+				a { @extend %lui_basic_button; background-color: map-gets($vars, background); color: luiTheme(element, typography, body, color); }
+
+				// Page numbers
+				// ====
+				&.pagination-page a {
+					box-shadow: none;
+					transition: background-color luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+					text-align: center;
+					font-weight: 600;
+				}
+
+				// Active state
+				// ===
+				&.active a {
+					font-weight: 800;
+				}
+
+				// Prev / next buttons
+				// ====
+				&:not(.pagination-page) a { @extend %lui_basic_button; }
+			}
+
+
+			// Default style
+			// ====
+			&:not(.dividing) li.active a {
+				@include lui_is_animated(pulseUp);
+			}
+
+
+			// Dividing style
+			// ====
+			&.dividing {
+				li.pagination-page {
+					position: relative;
+
+					a:after {
+						display: block; content: "";
+						position: absolute; left: 0; right: 0;
+						height: map-gets($vars, dividing, border-width);
+
+						transform: scale(0, 1);
+						transition: transform luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+					}
+
+					&.active a:after { transform: scale(1, 1); }
+				}
+				&:not([class*="top dividing"]) li.pagination-page a:after { bottom: 0; }
+				&[class*="top dividing"] li.pagination-page a:after { top: 0; }
+			}
+
+
+			// Bordered style
+			// ====
+			&.bordered {
+				a { margin: 0 !important; border-radius: 0 !important; }
+				li.pagination-page a {
+					box-shadow: 0 0 0 luiTheme(element, button, defaultBorderWidth) luiTheme(element, button, defaultBorderColor) inset;
+				}
+				li + li {
+					margin-left: -1px;
+				}
+				li:first-child a { border-top-left-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjective, rounded, radius) !important; }
+				li:last-child a { border-top-right-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjective, rounded, radius) !important; }
+			}
+
+			@include lui_nguibs_pagination_coloring(map-gets($vars, default-coloring));
+
+			@each $name, $scheme in luiPalettes() {
+				&.#{map-get($scheme, class)} {
+					@include lui_nguibs_pagination_coloring($scheme);
+				}
+			}
+		}
+	}
+}
