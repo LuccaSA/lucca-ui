@@ -50,11 +50,11 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: `
-				<div class='lui input'>
-					<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'>
-					<span class='unit'>%</span>
-				</div>`
+			template:
+				"<div class='lui input'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+					"<span class='unit'>%</span>" +
+				"</div>"
 		};
 	})
 	.controller('luidPercentageController', ['$scope', function ($scope) {
