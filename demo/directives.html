@@ -781,7 +781,10 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					basic usage
 				</p>
 				<p>
-					<luid-daterange-picker ng-model="myDaterange" grouped-shortcuts="groupedShortcuts"></luid-daterange-picker>
+					<div class="lui field">
+						<luid-daterange-picker ng-model="myDaterange" grouped-shortcuts="groupedShortcuts"></luid-daterange-picker>
+						<label for="">Pick a period</label>
+					</div>
 				</p>
 				<p>
 					start: <code>{{ myDaterange.start | luifMoment }}</code> - end: <code>{{ myDaterange.end | luifMoment }}</code>
@@ -791,7 +794,10 @@ $scope.myMappings = { 13: enterPressed };</pre>
 					with end excluded and weekend disabled
 				</p>
 				<p>
-					<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends" shortcuts="shortcuts"></luid-daterange-picker>
+					<div class="lui field">
+						<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" custom-class="disableWeekends" shortcuts="shortcuts"></luid-daterange-picker>
+						<label for="">Pick a period</label>
+					</div>
 				</p>
 				<p>
 					start: <code>{{ myDaterange2.start | luifMoment }}</code> - end: <code>{{ myDaterange2.end | luifMoment }}</code>
