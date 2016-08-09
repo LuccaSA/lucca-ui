@@ -12,12 +12,13 @@
 // Level 4: nav drawer, right drawer, modal bottom sheet
 // Level 5: dialog, picker
 // ====
-
-#{$prefix}.raised {
-	@include lui_raised(1);
-}
-@for $i from 1 through length(luiTheme(adjective, raised, elevations)) {
-	#{$prefix}.raised[elevation="#{$i}"] {
-		@include lui_raised($i);
+@if luiTheme(adjective, raised, enabled) {
+	#{$prefix}.raised {
+		@include lui_raised(1);
+	}
+	@for $i from 1 through length(luiTheme(adjective, raised, elevations)) {
+		#{$prefix}.raised[elevation="#{$i}"] {
+			@include lui_raised($i);
+		}
 	}
 }
