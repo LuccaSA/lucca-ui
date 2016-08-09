@@ -1,31 +1,25 @@
 %lui_input_reset {
 	outline: 0;
 	outline: none;
-	box-shadow: none;
 	background: transparent;
 	margin: 0;
 
 	// Border
 	border: none;
 	border-bottom-width: luiTheme(element, field, field, default-border-width);
-	border-bottom-style: luiTheme(element, field, field, default-border-style);
+	border-bottom-style: solid;
 	border-bottom-color: luiTheme(element, field, field, default-border-color);
 
 	// Transitions
-	transition-property: border-bottom-color;
+	transition-property: border-bottom-color, box-shadow;
 	transition-duration: luiTheme(element, field, transition, duration);
 	transition-timing-function: luiTheme(element, field, transition, easing);
-
-	&:-webkit-autofill {
-		-webkit-box-shadow: 0 0 0 1000px white inset !important;
-	}
 }
 
 %lui_input_focus {
 	// Focused state
-	border-bottom-width: luiTheme(element, field, field, focus-border-width);
-	border-bottom-style: luiTheme(element, field, field, focus-border-style);
 	border-bottom-color: luiTheme(element, field, field, focus-border-color);
+	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, field, focus-border-color);
 
 	& > ~ label {
 		color: luiTheme(element, field, field, focus-border-color);
@@ -36,7 +30,6 @@
 	box-sizing: border-box;
 	display: block;
 	vertical-align: baseline;
-	width: 100%;
 
 	margin: 0;
 	padding: luiTheme(element, field, input, vertical-padding) 0;
@@ -56,13 +49,14 @@
 
 	&:before {
 		font-size: 1.5em;
-		line-height: 0.5em;
+		line-height: 0.6em;
 		display: block;
 		content: "\00d7";
 	}
 
 	&:hover {
-		background-color: luiPalette(light, color, light);
+		background-color: luiPalette(grey, color);
+		color: luiPalette(grey, text);
 	}
 }
 
@@ -91,6 +85,15 @@
 %lui_input_label_displaced {
 	top: -(2 - luiTheme(element, field, label, displaced-font-size)) !important;
 	font-size: luiTheme(element, field, label, displaced-font-size);
+}
+
+%lui_input_invalid_input {
+	border-bottom-color: luiTheme(element, field, invalid-color);
+	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, invalid-color);;
+}
+
+%lui_input_invalid_label {
+	color: luiTheme(element, field, invalid-color);
 }
 
 %lui_field_input_inner_right_icon {
@@ -124,9 +127,20 @@
 %lui_tagged_input_tag {
 	display: inline-block;
 	background-color: luiPalette(light, color, light);
+	color: luiPalette(light, text);
 	border-radius: 2em;
 	padding: 0.25em 0.5em;
 	margin: 0.1em 0.5em 0.1em 0;
+
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	&:hover {
+		background-color: luiPalette(grey, color);
+		color: luiPalette(grey, text);
+	}
 }
 %lui_tagged_input_tag_active {
 	background-color: luiPalette(primary, color);
@@ -141,8 +155,89 @@
 	font-size: lui_rem(1.5);
 	opacity: 0.5;
 	margin-left: 0.25em;
+	color: inherit;
 	&:hover {
 		opacity: 1;
+	}
+}
+
+%lui_dropdown_base {
+	position: relative;
+	margin: luiTheme(element, field, vertical-margin) 0;
+
+	// Sizing
+	// ====
+	width: luiTheme(element, field, lengths, medium);
+
+	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+		&.#{$sizeName} {
+			width: $sizeEms !important;
+		}
+	}
+}
+%lui_dropdown_list {
+	@extend %lui_unstyled_list;
+	@include lui_raised(2);
+	position: absolute;
+	z-index: 2;
+	top: 100%;
+	left: 0;
+
+	min-width: 100%;
+
+	background-color: #FFF;
+
+	opacity: 0;
+	transform: scale(0);
+	transform-origin: top center;
+	transition-property: opacity, transform;
+	transition-duration: luiTheme(element, field, transition, duration);
+	transition-timing-function: luiTheme(element, field, transition, easing);
+
+	max-height: 20em;
+	overflow: auto;
+}
+%lui_dropdown_list_dropped {
+	transform: scale(1);
+	opacity: 1;
+}
+%lui_dropdown_list_item {
+	position: relative;
+	padding: 0;
+
+	a {
+		display: block;
+		font-size: luiTheme(element, field, input, font-size);
+		color: luiTheme(element, typography, body, color);
+		padding: luiTheme(element, field, input, vertical-padding) 1em;
+		text-decoration: none;
+		opacity: 0.85;
+	}
+	&.disabled a {
+		cursor: default;
+		color: rgba(0, 0, 0, 0.26);
+	}
+	&.active a,
+	&:not(.disabled) a:hover {
+		opacity: 1;
+		background-color: luiPalette(light, color, light);
+	}
+	&.dividing:after {
+		display: block;
+		content: '';
+		position: absolute;
+		z-index: 1;
+		top: 100%;
+		left: 0; right: 0;
+		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+	}
+
+
+	.label {
+		float: right;
+		margin-right: 0;
+		font-size: lui_rem(0.9);
+		font-weight: 600;
 	}
 }
 
@@ -264,6 +359,7 @@
 			// ====
 			&.filled > label,
 			&.focused > label,
+			& > *[placeholder] ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
 				@extend %lui_input_label_displaced;
@@ -307,11 +403,11 @@
 		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
 		#{$prefix}.input.ng-invalid > label,
 		#{$prefix}.field .error {
-			color: map-gets($vars, invalid-color) !important;
+			@extend %lui_input_invalid_label;
 		}
 		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
 		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
-			border-bottom-color: map-gets($vars, invalid-color) !important;
+			@extend %lui_input_invalid_input;
 		}
 
 
@@ -333,14 +429,16 @@
 		// Field length (horizontal sizing)
 		// ====
 		// Defaults to medium
-		#{$prefix}.input:not(.checkbox):not(.radio),
+		#{$prefix}.input > input,
+		#{$prefix}.input > textarea,
 		#{$prefix}.input:not(.checkbox):not(.radio) > label {
 			width: map-gets($vars, lengths, medium);
 		}
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input,
+			#{$prefix}.field.#{$sizeName} > .input > input,
+			#{$prefix}.field.#{$sizeName} > .input > textarea,
 			#{$prefix}.field.#{$sizeName} .message {
 				min-width: 0;
 				width: $sizeEms;
@@ -350,7 +448,8 @@
 		// Fitting size: takes up the whole available width
 		// ====
 		#{$prefix}.fitting.field {
-			> .input,
+			> .input > input,
+			> .input > textarea,
 			.message {
 				width: 100%;
 			}
@@ -463,7 +562,6 @@
 				}
 			}
 			.close {
-				color: luiTheme(element, typography, body, color);
 				text-decoration: none;
 				@extend %lui_tagged_input_close;
 				&:after {
@@ -476,12 +574,50 @@
 		}
 
 
+		// Angular UI dropdown
+		// ====
+		.dropdown {
+			@extend %lui_dropdown_base;
+
+			.dropdown-menu {
+				@extend %lui_dropdown_list;
+			}
+			&.open {
+				.dropdown-menu {
+					@extend %lui_dropdown_list_dropped;
+				}
+			}
+		}
+		[uib-dropdown] {
+			#{$prefix}.button {
+				margin: 0;
+			}
+			[uib-dropdown-toggle] {
+				@include lui_make_icon("south chevron", right);
+				&:after {
+					font-size: 0.5em;
+				}
+			}
+			&.open #{$prefix}.button {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			.button + .dropdown-menu {
+				margin-top: 0.5em;
+				left: 1px;
+			}
+			ul li {
+				@extend %lui_dropdown_list_item;
+				a {
+					font-size: 1em;
+				}
+			}
+		}
+
+
 		// Angular UI bootstrap UI-select
 		// ====
-		#{$prefix}.ui-select-container {
-			position: relative;
-			margin: map-gets($vars, vertical-margin) 0;
-
+		.ui-select-container {
 			// Label
 			// ====
 			& ~ label {
@@ -517,7 +653,10 @@
 				@extend %lui_input_reset;
 
 				width: 100%;
+			}
 
+			&:not(.open) .ui-select-toggle,
+			&.ui-select-multiple:not(.open) > div {
 				@include lui_make_icon('south chevron', right);
 				&:after {
 					@extend %lui_field_input_inner_right_icon;
@@ -545,69 +684,14 @@
 			}
 
 			.ui-select-choices {
-				@extend %lui_unstyled_list;
-				@extend %lui_raised;
-				position: absolute;
-				z-index: 2;
-				top: 100%;
-				left: 0;
-
-				min-width: 100%;
-
-				background-color: #FFF;
-
-				opacity: 0;
-				transform: scale(0);
-				transform-origin: top center;
-				transition-property: opacity, transform;
-				transition-duration: map-gets($vars, transition, duration);
-				transition-timing-function: map-gets($vars, transition, easing);
-
-				max-height: 20em;
-				overflow: auto;
-
 				&.ng-hide {
 					display: block !important;
-				}
-
-				&:not(.ng-hide) {
-					transform: scale(1);
-					opacity: 1;
-				}
-
-				a {
-					display: block;
-					font-size: map-gets($vars, input, font-size);
-					color: luiTheme(element, typography, body, color);
-					padding: map-gets($vars, input, vertical-padding) 1em;
-					text-decoration: none;
-
-					.label {
-						float: right;
-						margin-right: 0;
-						font-size: lui_rem(0.9);
-						font-weight: 600;
-					}
 				}
 			}
 
 			.ui-select-choices-row {
 				position: relative;
-
-				&.disabled a {
-					cursor: default;
-				}
-				&:not(.disabled) a {
-					&:hover {
-						background-color: luiPalette(light, color, light);
-					}
-				}
-				&.active a {
-					background-color: transparentize(luiPalette(primary, color), 0.9);
-					&:hover {
-						background-color: transparentize(luiPalette(primary, color), 0.75);
-					}
-				}
+				@extend %lui_dropdown_list_item;
 			}
 
 			&.direction-up {
@@ -627,6 +711,8 @@
 				}
 				.ui-select-choices {
 					top: 0;
+					left: -1em;
+					right: -1em;
 				}
 			}
 
@@ -635,11 +721,11 @@
 			&.ng-invalid.ng-touched {
 				.ui-select-toggle,
 				.ui-select-search {
-					border-bottom-color: map-gets($vars, invalid-color) !important;
+					@extend %lui_input_invalid_input;
 				}
 
 				& ~ label {
-					color: map-gets($vars, invalid-color);
+					@extend %lui_input_invalid_label;
 				}
 			}
 
@@ -670,18 +756,8 @@
 				.close {
 					@extend %lui_tagged_input_close;
 				}
-				.btn-primary {
+				.btn-primary, .btn-primary:hover {
 					@extend %lui_tagged_input_tag_active;
-				}
-			}
-
-			// Sizing
-			// ====
-			width: map-gets($vars, lengths, medium);
-
-			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-				&.#{$sizeName} {
-					width: $sizeEms !important;
 				}
 			}
 
@@ -751,15 +827,6 @@
 		// User picker
 		// ====
 		luid-user-picker {
-			.dividing:after {
-				display: block;
-				content: '';
-				position: absolute;
-				z-index: 1;
-				top: 100%;
-				left: 0; right: 0;
-				border-bottom: 1px solid map-gets($vars, field, default-border-color);
-			}
 			.selected-first {
 				font-weight: 600;
 			}

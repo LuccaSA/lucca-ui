@@ -18,7 +18,7 @@ $field: (
 
 	transition: (
 		duration:				100ms,
-		easing:					ease-out
+		easing:					cubic-bezier(0.25, 0.8, 0.25, 1)
 	),
 
 	label: (
@@ -40,11 +40,9 @@ $field: (
 
 	field: (
 		default-border-width: 	1px,
-		default-border-style: 	solid,
 		default-border-color:	luiPalette(light, color),
 
 		focus-border-width:		2px,
-		focus-border-style:		solid,
 		focus-border-color: 	luiPalette(primary, color)
 	),
 
