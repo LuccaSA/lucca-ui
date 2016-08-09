@@ -1,0 +1,28 @@
+
+// Popover
+// @type: element
+// ===================================
+
+$popover: (
+	enabled: 					true,
+
+	z-index:					500,
+
+	offset: 					0.5em,
+
+	min-width: 					15em,
+	max-width: 					25em,
+
+	animation-duration:			100ms,
+	animation-easing: 			cubic-bezier(0.4, 0, 0.2, 1),
+
+	vertical-padding: 			lui_rem(),
+	horizontal-padding:		 	lui_rem(),
+
+	title: (
+		font-size: 				1.25em,
+	),
+
+	defaultColoring: 			(color: #FFF, text: luiPalette(grey, color)),
+);
+$luiTheme: luiSetTheme(element, popover, $popover);
