@@ -1,0 +1,10 @@
+& {
+	$picture: (
+		height: 200px,
+		width: 150px,
+	);
+	.picture-input {
+		height: map-gets($picture, height);
+		width: map-gets($picture, width);
+	}
+}

@@ -1,0 +1,11 @@
+<div class="lui field">
+	<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
+	<span class="lui input">
+		<luid-user-picker ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}"></luid-user-picker>
+		<span ng-hide="form.$pristine">
+			<i class="lui green check icon animated right fade in" ng-show="form.{{::id}}.$valid"></i>
+			<i class="lui red warning icon animated right fade in" ng-show="form.{{::id}}.$invalid"></i>
+			<span class="lui red label animated right fade in" ng-show="form.{{::id}}.$error.required">VARTRAD_INVALID_REQUIRED</span>
+		</span>
+	</span>
+</div>
