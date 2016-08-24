@@ -22,13 +22,31 @@
 					label: "last name",
 					required: true,
 					requiredMessage: "this is a custom required message just for this field",
+					placeholder: "this one has a placeholder"
 				},
 			},
+			{
+				key: "address",
+				type: "text",
+				templateOptions: {
+					label: "Address",
+					helper: "this one has an helper message"
+				},
+			},
+			{
+				key: "email",
+				type: "email",
+				templateOptions: {
+					label: "Email",
+					required: true,
+				},
+			},
+
 		];
 		$scope.options = { formState: {
 			requiredMessage: "this is the required message for the whole form",
-			// display: "inline",
-			// display: "fitting",
+			emailMessage: "this is not a valid email",
+			display: "fitting",
 		}};
 
 		_.each($scope.fields, function(field) {
