@@ -1,12 +1,9 @@
-<div class="lui field">
-	<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
-	<span class="lui long input" ng-class="{ invalid: form.{{::id}}.$invalid && !form.$pristine }">
-		<input type="email" ng-model="model[options.key]" name="{{::id}}" placeholder="{{::options.templateOptions.placeholder}}" ng-required="{{::options.templateOptions.required}}">
-		<span ng-hide="form.$pristine">
-			<i class="lui green check icon animated right fade in" ng-show="form.{{::id}}.$valid"></i>
-			<i class="lui red warning icon animated right fade in" ng-show="form.{{::id}}.$invalid"></i>
-			<span class="lui red label animated right fade in" ng-show="form.{{::id}}.$error.required">VARTRAD_INVALID_REQUIRED</span>
-			<span class="lui red label animated right fade in" ng-show="form.{{::id}}.$error.email">VARTRAD_INVALID_EMAIL</span>
-		</span>
-	</span>
+<div class="lui {{::options.templateOptions.display}} field">
+	<div class="lui input">
+		<input placeholder="{{::options.templateOptions.placeholder + ' '}}" type="email" name="{{::id}}" ng-model="model[options.key]"  ng-required="{{::options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled">
+		<label for="{{::id}}"><span ng-if="options.templateOptions.icon"><i class="lui {{::options.templateOptions.icon}} icon"></i>&nbsp;</span>{{ options.templateOptions.label | translate }}</label>
+	</div>
+	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
+	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
+	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.email">{{::options.templateOptions.emailMessage}}</small>
 </div>

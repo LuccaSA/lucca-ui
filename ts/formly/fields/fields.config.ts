@@ -6,10 +6,10 @@ module dir.directive {
 			name: "text",
 			templateUrl: "lui/templates/formly/fields/text.html",
 		});
-		// formlyConfigProvider.setType({
-		// 	name: "email",
-		// 	templateUrl: "lui/templates/formly/fields/email.html",
-		// });
+		formlyConfigProvider.setType({
+			name: "email",
+			templateUrl: "lui/templates/formly/fields/email.html",
+		});
 		// formlyConfigProvider.setType({
 		// 	name: "date",
 		// 	templateUrl: "lui/templates/formly/fields/date.html",
