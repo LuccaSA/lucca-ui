@@ -161,6 +161,7 @@ module Lui.Directives {
 
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
 			let onClosing = (): void => {
+				this.ngModelCtrl.$setTouched();
 				this.closePopover();
 			};
 			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
@@ -177,6 +178,7 @@ module Lui.Directives {
 		// ng-model logic
 		private setViewValue(value: moment.Moment): void {
 			this.ngModelCtrl.$setViewValue(this.formatter.formatValue(value));
+			this.ngModelCtrl.$setTouched();
 		}
 		private getViewValue(): moment.Moment {
 			return this.formatter.parseValue(this.ngModelCtrl.$viewValue);

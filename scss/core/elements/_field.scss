@@ -388,6 +388,7 @@
 		// Required
 		// ====
 		#{$prefix}.input > input[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after,
+		#{$prefix}.input > luid-date-picker-popup[required] ~ label:after,
 		#{$prefix}.field.required > .input > .input label:after {
 			position: absolute;
 			content: '*';

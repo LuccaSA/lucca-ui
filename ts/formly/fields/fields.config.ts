@@ -10,10 +10,10 @@ module dir.directive {
 			name: "email",
 			templateUrl: "lui/templates/formly/fields/email.html",
 		});
-		// formlyConfigProvider.setType({
-		// 	name: "date",
-		// 	templateUrl: "lui/templates/formly/fields/date.html",
-		// });
+		formlyConfigProvider.setType({
+			name: "date",
+			templateUrl: "lui/templates/formly/fields/date.html",
+		});
 		// formlyConfigProvider.setType({
 		// 	name: "date_minmax",
 		// 	templateUrl: "lui/templates/formly/fields/date-minmax.html",
