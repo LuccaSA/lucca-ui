@@ -5,6 +5,7 @@
 	.controller('formlyCtrl', ['$scope', '$timeout', function($scope, $timeout){
 		$scope.model = {
 			address: "24 rue du champ de l'allouette, Paris 13e",
+			email: "this is not a real email address",
 		};
 		$scope.fields = [
 			{
@@ -87,7 +88,10 @@
 			return _.where(generatedFields, { $invalid: true });
 		}
 		$scope.nextInvalid = function() {
-			var field = _.findWhere(generatedFields, { $invalid: true });
+			var field = _.findWhere(generatedFields, { $invalid: true, $touched: false });
+			if (!field) {
+				field = _.findWhere(generatedFields, { $invalid: true });
+			}
 			field.$setTouched();
 			// focus an input if possible
 			var elt = document.querySelectorAll("input[name='" + field.$name + "'], [name='" + field.$name + "'] ~ input")[0];
