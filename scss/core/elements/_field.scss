@@ -402,13 +402,13 @@
 		// Invalid
 		// ====
 		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
-		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
+		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid ~ label,
 		#{$prefix}.input.ng-invalid > label,
 		#{$prefix}.field .error {
 			@extend %lui_input_invalid_label;
 		}
 		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
+		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
 			@extend %lui_input_invalid_input;
 		}
 
