@@ -26,6 +26,14 @@
 				},
 			},
 			{
+				key: "birthdate",
+				type: "date",
+				templateOptions: {
+					label: "Birth date",
+					required: true,
+				},
+			},
+			{
 				key: "address",
 				type: "text",
 				templateOptions: {
