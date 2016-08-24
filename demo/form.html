@@ -51,9 +51,12 @@
 				</div> -->
 			</div>
 			<div ng-controller="formlyCtrl" class="lui block round">
-				<div class="lui fitting fields">
-					<formly-form model="model" fields="fields" options="options"></formly-form>
+				<div class="lui fitting fields" ng-form="myForm">
+					<formly-form model="model" fields="fields" options="options" form="myForm"></formly-form>
 				</div>
+				<p>
+					<button class="lui large primary button" ng-disabled="myForm.$invalid">submit</button> <span ng-show="invalidFields().length">{{invalidFields().length}} invalid fields <button class="lui flat button" ng-click="nextInvalid()">go to next invalid field</button></span>
+				</p>
 			</div>
 		</article>
 	</section>

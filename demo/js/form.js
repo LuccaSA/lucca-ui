@@ -2,9 +2,9 @@
 	'use strict';
 
 	angular.module('demoApp')
-	.controller('formlyCtrl', ['$scope', function($scope){
+	.controller('formlyCtrl', ['$scope', '$timeout', function($scope, $timeout){
 		$scope.model = {
-			text1: "lol",
+			address: "24 rue du champ de l'allouette, Paris 13e",
 		};
 		$scope.fields = [
 			{
@@ -38,7 +38,8 @@
 				type: "text",
 				templateOptions: {
 					label: "Address",
-					helper: "this one has an helper message"
+					helper: "this one has an helper message and is disabled",
+					disabled: true
 				},
 			},
 			{
@@ -56,6 +57,44 @@
 			emailMessage: "this is not a valid email",
 			display: "fitting",
 		}};
+		$scope.debug = function (form) {
+			debugger;
+			var fields = extractFields(form);
+		}
+		var extractFields = function(form) {
+			return _.chain(form)
+			.keys()
+			.map(function(key) {
+				if(key.startsWith("$")){
+					return undefined;
+				} else {
+					return form[key];
+				}
+			})
+			.reject(function(field) {
+				return !field;
+			})
+			.value();
+		}
+		var generatedFields = [];
+		$timeout( function () {
+			generatedFields = _.map($scope.fields, function(field, index) {
+				return $scope.myForm[$scope.myForm.$name + "_" + field.type +"_"+field.key +"_"+index];
+			})
+		}, 1);
+
+		$scope.invalidFields = function() {
+			return _.where(generatedFields, { $invalid: true });
+		}
+		$scope.nextInvalid = function() {
+			var field = _.findWhere(generatedFields, { $invalid: true });
+			field.$setTouched();
+			// focus an input if possible
+			var elt = document.querySelectorAll("input[name='" + field.$name + "'], [name='" + field.$name + "'] ~ input")[0];
+			if (!!elt) {
+				elt.focus();
+			}
+		}
 
 		_.each($scope.fields, function(field) {
 			field.expressionProperties = field.expressionProperties || {};
