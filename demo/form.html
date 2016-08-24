@@ -51,9 +51,9 @@
 				</div> -->
 			</div>
 			<div ng-controller="formlyCtrl" class="lui block round">
-				
-				<formly-form model="model" fields="fields"></formly-form>
-				{{ model }}
+				<div class="lui fitting fields">
+					<formly-form model="model" fields="fields" options="options"></formly-form>
+				</div>
 			</div>
 		</article>
 	</section>

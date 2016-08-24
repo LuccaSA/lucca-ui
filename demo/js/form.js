@@ -8,19 +8,36 @@
 		};
 		$scope.fields = [
 			{
-				key: "text1",
+				key: "firstName",
 				type: "text",
 				templateOptions: {
-					label: 'label',
+					label: "first name",
+					required: true,
 				},
 			},
 			{
-				key: "text2",
+				key: "lastName",
 				type: "text",
 				templateOptions: {
-					label: 'label',
+					label: "last name",
+					required: true,
+					requiredMessage: "this is a custom required message just for this field",
 				},
 			},
-		]
+		];
+		$scope.options = { formState: {
+			requiredMessage: "this is the required message for the whole form",
+			// display: "inline",
+			// display: "fitting",
+		}};
+
+		_.each($scope.fields, function(field) {
+			field.expressionProperties = field.expressionProperties || {};
+			_.each($scope.options.formState, function(val, key) {
+				if (!_.contains(_.keys(field.templateOptions), key)) {
+					field.expressionProperties['templateOptions.'+ key] = 'formState.' + key;
+				}
+			});
+		});
 	}]);
 })();
