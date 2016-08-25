@@ -6,8 +6,8 @@
 				<div ng-bind-html="choice.label | highlight: $select.search"></div>
 			</ui-select-choices>
 		</ui-select>
-		<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
+		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
-	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
+	<small class="message helper">{{ options.templateOptions.helper }}</small>
 	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </div>

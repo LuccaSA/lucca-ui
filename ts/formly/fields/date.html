@@ -1,8 +1,8 @@
 <div class="lui {{::options.templateOptions.display}} field">
 	<div class="lui input">
-		<luid-date-picker-popup ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}"></luid-date-picker-popup>
-		<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
+		<luid-date-picker-popup ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}" ng-disabled="options.templateOptions.disabled"></luid-date-picker-popup>
+		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
-	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
+	<small class="message helper">{{ options.templateOptions.helper }}</small>
 	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </div>

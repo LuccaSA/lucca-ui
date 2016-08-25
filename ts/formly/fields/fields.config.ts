@@ -18,21 +18,13 @@ module dir.directive {
 			name: "select",
 			templateUrl: "lui/templates/formly/fields/select.html",
 		});
-		// formlyConfigProvider.setType({
-		// 	name: "date_minmax",
-		// 	templateUrl: "lui/templates/formly/fields/date-minmax.html",
-		// });
-		// formlyConfigProvider.setType({
-		// 	name: "user",
-		// 	templateUrl: "lui/templates/formly/fields/user.html",
-		// });
-		// formlyConfigProvider.setType({
-		// 	name: "api_select",
-		// 	templateUrl: "lui/templates/formly/fields/api-select.html",
-		// });
-		// formlyConfigProvider.setType({
-		// 	name: "picture",
-		// 	templateUrl: "lui/templates/formly/fields/picture.html",
-		// });
+		formlyConfigProvider.setType({
+			name: "checkbox",
+			templateUrl: "lui/templates/formly/fields/checkbox.html",
+		});
+		formlyConfigProvider.setType({
+			name: "radio",
+			templateUrl: "lui/templates/formly/fields/radio.html",
+		});
 	}]);
 }
