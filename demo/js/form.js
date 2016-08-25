@@ -9,6 +9,16 @@
 		};
 		$scope.fields = [
 			{
+				key: "language",
+				type: "select",
+				templateOptions: {
+					label: "Language",
+					choices: [{ key: "en", label: "english" }, { key: "fr", label: "français" }],
+					required: true,
+					placeholder: "placeholder",
+				},
+			},
+			{
 				key: "firstName",
 				type: "text",
 				templateOptions: {
@@ -94,10 +104,26 @@
 			}
 			field.$setTouched();
 			// focus an input if possible
-			var elt = document.querySelectorAll("input[name='" + field.$name + "'], [name='" + field.$name + "'] ~ input")[0];
+			var elt = document.querySelectorAll("input[name='" + field.$name + "'], [name='" + field.$name + "'] input, [name='" + field.$name + "'] a")[0];
 			if (!!elt) {
 				elt.focus();
 			}
+			// for ui-selects
+			if (field.$name.indexOf("_select_") !== -1) {
+				// $timeout( function () {
+				// 	elt = document.querySelectorAll("[name='" + field.$name + "'] .ui-select-focusser")[0];
+				// 	elt.focus();
+				// }, 1);
+				// elt = document.querySelectorAll("[name='" + field.$name + "'] .ui-select-focusser")[0];
+				// elt.focus();
+				// should work but doesn't
+				$scope.$broadcast(field.$name);
+			}
+
+			// set the scrolltop
+			// var namedElt = document.getElementsByName(field.$name)[0];
+			// document.documentElement.scrollTop = document.body.scrollTop = namedElt.scrollTop;
+			// // document.scrolltop = namedElt.scrolltop;
 		}
 
 		_.each($scope.fields, function(field) {
