@@ -1,19 +1,8 @@
-<!-- <div class="lui field">
-	<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
-	<span class="lui long input">
-		<luid-date-picker-popup ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}" ng-disabled="{{::options.templateOptions.disabled}}"></luid-date-picker-popup>
-		<span ng-hide="form.$pristine">
-			<i class="lui green check icon animated right fade in" ng-show="form.{{::id}}.$valid"></i>
-			<i class="lui red warning icon animated right fade in" ng-show="form.{{::id}}.$invalid"></i>
-			<span class="lui red label animated right fade in" ng-show="form.{{::id}}.$error.required">VARTRAD_INVALID_REQUIRED</span>
-		</span>
-	</span>
-</div> -->
 <div class="lui {{::options.templateOptions.display}} field">
 	<div class="lui input">
 		<luid-date-picker-popup ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}"></luid-date-picker-popup>
 		<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
-	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </div>

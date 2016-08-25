@@ -4,6 +4,6 @@
 		<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
-	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
-	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.email">{{::options.templateOptions.emailMessage}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.email">{{::options.templateOptions.emailMessage}}</small>
 </div>

@@ -14,6 +14,10 @@ module dir.directive {
 			name: "date",
 			templateUrl: "lui/templates/formly/fields/date.html",
 		});
+		formlyConfigProvider.setType({
+			name: "select",
+			templateUrl: "lui/templates/formly/fields/select.html",
+		});
 		// formlyConfigProvider.setType({
 		// 	name: "date_minmax",
 		// 	templateUrl: "lui/templates/formly/fields/date-minmax.html",

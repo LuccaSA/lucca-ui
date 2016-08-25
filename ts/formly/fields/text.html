@@ -1,8 +1,8 @@
 <div class="lui {{::options.templateOptions.display}} field">
 	<div class="lui input">
-		<input placeholder="{{::options.templateOptions.placeholder + ' '}}" type="text" name="{{::id}}" ng-model="model[options.key]"  ng-required="{{::options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled">
+		<input placeholder="{{::options.templateOptions.placeholder + ' '}}" type="text" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled">
 		<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper | translate }}</small>
-	<small class="message error" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </div>
