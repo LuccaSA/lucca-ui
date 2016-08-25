@@ -64,6 +64,9 @@
 				<p>
 					<button class="lui large primary button" ng-disabled="myForm.$invalid">submit</button> <span ng-show="invalidFields().length">{{invalidFields().length}} invalid fields <button class="lui flat button" ng-click="nextInvalid()">go to next invalid field</button></span>
 				</p>
+				<p>
+					the form is <span class="lui green label" ng-show="myForm.$valid">valid</span> <span class="lui red label" ng-show="myForm.$invalid">invalid</span> <span class="lui green label" ng-show="myForm.$pristine">pristine</span> <span class="lui orange label" ng-show="myForm.$dirty">dirty</span>
+				</p>
 			</div>
 		</article>
 	</section>

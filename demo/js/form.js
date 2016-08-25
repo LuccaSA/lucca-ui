@@ -20,6 +20,16 @@
 				},
 			},
 			{
+				key: "language2",
+				type: "radio",
+				templateOptions: {
+					label: "2nd language",
+					choices: [{ key: "en", label: "english" }, { key: "fr", label: "français" }],
+					required: true,
+					helper: ""
+				},
+			},
+			{
 				key: "firstName",
 				type: "text",
 				templateOptions: {
@@ -35,6 +45,14 @@
 					required: true,
 					requiredMessage: "this is a custom required message just for this field",
 					placeholder: "this one has a placeholder"
+				},
+			},
+			{
+				key: "driverLicense",
+				type: "checkbox",
+				templateOptions: {
+					label: "Driver license",
+					helper: "can you drive ?",
 				},
 			},
 			{
