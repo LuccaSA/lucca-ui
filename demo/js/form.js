@@ -26,7 +26,7 @@
 					label: "2nd language",
 					choices: [{ key: "en", label: "english" }, { key: "fr", label: "français" }],
 					required: true,
-					helper: ""
+					helper: "@paugam: faudrait mettre du style sur le :focus"
 				},
 			},
 			{
