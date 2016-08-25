@@ -12,10 +12,11 @@
 				key: "language",
 				type: "select",
 				templateOptions: {
-					label: "Language",
+					label: "Language (mandatory)",
 					choices: [{ key: "en", label: "english" }, { key: "fr", label: "français" }],
 					required: true,
 					placeholder: "placeholder",
+					helper: "@paugam: l'etoile de mandatory n'apparait pas, aussi y'a un margin vertical de 2em du a la classe .dropdown, le placeholder n'a pas la bonne couleur, le sizing est pas bon (fitting)"
 				},
 			},
 			{
@@ -42,6 +43,7 @@
 				templateOptions: {
 					label: "Birth date",
 					required: true,
+					helper: "le sizing est pas bon (fitting)",
 				},
 			},
 			{
@@ -66,7 +68,7 @@
 		$scope.options = { formState: {
 			requiredMessage: "this is the required message for the whole form",
 			emailMessage: "this is not a valid email",
-			display: "fitting",
+			display: "long",
 		}};
 		$scope.debug = function (form) {
 			debugger;
