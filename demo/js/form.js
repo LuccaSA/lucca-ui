@@ -43,7 +43,7 @@
 				templateOptions: {
 					label: "Birth date",
 					required: true,
-					helper: "le sizing est pas bon (fitting)",
+					helper: "@paugam: le sizing est pas bon (fitting)",
 				},
 			},
 			{
@@ -68,7 +68,7 @@
 		$scope.options = { formState: {
 			requiredMessage: "this is the required message for the whole form",
 			emailMessage: "this is not a valid email",
-			display: "long",
+			display: "fitting",
 		}};
 		$scope.debug = function (form) {
 			debugger;
