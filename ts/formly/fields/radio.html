@@ -2,7 +2,7 @@
 	<legend>{{ options.templateOptions.label }}</legend>
 	<div class="lui inline field" ng-repeat="choice in options.templateOptions.choices">
 		<div class="lui radio input">
-			<input id="{{::id}}_{{$index}}" type="radio" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" ng-value="choice.key">
+			<input id="{{::id}}_{{$index}}" type="radio" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" ng-value="choice">
 			<label for="{{::id}}_{{$index}}">{{ choice.label }}</label>
 		</div>
 	</div>
