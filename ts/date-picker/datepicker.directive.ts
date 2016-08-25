@@ -68,6 +68,7 @@ module Lui.Directives {
 		displayFormat: string;
 
 		togglePopover($event: ng.IAngularEvent): void;
+		openPopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
 	}
 
@@ -93,6 +94,9 @@ module Lui.Directives {
 			};
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
+			};
+			$scope.openPopover = ($event: ng.IAngularEvent) => {
+				this.openPopover($event);
 			};
 
 			$scope.$watch("min", (): void => {
