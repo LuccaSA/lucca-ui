@@ -26,5 +26,9 @@ module dir.directive {
 			name: "radio",
 			templateUrl: "lui/templates/formly/fields/radio.html",
 		});
+		formlyConfigProvider.setType({
+			name: "picture",
+			templateUrl: "lui/templates/formly/fields/picture.html",
+		});
 	}]);
 }

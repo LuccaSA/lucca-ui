@@ -1,6 +1,8 @@
-<div class="lui field">
-	<label for="{{::id}}">{{ options.templateOptions.label | translate }}</label>
-	<span class="picture-input">
-		<luid-image-picker ng-model="model[options.key]"></luid-image-picker>
-	</span>
+<div class="lui {{::options.templateOptions.display}} field">
+	<div class="lui {{::options.templateOptions.size}} picture input">
+		<luid-image-picker ng-model="model[options.key]" name="{{::id}}"ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled"></luid-image-picker>
+		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
+	</div>
+	<small class="message helper">{{ options.templateOptions.helper }}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </div>

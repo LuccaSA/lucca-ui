@@ -360,7 +360,6 @@
 			&.filled > label,
 			&.focused > label,
 			& > *[placeholder]:not([placeholder=" "]) ~ label,
-			// & > *:not([placeholder=" "]) ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
 				@extend %lui_input_label_displaced;
@@ -833,5 +832,14 @@
 				font-weight: 600;
 			}
 		}
+		// picture
+		// ====
+		.picture {
+			> luid-image-picker {
+				width: 9em;
+				height: 12em;
+			}
+		}
+
 	}
 }
