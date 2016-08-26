@@ -30,5 +30,9 @@ module dir.directive {
 			name: "picture",
 			templateUrl: "lui/templates/formly/fields/picture.html",
 		});
+		formlyConfigProvider.setType({
+			name: "user",
+			templateUrl: "lui/templates/formly/fields/user.html",
+		});
 	}]);
 }
