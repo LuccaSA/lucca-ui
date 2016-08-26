@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('demoApp')
-	.controller('formlyCtrl', ['$scope', '$timeout', function($scope, $timeout){
+	.controller('formlyCtrl', ['$scope', '$timeout', '$http', '$httpBackend', function($scope, $timeout, $http, $httpBackend){
 		$scope.model = {
 			address: "24 rue du champ de l'allouette, Paris 13e",
 			email: "this is not a real email address",
@@ -89,6 +89,15 @@
 					required: true,
 				},
 			},
+			{
+				key: "father",
+				type: "user",
+				templateOptions: {
+					label: "Father",
+					required: true,
+					helper: "@paugam: ici aussi le sizing est pas bon, aussi la border rouge d'invalid ne se met pas au bon endroit a cause de la margin verticale de 2em due a la class dropdown, cf ui-select",
+				},
+			},
 
 		];
 		$scope.options = { formState: {
@@ -162,5 +171,37 @@
 				}
 			});
 		});
+		$scope.local = "lucca.local.dev";
+		$scope.auth = function(){
+			$http.post("https://" + $scope.local + "/auth/userlogin?login=passepartout&password=")
+			.success(function(response){
+				$scope.authToken = response;
+			})
+			.error(function(response){
+			});
+		};
+		$scope.auth();
+				var rerouteToLocal = function(url){
+			if(!$scope.authToken){ alert("You are not authenticated for your local website"); }
+			var request = new XMLHttpRequest();
+
+			// we're forced to use a synchronous method here because whenGET().respond(function(){}) does not handle promises
+			// http://stackoverflow.com/questions/21057477/how-to-return-a-file-content-from-angulars-httpbackend
+			request.open('GET', "https://" + $scope.local + url + "&authToken=" + $scope.authToken, false);
+			request.send(null);
+
+			return [request.status, request.response, {}];
+		};
+
+		$httpBackend.whenGET(/api\/v3\/.*/i).respond(function(method, url){
+			return rerouteToLocal(url);
+		});
+		$httpBackend.whenPOST(/api\/files/i).respond(function(method, url, data){
+			return rerouteToLocal("POST", url, data);
+		});
+		$httpBackend.whenGET(/\/\/\w*.local\/.*/).passThrough();
+		$httpBackend.whenGET(/\/\/\w*.local.dev\/.*/).passThrough();
+		$httpBackend.whenPOST(/\/\/\w*.local\/.*/).passThrough();
+		$httpBackend.whenPOST(/\/\/\w*.local.dev\/.*/).passThrough();
 	}]);
 })();
