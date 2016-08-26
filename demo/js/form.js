@@ -52,7 +52,7 @@
 				type: "checkbox",
 				templateOptions: {
 					label: "Driver license",
-					helper: "can you drive ?",
+					helper: "@paugam: le binding marche mais le `checked` est pas appliqué",
 				},
 			},
 			{
