@@ -41,10 +41,18 @@
 				key: "lastName",
 				type: "text",
 				templateOptions: {
-					label: "last name",
+					label: "Last name",
 					required: true,
 					requiredMessage: "this is a custom required message just for this field",
 					placeholder: "this one has a placeholder"
+				},
+			},
+			{
+				key: "picture",
+				type: "picture",
+				templateOptions: {
+					helper: "@paugam: j'arrive pas a trouver comment empeccher d'appliquer la mixin %lui_input_label_displaced; fields.scss~365",
+					label: "Picture",
 				},
 			},
 			{
@@ -68,8 +76,8 @@
 				key: "address",
 				type: "text",
 				templateOptions: {
-					label: "Address",
-					helper: "this one has an helper message and is disabled",
+					label: "Address (disabled)",
+					helper: "@paugam: le style pour disabled existe pas encore",
 					disabled: true
 				},
 			},
