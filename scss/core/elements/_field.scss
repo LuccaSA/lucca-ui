@@ -20,7 +20,7 @@
 
 %lui_input_focus {
 	// Focused state
-	border-bottom-color: luiTheme(element, field, field, focus-border-color);
+	border-bottom-color: luiTheme(element, field, field, focus-border-color) !important;
 	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, field, focus-border-color);
 
 	& > ~ label {
@@ -90,7 +90,7 @@
 }
 
 %lui_input_invalid_input {
-	border-bottom-color: luiTheme(element, field, invalid-color);
+	border-bottom-color: luiTheme(element, field, invalid-color) !important;
 	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, invalid-color);;
 }
 
@@ -165,7 +165,7 @@
 
 %lui_dropdown_base {
 	position: relative;
-	margin: luiTheme(element, field, vertical-margin) 0;
+	margin: 0;
 }
 %lui_dropdown_sizing {
 	width: luiTheme(element, field, lengths, medium);
@@ -358,9 +358,8 @@
 
 			// Label displacement when focused or filled
 			// ====
-			&.filled > label,
-			&.focused > label,
-			& > *[placeholder]:not([placeholder=" "]) ~ label,
+			& > *[placeholder]:not([placeholder=""]) ~ label,
+			& > *[placeholder]:not([placeholder=""]) > * ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
 				@extend %lui_input_label_displaced;
@@ -387,9 +386,7 @@
 
 		// Required
 		// ====
-		#{$prefix}.input > input[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after,
-		#{$prefix}.input > luid-date-picker-popup[required] ~ label:after,
-		#{$prefix}.field.required > .input > .input label:after {
+		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after {
 			position: absolute;
 			content: '*';
 			font-size: lui_rem(1.2);
@@ -631,7 +628,8 @@
 				@extend %lui_input_label_displacable;
 			}
 			&.open ~ label,
-			&.ng-not-empty ~ label {
+			&.ng-not-empty ~ label,
+			&[placeholder]:not([placeholder=""]) ~ label {
 				@extend %lui_input_label_displaced;
 			}
 
@@ -690,6 +688,8 @@
 			}
 
 			.ui-select-choices {
+				margin-top: 1px;
+
 				&.ng-hide {
 					display: block !important;
 				}
@@ -837,14 +837,13 @@
 				font-weight: 600;
 			}
 		}
-		
+
 		// Picture picker
 		// ====
-		.picture {
-			> luid-image-picker {
-				width: 9em;
-				height: 12em;
-			}
+		luid-image-picker {
+			display: inline-block;
+			width: 9em;
+			height: 12em;
 		}
 
 
