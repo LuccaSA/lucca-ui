@@ -34,5 +34,9 @@ module dir.directive {
 			name: "user",
 			templateUrl: "lui/templates/formly/fields/user.html",
 		});
+		formlyConfigProvider.setType({
+			name: "api_select",
+			templateUrl: "lui/templates/formly/fields/api-select.html",
+		});
 	}]);
 }
