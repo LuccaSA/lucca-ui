@@ -2,6 +2,10 @@
 	box-shadow: unquote(map-get(luiTheme(adjective, raised, elevations), $z));
 }
 
+%lui_no_shadow_top {
+	clip: rect(0px, 100vw, 100vh, -100vw);
+}
+
 
 // Z-depth levels based on Material Design
 // Based on https://medium.com/@Florian/freebie-google-material-design-shadow-helper-2a0501295a2d
