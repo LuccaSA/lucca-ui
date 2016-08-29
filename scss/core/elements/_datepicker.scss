@@ -19,6 +19,37 @@
 			&.ng-open ~ label {
 				@extend %lui_input_label_displaced;
 			}
+
+			// Invalid style
+			&.ng-invalid.ng-touched {
+				input {
+					@extend %lui_input_invalid_input;
+				}
+				& ~ label {
+					@extend %lui_input_invalid_label;
+				}
+			}
+		}
+
+		// Fitting size
+		// ====
+		#{$prefix}.fitting.field {
+			luid-date-picker,
+			luid-date-picker-popup,
+			luid-daterange-picker {
+				display: block;
+
+				> .input {
+					width: 100% !important;
+				}
+			}
+		}
+
+		luid-date-picker-popup,
+		luid-daterange-picker {
+			&.ng-open input {
+				@extend %lui_input_focus;
+			}
 		}
 
 		// Neutralize popover max-width
@@ -26,6 +57,7 @@
 		luid-date-picker-popup .popover-inner,
 		luid-daterange-picker .popover-inner {
 			max-width: none !important;
+			margin: luiTheme(element, field, field, focus-border-width) !important;
 		}
 
 		// Handle multiple calendars
@@ -77,9 +109,6 @@
 					left: 50%;
 					transform: translateX(-50%);
 				}
-				input {
-					color: transparent;
-				}
 			}
 
 			&.ng-empty {
@@ -98,6 +127,9 @@
 				.tag {
 					cursor: pointer;
 				}
+			}
+			&.ng-open input {
+				color: transparent;
 			}
 		}
 
