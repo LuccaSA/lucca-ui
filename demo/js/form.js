@@ -51,8 +51,9 @@
 				key: "picture",
 				type: "picture",
 				templateOptions: {
-					helper: "@paugam: j'arrive pas a trouver comment empeccher d'appliquer la mixin %lui_input_label_displaced; fields.scss~365",
-					label: "Picture",
+					helper: "@paugam: j'arrive pas a trouver comment empeccher d'appliquer la mixin %lui_input_label_displaced; fields.scss~365, aussi il manque l'asterix de required",
+					label: "Picture (required)",
+					required: true,
 				},
 			},
 			{
@@ -96,6 +97,17 @@
 					label: "Father",
 					required: true,
 					helper: "@paugam: ici aussi le sizing est pas bon, aussi la border rouge d'invalid ne se met pas au bon endroit a cause de la margin verticale de 2em due a la class dropdown, cf ui-select",
+				},
+			},
+			{
+				key: "department",
+				type: "api_select",
+				templateOptions: {
+					label: "Department",
+					required: true,
+					api: "/api/v3/departments",
+					helper: "@paugam: memes remarques que pour le select",
+					placeholder: "search departments",
 				},
 			},
 
