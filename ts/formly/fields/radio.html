@@ -5,7 +5,7 @@
 			<input id="{{::id}}_{{$index}}" type="radio" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" ng-value="choice">
 			<label for="{{::id}}_{{$index}}">{{ choice.label }}</label>
 		</div>
+		<small class="message helper">{{ options.templateOptions.helper}}</small>
+		<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 	</div>
-	<small class="message helper">{{ options.templateOptions.helper}}</small>
-	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredMessage}}</small>
 </fieldset>
