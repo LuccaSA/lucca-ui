@@ -54,6 +54,7 @@
 		line-height: 0.6em;
 		display: block;
 		content: "\00d7";
+		margin-left: -1px;
 	}
 
 	&:hover {
@@ -386,6 +387,9 @@
 
 		// Required
 		// ====
+		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label {
+			padding-right: 1em;
+		}
 		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after {
 			position: absolute;
 			content: '*';
@@ -835,6 +839,26 @@
 		luid-user-picker {
 			.selected-first {
 				font-weight: 600;
+			}
+			.dividing {
+				position: relative;
+				&:after {
+					display: block;
+					content: '';
+					position: absolute;
+					bottom: -#{luiTheme(element, field, input, vertical-padding)};
+					left: -1em;
+					right: -1em;
+					border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color);
+				}
+			}
+		}
+
+		luid-user-picker,
+		luid-api-select {
+			& ~ label {
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
 			}
 		}
 
