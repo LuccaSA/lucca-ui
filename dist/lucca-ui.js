@@ -410,10 +410,10 @@
 				ngModelCtrl.setValue = function(newMomentValue) {
 					ngModelCtrl.$setViewValue(!newMomentValue ? undefined : newMomentValue.format(format));
 				};
-				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) {
 					return !viewValue || mpCtrl.checkMin(moment(modelValue, format));
 				};
-				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) {
 					return !viewValue || mpCtrl.checkMax(moment(modelValue, format));
 				};
 			} else {
@@ -423,23 +423,23 @@
 					scope.mins = condition ? this.$viewValue.format('mm') : undefined;
 					ngModelCtrl.$validate();
 				};
-				ngModelCtrl.setValue = function(newMomentValue) { 
-					ngModelCtrl.$setViewValue(newMomentValue); 
+				ngModelCtrl.setValue = function(newMomentValue) {
+					ngModelCtrl.$setViewValue(newMomentValue);
 				};
-				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
-					return !viewValue || mpCtrl.checkMin(modelValue); 
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) {
+					return !viewValue || mpCtrl.checkMin(modelValue);
 				};
-				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
-					return !viewValue || mpCtrl.checkMax(modelValue); 
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) {
+					return !viewValue || mpCtrl.checkMax(modelValue);
 				};
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
 
-			ngModelCtrl.$validators.hours = function (modelValue,viewValue) { 
+			ngModelCtrl.$validators.hours = function (modelValue,viewValue) {
 				return scope.hours !== undefined && scope.hours !== "" && !isNaN(parseInt(scope.hours));
 			};
-			ngModelCtrl.$validators.minutes = function (modelValue,viewValue) { 
+			ngModelCtrl.$validators.minutes = function (modelValue,viewValue) {
 				return scope.mins !== undefined && scope.mins !== "" && parseInt(scope.mins) < 60;
 			};
 
@@ -454,7 +454,7 @@
 			scope.$watch('max', function(){
 				ngModelCtrl.$validate();
 			});
-		
+
 		}
 
 		return {
@@ -587,7 +587,7 @@
 			}
 
 			// min/max attr not specified
-			if (!extremum) { return undefined; } 
+			if (!extremum) { return undefined; }
 			var extrem = rawExtremum();
 			extrem.add(moment.duration(offset));
 			return extrem;
@@ -658,7 +658,7 @@
 			updateWithoutRender(getInputedTime());
 		};
 
-		$scope.changeMins = function() { 
+		$scope.changeMins = function() {
 			updateWithoutRender(getInputedTime());
 			// changeInput($scope.mins, function(){});
 		};
@@ -672,7 +672,7 @@
 		};
 
 		$scope.blurHours = function() { blurEvent(hoursFocusTimeout, $scope.hoursFocused); };
-		$scope.blurMins = function() { 
+		$scope.blurMins = function() {
 			if(!$scope.mins) {
 				if($scope.hours === "" || $scope.hours === undefined){
 					$scope.mins = undefined;
@@ -680,7 +680,7 @@
 					$scope.mins = "00";
 				}
 			}
-			blurEvent(minsFocusTimeout, $scope.minsFocused); 
+			blurEvent(minsFocusTimeout, $scope.minsFocused);
 		};
 
 		$scope.focusHours = function() { focusEvent(false); };
@@ -716,7 +716,7 @@
 							$scope.formatInputValue();
 							$scope.$apply();
 						break;
-					}				
+					}
 				}
 				var step = getStep();
 				hoursInput.bind('keydown', function(e) { subscription(e, 60); });
@@ -735,7 +735,7 @@
 					if(!$scope.disabled){
 						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
-					}				
+					}
 				}
 				var step = getStep();
 
@@ -751,7 +751,7 @@
 
 	angular.module("lui.templates.momentpicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
-			"<div class='luid-moment' ng-class='{disabled:disabled}'>" +
+			"<div class='lui moment input' ng-class='{disabled:disabled}'>" +
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours'   ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxlength=2> : " +
 			// This indentation issue is normal and needed
 			"	<input type='text' ng-model='mins'  ng-change='changeMins()'  luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()'  ng-blur='blurMins()'  ng-disabled='disabled' maxlength=2>" +
@@ -762,7 +762,8 @@
 			"</div>" +
 			"");
 	}]);
-})();;(function () {
+})();
+;(function () {
 	'use strict';
 	/**
 	** DEPENDENCIES
@@ -814,7 +815,11 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: "<div class='lui short input with addon'><input class='lui right aligned' type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'><i class='lui right addon'>%</i></div>"
+			template:
+				"<div class='lui input'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-model='intPct' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+					"<span class='unit'>%</span>" +
+				"</div>"
 		};
 	})
 	.controller('luidPercentageController', ['$scope', function ($scope) {
@@ -843,7 +848,7 @@
 
 			var newValue = duration === undefined ? undefined : format(duration);
 			$scope.ngModelCtrl.$setViewValue(newValue);
-		}		
+		}
 
 		// events - key 'enter'
 		this.setupEvents = function (elt) {
@@ -910,13 +915,14 @@
 			$scope.ngModelCtrl.$render();
 		};
 	}]);
-})();;(function () {
+})();
+;(function () {
 	'use strict';
 	/**
 	** DEPENDENCIES
 	**  - moment
 	**/
-	
+
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
 
 		function link(scope, element, attrs, ctrls) {
@@ -973,7 +979,10 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: "<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>"
+			template:
+				"<div class='lui timespan input'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+				"</div>"
 		};
 	}])
 	.controller('luidTimespanController', ['$scope', 'moment', function ($scope, moment) {
@@ -1147,7 +1156,8 @@
 			$scope.ngModelCtrl.$render();
 		};
 	}]);
-})();;(function () {
+})();
+;(function () {
 	'use strict';
 
 	angular.module('lui.directives').directive('luidUserSelect', [function () {
@@ -1609,7 +1619,7 @@ var Lui;
                     if (!!_this.end && day.date.format("YYYYMMDD") === moment(_this.end).format("YYYYMMDD")) {
                         day.end = true;
                     }
-                    if (!!_this.start && !!_this.end && day.date.isAfter(_this.start) && day.date.isBefore(_this.end)) {
+                    if (!!_this.start && !!_this.end && day.date.isSameOrAfter(_this.start) && day.date.isSameOrBefore(_this.end)) {
                         day.inBetween = true;
                     }
                     if (!!_this.min && _this.min.diff(day.date) > 0) {
@@ -1736,6 +1746,7 @@ var Lui;
             LuidDatePickerPopup.prototype.link = function (scope, element, attrs, ctrls) {
                 var ngModelCtrl = ctrls[0];
                 var datePickerCtrl = ctrls[1];
+                datePickerCtrl.setElement(element);
                 datePickerCtrl.setNgModelCtrl(ngModelCtrl);
                 datePickerCtrl.setFormat(scope.format, scope.displayFormat);
                 datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
@@ -1759,6 +1770,9 @@ var Lui;
                 };
                 $scope.togglePopover = function ($event) {
                     _this.togglePopover($event);
+                };
+                $scope.openPopover = function ($event) {
+                    _this.openPopover($event);
                 };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
@@ -1824,14 +1838,22 @@ var Lui;
             };
             LuidDatePickerController.prototype.setPopoverTrigger = function (elt, $scope) {
                 var _this = this;
-                this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope);
+                var onClosing = function () {
+                    _this.ngModelCtrl.$setTouched();
+                    _this.closePopover();
+                };
+                this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
                 $scope.popover = { isOpen: false };
                 $scope.togglePopover = function ($event) {
                     _this.togglePopover($event);
                 };
             };
+            LuidDatePickerController.prototype.setElement = function (element) {
+                this.element = element;
+            };
             LuidDatePickerController.prototype.setViewValue = function (value) {
                 this.ngModelCtrl.$setViewValue(this.formatter.formatValue(value));
+                this.ngModelCtrl.$setTouched();
             };
             LuidDatePickerController.prototype.getViewValue = function () {
                 return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
@@ -1849,11 +1871,13 @@ var Lui;
             };
             LuidDatePickerController.prototype.closePopover = function () {
                 this.$scope.direction = "";
+                this.element.removeClass("ng-open");
                 if (!!this.popoverController) {
                     this.popoverController.close();
                 }
             };
             LuidDatePickerController.prototype.openPopover = function ($event) {
+                this.element.addClass("ng-open");
                 this.$scope.direction = "";
                 if (!!this.popoverController) {
                     this.popoverController.open($event);
@@ -1910,6 +1934,7 @@ var Lui;
                 drCtrl.setPopoverTrigger(element, scope);
                 drCtrl.setExcludeEnd(scope.excludeEnd);
                 drCtrl.setProperties(scope.startProperty, scope.endProperty);
+                drCtrl.setElement(element);
             };
             LuidDaterangePicker.IID = "luidDaterangePicker";
             return LuidDaterangePicker;
@@ -2000,6 +2025,9 @@ var Lui;
                     $event.stopPropagation();
                 };
             }
+            LuidDaterangePickerController.prototype.setElement = function (element) {
+                this.element = element;
+            };
             LuidDaterangePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
                 var _this = this;
                 this.ngModelCtrl = ngModelCtrl;
@@ -2053,8 +2081,7 @@ var Lui;
             LuidDaterangePickerController.prototype.setViewValue = function (value) {
                 var period = this.ngModelCtrl.$viewValue || {};
                 if (!value || !value.start || !value.end) {
-                    period[this.startProperty] = undefined;
-                    period[this.endProperty] = undefined;
+                    period = undefined;
                 }
                 else {
                     period[this.startProperty] = this.formatter.formatValue(moment(value.start));
@@ -2096,6 +2123,7 @@ var Lui;
                     this.$scope.period = this.getViewValue();
                     this.$scope.displayStr = "";
                 }
+                this.element.removeClass("ng-open");
                 this.popoverController.close();
             };
             LuidDaterangePickerController.prototype.openPopover = function ($event) {
@@ -2111,6 +2139,7 @@ var Lui;
                 this.max = this.formatter.parseValue(this.$scope.max);
                 this.assignClasses();
                 this.$scope.editingStart = true;
+                this.element.addClass("ng-open");
                 this.popoverController.open($event);
             };
             LuidDaterangePickerController.IID = "luidDaterangePickerController";
@@ -2254,6 +2283,116 @@ var Lui;
 var Lui;
 (function (Lui) {
     "use strict";
+    angular.module("lui.formlytemplates")
+        .config(["formlyConfigProvider", function (formlyConfigProvider) {
+            formlyConfigProvider.setType({
+                name: "text",
+                templateUrl: "lui/templates/formly/fields/text.html",
+            });
+            formlyConfigProvider.setType({
+                name: "email",
+                templateUrl: "lui/templates/formly/fields/email.html",
+            });
+            formlyConfigProvider.setType({
+                name: "date",
+                templateUrl: "lui/templates/formly/fields/date.html",
+            });
+            formlyConfigProvider.setType({
+                name: "select",
+                templateUrl: "lui/templates/formly/fields/select.html",
+            });
+            formlyConfigProvider.setType({
+                name: "checkbox",
+                templateUrl: "lui/templates/formly/fields/checkbox.html",
+            });
+            formlyConfigProvider.setType({
+                name: "radio",
+                templateUrl: "lui/templates/formly/fields/radio.html",
+            });
+            formlyConfigProvider.setType({
+                name: "picture",
+                templateUrl: "lui/templates/formly/fields/picture.html",
+            });
+            formlyConfigProvider.setType({
+                name: "user",
+                templateUrl: "lui/templates/formly/fields/user.html",
+            });
+            formlyConfigProvider.setType({
+                name: "api_select",
+                templateUrl: "lui/templates/formly/fields/api-select.html",
+            });
+        }]);
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    "use strict";
+})(Lui || (Lui = {}));
+var dir;
+(function (dir) {
+    var directives;
+    (function (directives) {
+        "use strict";
+        var MAGIC_PAGING = "0,10";
+        var ApiSelect = (function () {
+            function ApiSelect() {
+                this.restrict = "AE";
+                this.templateUrl = "lui/templates/formly/inputs/api-select.html";
+                this.scope = {
+                    api: "=",
+                    filter: "=",
+                    placeholder: "@",
+                };
+                this.controller = ApiSelectController.IID;
+            }
+            ApiSelect.factory = function () {
+                var directive = function () {
+                    return new ApiSelect();
+                };
+                return directive;
+            };
+            ApiSelect.IID = "luidApiSelect";
+            return ApiSelect;
+        }());
+        var StandardApiService = (function () {
+            function StandardApiService($http) {
+                this.$http = $http;
+            }
+            StandardApiService.prototype.get = function (clue, api, additionalFilter) {
+                var clueFilter = !!clue ? "name=like," + clue : "paging=" + MAGIC_PAGING;
+                var filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
+                return this.$http.get(api + "?" + filter + "&fields=id,name")
+                    .then(function (response) {
+                    return response.data.data.items;
+                });
+            };
+            StandardApiService.IID = "luisStandardApiService";
+            StandardApiService.$inject = ["$http"];
+            return StandardApiService;
+        }());
+        var ApiSelectController = (function () {
+            function ApiSelectController($scope, service) {
+                $scope.refresh = function (clue) {
+                    service.get(clue, $scope.api, $scope.filter)
+                        .then(function (choices) {
+                        $scope.choices = choices;
+                    });
+                };
+            }
+            ApiSelectController.IID = "luidApiSelectController";
+            ApiSelectController.$inject = [
+                "$scope",
+                StandardApiService.IID,
+            ];
+            return ApiSelectController;
+        }());
+        angular.module("lui.directives").controller(ApiSelectController.IID, ApiSelectController);
+        angular.module("lui.directives").directive(ApiSelect.IID, ApiSelect.factory());
+        angular.module("lui.directives").service(StandardApiService.IID, StandardApiService);
+    })(directives = dir.directives || (dir.directives = {}));
+})(dir || (dir = {}));
+var Lui;
+(function (Lui) {
+    "use strict";
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
@@ -2266,6 +2405,7 @@ var Lui;
                 this.restrict = "AE";
                 this.scope = {
                     onCropped: "=",
+                    onCancelled: "=",
                     croppingRatio: "=",
                     croppingDisabled: "=",
                 };
@@ -2325,7 +2465,11 @@ var Lui;
                     modalInstance.result.then(function (cropped) {
                         $scope.cropped = cropped;
                         $scope.onCropped(cropped);
-                    }, function () { return; });
+                    }, function () {
+                        if (!!$scope.onCancelled) {
+                            $scope.onCancelled();
+                        }
+                    });
                 };
             }
             LuidImageCropperController.IID = "luidImageCropperController";
@@ -2373,7 +2517,6 @@ var Lui;
         var LuidImagePicker = (function () {
             function LuidImagePicker() {
                 this.restrict = "E";
-                this.replace = true;
                 this.templateUrl = "lui/templates/image-picker/image-picker.html";
                 this.require = ["ngModel", LuidImagePicker.IID];
                 this.scope = {
@@ -2402,6 +2545,9 @@ var Lui;
             function LuidImagePickerController($scope, uploaderService) {
                 var _this = this;
                 this.$scope = $scope;
+                $scope.setTouched = function () {
+                    _this.ngModelCtrl.$setTouched();
+                };
                 $scope.onCropped = function (cropped) {
                     $scope.uploading = true;
                     uploaderService.postDataURI(cropped)
@@ -2410,8 +2556,13 @@ var Lui;
                         _this.setViewValue(file);
                         _this.$scope.pictureStyle = { "background-image": "url('" + file.href + "')" };
                     }, function (message) {
+                        _this.ngModelCtrl.$setTouched();
                         $scope.uploading = false;
                     });
+                };
+                $scope.onCancelled = function () {
+                    $scope.file = undefined;
+                    _this.ngModelCtrl.$setTouched();
                 };
             }
             LuidImagePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
@@ -2434,7 +2585,8 @@ var Lui;
                 return this.ngModelCtrl.$viewValue;
             };
             LuidImagePickerController.prototype.setViewValue = function (file) {
-                return this.ngModelCtrl.$setViewValue(file);
+                this.ngModelCtrl.$setTouched();
+                this.ngModelCtrl.$setViewValue(file);
             };
             LuidImagePickerController.IID = "luidImagePickerController";
             LuidImagePickerController.$inject = ["$scope", "uploaderService"];
@@ -2876,22 +3028,72 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/date-picker/datepicker-inline.html',
-    "<button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=calendars><button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<span class=\"lui input\" uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-class=\"{ 'empty': !displayStr }\" ng-click=togglePopover($event)><input ng-disabled=popover.isOpen ng-model=displayStr> <i class=empty ng-click=clear($event)></i></span>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-disabled=popover.isOpen ng-model=displayStr ng-focus=openPopover($event)> <i class=empty ng-click=clear($event)></i></div>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker-popover.html',
-    "<button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=calendars><button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<span class=\"lui tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event) ng-class=\"{ 'open': popover.isOpen, 'empty': !displayStr }\"><input ng-hide=popover.isOpen ng-model=displayStr> <i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span></span>"
+    "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=displayStr></span>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/api-select.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-api-select api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/checkbox.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox input\"><input type=checkbox name={{::id}} ng-model=model[options.key] ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/date.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-date-picker-popup ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-date-picker-popup><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/email.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder + ' '}}\" type=email name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/picture.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/radio.html',
+    "<fieldset class=\"lui {{::options.templateOptions.display}} fieldset\"><legend>{{ options.templateOptions.label }}</legend><div class=\"lui field\" ng-repeat=\"choice in options.templateOptions.choices\"><div class=\"lui radio input\"><input id={{::id}}_{{$index}} type=radio name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled ng-value=choice><label for={{::id}}_{{$index}}>{{ choice.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div></fieldset>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/select.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><ui-select ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}} focus-on={{::id}}><ui-select-match placeholder={{::options.templateOptions.placeholder}} allow-clear=true>{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/text.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/user.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-user-picker ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/inputs/api-select.html',
+    "<ui-select><ui-select-match placeholder={{::placeholder}} allow-clear=true>{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=refresh($select.search) refresh-delay=0><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
@@ -2901,7 +3103,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=luid-image-picker-picture ng-style=\"pictureStyle\"><div class=input-overlay><span class=\"lui capitalized sentence\" translate=LUIIMGPICKER_UPLOAD_IMAGE></span> <input accept=image/* type=file class=fileInput file-model=image luid-image-cropper on-cropped=onCropped cropping-disabled=croppingDisabled cropping-ratio=\"croppingRatio\"></div><div class=upload-overlay><div class=\"lui inverted x-large loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=luid-image-picker-picture ng-style=\"pictureStyle\"><div class=input-overlay><span class=\"lui capitalized sentence\" translate=LUIIMGPICKER_UPLOAD_IMAGE></span> <input accept=image/* type=file ng-model=file class=fileInput file-model=image luid-image-cropper on-cropped=onCropped on-cancelled=onCancelled cropping-disabled=croppingDisabled cropping-ratio=\"croppingRatio\"></div><div class=upload-overlay><div class=\"lui inverted x-large loader\"></div></div></div>"
   );
 
 

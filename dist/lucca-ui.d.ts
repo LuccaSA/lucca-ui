@@ -111,6 +111,31 @@ declare module Lui {
 declare module Lui.Filters {
 }
 declare module Lui {
+}
+declare module Lui {
+    interface IField extends AngularFormly.IFieldConfigurationObject {
+        key: string;
+        type: string;
+        templateOptions?: ITemplateOptions;
+    }
+    interface ITemplateOptions extends AngularFormly.ITemplateOptions {
+        label: string;
+        helper: string;
+        required: boolean;
+        disabled: boolean;
+        display: string;
+        placeholder: string;
+        requiredError: string;
+        emailError: string;
+    }
+    interface IApiSelectTemplateOptions extends ITemplateOptions {
+        api: string;
+        filter: string;
+    }
+}
+declare module dir.directives {
+}
+declare module Lui {
     interface IFile {
         id?: string;
         name?: string;
@@ -124,6 +149,7 @@ declare module Lui.Directives {
         restrict: string;
         scope: {
             onCropped: string;
+            onCancelled: string;
             croppingRatio: string;
             croppingDisabled: string;
         };
