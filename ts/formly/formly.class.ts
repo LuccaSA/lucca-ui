@@ -16,9 +16,10 @@ module Lui {
 		// error messages
 		requiredError?: string;
 		emailError?: string;
-	}
 
-	export interface IApiSelectTemplateOptions extends ITemplateOptions {
+		// select and radio types
+		choices?: { label: string | number };
+		// api-select field type
 		api?: string;
 		filter?: string;
 	}
