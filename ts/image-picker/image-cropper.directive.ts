@@ -20,6 +20,7 @@ module Lui.Directives {
 		openCropper(): void;
 
 		onCropped(cropped: string): void;
+		onCancelled(): void;
 	}
 	export class LuidImageCropper implements angular.IDirective {
 		public static IID = "luidImageCropper";
@@ -27,6 +28,7 @@ module Lui.Directives {
 		public restrict = "AE";
 		public scope = {
 			onCropped: "=",
+			onCancelled: "=",
 			croppingRatio: "=",
 			croppingDisabled: "=",
 		};
@@ -94,7 +96,11 @@ module Lui.Directives {
 				modalInstance.result.then((cropped: string) => {
 					$scope.cropped = cropped;
 					$scope.onCropped(cropped);
-				}, () => { return; });
+				}, () => {
+					if (!!$scope.onCancelled){
+						$scope.onCancelled();
+					}
+				});
 			};
 		}
 	}
