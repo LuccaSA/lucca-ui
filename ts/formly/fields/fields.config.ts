@@ -1,4 +1,4 @@
-module dir.directive {
+module Lui {
 	"use strict";
 	angular.module("lui.formlytemplates")
 	.config(["formlyConfigProvider", (formlyConfigProvider: AngularFormly.IFormlyConfig) => {
