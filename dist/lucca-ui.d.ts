@@ -119,18 +119,19 @@ declare module Lui {
         templateOptions?: ITemplateOptions;
     }
     interface ITemplateOptions extends AngularFormly.ITemplateOptions {
-        label: string;
-        helper: string;
-        required: boolean;
-        disabled: boolean;
-        display: string;
-        placeholder: string;
-        requiredError: string;
-        emailError: string;
-    }
-    interface IApiSelectTemplateOptions extends ITemplateOptions {
-        api: string;
-        filter: string;
+        label?: string;
+        helper?: string;
+        required?: boolean;
+        disabled?: boolean;
+        display?: string;
+        placeholder?: string;
+        requiredError?: string;
+        emailError?: string;
+        choices?: {
+            label: string | number;
+        };
+        api?: string;
+        filter?: string;
     }
 }
 declare module dir.directives {
