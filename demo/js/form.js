@@ -113,8 +113,8 @@
 
 		];
 		$scope.options = { formState: {
-			requiredMessage: "this is the required message for the whole form",
-			emailMessage: "this is not a valid email",
+			requiredError: "this is the required message for the whole form",
+			emailError: "this is not a valid email",
 			display: "fitting",
 		}};
 		$scope.debug = function (form) {
