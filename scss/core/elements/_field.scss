@@ -71,6 +71,7 @@
 	overflow: hidden;
 	white-space: pre;
 	text-overflow: ellipsis;
+	color: luiTheme(element, field, label, color);
 }
 
 %lui_input_label_displacable {
@@ -78,8 +79,6 @@
 	pointer-events: none;
 	top: luiTheme(element, field, input, vertical-padding);
 	left: 0;
-
-	color: luiTheme(element, field, label, color);
 
 	transition-property: top, font-size, color;
 	transition-duration: luiTheme(element, field, transition, duration);
