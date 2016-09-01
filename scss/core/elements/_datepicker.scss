@@ -47,7 +47,7 @@
 
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			&.ng-open input {
+			&.ng-open > .lui.input > input {
 				@extend %lui_input_focus;
 			}
 		}
