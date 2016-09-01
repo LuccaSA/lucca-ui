@@ -100,6 +100,15 @@
 				},
 			},
 			{
+				key: "children",
+				type: "user_multiple",
+				templateOptions: {
+					label: "Children",
+					required: true,
+					helper: "@paugam: ici aussi le sizing est pas bon, aussi la border rouge d'invalid ne se met pas au bon endroit a cause de la margin verticale de 2em due a la class dropdown, cf ui-select",
+				},
+			},
+			{
 				key: "department",
 				type: "api_select",
 				templateOptions: {
@@ -107,6 +116,16 @@
 					required: true,
 					api: "/api/v3/departments",
 					helper: "@paugam: memes remarques que pour le select",
+					placeholder: "search departments",
+				},
+			},
+			{
+				key: "subdepartments",
+				type: "api_select_multiple",
+				templateOptions: {
+					label: "Sous Departments",
+					required: true,
+					api: "/api/v3/departments",
 					placeholder: "search departments",
 				},
 			},
