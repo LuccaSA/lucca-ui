@@ -859,7 +859,7 @@
 
 		// User picker
 		// ====
-		luid-user-picker {
+		luid-user-picker, luid-user-picker-multiple {
 			.selected-first {
 				font-weight: 600;
 			}
@@ -878,7 +878,9 @@
 		}
 
 		luid-user-picker,
-		luid-api-select {
+		luid-user-picker-multiple,
+		luid-api-select,
+		luid-api-select-multiple {
 			& ~ label {
 				@extend %lui_input_label;
 				@extend %lui_input_label_displacable;
