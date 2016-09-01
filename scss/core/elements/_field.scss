@@ -860,6 +860,16 @@
 				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
 			}
+
+			&.ng-touched.ng-invalid {
+				& ~ label {
+					@extend %lui_input_invalid_label;
+				}
+				.ui-select-toggle,
+				.ui-select-search {
+					@extend %lui_input_invalid_input;
+				}
+			}
 		}
 
 		// Picture picker
