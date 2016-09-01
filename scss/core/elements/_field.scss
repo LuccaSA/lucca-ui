@@ -400,6 +400,14 @@
 		}
 
 
+		// Disabled
+		// ====
+		#{$prefix}.field *[disabled]:not([type="checkbox"]):not([type="radio"]) {
+			border-bottom-style: dotted;
+			color: transparentize(luiTheme(element, typography, body, color), 0.2);
+		}
+
+
 		// Invalid
 		// ====
 		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
@@ -879,7 +887,6 @@
 		luid-user-picker,
 		luid-api-select {
 			& ~ label {
-				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
 			}
 
@@ -900,9 +907,27 @@
 			display: inline-block;
 		}
 		#{$prefix}.field {
+			> label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
+			}
+
 			& > luid-image-picker {
+				margin-top: 0.5em;
 				width: map-gets($vars, image-picker, size);
 				height: map-gets($vars, image-picker, size);
+
+				border-bottom: map-gets($vars, field, focus-border-width) solid transparent;
+				margin-bottom: -#{map-gets($vars, field, focus-border-width)};
+
+				&.ng-touched.ng-invalid {
+					border-bottom-color: map-gets($vars, invalid-color);
+
+					& ~ label {
+						@extend %lui_input_invalid_label;
+					}
+				}
 			}
 
 			// 4:3 ratio
