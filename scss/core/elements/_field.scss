@@ -857,18 +857,6 @@
 		}
 
 
-		// Moment picker
-		// ====
-		luid-moment {
-			input {
-				text-align: center;
-			}
-			.input {
-				width: 3em !important;
-			}
-		}
-
-
 		// User picker
 		// ====
 		luid-user-picker {
@@ -1012,3 +1000,6 @@
 		}
 	}
 }
+
+
+@import "input.momentpicker";
