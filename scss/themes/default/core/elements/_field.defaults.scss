@@ -55,8 +55,35 @@ $field: (
 		x-long: 				lui_rem(25)
 	),
 
+	tagged: (
+		enabled:				true
+	),
+
+	userpicker: (
+		enabled: 				true
+	),
+
 	image-picker: (
-		size: 					12em
+		enabled: 				true,
+
+		size: 					12em,
+		background-color: 		#CCC,
+		background-position: 	50% 50%,
+		background-repeat: 		no-repeat,
+		background-size: 		cover,
+		overlay: (
+			height: 			5em,
+			padding: 			1em,
+			opacity: 			0.8,
+			bg-color: 			black,
+			color: 				white,
+			transition: 		all luiTheme(adjective, animated, transitions, animationEasing) luiTheme(adjective, animated, transitions, animationDuration),
+		),
+		cropper: (
+			bg-color: 			luiPalette(light, color),
+			height: 			40em,
+		),
+
 	),
 
 	momentpicker: (
@@ -64,6 +91,134 @@ $field: (
 
 		width: 					2.2em,
 		max-width: 				5.25em
+	),
+
+	timespanpicker: (
+		enabled: 				true,
+
+		width:					4em
+	),
+
+	translations: (
+		enabled:				true
+	),
+
+	dropdown: (
+		enabled:				true
+	),
+
+	ui-select: (
+		enabled:				true
+	),
+
+	datepicker: (
+		enabled: 				true,
+
+		input: (
+			width: 				10em,
+		),
+
+		header: (
+			font-size: 			1.5em,
+			font-weight: 		normal,
+			padding: (
+				vertical: 		lui-rem(0.5),
+				horizontal:		0
+			)
+		),
+
+		heads: (
+			font-weight: 		normal,
+			color: 				luiPalette(light, color, dark)
+		),
+
+		day: (
+			size: 				2.5em,
+
+			empty: (
+				border: (
+					width: 		1px,
+					style: 		solid,
+					color: 		#FAFAFA
+				)
+			),
+
+			disabled: (
+				background-color: #FFF,
+				color: 			luiPalette(light, color),
+				opacity: 		0.5,
+
+				border: (
+					width: 		1px,
+					style: 		double,
+					color: 		luiPalette(light, color)
+				)
+			),
+
+			default: (
+				background-color: #FFF,
+				color: 			luiPalette(grey, color),
+
+				border: (
+					width: 		1px,
+					style: 		double,
+					color: 		luiPalette(light, color)
+				),
+
+				hover: (
+					background-color: luiPalette(light, color, light),
+					color: 		luiPalette(grey, color)
+				)
+			),
+			selected: (
+				background-color: luiPalette(primary, color),
+				color: 			luiPalette(primary, text),
+
+				border: (
+					width: 		1px,
+					style: 		double,
+					color: 		darken(luiPalette(primary, color), 3),
+				),
+
+				hover: (
+					background-color: darken(luiPalette(primary, color), 3),
+					color: 		luiPalette(primary, text)
+				)
+			),
+			in-between: (
+				background-color: luiPalette(primary, color, light),
+				color: 			luiPalette(primary, text),
+
+				border: (
+					width: 		1px,
+					style: 		double,
+					color: 		luiPalette(primary, color),
+				),
+
+				hover: (
+					background-color: darken(luiPalette(primary, color, light), 10),
+					color: 		luiPalette(primary, text),
+				)
+			)
+		),
+
+		popup: (
+			footer: (
+				background: 	#FAFAFA
+			)
+		)
+	),
+
+	switch: (
+		enabled: 				true,
+
+		width: 					4.5em,
+		height: 				2.25em,
+		background: 			#666,
+		color: 					darken(#666, 15),
+		active-background: 		luiPalette(primary, color),
+		active-color:			luiPalette(primary, color, dark),
+		grab-lines-color: 		luiPalette(light, color),
 	)
 );
 

@@ -1,7 +1,7 @@
 @at-root #{$namespace} {
 
-	@if luiTheme(element, datepicker, enabled) {
-		$vars: luiTheme(element, datepicker);
+	@if luiTheme(element, field, datepicker, enabled) {
+		$vars: luiTheme(element, field, datepicker);
 
 		// Reset
 		luid-date-picker,
