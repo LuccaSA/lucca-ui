@@ -830,7 +830,8 @@
 				}
 			}
 		}
-		#{$prefix}.fitting.field .ui-select-container {
+		#{$prefix}.fitting.field .ui-select-container,
+		.fitting.ui-select-container {
 			width: 100%;
 		}
 
