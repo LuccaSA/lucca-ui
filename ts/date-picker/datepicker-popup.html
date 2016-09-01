@@ -6,7 +6,7 @@
 	 ng-click="openPopover($event)"
 	 class="lui datepicker input">
 		<input type="text"
-			ng-disabled="popover.isOpen"
+			ng-readonly="popover.isOpen"
 			ng-model="displayStr"
 			ng-focus="openPopover($event)">
 		<i class="empty" ng-click="clear($event)"></i>
