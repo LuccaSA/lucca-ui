@@ -35,6 +35,10 @@ module Lui {
 			templateUrl: "lui/templates/formly/fields/user.html",
 		});
 		formlyConfigProvider.setType({
+			name: "user_multiple",
+			templateUrl: "lui/templates/formly/fields/user-multiple.html",
+		});
+		formlyConfigProvider.setType({
 			name: "api_select",
 			templateUrl: "lui/templates/formly/fields/api-select.html",
 		});
