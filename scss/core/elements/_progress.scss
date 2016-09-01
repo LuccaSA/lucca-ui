@@ -130,7 +130,7 @@
 		// ============= Mixins ==============
 		// ===================================
 
-		.progress-bar {
+		#{$prefix}.progress-bar {
 			position: fixed;
 			top: 0px;
 			z-index: map-gets($vars, progressBar, zIndex);
@@ -144,13 +144,13 @@
 			transition-timing-function:  ease-out;
 		}
 
-		.progress-bar.in{
+		#{$prefix}.progress-bar.in{
 			opacity: 1;
 			height: map-gets($vars, progressBar, height);
 		}
 
 
-		.progress-bar.out{
+		#{$prefix}.progress-bar.out{
 			opacity: 0;
 			height: 0;
 		}
