@@ -54,7 +54,7 @@
 				&.ng-leave {
 					@include lui_is_animated("down fade out");
 				}
-				@extend #{$prefix}.raised;
+				@include lui_raised(2);
 			}
 
 			table {

@@ -223,17 +223,17 @@
 }
 
 
-// Input(s)
+// Field
 // ===================================
 
 @at-root {
 	// Defaults
 	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/input.defaults";
+	@import "../../../themes/default/core/elements/field.defaults";
 
 	// Theme overrides
-	@import "core/elements/input.overrides";
-	$luiTheme: luiSetTheme(element, input, $myTheme);
+	@import "core/elements/field.overrides";
+	$luiTheme: luiSetTheme(element, field, $myTheme);
 }
 
 
@@ -376,33 +376,6 @@
 	$luiTheme: luiSetTheme(element, tablegrid, $myTheme);
 }
 
-// Luid-datepicker
-// ===================================
-
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/datepicker.defaults";
-
-	// Theme overrides
-	@import "core/elements/datepicker.overrides";
-	$luiTheme: luiSetTheme(element, datepicker, $myTheme);
-}
-
-// Luid-imagepicker
-// ===================================
-
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/imagepicker.defaults";
-
-	// Theme overrides
-	@import "core/elements/imagepicker.overrides";
-	$luiTheme: luiSetTheme(element, imagepicker, $myTheme);
-}
-
-
 // notify
 // ===================================
 
@@ -414,4 +387,58 @@
 	// Theme overrides
 	@import "core/elements/notify.overrides";
 	$luiTheme: luiSetTheme(element, notify, $myTheme);
+}
+
+
+// Tooltip
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/tooltip.defaults";
+
+	// Theme overrides
+	@import "core/elements/tooltip.overrides";
+	$luiTheme: luiSetTheme(element, tooltip, $myTheme);
+}
+
+
+// Popover
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/popover.defaults";
+
+	// Theme overrides
+	@import "core/elements/popover.overrides";
+	$luiTheme: luiSetTheme(element, popover, $myTheme);
+}
+
+// Modal
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/modal.defaults";
+
+	// Theme overrides
+	@import "core/elements/modal.overrides";
+	$luiTheme: luiSetTheme(element, modal, $myTheme);
+}
+
+// Pagination
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/pagination.defaults";
+
+	// Theme overrides
+	@import "core/elements/pagination.overrides";
+	$luiTheme: luiSetTheme(element, pagination, $myTheme);
 }

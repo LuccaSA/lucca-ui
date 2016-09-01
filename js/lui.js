@@ -6,6 +6,7 @@
 	angular.module('lui.directives', ['pascalprecht.translate', 'moment', 'underscore', 'ui.select', 'ui.bootstrap', "ngImgCrop", 'lui.filters']);
 	angular.module('lui.filters', ['moment']);
 	angular.module('lui.services', ['cgNotify']);
+	angular.module('lui.formlytemplates', ['formly']);
 
 
 	// all the templates in one module

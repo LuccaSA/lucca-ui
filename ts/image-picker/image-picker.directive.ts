@@ -3,7 +3,6 @@ module Lui.Directives {
 	class LuidImagePicker implements angular.IDirective {
 		public static IID: string = "luidImagePicker";
 		public restrict = "E";
-		public replace = true;
 		public templateUrl = "lui/templates/image-picker/image-picker.html";
 		public require = ["ngModel", LuidImagePicker.IID];
 		public scope = {
@@ -30,7 +29,10 @@ module Lui.Directives {
 		pictureStyle: { "background-image": string };
 		placeholderUrl: string;
 		uploading: boolean;
+		file: any;
 		onCropped(cropped: string): void;
+		onCancelled(): void;
+		setTouched(): void;
 	}
 
 
@@ -43,6 +45,9 @@ module Lui.Directives {
 
 		constructor($scope: IImagepickerScope, uploaderService: Lui.Service.IUploaderService) {
 			this.$scope = $scope;
+			$scope.setTouched = () => {
+				this.ngModelCtrl.$setTouched();
+			};
 			$scope.onCropped = (cropped) => {
 				$scope.uploading = true;
 				uploaderService.postDataURI(cropped)
@@ -51,8 +56,13 @@ module Lui.Directives {
 					this.setViewValue(file);
 					this.$scope.pictureStyle = { "background-image": "url('" + file.href + "')" };
 				}, (message: string): void => {
+					this.ngModelCtrl.$setTouched();
 					$scope.uploading = false;
 				});
+			};
+			$scope.onCancelled = () => {
+				$scope.file = undefined;
+				this.ngModelCtrl.$setTouched();
 			};
 		}
 		// set stuff - is called in the linq function
@@ -75,7 +85,8 @@ module Lui.Directives {
 			return <IFile>this.ngModelCtrl.$viewValue;
 		}
 		private setViewValue(file: IFile): void {
-			return this.ngModelCtrl.$setViewValue(file);
+			this.ngModelCtrl.$setTouched();
+			this.ngModelCtrl.$setViewValue(file);
 		}
 	}
 

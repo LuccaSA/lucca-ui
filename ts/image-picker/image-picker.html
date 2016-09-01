@@ -2,7 +2,7 @@
 	<div class="luid-image-picker-picture" ng-style="pictureStyle"/>
 	<div class="input-overlay">
 		<span class="lui capitalized sentence" translate="LUIIMGPICKER_UPLOAD_IMAGE"></span>
-		<input accept="image/*" type="file" class="fileInput" file-model="image" luid-image-cropper on-cropped="onCropped" cropping-disabled="croppingDisabled" cropping-ratio="croppingRatio"/>
+		<input accept="image/*" type="file" ng-model="file" class="fileInput" file-model="image" luid-image-cropper on-cropped="onCropped" on-cancelled="onCancelled" cropping-disabled="croppingDisabled" cropping-ratio="croppingRatio"/>
 	</div>
 	<div class="upload-overlay">
 		<div class="lui inverted x-large loader"></div>

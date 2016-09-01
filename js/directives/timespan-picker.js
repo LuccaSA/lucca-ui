@@ -4,7 +4,7 @@
 	** DEPENDENCIES
 	**  - moment
 	**/
-	
+
 	angular.module('lui.directives').directive('luidTimespan', ['moment', function (moment) {
 
 		function link(scope, element, attrs, ctrls) {
@@ -61,7 +61,10 @@
 			},
 			restrict: 'EA',
 			link: link,
-			template: "<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>"
+			template:
+				"<div class='lui timespan input'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+				"</div>"
 		};
 	}])
 	.controller('luidTimespanController', ['$scope', 'moment', function ($scope, moment) {

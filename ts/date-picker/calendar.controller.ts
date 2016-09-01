@@ -104,7 +104,7 @@ module Lui.Directives {
 				if (!!this.end && day.date.format("YYYYMMDD") === moment(this.end).format("YYYYMMDD")) {
 					day.end = true;
 				}
-				if (!!this.start && !!this.end && day.date.isAfter(this.start) && day.date.isBefore(this.end)) {
+				if (!!this.start && !!this.end && day.date.isSameOrAfter(this.start) && day.date.isSameOrBefore(this.end)) {
 					day.inBetween = true;
 				}
 				if (!!this.min && this.min.diff(day.date) > 0) {

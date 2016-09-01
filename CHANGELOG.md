@@ -1,5 +1,17 @@
 # Change log
 
+## 3.0.0 - in dev
+
+### Breaking changes
+- Major refactoring of the raised adjective, based upon material design guidelines. The `lui_theme_shadow` function thus disappears, and the `.lui.raised` class should not be @extended any longer.
+- Major refactoring of fields and inputs: material style, no more addon support
+- Search input is replaced with a simple `searchable` class to be added to the `div.lui.input`
+
+### New features
+- Default border-radius is now 2px instead of 3px
+
+## Resolved issues
+
 ## 2.3.1 - in dev
 
 ### New features

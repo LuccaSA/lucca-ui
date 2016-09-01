@@ -1,23 +1,25 @@
-<button class="previous" ng-click="previousMonth()"></button>
-<button class="next" ng-click="nextMonth()"></button>
+<div class="calendars">
+	<button class="previous" ng-click="previousMonth()"></button>
+	<button class="next" ng-click="nextMonth()"></button>
 
-<table ng-repeat="month in months" ng-class="[direction]">
-	<caption>
-		<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-	</caption>
-	<thead>
-		<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
-	</thead>
-	<tbody>
-		<tr ng-repeat="week in month.weeks">
-			<td ng-repeat="day in week.days"
-				ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
-				ng-disabled="day.disabled"
-				ng-click="selectDay(day)"
-				ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
-		</tr>
-	</tbody>
-</table>
+	<table ng-repeat="month in months" ng-class="[direction]">
+		<caption>
+			<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+		</caption>
+		<thead>
+			<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="week in month.weeks">
+				<td ng-repeat="day in week.days"
+					ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
+					ng-disabled="day.disabled"
+					ng-click="selectDay(day)"
+					ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 <footer ng-if="!!shortcuts || !!groupedShortcuts">
 	<ul>

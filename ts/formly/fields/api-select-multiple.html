@@ -1,0 +1,6 @@
+<div class="lui {{::options.templateOptions.display}} field">
+	<luid-api-select-multiple api="options.templateOptions.api" filter="options.templateOptions.filter" placeholder="{{::options.templateOptions.placeholder}}" name="{{::id}}" ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}"></luid-api-select-multiple>
+	<label for="{{::id}}">{{ options.templateOptions.label }}</label>
+	<small class="message helper">{{ options.templateOptions.helper }}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
+</div>

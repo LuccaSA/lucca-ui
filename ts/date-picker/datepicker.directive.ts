@@ -52,6 +52,7 @@ module Lui.Directives {
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
+			datePickerCtrl.setElement(element);
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
 			datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
@@ -67,6 +68,7 @@ module Lui.Directives {
 		displayFormat: string;
 
 		togglePopover($event: ng.IAngularEvent): void;
+		openPopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
 	}
 
@@ -78,6 +80,7 @@ module Lui.Directives {
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
 		private popoverController: Lui.Utils.IPopoverController;
+		private element: ng.IAugmentedJQuery;
 
 		constructor($scope: IDatePickerScope, $log: ng.ILogService) {
 			super($scope, $log);
@@ -91,6 +94,9 @@ module Lui.Directives {
 			};
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
+			};
+			$scope.openPopover = ($event: ng.IAngularEvent) => {
+				this.openPopover($event);
 			};
 
 			$scope.$watch("min", (): void => {
@@ -158,16 +164,25 @@ module Lui.Directives {
 		}
 
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
-			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope);
+			let onClosing = (): void => {
+				this.ngModelCtrl.$setTouched();
+				this.closePopover();
+			};
+			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
 			};
 		}
 
+		public setElement(element: ng.IAugmentedJQuery): void {
+			this.element = element;
+		}
+
 		// ng-model logic
 		private setViewValue(value: moment.Moment): void {
 			this.ngModelCtrl.$setViewValue(this.formatter.formatValue(value));
+			this.ngModelCtrl.$setTouched();
 		}
 		private getViewValue(): moment.Moment {
 			return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
@@ -186,16 +201,19 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.direction = "";
+			this.element.removeClass("ng-open");
 			if (!!this.popoverController) {
 				this.popoverController.close();
 			}
 		}
 		private openPopover($event: ng.IAngularEvent): void {
+			this.element.addClass("ng-open");
 			this.$scope.direction = "";
 			if (!!this.popoverController) {
 				this.popoverController.open($event);
 			}
 		}
+
 		private getDisplayStr(date: moment.Moment): string {
 			return !!date ? date.format(this.displayFormat) : undefined;
 		}

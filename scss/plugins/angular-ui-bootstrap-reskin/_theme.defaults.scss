@@ -11,18 +11,6 @@ $collapse: (
 $pluginVars: map-extend($pluginVars, (collapse: $collapse));
 
 
-// Datepicker
-// =============================================
-
-$datepicker: (
-	background: 				#FFF,
-	minWidth: 					24em,
-	inputWidth: 				10em,
-	dropdownZindex: 			100
-);
-$pluginVars: map-extend($pluginVars, (datepicker: $datepicker));
-
-
 // Dropdown
 // =============================================
 

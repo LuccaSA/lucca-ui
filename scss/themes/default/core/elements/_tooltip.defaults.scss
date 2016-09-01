@@ -1,0 +1,22 @@
+
+// Tooltip
+// @type: element
+// ===================================
+
+$tooltip: (
+	enabled: 					true,
+
+	z-index: 					1000,
+	offset:						0.5em,
+	font-size: 					lui_rem(0.85),
+	max-width: 					15em,
+	vertical-padding: 			0.25em,
+	horizontal-padding: 		0.5em,
+	opacity:					0.9,
+	default-coloring: (
+		color: 					#616161,
+		text: 					#FFF
+	)
+);
+
+$luiTheme: luiSetTheme(element, tooltip, $tooltip);
