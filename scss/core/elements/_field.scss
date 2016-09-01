@@ -36,7 +36,8 @@
 	margin: 0;
 	padding: luiTheme(element, field, input, vertical-padding) 0;
 
-	height: luiTheme(element, field, input, font-size) + 2 * luiTheme(element, field, input, vertical-padding);
+	height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+	line-height: 1;
 
 	font-size: luiTheme(element, field, input, font-size);
 }
