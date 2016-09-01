@@ -872,7 +872,10 @@
 
 		// User picker
 		// ====
-		luid-user-picker, luid-user-picker-multiple {
+		luid-user-picker,
+		luid-user-picker-multiple {
+			display: block;
+
 			.selected-first {
 				font-weight: 600;
 			}
