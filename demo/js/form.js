@@ -49,7 +49,7 @@
 			},
 			{
 				key: "picture",
-				type: "picture",
+				type: "portrait",
 				templateOptions: {
 					helper: "@paugam: j'arrive pas a trouver comment empeccher d'appliquer la mixin %lui_input_label_displaced; fields.scss~365, aussi il manque l'asterix de required",
 					label: "Picture (required)",
