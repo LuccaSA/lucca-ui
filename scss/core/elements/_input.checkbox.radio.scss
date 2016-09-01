@@ -4,6 +4,7 @@
 		#{$prefix}.checkbox.input {
 			display: inline-block;
 			margin-right: 2em;
+			padding-top: 0.5em;
 			vertical-align: middle;
 			position: relative;
 			line-height: 1;
@@ -105,14 +106,18 @@
 			}
 		}
 
-		#{$prefix}.field.vertical {
-			.radio.input,
-			.checkbox.input {
-				display: block;
+		#{$prefix}.field {
+			> label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
 			}
-			.radio + .radio,
-			.checkbox + .checkbox {
-				margin-top: 0.5em;
+
+			&.vertical {
+				.radio.input,
+				.checkbox.input {
+					display: block;
+				}
 			}
 		}
 	}
