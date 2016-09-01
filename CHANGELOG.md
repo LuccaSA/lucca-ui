@@ -18,6 +18,7 @@
 
 ### Resolved issues
 - Fixes some styling inconsistencies on the tablegrid component
+- [issue #292](https://github.com/LuccaSA/lucca-ui/issues/292) - `.progress-bar` was drooling on other people style cuz it was ignoring the prefix
 
 ## 2.3.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.3.0)
 
