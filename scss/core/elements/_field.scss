@@ -898,8 +898,29 @@
 		// ====
 		luid-image-picker {
 			display: inline-block;
-			width: 9em;
-			height: 12em;
+		}
+		#{$prefix}.field {
+			& > luid-image-picker {
+				width: map-gets($vars, image-picker, size);
+				height: map-gets($vars, image-picker, size);
+			}
+
+			// 4:3 ratio
+			&.landscape > luid-image-picker {
+				width: 4 * (map-gets($vars, image-picker, size) / 3);
+				height: map-gets($vars, image-picker, size);
+			}
+			&.portrait > luid-image-picker {
+				width: 3 * (map-gets($vars, image-picker, size) / 4);
+				height: map-gets($vars, image-picker, size);
+			}
+
+			// Supports sizing
+			@each $name, $sizeEms in map-gets($luiTheme, references, sizes) {
+				&.#{$name} > luid-image-picker {
+					font-size: $sizeEms;
+				}
+			}
 		}
 
 
