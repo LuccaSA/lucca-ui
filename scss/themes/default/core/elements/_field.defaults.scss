@@ -14,6 +14,7 @@ $field: (
 	input: (
 		vertical-padding: 		0.5em,
 		font-size:				1.1em,
+		placeholder-color:		transparentize(luiTheme(element, typography, body, color), 0.35)
 	),
 
 	transition: (

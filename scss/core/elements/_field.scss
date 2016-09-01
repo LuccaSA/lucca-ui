@@ -28,6 +28,10 @@
 	}
 }
 
+@mixin lui_input_placeholder {
+	color: luiTheme(element, field, input, placeholder-color);
+}
+
 %lui_input_sizing {
 	box-sizing: border-box;
 	display: block;
@@ -323,6 +327,11 @@
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea {
 				@extend %lui_input_reset;
+
+				&::-webkit-input-placeholder { @include lui_input_placeholder; }
+				&::-moz-placeholder { @include lui_input_placeholder; }
+				&-ms-input-placeholder { @include lui_input_placeholder; }
+				&:-moz-placeholder { @include lui_input_placeholder; }
 			}
 
 			> input:not([type="checkbox"]):not([type="radio"]):focus,
@@ -707,6 +716,10 @@
 			.ui-select-search::-webkit-input-placeholder {
 				font-size: lui_rem(1);
 				white-space: pre;
+			}
+
+			.ui-select-placeholder {
+				@include lui_input_placeholder;
 			}
 
 			&.open .ui-select-search {
