@@ -275,7 +275,7 @@
 				<form name="myForm">
 					<p>
 						myValue in luid-moment (required) :
-						<luid-moment ng-model="myValue" name="myInput" ng-change="hasChanged()" required></luid-moment>
+						<luid-moment ng-model="myValue" name="myInput" ng-change="hasChanged()" show-buttons="true" required></luid-moment>
 						<span class="lui red label" ng-repeat="(key, value) in myForm.myInput.$error">ng-invalid-{{key}}</span>
 					</p>
 					<p>
