@@ -891,6 +891,8 @@
 		luid-user-picker,
 		luid-api-select {
 			& ~ label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
 			}
 
@@ -911,7 +913,7 @@
 			display: inline-block;
 		}
 		#{$prefix}.field {
-			> label {
+			luid-image-picker + label {
 				@extend %lui_input_label;
 				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
