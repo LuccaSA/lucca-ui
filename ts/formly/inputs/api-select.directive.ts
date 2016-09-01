@@ -19,6 +19,24 @@ module dir.directives {
 			return directive;
 		}
 	}
+	class ApiSelectMultiple implements angular.IDirective {
+		public static IID = "luidApiSelectMultiple";
+		public restrict = "AE";
+		public templateUrl = "lui/templates/formly/inputs/api-select-multiple.html";
+		public scope = {
+			api: "=",
+			filter: "=",
+			placeholder: "@",
+		};
+		public controller = ApiSelectController.IID;
+
+		public static factory(): angular.IDirectiveFactory {
+			let directive = () => {
+				return new ApiSelectMultiple();
+			};
+			return directive;
+		}
+	}
 	interface IStandardApiResource {
 		id: string | number;
 		name: string;
@@ -67,5 +85,6 @@ module dir.directives {
 	}
 	angular.module("lui.directives").controller(ApiSelectController.IID, ApiSelectController);
 	angular.module("lui.directives").directive(ApiSelect.IID, ApiSelect.factory());
+	angular.module("lui.directives").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
 	angular.module("lui.directives").service(StandardApiService.IID, StandardApiService);
 }

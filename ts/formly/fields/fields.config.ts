@@ -38,5 +38,9 @@ module Lui {
 			name: "api_select",
 			templateUrl: "lui/templates/formly/fields/api-select.html",
 		});
+		formlyConfigProvider.setType({
+			name: "api_select_multiple",
+			templateUrl: "lui/templates/formly/fields/api-select-multiple.html",
+		});
 	}]);
 }
