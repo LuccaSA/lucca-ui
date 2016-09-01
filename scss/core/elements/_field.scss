@@ -502,6 +502,7 @@
 				display: block;
 				position: relative;
 				padding: 0 0 0 1.75em;
+				overflow: visible;
 
 				&[for] {
 					cursor: pointer;
@@ -511,29 +512,50 @@
 
 				&:before {
 					position: absolute;
+					left: 0;
+					top: 0.1em;
+					content: '';
+					display: block;
+					width: 1em;
+					height: 1em;
+					border-radius: 50%;
+					background-color: rgba(25, 25, 25, 0.2);
+					opacity: 0;
+				}
+
+				&:after {
+					position: absolute;
 					top: 50%;
 					transform: translateY(-50%);
 					left: 0;
 					display: inline-block;
+					margin-left: 0 !important;
 				}
 			}
 			&.checkbox {
 				label {
-					@include lui_make_icon("checkbox");
+					@include lui_make_icon("checkbox", right);
 				}
 				input:checked ~ label {
-					@include lui_make_icon("checkbox checked");
+					@include lui_make_icon("checkbox checked", right);
 				}
 			}
 			&.radio {
 				label {
-					@include lui_make_icon("radio");
+					@include lui_make_icon("radio", right);
 				}
 				input:checked ~ label {
-					@include lui_make_icon("radio checked");
+					@include lui_make_icon("radio checked", right);
 				}
 			}
-			input:checked ~ label:before {
+
+			input:active ~ label:before {
+				@include lui_is_animated(ripple);
+				transform-origin: center center;
+				animation-duration: 1s;
+			}
+
+			input:checked ~ label:after {
 				color: luiPalette(primary, color);
 			}
 			& + label {
