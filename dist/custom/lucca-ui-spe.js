@@ -2833,6 +2833,9 @@ var Lui;
                 $scope.openPopover = function ($event) {
                     _this.openPopover($event);
                 };
+                $scope.closePopover = function ($event) {
+                    _this.closePopover();
+                };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
                     _this.validate();
@@ -3369,16 +3372,24 @@ var Lui;
                 templateUrl: "lui/templates/formly/fields/radio.html",
             });
             formlyConfigProvider.setType({
-                name: "picture",
-                templateUrl: "lui/templates/formly/fields/picture.html",
+                name: "portrait",
+                templateUrl: "lui/templates/formly/fields/portrait.html",
             });
             formlyConfigProvider.setType({
                 name: "user",
                 templateUrl: "lui/templates/formly/fields/user.html",
             });
             formlyConfigProvider.setType({
+                name: "user_multiple",
+                templateUrl: "lui/templates/formly/fields/user-multiple.html",
+            });
+            formlyConfigProvider.setType({
                 name: "api_select",
                 templateUrl: "lui/templates/formly/fields/api-select.html",
+            });
+            formlyConfigProvider.setType({
+                name: "api_select_multiple",
+                templateUrl: "lui/templates/formly/fields/api-select-multiple.html",
             });
         }]);
 })(Lui || (Lui = {}));
@@ -3411,6 +3422,26 @@ var dir;
             };
             ApiSelect.IID = "luidApiSelect";
             return ApiSelect;
+        }());
+        var ApiSelectMultiple = (function () {
+            function ApiSelectMultiple() {
+                this.restrict = "AE";
+                this.templateUrl = "lui/templates/formly/inputs/api-select-multiple.html";
+                this.scope = {
+                    api: "=",
+                    filter: "=",
+                    placeholder: "@",
+                };
+                this.controller = ApiSelectController.IID;
+            }
+            ApiSelectMultiple.factory = function () {
+                var directive = function () {
+                    return new ApiSelectMultiple();
+                };
+                return directive;
+            };
+            ApiSelectMultiple.IID = "luidApiSelectMultiple";
+            return ApiSelectMultiple;
         }());
         var StandardApiService = (function () {
             function StandardApiService($http) {
@@ -3446,6 +3477,7 @@ var dir;
         }());
         angular.module("lui.directives").controller(ApiSelectController.IID, ApiSelectController);
         angular.module("lui.directives").directive(ApiSelect.IID, ApiSelect.factory());
+        angular.module("lui.directives").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
         angular.module("lui.directives").service(StandardApiService.IID, StandardApiService);
     })(directives = dir.directives || (dir.directives = {}));
 })(dir || (dir = {}));
@@ -4779,7 +4811,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-disabled=popover.isOpen ng-model=displayStr ng-focus=openPopover($event)> <i class=empty ng-click=clear($event)></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) ng-blur=closePopover($event)> <i class=empty ng-click=clear($event)></i></div>"
   );
 
 
@@ -4790,6 +4822,11 @@ var Lui;
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
     "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=displayStr></span>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/api-select-multiple.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-api-select-multiple api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -4809,17 +4846,17 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/email.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder + ' '}}\" type=email name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=email name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
   );
 
 
-  $templateCache.put('lui/templates/formly/fields/picture.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  $templateCache.put('lui/templates/formly/fields/portrait.html',
+    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/radio.html',
-    "<fieldset class=\"lui {{::options.templateOptions.display}} fieldset\"><legend>{{ options.templateOptions.label }}</legend><div class=\"lui field\" ng-repeat=\"choice in options.templateOptions.choices\"><div class=\"lui radio input\"><input id={{::id}}_{{$index}} type=radio name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled ng-value=choice><label for={{::id}}_{{$index}}>{{ choice.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div></fieldset>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id={{::id}}_{{$index}} type=radio name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled ng-value=choice><label for={{::id}}_{{$index}}>{{ choice.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small><label>{{ options.templateOptions.label }}</label></div>"
   );
 
 
@@ -4833,8 +4870,18 @@ var Lui;
   );
 
 
+  $templateCache.put('lui/templates/formly/fields/user-multiple.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-user-picker-multiple ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
   $templateCache.put('lui/templates/formly/fields/user.html',
     "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-user-picker ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/inputs/api-select-multiple.html',
+    "<ui-select multiple><ui-select-match placeholder={{::placeholder}} allow-clear=true>{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=refresh($select.search) refresh-delay=0><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
