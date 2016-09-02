@@ -75,7 +75,7 @@ module Lui.Directives {
 
 	class LuidDatePickerController extends CalendarController {
 		public static IID: string = "luidDatePickerController";
-		public static $inject: Array<string> = ["$scope", "$log"];
+		public static $inject: Array<string> = ["$scope", "$log", "$timeout"];
 		protected $scope: IDatePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
@@ -83,7 +83,7 @@ module Lui.Directives {
 		private popoverController: Lui.Utils.IPopoverController;
 		private element: ng.IAugmentedJQuery;
 
-		constructor($scope: IDatePickerScope, $log: ng.ILogService) {
+		constructor($scope: IDatePickerScope, $log: ng.ILogService, $timeout: ng.ITimeoutService) {
 			super($scope, $log);
 			this.$scope = $scope;
 			$scope.selectDay = (day: CalendarDay) => {
@@ -100,7 +100,9 @@ module Lui.Directives {
 				this.openPopover($event);
 			};
 			$scope.closePopover = ($event: ng.IAngularEvent) => {
-				this.closePopover();
+				$timeout( () => {
+					this.closePopover();
+				}, 100);
 			};
 
 			$scope.$watch("min", (): void => {
