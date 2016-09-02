@@ -2816,7 +2816,7 @@ var Lui;
         }());
         var LuidDatePickerController = (function (_super) {
             __extends(LuidDatePickerController, _super);
-            function LuidDatePickerController($scope, $log) {
+            function LuidDatePickerController($scope, $log, $timeout) {
                 var _this = this;
                 _super.call(this, $scope, $log);
                 this.$scope = $scope;
@@ -2834,7 +2834,9 @@ var Lui;
                     _this.openPopover($event);
                 };
                 $scope.closePopover = function ($event) {
-                    _this.closePopover();
+                    $timeout(function () {
+                        _this.closePopover();
+                    }, 100);
                 };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
@@ -2949,7 +2951,7 @@ var Lui;
                 return !!date ? date.format(this.displayFormat) : undefined;
             };
             LuidDatePickerController.IID = "luidDatePickerController";
-            LuidDatePickerController.$inject = ["$scope", "$log"];
+            LuidDatePickerController.$inject = ["$scope", "$log", "$timeout"];
             return LuidDatePickerController;
         }(Directives.CalendarController));
         angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
