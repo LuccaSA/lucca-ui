@@ -8,6 +8,7 @@
 		<input type="text"
 			ng-readonly="popover.isOpen"
 			ng-model="displayStr"
-			ng-focus="openPopover($event)">
+			ng-focus="openPopover($event)"
+			ng-blur="closePopover($event)">
 		<i class="empty" ng-click="clear($event)"></i>
 </div>
