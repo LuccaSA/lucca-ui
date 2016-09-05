@@ -9,7 +9,6 @@
 		luid-daterange-picker {
 			display: inline-block;
 			vertical-align: middle;
-			overflow: hidden;
 
 			// Label support
 			& + label {
@@ -348,7 +347,8 @@
 
 		// Datepicker modes
 		// ====
-		luid-date-picker {
+		luid-date-picker,
+		luid-date-picker-popup {
 			.months,
 			.years {
 				position: absolute;
