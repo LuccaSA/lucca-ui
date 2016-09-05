@@ -1,36 +1,76 @@
 <div class="calendars">
-	<button class="previous" ng-click="previousMonth()"></button>
-	<button class="next" ng-click="nextMonth()"></button>
+	<div class="calendar" mode="{{ mode }}" ng-repeat="month in months" ng-class="[direction]">
+		<header>
+			<button class="previous" ng-click="previousMonth()"></button>
+			<h4 ng-switch="mode" ng-click="switchMode(false)">
+				<span ng-switch-default>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+				<span ng-switch-when="1">{{ month.date | luifMoment : "YYYY" }}</span>
+				<span ng-switch-when="2">2016 - 2027</span>
+			</h4>
+			<button class="next" ng-click="nextMonth()"></button>
+		</header>
 
-	<table ng-repeat="month in months" ng-class="[direction]">
-		<caption>
-			<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-		</caption>
-		<thead>
-			<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
-		</thead>
-		<tbody>
-			<tr ng-repeat="week in month.weeks">
-				<td ng-repeat="day in week.days"
-					ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
-					ng-disabled="day.disabled"
-					ng-click="selectDay(day)"
-					ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
-			</tr>
-		</tbody>
-	</table>
+		<table class="days">
+			<thead>
+				<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="week in month.weeks">
+					<td ng-repeat="day in week.days"
+						ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
+						ng-disabled="day.disabled"
+						ng-click="selectDay(day)"
+						ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="months">
+			<ul>
+				<li>Janv.</li>
+				<li>Fév.</li>
+				<li>Mars</li>
+				<li>Avr.</li>
+				<li>Mai</li>
+				<li>Juin</li>
+				<li>Juil.</li>
+				<li>Août</li>
+				<li ng-click="switchMode(true)" class="selected">Sept.</li>
+				<li>Oct.</li>
+				<li>Nov.</li>
+				<li>Déc.</li>
+			</ul>
+		</div>
+
+		<div class="years">
+			<ul>
+				<li ng-click="switchMode(true)" class="selected">2016</li>
+				<li>2017</li>
+				<li>2018</li>
+				<li>2019</li>
+				<li>2020</li>
+				<li>2021</li>
+				<li>2022</li>
+				<li>2023</li>
+				<li>2024</li>
+				<li>2025</li>
+				<li>2026</li>
+				<li>2027</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <footer ng-if="!!shortcuts || !!groupedShortcuts">
 	<ul>
-		<li>
+		<li ng-if="!!shortcuts.length">
 			<ul>
 				<li class="shortcut" ng-repeat="shortcut in shortcuts">
 					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>
-		<li class="group" ng-repeat="group in groupedShortcuts">
+		<li class="group" ng-if="!!groupedShortcuts.length" ng-repeat="group in groupedShortcuts">
 			<ul>
 				<li class="shortcut" ng-repeat="shortcut in group">
 					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ ::shortcut.label }}</a>

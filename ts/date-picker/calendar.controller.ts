@@ -54,7 +54,7 @@ module Lui.Directives {
 		selectShortcut(shortcut: Shortcut): void;
 		previousMonth(): void;
 		nextMonth(): void;
-		switchMode(): void;
+		switchMode(zoomIn: boolean): void;
 
 		onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
 		onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
@@ -141,8 +141,13 @@ module Lui.Directives {
 				$scope.direction = "previous";
 				this.assignClasses();
 			};
-			$scope.switchMode = () => {
-				this.$scope.mode = (this.$scope.mode == 2) ? 2 : this.$scope.mode + 1;
+			$scope.switchMode = (zoomIn: boolean) => {
+				let oldMode: CalendarMode = $scope.mode;
+				$scope.mode = (zoomIn) ? Math.max(0, $scope.mode -1) : Math.min(2, $scope.mode + 1);
+
+				if ($scope.mode - oldMode !== 0) {
+					$scope.direction = ($scope.mode - oldMode > 0) ? "mode-change out" : "mode-change in";
+				}
 			};
 		}
 		private constructMonth(monthStart: moment.Moment): CalendarMonth {

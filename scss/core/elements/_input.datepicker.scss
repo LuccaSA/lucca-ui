@@ -65,14 +65,17 @@
 		luid-date-picker[displayed-months],
 		luid-date-picker-popup[displayed-months],
 		luid-daterange-picker {
-			.calendars {
-				@extend %lui_clearfix;
-				> table {
-					float: left;
-
-					& + table {
-						margin-left: 1em;
-					}
+			.calendar > header > button {
+				display: none !important;
+			}
+			.calendar:first-child > header button.previous,
+			.calendar:last-child > header button.next {
+				display: block !important;
+			}
+			.calendar {
+				float: left;
+				& + .calendar {
+					margin-left: 1em;
 				}
 			}
 		}
@@ -136,52 +139,24 @@
 		luid-date-picker,
 		luid-date-picker-popup .popover-content,
 		luid-daterange-picker .popover-content {
-			position: relative;
 
-			.calendars > button.previous,
-			.calendars > button.next {
-				display: block;
-				background: transparent;
-				border: none;
-				outline: 0; outline: none;
-
-				position: absolute;
-				z-index: 2;
-				top: 0.5em;
-
-				padding: 0.5em 1em;
-				border-radius: 3px;
-
-				font-family: 'lucca-icons';
-				font-size: lui_rem(0.8);
-
-				&:hover {
-					background-color: luiPalette(light, color, light);
-				}
+			.calendars {
+				@extend %lui_clearfix;
 			}
-			.calendars > button.previous {
-				left: 0;
-				&:before {
-					content: "\e053";
-				}
-			}
-			.calendars > button.next {
-				right: 0;
-				&:before {
-					content: "\e054";
-				}
+			.calendar {
+				position: relative;
 			}
 
-			.calendars > table {
-				margin-right: 1px; // Border hack
+			.calendar > header {
+				position: relative;
+				z-index: 3;
 
-				min-width: 7 * map-gets($vars, day, size);
-				table-layout: fixed;
-				border-collapse: collapse;
-
-				> caption {
+				> h4 {
+					margin: 0 0 0 0;
+					line-height: 1;
 					cursor: pointer;
 					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
+					text-align: center;
 
 					font-size: map-gets($vars, header, font-size);
 					font-weight: map-gets($vars, header, font-weight);
@@ -195,6 +170,49 @@
 						font-weight: map-gets($vars, header, hover-weight);
 					}
 				}
+
+				> button.previous,
+				> button.next {
+					display: block;
+					background: transparent;
+					border: none;
+					outline: 0; outline: none;
+
+					position: absolute;
+					z-index: 2;
+					top: 0.5em;
+
+					padding: 0.5em 1em;
+					border-radius: 3px;
+
+					font-family: 'lucca-icons';
+					font-size: lui_rem(0.8);
+
+					&:hover {
+						background-color: luiPalette(light, color, light);
+					}
+				}
+				> button.previous {
+					left: 0;
+					&:before {
+						content: "\e053";
+					}
+				}
+				> button.next {
+					right: 0;
+					&:before {
+						content: "\e054";
+					}
+				}
+			}
+
+			.calendar > .days {
+				position: relative;
+				margin-right: 1px; // Border hack
+
+				min-width: 7 * map-gets($vars, day, size);
+				table-layout: fixed;
+				border-collapse: collapse;
 
 				> tbody > tr > td,
 				> thead > tr > th {
@@ -336,26 +354,21 @@
 			.popover-inner { width: 40em; }
 		}
 
-		// Datepicker modes
-		// ====
 		luid-date-picker,
-		luid-date-picker-popup {
-			.calendars.invisible {
-				thead, tbody {
-					visibility: hidden;
-				}
-			}
+		luid-date-picker-popup,
+		luid-daterange-picker {
 			.months,
 			.years {
 				position: absolute;
-				top: 3em;
+				top: 4em;
 				bottom: 0;
 				left: 0;
 				right: 0;
 
 				background: #FFF;
 			}
-			ul {
+			.months ul,
+			.years ul {
 				@extend %lui_unstyled_list;
 				@extend %lui_user_select_none;
 				text-align: center;
@@ -383,15 +396,66 @@
 				}
 			}
 
-			.calendars > table,
-			.months,
-			.years {
-				@extend %#{$cleanNamespace}-animated;
-
-				&.previous {
+			// Mode switching & animations
+			// ====
+			.calendar[mode="0"] > .months,
+			.calendar[mode="0"] > .years {
+				z-index: 1;
+			}
+			.calendar:not([mode="0"]) > .days,
+			.calendar.mode-change > .days,
+			.calendar > .months,
+			.calendar > .years {
+				opacity: 0;
+			}
+			.calendar[mode="0"] .days,
+			.calendar[mode="1"] .months,
+			.calendar[mode="2"] .years {
+				z-index: 2;
+			}
+			.calendar {
+				> .days,
+				> .months,
+				> .years {
+					@extend %#{$cleanNamespace}-animated;
+					animation-fill-mode: forwards;
+				}
+				&.out.mode-change {
+					&[mode="1"] .months,
+					&[mode="2"] .years {
+						animation-name: upScaleIn;
+					}
+					&[mode="1"] .days,
+					&[mode="2"] .months {
+						animation-name: downScaleOut;
+					}
+					&[mode="1"] .months,
+					&[mode="2"] .years {
+						animation-delay: luiTheme(adjective, animated, transitions, animationDuration);
+					}
+				}
+				&.in.mode-change {
+					&[mode="0"] .months,
+					&[mode="1"] .years {
+						animation-name: upScaleOut;
+					}
+					&[mode="0"] .days,
+					&[mode="1"] .months {
+						animation-name: downScaleIn;
+					}
+					&[mode="1"] .months,
+					&[mode="0"] .days {
+						animation-delay: luiTheme(adjective, animated, transitions, animationDuration);
+					}
+				}
+				&.previous[mode="0"] .days,
+				&.previous[mode="1"] .months,
+				&.previous[mode="2"] .years, {
 					animation-name: leftFadeIn;
 				}
-				&.next {
+				&.next[mode="0"] .days,
+				&.next[mode="1"] .months,
+				&.next[mode="2"] .years, {
 					animation-name: rightFadeIn;
 				}
 			}
