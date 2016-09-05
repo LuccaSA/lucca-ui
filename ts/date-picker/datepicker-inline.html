@@ -1,4 +1,4 @@
-<div class="calendars">
+<div class="calendars" ng-class="{'invisible': (mode !== 0)}">
 	<button class="previous" ng-click="previousMonth()"></button>
 	<button class="next" ng-click="nextMonth()"></button>
 
@@ -22,7 +22,7 @@
 	</table>
 </div>
 
-<div ng-if="mode == 1" class="months">
+<div ng-if="mode == 1" class="months" ng-class="[direction]">
 	<ul>
 		<li>Janv.</li>
 		<li>Fév.</li>
@@ -39,7 +39,7 @@
 	</ul>
 </div>
 
-<div ng-if="mode == 2" class="years">
+<div ng-if="mode == 2" class="years" ng-class="[direction]">
 	<ul>
 		<li class="selected">2016</li>
 		<li>2017</li>

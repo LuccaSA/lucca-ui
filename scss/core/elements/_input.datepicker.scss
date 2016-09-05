@@ -179,15 +179,6 @@
 				table-layout: fixed;
 				border-collapse: collapse;
 
-				@extend %#{$cleanNamespace}-animated;
-
-				&.previous {
-					animation-name: leftFadeIn;
-				}
-				&.next {
-					animation-name: rightFadeIn;
-				}
-
 				> caption {
 					cursor: pointer;
 					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
@@ -201,7 +192,7 @@
 					}
 
 					&:hover > span {
-						font-weight: 600;
+						font-weight: map-gets($vars, header, hover-weight);
 					}
 				}
 
@@ -349,6 +340,11 @@
 		// ====
 		luid-date-picker,
 		luid-date-picker-popup {
+			.calendars.invisible {
+				thead, tbody {
+					visibility: hidden;
+				}
+			}
 			.months,
 			.years {
 				position: absolute;
@@ -384,6 +380,19 @@
 							background-color: map-gets($vars, day, selected, hover, background-color);
 						}
 					}
+				}
+			}
+
+			.calendars > table,
+			.months,
+			.years {
+				@extend %#{$cleanNamespace}-animated;
+
+				&.previous {
+					animation-name: leftFadeIn;
+				}
+				&.next {
+					animation-name: rightFadeIn;
 				}
 			}
 		}
