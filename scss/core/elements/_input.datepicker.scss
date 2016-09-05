@@ -9,6 +9,7 @@
 		luid-daterange-picker {
 			display: inline-block;
 			vertical-align: middle;
+			overflow: hidden;
 
 			// Label support
 			& + label {
@@ -173,6 +174,8 @@
 			}
 
 			.calendars > table {
+				margin-right: 1px; // Border hack
+
 				min-width: 7 * map-gets($vars, day, size);
 				table-layout: fixed;
 				border-collapse: collapse;
@@ -187,6 +190,7 @@
 				}
 
 				> caption {
+					cursor: pointer;
 					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
 
 					font-size: map-gets($vars, header, font-size);
@@ -195,6 +199,10 @@
 					> span {
 						display: inline-block;
 						vertical-align: middle;
+					}
+
+					&:hover > span {
+						font-weight: 600;
 					}
 				}
 
@@ -336,6 +344,48 @@
 		luid-daterange-picker,
 		luid-date-picker-popup[displayed-months="2"] {
 			.popover-inner { width: 40em; }
+		}
+
+		// Datepicker modes
+		// ====
+		luid-date-picker {
+			.months,
+			.years {
+				position: absolute;
+				top: 3em;
+				bottom: 0;
+				left: 0;
+				right: 0;
+
+				background: #FFF;
+			}
+			ul {
+				@extend %lui_unstyled_list;
+				@extend %lui_user_select_none;
+				text-align: center;
+
+				li {
+					display: inline-block;
+					width: 33.33%;
+					box-sizing: border-box;
+					padding: 1em 0.5em;
+					cursor: pointer;
+
+					&:hover {
+						color: map-gets($vars, day, default, hover, color);
+						background-color: map-gets($vars, day, default, hover, background-color);
+					}
+
+					&.selected {
+						color: map-gets($vars, day, selected, color);
+						background-color: map-gets($vars, day, selected, background-color);
+						&:hover {
+							color: map-gets($vars, day, selected, hover, color);
+							background-color: map-gets($vars, day, selected, hover, background-color);
+						}
+					}
+				}
+			}
 		}
 	}
 }

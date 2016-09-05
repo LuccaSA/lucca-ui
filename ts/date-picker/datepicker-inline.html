@@ -3,8 +3,10 @@
 	<button class="next" ng-click="nextMonth()"></button>
 
 	<table ng-repeat="month in months" ng-class="[direction]">
-		<caption>
-			<span>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+		<caption ng-switch="mode" ng-click="switchMode()">
+			<span ng-switch-default>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+			<span ng-switch-when="1">{{ month.date | luifMoment : "YYYY" }}</span>
+			<span ng-switch-when="2">2016 - 2027</span>
 		</caption>
 		<thead>
 			<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
@@ -18,6 +20,40 @@
 			</tr>
 		</tbody>
 	</table>
+</div>
+
+<div ng-if="mode == 1" class="months">
+	<ul>
+		<li>Janv.</li>
+		<li>Fév.</li>
+		<li>Mars</li>
+		<li>Avr.</li>
+		<li>Mai</li>
+		<li>Juin</li>
+		<li>Juil.</li>
+		<li>Août</li>
+		<li class="selected">Sept.</li>
+		<li>Oct.</li>
+		<li>Nov.</li>
+		<li>Déc.</li>
+	</ul>
+</div>
+
+<div ng-if="mode == 2" class="years">
+	<ul>
+		<li class="selected">2016</li>
+		<li>2017</li>
+		<li>2018</li>
+		<li>2019</li>
+		<li>2020</li>
+		<li>2021</li>
+		<li>2022</li>
+		<li>2023</li>
+		<li>2024</li>
+		<li>2025</li>
+		<li>2026</li>
+		<li>2027</li>
+	</ul>
 </div>
 
 <footer ng-if="!!shortcuts || !!groupedShortcuts">

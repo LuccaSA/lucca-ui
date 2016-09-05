@@ -32,12 +32,19 @@ module Lui.Directives {
 		public label: string;
 		public date: moment.Moment | Date | string;
 	}
+	export enum CalendarMode {
+		Days = 0,
+		Months = 1,
+		Years = 2,
+	}
 	export interface ICalendarScope extends ng.IScope {
 		customClass: (date: moment.Moment) => string;
 		displayedMonths: string;
 
 		min: any;
 		max: any;
+
+		mode: CalendarMode;
 
 		dayLabels: string[];
 		months: CalendarMonth[];
@@ -47,6 +54,7 @@ module Lui.Directives {
 		selectShortcut(shortcut: Shortcut): void;
 		previousMonth(): void;
 		nextMonth(): void;
+		switchMode(): void;
 
 		onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
 		onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
@@ -70,6 +78,7 @@ module Lui.Directives {
 			this.$scope = $scope;
 			this.$log = $log;
 			this.initCalendarScopeMethods($scope);
+			this.$scope.mode = CalendarMode.Days;
 		}
 		public setMonthsCnt(cntStr?: string, inAPopover?: boolean): void {
 			this.monthsCnt = parseInt(cntStr, 10) || 1;
@@ -131,6 +140,9 @@ module Lui.Directives {
 				$scope.months = this.constructMonths();
 				$scope.direction = "previous";
 				this.assignClasses();
+			};
+			$scope.switchMode = () => {
+				this.$scope.mode = (this.$scope.mode == 2) ? 2 : this.$scope.mode + 1;
 			};
 		}
 		private constructMonth(monthStart: moment.Moment): CalendarMonth {
