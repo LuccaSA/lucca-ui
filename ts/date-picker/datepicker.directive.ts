@@ -69,8 +69,10 @@ module Lui.Directives {
 
 		togglePopover($event: ng.IAngularEvent): void;
 		openPopover($event: ng.IAngularEvent): void;
-		closePopover($event: ng.IAngularEvent): void;
+		// closePopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
+
+		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
 	}
 
 	class LuidDatePickerController extends CalendarController {
@@ -99,11 +101,12 @@ module Lui.Directives {
 			$scope.openPopover = ($event: ng.IAngularEvent) => {
 				this.openPopover($event);
 			};
-			$scope.closePopover = ($event: ng.IAngularEvent) => {
-				$timeout( () => {
-					this.closePopover();
-				}, 100);
-			};
+			// $scope.closePopover = ($event: ng.IAngularEvent) => {
+			// 	$timeout( () => {
+			// 		this.closePopover();
+			// 	}, 100);
+			// };
+			$scope.closePopoverOnTab = { 9: ($event: ng.IAngularEvent) => { this.closePopover(); this.$scope.$apply(); } };
 
 			$scope.$watch("min", (): void => {
 				// revalidate
