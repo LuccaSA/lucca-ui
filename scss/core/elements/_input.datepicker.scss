@@ -420,6 +420,13 @@
 					@extend %#{$cleanNamespace}-animated;
 					animation-fill-mode: forwards;
 				}
+				&.mode-change {
+					.days,
+					.months,
+					.years {
+						animation-duration: luiTheme(adjective, animated, transitions, animationDuration) / 2;
+					}
+				}
 				&.out.mode-change {
 					&[mode="1"] .months,
 					&[mode="2"] .years {
@@ -431,7 +438,7 @@
 					}
 					&[mode="1"] .months,
 					&[mode="2"] .years {
-						animation-delay: luiTheme(adjective, animated, transitions, animationDuration);
+						animation-delay: luiTheme(adjective, animated, transitions, animationDuration) / 2;
 					}
 				}
 				&.in.mode-change {
@@ -445,7 +452,7 @@
 					}
 					&[mode="1"] .months,
 					&[mode="0"] .days {
-						animation-delay: luiTheme(adjective, animated, transitions, animationDuration);
+						animation-delay: luiTheme(adjective, animated, transitions, animationDuration) / 2;
 					}
 				}
 				&.previous[mode="0"] .days,
