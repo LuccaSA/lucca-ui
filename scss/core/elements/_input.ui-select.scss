@@ -31,7 +31,17 @@
 			}
 
 			.ui-select-offscreen {
-				display: none;
+				clip: rect(0 0 0 0) !important;
+				width: 1px !important;
+				height: 1px !important;
+				border: 0 !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				overflow: hidden !important;
+				position: absolute !important;
+				outline: 0 !important;
+				left: 0px !important;
+				top: 0px !important;
 			}
 
 			.ui-select-match .ui-select-toggle,
@@ -61,7 +71,8 @@
 				@include lui_input_placeholder;
 			}
 
-			&.open .ui-select-search {
+			&.open .ui-select-search,
+			.ui-select-match.btn-default-focus .ui-select-toggle {
 				@extend %lui_input_focus;
 			}
 			&:not(.ui-select-multiple) .ui-select-search {
