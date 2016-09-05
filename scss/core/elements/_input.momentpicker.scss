@@ -39,6 +39,7 @@
 				width: luiTheme(element, field, input, font-size) * (map-gets($vars, width) / (map-gets($vars, width) * 0 + 1));
 				position: absolute;
 				cursor: pointer;
+				color: luiPalette(light, color);
 
 				animation-duration: 500ms;
 
