@@ -71,7 +71,7 @@ module Lui.Directives {
 					day.disabled = true;
 				}
 				if (!!this.$scope.customClass) {
-					day.customClass = this.$scope.customClass(day.date);
+					day.customClass = this.$scope.customClass(day.date, CalendarMode.Days);
 				}
 			});
 		}
