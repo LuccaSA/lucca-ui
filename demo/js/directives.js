@@ -105,8 +105,11 @@
 		$scope.dateMoment = moment().add(22, "days").startOf("day");
 		$scope.dateMin = moment().add(-22, "days").startOf("day");
 		$scope.dateMax = moment().add(22, "days").startOf("day");
-		$scope.disableWeekends = function (date) {
-			return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
+		$scope.disableWeekends = function (date, mode) {
+			if (mode === 0) {
+				return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
+			}
+			return "";
 		};
 		$scope.highlightThisWeek = function (date) {
 			return date.week() === moment().week() ? "in-between" : "";
@@ -134,8 +137,11 @@
 		$scope.myDaterange3 = { foo: "20160525", bar: "20160603" };
 		$scope.min = moment().startOf("day");
 		$scope.max = moment().startOf("day").add(1, "day");
-		$scope.disableWeekends = function (date) {
-			return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
+		$scope.disableWeekends = function (date, mode) {
+			if (mode === 0) {
+				return (date.isoWeekday() === 7 || date.isoWeekday() === 6) ? "disabled" : "";
+			}
+			return "";
 		};
 		$scope.shortcuts = [
 		{ label: "last week", start: moment().add(-1, "week").startOf("week"), end: moment().startOf("week") },
