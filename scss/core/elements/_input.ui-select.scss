@@ -72,6 +72,7 @@
 			}
 
 			&.open .ui-select-search,
+			.ui-select-search:focus,
 			.ui-select-match.btn-default-focus .ui-select-toggle {
 				@extend %lui_input_focus;
 			}
