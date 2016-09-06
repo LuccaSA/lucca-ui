@@ -17,7 +17,7 @@
 			<tbody>
 				<tr ng-repeat="week in calendar.weeks">
 					<td ng-repeat="day in week.days"
-						ng-class="[{empty: day.empty, selected: day.selected}, day.customClass]"
+						ng-class="[{empty: day.empty, selected: day.selected, start: day.start, end: day.end, 'in-between': day.inBetween}, day.customClass]"
 						ng-disabled="day.disabled"
 						ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
 				</tr>
@@ -26,13 +26,19 @@
 
 		<div class="months">
 			<ul>
-				<li ng-repeat="m in calendar.months" ng-click="selectMonth(m)" ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
+				<li ng-repeat="m in calendar.months"
+				ng-click="selectMonth(m)"
+				ng-disabled="m.disabled"
+				ng-class="[{selected: m.selected, start: m.start, end: m.end, 'in-between': m.inBetween}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
 			</ul>
 		</div>
 
 		<div class="years">
 			<ul>
-				<li ng-repeat="y in calendar.years" ng-click="selectYear(y)" ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luifMoment : "YYYY" }}</li>
+				<li ng-repeat="y in calendar.years"
+				ng-disabled="y.disabled"
+				ng-click="selectYear(y)"
+				ng-class="[{selected: y.selected, start: y.start, end: y.end, 'in-between': y.inBetween}, y.customClass]">{{ y.date | luifMoment : "YYYY" }}</li>
 			</ul>
 		</div>
 	</div>

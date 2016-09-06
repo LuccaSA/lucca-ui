@@ -26,13 +26,19 @@
 
 		<div class="months">
 			<ul>
-				<li ng-repeat="m in calendar.months" ng-click="selectMonth(m)" ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
+				<li ng-repeat="m in calendar.months"
+				ng-click="selectMonth(m)"
+				ng-disabled="m.disabled"
+				ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
 			</ul>
 		</div>
 
 		<div class="years">
 			<ul>
-				<li ng-repeat="y in calendar.years" ng-click="selectYear(y)" ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luifMoment : "YYYY" }}</li>
+				<li ng-repeat="y in calendar.years"
+				ng-disabled="y.disabled"
+				ng-click="selectYear(y)"
+				ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luifMoment : "YYYY" }}</li>
 			</ul>
 		</div>
 	</div>
