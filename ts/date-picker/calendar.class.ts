@@ -19,7 +19,7 @@ module Lui.Directives {
 		public months: CalendarDate[];
 		public years: CalendarDate[];
 		constructor(date: moment.Moment) {
-			this.date = moment(date)
+			this.date = moment(date);
 			this.weeks = [];
 			this.months = [];
 			this.years = [];

@@ -197,7 +197,7 @@ module Lui.Directives {
 			};
 		}
 
-		protected selectDate(date: moment.Moment) {
+		protected selectDate(date: moment.Moment): void {
 			if (this.$scope.editingStart || (!!this.$scope.period.start && date.isBefore(this.$scope.period.start))) {
 				this.$scope.period.start = date;
 				this.start = date;

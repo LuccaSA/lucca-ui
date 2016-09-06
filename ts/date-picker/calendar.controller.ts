@@ -28,11 +28,6 @@ module Lui.Directives {
 				return this.constructCalendar(this.currentDate, offset);
 			});
 		}
-		// protected constructMonths(): Calendar[] {
-		// 	return _.map(_.range(this.calendarCnt), (offset: number): CalendarMonth => {
-		// 		return this.constructMonth(moment(this.currentMonth).add(offset, "months").startOf("month"));
-		// 	});
-		// }
 		protected constructDayLabels(): string[] {
 			return _.map(_.range(7), (i: number): string => {
 				return moment().startOf("week").add(i, "days").format("dd");
@@ -46,6 +41,7 @@ module Lui.Directives {
 					return this.assignMonthClasses();
 				case CalendarMode.Years:
 					return this.assignYearClasses();
+				default: break;
 			}
 		}
 		protected abstract selectDate(date: moment.Moment): void;
@@ -154,44 +150,36 @@ module Lui.Directives {
 				$scope.direction = "previous";
 				this.assignClasses();
 			};
-			// $scope.switchMode = (zoomIn: boolean) => {
-			// 	let oldMode: CalendarMode = $scope.mode;
-			// 	$scope.mode = (zoomIn) ? Math.max(0, $scope.mode -1) : Math.min(2, $scope.mode + 1);
-
-			// 	if ($scope.mode - oldMode !== 0) {
-			// 		$scope.direction = ($scope.mode - oldMode > 0) ? "mode-change out" : "mode-change in";
-			// 	}
-			// };
 			$scope.switchToMonthMode = () => {
 				$scope.mode = CalendarMode.Months;
 				$scope.direction = "mode-change out";
 				this.currentDate.startOf("year");
 				$scope.calendars = this.constructCalendars();
 				this.assignClasses();
-			}
+			};
 			$scope.switchToYearMode = () => {
 				$scope.mode = CalendarMode.Years;
 				$scope.direction = "mode-change out";
 				$scope.calendars = this.constructCalendars();
 				this.assignClasses();
-			}
+			};
 			$scope.selectDay = (day: CalendarDate) => {
 				this.selectDate(day.date);
-			}
+			};
 			$scope.selectMonth = (month: CalendarDate) => {
 				this.currentDate = month.date;
 				$scope.mode = CalendarMode.Days;
 				$scope.direction = "mode-change in";
 				$scope.calendars = this.constructCalendars();
 				this.assignClasses();
-			}
+			};
 			$scope.selectYear = (year: CalendarDate) => {
 				this.currentDate = year.date;
 				$scope.mode = CalendarMode.Months;
 				$scope.direction = "mode-change in";
 				$scope.calendars = this.constructCalendars();
 				this.assignClasses();
-			}
+			};
 		}
 		private constructCalendar(start: moment.Moment, offset: number): Calendar {
 			let calendar: Calendar;
@@ -208,6 +196,7 @@ module Lui.Directives {
 					calendar = new Calendar(moment(start).startOf("year").add(offset * 12, "year"));
 					calendar.years = this.constructDates(calendar.date, "years");
 					return calendar;
+				default: break;
 			}
 		}
 		private constructDates(start: moment.Moment, unitOfTime: string): CalendarDate[] {
@@ -270,7 +259,7 @@ module Lui.Directives {
 				case CalendarMode.Years:
 					this.currentDate.add(offset * 12, "years");
 					break;
-
+				default: break;
 			}
 		}
 	}
