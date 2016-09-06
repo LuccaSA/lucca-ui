@@ -193,6 +193,14 @@
 				}
 			}
 		}
+
+		#{$prefix}.field {
+			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+				&.#{$sizeName} .ui-select-container {
+					width: $sizeEms !important;
+				}
+			}
+		}
 		#{$prefix}.fitting.field .ui-select-container,
 		.fitting.ui-select-container {
 			width: 100%;

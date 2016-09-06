@@ -93,12 +93,21 @@
 		luid-daterange-picker .lui.daterange.input {
 			position: relative;
 			width: map-gets($vars, input, width);
+			max-width: 100%;
 
 			input, label {
 				width: 100% !important;
 				padding-right: 2.25em;
 			}
 			i.empty { z-index: 2; }
+		}
+		#{$prefix}.field {
+			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+				&.#{$sizeName} .lui.datepicker.input,
+				&.#{$sizeName} .lui.daterangepicker.input {
+					width: $sizeEms !important;
+				}
+			}
 		}
 
 		luid-date-picker-popup,
