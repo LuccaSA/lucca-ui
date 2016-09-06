@@ -151,22 +151,19 @@
 				position: relative;
 				z-index: 3;
 
-				> h4 {
+				> span {
 					font-size: 1em;
-					margin: 0 0 0 0;
 					line-height: 1;
 					cursor: pointer;
 
-					> span {
-						display: block;
-						padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
-						text-align: center;
+					display: block;
+					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
+					text-align: center;
 
-						font-size: map-gets($vars, header, font-size);
-						font-weight: map-gets($vars, header, font-weight);
-					}
+					font-size: map-gets($vars, header, font-size);
+					font-weight: map-gets($vars, header, font-weight);
 
-					&:hover > span {
+					&:hover {
 						font-weight: map-gets($vars, header, hover-weight);
 					}
 				}

@@ -2,11 +2,11 @@
 	<div class="calendar" mode="{{ mode }}" ng-repeat="calendar in calendars" ng-class="[direction]">
 		<header>
 			<button class="previous" ng-click="previous()"></button>
-			<h4 ng-switch="mode">
+			<span ng-switch="mode">
 				<span ng-switch-default ng-click="switchToMonthMode()">{{ calendar.date | luifMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
 				<span ng-switch-when="1" ng-click="switchToYearMode()">{{ calendar.date | luifMoment : "YYYY" }}</span>
 				<span ng-switch-when="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
-			</h4>
+			</span>
 			<button class="next" ng-click="next()"></button>
 		</header>
 
@@ -29,7 +29,7 @@
 				<li ng-repeat="m in calendar.months"
 				ng-click="selectMonth(m)"
 				ng-disabled="m.disabled"
-				ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
+				ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li>
 			</ul>
 		</div>
 
