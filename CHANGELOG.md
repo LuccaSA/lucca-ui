@@ -7,6 +7,7 @@
 - Major refactoring of fields and inputs: material style, no more addon support
 - Search input is replaced with a simple `searchable` class to be added to the `div.lui.input`
 - changed the `luid-keydown` directive, it does not automatically call `e.preventDefault()`
+- removed directive `luid-daterange`, use `luid-daterange-picker` instead
 
 ### New features
 - Default border-radius is now 2px instead of 3px

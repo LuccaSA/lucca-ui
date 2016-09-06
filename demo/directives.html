@@ -3,7 +3,6 @@
 		<a class="item" href="#/directives#luid-timespan">luid-timespan</a>
 		<a class="item" href="#/directives#luid-percentage">luid-percentage</a>
 		<a class="item" href="#/directives#luid-moment">luid-moment</a>
-		<a class="item" href="#/directives#luid-daterange">luid-daterange</a>
 		<a class="item" href="#/directives#luid-keydown">luid-keydown</a>
 		<a class="item" href="#/directives#luid-day-block">luid-day-block</a>
 		<a class="item" href="#/directives#luid-date-picker">luid-date-picker</a>
@@ -327,95 +326,7 @@
 			</div>
 		</article>
 
-		<article id="luid-daterange">
-			<h2 class="lui divider below">luid-daterange</h2>
-			<p>
-				An input allowing to chose a date range.
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Features</h4>
-			</div>
-			<p>
-				Uses the <a class="lui fancy link" href="#filters#luifFrindlyRange">luifFriendlyRange</a> filter to display the information.
-			</p>
-			<p>
-				Can be mapped to js Dates, moments or a string with a specified format.
-			</p>
-			<p>
-				The range September 1st to 30th can be seen as "Sep 1st to 30th included" or "Sep 1st to Oct 1st excluded". This input allows
-				you to specify if the end is excluded, the user will choose Sep 1st to 30th" but in your scope you will have "Sep 1st
-				to Oct 1st".
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Supported arguments:</h4>
-			</div>
-			<p>
-				<ul class="lui unstyled">
-					<li><code>ng-model</code> : the variable to bind to</li>
-					<li><code>format</code> : allows you to specify if you want to bind to a a date, a moment or a string. supported values:
-						<code>moment</code>(default), <code>date</code>, any valid <a class="lui fancy link" href="http://momentjs.com/docs/#/parsing/string-format/">momentjs format</a></li>
-					<li><code>start-property</code> : the property to bind the start of the range to, default <code>startsOn</code></li>
-					<li><code>end-property</code> : the property to bind the end of the range to, default <code>endsOn</code></li>
-					<li><code>exclude-end</code> : if you want the end of the range in your scope to be excluded, default <code>false</code></li>
-					<li><code>popover-placement</code> : the position of the popover with both datepickers in it. Supported values: <code>top</code>(default),
-						<code>bottom</code>, <code>left</code>, <code>right</code></li>
-					<li><code>periods</code> : a list of preset dateranges, must look like this <code>[{label:"this month", startsOn: #anything parsable by moment#, endsOn: #same as startsOn#}, {...}]</code>.
-						<b>Remark: </b> when you use both <code>periods</code> and <code>exclude-end</code>, the end of the periods is excluded</li>
-					<li><code>close-label</code> : the label you want for "Ok".
-						<li><code>close-action</code> : an action that will be called when the user closes the popover by clicking on the close
-							button.
-
-				</ul>
-			</p>
-			<div class="lui dashed divider">
-				<h4 class="lui underline">Usage</h4>
-			</div>
-			<p>
-				<pre hljs no-escape language="html">&lt;luid-daterange ng-model="myRange" class="lui long input"&gt;&lt;/luid-daterange&gt;
-&lt;luid-daterange ng-model="myRange" class="lui long input" data-periods="myPeriods"&gt;&lt;/luid-daterange&gt;
-&lt;luid-daterange ng-model="myRange" format="date" start-property="start" end-property="end" exclude-end="true" class="lui long input"&gt;&lt;/luid-daterange&gt;</pre>
-			</p>
-			<div class="lui bottom dashed divider menu" id="demoBlock">
-				<div class="lui header vertical menu">
-					<h4 class="lui underline">Demo</h4>
-				</div>
-			</div>
-			<div ng-controller="daterangeCtrl" class="lui block round">
-				<p>
-					Basic usage, binded to moments, end is included, nothing fancy.
-				</p>
-				<luid-daterange ng-model="myPeriod" class="lui long input" ng-change="hasChanged()"></luid-daterange>
-				<p>Start : {{myPeriod.startsOn | luifMoment}} - End : {{myPeriod.endsOn | luifMoment}}</p>
-				<p>Number of time ng-change on the luid-daterange has been called: <code>{{updateCnt}}</code></p>
-				<hr>
-				<p>
-					Binded to dates, end excluded
-				</p>
-				<p>
-					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="dateStart" end-property="dateEnd" format="date"
-					exclude-end="true"></luid-daterange>
-				</p>
-				<p>
-					Start :
-					<span class="lui input datepicker">
-						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateStart" is-open="start.opened" close-text="Close" ng-click="start.opened=true"/>
-					</span> End :
-					<span class="lui input datepicker">
-						<input type="text" uib-datepicker-popup="yyyy-MM-dd" ng-model="myPeriod.dateEnd" is-open="end.opened" close-text="Close" ng-click="end.opened=true"/>
-					</span>
-				</p>
-				<hr>
-				<p>
-					Binded to strings with format <code>YYYY/MM/DD</code>, with custom periods and a custom close label and action
-				</p>
-				<p>
-					<luid-daterange ng-model="myPeriod" class="lui long input" start-property="stringStart" end-property="stringEnd" format="YYYY/MM/DD"
-					data-periods="myPeriods" close-label="clicking here calls window.alert(myPeriod.start) and closes the popover" close-action="doAlert()"></luid-daterange>
-				</p>
-				<p>Start : {{myPeriod.stringStart}} - End : {{myPeriod.stringEnd}}</p>
-			</div>
-		</article>
-
+		
 		<article id="luid-keydown">
 			<h2 class="lui divider below">luid-keydown</h2>
 			<p>
