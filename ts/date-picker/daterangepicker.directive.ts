@@ -219,11 +219,11 @@ module Lui.Directives {
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
 			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue || {};
-			if (!value || !value.start || !value.end) {
+			if (!value) {
 				period = undefined;
 			} else {
-				period[this.startProperty] = this.formatter.formatValue(moment(value.start));
-				period[this.endProperty] = this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
+				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
@@ -254,13 +254,13 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.direction = "";
-			if (!!this.$scope.period.start && !!this.$scope.period.end) {
+			// if (!!this.$scope.period.start && !!this.$scope.period.end) {
 				this.setViewValue(this.$scope.period);
 				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
-			} else {
-				this.$scope.period = this.getViewValue();
-				this.$scope.displayStr = "";
-			}
+			// } else {
+			// 	this.$scope.period = this.getViewValue();
+			// 	this.$scope.displayStr = "";
+			// }
 			this.element.removeClass("ng-open");
 			this.popoverController.close();
 		}
