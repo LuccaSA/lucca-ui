@@ -12,6 +12,7 @@
 - Default border-radius is now 2px instead of 3px
 
 ## Resolved issues
+- Adds support for line-breaks in tooltip content
 
 ## 2.3.1 - in dev
 

@@ -63,6 +63,7 @@
 				padding: map-gets($vars, vertical-padding) map-gets($vars, horizontal-padding);
 				background-color: map-gets($vars, default-coloring, color);
 				color: map-gets($vars, default-coloring, text);
+				white-space: pre-wrap; // Support for line breaks in tooltip content
 			}
 
 			@each $name, $scheme in luiPalettes() {
