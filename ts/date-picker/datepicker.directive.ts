@@ -22,8 +22,8 @@ module Lui.Directives {
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setCalendarCnt(scope.displayedCalendars);
 		}
 	}
@@ -53,8 +53,8 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setElement(element);
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setCalendarCnt(scope.displayedCalendars, true);
 			datePickerCtrl.setPopoverTrigger(element, scope);
 		}
@@ -131,16 +131,7 @@ module Lui.Directives {
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$render = () => {
-				let date = this.formatter.parseValue(ngModelCtrl.$viewValue);
-				this.currentDate = moment(date).startOf("month");
-				this.$scope.calendars = this.constructCalendars();
-				this.selected = date;
-				this.min = this.formatter.parseValue(this.$scope.min);
-				this.max = this.formatter.parseValue(this.$scope.max);
-				this.assignClasses();
-				this.$scope.displayStr = this.getDisplayStr(date);
-			};
+			ngModelCtrl.$render = () => { this.render(); };
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let min = this.min;
 				let value = this.getViewValue();
@@ -194,7 +185,17 @@ module Lui.Directives {
 		private validate(): void {
 			this.ngModelCtrl.$validate();
 		}
-
+		private render(): void {
+			let date = this.formatter.parseValue(this.ngModelCtrl.$viewValue);
+			this.currentDate = moment(date).startOf("month");
+			this.$scope.mode = CalendarMode.Days;
+			this.$scope.calendars = this.constructCalendars();
+			this.selected = date;
+			this.min = this.formatter.parseValue(this.$scope.min);
+			this.max = this.formatter.parseValue(this.$scope.max);
+			this.assignClasses();
+			this.$scope.displayStr = this.getDisplayStr(date);
+		}
 		// popover logic
 		private togglePopover($event: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
@@ -214,6 +215,7 @@ module Lui.Directives {
 			this.element.addClass("ng-open");
 			this.$scope.direction = "";
 			if (!!this.popoverController) {
+				this.render();
 				this.popoverController.open($event);
 			}
 		}

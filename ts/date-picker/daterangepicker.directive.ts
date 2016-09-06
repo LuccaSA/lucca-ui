@@ -268,6 +268,7 @@ module Lui.Directives {
 			let vv: Lui.Period = this.getViewValue();
 			this.$scope.period = vv || { start: undefined, end: undefined };
 			this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
+			this.$scope.mode = CalendarMode.Days;
 			this.$scope.calendars = this.constructCalendars();
 			if (!!vv) {
 				this.start = vv.start;
