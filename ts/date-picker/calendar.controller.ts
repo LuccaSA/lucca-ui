@@ -48,7 +48,7 @@ module Lui.Directives {
 					return this.assignYearClasses();
 			}
 		}
-		abstract selectDate(date: moment.Moment): void;
+		protected abstract selectDate(date: moment.Moment): void;
 		private assignDayClasses(): void {
 			let days = this.extractDays();
 			_.each(days, (day: CalendarDay): void => {

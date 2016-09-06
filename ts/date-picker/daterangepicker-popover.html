@@ -1,13 +1,13 @@
 <div class="calendars">
-	<div class="calendar" mode="{{ mode }}" ng-repeat="month in months" ng-class="[direction]">
+	<div class="calendar" mode="{{ mode }}" ng-repeat="calendar in calendars" ng-class="[direction]">
 		<header>
-			<button class="previous" ng-click="previousMonth()"></button>
-			<h4 ng-switch="mode" ng-click="switchMode(false)">
-				<span ng-switch-default>{{ month.date | luifMoment : month.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-				<span ng-switch-when="1">{{ month.date | luifMoment : "YYYY" }}</span>
-				<span ng-switch-when="2">2016 - 2027</span>
+			<button class="previous" ng-click="previous()"></button>
+			<h4 ng-switch="mode">
+				<span ng-switch-default ng-click="switchToMonthMode()">{{ calendar.date | luifMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+				<span ng-switch-when="1" ng-click="switchToYearMode()">{{ calendar.date | luifMoment : "YYYY" }}</span>
+				<span ng-switch-when="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
 			</h4>
-			<button class="next" ng-click="nextMonth()"></button>
+			<button class="next" ng-click="next()"></button>
 		</header>
 
 		<table class="days">
@@ -15,47 +15,24 @@
 				<th ng-repeat="dayLabel in dayLabels">{{ ::dayLabel }}</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="week in month.weeks">
+				<tr ng-repeat="week in calendar.weeks">
 					<td ng-repeat="day in week.days"
-						ng-class="[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]"
+						ng-class="[{empty: day.empty, selected: day.selected}, day.customClass]"
 						ng-disabled="day.disabled"
-						ng-click="selectDay(day)"
-						ng-mouseenter="onMouseEnter(day)" ng-mouseleave="onMouseLeave(day)">{{ ::day.dayNum }}</td>
+						ng-click="selectDay(day)">{{ ::day.dayNum }}</td>
 				</tr>
 			</tbody>
 		</table>
 
 		<div class="months">
 			<ul>
-				<li>Janv.</li>
-				<li>Fév.</li>
-				<li>Mars</li>
-				<li>Avr.</li>
-				<li>Mai</li>
-				<li>Juin</li>
-				<li>Juil.</li>
-				<li>Août</li>
-				<li ng-click="switchMode(true)" class="selected">Sept.</li>
-				<li>Oct.</li>
-				<li>Nov.</li>
-				<li>Déc.</li>
+				<li ng-repeat="m in calendar.months" ng-click="selectMonth(m)" ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luifMoment : "MMM" }}</li> 
 			</ul>
 		</div>
 
 		<div class="years">
 			<ul>
-				<li ng-click="switchMode(true)" class="selected">2016</li>
-				<li>2017</li>
-				<li>2018</li>
-				<li>2019</li>
-				<li>2020</li>
-				<li>2021</li>
-				<li>2022</li>
-				<li>2023</li>
-				<li>2024</li>
-				<li>2025</li>
-				<li>2026</li>
-				<li>2027</li>
+				<li ng-repeat="y in calendar.years" ng-click="selectYear(y)" ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luifMoment : "YYYY" }}</li>
 			</ul>
 		</div>
 	</div>
