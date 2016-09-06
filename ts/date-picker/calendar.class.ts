@@ -27,7 +27,7 @@ module Lui.Directives {
 		}
 	}
 	export class CalendarWeek {
-		public days: CalendarDate[];
+		public days: CalendarDay[];
 	}
 	export class CalendarDay extends CalendarDate {
 		public dayNum: number;
