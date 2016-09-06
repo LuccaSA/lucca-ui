@@ -1,6 +1,6 @@
 module Lui.Directives {
 	"use strict";
-	export class CalendarController {
+	export abstract class CalendarController {
 		protected calendarCnt: number;
 		protected currentDate: moment.Moment;
 		protected $scope: ICalendarScope;
@@ -48,7 +48,8 @@ module Lui.Directives {
 					return this.assignYearClasses();
 			}
 		}
-		protected assignDayClasses(): void {
+		abstract selectDate(date: moment.Moment): void;
+		private assignDayClasses(): void {
 			let days = this.extractDays();
 			_.each(days, (day: CalendarDay): void => {
 				day.selected = false;
@@ -78,7 +79,7 @@ module Lui.Directives {
 				}
 			});
 		}
-		protected assignMonthClasses(): void {
+		private assignMonthClasses(): void {
 			let months = this.extractMonths();
 			_.each(months, (month: CalendarDate): void => {
 				month.selected = false;
@@ -108,7 +109,7 @@ module Lui.Directives {
 				}
 			});
 		}
-		protected assignYearClasses(): void {
+		private assignYearClasses(): void {
 			let years = this.extractYears();
 			_.each(years, (year: CalendarDate): void => {
 				year.selected = false;
@@ -138,6 +139,7 @@ module Lui.Directives {
 				}
 			});
 		}
+
 		private initCalendarScopeMethods($scope: ICalendarScope): void {
 			$scope.dayLabels = this.constructDayLabels();
 			$scope.next = () => {
@@ -170,6 +172,23 @@ module Lui.Directives {
 			$scope.switchToYearMode = () => {
 				$scope.mode = CalendarMode.Years;
 				$scope.direction = "mode-change out";
+				$scope.calendars = this.constructCalendars();
+				this.assignClasses();
+			}
+			$scope.selectDay = (day: CalendarDate) => {
+				this.selectDate(day.date);
+			}
+			$scope.selectMonth = (month: CalendarDate) => {
+				this.currentDate = month.date;
+				$scope.mode = CalendarMode.Days;
+				$scope.direction = "mode-change in";
+				$scope.calendars = this.constructCalendars();
+				this.assignClasses();
+			}
+			$scope.selectYear = (year: CalendarDate) => {
+				this.currentDate = year.date;
+				$scope.mode = CalendarMode.Months;
+				$scope.direction = "mode-change in";
 				$scope.calendars = this.constructCalendars();
 				this.assignClasses();
 			}

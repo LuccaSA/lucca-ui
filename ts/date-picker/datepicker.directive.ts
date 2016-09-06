@@ -88,24 +88,13 @@ module Lui.Directives {
 		constructor($scope: IDatePickerScope, $log: ng.ILogService, $timeout: ng.ITimeoutService) {
 			super($scope, $log);
 			this.$scope = $scope;
-			$scope.selectDay = (day: CalendarDay) => {
-				this.setViewValue(day.date);
-				$scope.displayStr = this.getDisplayStr(day.date);
-				this.selected = day.date;
-				this.assignClasses();
-				this.closePopover();
-			};
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
 			};
 			$scope.openPopover = ($event: ng.IAngularEvent) => {
 				this.openPopover($event);
 			};
-			// $scope.closePopover = ($event: ng.IAngularEvent) => {
-			// 	$timeout( () => {
-			// 		this.closePopover();
-			// 	}, 100);
-			// };
+
 			$scope.closePopoverOnTab = { 9: ($event: ng.IAngularEvent) => { this.closePopover(); this.$scope.$apply(); } };
 
 			$scope.$watch("min", (): void => {
@@ -171,7 +160,13 @@ module Lui.Directives {
 				this.displayFormat = displayFormat || "L";
 			}
 		}
-
+		protected selectDate(date: moment.Moment): void {
+			this.setViewValue(date);
+			this.$scope.displayStr = this.getDisplayStr(date);
+			this.selected = date;
+			this.assignClasses();
+			this.closePopover();
+		}
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
 			let onClosing = (): void => {
 				this.ngModelCtrl.$setTouched();
