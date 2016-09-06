@@ -7,7 +7,7 @@ module Lui.Directives {
 		public require = ["ngModel", "luidDatePicker"];
 		public scope = {
 			format: "@",
-			displayedMonths: "@",
+			displayedCalendars: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
@@ -24,45 +24,45 @@ module Lui.Directives {
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			datePickerCtrl.setCalendarCnt(scope.displayedCalendars);
 		}
 	}
-	class LuidDatePickerPopup implements angular.IDirective {
-		public static IID: string = "luidDatePickerPopup";
-		public restrict = "E";
-		public templateUrl = "lui/templates/date-picker/datepicker-popup.html";
-		public require = ["ngModel", "luidDatePickerPopup"];
-		public scope = {
-			format: "@",
-			displayFormat: "@",
-			displayedMonths: "@",
-			min: "=",
-			max: "=",
-			customClass: "=",
-			shortcuts: "=",
-			groupedShortcuts: "=",
-		};
-		public controller: string = LuidDatePickerController.IID;
-		public static factory(): angular.IDirectiveFactory {
-			let directive = () => {
-				return new LuidDatePickerPopup();
-			};
-			return directive;
-		}
-		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
-			let ngModelCtrl = <ng.INgModelController>ctrls[0];
-			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
-			datePickerCtrl.setElement(element);
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
-			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
-			datePickerCtrl.setPopoverTrigger(element, scope);
-		}
-	}
+	// class LuidDatePickerPopup implements angular.IDirective {
+	// 	public static IID: string = "luidDatePickerPopup";
+	// 	public restrict = "E";
+	// 	public templateUrl = "lui/templates/date-picker/datepicker-popup.html";
+	// 	public require = ["ngModel", "luidDatePickerPopup"];
+	// 	public scope = {
+	// 		format: "@",
+	// 		displayFormat: "@",
+	// 		displayedMonths: "@",
+	// 		min: "=",
+	// 		max: "=",
+	// 		customClass: "=",
+	// 		shortcuts: "=",
+	// 		groupedShortcuts: "=",
+	// 	};
+	// 	public controller: string = LuidDatePickerController.IID;
+	// 	public static factory(): angular.IDirectiveFactory {
+	// 		let directive = () => {
+	// 			return new LuidDatePickerPopup();
+	// 		};
+	// 		return directive;
+	// 	}
+	// 	public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
+	// 		let ngModelCtrl = <ng.INgModelController>ctrls[0];
+	// 		let datePickerCtrl = <LuidDatePickerController>ctrls[1];
+	// 		datePickerCtrl.setElement(element);
+	// 		datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+	// 		datePickerCtrl.setFormat(scope.format, scope.displayFormat);
+	// 		datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
+	// 		datePickerCtrl.setPopoverTrigger(element, scope);
+	// 	}
+	// }
 
 	interface IDatePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope, ICalendarScope {
 		format: string;
-		displayedMonths: string;
+		displayedCalendars: string;
 
 		displayStr: string;
 		displayFormat: string;
@@ -144,8 +144,8 @@ module Lui.Directives {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
 				let date = this.formatter.parseValue(ngModelCtrl.$viewValue);
-				this.currentMonth = moment(date).startOf("month");
-				this.$scope.months = this.constructMonths();
+				this.currentDate = moment(date).startOf("month");
+				this.$scope.calendars = this.constructCalendars();
 				this.selected = date;
 				this.min = this.formatter.parseValue(this.$scope.min);
 				this.max = this.formatter.parseValue(this.$scope.max);
@@ -230,5 +230,5 @@ module Lui.Directives {
 
 	angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
 	angular.module("lui.directives").directive(LuidDatePicker.IID, LuidDatePicker.factory());
-	angular.module("lui.directives").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
+	// angular.module("lui.directives").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
 }
