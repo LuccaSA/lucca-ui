@@ -62,8 +62,8 @@
 
 		// Handle multiple calendars
 		// ====
-		luid-date-picker[displayed-months],
-		luid-date-picker-popup[displayed-months],
+		luid-date-picker[displayed-calendars],
+		luid-date-picker-popup[displayed-calendars],
 		luid-daterange-picker {
 			.calendar > header > button {
 				display: none !important;
@@ -79,7 +79,7 @@
 				}
 			}
 		}
-		luid-date-picker-popup[displayed-months],
+		luid-date-picker-popup[displayed-calendars],
 		luid-daterange-picker {
 			.popover-inner {
 				box-sizing: border-box;
@@ -152,18 +152,18 @@
 				z-index: 3;
 
 				> h4 {
+					font-size: 1em;
 					margin: 0 0 0 0;
 					line-height: 1;
 					cursor: pointer;
-					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
-					text-align: center;
-
-					font-size: map-gets($vars, header, font-size);
-					font-weight: map-gets($vars, header, font-weight);
 
 					> span {
-						display: inline-block;
-						vertical-align: middle;
+						display: block;
+						padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
+						text-align: center;
+
+						font-size: map-gets($vars, header, font-size);
+						font-weight: map-gets($vars, header, font-weight);
 					}
 
 					&:hover > span {
@@ -301,9 +301,6 @@
 					&.disabled, &[disabled="disabled"] {
 						opacity: map-gets($vars, day, disabled, opacity);
 						pointer-events: none;
-						// border: map-gets($vars, day, disabled, border, width) map-gets($vars, day, disabled, border, style) map-gets($vars, day, disabled, border, color);
-						// color: map-gets($vars, day, disabled, color);
-						// background-color: map-gets($vars, day, disabled, background-color);
 					}
 				}
 			}
@@ -350,7 +347,7 @@
 		}
 
 		luid-daterange-picker,
-		luid-date-picker-popup[displayed-months="2"] {
+		luid-date-picker-popup[displayed-calendars="2"] {
 			.popover-inner { width: 40em; }
 		}
 
@@ -359,12 +356,6 @@
 		luid-daterange-picker {
 			.months,
 			.years {
-				position: absolute;
-				top: 4em;
-				bottom: 0;
-				left: 0;
-				right: 0;
-
 				background: #FFF;
 			}
 			.months ul,
@@ -398,22 +389,16 @@
 
 			// Mode switching & animations
 			// ====
-			.calendar[mode="0"] > .months,
-			.calendar[mode="0"] > .years {
-				z-index: 1;
+			.calendar:not([mode="0"]) > .days {
+				display: none;
 			}
-			.calendar:not([mode="0"]) > .days,
-			.calendar.mode-change > .days,
 			.calendar > .months,
 			.calendar > .years {
 				opacity: 0;
 			}
-			.calendar[mode="0"] .days,
-			.calendar[mode="1"] .months,
-			.calendar[mode="2"] .years {
-				z-index: 2;
-			}
 			.calendar {
+				width: 18em;
+
 				> .days,
 				> .months,
 				> .years {
@@ -432,27 +417,11 @@
 					&[mode="2"] .years {
 						animation-name: upScaleIn;
 					}
-					&[mode="1"] .days,
-					&[mode="2"] .months {
-						animation-name: downScaleOut;
-					}
-					&[mode="1"] .months,
-					&[mode="2"] .years {
-						animation-delay: luiTheme(adjective, animated, transitions, animationDuration) / 2;
-					}
 				}
 				&.in.mode-change {
-					&[mode="0"] .months,
-					&[mode="1"] .years {
-						animation-name: upScaleOut;
-					}
 					&[mode="0"] .days,
 					&[mode="1"] .months {
 						animation-name: downScaleIn;
-					}
-					&[mode="1"] .months,
-					&[mode="0"] .days {
-						animation-delay: luiTheme(adjective, animated, transitions, animationDuration) / 2;
 					}
 				}
 				&.previous[mode="0"] .days,
