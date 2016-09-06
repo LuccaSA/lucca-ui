@@ -12,219 +12,7 @@
 
 	angular.module('lui', ['lui.directives','lui.services','lui.filters','lui.templates']);
 })();
-;(function(){
-	'use strict';
-	/**
-	** DEPENDENCIES
-	**  - moment
-	**  - ui bootstrap datepicker
-	**  - ui bootstrap popover
-	**/
-
-	angular.module('lui.directives')
-	.directive('luidDaterange', ['moment', '$filter', '$document', '$timeout', function(moment, $filter, $document, $timeout){
-		function link(scope, element, attrs, ctrls) {
-			function format(startsOn, endsOn) {
-				var startProperty = scope.startProperty || 'startsOn';
-				var endProperty = scope.endProperty || 'endsOn';
-				var result = {};
-				var mstart = moment(startsOn);
-				var mend = moment(endsOn);
-				if (scope.excludeEnd) {	mend.add(1, 'd'); }
-
-				switch (scope.format || "moment"){
-					case "moment":
-						result[startProperty] = mstart;
-						result[endProperty] = mend;
-						break;
-					case "date":
-						result[startProperty] = mstart.toDate();
-						result[endProperty] = mend.toDate();
-						break;
-					default:
-						result[startProperty] = mstart.format(scope.format);
-						result[endProperty] = mend.format(scope.format);
-						break;
-				}
-
-				return result;
-			}
-
-			function parse (viewValue){
-				var mstart, mend;
-				var startProperty = scope.startProperty || 'startsOn';
-				var endProperty = scope.endProperty || 'endsOn';
-
-				switch(scope.format || "moment"){
-					case "moment":
-					case "date":
-						mstart = moment(viewValue[startProperty]);
-						mend = moment(viewValue[endProperty]);
-						break;
-					default:
-						mstart = moment(viewValue[startProperty], scope.format);
-						mend = moment(viewValue[endProperty], scope.format);
-						break;
-				}
-
-				if (scope.excludeEnd){ mend.add(-1, 'd'); }
-
-				return { startsOn: mstart.toDate(), endsOn:mend.toDate() };
-			}
-
-			function unpin(){
-				scope.popoverOpened = false;
-				drCtrl.unpinPopover();
-				scope.$apply(); // commits changes to popoverOpened and hide the popover
-			}
-
-			var ngModelCtrl = ctrls[1];
-			var drCtrl = ctrls[0];
-			scope.internal = {};
-
-			scope.hasPeriods = !!attrs.periods;
-
-			ngModelCtrl.$render = function(){
-				if(!ngModelCtrl.$viewValue){
-					scope.internal.startsOn = undefined;
-					scope.internal.endsOn = undefined;
-					scope.internal.strFriendly = undefined;
-					return;
-				}
-
-				var parsed = parse(ngModelCtrl.$viewValue);
-				scope.internal.startsOn = parsed.startsOn;
-				scope.internal.endsOn = parsed.endsOn;
-				scope.internal.strFriendly = $filter("luifFriendlyRange")(scope.internal);
-			};
-			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.startProperty || "startsOn"]; }, function() { ngModelCtrl.$render(); });
-			scope.$watch(function($scope){ return ngModelCtrl.$viewValue[$scope.endProperty || "endsOn"]; }, function() { ngModelCtrl.$render(); });
-
-			drCtrl.updateValue = function(startsOn, endsOn){
-				var newValue = ngModelCtrl.$viewValue;
-				var formatted = format(startsOn,endsOn);
-				newValue[Object.keys(formatted)[0]] = formatted[Object.keys(formatted)[0]];
-				newValue[Object.keys(formatted)[1]] = formatted[Object.keys(formatted)[1]];
-				ngModelCtrl.$setViewValue(newValue);
-				scope.$parent.$eval(attrs.ngChange);
-			};
-			drCtrl.pinPopover = function () { $timeout(function(){ $document.on("click", unpin); }, 10); };
-			drCtrl.unpinPopover = function () { $document.off("click", unpin); };
-		}
-
-		return {
-			require:['luidDaterange','^ngModel'],
-			controller:'luidDaterangeController',
-			scope: {
-				disabled:'=',
-
-				format:'@', // if you want to bind to moments, dates or a string with a specific format
-				startProperty: '@',
-				endProperty: '@',
-
-				popoverPlacement:'@',
-
-				excludeEnd:'=', // user will see "oct 1st - 31st" and the $viewvalue will be "oct 1st - nov 1st"
-
-				periods:'=', // an array like that [{label:'this month', startsOn:<Date or moment or string parsable by moment>, endsOn:idem}, {...}]
-
-				closeLabel: '@',
-				closeAction:'&',
-			},
-			templateUrl:"lui/directives/luidDaterange.html",
-			restrict:'EA',
-			link:link
-		};
-	}])
-	.controller('luidDaterangeController', ['$scope', 'moment', '$filter', function($scope, moment, $filter){
-		var ctrl = this;
-		$scope.internalUpdated = function(){
-			if (moment($scope.internal.startsOn).diff($scope.internal.endsOn) > 0) {
-				$scope.internal.endsOn = moment($scope.internal.startsOn);
-			}
-
-			// HACKS
-			$scope.hackRefresh = !$scope.hackRefresh;
-
-			ctrl.updateValue($scope.internal.startsOn, $scope.internal.endsOn);
-			$scope.internal.strFriendly = $filter("luifFriendlyRange")($scope.internal);
-		};
-		$scope.goToPeriod = function(period) {
-			$scope.internal.startsOn = moment(period.startsOn).toDate();
-			$scope.internal.endsOn = moment(period.endsOn).toDate();
-			if ($scope.excludeEnd){ $scope.internal.endsOn = moment(period.endsOn).add(-1,'day').toDate(); }
-			$scope.internalUpdated();
-		};
-
-		// Popover display
-		$scope.popoverOpened = false;
-		$scope.togglePopover = function() {
-			$scope.popoverOpened = !$scope.popoverOpened;
-			if($scope.popoverOpened){
-				ctrl.pinPopover();
-			} else {
-				ctrl.unpinPopover();
-			}
-		};
-
-		$scope.doCloseAction = function() {
-			$scope.togglePopover();
-			if(!!$scope.closeAction){ $scope.closeAction(); }
-		};
-
-		$scope.clickInside = function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-		};
-
-		// datepickers stuff
-		var dayClass = function(data){
-			var date = data.date;
-			var mode = data.mode;
- 			var className = '';
-			if (mode == 'day') {
-				if (moment(date).diff($scope.internal.startsOn) === 0) { className = 'start'; }
-				if (moment(date).diff($scope.internal.endsOn) === 0) { className += 'end'; }
-				if (moment(date).isAfter($scope.internal.startsOn) && moment(date).isBefore($scope.internal.endsOn)) { className += 'in-between'; }
-			}
-			return className;
-		};
-		var startingDay = moment.localeData().firstDayOfWeek();
-		$scope.dpOptions = {
-			showWeeks: false,
-			customClass: dayClass,
-			startingDay: startingDay
-		};
-		
-	}]);
-
-
-	/**************************/
-	/***** TEMPLATEs      *****/
-	/**************************/
-	angular.module("lui.templates.daterangepicker").run(["$templateCache", function($templateCache) {
-		$templateCache.put("lui/directives/luidDaterange.html",
-			"<input ng-model='internal.strFriendly' ng-disabled='disabled || popoverOpen' ng-click='togglePopover()'" +
-			"uib-popover-template=\"'lui/directives/luidDaterangePopover.html'\"" +
-			"popover-placement=\"{{popoverPlacement}}\"" +
-			"popover-trigger ='none' popover-is-open='popoverOpened'" +
-			"popover-class ='lui daterange popover {{hasPeriods?\"has-periods\":\"\"}}'" +
-			">");
-		$templateCache.put("lui/directives/luidDaterangePopover.html",
-			"<div class=\"lui clear\" ng-click=\"clickInside($event)\">" +
-			"	<div class=\"lui vertical pills shortcuts menu\">" +
-			"		<a class='lui item' ng-repeat='period in periods' ng-click='goToPeriod(period)'>{{period.label}}</a>" +
-			"	</div>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker start-date' ng-model='internal.startsOn' datepicker-options='dpOptions' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<uib-datepicker ng-if='!hackRefresh' class='lui datepicker end-date' ng-model='internal.endsOn' datepicker-options='dpOptions' min-date='internal.startsOn' ng-change='internalUpdated()'></uib-datepicker>" +
-			"	<hr>" +
-			"	<a class='lui right pulled primary button' ng-click='doCloseAction()'>{{closeLabel || 'Ok'}}</a>" +
-			"</div>" +
-			"");
-	}]);
-})();;/* global angular */
+;/* global angular */
 (function(){
 	'use strict';
 	var DayBlockDirective = function () {
@@ -320,8 +108,8 @@
 			link: function (scope, element, attrs) {
 				element.on('keydown', function (e) {
 					if ( !!scope.mappings && !!scope.mappings[e.which] ){
-						scope.mappings[e.which]();
-						e.preventDefault();
+						scope.mappings[e.which](e);
+						// e.preventDefault();
 					}
 				});
 			}
@@ -1261,6 +1049,10 @@
 	.filter('luifFriendlyRange', function () {
 		var translations = {
 			'en': {
+				startOnly: 'date(dddd, LL) onwards',
+				startOnlyThisYear: 'date(dddd, MMMM Do) onwards',
+				endOnly: 'until date(dddd, LL)',
+				endOnlyThisYear: 'until date(dddd, MMMM Do)',
 				sameDay: 'start(dddd, LL)',
 				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
@@ -1270,6 +1062,10 @@
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
+				startOnly: 'à partir du date(dddd LL)',
+				startOnlyThisYear: 'à partir du date(dddd Do MMMM)',
+				endOnly: 'jusqu\'au date(dddd LL)',
+				endOnlyThisYear: 'jusqu\'au date(dddd Do MMMM)',
 				sameDay: 'le start(dddd LL)',
 				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
@@ -1279,6 +1075,12 @@
 				other: 'du start(LL) au end(LL)'
 			},
 			'de': {
+
+				// startOnly: 'start(dddd, LL) onwards',
+				// startOnlyThisYear: 'start(dddd, MMMM Do) onwards',
+				// endOnly: 'until end(dddd, LL)',
+				// endOnlyThisYear: 'until end(dddd, MMMM Do)',
+
 				sameDay: 'der start(dddd LL)',
 				sameDayThisYear: 'der start(dddd Do MMMM)',
 				sameMonth: 'von start(Do) bis end(LL)',
@@ -1290,24 +1092,34 @@
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
 			if(!_block){ return; }
-			var start = _block.startsAt || _block.startsOn || _block.startDate || _block.start;
-			var end = _block.endsAt || _block.endsOn || _block.endDate || _block.end;
+			var start = _block.start || _block.startsAt || _block.startsOn || _block.startDate;
+			var end = _block.end || _block.endsAt || _block.endsOn || _block.endDate;
 			if (!start && !end) {
 				return "";
 			}
-			start = moment(start);
-			end = moment(end);
+			start = !!start ? moment(start) : undefined;
+			end = !!end ? moment(end) : undefined;
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
 			var trads = translations[moment.locale()] || translations.en;
-			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
-			if(moment().year() === start.year() && moment().year() === end.year()){
+			var format;
+			var regex;
+			if (!!start && !!end) {
+				format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
+				if(moment().year() === start.year() && moment().year() === end.year()){
+					format += "ThisYear";
+				}
+				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
+				return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+			}
+			format = !!start ? "startOnly" : "endOnly";
+			var date = start || end;
+			if(moment().year() === date.year()){
 				format += "ThisYear";
 			}
-
-			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+			regex = /(date\((.*?)\))/gi.exec(trads[format]);
+			return trads[format].replace(regex[1], date.format(regex[2]));
 		};
 	})
 	.filter('luifMoment', function () {
@@ -1549,28 +1361,38 @@ var Lui;
     var Directives;
     (function (Directives) {
         "use strict";
-        var CalendarMonth = (function () {
-            function CalendarMonth(date) {
-                this.date = moment(date).startOf("month");
+        var CalendarDate = (function () {
+            function CalendarDate(date) {
+                this.date = moment(date);
+            }
+            return CalendarDate;
+        }());
+        Directives.CalendarDate = CalendarDate;
+        var Calendar = (function () {
+            function Calendar(date) {
+                this.date = moment(date);
                 this.weeks = [];
+                this.months = [];
+                this.years = [];
                 this.currentYear = this.date.year() === moment().year();
             }
-            return CalendarMonth;
+            return Calendar;
         }());
-        Directives.CalendarMonth = CalendarMonth;
+        Directives.Calendar = Calendar;
         var CalendarWeek = (function () {
             function CalendarWeek() {
             }
             return CalendarWeek;
         }());
         Directives.CalendarWeek = CalendarWeek;
-        var CalendarDay = (function () {
+        var CalendarDay = (function (_super) {
+            __extends(CalendarDay, _super);
             function CalendarDay(date) {
-                this.date = date;
+                _super.call(this, date);
                 this.dayNum = date.date();
             }
             return CalendarDay;
-        }());
+        }(CalendarDate));
         Directives.CalendarDay = CalendarDay;
         var Shortcut = (function () {
             function Shortcut() {
@@ -1578,23 +1400,37 @@ var Lui;
             return Shortcut;
         }());
         Directives.Shortcut = Shortcut;
+        (function (CalendarMode) {
+            CalendarMode[CalendarMode["Days"] = 0] = "Days";
+            CalendarMode[CalendarMode["Months"] = 1] = "Months";
+            CalendarMode[CalendarMode["Years"] = 2] = "Years";
+        })(Directives.CalendarMode || (Directives.CalendarMode = {}));
+        var CalendarMode = Directives.CalendarMode;
+    })(Directives = Lui.Directives || (Lui.Directives = {}));
+})(Lui || (Lui = {}));
+var Lui;
+(function (Lui) {
+    var Directives;
+    (function (Directives) {
+        "use strict";
         var CalendarController = (function () {
             function CalendarController($scope, $log) {
                 this.$scope = $scope;
                 this.$log = $log;
                 this.initCalendarScopeMethods($scope);
+                this.$scope.mode = Directives.CalendarMode.Days;
             }
-            CalendarController.prototype.setMonthsCnt = function (cntStr, inAPopover) {
-                this.monthsCnt = parseInt(cntStr, 10) || 1;
-                if (inAPopover && this.monthsCnt > 2) {
-                    this.monthsCnt = 2;
+            CalendarController.prototype.setCalendarCnt = function (cntStr, inAPopover) {
+                this.calendarCnt = parseInt(cntStr, 10) || 1;
+                if (inAPopover && this.calendarCnt > 2) {
+                    this.calendarCnt = 2;
                     this.$log.warn("no more than 2 months displayed in a date-picker popover");
                 }
             };
-            CalendarController.prototype.constructMonths = function () {
+            CalendarController.prototype.constructCalendars = function () {
                 var _this = this;
-                return _.map(_.range(this.monthsCnt), function (offset) {
-                    return _this.constructMonth(moment(_this.currentMonth).add(offset, "months").startOf("month"));
+                return _.map(_.range(this.calendarCnt), function (offset) {
+                    return _this.constructCalendar(_this.currentDate, offset);
                 });
             };
             CalendarController.prototype.constructDayLabels = function () {
@@ -1603,6 +1439,17 @@ var Lui;
                 });
             };
             CalendarController.prototype.assignClasses = function () {
+                switch (this.$scope.mode) {
+                    case Directives.CalendarMode.Days:
+                        return this.assignDayClasses();
+                    case Directives.CalendarMode.Months:
+                        return this.assignMonthClasses();
+                    case Directives.CalendarMode.Years:
+                        return this.assignYearClasses();
+                    default: break;
+                }
+            };
+            CalendarController.prototype.assignDayClasses = function () {
                 var _this = this;
                 var days = this.extractDays();
                 _.each(days, function (day) {
@@ -1629,39 +1476,155 @@ var Lui;
                         day.disabled = true;
                     }
                     if (!!_this.$scope.customClass) {
-                        day.customClass = _this.$scope.customClass(day.date);
+                        day.customClass = _this.$scope.customClass(day.date, Directives.CalendarMode.Days);
+                    }
+                });
+            };
+            CalendarController.prototype.assignMonthClasses = function () {
+                var _this = this;
+                var months = this.extractMonths();
+                _.each(months, function (month) {
+                    month.selected = false;
+                    month.start = false;
+                    month.end = false;
+                    month.inBetween = false;
+                    if (!!_this.selected && month.date.format("YYYYMM") === moment(_this.selected).format("YYYYMM")) {
+                        month.selected = true;
+                    }
+                    if (!!_this.start && month.date.format("YYYYMM") === moment(_this.start).format("YYYYMM")) {
+                        month.start = true;
+                    }
+                    if (!!_this.end && month.date.format("YYYYMM") === moment(_this.end).format("YYYYMM")) {
+                        month.end = true;
+                    }
+                    if (!!_this.start && !!_this.end && !month.start && !month.end && month.date.isSameOrAfter(_this.start) && month.date.isSameOrBefore(_this.end)) {
+                        month.inBetween = true;
+                    }
+                    if (!!_this.min && _this.min.diff(moment(month.date).endOf("month")) > 0) {
+                        month.disabled = true;
+                    }
+                    if (!!_this.max && _this.max.diff(month.date) < 0) {
+                        month.disabled = true;
+                    }
+                    if (!!_this.$scope.customClass) {
+                        month.customClass = _this.$scope.customClass(month.date, Directives.CalendarMode.Months);
+                    }
+                });
+            };
+            CalendarController.prototype.assignYearClasses = function () {
+                var _this = this;
+                var years = this.extractYears();
+                _.each(years, function (year) {
+                    year.selected = false;
+                    year.start = false;
+                    year.end = false;
+                    year.inBetween = false;
+                    if (!!_this.selected && year.date.format("YYYY") === moment(_this.selected).format("YYYY")) {
+                        year.selected = true;
+                    }
+                    if (!!_this.start && year.date.format("YYYY") === moment(_this.start).format("YYYY")) {
+                        year.start = true;
+                    }
+                    if (!!_this.end && year.date.format("YYYY") === moment(_this.end).format("YYYY")) {
+                        year.end = true;
+                    }
+                    if (!!_this.start && !!_this.end && !year.start && !year.end && year.date.isSameOrAfter(_this.start) && year.date.isSameOrBefore(_this.end)) {
+                        year.inBetween = true;
+                    }
+                    if (!!_this.min && _this.min.diff(moment(year.date).endOf("year")) > 0) {
+                        year.disabled = true;
+                    }
+                    if (!!_this.max && _this.max.diff(year.date) < 0) {
+                        year.disabled = true;
+                    }
+                    if (!!_this.$scope.customClass) {
+                        year.customClass = _this.$scope.customClass(year.date, Directives.CalendarMode.Years);
                     }
                 });
             };
             CalendarController.prototype.initCalendarScopeMethods = function ($scope) {
                 var _this = this;
                 $scope.dayLabels = this.constructDayLabels();
-                $scope.nextMonth = function () {
-                    _this.currentMonth.add(1, "month");
-                    $scope.months = _this.constructMonths();
+                $scope.next = function () {
+                    _this.changeCurrentDate(1);
+                    $scope.calendars = _this.constructCalendars();
                     $scope.direction = "next";
                     _this.assignClasses();
                 };
-                $scope.previousMonth = function () {
-                    _this.currentMonth.add(-1, "month");
-                    $scope.months = _this.constructMonths();
+                $scope.previous = function () {
+                    _this.changeCurrentDate(-1);
+                    $scope.calendars = _this.constructCalendars();
                     $scope.direction = "previous";
                     _this.assignClasses();
                 };
+                $scope.switchToMonthMode = function () {
+                    $scope.mode = Directives.CalendarMode.Months;
+                    $scope.direction = "mode-change out";
+                    _this.currentDate.startOf("year");
+                    $scope.calendars = _this.constructCalendars();
+                    _this.assignClasses();
+                };
+                $scope.switchToYearMode = function () {
+                    $scope.mode = Directives.CalendarMode.Years;
+                    $scope.direction = "mode-change out";
+                    $scope.calendars = _this.constructCalendars();
+                    _this.assignClasses();
+                };
+                $scope.selectDay = function (day) {
+                    _this.selectDate(day.date);
+                };
+                $scope.selectMonth = function (month) {
+                    _this.currentDate = month.date;
+                    $scope.mode = Directives.CalendarMode.Days;
+                    $scope.direction = "mode-change in";
+                    $scope.calendars = _this.constructCalendars();
+                    _this.assignClasses();
+                };
+                $scope.selectYear = function (year) {
+                    _this.currentDate = year.date;
+                    $scope.mode = Directives.CalendarMode.Months;
+                    $scope.direction = "mode-change in";
+                    $scope.calendars = _this.constructCalendars();
+                    _this.assignClasses();
+                };
             };
-            CalendarController.prototype.constructMonth = function (monthStart) {
-                var month = new CalendarMonth(monthStart);
-                var weekStart = moment(month.date).startOf("week");
-                while (weekStart.month() === month.date.month() || moment(weekStart).endOf("week").month() === month.date.month()) {
-                    month.weeks.push(this.constructWeek(weekStart, month.date));
+            CalendarController.prototype.constructCalendar = function (start, offset) {
+                var calendar;
+                switch (this.$scope.mode) {
+                    case Directives.CalendarMode.Days:
+                        calendar = new Directives.Calendar(moment(start).startOf("month").add(offset, "month"));
+                        calendar.weeks = this.constructWeeks(calendar.date);
+                        return calendar;
+                    case Directives.CalendarMode.Months:
+                        calendar = new Directives.Calendar(moment(start).startOf("year").add(offset, "year"));
+                        calendar.months = this.constructDates(calendar.date, "months");
+                        return calendar;
+                    case Directives.CalendarMode.Years:
+                        calendar = new Directives.Calendar(moment(start).startOf("year").add(offset * 12, "year"));
+                        calendar.years = this.constructDates(calendar.date, "years");
+                        return calendar;
+                    default: break;
+                }
+            };
+            CalendarController.prototype.constructDates = function (start, unitOfTime) {
+                return _.map(_.range(12), function (i) {
+                    return new Directives.CalendarDate(moment(start).add(i, unitOfTime));
+                });
+            };
+            ;
+            CalendarController.prototype.constructWeeks = function (monthStart) {
+                var weeks = [];
+                var weekStart = moment(monthStart).startOf("week");
+                while (weekStart.month() === monthStart.month() || moment(weekStart).endOf("week").month() === monthStart.month()) {
+                    weeks.push(this.constructWeek(weekStart, monthStart));
                     weekStart.add(1, "week");
                 }
-                return month;
+                return weeks;
             };
             CalendarController.prototype.constructWeek = function (weekStart, monthStart) {
                 var week = { days: [] };
                 week.days = _.map(_.range(7), function (i) {
-                    var day = new CalendarDay(moment(weekStart).add(i, "days"));
+                    var day = new Directives.CalendarDay(moment(weekStart).add(i, "days"));
                     if (day.date.month() !== monthStart.month()) {
                         day.empty = true;
                     }
@@ -1670,7 +1633,7 @@ var Lui;
                 return week;
             };
             CalendarController.prototype.extractDays = function () {
-                return _.chain(this.$scope.months)
+                return _.chain(this.$scope.calendars)
                     .pluck("weeks")
                     .flatten()
                     .pluck("days")
@@ -1679,6 +1642,32 @@ var Lui;
                     return day.empty;
                 })
                     .value();
+            };
+            CalendarController.prototype.extractMonths = function () {
+                return _.chain(this.$scope.calendars)
+                    .pluck("months")
+                    .flatten()
+                    .value();
+            };
+            CalendarController.prototype.extractYears = function () {
+                return _.chain(this.$scope.calendars)
+                    .pluck("years")
+                    .flatten()
+                    .value();
+            };
+            CalendarController.prototype.changeCurrentDate = function (offset) {
+                switch (this.$scope.mode) {
+                    case Directives.CalendarMode.Days:
+                        this.currentDate.add(offset, "months");
+                        break;
+                    case Directives.CalendarMode.Months:
+                        this.currentDate.add(offset, "years");
+                        break;
+                    case Directives.CalendarMode.Years:
+                        this.currentDate.add(offset * 12, "years");
+                        break;
+                    default: break;
+                }
             };
             return CalendarController;
         }());
@@ -1697,7 +1686,7 @@ var Lui;
                 this.require = ["ngModel", "luidDatePicker"];
                 this.scope = {
                     format: "@",
-                    displayedMonths: "@",
+                    displayedCalendars: "@",
                     min: "=",
                     max: "=",
                     customClass: "=",
@@ -1713,9 +1702,9 @@ var Lui;
             LuidDatePicker.prototype.link = function (scope, element, attrs, ctrls) {
                 var ngModelCtrl = ctrls[0];
                 var datePickerCtrl = ctrls[1];
-                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
                 datePickerCtrl.setFormat(scope.format);
-                datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+                datePickerCtrl.setCalendarCnt(scope.displayedCalendars);
             };
             LuidDatePicker.IID = "luidDatePicker";
             return LuidDatePicker;
@@ -1728,7 +1717,7 @@ var Lui;
                 this.scope = {
                     format: "@",
                     displayFormat: "@",
-                    displayedMonths: "@",
+                    displayedCalendars: "@",
                     min: "=",
                     max: "=",
                     customClass: "=",
@@ -1747,9 +1736,9 @@ var Lui;
                 var ngModelCtrl = ctrls[0];
                 var datePickerCtrl = ctrls[1];
                 datePickerCtrl.setElement(element);
-                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
                 datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-                datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
+                datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+                datePickerCtrl.setCalendarCnt(scope.displayedCalendars, true);
                 datePickerCtrl.setPopoverTrigger(element, scope);
             };
             LuidDatePickerPopup.IID = "luidDatePickerPopup";
@@ -1761,24 +1750,13 @@ var Lui;
                 var _this = this;
                 _super.call(this, $scope, $log);
                 this.$scope = $scope;
-                $scope.selectDay = function (day) {
-                    _this.setViewValue(day.date);
-                    $scope.displayStr = _this.getDisplayStr(day.date);
-                    _this.selected = day.date;
-                    _this.assignClasses();
-                    _this.closePopover();
-                };
                 $scope.togglePopover = function ($event) {
                     _this.togglePopover($event);
                 };
                 $scope.openPopover = function ($event) {
                     _this.openPopover($event);
                 };
-                $scope.closePopover = function ($event) {
-                    $timeout(function () {
-                        _this.closePopover();
-                    }, 100);
-                };
+                $scope.closePopoverOnTab = { 9: function ($event) { _this.closePopover(); _this.$scope.$apply(); } };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
                     _this.validate();
@@ -1811,16 +1789,7 @@ var Lui;
             LuidDatePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
                 var _this = this;
                 this.ngModelCtrl = ngModelCtrl;
-                ngModelCtrl.$render = function () {
-                    var date = _this.formatter.parseValue(ngModelCtrl.$viewValue);
-                    _this.currentMonth = moment(date).startOf("month");
-                    _this.$scope.months = _this.constructMonths();
-                    _this.selected = date;
-                    _this.min = _this.formatter.parseValue(_this.$scope.min);
-                    _this.max = _this.formatter.parseValue(_this.$scope.max);
-                    _this.assignClasses();
-                    _this.$scope.displayStr = _this.getDisplayStr(date);
-                };
+                ngModelCtrl.$render = function () { _this.render(); };
                 ngModelCtrl.$validators.min = function (modelValue, viewValue) {
                     var min = _this.min;
                     var value = _this.getViewValue();
@@ -1840,6 +1809,13 @@ var Lui;
                 else {
                     this.displayFormat = displayFormat || "L";
                 }
+            };
+            LuidDatePickerController.prototype.selectDate = function (date) {
+                this.setViewValue(date);
+                this.$scope.displayStr = this.getDisplayStr(date);
+                this.selected = date;
+                this.assignClasses();
+                this.closePopover();
             };
             LuidDatePickerController.prototype.setPopoverTrigger = function (elt, $scope) {
                 var _this = this;
@@ -1866,6 +1842,17 @@ var Lui;
             LuidDatePickerController.prototype.validate = function () {
                 this.ngModelCtrl.$validate();
             };
+            LuidDatePickerController.prototype.render = function () {
+                var date = this.formatter.parseValue(this.ngModelCtrl.$viewValue);
+                this.currentDate = moment(date).startOf("month");
+                this.$scope.mode = Directives.CalendarMode.Days;
+                this.$scope.calendars = this.constructCalendars();
+                this.selected = date;
+                this.min = this.formatter.parseValue(this.$scope.min);
+                this.max = this.formatter.parseValue(this.$scope.max);
+                this.assignClasses();
+                this.$scope.displayStr = this.getDisplayStr(date);
+            };
             LuidDatePickerController.prototype.togglePopover = function ($event) {
                 if (this.$scope.popover.isOpen) {
                     this.closePopover();
@@ -1885,6 +1872,7 @@ var Lui;
                 this.element.addClass("ng-open");
                 this.$scope.direction = "";
                 if (!!this.popoverController) {
+                    this.render();
                     this.popoverController.open($event);
                 }
             };
@@ -1935,7 +1923,7 @@ var Lui;
                 var drCtrl = ctrls[1];
                 drCtrl.setNgModelCtrl(ngModelCtrl);
                 drCtrl.setFormat(scope.format, scope.displayFormat);
-                drCtrl.setMonthsCnt("2");
+                drCtrl.setCalendarCnt("2", true);
                 drCtrl.setPopoverTrigger(element, scope);
                 drCtrl.setExcludeEnd(scope.excludeEnd);
                 drCtrl.setProperties(scope.startProperty, scope.endProperty);
@@ -1961,26 +1949,6 @@ var Lui;
                         $scope.toLabel = "To";
                         break;
                 }
-                $scope.selectDay = function (day) {
-                    if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
-                        $scope.period.start = day.date;
-                        _this.start = day.date;
-                        $scope.editEnd();
-                        if (!!$scope.period.end && $scope.period.start.isAfter($scope.period.end)) {
-                            $scope.period.end = undefined;
-                            _this.end = undefined;
-                        }
-                        _this.assignClasses();
-                    }
-                    else if (!$scope.editingStart && !!$scope.period.start) {
-                        $scope.period.end = day.date;
-                        _this.closePopover();
-                    }
-                    else {
-                        $scope.period.end = day.date;
-                        $scope.editStart();
-                    }
-                };
                 $scope.selectShortcut = function (shortcut) {
                     $scope.period = _this.toPeriod(shortcut);
                     $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
@@ -1992,9 +1960,9 @@ var Lui;
                         $event.stopPropagation();
                     }
                     $scope.editingStart = true;
-                    if (!!_this.$scope.period.start && moment(_this.currentMonth).diff(_this.$scope.period.start) > 0) {
-                        _this.currentMonth = moment(_this.$scope.period.start).startOf("month");
-                        _this.$scope.months = _this.constructMonths();
+                    if (!!_this.$scope.period.start && moment(_this.currentDate).diff(_this.$scope.period.start) > 0) {
+                        _this.currentDate = moment(_this.$scope.period.start).startOf("month");
+                        _this.$scope.calendars = _this.constructCalendars();
                         _this.assignClasses();
                     }
                 };
@@ -2003,9 +1971,9 @@ var Lui;
                         $event.stopPropagation();
                     }
                     $scope.editingStart = false;
-                    if (!!_this.$scope.period.end && moment(_this.currentMonth).add(_this.monthsCnt, "months").diff(_this.$scope.period.end) <= 0) {
-                        _this.currentMonth = moment(_this.$scope.period.end).add(-_this.monthsCnt + 1, "months").startOf("month");
-                        _this.$scope.months = _this.constructMonths();
+                    if (!!_this.$scope.period.end && moment(_this.currentDate).add(_this.calendarCnt, "months").diff(_this.$scope.period.end) <= 0) {
+                        _this.currentDate = moment(_this.$scope.period.end).add(-_this.calendarCnt + 1, "months").startOf("month");
+                        _this.$scope.calendars = _this.constructCalendars();
                         _this.assignClasses();
                     }
                 };
@@ -2083,14 +2051,34 @@ var Lui;
                     _this.togglePopover($event);
                 };
             };
+            LuidDaterangePickerController.prototype.selectDate = function (date) {
+                if (this.$scope.editingStart || (!!this.$scope.period.start && date.isBefore(this.$scope.period.start))) {
+                    this.$scope.period.start = date;
+                    this.start = date;
+                    this.$scope.editEnd();
+                    if (!!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
+                        this.$scope.period.end = undefined;
+                        this.end = undefined;
+                    }
+                    this.assignClasses();
+                }
+                else if (!this.$scope.editingStart && !!this.$scope.period.start) {
+                    this.$scope.period.end = date;
+                    this.closePopover();
+                }
+                else {
+                    this.$scope.period.end = date;
+                    this.$scope.editStart();
+                }
+            };
             LuidDaterangePickerController.prototype.setViewValue = function (value) {
                 var period = this.ngModelCtrl.$viewValue || {};
-                if (!value || !value.start || !value.end) {
+                if (!value) {
                     period = undefined;
                 }
                 else {
-                    period[this.startProperty] = this.formatter.formatValue(moment(value.start));
-                    period[this.endProperty] = this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+                    period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
+                    period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
                 }
                 this.ngModelCtrl.$setViewValue(period);
             };
@@ -2120,22 +2108,17 @@ var Lui;
             };
             LuidDaterangePickerController.prototype.closePopover = function () {
                 this.$scope.direction = "";
-                if (!!this.$scope.period.start && !!this.$scope.period.end) {
-                    this.setViewValue(this.$scope.period);
-                    this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
-                }
-                else {
-                    this.$scope.period = this.getViewValue();
-                    this.$scope.displayStr = "";
-                }
+                this.setViewValue(this.$scope.period);
+                this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
                 this.element.removeClass("ng-open");
                 this.popoverController.close();
             };
             LuidDaterangePickerController.prototype.openPopover = function ($event) {
                 var vv = this.getViewValue();
                 this.$scope.period = vv || { start: undefined, end: undefined };
-                this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
-                this.$scope.months = this.constructMonths();
+                this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
+                this.$scope.mode = Directives.CalendarMode.Days;
+                this.$scope.calendars = this.constructCalendars();
                 if (!!vv) {
                     this.start = vv.start;
                     this.end = vv.end;
@@ -3062,17 +3045,17 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/date-picker/datepicker-inline.html',
-    "<div class=calendars><button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=calendars><div class=calendar mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=[direction]><header><button class=previous ng-click=previous()></button> <span ng-switch=mode><span ng-switch-default ng-click=switchToMonthMode()>{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=1 ng-click=switchToYearMode()>{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=2>{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=next ng-click=next()></button></header><table class=days><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><div class=months><ul><li ng-repeat=\"m in calendar.months\" ng-click=selectMonth(m) ng-disabled=m.disabled ng-class=\"[{selected: m.selected}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=years><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=y.disabled ng-click=selectYear(y) ng-class=\"[{selected: y.selected}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=!!shortcuts.length><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-if=!!groupedShortcuts.length ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) ng-blur=closePopover($event)> <i class=empty ng-click=clear($event)></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) luid-keydown mappings=closePopoverOnTab> <i class=empty ng-click=clear($event)></i></div>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker-popover.html',
-    "<div class=calendars><button class=previous ng-click=previousMonth()></button> <button class=next ng-click=nextMonth()></button><table ng-repeat=\"month in months\" ng-class=[direction]><caption><span>{{ month.date | luifMoment : month.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span></caption><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in month.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{ empty: day.empty, start: day.start, end: day.end, 'in-between': day.inBetween }, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day) ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day)>{{ ::day.dayNum }}</td></tr></tbody></table></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=calendars><div class=calendar mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=[direction]><header><button class=previous ng-click=previous()></button> <span ng-switch=mode><span ng-switch-default ng-click=switchToMonthMode()>{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=1 ng-click=switchToYearMode()>{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=2>{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=next ng-click=next()></button></header><table class=days><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected, start: day.start, end: day.end, 'in-between': day.inBetween}, day.customClass]\" ng-disabled=day.disabled ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day) ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><div class=months><ul><li ng-repeat=\"m in calendar.months\" ng-click=selectMonth(m) ng-disabled=m.disabled ng-mouseenter=onMouseEnter(m) ng-mouseleave=onMouseLeave(m) ng-class=\"[{selected: m.selected, start: m.start, end: m.end, 'in-between': m.inBetween}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=years><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=y.disabled ng-click=selectYear(y) ng-mouseenter=onMouseEnter(y) ng-mouseleave=onMouseLeave(y) ng-class=\"[{selected: y.selected, start: y.start, end: y.end, 'in-between': y.inBetween}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=!!shortcuts.length><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-if=!!groupedShortcuts.length ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 

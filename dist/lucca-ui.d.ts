@@ -17,19 +17,8 @@ declare module Lui.Service {
     }
 }
 declare module Lui.Directives {
-    class CalendarMonth {
+    class CalendarDate {
         date: moment.Moment;
-        currentYear: boolean;
-        weeks: CalendarWeek[];
-        constructor(date: moment.Moment);
-    }
-    class CalendarWeek {
-        days: CalendarDay[];
-    }
-    class CalendarDay {
-        date: moment.Moment;
-        dayNum: number;
-        empty: boolean;
         disabled: boolean;
         selected: boolean;
         start: boolean;
@@ -38,22 +27,48 @@ declare module Lui.Directives {
         customClass: string;
         constructor(date: moment.Moment);
     }
+    class Calendar {
+        date: moment.Moment;
+        currentYear: boolean;
+        weeks: CalendarWeek[];
+        months: CalendarDate[];
+        years: CalendarDate[];
+        constructor(date: moment.Moment);
+    }
+    class CalendarWeek {
+        days: CalendarDay[];
+    }
+    class CalendarDay extends CalendarDate {
+        dayNum: number;
+        empty: boolean;
+        constructor(date: moment.Moment);
+    }
     class Shortcut {
         label: string;
         date: moment.Moment | Date | string;
     }
+    enum CalendarMode {
+        Days = 0,
+        Months = 1,
+        Years = 2,
+    }
     interface ICalendarScope extends ng.IScope {
-        customClass: (date: moment.Moment) => string;
+        customClass: (date: moment.Moment, mode?: CalendarMode) => string;
         displayedMonths: string;
         min: any;
         max: any;
+        mode: CalendarMode;
         dayLabels: string[];
-        months: CalendarMonth[];
+        calendars: Calendar[];
         direction: string;
-        selectDay(day: CalendarDay): void;
+        selectDay(day: CalendarDate): void;
+        selectMonth(day: CalendarDate): void;
+        selectYear(day: CalendarDate): void;
         selectShortcut(shortcut: Shortcut): void;
-        previousMonth(): void;
-        nextMonth(): void;
+        previous(): void;
+        next(): void;
+        switchToMonthMode(): void;
+        switchToYearMode(): void;
         onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
         onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
     }
@@ -61,9 +76,11 @@ declare module Lui.Directives {
         min: (modelValue: any, viewValue: any) => boolean;
         max: (modelValue: any, viewValue: any) => boolean;
     }
-    class CalendarController {
-        protected monthsCnt: number;
-        protected currentMonth: moment.Moment;
+}
+declare module Lui.Directives {
+    abstract class CalendarController {
+        protected calendarCnt: number;
+        protected currentDate: moment.Moment;
         protected $scope: ICalendarScope;
         protected $log: ng.ILogService;
         protected selected: moment.Moment;
@@ -72,14 +89,23 @@ declare module Lui.Directives {
         protected min: moment.Moment;
         protected max: moment.Moment;
         constructor($scope: ICalendarScope, $log: ng.ILogService);
-        setMonthsCnt(cntStr?: string, inAPopover?: boolean): void;
-        protected constructMonths(): CalendarMonth[];
+        setCalendarCnt(cntStr?: string, inAPopover?: boolean): void;
+        protected constructCalendars(): Calendar[];
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
+        protected abstract selectDate(date: moment.Moment): void;
+        private assignDayClasses();
+        private assignMonthClasses();
+        private assignYearClasses();
         private initCalendarScopeMethods($scope);
-        private constructMonth(monthStart);
+        private constructCalendar(start, offset);
+        private constructDates(start, unitOfTime);
+        private constructWeeks(monthStart);
         private constructWeek(weekStart, monthStart);
         private extractDays();
+        private extractMonths();
+        private extractYears();
+        private changeCurrentDate(offset);
     }
 }
 declare module Lui.Directives {
