@@ -15,6 +15,7 @@
 ## Resolved issues
 - Adds support for line-breaks in tooltip content
 - Issue #301 (appLayout plugin) - adds support for .top.stuck on #main-header
+- Issue #298 (grid) - fixes same height columns (fitting columns)
 
 ## 2.3.1 - in dev
 
