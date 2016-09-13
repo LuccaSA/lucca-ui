@@ -120,7 +120,7 @@
 %lui_searchable_input {
 	@include lui_make_icon("search", left);
 	> input {
-		padding-right: 1.2em;
+		padding-right: 1.5em;
 	}
 	&:before {
 		@extend %lui_field_input_inner_right_icon;
