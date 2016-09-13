@@ -1,44 +1,135 @@
 @at-root #{$namespace} {
 
-	@if luiTheme(element, datepicker, enabled) {
-		$vars: luiTheme(element, datepicker);
+	@if luiTheme(element, field, datepicker, enabled) {
+		$vars: luiTheme(element, field, datepicker);
+
+		// Reset
 		luid-date-picker,
 		luid-date-picker-popup,
 		luid-daterange-picker {
 			display: inline-block;
+			vertical-align: middle;
+
+			// Label support
+			& + label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+			}
+			&.ng-not-empty ~ label,
+			&.ng-open ~ label {
+				@extend %lui_input_label_displaced;
+			}
+
+			// Invalid style
+			&.ng-invalid.ng-touched {
+				input {
+					@extend %lui_input_invalid_input;
+				}
+				& ~ label {
+					@extend %lui_input_invalid_label;
+				}
+			}
 		}
+
+		// Fitting size
+		// ====
+		#{$prefix}.fitting.field {
+			luid-date-picker,
+			luid-date-picker-popup,
+			luid-daterange-picker {
+				display: block;
+
+				> .input {
+					width: 100% !important;
+				}
+			}
+		}
+
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			> .lui.input {
-				position: relative;
-				width: map-gets($vars, input, width);
+			&.ng-open > .lui.input > input {
+				@extend %lui_input_focus;
+			}
+		}
 
-				input {
-					padding-right: 2.25em;
-				}
+		// Neutralize popover max-width
+		// ====
+		luid-date-picker-popup .popover-inner,
+		luid-daterange-picker .popover-inner {
+			max-width: none !important;
+			margin: luiTheme(element, field, field, focus-border-width) !important;
+		}
 
-				&.empty {
-					i.empty { display: none; }
-					@include lui_make_icon("calendar", right);
-					&:after {
-						position: absolute;
-						top: luiTheme(element, input, borderWidth);
-						right: 0.5em;
-						line-height: 1 +  luiTheme(element, input, padding, top) +  luiTheme(element, input, padding, bottom);
+		// Handle multiple calendars
+		// ====
+		luid-date-picker[displayed-months],
+		luid-date-picker-popup[displayed-months],
+		luid-daterange-picker {
+			.calendars {
+				@extend %lui_clearfix;
+				> table {
+					float: left;
+
+					& + table {
+						margin-left: 1em;
 					}
 				}
 			}
-			> .popover > .popover-inner {
-				text-align: center;
+		}
+		luid-date-picker-popup[displayed-months],
+		luid-daterange-picker {
+			.popover-inner {
+				box-sizing: border-box;
+				width: 14 * map-gets($vars, day,size) + 1;
+			}
+		}
+
+		// Style input
+		// ====
+		luid-date-picker-popup .lui.datepicker.input,
+		luid-daterange-picker .lui.daterange.input {
+			position: relative;
+			width: map-gets($vars, input, width);
+
+			input, label {
+				width: 100% !important;
+				padding-right: 2.25em;
+			}
+			i.empty { z-index: 2; }
+		}
+
+		luid-date-picker-popup,
+		luid-daterange-picker {
+			position: relative;
+
+			&.ng-open {
+				.tags {
+					position: absolute;
+					z-index: 1;
+					left: 50%;
+					transform: translateX(-50%);
+				}
 			}
 
+			&.ng-empty {
+				i.empty { display: none; }
+				@include lui_make_icon("calendar", right);
+				&:after {
+					pointer-events: none;
+					@extend %lui_field_input_inner_right_icon;
+				}
+			}
 		}
+
 		luid-daterange-picker {
-			> .lui.tagged.input {
+			.lui.tagged.input {
 				width: 2 * map-gets($vars, input, width);
 				.tag {
 					cursor: pointer;
 				}
+			}
+			&.ng-open input {
+				color: transparent;
 			}
 		}
 
@@ -47,8 +138,8 @@
 		luid-daterange-picker .popover-content {
 			position: relative;
 
-			> button.previous,
-			> button.next {
+			.calendars > button.previous,
+			.calendars > button.next {
 				display: block;
 				background: transparent;
 				border: none;
@@ -68,23 +159,22 @@
 					background-color: luiPalette(light, color, light);
 				}
 			}
-			> button.previous {
-				left: 1em;
+			.calendars > button.previous {
+				left: 0;
 				&:before {
 					content: "\e053";
 				}
 			}
-			> button.next {
-				right: 1em;
+			.calendars > button.next {
+				right: 0;
 				&:before {
 					content: "\e054";
 				}
 			}
 
-			> table {
-				display: inline-block;
-				vertical-align: top;
-				margin: 0 .25em;
+			.calendars > table {
+				min-width: 7 * map-gets($vars, day, size);
+				table-layout: fixed;
 				border-collapse: collapse;
 
 				@extend %#{$cleanNamespace}-animated;
@@ -146,6 +236,30 @@
 						background-color: map-gets($vars, day, default, hover, background-color);
 					}
 
+					&.in-between.start,
+					&.in-between.end {
+						position: relative;
+						&:before {
+							display: block;
+							content: '';
+							position: absolute;
+							width: 8px;
+							background-color: darken(map-gets($vars, day, selected, border, color), 5);
+							top: -1px;
+							bottom: -1px;
+						}
+					}
+					&.start:before {
+						right: 100%;
+						border-top-left-radius: 4px;
+						border-bottom-left-radius: 4px;
+					}
+					&.end:before {
+						left: 100%;
+						border-top-right-radius: 4px;
+						border-bottom-right-radius: 4px;
+					}
+
 					&.in-between {
 						color: map-gets($vars, day, in-between, color);
 						background-color: map-gets($vars, day, in-between, background-color);
@@ -205,15 +319,12 @@
 		}
 
 		luid-daterange-picker {
-			> .lui.input > .tags {
+			.lui.input > .tags {
 				display: block;
 				width: 100%;
 				text-align: center;
 
-				user-select: none;
-				-moz-user-select: none;
-				-webkit-user-select: none;
-				-ms-user-select: none;
+				white-space: pre;
 
 				.arrow.icon {
 					font-size: 0.5em;

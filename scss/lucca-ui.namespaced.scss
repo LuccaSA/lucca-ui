@@ -55,7 +55,8 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 @import	"core/elements/icon",
 		"core/elements/grid",
 		"core/elements/typography",
-		"core/elements/input",
+		// "core/elements/input",
+		"core/elements/field",
 		"core/elements/button",
 		"core/elements/divider",
 		"core/elements/table",
@@ -68,8 +69,10 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 		"core/elements/progress",
 		"core/elements/day-block",
 		"core/elements/tablegrid",
-		"core/elements/datepicker",
-		"core/elements/imagepicker",
+		"core/elements/tooltip",
+		"core/elements/popover",
+		"core/elements/pagination",
+		"core/elements/modal",
 		"core/elements/notify";
 
 
@@ -83,7 +86,7 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 // Angular UI Bootstrap reskin
 // ===================================
 @at-root #{$namespace} {
-	@import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
+	// @import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
 }
 
 

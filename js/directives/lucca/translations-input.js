@@ -118,7 +118,6 @@
 			},
 			templateUrl:"lui/directives/luidTranslations.html",
 			restrict:'EA',
-			replace:true,
 			link:link
 		};
 	}])
@@ -157,15 +156,17 @@
 	/**************************/
 	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"luid-translations {{size}}\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
-			"	<div class=\"lui fitting input with addon\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"	<div class=\"lui input\">" +
 			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
-			"		<span class=\"lui right addon\">{{currentCulture}}</span>" +
+			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
-			"	<div class=\"lui luid-translations-dropdown\">" +
-			"		<div class=\"lui fitting input with addon\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
-			"			<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
-			"			<span class=\"lui right addon\">{{culture}}</span>" +
+			"	<div class=\"dropdown-menu\">" +
+			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
+			"			<div class=\"lui input\">" +
+			"				<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<span class=\"unit addon\">{{culture}}</span>" +
+			"			</div>" +
 			"		</div>" +
 			// "		<hr>" +
 			// "		<div class=\"lui button right pulled\" ng-click=\"close()\">Ok</div>" +

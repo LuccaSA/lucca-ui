@@ -1,0 +1,64 @@
+@at-root #{$namespace} {
+
+	@if luiTheme(element, modal, enabled) {
+		$vars: luiTheme(element, modal);
+
+		#{$prefix}.modal {
+			display: none; overflow: hidden;
+			position: fixed;
+			top: 0; right: 0; bottom: 0; left: 0;
+			z-index: map-gets($vars, z-index);
+			-webkit-overflow-scrolling: touch;
+			outline: 0; // Chrome fix
+
+			// When fading in the modal, animate it to slide down
+			&.in .modal-dialog {
+				@include lui_is_animated("up fade in");
+			}
+			&:not(.in) .modal-dialog {
+				@include lui_is_animated("up fade out");
+			}
+
+			.modal-dialog {
+				@include lui_raised(5);
+				@extend #{$prefix}.rounded;
+				margin: map-gets($vars, top-margin) auto map-gets($vars, bottom-margin) auto;
+				background: map-gets($vars, background);
+				max-width: map-gets($vars, max-width);
+
+				@each $size, $width in map-gets($vars, sizes) {
+					&.modal-#{$size} {
+						width: $width;
+					}
+				}
+				@each $size, $props in luiTheme(reference, breakpoints) {
+					&.modal-#{$size} {
+						width: map-get($props, break);
+					}
+				}
+			}
+
+			.modal-content { padding: map-gets($vars, padding); }
+			.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($vars, padding)}"); padding: map-gets($vars, padding); }
+			.modal-header { margin-bottom: unquote("#{map-gets($vars, padding)}"); border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+			.modal-footer { margin-top: unquote("#{map-gets($vars, padding)}"); border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+		}
+
+		#{$prefix}.modal-backdrop {
+			@extend #{$prefix}.overlay;
+
+			visibility: hidden;
+			opacity: 0;
+			@include lui_transition_properties(opacity);
+
+			&.in { visibility: visible; opacity: 1; }
+			&:not(.in) { visibility: visible; opacity: 0; }
+		}
+
+		// Kill the scroll on the "body"
+		&.modal-open {
+			overflow: hidden;
+			#{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
+		}
+	}
+}

@@ -1,0 +1,46 @@
+@if luiTheme(element, field, dropdown, enabled) {
+	@at-root #{$namespace} {
+
+		// Angular UI dropdown
+		// ====
+		.dropdown {
+			@extend %lui_dropdown_base;
+
+			.dropdown-menu {
+				@extend %lui_dropdown_list;
+			}
+			&.open {
+				.dropdown-menu {
+					@extend %lui_dropdown_list_dropped;
+				}
+			}
+		}
+		[uib-dropdown] {
+			@extend %lui_dropdown_sizing;
+
+			#{$prefix}.button {
+				margin: 0;
+			}
+			[uib-dropdown-toggle] {
+				@include lui_make_icon("south chevron", right);
+				&:after {
+					font-size: 0.5em;
+				}
+			}
+			&.open #{$prefix}.button {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			.button + .dropdown-menu {
+				margin-top: 0.5em;
+				left: 1px;
+			}
+			ul li {
+				@extend %lui_dropdown_list_item;
+				a {
+					font-size: 1em;
+				}
+			}
+		}
+	}
+}

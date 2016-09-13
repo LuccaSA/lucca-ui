@@ -1,0 +1,190 @@
+@if luiTheme(element, field, ui-select, enabled) {
+	@at-root #{$namespace} {
+
+		.ui-select-container {
+			@extend %lui_dropdown_sizing;
+
+			// Label
+			// ====
+			& ~ label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+			}
+			&.open ~ label,
+			&.ng-not-empty ~ label,
+			&[placeholder]:not([placeholder=""]) ~ label {
+				@extend %lui_input_label_displaced;
+			}
+
+			&.open:not([search-enabled="false"]) {
+				@extend %lui_searchable_input;
+			}
+
+			.btn {
+				cursor: pointer;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				outline: 0;
+				outline: none;
+
+				@extend %lui_user_select_none;
+			}
+
+			.ui-select-offscreen {
+				display: none;
+			}
+
+			.ui-select-match .ui-select-toggle,
+			.ui-select-search {
+				@extend %lui_input_sizing;
+				@extend %lui_input_reset;
+
+				width: 100%;
+			}
+
+			&:not(.open) .ui-select-toggle,
+			&.ui-select-multiple:not(.open) > div {
+				@include lui_make_icon('south chevron', right);
+				&:after {
+					@extend %lui_field_input_inner_right_icon;
+					font-size: 8px;
+				}
+			}
+
+			.ui-select-placeholder,
+			.ui-select-search::-webkit-input-placeholder {
+				font-size: lui_rem(1);
+				white-space: pre;
+			}
+
+			.ui-select-placeholder {
+				@include lui_input_placeholder;
+			}
+
+			&.open .ui-select-search {
+				@extend %lui_input_focus;
+			}
+			&:not(.ui-select-multiple) .ui-select-search {
+				width: 100% !important;
+			}
+
+			// Clear
+			.glyphicon-remove {
+				@extend %lui_input_clear;
+				right: 0.75em;
+			}
+
+			.ui-select-choices {
+				margin-top: 1px;
+
+				&.ng-hide {
+					display: block !important;
+				}
+			}
+
+			.ui-select-choices-row {
+				position: relative;
+				@extend %lui_dropdown_list_item;
+			}
+
+			&.direction-up {
+				.ui-select-choices {
+					top: auto !important;
+					bottom: 100%;
+					transform-origin: bottom right;
+				}
+				&[search-enabled="false"] .ui-select-choices {
+					bottom: 0 !important;
+				}
+			}
+
+			&[search-enabled="false"] {
+				.ui-select-match.ng-hide {
+					display: block !important;
+				}
+				.ui-select-choices {
+					top: 0;
+					left: -1em;
+					right: -1em;
+				}
+			}
+
+			// Invalid
+			// ====
+			&.ng-invalid.ng-touched {
+				.ui-select-toggle,
+				.ui-select-search {
+					@extend %lui_input_invalid_input;
+				}
+
+				& ~ label {
+					@extend %lui_input_invalid_label;
+				}
+			}
+
+
+			// Multiselect
+			// ====
+			&.ui-select-multiple {
+				// Angular UI hack: input width calculus is all wrong
+				margin-top: -1px;
+				margin-bottom: -1px;
+				.ui-select-search {
+					padding-top: 0;
+					padding-bottom: 0;
+					padding-right: 10px;
+					box-sizing: content-box;
+				}
+
+				> div {
+					@extend %lui_tagged_input;
+				}
+
+				.ui-select-search {
+					@extend %lui_tagged_input_input;
+				}
+				.ui-select-match-item {
+					@extend %lui_tagged_input_tag;
+				}
+				.close {
+					@extend %lui_tagged_input_close;
+				}
+				.btn-primary, .btn-primary:hover {
+					@extend %lui_tagged_input_tag_active;
+				}
+			}
+
+			// Natural style
+			// ====
+			&.natural {
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 0.5em;
+				margin-bottom: luiTheme(element, field, input, vertical-padding);
+				width: auto;
+
+				.ui-select-toggle {
+					padding-right: 1.5em;
+				}
+
+				&, .ui-select-toggle, a {
+					font-size: 1em;
+				}
+
+				.ui-select-choices {
+					min-width: 15em;
+					left: 50%;
+
+					transform: scale(0) translateX(-50%);
+					&:not(.ng-hide) {
+						transform: scale(1) translateX(-50%);
+					}
+				}
+			}
+		}
+		#{$prefix}.fitting.field .ui-select-container,
+		.fitting.ui-select-container {
+			width: 100%;
+		}
+	}
+}

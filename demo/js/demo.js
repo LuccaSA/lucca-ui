@@ -4,7 +4,7 @@
 	angular.module('underscore', []).factory('_', function () { return window._; });
 	angular.module('moment', []).factory('moment', function () { return window.moment; });
 
-	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E', 'hljs']);
+	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E', 'hljs', "lui.formlytemplates"]);
 
 	angular.module('demoApp')
 	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
@@ -37,6 +37,9 @@
 			.when('/lucca', {
 				templateUrl: 'lucca-spe.html',
 			})
+			.when('/form', {
+				templateUrl: 'form.html',
+			})
 			.otherwise({ redirectTo: '/sass'});
 
 		var culture = 'en';
@@ -64,13 +67,14 @@
 		$rootScope.$on("$routeChangeStart", function() {
 			luisProgressBar.startListening();
 		});
-		$httpBackend.whenGET('sass-framework.html').passThrough();
-		$httpBackend.whenGET('icons.html').passThrough();
 		$httpBackend.whenGET('animations.html').passThrough();
-		$httpBackend.whenGET('nguibs.html').passThrough();
-		$httpBackend.whenGET('filters.html').passThrough();
 		$httpBackend.whenGET('directives.html').passThrough();
+		$httpBackend.whenGET('filters.html').passThrough();
+		$httpBackend.whenGET('form.html').passThrough();
+		$httpBackend.whenGET('icons.html').passThrough();
 		$httpBackend.whenGET('lucca-spe.html').passThrough();
+		$httpBackend.whenGET('nguibs.html').passThrough();
+		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
 

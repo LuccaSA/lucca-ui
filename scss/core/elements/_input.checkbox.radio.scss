@@ -1,0 +1,124 @@
+@if luiTheme(element, field, enabled) {
+	@at-root #{$namespace} {
+		#{$prefix}.radio.input,
+		#{$prefix}.checkbox.input {
+			display: inline-block;
+			margin-right: 2em;
+			padding-top: 0.5em;
+			vertical-align: middle;
+			position: relative;
+			line-height: 1;
+
+			input, label { margin: 0; }
+
+			> input {
+				position: absolute;
+				z-index: 2;
+				left: 0; top: 50%;
+				transform: translateY(-50%);
+				width: luiTheme(element, field, input, font-size);
+				height: luiTheme(element, field, input, font-size);
+				cursor: pointer;
+				opacity: 0;
+
+				&:focus + label:after {
+					box-shadow: 0 0 0.25em luiPalette(primary, color),
+								inset 0 0 0.25em luiPalette(primary, color);
+				}
+			}
+			label {
+				color: luiTheme(element, typography, body, color);
+				display: block;
+				position: relative;
+				padding: 0 0 0 1.75em;
+				overflow: visible;
+				font-size: luiTheme(element, field, input, font-size);
+
+				&[for] {
+					cursor: pointer;
+				}
+
+				&:before {
+					position: absolute;
+					left: 0;
+					top: 0.1em;
+					content: '';
+					display: block;
+					width: 1em;
+					height: 1em;
+					border-radius: 50%;
+					background-color: rgba(25, 25, 25, 0.2);
+					opacity: 0;
+				}
+
+				&:after {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					left: 0;
+					display: inline-block;
+					margin-left: 0 !important;
+				}
+			}
+			&.checkbox {
+				label {
+					@include lui_make_icon("checkbox", right);
+				}
+				input:checked ~ label {
+					@include lui_make_icon("checkbox checked", right);
+				}
+			}
+			&.radio {
+				label {
+					@include lui_make_icon("radio", right);
+					&:after {
+						border-radius: 50%;
+					}
+				}
+				input:checked ~ label {
+					@include lui_make_icon("radio checked", right);
+				}
+			}
+
+			input:active ~ label:before {
+				@include lui_is_animated(ripple);
+				animation-fill-mode: forwards;
+				transform-origin: center center;
+				animation-duration: 1s;
+			}
+
+			input:checked ~ label:after {
+				color: luiPalette(primary, color);
+			}
+			& + label {
+				margin-left: 1em;
+			}
+			// Read only state
+			// ====
+			&.readonly {
+				label,
+				input {
+					cursor: default;
+				}
+				input {
+					display: none;
+				}
+			}
+		}
+
+		#{$prefix}.field {
+			> label {
+				@extend %lui_input_label;
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
+			}
+
+			&.vertical {
+				.radio.input,
+				.checkbox.input {
+					display: block;
+				}
+			}
+		}
+	}
+}

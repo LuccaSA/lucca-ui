@@ -1,0 +1,20 @@
+
+// Pagination
+// @type: element
+// ===================================
+
+$pagination: (
+	enabled: 					true,
+	
+	vertical-margin: 			0.5em,
+	horizontal-margin: 			auto,
+	background: 				#FFF,
+	default-coloring: (
+		color: 					luiPalette(primary, color),
+		text: 					luiPalette(primary, text)
+	),
+	dividing: (
+		border-width: 			luiTheme(adjective, rounded, radius)
+	)
+);
+$luiTheme: luiSetTheme(element, pagination, $pagination);

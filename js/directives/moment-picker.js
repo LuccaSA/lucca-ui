@@ -29,10 +29,10 @@
 				ngModelCtrl.setValue = function(newMomentValue) {
 					ngModelCtrl.$setViewValue(!newMomentValue ? undefined : newMomentValue.format(format));
 				};
-				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) {
 					return !viewValue || mpCtrl.checkMin(moment(modelValue, format));
 				};
-				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) {
 					return !viewValue || mpCtrl.checkMax(moment(modelValue, format));
 				};
 			} else {
@@ -42,23 +42,23 @@
 					scope.mins = condition ? this.$viewValue.format('mm') : undefined;
 					ngModelCtrl.$validate();
 				};
-				ngModelCtrl.setValue = function(newMomentValue) { 
-					ngModelCtrl.$setViewValue(newMomentValue); 
+				ngModelCtrl.setValue = function(newMomentValue) {
+					ngModelCtrl.$setViewValue(newMomentValue);
 				};
-				ngModelCtrl.$validators.min = function (modelValue,viewValue) { 
-					return !viewValue || mpCtrl.checkMin(modelValue); 
+				ngModelCtrl.$validators.min = function (modelValue,viewValue) {
+					return !viewValue || mpCtrl.checkMin(modelValue);
 				};
-				ngModelCtrl.$validators.max = function (modelValue,viewValue) { 
-					return !viewValue || mpCtrl.checkMax(modelValue); 
+				ngModelCtrl.$validators.max = function (modelValue,viewValue) {
+					return !viewValue || mpCtrl.checkMax(modelValue);
 				};
 			}
 
 			scope.ngModelCtrl = ngModelCtrl;
 
-			ngModelCtrl.$validators.hours = function (modelValue,viewValue) { 
+			ngModelCtrl.$validators.hours = function (modelValue,viewValue) {
 				return scope.hours !== undefined && scope.hours !== "" && !isNaN(parseInt(scope.hours));
 			};
-			ngModelCtrl.$validators.minutes = function (modelValue,viewValue) { 
+			ngModelCtrl.$validators.minutes = function (modelValue,viewValue) {
 				return scope.mins !== undefined && scope.mins !== "" && parseInt(scope.mins) < 60;
 			};
 
@@ -73,7 +73,7 @@
 			scope.$watch('max', function(){
 				ngModelCtrl.$validate();
 			});
-		
+
 		}
 
 		return {
@@ -206,7 +206,7 @@
 			}
 
 			// min/max attr not specified
-			if (!extremum) { return undefined; } 
+			if (!extremum) { return undefined; }
 			var extrem = rawExtremum();
 			extrem.add(moment.duration(offset));
 			return extrem;
@@ -277,7 +277,7 @@
 			updateWithoutRender(getInputedTime());
 		};
 
-		$scope.changeMins = function() { 
+		$scope.changeMins = function() {
 			updateWithoutRender(getInputedTime());
 			// changeInput($scope.mins, function(){});
 		};
@@ -291,7 +291,7 @@
 		};
 
 		$scope.blurHours = function() { blurEvent(hoursFocusTimeout, $scope.hoursFocused); };
-		$scope.blurMins = function() { 
+		$scope.blurMins = function() {
 			if(!$scope.mins) {
 				if($scope.hours === "" || $scope.hours === undefined){
 					$scope.mins = undefined;
@@ -299,7 +299,7 @@
 					$scope.mins = "00";
 				}
 			}
-			blurEvent(minsFocusTimeout, $scope.minsFocused); 
+			blurEvent(minsFocusTimeout, $scope.minsFocused);
 		};
 
 		$scope.focusHours = function() { focusEvent(false); };
@@ -335,7 +335,7 @@
 							$scope.formatInputValue();
 							$scope.$apply();
 						break;
-					}				
+					}
 				}
 				var step = getStep();
 				hoursInput.bind('keydown', function(e) { subscription(e, 60); });
@@ -354,7 +354,7 @@
 					if(!$scope.disabled){
 						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
-					}				
+					}
 				}
 				var step = getStep();
 
@@ -370,7 +370,7 @@
 
 	angular.module("lui.templates.momentpicker").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
-			"<div class='luid-moment' ng-class='{disabled:disabled}'>" +
+			"<div class='lui moment input' ng-class='{disabled:disabled}'>" +
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours'   ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxlength=2> : " +
 			// This indentation issue is normal and needed
 			"	<input type='text' ng-model='mins'  ng-change='changeMins()'  luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()'  ng-blur='blurMins()'  ng-disabled='disabled' maxlength=2>" +

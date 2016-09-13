@@ -30,7 +30,7 @@
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-class=\"{dividing: user.isDisplayedFirst}\">" +
-		"<div ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_SELECTED'\"></div>" +
+		"<div class=\"selected-first\" ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
 		"<div ng-if=\"!!user.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
 		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
 		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
@@ -41,7 +41,7 @@
 	"</ui-select-choices>";
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
-	"class=\"lui {{size}} input \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
+	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
 		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
 		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
@@ -808,7 +808,7 @@
 	// Highlight the search in the name of the user and display a label next to each user
 	.filter('luifHighlight', ['$filter', '$translate', function($filter, $translate) {
 		return function(_input, _clue, _info, _key) {
-			return (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + $filter('highlight')(_input, _clue) + (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "");
+			return (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "") + (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + "<span>" + $filter('highlight')(_input, _clue) + "</span>";
 		};
 	}]);
 
@@ -826,7 +826,6 @@
 			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
 			"LUIDUSERPICKER_MAIL":"Email",
-			"LUIDUSERPICKER_SELECTED":"Selected:",
 			"LUIDUSERPICKER_ME":"Me:",
 			"LUIDUSERPICKER_ALL":"All users",
 		});
@@ -840,7 +839,6 @@
 			"LUIDUSERPICKER_LEGALENTITY":"Rechtsträger",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Betriebsnummer",
 			"LUIDUSERPICKER_MAIL":"E-mail",
-			"LUIDUSERPICKER_SELECTED":"Ausgewählt:",
 			"LUIDUSERPICKER_ME":"Mir:",
 			"LUIDUSERPICKER_ALL":"Alle Benutzer",
 		});
@@ -857,7 +855,6 @@
 			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
 			"LUIDUSERPICKER_MAIL":"Email",
-			"LUIDUSERPICKER_SELECTED":"Sélectionné :",
 			"LUIDUSERPICKER_ME":"Moi :",
 			"LUIDUSERPICKER_ALL":"Tous les utilisateurs",
 		});

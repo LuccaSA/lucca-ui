@@ -1,25 +1,12 @@
-@if luiTheme(element, input, enabled) {
+@if luiTheme(element, field, timespanpicker, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, input);
+		$vars: luiTheme(element, field, timespanpicker);
 
 		luid-timespan {
-			@extend %lui_input_holder_base;
+			display: inline-block;
 
-			> input {
-				@extend %lui_input_field_base;
-				@extend %lui_input_text_field;
-				width: map-gets($vars, timespanpicker, width);
-			}
-		}
-		// Invalid field
-		luid-timespan.invalid > input,
-		luid-timespan.ng-invalid > input {
-			@extend %lui_invalid_input_base;
-		}
-
-		#{$prefix}.inline.field {
-			label + luid-timespan {
-				margin-left: 0.5em;
+			input {
+				width: map-gets($vars, width) !important;
 			}
 		}
 	}
