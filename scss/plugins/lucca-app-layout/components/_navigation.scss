@@ -83,8 +83,11 @@
 		}
 
 		// Mobile version
-		#main-navigation {
-			@include lui_screens_smaller_than(tablet) {
+		@include lui_screens_smaller_than(tablet) {
+			#main-header {
+				left: 0;
+			}
+			#main-navigation {
 				background: transparent;
 				position: relative !important;
 				left: 0; right: 0; bottom: auto;

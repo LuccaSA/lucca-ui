@@ -9,6 +9,10 @@
 			min-height: map-gets($vars, header, height);
 
 			background-color: map-gets($vars, header, background);
+
+			&.top.stuck {
+				left: map-gets($vars, navigation, width);
+			}
 		}
 		#view #main-header {
 			@include lui_screens_smaller_than(tablet) {

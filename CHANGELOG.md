@@ -14,6 +14,7 @@
 
 ## Resolved issues
 - Adds support for line-breaks in tooltip content
+- Issue #301 (appLayout plugin) - adds support for .top.stuck on #main-header
 
 ## 2.3.1 - in dev
 
