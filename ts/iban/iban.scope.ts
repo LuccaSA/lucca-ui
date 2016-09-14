@@ -10,7 +10,7 @@ module Lui.Directives.Iban {
 		bbanPattern: string;
 
 		updateValue: () => void;
-		pasteIban: (event: JQueryEventObject) => void;
+		pasteIban: (event: ClipboardEvent) => void;
 		selectInput: (event: JQueryEventObject) => void;
 	}
 }

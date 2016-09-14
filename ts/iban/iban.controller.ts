@@ -57,8 +57,8 @@ module Lui.Directives.Iban {
 				this.setViewValue(this.$scope.countryCode.toUpperCase() + this.$scope.controlKey.toUpperCase() + this.$scope.bban.toUpperCase());
 			};
 
-			this.$scope.pasteIban = (event: JQueryEventObject): void => {
-				this.setViewValue((<any>event.originalEvent).clipboardData.getData("text/plain"));
+			this.$scope.pasteIban = (event: ClipboardEvent): void => {
+				this.setViewValue(event.clipboardData.getData("text/plain"));
 				this.ngModelCtrl.$render();
 				(<HTMLInputElement>event.target).blur();
 			};
