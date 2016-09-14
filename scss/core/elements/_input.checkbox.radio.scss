@@ -93,6 +93,20 @@
 			& + label {
 				margin-left: 1em;
 			}
+
+			// Solo checkbox: no label
+			// ====
+			&.solo {
+				margin-right: 0;
+				padding-top: 0;
+				width: luiTheme(element, field, input, font-size);
+
+				label {
+					padding: 0;
+				}
+			}
+
+
 			// Read only state
 			// ====
 			&.readonly {

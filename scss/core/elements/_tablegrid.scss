@@ -45,6 +45,12 @@
 				}
 			}
 
+			// Fields
+			// ====
+			.field {
+				margin: 0;
+			}
+
 			// Cells
 			// ====
 			th, td {
@@ -104,9 +110,10 @@
 					background-color: map-gets($vars, header, background);
 					vertical-align: bottom;
 					border-color: map-gets($vars, header, borderColor);
-					
-					&:not(.filtering) {
-						font-weight: map-gets($vars, header, fontWeight);
+					font-weight: map-gets($vars, header, fontWeight);
+
+					&.filtering {
+						font-weight: normal;
 					}
 				}
 				tr:not(.filters) th:not([colspan]) {
