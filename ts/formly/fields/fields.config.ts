@@ -46,5 +46,9 @@ module Lui {
 			name: "api_select_multiple",
 			templateUrl: "lui/templates/formly/fields/api-select-multiple.html",
 		});
+		formlyConfigProvider.setType({
+			name: "iban",
+			templateUrl: "lui/templates/formly/fields/iban.html",
+		});
 	}]);
 }

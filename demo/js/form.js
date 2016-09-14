@@ -129,11 +129,22 @@
 					placeholder: "search departments",
 				},
 			},
+			{
+				key: "iban",
+				type: "iban",
+				templateOptions: {
+					label: "Iban",
+					required: true,
+					placeholder: "Iban",
+					helper: "Please enter your iban",
+				},
+			},
 
 		];
 		$scope.options = { formState: {
 			requiredError: "this is the required message for the whole form",
 			emailError: "this is not a valid email",
+			ibanError: "this is not a valid iban",
 			display: "fitting",
 		}};
 		$scope.debug = function (form) {
