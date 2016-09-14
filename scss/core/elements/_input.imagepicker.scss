@@ -79,6 +79,11 @@
 				.input-overlay { display: none; }
 				.upload-overlay { height: 100%; }
 			}
+			&.round {
+				.luid-image-picker-picture {
+					border-radius: 50%;
+				}
+			}
 		}
 		.luid-cropper {
 			background: map-gets($vars, cropper, bg-color);
