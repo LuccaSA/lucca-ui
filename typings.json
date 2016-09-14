@@ -4,6 +4,7 @@
     "angular-formly": "registry:dt/angular-formly#7.2.3+20160316171810",
     "angular-translate": "registry:dt/angular-translate#2.4.0+20160505162438",
     "angular-ui-bootstrap": "registry:dt/angular-ui-bootstrap#0.13.3+20160602140119",
+    "iban": "registry:dt/iban#0.0.5+20160316155526",
     "jquery": "registry:dt/jquery#1.10.0+20160417213236",
     "moment": "registry:dt/moment#2.8.0+20160316155526",
     "moment-node": "registry:dt/moment-node#2.11.1+20160511043338",
