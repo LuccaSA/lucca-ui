@@ -1,6 +1,5 @@
 @if luiTheme(element, field, momentpicker, enabled) {
 	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, momentpicker);
 
 		@keyframes momentPickerArrowUp {
 			0%, 20%, 50%, 80%, 100% {
@@ -27,39 +26,67 @@
 
 		luid-moment {
 			display: inline-block;
-			max-width:  map-gets($vars, max-width);
+			max-width:  luiTheme(element, field, momentpicker, max-width);
 			overflow: visible !important; // Buttons
 
-			> .lui.moment.input > input {
+			> .separator,
+			> .moment.input {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			> .moment.input {
+				position: relative;
+				width: luiTheme(element, field, momentpicker, width);
+			}
+
+			input[type="text"] {
 				text-align: center;
-				width: map-gets($vars, width);
+			}
+
+			// Hide selection when using buttons
+			// ====
+			&[show-buttons="true"] input[type="text"] {
+				&::selection {
+					background: #FFF !important;
+				}
+				&::-moz-selection {
+					background: #FFF !important;
+				}
 			}
 
 			.mp-button {
-				width: luiTheme(element, field, input, font-size) * (map-gets($vars, width) / (map-gets($vars, width) * 0 + 1));
 				position: absolute;
+				left: 0;
+				right: 0;
+				opacity: 0;
 				cursor: pointer;
 				color: luiPalette(light, color);
 
-				animation-duration: 500ms;
+				transition: opacity 125ms ease-out;
+
 
 				&:before {
 					font-size: 0.75em;
+					animation-duration: 180ms;
 				}
 
 				&:hover {
 					color: luiPalette(primary, color);
-					&.top { animation-name: momentPickerArrowUp; }
-					&.bottom { animation-name: momentPickerArrowDown; }
+					background: transparentize(luiPalette(primary, color), 0.9);
+				}
+				&:active {
+					background: transparentize(luiPalette(primary, color), 0.8);
+
+					&.top:before { animation-name: momentPickerArrowUp; }
+					&.bottom:before { animation-name: momentPickerArrowDown; }
 				}
 
 				&.top {
-					bottom: 100%;
-					margin-bottom: -0.25em;
+					top: -1em;
+					bottom: 0;
 				}
 				&.bottom {
 					top: 100%;
-					margin-top: 0.25em;
 				}
 				&.left {
 					left: 0;
@@ -67,6 +94,16 @@
 				&.right {
 					right: 0;
 				}
+			}
+
+			input:focus ~ .mp-button,
+			.moment.input:hover .mp-button,
+			.mp-button:hover {
+				opacity: 1;
+			}
+
+			.separator {
+				opacity: 0.7;
 			}
 		}
 	}
