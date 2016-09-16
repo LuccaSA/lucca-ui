@@ -1,4 +1,4 @@
-module Lui.Directives.Iban {
+module Lui.Directives {
 	"use strict";
 
 	export interface ILuidIbanValidators extends ng.IModelValidators {
