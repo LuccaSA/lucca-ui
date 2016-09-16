@@ -11,6 +11,7 @@
 
 ### New features
 - Default border-radius is now 2px instead of 3px
+- `luid-iban` new directive to input and display ibans
 
 ## Resolved issues
 - Adds support for line-breaks in tooltip content

@@ -8,6 +8,7 @@
 		<a class="item" href="#/directives#luid-date-picker">luid-date-picker</a>
 		<a class="item" href="#/directives#luid-daterange-picker">luid-daterange-picker</a>
 		<a class="item" href="#/directives#luid-progress-bar">luid-progress-bar</a>
+		<a class="item" href="#/directives#luid-iban">luid-iban</a>
 	</nav>
 
 	<section class="lui typeset container">
@@ -326,7 +327,7 @@
 			</div>
 		</article>
 
-		
+
 		<article id="luid-keydown">
 			<h2 class="lui divider below">luid-keydown</h2>
 			<p>
@@ -800,6 +801,50 @@ luisProgressBar.startListening(["POST", "PUT"]); // will only listen to post and
 				</p>
 				<p>
 					Or click here to change the color of the progress bar <span class="lui buttons"><button ng-repeat="palette in palettes" class="lui button" ng-click="changeColor(palette)" ng-class="{active: palette == currentPalette}">{{palette}}</button></span>
+				</p>
+			</div>
+		</article>
+
+		<article id="luid-iban">
+			<h2 class="lui divider below">luid-iban</h2>
+
+			<p>
+				An input to type in an iban.
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Features</h4>
+			</div>
+			<p>
+				Shows IBAN split in 3 parts : country code, control key and bban
+			</p>
+			<p>
+				Jumps to next sub input automaticaly
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html">&lt;!-- basic usage --&gt;
+&lt;luid-iban ng-model="myIban"&gt;&lt;/luid-iban&gt;</pre>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Demo</h4>
+			</div>
+			<div ng-controller="ibanCtrl" class="lui block round" id="demoIban">
+				<p>
+					The directive
+				</p>
+				<p>
+					<div class="lui field">
+						<luid-iban ng-model="iban"></luid-iban>
+						<label for="">IBAN</label>
+					</div>
+				</p>
+				<div class="lui divider"></div>
+				<p>
+					Value in parent model
+				</p>
+				<p ng-bind="iban">
 				</p>
 			</div>
 		</article>

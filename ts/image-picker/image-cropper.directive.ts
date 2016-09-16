@@ -97,7 +97,7 @@ module Lui.Directives {
 					$scope.cropped = cropped;
 					$scope.onCropped(cropped);
 				}, () => {
-					if (!!$scope.onCancelled){
+					if (!!$scope.onCancelled) {
 						$scope.onCancelled();
 					}
 				});

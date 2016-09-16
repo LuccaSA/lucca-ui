@@ -12,7 +12,7 @@ module Lui.Directives {
 	export class LuidTableGridHeightType {
 		public static GLOBAL = "global";
 		public static BODY = "body";
-		public static isTypeExisting(type: string) {
+		public static isTypeExisting(type: string): Boolean {
 			return type === LuidTableGridHeightType.GLOBAL || type === LuidTableGridHeightType.BODY;
 		}
 	}
@@ -169,7 +169,7 @@ module Lui.Directives {
 						if (!!lockedColumnsVS) {
 							lockedColumnsVS.style.height = canvasHeight + "px";
 						}
-					}else{
+					} else {
 						scrollableAreaVS.style.height = height + "px";
 						if (!!lockedColumnsVS) {
 							lockedColumnsVS.style.height = height + "px";
