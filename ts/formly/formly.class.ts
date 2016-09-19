@@ -16,6 +16,7 @@ module Lui {
 		// error messages
 		requiredError?: string;
 		emailError?: string;
+		ibanError?: string;
 
 		// select and radio types
 		choices?: { label: string | number };
