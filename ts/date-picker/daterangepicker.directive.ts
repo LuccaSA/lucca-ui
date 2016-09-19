@@ -9,6 +9,7 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
@@ -207,12 +208,22 @@ module Lui.Directives {
 					this.end = undefined;
 				}
 				this.assignClasses();
-			} else if (!this.$scope.editingStart && !!this.$scope.period.start) {
-				this.$scope.period.end = date;
-				this.closePopover();
 			} else {
-				this.$scope.period.end = date;
-				this.$scope.editStart();
+				switch(this.minMode) {
+					case CalendarMode.Months:
+						this.$scope.period.end = date.endOf("month").startOf("day");
+						break;
+					case CalendarMode.Years:
+						this.$scope.period.end = date.endOf("year").startOf("day");
+						break;
+					default:
+						this.$scope.period.end = date;
+				}
+				if (!!this.$scope.period.start) {
+					this.closePopover();
+				} else {
+					this.$scope.editStart();
+				}
 			}
 		}
 
@@ -268,7 +279,7 @@ module Lui.Directives {
 			let vv: Lui.Period = this.getViewValue();
 			this.$scope.period = vv || { start: undefined, end: undefined };
 			this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
-			this.$scope.mode = CalendarMode.Days;
+			this.$scope.mode = this.minMode;
 			this.$scope.calendars = this.constructCalendars();
 			if (!!vv) {
 				this.start = vv.start;
