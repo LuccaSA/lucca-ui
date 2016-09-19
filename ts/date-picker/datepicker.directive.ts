@@ -215,7 +215,7 @@ module Lui.Directives {
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.element.addClass("ng-open");
-			this.$scope.direction = "";
+			this.$scope.direction = "init";
 			if (!!this.popoverController) {
 				this.render();
 				this.popoverController.open($event);

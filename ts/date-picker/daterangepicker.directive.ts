@@ -280,6 +280,7 @@ module Lui.Directives {
 			this.$scope.period = vv || { start: undefined, end: undefined };
 			this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
 			this.$scope.mode = this.minMode;
+			this.$scope.direction = "init";
 			this.$scope.calendars = this.constructCalendars();
 			if (!!vv) {
 				this.start = vv.start;

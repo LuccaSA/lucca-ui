@@ -17,6 +17,7 @@ module Lui.Directives {
 			this.initCalendarScopeMethods($scope);
 			this.setMinMode($scope.minMode);
 			this.$scope.mode = this.minMode;
+			$scope.direction = "init";
 		}
 		public setCalendarCnt(cntStr?: string, inAPopover?: boolean): void {
 			this.calendarCnt = parseInt(cntStr, 10) || 1;
