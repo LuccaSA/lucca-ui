@@ -7,6 +7,10 @@ module Lui {
 			templateUrl: "lui/templates/formly/fields/text.html",
 		});
 		formlyConfigProvider.setType({
+			name: "textarea",
+			templateUrl: "lui/templates/formly/fields/textarea.html",
+		});
+		formlyConfigProvider.setType({
 			name: "email",
 			templateUrl: "lui/templates/formly/fields/email.html",
 		});
