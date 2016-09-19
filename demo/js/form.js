@@ -6,6 +6,7 @@
 		$scope.model = {
 			address: "24 rue du champ de l'allouette, Paris 13e",
 			email: "this is not a real email address",
+			quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus finibus ligula vitae rhoncus accumsan. Duis ac nibh at purus condimentum scelerisque. Vestibulum tempor neque mattis risus tristique congue vitae ac ex. Vestibulum et lacus sed ligula posuere molestie. Morbi nulla elit, pharetra a massa sed, malesuada volutpat erat. Proin non efficitur mi, at venenatis leo. Integer sagittis ornare ipsum in lobortis. Proin mauris ex, sodales a orci at, auctor consequat eros. Aliquam accumsan elit sit amet turpis dignissim, in scelerisque urna egestas. Ut in lectus augue. Donec nec turpis vitae eros accumsan scelerisque a vitae odio. Morbi molestie leo tellus, ut tristique odio vulputate vitae. Quisque sem metus, pellentesque eu dui in, tempor mollis risus. Vivamus arcu justo, dapibus ac vestibulum at, fringilla ac massa. Donec eleifend tellus eget ex pulvinar dapibus eget eget risus. Mauris lobortis est ut mattis varius.",
 		};
 		$scope.fields = [
 			{
@@ -15,6 +16,27 @@
 					label: "Language (mandatory)",
 					choices: [{ key: "en", label: "english" }, { key: "fr", label: "français" }],
 					required: true,
+					placeholder: "placeholder",
+					helper: "@paugam: l'etoile de mandatory n'apparait pas, aussi y'a un margin vertical de 2em du a la classe .dropdown, le placeholder n'a pas la bonne couleur, le sizing est pas bon (fitting)"
+				},
+			},
+			{
+				key: "age",
+				type: "number",
+				templateOptions: {
+					label: "Age",
+					required: true,
+					placeholder: "placeholder",
+					helper: "@paugam: l'etoile de mandatory n'apparait pas, aussi y'a un margin vertical de 2em du a la classe .dropdown, le placeholder n'a pas la bonne couleur, le sizing est pas bon (fitting)"
+				},
+			},
+			{
+				key: "quote",
+				type: "textarea",
+				templateOptions: {
+					label: "Quote",
+					required: true,
+					disabled: true,
 					placeholder: "placeholder",
 					helper: "@paugam: l'etoile de mandatory n'apparait pas, aussi y'a un margin vertical de 2em du a la classe .dropdown, le placeholder n'a pas la bonne couleur, le sizing est pas bon (fitting)"
 				},
