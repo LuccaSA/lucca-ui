@@ -54,6 +54,7 @@ module Lui.Directives {
 		max: any;
 
 		mode: CalendarMode;
+		minMode: string;
 
 		dayLabels: string[];
 		calendars: Calendar[];
