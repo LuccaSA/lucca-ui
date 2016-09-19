@@ -14,6 +14,8 @@
 				table-layout: fixed;
 				width: 100%;
 				min-height: 1px;
+				border-spacing: 0;
+				border-collapse: collapse;
 			}
 
 			// Columns
@@ -50,6 +52,7 @@
 			th, td {
 				padding: map-gets($vars, cell, padding);
 				box-sizing: border-box;
+				word-break: break-all;
 
 				border: 1px solid luiPalette(light, color);
 
