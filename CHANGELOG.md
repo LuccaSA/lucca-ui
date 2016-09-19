@@ -2,6 +2,20 @@
 
 ## 3.0.0 - in dev
 
+### Dependencies
+
+the following dependencies have been updated to their latest verion at time of release. This might introduce breaking changes
+
+- moment `2.15`
+- angular-ui-bootstrap `2.1`
+- ui-select `0.19`
+- angular-translate `2.12`
+
+The following dependencies have been added
+
+- angular-formly `8.4`
+- iban `0.0.6`
+
 ### Breaking changes
 - Major refactoring of the raised adjective, based upon material design guidelines. The `lui_theme_shadow` function thus disappears, and the `.lui.raised` class should not be @extended any longer.
 - Major refactoring of fields and inputs: material style, no more addon support
