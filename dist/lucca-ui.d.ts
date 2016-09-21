@@ -160,7 +160,7 @@ declare module Lui {
         ibanError?: string;
         choices?: {
             label: string | number;
-        };
+        }[];
         api?: string;
         filter?: string;
     }
