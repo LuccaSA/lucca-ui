@@ -79,7 +79,7 @@
 
 %lui_input_label {
 	font-size: luiTheme(element, field, input, font-size);
-	line-height: normal;
+	line-height: 1;
 	box-sizing: border-box;
 	overflow: hidden;
 	white-space: pre;
@@ -266,7 +266,18 @@
 		// Best practice: You should have only one (displayed) form per page.
 		// ====
 		#{$prefix}.form {
+			&.natural {
+				> span,
+				> #{$prefix}.field {
+					display: inline-block;
+					vertical-align: middle;
+				}
 
+				> #{$prefix}.field {
+					margin: 0 0.5em;
+					font-size: (0em + 1em / map-gets($vars, input, font-size)) !important;
+				}
+			}
 		}
 
 		// Fieldsets are a group of fields
@@ -296,7 +307,6 @@
 			}
 
 			position: relative;
-			font-size: map-gets($vars, font-size);
 
 			// Messages
 			// ====
