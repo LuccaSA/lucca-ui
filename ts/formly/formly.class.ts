@@ -3,6 +3,7 @@ module Lui {
 	export interface IField extends AngularFormly.IFieldConfigurationObject {
 		key: string;
 		type: string;
+		className?: string;
 		templateOptions?: ITemplateOptions;
 	}
 	export interface ITemplateOptions extends AngularFormly.ITemplateOptions {

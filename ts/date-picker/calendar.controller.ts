@@ -10,11 +10,14 @@ module Lui.Directives {
 		protected end: moment.Moment;
 		protected min: moment.Moment;
 		protected max: moment.Moment;
+		protected minMode: CalendarMode = CalendarMode.Days;
 		constructor($scope: ICalendarScope, $log: ng.ILogService) {
 			this.$scope = $scope;
 			this.$log = $log;
 			this.initCalendarScopeMethods($scope);
-			this.$scope.mode = CalendarMode.Days;
+			this.setMinMode($scope.minMode);
+			this.$scope.mode = this.minMode;
+			$scope.direction = "init";
 		}
 		public setCalendarCnt(cntStr?: string, inAPopover?: boolean): void {
 			this.calendarCnt = parseInt(cntStr, 10) || 1;
@@ -42,6 +45,31 @@ module Lui.Directives {
 				case CalendarMode.Years:
 					return this.assignYearClasses();
 				default: break;
+			}
+		}
+		private setMinMode(mode: string): void {
+			switch ((mode || "").toLowerCase()) {
+				case "0":
+				case "d":
+				case "day":
+				case "days":
+					this.minMode = CalendarMode.Days;
+					break;
+				case "1":
+				case "m":
+				case "month":
+				case "months":
+					this.minMode = CalendarMode.Months;
+					break;
+				case "2":
+				case "y":
+				case "year":
+				case "years":
+					this.minMode = CalendarMode.Years;
+					break;
+				default:
+					this.minMode = CalendarMode.Days;
+					break;
 			}
 		}
 		protected abstract selectDate(date: moment.Moment): void;
@@ -167,18 +195,26 @@ module Lui.Directives {
 				this.selectDate(day.date);
 			};
 			$scope.selectMonth = (month: CalendarDate) => {
-				this.currentDate = month.date;
-				$scope.mode = CalendarMode.Days;
-				$scope.direction = "mode-change in";
-				$scope.calendars = this.constructCalendars();
-				this.assignClasses();
+				if (this.minMode === CalendarMode.Months) {
+					this.selectDate(month.date);
+				} else {
+					this.currentDate = month.date;
+					$scope.mode = CalendarMode.Days;
+					$scope.direction = "mode-change in";
+					$scope.calendars = this.constructCalendars();
+					this.assignClasses();
+				}
 			};
 			$scope.selectYear = (year: CalendarDate) => {
-				this.currentDate = year.date;
-				$scope.mode = CalendarMode.Months;
-				$scope.direction = "mode-change in";
-				$scope.calendars = this.constructCalendars();
-				this.assignClasses();
+				if (this.minMode === CalendarMode.Years) {
+					this.selectDate(year.date);
+				} else {
+					this.currentDate = year.date;
+					$scope.mode = CalendarMode.Months;
+					$scope.direction = "mode-change in";
+					$scope.calendars = this.constructCalendars();
+					this.assignClasses();
+				}
 			};
 		}
 		private constructCalendar(start: moment.Moment, offset: number): Calendar {

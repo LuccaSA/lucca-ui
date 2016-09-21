@@ -35,6 +35,10 @@ module Lui {
 			templateUrl: "lui/templates/formly/fields/radio.html",
 		});
 		formlyConfigProvider.setType({
+			name: "picture",
+			templateUrl: "lui/templates/formly/fields/picture.html",
+		});
+		formlyConfigProvider.setType({
 			name: "portrait",
 			templateUrl: "lui/templates/formly/fields/portrait.html",
 		});

@@ -8,6 +8,7 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayedCalendars: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
@@ -36,6 +37,7 @@ module Lui.Directives {
 			format: "@",
 			displayFormat: "@",
 			displayedCalendars: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
@@ -188,7 +190,7 @@ module Lui.Directives {
 		private render(): void {
 			let date = this.formatter.parseValue(this.ngModelCtrl.$viewValue);
 			this.currentDate = moment(date).startOf("month");
-			this.$scope.mode = CalendarMode.Days;
+			this.$scope.mode = this.minMode;
 			this.$scope.calendars = this.constructCalendars();
 			this.selected = date;
 			this.min = this.formatter.parseValue(this.$scope.min);
@@ -213,7 +215,7 @@ module Lui.Directives {
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.element.addClass("ng-open");
-			this.$scope.direction = "";
+			this.$scope.direction = "init";
 			if (!!this.popoverController) {
 				this.render();
 				this.popoverController.open($event);
