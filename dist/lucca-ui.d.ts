@@ -58,6 +58,7 @@ declare module Lui.Directives {
         min: any;
         max: any;
         mode: CalendarMode;
+        minMode: string;
         dayLabels: string[];
         calendars: Calendar[];
         direction: string;
@@ -88,11 +89,13 @@ declare module Lui.Directives {
         protected end: moment.Moment;
         protected min: moment.Moment;
         protected max: moment.Moment;
+        protected minMode: CalendarMode;
         constructor($scope: ICalendarScope, $log: ng.ILogService);
         setCalendarCnt(cntStr?: string, inAPopover?: boolean): void;
         protected constructCalendars(): Calendar[];
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
+        private setMinMode(mode);
         protected abstract selectDate(date: moment.Moment): void;
         private assignDayClasses();
         private assignMonthClasses();
@@ -142,6 +145,7 @@ declare module Lui {
     interface IField extends AngularFormly.IFieldConfigurationObject {
         key: string;
         type: string;
+        className?: string;
         templateOptions?: ITemplateOptions;
     }
     interface ITemplateOptions extends AngularFormly.ITemplateOptions {
@@ -153,6 +157,7 @@ declare module Lui {
         placeholder?: string;
         requiredError?: string;
         emailError?: string;
+        ibanError?: string;
         choices?: {
             label: string | number;
         };
@@ -161,6 +166,59 @@ declare module Lui {
     }
 }
 declare module dir.directives {
+}
+declare module Lui.Directives {
+    class LuidIbanController {
+        static IID: string;
+        static $inject: Array<string>;
+        private $scope;
+        private ngModelCtrl;
+        constructor($scope: ILuidIbanScope);
+        setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
+        getViewValue(): string;
+        setViewValue(iban: string): void;
+        setPatterns(): void;
+        initScope(): void;
+    }
+}
+declare module Lui.Directives {
+    class LuidIban implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        templateUrl: string;
+        require: string[];
+        controller: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ILuidIbanScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes & {
+            isRequired: boolean;
+        }, ctrls: [LuidIbanController, ng.INgModelController]): void;
+    }
+}
+declare module Lui.Directives {
+    interface ILuidIbanScope extends ng.IScope {
+        countryCode: string;
+        controlKey: string;
+        bban: string;
+        countryCodePattern: string;
+        controlKeyPattern: string;
+        bbanPattern: string;
+        updateValue: () => void;
+        pasteIban: (event: ClipboardEvent) => void;
+        selectInput: (event: JQueryEventObject) => void;
+    }
+}
+declare module Lui.Directives {
+    interface ILuidIbanValidators extends ng.IModelValidators {
+        iban: () => boolean;
+    }
+}
+declare module Lui.Directives {
+    class LuidSelectNext implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void;
+    }
 }
 declare module Lui {
     interface IFile {
@@ -273,6 +331,14 @@ declare module Lui.Service {
         getDomElement: () => ng.IAugmentedJQuery;
     }
 }
+declare module Lui.Directives.Iban {
+    class SelectNext implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void;
+    }
+}
 declare module Lui.Directives.TableGrid {
     class Tree {
         node: Header;
@@ -320,7 +386,7 @@ declare module Lui.Directives {
     class LuidTableGridHeightType {
         static GLOBAL: string;
         static BODY: string;
-        static isTypeExisting(type: string): boolean;
+        static isTypeExisting(type: string): Boolean;
     }
     class LuidTableGrid implements angular.IDirective {
         static defaultHeight: number;
