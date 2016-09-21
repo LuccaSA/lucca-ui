@@ -20,7 +20,7 @@ module Lui {
 		ibanError?: string;
 
 		// select and radio types
-		choices?: { label: string | number };
+		choices?: { label: string | number }[];
 		// api-select field type
 		api?: string;
 		filter?: string;
