@@ -454,6 +454,10 @@
 			.calendar > .years {
 				opacity: 0;
 			}
+			&[min-mode="months"] .calendar > .months,
+			&[min-mode="years"] .calendar > .years {
+				opacity: 1;
+			}
 			.calendar {
 				width: 18em;
 
