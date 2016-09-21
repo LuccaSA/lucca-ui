@@ -381,6 +381,8 @@
 			& > *[placeholder]:not([placeholder=""]) ~ label,
 			& > *[placeholder]:not([placeholder=""]) > * ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *.ng-open ~ label,
+			& > *.dropdown.open ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
 				@extend %lui_input_label_displaced;
 				width: auto !important;
@@ -430,13 +432,15 @@
 		// Invalid
 		// ====
 		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
-		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid ~ label,
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
 		#{$prefix}.input.ng-invalid > label,
 		#{$prefix}.field .error {
 			@extend %lui_input_invalid_label;
 		}
-		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
+		#{$prefix}.input > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > textarea.ng-invalid.ng-touched,
+		#{$prefix}.input > select.ng-invalid.ng-touched,
+		#{$prefix}.input > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
 			@extend %lui_input_invalid_input;
 		}
 
@@ -460,7 +464,6 @@
 		// ====
 		// Defaults to medium
 		#{$prefix}.input > input,
-		#{$prefix}.input > textarea,
 		#{$prefix}.input:not(.checkbox):not(.radio):not(.switch) > label {
 			max-width: 100%;
 			width: map-gets($vars, lengths, medium);
@@ -521,6 +524,9 @@
 		luid-user-picker-multiple,
 		luid-api-select,
 		luid-api-select-multiple {
+			display: block;
+			width: 100%;
+
 			& ~ label {
 				@extend %lui_input_label;
 				@extend %lui_input_label_displacable;

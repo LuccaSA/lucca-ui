@@ -26,6 +26,7 @@
 
 		luid-moment {
 			display: inline-block;
+			vertical-align: middle;
 			max-width:  luiTheme(element, field, momentpicker, max-width);
 			overflow: visible !important; // Buttons
 
@@ -33,6 +34,7 @@
 			> .moment.input {
 				display: inline-block;
 				vertical-align: baseline;
+				vertical-align: -webkit-baseline-middle;
 			}
 			> .moment.input {
 				position: relative;

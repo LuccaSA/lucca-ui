@@ -9,26 +9,6 @@
 		luid-daterange-picker {
 			display: inline-block;
 			vertical-align: middle;
-
-			// Label support
-			& + label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
-			}
-			&.ng-not-empty ~ label,
-			&.ng-open ~ label {
-				@extend %lui_input_label_displaced;
-			}
-
-			// Invalid style
-			&.ng-invalid.ng-touched {
-				input {
-					@extend %lui_input_invalid_input;
-				}
-				& ~ label {
-					@extend %lui_input_invalid_label;
-				}
-			}
 		}
 
 		// Fitting size
@@ -38,6 +18,7 @@
 			luid-date-picker-popup,
 			luid-daterange-picker {
 				display: block;
+				width: 100%;
 
 				> .input {
 					width: 100% !important;

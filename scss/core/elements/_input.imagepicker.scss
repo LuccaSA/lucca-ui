@@ -127,8 +127,6 @@
 		// ====
 		#{$prefix}.field {
 			luid-image-picker + label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
 			}
 
@@ -142,10 +140,6 @@
 
 				&.ng-touched.ng-invalid {
 					border-bottom-color: luiTheme(element, field, invalid-color);
-
-					& ~ label {
-						@extend %lui_input_invalid_label;
-					}
 				}
 			}
 

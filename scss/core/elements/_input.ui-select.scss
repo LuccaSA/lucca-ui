@@ -4,18 +4,6 @@
 		.ui-select-container {
 			@extend %lui_dropdown_sizing;
 
-			// Label
-			// ====
-			& ~ label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
-			}
-			&.open ~ label,
-			&.ng-not-empty ~ label,
-			&[placeholder]:not([placeholder=""]) ~ label {
-				@extend %lui_input_label_displaced;
-			}
-
 			&.open:not([search-enabled="false"]) {
 				@extend %lui_searchable_input;
 			}
@@ -138,10 +126,6 @@
 				.ui-select-toggle,
 				.ui-select-search {
 					@extend %lui_input_invalid_input;
-				}
-
-				& ~ label {
-					@extend %lui_input_invalid_label;
 				}
 			}
 
