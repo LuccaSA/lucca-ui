@@ -17,6 +17,8 @@ module Lui.Directives {
 			startProperty: "@",
 			endProperty: "@",
 
+			placeholder: "@",
+
 			shortcuts: "=",
 			groupedShortcuts: "=",
 		};

@@ -41,6 +41,9 @@ module Lui.Directives {
 			min: "=",
 			max: "=",
 			customClass: "=",
+
+			placeholder: "@",
+
 			shortcuts: "=",
 			groupedShortcuts: "=",
 		};
