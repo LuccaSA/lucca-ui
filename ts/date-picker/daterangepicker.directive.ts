@@ -17,6 +17,8 @@ module Lui.Directives {
 			startProperty: "@",
 			endProperty: "@",
 
+			placeholder: "@",
+
 			shortcuts: "=",
 			groupedShortcuts: "=",
 		};
@@ -27,7 +29,7 @@ module Lui.Directives {
 			};
 			return directive;
 		}
-		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
+		public link (scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let drCtrl = <LuidDaterangePickerController>ctrls[1];
 			drCtrl.setNgModelCtrl(ngModelCtrl);
@@ -162,6 +164,10 @@ module Lui.Directives {
 					this.$scope.displayStr = undefined;
 				}
 			};
+			ngModelCtrl.$isEmpty = (value: any) => {
+				let period: Lui.IPeriod = this.toPeriod(value);
+				return !period || (!period.start && !period.end);
+			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let start = this.getViewValue().start;
 				let min = this.formatter.parseValue(this.$scope.min);
@@ -229,9 +235,14 @@ module Lui.Directives {
 
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
-			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue || {};
+			let period: Lui.IPeriod = _.clone(<Lui.IPeriod>this.ngModelCtrl.$viewValue);
+			if (!value && !period) {
+				return this.ngModelCtrl.$setViewValue(undefined);
+			}
+			period = period || {};
 			if (!value) {
-				period = undefined;
+				period[this.startProperty] = undefined;
+				period[this.endProperty] = undefined;
 			} else {
 				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
 				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
@@ -239,12 +250,12 @@ module Lui.Directives {
 			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
-			if (!!this.ngModelCtrl.$viewValue) {
-				return this.toPeriod(this.ngModelCtrl.$viewValue);
-			}
-			return { start: undefined, end: undefined };
+			return this.toPeriod(this.ngModelCtrl.$viewValue);
 		}
 		private toPeriod(v: any): Lui.Period {
+			if (!v) {
+				return { start: undefined, end: undefined };
+			}
 			let iperiod: Lui.IPeriod = {};
 			iperiod.start = v[this.startProperty];
 			iperiod.end = v[this.endProperty];

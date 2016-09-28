@@ -10,5 +10,5 @@
 		<i class="lui east arrow icon"></i>
 		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span>
 	</span>
-	<input type="text" ng-model="displayStr">
+	<input type="text" ng-model="displayStr" placeholder="{{placeholder}}">
 </span>
