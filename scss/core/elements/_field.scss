@@ -265,7 +265,7 @@
 		// Forms are a whole group of inputs.
 		// Best practice: You should have only one (displayed) form per page.
 		// ====
-		#{$prefix}.form {
+		#{$prefix}.form, #{$prefix}.fieldset {
 			&.natural {
 				> span,
 				> #{$prefix}.field {
