@@ -391,7 +391,7 @@
 			// ====
 			& > *[placeholder]:not([placeholder=""]) ~ label,
 			& > *[placeholder]:not([placeholder=""]) > * ~ label,
-			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty:not(.lui-empty) ~ label,
 			& > *.ng-open ~ label,
 			& > *.dropdown.open ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
