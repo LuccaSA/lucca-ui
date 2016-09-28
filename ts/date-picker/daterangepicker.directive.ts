@@ -31,7 +31,6 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let drCtrl = <LuidDaterangePickerController>ctrls[1];
 			drCtrl.setNgModelCtrl(ngModelCtrl);
-			drCtrl.setNgChange(attrs.ngChange);
 			drCtrl.setFormat(scope.format, scope.displayFormat);
 			drCtrl.setCalendarCnt("2", true);
 			drCtrl.setPopoverTrigger(element, scope);
@@ -75,7 +74,6 @@ module Lui.Directives {
 		private startProperty: string;
 		private endProperty: string;
 		private element: ng.IAugmentedJQuery;
-		private ngChangeExpr: string;
 
 		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters, $log: ng.ILogService) {
 			super($scope, $log);
@@ -164,6 +162,10 @@ module Lui.Directives {
 					this.$scope.displayStr = undefined;
 				}
 			};
+			ngModelCtrl.$isEmpty = (value: any) => {
+				let period: Lui.IPeriod = this.toPeriod(value);
+				return !period || (!period.start && !period.end);
+			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let start = this.getViewValue().start;
 				let min = this.formatter.parseValue(this.$scope.min);
@@ -178,9 +180,6 @@ module Lui.Directives {
 		public setProperties(startProperty: string, endProperty: string): void {
 			this.startProperty = startProperty || "start";
 			this.endProperty = endProperty || "end";
-		}
-		public setNgChange(ngChangeExpr: string): void {
-			this.ngChangeExpr = ngChangeExpr;
 		}
 		public setExcludeEnd(excludeEnd: string): void {
 			this.excludeEnd = excludeEnd === "true";
@@ -234,7 +233,7 @@ module Lui.Directives {
 
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
-			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue;
+			let period: Lui.IPeriod = _.clone(<Lui.IPeriod>this.ngModelCtrl.$viewValue);
 			if (!value && !period) {
 				return this.ngModelCtrl.$setViewValue(undefined);
 			}
@@ -247,15 +246,14 @@ module Lui.Directives {
 				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
 			}
 			this.ngModelCtrl.$setViewValue(period);
-			this.$scope.$parent.$eval(this.ngChangeExpr);
 		}
 		private getViewValue(): Lui.Period {
-			if (!!this.ngModelCtrl.$viewValue) {
-				return this.toPeriod(this.ngModelCtrl.$viewValue);
-			}
-			return { start: undefined, end: undefined };
+			return this.toPeriod(this.ngModelCtrl.$viewValue);
 		}
 		private toPeriod(v: any): Lui.Period {
+			if (!v) {
+				return { start: undefined, end: undefined };
+			}
 			let iperiod: Lui.IPeriod = {};
 			iperiod.start = v[this.startProperty];
 			iperiod.end = v[this.endProperty];
