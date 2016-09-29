@@ -19,6 +19,8 @@ module Lui {
 		emailError?: string;
 		ibanError?: string;
 
+		// textarea types
+		rows?: number;
 		// select and radio types
 		choices?: { label: string | number }[];
 		// api-select field type

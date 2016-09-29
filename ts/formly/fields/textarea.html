@@ -1,6 +1,6 @@
 <div class="lui {{::options.templateOptions.display}} field">
 	<div class="lui input">
-		<textarea placeholder="{{::options.templateOptions.placeholder }}" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled"></textarea>
+		<textarea placeholder="{{::options.templateOptions.placeholder }}" name="{{::id}}" ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" rows="{{::options.templateOptions.rows }}"></textarea>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper }}</small>
