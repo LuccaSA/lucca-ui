@@ -9,8 +9,9 @@ module Lui.Directives {
 		controlKeyPattern: string;
 		bbanPattern: string;
 
-		updateValue: () => void;
-		pasteIban: (event: ClipboardEvent) => void;
-		selectInput: (event: JQueryEventObject) => void;
+		updateValue(): void;
+		pasteIban(event: ClipboardEvent): void;
+		selectInput(event: JQueryEventObject): void;
+		setTouched(): void;
 	}
 }

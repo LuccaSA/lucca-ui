@@ -35,15 +35,6 @@ module Lui.Directives {
 			};
 		}
 
-		public getViewValue(): string {
-			return <string>this.ngModelCtrl.$viewValue;
-		}
-
-		public setViewValue(iban: string): void {
-			this.ngModelCtrl.$setViewValue(iban);
-			this.ngModelCtrl.$setTouched();
-		}
-
 		public setPatterns(): void {
 			// https://fr.wikipedia.org/wiki/International_Bank_Account_Number
 			// 2 letters (country code) + 2 digits (control key) + 11-30 characters (BBAN)
@@ -66,6 +57,22 @@ module Lui.Directives {
 			this.$scope.selectInput = (event: JQueryEventObject): void => {
 				(<HTMLInputElement>event.target).select();
 			};
+
+			this.$scope.setTouched = () => {
+				this.setTouched();
+			};
+		}
+
+		private getViewValue(): string {
+			return <string>this.ngModelCtrl.$viewValue;
+		}
+
+		private setViewValue(iban: string): void {
+			this.ngModelCtrl.$setViewValue(iban);
+			this.ngModelCtrl.$setTouched();
+		}
+		private setTouched(): void {
+			this.ngModelCtrl.$setTouched();
 		}
 	}
 
