@@ -19,6 +19,7 @@ module Lui.Directives {
 			let ibanCtrl = ctrls[0];
 			let ngModelCtrl = ctrls[1];
 			ibanCtrl.setNgModelCtrl(ngModelCtrl);
+			ibanCtrl.setInputs(element);
 		}
 	}
 

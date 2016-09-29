@@ -9,6 +9,9 @@ module Lui.Directives {
 		controlKeyPattern: string;
 		bbanPattern: string;
 
+		bbanMappings: { [key: number]: ($event: ng.IAngularEvent) => void; };
+		controlKeyMappings: { [key: number]: ($event: ng.IAngularEvent) => void; };
+
 		updateValue(): void;
 		pasteIban(event: ClipboardEvent): void;
 		selectInput(event: JQueryEventObject): void;

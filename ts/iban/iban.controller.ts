@@ -6,6 +6,9 @@ module Lui.Directives {
 		public static $inject: Array<string> = ["$scope"];
 		private $scope: ILuidIbanScope;
 		private ngModelCtrl: ng.INgModelController;
+		private countryInput: ng.IAugmentedJQuery;
+		private controlInput: ng.IAugmentedJQuery;
+		private bbanInput: ng.IAugmentedJQuery;
 
 		constructor($scope: ILuidIbanScope) {
 			this.$scope = $scope;
@@ -35,15 +38,14 @@ module Lui.Directives {
 			};
 		}
 
-		public setPatterns(): void {
-			// https://fr.wikipedia.org/wiki/International_Bank_Account_Number
-			// 2 letters (country code) + 2 digits (control key) + 11-30 characters (BBAN)
-			this.$scope.countryCodePattern = "[a-zA-Z]{2}";
-			this.$scope.controlKeyPattern = "\\d{2}";
-			this.$scope.bbanPattern = "\\w{11,30}";
+		public setInputs(elt: ng.IAugmentedJQuery): void {
+			let inputs = elt.find("input");
+			this.countryInput = angular.element(inputs[0]);
+			this.controlInput = angular.element(inputs[1]);
+			this.bbanInput = angular.element(inputs[2]);
 		}
 
-		public initScope(): void {
+		private initScope(): void {
 			this.$scope.updateValue = (): void => {
 				this.setViewValue(this.$scope.countryCode.toUpperCase() + this.$scope.controlKey.toUpperCase() + this.$scope.bban.toUpperCase());
 			};
@@ -61,6 +63,29 @@ module Lui.Directives {
 			this.$scope.setTouched = () => {
 				this.setTouched();
 			};
+
+			this.$scope.controlKeyMappings = { 
+				8: () => { // backspace
+					if (!this.$scope.controlKey) {
+						this.focusCountryInput();
+					}
+				}
+			};
+			this.$scope.bbanMappings = { 
+				8: () => { // backspace
+					if (!this.$scope.bban) {
+						this.focusControlInput();
+					}
+				}
+			};
+		}
+
+		private setPatterns(): void {
+			// https://fr.wikipedia.org/wiki/International_Bank_Account_Number
+			// 2 letters (country code) + 2 digits (control key) + 11-30 characters (BBAN)
+			this.$scope.countryCodePattern = "[a-zA-Z]{2}";
+			this.$scope.controlKeyPattern = "\\d{2}";
+			this.$scope.bbanPattern = "\\w{11,30}";
 		}
 
 		private getViewValue(): string {
@@ -71,8 +96,18 @@ module Lui.Directives {
 			this.ngModelCtrl.$setViewValue(iban);
 			this.ngModelCtrl.$setTouched();
 		}
+
 		private setTouched(): void {
 			this.ngModelCtrl.$setTouched();
+		}
+
+		private focusCountryInput(): void {
+			this.countryInput[0].focus();
+			this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
+		}
+		private focusControlInput(): void {
+			this.controlInput[0].focus();
+			this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
 		}
 	}
 
