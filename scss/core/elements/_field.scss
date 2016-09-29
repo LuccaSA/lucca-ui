@@ -3,6 +3,7 @@
 	outline: none;
 	background: transparent;
 	margin: 0;
+	padding: 0;
 
 	// Border
 	border: none;
@@ -47,10 +48,9 @@
 	vertical-align: baseline;
 
 	margin: 0;
-	padding: luiTheme(element, field, input, vertical-padding) 0;
 
 	height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-	line-height: 1;
+	line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 
 	font-size: luiTheme(element, field, input, font-size);
 }
