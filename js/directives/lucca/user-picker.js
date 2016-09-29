@@ -42,7 +42,7 @@
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
+	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"true\">" +
 		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
 		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
 	"</ui-select-match>" +
@@ -51,7 +51,7 @@
 
 	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{$item.firstName}} {{$item.lastName}} " +
+	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"true\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
@@ -68,7 +68,8 @@
 			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
-				size: "@", // x-short, short, long, x-long
+				// size: "@", // x-short, short, long, x-long
+				placeholder: "@",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -134,7 +135,8 @@
 			require: ["luidUserPickerMultiple", "^ngModel"],
 			scope: {
 				/*** STANDARD ***/
-				size: "@", // x-small, small, long, x-long
+				// size: "@", // x-small, small, long, x-long
+				placeholder: "@",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -821,7 +823,7 @@
 			"LUIDUSERPICKER_NORESULTS":"No results",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
-			"LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
 			"LUIDUSERPICKER_DEPARTMENT":"Department",
 			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
@@ -834,7 +836,7 @@
 			"LUIDUSERPICKER_NORESULTS":"Keine Ergebnisse",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Fehler",
 			"LUIDUSERPICKER_OVERFLOW":"Es werden {{cnt}} auf {{all}} Benutzernamen",
-			"LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
 			"LUIDUSERPICKER_DEPARTMENT":"Abteilung",
 			"LUIDUSERPICKER_LEGALENTITY":"Rechtsträger",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Betriebsnummer",
@@ -850,7 +852,7 @@
 			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Erreur lors de la récupération des utilisateurs",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
-			"LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
 			"LUIDUSERPICKER_DEPARTMENT":"Service",
 			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
