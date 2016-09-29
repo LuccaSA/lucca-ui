@@ -531,11 +531,16 @@
 
 		// UI-select directive extensions
 		// ====
+		luid-api-select,
+		luid-api-select-multiple,
 		luid-user-picker,
 		luid-user-picker-multiple {
 			display: block;
 			width: 100%;
+		}
 
+		luid-user-picker,
+		luid-user-picker-multiple {
 			& ~ label {
 				@extend %lui_input_label_displaced;
 			}
