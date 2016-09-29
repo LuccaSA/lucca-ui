@@ -130,7 +130,7 @@
 				@extend %lui_input_label_displaced;
 			}
 
-			& > luid-image-picker {
+			luid-image-picker {
 				margin-top: 0.5em;
 				width: map-gets($vars, size);
 				height: map-gets($vars, size);
@@ -144,11 +144,11 @@
 			}
 
 			// 4:3 ratio
-			&.landscape > luid-image-picker {
+			&.landscape luid-image-picker {
 				width: 4 * (map-gets($vars, size) / 3);
 				height: map-gets($vars, size);
 			}
-			&.portrait > luid-image-picker {
+			&.portrait luid-image-picker {
 				width: 3 * (map-gets($vars, size) / 4);
 				height: map-gets($vars, size);
 			}
