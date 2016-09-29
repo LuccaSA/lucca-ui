@@ -5,7 +5,6 @@ module Lui {
 		type: string;
 		className?: string;
 		templateOptions?: ITemplateOptions;
-		className?: string;
 	}
 	export interface ITemplateOptions extends AngularFormly.ITemplateOptions {
 		label?: string;
