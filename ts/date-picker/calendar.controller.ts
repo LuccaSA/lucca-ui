@@ -47,6 +47,7 @@ module Lui.Directives {
 				default: break;
 			}
 		}
+		protected abstract selectDate(date: moment.Moment): void;
 		private setMinMode(mode: string): void {
 			switch ((mode || "").toLowerCase()) {
 				case "0":
@@ -72,7 +73,6 @@ module Lui.Directives {
 					break;
 			}
 		}
-		protected abstract selectDate(date: moment.Moment): void;
 		private assignDayClasses(): void {
 			let days = this.extractDays();
 			_.each(days, (day: CalendarDay): void => {

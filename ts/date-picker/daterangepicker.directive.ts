@@ -215,7 +215,7 @@ module Lui.Directives {
 				}
 				this.assignClasses();
 			} else {
-				switch(this.minMode) {
+				switch (this.minMode) {
 					case CalendarMode.Months:
 						this.$scope.period.end = date.endOf("month").startOf("day");
 						break;
