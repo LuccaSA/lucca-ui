@@ -41,7 +41,9 @@
 
 
 			// Invalid style
-			&.ng-invalid.ng-touched {
+			&.ng-invalid.ng-touched,
+			.ng-not-empty.ng-pristine.ng-invalid {
+				box-shadow: none !important;
 				input {
 					@extend %lui_input_invalid_input;
 				}

@@ -448,11 +448,13 @@
 		#{$prefix}.field .error {
 			@extend %lui_input_invalid_label;
 		}
-		#{$prefix}.input > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > textarea.ng-invalid.ng-touched,
-		#{$prefix}.input > select.ng-invalid.ng-touched,
-		#{$prefix}.input > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
-			@extend %lui_input_invalid_input;
+		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
+			&,
+			.ui-select-container .ui-select-toggle,
+			.ui-select-container .ui-select-search {
+				@extend %lui_input_invalid_input;
+			}
 		}
 
 
@@ -537,16 +539,6 @@
 		luid-user-picker-multiple {
 			display: block;
 			width: 100%;
-		}
-
-		luid-user-picker,
-		luid-user-picker-multiple {
-			&.ng-touched.ng-invalid {
-				.ui-select-toggle,
-				.ui-select-search {
-					@extend %lui_input_invalid_input;
-				}
-			}
 		}
 	}
 }
