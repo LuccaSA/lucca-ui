@@ -541,10 +541,6 @@
 
 		luid-user-picker,
 		luid-user-picker-multiple {
-			& ~ label {
-				@extend %lui_input_label_displaced;
-			}
-
 			&.ng-touched.ng-invalid {
 				.ui-select-toggle,
 				.ui-select-search {
