@@ -1208,7 +1208,7 @@
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">" +
+	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"true\">" +
 		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
 		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
 	"</ui-select-match>" +
@@ -1217,7 +1217,7 @@
 
 	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
-	"<ui-select-match placeholder=\"{{ 'LUIDUSERPICKER_PLACEHOLDER' | translate }}\">{{$item.firstName}} {{$item.lastName}} " +
+	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"true\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
@@ -1234,7 +1234,8 @@
 			require: ["luidUserPicker","^ngModel"],
 			scope: {
 				/*** STANDARD ***/
-				size: "@", // x-short, short, long, x-long
+				// size: "@", // x-short, short, long, x-long
+				placeholder: "@",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -1300,7 +1301,8 @@
 			require: ["luidUserPickerMultiple", "^ngModel"],
 			scope: {
 				/*** STANDARD ***/
-				size: "@", // x-small, small, long, x-long
+				// size: "@", // x-small, small, long, x-long
+				placeholder: "@",
 				onSelect: "&",
 				onRemove: "&",
 				controlDisabled: "=",
@@ -1987,7 +1989,7 @@
 			"LUIDUSERPICKER_NORESULTS":"No results",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
-			"LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
 			"LUIDUSERPICKER_DEPARTMENT":"Department",
 			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
@@ -2000,7 +2002,7 @@
 			"LUIDUSERPICKER_NORESULTS":"Keine Ergebnisse",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Fehler",
 			"LUIDUSERPICKER_OVERFLOW":"Es werden {{cnt}} auf {{all}} Benutzernamen",
-			"LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
 			"LUIDUSERPICKER_DEPARTMENT":"Abteilung",
 			"LUIDUSERPICKER_LEGALENTITY":"Rechtsträger",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Betriebsnummer",
@@ -2016,7 +2018,7 @@
 			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
 			"LUIDUSERPICKER_ERR_GET_USERS":"Erreur lors de la récupération des utilisateurs",
 			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
-			"LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
+			// "LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
 			"LUIDUSERPICKER_DEPARTMENT":"Service",
 			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
 			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
@@ -2825,6 +2827,7 @@ var Lui;
                     min: "=",
                     max: "=",
                     customClass: "=",
+                    placeholder: "@",
                     shortcuts: "=",
                     groupedShortcuts: "=",
                 };
@@ -3012,6 +3015,7 @@ var Lui;
                     excludeEnd: "@",
                     startProperty: "@",
                     endProperty: "@",
+                    placeholder: "@",
                     shortcuts: "=",
                     groupedShortcuts: "=",
                 };
@@ -3119,6 +3123,10 @@ var Lui;
                         _this.$scope.displayStr = undefined;
                     }
                 };
+                ngModelCtrl.$isEmpty = function (value) {
+                    var period = _this.toPeriod(value);
+                    return !period || (!period.start && !period.end);
+                };
                 ngModelCtrl.$validators.min = function (modelValue, viewValue) {
                     var start = _this.getViewValue().start;
                     var min = _this.formatter.parseValue(_this.$scope.min);
@@ -3187,9 +3195,14 @@ var Lui;
                 }
             };
             LuidDaterangePickerController.prototype.setViewValue = function (value) {
-                var period = this.ngModelCtrl.$viewValue || {};
+                var period = _.clone(this.ngModelCtrl.$viewValue);
+                if (!value && !period) {
+                    return this.ngModelCtrl.$setViewValue(undefined);
+                }
+                period = period || {};
                 if (!value) {
-                    period = undefined;
+                    period[this.startProperty] = undefined;
+                    period[this.endProperty] = undefined;
                 }
                 else {
                     period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
@@ -3198,12 +3211,12 @@ var Lui;
                 this.ngModelCtrl.$setViewValue(period);
             };
             LuidDaterangePickerController.prototype.getViewValue = function () {
-                if (!!this.ngModelCtrl.$viewValue) {
-                    return this.toPeriod(this.ngModelCtrl.$viewValue);
-                }
-                return { start: undefined, end: undefined };
+                return this.toPeriod(this.ngModelCtrl.$viewValue);
             };
             LuidDaterangePickerController.prototype.toPeriod = function (v) {
+                if (!v) {
+                    return { start: undefined, end: undefined };
+                }
                 var iperiod = {};
                 iperiod.start = v[this.startProperty];
                 iperiod.end = v[this.endProperty];
@@ -3510,7 +3523,12 @@ var dir;
                 var filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
                 return this.$http.get(api + "?" + filter + "&fields=id,name")
                     .then(function (response) {
-                    return response.data.data.items;
+                    if (api.indexOf("/v3/") !== -1) {
+                        return response.data.data.items;
+                    }
+                    else {
+                        return response.data.data;
+                    }
                 });
             };
             StandardApiService.IID = "luisStandardApiService";
@@ -3573,17 +3591,11 @@ var Lui;
                     return true;
                 };
             };
-            LuidIbanController.prototype.getViewValue = function () {
-                return this.ngModelCtrl.$viewValue;
-            };
-            LuidIbanController.prototype.setViewValue = function (iban) {
-                this.ngModelCtrl.$setViewValue(iban);
-                this.ngModelCtrl.$setTouched();
-            };
-            LuidIbanController.prototype.setPatterns = function () {
-                this.$scope.countryCodePattern = "[a-zA-Z]{2}";
-                this.$scope.controlKeyPattern = "\\d{2}";
-                this.$scope.bbanPattern = "\\w{11,30}";
+            LuidIbanController.prototype.setInputs = function (elt) {
+                var inputs = elt.find("input");
+                this.countryInput = angular.element(inputs[0]);
+                this.controlInput = angular.element(inputs[1]);
+                this.bbanInput = angular.element(inputs[2]);
             };
             LuidIbanController.prototype.initScope = function () {
                 var _this = this;
@@ -3598,6 +3610,46 @@ var Lui;
                 this.$scope.selectInput = function (event) {
                     event.target.select();
                 };
+                this.$scope.setTouched = function () {
+                    _this.setTouched();
+                };
+                this.$scope.controlKeyMappings = {
+                    8: function () {
+                        if (!_this.$scope.controlKey) {
+                            _this.focusCountryInput();
+                        }
+                    }
+                };
+                this.$scope.bbanMappings = {
+                    8: function () {
+                        if (!_this.$scope.bban) {
+                            _this.focusControlInput();
+                        }
+                    }
+                };
+            };
+            LuidIbanController.prototype.setPatterns = function () {
+                this.$scope.countryCodePattern = "[a-zA-Z]{2}";
+                this.$scope.controlKeyPattern = "\\d{2}";
+                this.$scope.bbanPattern = "\\w{11,30}";
+            };
+            LuidIbanController.prototype.getViewValue = function () {
+                return this.ngModelCtrl.$viewValue;
+            };
+            LuidIbanController.prototype.setViewValue = function (iban) {
+                this.ngModelCtrl.$setViewValue(iban);
+                this.ngModelCtrl.$setTouched();
+            };
+            LuidIbanController.prototype.setTouched = function () {
+                this.ngModelCtrl.$setTouched();
+            };
+            LuidIbanController.prototype.focusCountryInput = function () {
+                this.countryInput[0].focus();
+                this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
+            };
+            LuidIbanController.prototype.focusControlInput = function () {
+                this.controlInput[0].focus();
+                this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
             };
             LuidIbanController.IID = "luidIbanController";
             LuidIbanController.$inject = ["$scope"];
@@ -3629,6 +3681,7 @@ var Lui;
                 var ibanCtrl = ctrls[0];
                 var ngModelCtrl = ctrls[1];
                 ibanCtrl.setNgModelCtrl(ngModelCtrl);
+                ibanCtrl.setInputs(element);
             };
             LuidIban.IID = "luidIban";
             return LuidIban;
@@ -5048,7 +5101,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" ng-click=openPopover($event) class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) luid-keydown mappings=closePopoverOnTab> <i class=empty ng-click=clear($event)></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) luid-keydown mappings=closePopoverOnTab placeholder={{placeholder}}> <i class=empty ng-click=clear($event)></i></div>"
   );
 
 
@@ -5058,17 +5111,17 @@ var Lui;
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=displayStr></span>"
+    "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=displayStr placeholder={{placeholder}}></span>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-api-select-multiple api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select-multiple api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-api-select api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5078,7 +5131,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/date.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-date-picker-popup ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-date-picker-popup><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-date-picker-popup ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-date-picker-popup><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5088,7 +5141,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/iban.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-iban ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-iban><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-iban ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-iban><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
   );
 
 
@@ -5098,12 +5151,12 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/picture.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/portrait.html',
-    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><div class=\"lui input\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5113,7 +5166,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><ui-select ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}} focus-on={{::id}}><ui-select-match placeholder={{::options.templateOptions.placeholder}} allow-clear=true>{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><ui-select ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}} focus-on={{::id}}><ui-select-match placeholder={{::options.templateOptions.placeholder}} allow-clear=true>{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5123,17 +5176,17 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/textarea.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled></textarea><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled rows=\"{{::options.templateOptions.rows }}\"></textarea><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-user-picker-multiple ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker-multiple ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><luid-user-picker ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker><label for={{::id}}>{{ options.templateOptions.label }}</label><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5148,7 +5201,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/iban/iban.view.html',
-    "<input id=countryCode class=upper-case size=2 maxlength=2 ng-model=countryCode ng-model-options=\"{ allowInvalid: true }\" ng-pattern=countryCodePattern ng-change=updateValue() ng-paste=pasteIban($event) ng-focus=selectInput($event) luid-select-next> <input id=controlKey class=upper-case size=2 maxlength=2 ng-model=controlKey ng-model-options=\"{ allowInvalid: true }\" ng-pattern=controlKeyPattern ng-change=updateValue() luid-select-next> <input id=bban class=upper-case size=30 maxlength=30 ng-model=bban ng-model-options=\"{ allowInvalid: true }\" ng-pattern=bbanPattern ng-change=\"updateValue()\">"
+    "<input id=countryCode class=upper-case size=2 maxlength=2 ng-model=countryCode ng-model-options=\"{ allowInvalid: true }\" ng-pattern=countryCodePattern ng-change=updateValue() ng-paste=pasteIban($event) ng-focus=selectInput($event) luid-select-next ng-blur=\"setTouched()\"> <input id=controlKey class=upper-case size=2 maxlength=2 ng-model=controlKey ng-model-options=\"{ allowInvalid: true }\" ng-pattern=controlKeyPattern ng-change=updateValue() luid-select-next ng-blur=setTouched() luid-keydown mappings=\"controlKeyMappings\"> <input id=bban class=upper-case maxlength=30 ng-model=bban ng-model-options=\"{ allowInvalid: true }\" ng-pattern=bbanPattern ng-change=updateValue() ng-blur=setTouched() luid-keydown mappings=\"bbanMappings\">"
   );
 
 

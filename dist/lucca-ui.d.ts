@@ -95,8 +95,8 @@ declare module Lui.Directives {
         protected constructCalendars(): Calendar[];
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
-        private setMinMode(mode);
         protected abstract selectDate(date: moment.Moment): void;
+        private setMinMode(mode);
         private assignDayClasses();
         private assignMonthClasses();
         private assignYearClasses();
@@ -158,6 +158,7 @@ declare module Lui {
         requiredError?: string;
         emailError?: string;
         ibanError?: string;
+        rows?: number;
         choices?: {
             label: string | number;
         }[];
@@ -173,12 +174,19 @@ declare module Lui.Directives {
         static $inject: Array<string>;
         private $scope;
         private ngModelCtrl;
+        private countryInput;
+        private controlInput;
+        private bbanInput;
         constructor($scope: ILuidIbanScope);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
-        getViewValue(): string;
-        setViewValue(iban: string): void;
-        setPatterns(): void;
-        initScope(): void;
+        setInputs(elt: ng.IAugmentedJQuery): void;
+        private initScope();
+        private setPatterns();
+        private getViewValue();
+        private setViewValue(iban);
+        private setTouched();
+        private focusCountryInput();
+        private focusControlInput();
     }
 }
 declare module Lui.Directives {
@@ -202,9 +210,16 @@ declare module Lui.Directives {
         countryCodePattern: string;
         controlKeyPattern: string;
         bbanPattern: string;
-        updateValue: () => void;
-        pasteIban: (event: ClipboardEvent) => void;
-        selectInput: (event: JQueryEventObject) => void;
+        bbanMappings: {
+            [key: number]: ($event: ng.IAngularEvent) => void;
+        };
+        controlKeyMappings: {
+            [key: number]: ($event: ng.IAngularEvent) => void;
+        };
+        updateValue(): void;
+        pasteIban(event: ClipboardEvent): void;
+        selectInput(event: JQueryEventObject): void;
+        setTouched(): void;
     }
 }
 declare module Lui.Directives {
