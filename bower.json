@@ -37,11 +37,12 @@
     "angular-notify": "~2.5.0",
     "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.5.0",
     "angular-formly": "~8.4.0",
-    "iban": "^0.0.6"
+    "iban": "^0.0.6",
+    "normalize-css": "~5.0.0"
   },
   "devDependencies": {
     "angular-mocks": "1.5.x",
-    "angular-route": "1.5.x"
+    "angular-route": "1.5.x",
   },
   "resolutions": {
     "angular": "1.5.x"
