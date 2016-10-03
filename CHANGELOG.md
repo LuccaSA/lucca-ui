@@ -26,6 +26,7 @@ The following dependencies have been added
 ### New features
 - Default border-radius is now 2px instead of 3px
 - `luid-iban` new directive to input and display ibans
+- `luid-user-picker` supports `allow-clear` attribute
 
 ## Resolved issues
 - Adds support for line-breaks in tooltip content
