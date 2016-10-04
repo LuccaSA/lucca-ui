@@ -38,12 +38,12 @@
 				@extend %lui_input_sizing;
 				@extend %lui_input_reset;
 
-				padding-right: 1.5em;
+				padding-right: 1.5em !important;
 
 				width: 100%;
 			}
-			&[allow-clear] .ui-select-toggle {
-				padding-right: 2.5em;
+			.ui-select-match[allow-clear="true"] .ui-select-toggle {
+				padding-right: 2.5em !important;
 			}
 
 			.ui-select-match-text {
