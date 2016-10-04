@@ -339,6 +339,10 @@
 			position: relative;
 			margin-top: 1.3em;
 
+			#{$prefix}.input {
+				margin-top: 0;
+			}
+
 			@include display-flex();
 			@include flex-align-items(center);
 
