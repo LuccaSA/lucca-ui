@@ -1,6 +1,12 @@
 # Change log
 
-## 3.0.0 - in dev
+## 3.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.1)
+
+### Bug fixes
+- input tag were inheriting some styles from normalize
+- margin for fields iinside lui ciolumns
+
+## 3.0.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.0)
 
 ### Dependencies
 

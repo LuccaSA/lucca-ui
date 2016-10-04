@@ -16,6 +16,8 @@
 	transition-duration: luiTheme(element, field, transition, duration);
 	transition-timing-function: luiTheme(element, field, transition, easing);
 
+	color: luiTheme(element, typography, body, color);
+
 	@include flex(0, 0, auto);
 
 	&::selection {
@@ -333,6 +335,10 @@
 			.count {
 				text-align: right;
 			}
+		}
+
+		#{$prefix}.column > #{$prefix}.field {
+			margin: 0;
 		}
 
 		#{$prefix}.input {
