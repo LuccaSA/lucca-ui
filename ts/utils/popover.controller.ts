@@ -1,5 +1,10 @@
 module Lui.Utils {
 	"use strict";
+	let MAGIC_TIMEOUT_DELAY = 100;
+	// we dont want to register body.onclick right away cuz then we'd have to stop ethe event propagation,
+	// but we want to close other open popovers so we have to not stop the propagation
+	// and for some reason a timeout delay of 1 is not enough
+	// lbertin - 04-10-2016
 	export interface IPopoverController {
 		toggle($event?: ng.IAngularEvent): void;
 		open($event?: ng.IAngularEvent): void;
@@ -13,11 +18,38 @@ module Lui.Utils {
 		private body: angular.IAugmentedJQuery;
 		private $scope: IClickoutsideTriggerScope;
 		private clickedOutside: () => void;
+		public open: ($event?: ng.IAngularEvent) => void;
+		public close: ($event?: ng.IAngularEvent) => void;
 		constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void) {
 			this.elt = elt;
 			this.body = angular.element(document.getElementsByTagName("body")[0]);
 			this.$scope = $scope;
 			this.clickedOutside = clickedOutside;
+			let that = this;
+			let onBodyClicked = () => {
+				that.onClickedOutside();
+				that.$scope.$digest();
+			};
+			let onEltClicked = (otherEvent: JQueryEventObject) => {
+				otherEvent.stopPropagation();
+			};
+			this.open = ($event: ng.IAngularEvent) => {
+				console.log("open");
+				this.$scope.popover.isOpen = true;
+				setTimeout( () => {
+					this.body.on("click", onBodyClicked);
+					this.elt.on("click", onEltClicked);
+				}, MAGIC_TIMEOUT_DELAY);
+			};
+			this.close = ($event?: ng.IAngularEvent)=> {
+				console.log("close");
+				this.$scope.popover.isOpen = false;
+				if (!!this.body) {
+					let that = this;
+					this.body.off("click", onBodyClicked);
+					this.elt.off("click", onEltClicked);
+				}
+			}
 		}
 		public toggle($event?: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
@@ -25,25 +57,6 @@ module Lui.Utils {
 			} else {
 				this.open($event);
 			}
-		}
-		public close($event?: ng.IAngularEvent): void {
-			this.$scope.popover.isOpen = false;
-			if (!!this.body) {
-				this.body.off("click");
-				this.elt.off("click");
-			}
-		}
-		public open($event: ng.IAngularEvent): void {
-			this.$scope.popover.isOpen = true;
-			setTimeout( () => {
-				this.body.on("click", () => {
-					this.onClickedOutside();
-					this.$scope.$digest();
-				});
-				this.elt.on("click", (otherEvent: JQueryEventObject) => {
-					otherEvent.stopPropagation();
-				});
-			}, 1);
 		}
 		private onClickedOutside($event?: ng.IAngularEvent): void {
 			if (this.clickedOutside) {
