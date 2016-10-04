@@ -7,12 +7,13 @@
 the following dependencies have been updated to their latest verion at time of release. This might introduce breaking changes
 
 - moment `2.15`
-- angular-ui-bootstrap `2.1`
+- angular-ui-bootstrap `2.1` - this one has breaking-changes if you're using a popover or tooltip with custom trigger
 - ui-select `0.19`
 - angular-translate `2.12`
 
 The following dependencies have been added
 
+- normalize `5.0` - this one might have breaking changes too
 - angular-formly `8.4`
 - iban `0.0.6`
 
@@ -22,6 +23,7 @@ The following dependencies have been added
 - Search input is replaced with a simple `searchable` class to be added to the `div.lui.input`
 - changed the `luid-keydown` directive, it does not automatically call `e.preventDefault()`
 - removed directive `luid-daterange`, use `luid-daterange-picker` instead
+- `luid-user-picker` doesn't have a placeholder by default
 
 ### New features
 - Default border-radius is now 2px instead of 3px
@@ -30,14 +32,8 @@ The following dependencies have been added
 
 ## Resolved issues
 - Adds support for line-breaks in tooltip content
-- Issue #301 (appLayout plugin) - adds support for .top.stuck on #main-header
-- Issue #298 (grid) - fixes same height columns (fitting columns)
-
-## 2.3.1 - in dev
-
-### New features
-
-### Resolved issues
+- [issue #301](https://github.com/LuccaSA/lucca-ui/issues/301) (appLayout plugin) - adds support for .top.stuck on #main-header
+- [issue #298](https://github.com/LuccaSA/lucca-ui/issues/298) (grid) - fixes same height columns (fitting columns)
 - Fixes some styling inconsistencies on the tablegrid component
 - [issue #292](https://github.com/LuccaSA/lucca-ui/issues/292) - `.progress-bar` was drooling on other people style cuz it was ignoring the prefix
 
