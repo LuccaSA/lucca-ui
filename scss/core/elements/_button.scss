@@ -85,6 +85,11 @@
 	@at-root #{$namespace} {
 		$vars: luiTheme(element, button);
 
+		// Normalize-css override
+		[type=submit], [type=reset], button, html [type=button] {
+			-webkit-appearance: none;
+		}
+
 		%lui_button_sizing {
 			line-height: 1;
 

@@ -49,7 +49,7 @@
 
 	margin: 0;
 	padding: luiTheme(element, field, input, vertical-padding) 0;
-	
+
 	&:not(textarea) {
 		padding: 0;
 		height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
@@ -83,7 +83,7 @@
 
 %lui_input_label {
 	font-size: luiTheme(element, field, input, font-size);
-	line-height: 1;
+	line-height: 1.2;
 	box-sizing: border-box;
 	overflow: hidden;
 	white-space: pre;
@@ -103,7 +103,7 @@
 }
 
 %lui_input_label_displaced {
-	top: -(2 - luiTheme(element, field, label, displaced-font-size)) !important;
+	top: -(2.5 - luiTheme(element, field, label, displaced-font-size)) !important;
 	font-size: luiTheme(element, field, label, displaced-font-size);
 }
 
@@ -303,8 +303,9 @@
 		// ====
 		#{$prefix}.field,
 		#{$prefix}.fieldset .field {
-
 			margin: map-gets($vars, vertical-margin) 0;
+
+			@include lui_clearfix(); // Prevent margin-collapse
 
 			& > .field {
 				margin: 0;
@@ -334,9 +335,13 @@
 			}
 		}
 
-
 		#{$prefix}.input {
 			position: relative;
+			margin-top: 1.3em;
+
+			#{$prefix}.input {
+				margin-top: 0;
+			}
 
 			@include display-flex();
 			@include flex-align-items(center);
@@ -455,8 +460,8 @@
 		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
 		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
 			&,
-			.ui-select-container .ui-select-toggle,
-			.ui-select-container .ui-select-search {
+			> .ui-select-container .ui-select-toggle,
+			> .ui-select-container .ui-select-search {
 				@extend %lui_input_invalid_input;
 			}
 		}

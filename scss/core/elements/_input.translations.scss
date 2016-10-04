@@ -13,7 +13,7 @@
 					margin: 0 !important;
 				}
 
-				&.open > .input {
+				> .input {
 					position: relative;
 					z-index: 3;
 				}
@@ -26,6 +26,7 @@
 					padding: 0 1em 1em 1em;
 					padding-top: luiTheme(element, field, field, focus-border-width) + lui_rem(luiTheme(element, field, input, font-size)) + 2 * (luiTheme(element, field, input, font-size) / (luiTheme(element, field, input, font-size) * 0 + 1)) * lui_rem(luiTheme(element, field, input, vertical-padding) / (luiTheme(element, field, input, vertical-padding) * 0 + 1));
 					@include lui_raised(3);
+					transition-delay: 100ms;
 
 					.field {
 						margin: 0.5em 0 0 0;
@@ -45,12 +46,6 @@
 					border-top: none;
 
 					visibility: visible;
-					@include lui_is_animated("up slide in");
-					@include lui_target_IE9 {
-						display: block;
-						opacity: 1;
-						height: auto;
-					}
 				}
 			}
 		}

@@ -23,6 +23,10 @@ module Lui {
 			templateUrl: "lui/templates/formly/fields/date.html",
 		});
 		formlyConfigProvider.setType({
+			name: "daterange",
+			templateUrl: "lui/templates/formly/fields/daterange.html",
+		});
+		formlyConfigProvider.setType({
 			name: "select",
 			templateUrl: "lui/templates/formly/fields/select.html",
 		});

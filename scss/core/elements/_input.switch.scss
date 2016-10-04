@@ -26,6 +26,7 @@
 				position: relative;
 				background: map-gets($vars, background);
 				color: map-gets($vars, color);
+				text-overflow: clip;
 				@include lui_transition();
 				@include lui_make_icon("check", left);
 				@include lui_make_icon("cross", right);

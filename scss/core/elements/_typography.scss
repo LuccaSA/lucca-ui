@@ -7,12 +7,20 @@
 
 @mixin lui_body_typeset {
 	font-size: luiTheme(element, typography, body, fontSize);
-	font-family: unquote(luiTheme(element, typography, body, fontFamily));
 	color: luiTheme(element, typography, body, color);
 	line-height: luiTheme(element, typography, body, lineHeight);
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	&, * {
+		// Normalize-css override
+		font-family: unquote(luiTheme(element, typography, body, fontFamily));
+	}
+	code {
+		font-family: monospace, monospace;
+		font-size: lui_rem(1);
+	}
 }
 
 
