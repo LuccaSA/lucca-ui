@@ -3,6 +3,7 @@
 	outline: none;
 	background: transparent;
 	margin: 0;
+	padding: 0;
 
 	// Border
 	border: none;
@@ -16,6 +17,15 @@
 	transition-timing-function: luiTheme(element, field, transition, easing);
 
 	@include flex(0, 0, auto);
+
+	&::selection {
+		background: luiTheme(element, field, input, selection-background);
+		color: luiTheme(element, field, input, selection-text);
+	}
+	&::-moz-selection {
+		background: luiTheme(element, field, input, selection-background);
+		color: luiTheme(element, field, input, selection-text);
+	}
 }
 
 %lui_input_focus {
@@ -40,8 +50,11 @@
 	margin: 0;
 	padding: luiTheme(element, field, input, vertical-padding) 0;
 
-	height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-	line-height: 1;
+	&:not(textarea) {
+		padding: 0;
+		height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+		line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+	}
 
 	font-size: luiTheme(element, field, input, font-size);
 }
@@ -70,7 +83,7 @@
 
 %lui_input_label {
 	font-size: luiTheme(element, field, input, font-size);
-	line-height: normal;
+	line-height: 1.2;
 	box-sizing: border-box;
 	overflow: hidden;
 	white-space: pre;
@@ -90,7 +103,7 @@
 }
 
 %lui_input_label_displaced {
-	top: -(2 - luiTheme(element, field, label, displaced-font-size)) !important;
+	top: -(2.5 - luiTheme(element, field, label, displaced-font-size)) !important;
 	font-size: luiTheme(element, field, label, displaced-font-size);
 }
 
@@ -120,7 +133,7 @@
 %lui_searchable_input {
 	@include lui_make_icon("search", left);
 	> input {
-		padding-right: 1.2em;
+		padding-right: 1.5em;
 	}
 	&:before {
 		@extend %lui_field_input_inner_right_icon;
@@ -174,6 +187,7 @@
 }
 %lui_dropdown_sizing {
 	width: luiTheme(element, field, lengths, medium);
+	max-width: 100%;
 
 	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
 		&.#{$sizeName} {
@@ -255,8 +269,19 @@
 		// Forms are a whole group of inputs.
 		// Best practice: You should have only one (displayed) form per page.
 		// ====
-		#{$prefix}.form {
+		#{$prefix}.form, #{$prefix}.fieldset {
+			&.natural {
+				> span,
+				> #{$prefix}.field {
+					display: inline-block;
+					vertical-align: middle;
+				}
 
+				> #{$prefix}.field {
+					margin: 0 0.5em;
+					font-size: (0em + 1em / map-gets($vars, input, font-size)) !important;
+				}
+			}
 		}
 
 		// Fieldsets are a group of fields
@@ -278,15 +303,15 @@
 		// ====
 		#{$prefix}.field,
 		#{$prefix}.fieldset .field {
-
 			margin: map-gets($vars, vertical-margin) 0;
+
+			@include lui_clearfix(); // Prevent margin-collapse
 
 			& > .field {
 				margin: 0;
 			}
 
 			position: relative;
-			font-size: map-gets($vars, font-size);
 
 			// Messages
 			// ====
@@ -310,9 +335,13 @@
 			}
 		}
 
-
 		#{$prefix}.input {
 			position: relative;
+			margin-top: 1.3em;
+
+			#{$prefix}.input {
+				margin-top: 0;
+			}
 
 			@include display-flex();
 			@include flex-align-items(center);
@@ -345,6 +374,7 @@
 			// ====
 			textarea {
 				resize: vertical;
+				height: auto;
 			}
 
 			// label
@@ -371,6 +401,8 @@
 			& > *[placeholder]:not([placeholder=""]) ~ label,
 			& > *[placeholder]:not([placeholder=""]) > * ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *.ng-open ~ label,
+			& > *.dropdown.open ~ label,
 			& > *:not([type="checkbox"]):not([type="radio"]):focus ~ label {
 				@extend %lui_input_label_displaced;
 				width: auto !important;
@@ -420,14 +452,18 @@
 		// Invalid
 		// ====
 		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
-		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid ~ label,
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
 		#{$prefix}.input.ng-invalid > label,
 		#{$prefix}.field .error {
 			@extend %lui_input_invalid_label;
 		}
 		#{$prefix}.input > *.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > *.ng-not-empty.ng-touched.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
-			@extend %lui_input_invalid_input;
+		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]) {
+			&,
+			> .ui-select-container .ui-select-toggle,
+			> .ui-select-container .ui-select-search {
+				@extend %lui_input_invalid_input;
+			}
 		}
 
 
@@ -450,8 +486,8 @@
 		// ====
 		// Defaults to medium
 		#{$prefix}.input > input,
-		#{$prefix}.input > textarea,
 		#{$prefix}.input:not(.checkbox):not(.radio):not(.switch) > label {
+			max-width: 100%;
 			width: map-gets($vars, lengths, medium);
 		}
 
@@ -506,25 +542,12 @@
 
 		// UI-select directive extensions
 		// ====
-		luid-user-picker,
-		luid-user-picker-multiple,
 		luid-api-select,
-		luid-api-select-multiple {
-			& ~ label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
-				@extend %lui_input_label_displaced;
-			}
-
-			&.ng-touched.ng-invalid {
-				& ~ label {
-					@extend %lui_input_invalid_label;
-				}
-				.ui-select-toggle,
-				.ui-select-search {
-					@extend %lui_input_invalid_input;
-				}
-			}
+		luid-api-select-multiple,
+		luid-user-picker,
+		luid-user-picker-multiple {
+			display: block;
+			width: 100%;
 		}
 	}
 }
@@ -540,4 +563,5 @@
 		"input.datepicker",
 		"input.userpicker",
 		"input.timespanpicker",
-		"input.momentpicker";
+		"input.momentpicker",
+		"input.iban";

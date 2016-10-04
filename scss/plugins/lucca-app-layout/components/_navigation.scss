@@ -4,6 +4,7 @@
 		#main-navigation {
 			background: map-gets($vars, navigation, background);
 			width: map-gets($vars, navigation, width);
+			padding-top: map-gets($vars, topOffset);
 
 			border: none;
 
@@ -57,48 +58,18 @@
 			}
 		}
 
-		// Application logo
-		#main-navigation #app-logo {
-			box-sizing: content-box;
-			padding-top: map-gets($vars, topOffset);
-
-			display: block;
-			overflow: hidden;
-			height: map-gets($vars, header, height);
-			line-height: map-gets($vars, header, height);
-
-			background-color: luiPalette(primary, color);
-			text-align: center;
-			font-size: map-gets($vars, logoFontSize);
-			font-weight: lighter;
-
-			&, a {
-				color: luiPalette(primary, text);
-			}
-
-			// Navigation mobile toggle
-			.navigation-toggle {
-				display: none;
-			}
-		}
-
 		// Mobile version
-		#main-navigation {
-			@include lui_screens_smaller_than(tablet) {
+		@include lui_screens_smaller_than(tablet) {
+			#main-header {
+				left: 0;
+			}
+			#main-navigation {
 				background: transparent;
 				position: relative !important;
 				left: 0; right: 0; bottom: auto;
 				z-index: 100;
 				width: 100%; max-height: 100vh; overflow: auto;
 				height: auto;
-
-				#app-logo {
-					a, .navigation-toggle {
-						display: inline-block;
-						vertical-align: middle;
-						text-decoration: none;
-					}
-				}
 
 				a.item {
 					background: map-gets($vars, navigation, background);

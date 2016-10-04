@@ -7,7 +7,8 @@ module Lui.Directives {
 		public require = ["ngModel", "luidDatePicker"];
 		public scope = {
 			format: "@",
-			displayedMonths: "@",
+			displayedCalendars: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
@@ -22,9 +23,9 @@ module Lui.Directives {
 		public link(scope: IDatePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+			datePickerCtrl.setCalendarCnt(scope.displayedCalendars);
 		}
 	}
 	class LuidDatePickerPopup implements angular.IDirective {
@@ -35,10 +36,14 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
-			displayedMonths: "@",
+			displayedCalendars: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
+
+			placeholder: "@",
+
 			shortcuts: "=",
 			groupedShortcuts: "=",
 		};
@@ -53,29 +58,31 @@ module Lui.Directives {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let datePickerCtrl = <LuidDatePickerController>ctrls[1];
 			datePickerCtrl.setElement(element);
-			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
 			datePickerCtrl.setFormat(scope.format, scope.displayFormat);
-			datePickerCtrl.setMonthsCnt(scope.displayedMonths, true);
+			datePickerCtrl.setNgModelCtrl(ngModelCtrl);
+			datePickerCtrl.setCalendarCnt(scope.displayedCalendars, true);
 			datePickerCtrl.setPopoverTrigger(element, scope);
 		}
 	}
 
 	interface IDatePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope, ICalendarScope {
 		format: string;
-		displayedMonths: string;
+		displayedCalendars: string;
 
 		displayStr: string;
 		displayFormat: string;
 
+		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
+
 		togglePopover($event: ng.IAngularEvent): void;
 		openPopover($event: ng.IAngularEvent): void;
-		closePopover($event: ng.IAngularEvent): void;
+		// closePopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
 	}
 
 	class LuidDatePickerController extends CalendarController {
 		public static IID: string = "luidDatePickerController";
-		public static $inject: Array<string> = ["$scope", "$log"];
+		public static $inject: Array<string> = ["$scope", "$log", "$timeout"];
 		protected $scope: IDatePickerScope;
 		private formatter: Lui.Utils.IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
@@ -83,25 +90,17 @@ module Lui.Directives {
 		private popoverController: Lui.Utils.IPopoverController;
 		private element: ng.IAugmentedJQuery;
 
-		constructor($scope: IDatePickerScope, $log: ng.ILogService) {
+		constructor($scope: IDatePickerScope, $log: ng.ILogService, $timeout: ng.ITimeoutService) {
 			super($scope, $log);
 			this.$scope = $scope;
-			$scope.selectDay = (day: CalendarDay) => {
-				this.setViewValue(day.date);
-				$scope.displayStr = this.getDisplayStr(day.date);
-				this.selected = day.date;
-				this.assignClasses();
-				this.closePopover();
-			};
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);
 			};
 			$scope.openPopover = ($event: ng.IAngularEvent) => {
 				this.openPopover($event);
 			};
-			$scope.closePopover = ($event: ng.IAngularEvent) => {
-				this.closePopover();
-			};
+
+			$scope.closePopoverOnTab = { 9: ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); } };
 
 			$scope.$watch("min", (): void => {
 				// revalidate
@@ -137,16 +136,7 @@ module Lui.Directives {
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$render = () => {
-				let date = this.formatter.parseValue(ngModelCtrl.$viewValue);
-				this.currentMonth = moment(date).startOf("month");
-				this.$scope.months = this.constructMonths();
-				this.selected = date;
-				this.min = this.formatter.parseValue(this.$scope.min);
-				this.max = this.formatter.parseValue(this.$scope.max);
-				this.assignClasses();
-				this.$scope.displayStr = this.getDisplayStr(date);
-			};
+			ngModelCtrl.$render = () => { this.render(); };
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let min = this.min;
 				let value = this.getViewValue();
@@ -166,7 +156,13 @@ module Lui.Directives {
 				this.displayFormat = displayFormat || "L";
 			}
 		}
-
+		protected selectDate(date: moment.Moment): void {
+			this.setViewValue(date);
+			this.$scope.displayStr = this.getDisplayStr(date);
+			this.selected = date;
+			this.assignClasses();
+			this.closePopover();
+		}
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
 			let onClosing = (): void => {
 				this.ngModelCtrl.$setTouched();
@@ -194,7 +190,17 @@ module Lui.Directives {
 		private validate(): void {
 			this.ngModelCtrl.$validate();
 		}
-
+		private render(): void {
+			let date = this.formatter.parseValue(this.ngModelCtrl.$viewValue);
+			this.currentDate = moment(date).startOf("month");
+			this.$scope.mode = this.minMode;
+			this.$scope.calendars = this.constructCalendars();
+			this.selected = date;
+			this.min = this.formatter.parseValue(this.$scope.min);
+			this.max = this.formatter.parseValue(this.$scope.max);
+			this.assignClasses();
+			this.$scope.displayStr = this.getDisplayStr(date);
+		}
 		// popover logic
 		private togglePopover($event: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {
@@ -212,8 +218,9 @@ module Lui.Directives {
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			this.element.addClass("ng-open");
-			this.$scope.direction = "";
+			this.$scope.direction = "init";
 			if (!!this.popoverController) {
+				this.render();
 				this.popoverController.open($event);
 			}
 		}

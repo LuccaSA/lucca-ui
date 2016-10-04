@@ -18,7 +18,6 @@
 				transform: translateY(-50%);
 				width: luiTheme(element, field, input, font-size);
 				height: luiTheme(element, field, input, font-size);
-				cursor: pointer;
 				opacity: 0;
 
 				&:focus + label:after {
@@ -33,10 +32,6 @@
 				padding: 0 0 0 1.75em;
 				overflow: visible;
 				font-size: luiTheme(element, field, input, font-size);
-
-				&[for] {
-					cursor: pointer;
-				}
 
 				&:before {
 					position: absolute;
@@ -60,6 +55,18 @@
 					margin-left: 0 !important;
 				}
 			}
+
+			input:not([disabled="disabled"]),
+			input:not([disabled="disabled"]) + label[for] {
+				cursor: pointer;
+			}
+			input[disabled="disabled"] + label,
+			input[readonly] + label {
+				&:after {
+					opacity: 0.5;
+				}
+			}
+
 			&.checkbox {
 				label {
 					@include lui_make_icon("checkbox", right);
@@ -80,7 +87,7 @@
 				}
 			}
 
-			input:active ~ label:before {
+			input:not([disabled="disabled"]):active ~ label:before {
 				@include lui_is_animated(ripple);
 				animation-fill-mode: forwards;
 				transform-origin: center center;
@@ -93,21 +100,23 @@
 			& + label {
 				margin-left: 1em;
 			}
-			// Read only state
+
+			// Solo checkbox: no label
 			// ====
-			&.readonly {
-				label,
-				input {
-					cursor: default;
-				}
-				input {
-					display: none;
+			&.solo {
+				margin-right: 0;
+				padding-top: 0;
+				width: luiTheme(element, field, input, font-size);
+
+				label {
+					padding: 0;
 				}
 			}
 		}
 
 		#{$prefix}.field {
-			> label {
+			.radio.input ~ label,
+			.checkbox.input ~ label {
 				@extend %lui_input_label;
 				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;

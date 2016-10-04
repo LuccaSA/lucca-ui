@@ -17,19 +17,8 @@ declare module Lui.Service {
     }
 }
 declare module Lui.Directives {
-    class CalendarMonth {
+    class CalendarDate {
         date: moment.Moment;
-        currentYear: boolean;
-        weeks: CalendarWeek[];
-        constructor(date: moment.Moment);
-    }
-    class CalendarWeek {
-        days: CalendarDay[];
-    }
-    class CalendarDay {
-        date: moment.Moment;
-        dayNum: number;
-        empty: boolean;
         disabled: boolean;
         selected: boolean;
         start: boolean;
@@ -38,22 +27,49 @@ declare module Lui.Directives {
         customClass: string;
         constructor(date: moment.Moment);
     }
+    class Calendar {
+        date: moment.Moment;
+        currentYear: boolean;
+        weeks: CalendarWeek[];
+        months: CalendarDate[];
+        years: CalendarDate[];
+        constructor(date: moment.Moment);
+    }
+    class CalendarWeek {
+        days: CalendarDay[];
+    }
+    class CalendarDay extends CalendarDate {
+        dayNum: number;
+        empty: boolean;
+        constructor(date: moment.Moment);
+    }
     class Shortcut {
         label: string;
         date: moment.Moment | Date | string;
     }
+    enum CalendarMode {
+        Days = 0,
+        Months = 1,
+        Years = 2,
+    }
     interface ICalendarScope extends ng.IScope {
-        customClass: (date: moment.Moment) => string;
+        customClass: (date: moment.Moment, mode?: CalendarMode) => string;
         displayedMonths: string;
         min: any;
         max: any;
+        mode: CalendarMode;
+        minMode: string;
         dayLabels: string[];
-        months: CalendarMonth[];
+        calendars: Calendar[];
         direction: string;
-        selectDay(day: CalendarDay): void;
+        selectDay(day: CalendarDate): void;
+        selectMonth(day: CalendarDate): void;
+        selectYear(day: CalendarDate): void;
         selectShortcut(shortcut: Shortcut): void;
-        previousMonth(): void;
-        nextMonth(): void;
+        previous(): void;
+        next(): void;
+        switchToMonthMode(): void;
+        switchToYearMode(): void;
         onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
         onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
     }
@@ -61,9 +77,11 @@ declare module Lui.Directives {
         min: (modelValue: any, viewValue: any) => boolean;
         max: (modelValue: any, viewValue: any) => boolean;
     }
-    class CalendarController {
-        protected monthsCnt: number;
-        protected currentMonth: moment.Moment;
+}
+declare module Lui.Directives {
+    abstract class CalendarController {
+        protected calendarCnt: number;
+        protected currentDate: moment.Moment;
         protected $scope: ICalendarScope;
         protected $log: ng.ILogService;
         protected selected: moment.Moment;
@@ -71,15 +89,26 @@ declare module Lui.Directives {
         protected end: moment.Moment;
         protected min: moment.Moment;
         protected max: moment.Moment;
+        protected minMode: CalendarMode;
         constructor($scope: ICalendarScope, $log: ng.ILogService);
-        setMonthsCnt(cntStr?: string, inAPopover?: boolean): void;
-        protected constructMonths(): CalendarMonth[];
+        setCalendarCnt(cntStr?: string, inAPopover?: boolean): void;
+        protected constructCalendars(): Calendar[];
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
+        protected abstract selectDate(date: moment.Moment): void;
+        private setMinMode(mode);
+        private assignDayClasses();
+        private assignMonthClasses();
+        private assignYearClasses();
         private initCalendarScopeMethods($scope);
-        private constructMonth(monthStart);
+        private constructCalendar(start, offset);
+        private constructDates(start, unitOfTime);
+        private constructWeeks(monthStart);
         private constructWeek(weekStart, monthStart);
         private extractDays();
+        private extractMonths();
+        private extractYears();
+        private changeCurrentDate(offset);
     }
 }
 declare module Lui.Directives {
@@ -116,6 +145,7 @@ declare module Lui {
     interface IField extends AngularFormly.IFieldConfigurationObject {
         key: string;
         type: string;
+        className?: string;
         templateOptions?: ITemplateOptions;
     }
     interface ITemplateOptions extends AngularFormly.ITemplateOptions {
@@ -127,14 +157,83 @@ declare module Lui {
         placeholder?: string;
         requiredError?: string;
         emailError?: string;
+        ibanError?: string;
+        rows?: number;
         choices?: {
             label: string | number;
-        };
+        }[];
         api?: string;
         filter?: string;
     }
 }
 declare module dir.directives {
+}
+declare module Lui.Directives {
+    class LuidIbanController {
+        static IID: string;
+        static $inject: Array<string>;
+        private $scope;
+        private ngModelCtrl;
+        private countryInput;
+        private controlInput;
+        private bbanInput;
+        constructor($scope: ILuidIbanScope);
+        setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
+        setInputs(elt: ng.IAugmentedJQuery): void;
+        private initScope();
+        private setPatterns();
+        private getViewValue();
+        private setViewValue(iban);
+        private setTouched();
+        private focusCountryInput();
+        private focusControlInput();
+    }
+}
+declare module Lui.Directives {
+    class LuidIban implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        templateUrl: string;
+        require: string[];
+        controller: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ILuidIbanScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes & {
+            isRequired: boolean;
+        }, ctrls: [LuidIbanController, ng.INgModelController]): void;
+    }
+}
+declare module Lui.Directives {
+    interface ILuidIbanScope extends ng.IScope {
+        countryCode: string;
+        controlKey: string;
+        bban: string;
+        countryCodePattern: string;
+        controlKeyPattern: string;
+        bbanPattern: string;
+        bbanMappings: {
+            [key: number]: ($event: ng.IAngularEvent) => void;
+        };
+        controlKeyMappings: {
+            [key: number]: ($event: ng.IAngularEvent) => void;
+        };
+        updateValue(): void;
+        pasteIban(event: ClipboardEvent): void;
+        selectInput(event: JQueryEventObject): void;
+        setTouched(): void;
+    }
+}
+declare module Lui.Directives {
+    interface ILuidIbanValidators extends ng.IModelValidators {
+        iban: () => boolean;
+    }
+}
+declare module Lui.Directives {
+    class LuidSelectNext implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void;
+    }
 }
 declare module Lui {
     interface IFile {
@@ -247,6 +346,14 @@ declare module Lui.Service {
         getDomElement: () => ng.IAugmentedJQuery;
     }
 }
+declare module Lui.Directives.Iban {
+    class SelectNext implements ng.IDirective {
+        static IID: string;
+        restrict: string;
+        static factory(): angular.IDirectiveFactory;
+        link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void;
+    }
+}
 declare module Lui.Directives.TableGrid {
     class Tree {
         node: Header;
@@ -294,7 +401,7 @@ declare module Lui.Directives {
     class LuidTableGridHeightType {
         static GLOBAL: string;
         static BODY: string;
-        static isTypeExisting(type: string): boolean;
+        static isTypeExisting(type: string): Boolean;
     }
     class LuidTableGrid implements angular.IDirective {
         static defaultHeight: number;
@@ -393,10 +500,10 @@ declare module Lui.Utils {
         private body;
         private $scope;
         private clickedOutside;
+        open: ($event?: ng.IAngularEvent) => void;
+        close: ($event?: ng.IAngularEvent) => void;
         constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void);
         toggle($event?: ng.IAngularEvent): void;
-        close($event?: ng.IAngularEvent): void;
-        open($event: ng.IAngularEvent): void;
         private onClickedOutside($event?);
     }
 }

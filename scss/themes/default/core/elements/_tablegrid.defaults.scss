@@ -9,11 +9,11 @@ $tableGrid:(
 	),
 
 	header: (
-		background: 			luiPalette(light, color, light),
+		background: 			#FFF,
 		borderColor: 			luiPalette(light, color),
 		text: 					luiPalette(light, text, light),
 		cellPaddingTop: 		2em,
-		fontWeight: 			normal,
+		fontWeight: 			bold,
 		textAlignment: 			left
 	),
 

@@ -16,6 +16,10 @@
 	.filter('luifFriendlyRange', function () {
 		var translations = {
 			'en': {
+				startOnly: 'date(dddd, LL) onwards',
+				startOnlyThisYear: 'date(dddd, MMMM Do) onwards',
+				endOnly: 'until date(dddd, LL)',
+				endOnlyThisYear: 'until date(dddd, MMMM Do)',
 				sameDay: 'start(dddd, LL)',
 				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
@@ -25,6 +29,10 @@
 				other: 'start(LL) - end(LL)'
 			},
 			'fr': {
+				startOnly: 'à partir du date(dddd LL)',
+				startOnlyThisYear: 'à partir du date(dddd Do MMMM)',
+				endOnly: 'jusqu\'au date(dddd LL)',
+				endOnlyThisYear: 'jusqu\'au date(dddd Do MMMM)',
 				sameDay: 'le start(dddd LL)',
 				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
@@ -34,6 +42,12 @@
 				other: 'du start(LL) au end(LL)'
 			},
 			'de': {
+
+				// startOnly: 'start(dddd, LL) onwards',
+				// startOnlyThisYear: 'start(dddd, MMMM Do) onwards',
+				// endOnly: 'until end(dddd, LL)',
+				// endOnlyThisYear: 'until end(dddd, MMMM Do)',
+
 				sameDay: 'der start(dddd LL)',
 				sameDayThisYear: 'der start(dddd Do MMMM)',
 				sameMonth: 'von start(Do) bis end(LL)',
@@ -45,24 +59,34 @@
 		};
 		return function (_block, _excludeEnd, _ampm, _translations) {
 			if(!_block){ return; }
-			var start = _block.startsAt || _block.startsOn || _block.startDate || _block.start;
-			var end = _block.endsAt || _block.endsOn || _block.endDate || _block.end;
+			var start = _block.start || _block.startsAt || _block.startsOn || _block.startDate;
+			var end = _block.end || _block.endsAt || _block.endsOn || _block.endDate;
 			if (!start && !end) {
 				return "";
 			}
-			start = moment(start);
-			end = moment(end);
+			start = !!start ? moment(start) : undefined;
+			end = !!end ? moment(end) : undefined;
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
 			var trads = translations[moment.locale()] || translations.en;
-			var format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
-			if(moment().year() === start.year() && moment().year() === end.year()){
+			var format;
+			var regex;
+			if (!!start && !!end) {
+				format = start.year() === end.year() ? start.month() === end.month() ? start.date() === end.date() ? 'sameDay' : 'sameMonth' : 'sameYear' : 'other';
+				if(moment().year() === start.year() && moment().year() === end.year()){
+					format += "ThisYear";
+				}
+				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
+				return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+			}
+			format = !!start ? "startOnly" : "endOnly";
+			var date = start || end;
+			if(moment().year() === date.year()){
 				format += "ThisYear";
 			}
-
-			var regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+			regex = /(date\((.*?)\))/gi.exec(trads[format]);
+			return trads[format].replace(regex[1], date.format(regex[2]));
 		};
 	})
 	.filter('luifMoment', function () {

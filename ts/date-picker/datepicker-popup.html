@@ -1,14 +1,14 @@
 <div uib-popover-template="'lui/templates/date-picker/datepicker-inline.html'"
 	 popover-placement="bottom-left"
-	 popover-trigger="none"
+	 popover-trigger="'none'"
 	 popover-is-open="popover.isOpen"
 	 popover-class="lui luid-datepicker"
-	 ng-click="openPopover($event)"
 	 class="lui datepicker input">
 		<input type="text"
 			ng-readonly="popover.isOpen"
 			ng-model="displayStr"
 			ng-focus="openPopover($event)"
-			ng-blur="closePopover($event)">
+			luid-keydown mappings="closePopoverOnTab"
+			placeholder="{{placeholder}}">
 		<i class="empty" ng-click="clear($event)"></i>
 </div>

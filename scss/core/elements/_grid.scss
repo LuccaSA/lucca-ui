@@ -119,7 +119,8 @@ body, html { width: 100%; height: 100%; }
 		// ===================================
 		#{$prefix}.fitting.columns {
 			@include display-flex();
-			overflow: hidden;
+			@include flex-wrap(wrap);
+			@include lui_clearfix();
 		}
 	}
 }

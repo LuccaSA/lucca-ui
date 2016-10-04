@@ -53,8 +53,12 @@ module dir.directives {
 			let clueFilter: string = !!clue ? "name=like," + clue : "paging=" + MAGIC_PAGING;
 			let filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
 			return this.$http.get(api + "?" + filter + "&fields=id,name")
-			.then( (response: ng.IHttpPromiseCallbackArg<{data: { items: IStandardApiResource[] } }>) => {
-				return response.data.data.items;
+			.then( (response: ng.IHttpPromiseCallbackArg<{data: { items: IStandardApiResource[] } } & { data: IStandardApiResource[] }>) => {
+				if (api.indexOf("/v3/") !== -1){
+					return response.data.data.items;
+				} else {
+					return response.data.data;
+				}
 			});
 		}
 	}

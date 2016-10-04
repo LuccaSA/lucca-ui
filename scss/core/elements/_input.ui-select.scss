@@ -4,18 +4,6 @@
 		.ui-select-container {
 			@extend %lui_dropdown_sizing;
 
-			// Label
-			// ====
-			& ~ label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
-			}
-			&.open ~ label,
-			&.ng-not-empty ~ label,
-			&[placeholder]:not([placeholder=""]) ~ label {
-				@extend %lui_input_label_displaced;
-			}
-
 			&.open:not([search-enabled="false"]) {
 				@extend %lui_searchable_input;
 			}
@@ -28,10 +16,21 @@
 				outline: none;
 
 				@extend %lui_user_select_none;
+				-webkit-appearance: none;
 			}
 
 			.ui-select-offscreen {
-				display: none;
+				clip: rect(0 0 0 0) !important;
+				width: 1px !important;
+				height: 1px !important;
+				border: 0 !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				overflow: hidden !important;
+				position: absolute !important;
+				outline: 0 !important;
+				left: 0px !important;
+				top: 0px !important;
 			}
 
 			.ui-select-match .ui-select-toggle,
@@ -39,7 +38,18 @@
 				@extend %lui_input_sizing;
 				@extend %lui_input_reset;
 
+				padding-right: 1.5em !important;
+
 				width: 100%;
+			}
+			.ui-select-match[allow-clear="true"] .ui-select-toggle {
+				padding-right: 2.5em !important;
+			}
+
+			.ui-select-match-text {
+				overflow: hidden;
+				white-space: pre;
+				text-overflow: ellipsis;
 			}
 
 			&:not(.open) .ui-select-toggle,
@@ -61,7 +71,9 @@
 				@include lui_input_placeholder;
 			}
 
-			&.open .ui-select-search {
+			&.open .ui-select-search,
+			.ui-select-search:focus,
+			.ui-select-match.btn-default-focus .ui-select-toggle {
 				@extend %lui_input_focus;
 			}
 			&:not(.ui-select-multiple) .ui-select-search {
@@ -115,10 +127,6 @@
 				.ui-select-toggle,
 				.ui-select-search {
 					@extend %lui_input_invalid_input;
-				}
-
-				& ~ label {
-					@extend %lui_input_invalid_label;
 				}
 			}
 
@@ -179,6 +187,14 @@
 					&:not(.ng-hide) {
 						transform: scale(1) translateX(-50%);
 					}
+				}
+			}
+		}
+
+		#{$prefix}.field {
+			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+				&.#{$sizeName} .ui-select-container {
+					width: $sizeEms !important;
 				}
 			}
 		}

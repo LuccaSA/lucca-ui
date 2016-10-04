@@ -3,6 +3,7 @@ module Lui {
 	export interface IField extends AngularFormly.IFieldConfigurationObject {
 		key: string;
 		type: string;
+		className?: string;
 		templateOptions?: ITemplateOptions;
 	}
 	export interface ITemplateOptions extends AngularFormly.ITemplateOptions {
@@ -16,9 +17,12 @@ module Lui {
 		// error messages
 		requiredError?: string;
 		emailError?: string;
+		ibanError?: string;
 
+		// textarea types
+		rows?: number;
 		// select and radio types
-		choices?: { label: string | number };
+		choices?: { label: string | number }[];
 		// api-select field type
 		api?: string;
 		filter?: string;

@@ -11,9 +11,9 @@ module.exports = function(grunt, options){
 				htmlmin: {
 					collapseBooleanAttributes: true,
 					collapseWhitespace: true,
-					removeAttributeQuotes: true,
+					removeAttributeQuotes: false,
 					removeComments: true,
-					removeEmptyAttributes: true,
+					removeEmptyAttributes: false,
 					removeRedundantAttributes: true,
 					removeScriptTypeAttributes: true,
 					removeStyleLinkTypeAttributes: true

@@ -7,12 +7,24 @@ module Lui {
 			templateUrl: "lui/templates/formly/fields/text.html",
 		});
 		formlyConfigProvider.setType({
+			name: "textarea",
+			templateUrl: "lui/templates/formly/fields/textarea.html",
+		});
+		formlyConfigProvider.setType({
+			name: "number",
+			templateUrl: "lui/templates/formly/fields/number.html",
+		});
+		formlyConfigProvider.setType({
 			name: "email",
 			templateUrl: "lui/templates/formly/fields/email.html",
 		});
 		formlyConfigProvider.setType({
 			name: "date",
 			templateUrl: "lui/templates/formly/fields/date.html",
+		});
+		formlyConfigProvider.setType({
+			name: "daterange",
+			templateUrl: "lui/templates/formly/fields/daterange.html",
 		});
 		formlyConfigProvider.setType({
 			name: "select",
@@ -25,6 +37,10 @@ module Lui {
 		formlyConfigProvider.setType({
 			name: "radio",
 			templateUrl: "lui/templates/formly/fields/radio.html",
+		});
+		formlyConfigProvider.setType({
+			name: "picture",
+			templateUrl: "lui/templates/formly/fields/picture.html",
 		});
 		formlyConfigProvider.setType({
 			name: "portrait",
@@ -45,6 +61,10 @@ module Lui {
 		formlyConfigProvider.setType({
 			name: "api_select_multiple",
 			templateUrl: "lui/templates/formly/fields/api-select-multiple.html",
+		});
+		formlyConfigProvider.setType({
+			name: "iban",
+			templateUrl: "lui/templates/formly/fields/iban.html",
 		});
 	}]);
 }

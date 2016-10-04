@@ -9,13 +9,15 @@ module Lui.Directives {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
-			// displayedMonths: "@",
+			minMode: "@",
 			min: "=",
 			max: "=",
 			customClass: "=",
 			excludeEnd: "@",
 			startProperty: "@",
 			endProperty: "@",
+
+			placeholder: "@",
 
 			shortcuts: "=",
 			groupedShortcuts: "=",
@@ -27,13 +29,12 @@ module Lui.Directives {
 			};
 			return directive;
 		}
-		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, ctrls: any[]): void {
+		public link (scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let drCtrl = <LuidDaterangePickerController>ctrls[1];
 			drCtrl.setNgModelCtrl(ngModelCtrl);
 			drCtrl.setFormat(scope.format, scope.displayFormat);
-			drCtrl.setMonthsCnt("2");
-			// datePickerCtrl.setMonthsCnt(scope.displayedMonths);
+			drCtrl.setCalendarCnt("2", true);
 			drCtrl.setPopoverTrigger(element, scope);
 			drCtrl.setExcludeEnd(scope.excludeEnd);
 			drCtrl.setProperties(scope.startProperty, scope.endProperty);
@@ -91,24 +92,7 @@ module Lui.Directives {
 					$scope.toLabel = "To";
 					break;
 			}
-			$scope.selectDay = (day: CalendarDay) => {
-				if ($scope.editingStart || (!!$scope.period.start && day.date.isBefore($scope.period.start))) {
-					$scope.period.start = day.date;
-					this.start = day.date;
-					$scope.editEnd();
-					if (!!$scope.period.end && $scope.period.start.isAfter($scope.period.end)) {
-						$scope.period.end = undefined;
-						this.end = undefined;
-					}
-					this.assignClasses();
-				} else if (!$scope.editingStart && !!$scope.period.start) {
-					$scope.period.end = day.date;
-					this.closePopover();
-				} else {
-					$scope.period.end = day.date;
-					$scope.editStart();
-				}
-			};
+
 			$scope.selectShortcut = (shortcut: Shortcut) => {
 				$scope.period = this.toPeriod(shortcut);
 				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
@@ -123,9 +107,9 @@ module Lui.Directives {
 				$scope.editingStart = true;
 
 				// rebuild calendar if the start is not currently displayed
-				if (!!this.$scope.period.start && moment(this.currentMonth).diff(this.$scope.period.start) > 0) {
-					this.currentMonth = moment(this.$scope.period.start).startOf("month");
-					this.$scope.months = this.constructMonths();
+				if (!!this.$scope.period.start && moment(this.currentDate).diff(this.$scope.period.start) > 0) {
+					this.currentDate = moment(this.$scope.period.start).startOf("month");
+					this.$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
 			};
@@ -136,9 +120,9 @@ module Lui.Directives {
 				$scope.editingStart = false;
 
 				// rebuild calendar to have the end in the last displayed mnth
-				if (!!this.$scope.period.end && moment(this.currentMonth).add(this.monthsCnt, "months").diff(this.$scope.period.end) <= 0) {
-					this.currentMonth = moment(this.$scope.period.end).add(-this.monthsCnt + 1, "months").startOf("month");
-					this.$scope.months = this.constructMonths();
+				if (!!this.$scope.period.end && moment(this.currentDate).add(this.calendarCnt, "months").diff(this.$scope.period.end) <= 0) {
+					this.currentDate = moment(this.$scope.period.end).add(-this.calendarCnt + 1, "months").startOf("month");
+					this.$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
 			};
@@ -180,6 +164,10 @@ module Lui.Directives {
 					this.$scope.displayStr = undefined;
 				}
 			};
+			ngModelCtrl.$isEmpty = (value: any) => {
+				let period: Lui.IPeriod = this.toPeriod(value);
+				return !period || (!period.start && !period.end);
+			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
 				let start = this.getViewValue().start;
 				let min = this.formatter.parseValue(this.$scope.min);
@@ -216,24 +204,58 @@ module Lui.Directives {
 			};
 		}
 
+		protected selectDate(date: moment.Moment): void {
+			if (this.$scope.editingStart || (!!this.$scope.period.start && date.isBefore(this.$scope.period.start))) {
+				this.$scope.period.start = date;
+				this.start = date;
+				this.$scope.editEnd();
+				if (!!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
+					this.$scope.period.end = undefined;
+					this.end = undefined;
+				}
+				this.assignClasses();
+			} else {
+				switch (this.minMode) {
+					case CalendarMode.Months:
+						this.$scope.period.end = date.endOf("month").startOf("day");
+						break;
+					case CalendarMode.Years:
+						this.$scope.period.end = date.endOf("year").startOf("day");
+						break;
+					default:
+						this.$scope.period.end = date;
+				}
+				if (!!this.$scope.period.start) {
+					this.closePopover();
+				} else {
+					this.$scope.editStart();
+				}
+			}
+		}
+
 		// ng-model logic
 		private setViewValue(value: Lui.Period): void {
-			let period: Lui.IPeriod = <Lui.IPeriod>this.ngModelCtrl.$viewValue || {};
-			if (!value || !value.start || !value.end) {
-				period = undefined;
+			let period: Lui.IPeriod = _.clone(<Lui.IPeriod>this.ngModelCtrl.$viewValue);
+			if (!value && !period) {
+				return this.ngModelCtrl.$setViewValue(undefined);
+			}
+			period = period || {};
+			if (!value) {
+				period[this.startProperty] = undefined;
+				period[this.endProperty] = undefined;
 			} else {
-				period[this.startProperty] = this.formatter.formatValue(moment(value.start));
-				period[this.endProperty] = this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end));
+				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
+				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
 		private getViewValue(): Lui.Period {
-			if (!!this.ngModelCtrl.$viewValue) {
-				return this.toPeriod(this.ngModelCtrl.$viewValue);
-			}
-			return { start: undefined, end: undefined };
+			return this.toPeriod(this.ngModelCtrl.$viewValue);
 		}
 		private toPeriod(v: any): Lui.Period {
+			if (!v) {
+				return { start: undefined, end: undefined };
+			}
 			let iperiod: Lui.IPeriod = {};
 			iperiod.start = v[this.startProperty];
 			iperiod.end = v[this.endProperty];
@@ -254,21 +276,23 @@ module Lui.Directives {
 		}
 		private closePopover(): void {
 			this.$scope.direction = "";
-			if (!!this.$scope.period.start && !!this.$scope.period.end) {
-				this.setViewValue(this.$scope.period);
-				this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
-			} else {
-				this.$scope.period = this.getViewValue();
-				this.$scope.displayStr = "";
-			}
+			// if (!!this.$scope.period.start && !!this.$scope.period.end) {
+			this.setViewValue(this.$scope.period);
+			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			// } else {
+			// 	this.$scope.period = this.getViewValue();
+			// 	this.$scope.displayStr = "";
+			// }
 			this.element.removeClass("ng-open");
 			this.popoverController.close();
 		}
 		private openPopover($event: ng.IAngularEvent): void {
 			let vv: Lui.Period = this.getViewValue();
 			this.$scope.period = vv || { start: undefined, end: undefined };
-			this.currentMonth = (!!vv ? moment(vv.start) : moment()).startOf("month");
-			this.$scope.months = this.constructMonths();
+			this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
+			this.$scope.mode = this.minMode;
+			this.$scope.direction = "init";
+			this.$scope.calendars = this.constructCalendars();
 			if (!!vv) {
 				this.start = vv.start;
 				this.end = vv.end;

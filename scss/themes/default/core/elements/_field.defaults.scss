@@ -9,12 +9,14 @@ $field: (
 	invalid-color: 				luiPalette(red, color),
 	valid-color:				luiPalette(green, color),
 	valid-icon-size:			0.75em,
-	vertical-margin: 			3em,
+	vertical-margin: 			2em,
 
 	input: (
 		vertical-padding: 		0.5em,
 		font-size:				1.1em,
-		placeholder-color:		transparentize(luiTheme(element, typography, body, color), 0.35)
+		placeholder-color:		transparentize(luiTheme(element, typography, body, color), 0.35),
+		selection-background:	transparentize(luiPalette(primary, color), 0.5),
+		selection-text:			luiPalette(primary, text)
 	),
 
 	transition: (
@@ -59,6 +61,10 @@ $field: (
 		enabled:				true
 	),
 
+	iban: (
+		enabled:				true
+	),
+
 	userpicker: (
 		enabled: 				true
 	),
@@ -89,7 +95,7 @@ $field: (
 	momentpicker: (
 		enabled: 				true,
 
-		width: 					2.2em,
+		width: 					1.5em,
 		max-width: 				5.25em
 	),
 
@@ -121,6 +127,7 @@ $field: (
 		header: (
 			font-size: 			1.5em,
 			font-weight: 		normal,
+			hover-weight:		600,
 			padding: (
 				vertical: 		lui-rem(0.5),
 				horizontal:		0

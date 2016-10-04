@@ -5,6 +5,8 @@
 
 		luid-image-picker {
 			display: inline-block;
+			width: 100%;
+			height: 100%;
 
 			> div { height: 100%; }
 
@@ -77,6 +79,11 @@
 				.input-overlay { display: none; }
 				.upload-overlay { height: 100%; }
 			}
+			&.round {
+				.luid-image-picker-picture {
+					border-radius: 50%;
+				}
+			}
 		}
 		.luid-cropper {
 			background: map-gets($vars, cropper, bg-color);
@@ -120,12 +127,10 @@
 		// ====
 		#{$prefix}.field {
 			luid-image-picker + label {
-				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
 				@extend %lui_input_label_displaced;
 			}
 
-			& > luid-image-picker {
+			luid-image-picker {
 				margin-top: 0.5em;
 				width: map-gets($vars, size);
 				height: map-gets($vars, size);
@@ -135,19 +140,15 @@
 
 				&.ng-touched.ng-invalid {
 					border-bottom-color: luiTheme(element, field, invalid-color);
-
-					& ~ label {
-						@extend %lui_input_invalid_label;
-					}
 				}
 			}
 
 			// 4:3 ratio
-			&.landscape > luid-image-picker {
+			&.landscape luid-image-picker {
 				width: 4 * (map-gets($vars, size) / 3);
 				height: map-gets($vars, size);
 			}
-			&.portrait > luid-image-picker {
+			&.portrait luid-image-picker {
 				width: 3 * (map-gets($vars, size) / 4);
 				height: map-gets($vars, size);
 			}
