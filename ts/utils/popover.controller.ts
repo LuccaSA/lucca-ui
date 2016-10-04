@@ -34,7 +34,6 @@ module Lui.Utils {
 				otherEvent.stopPropagation();
 			};
 			this.open = ($event: ng.IAngularEvent) => {
-				console.log("open");
 				this.$scope.popover.isOpen = true;
 				setTimeout( () => {
 					this.body.on("click", onBodyClicked);
@@ -42,7 +41,6 @@ module Lui.Utils {
 				}, MAGIC_TIMEOUT_DELAY);
 			};
 			this.close = ($event?: ng.IAngularEvent)=> {
-				console.log("close");
 				this.$scope.popover.isOpen = false;
 				if (!!this.body) {
 					let that = this;
