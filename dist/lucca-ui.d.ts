@@ -500,10 +500,10 @@ declare module Lui.Utils {
         private body;
         private $scope;
         private clickedOutside;
+        open: ($event?: ng.IAngularEvent) => void;
+        close: ($event?: ng.IAngularEvent) => void;
         constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void);
         toggle($event?: ng.IAngularEvent): void;
-        close($event?: ng.IAngularEvent): void;
-        open($event: ng.IAngularEvent): void;
         private onClickedOutside($event?);
     }
 }
