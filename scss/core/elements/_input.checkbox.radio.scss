@@ -97,9 +97,6 @@
 			input:checked ~ label:after {
 				color: luiPalette(primary, color);
 			}
-			& + label {
-				margin-left: 1em;
-			}
 
 			// Solo checkbox: no label
 			// ====

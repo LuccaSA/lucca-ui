@@ -14,8 +14,8 @@
 	@at-root #{$namespace} {
 
 		luid-iban {
-			display: inline-block;
 			vertical-align: middle;
+			@extend %luid-iban-flex;
 
 			// Styling
 			// ====
@@ -46,21 +46,6 @@
 				box-shadow: none !important;
 				input {
 					@extend %lui_input_invalid_input;
-				}
-			}
-		}
-
-		#{$prefix}.field {
-			&.fitting luid-iban {
-				@extend %luid-iban-flex;
-				width: 100%;
-			}
-			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
-				&.#{$sizeName} {
-					luid-iban {
-						@extend %luid-iban-flex;
-						width: $sizeEms !important;
-					}
 				}
 			}
 		}

@@ -31,6 +31,10 @@
 			&.ng-open > .lui.input > input {
 				@extend %lui_input_focus;
 			}
+			&.ng-invalid.ng-touched > .lui.input > input,
+			&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
+				@extend %lui_input_invalid_input;
+			}
 		}
 
 		// Neutralize popover max-width
@@ -81,14 +85,6 @@
 				padding-right: 2.25em;
 			}
 			i.empty { z-index: 2; }
-		}
-		#{$prefix}.field {
-			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
-				&.#{$sizeName} .lui.datepicker.input,
-				&.#{$sizeName} .lui.daterangepicker.input {
-					width: $sizeEms !important;
-				}
-			}
 		}
 
 		luid-date-picker-popup,
