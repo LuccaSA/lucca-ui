@@ -132,8 +132,8 @@
 
 			luid-image-picker {
 				margin-top: 0.5em;
-				width: map-gets($vars, size);
-				height: map-gets($vars, size);
+				width: map-gets($vars, size) !important;
+				height: map-gets($vars, size) !important;
 
 				border-bottom: luiTheme(element, field, field, focus-border-width) solid transparent;
 				margin-bottom: -#{luiTheme(element, field, field, focus-border-width)};

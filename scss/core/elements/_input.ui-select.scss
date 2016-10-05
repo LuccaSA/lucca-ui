@@ -1,5 +1,8 @@
 @if luiTheme(element, field, ui-select, enabled) {
 	@at-root #{$namespace} {
+		#{$prefix}.input .ui-select-container {
+			width: 100%;
+		}
 
 		.ui-select-container {
 			@extend %lui_dropdown_sizing;
@@ -134,14 +137,15 @@
 			// Multiselect
 			// ====
 			&.ui-select-multiple {
+				display: block;
 				// Angular UI hack: input width calculus is all wrong
 				margin-top: -1px;
 				margin-bottom: -1px;
+
 				.ui-select-search {
 					padding-top: 0;
 					padding-bottom: 0;
-					padding-right: 10px;
-					box-sizing: content-box;
+					box-sizing: border-box;
 				}
 
 				> div {
@@ -189,18 +193,6 @@
 					}
 				}
 			}
-		}
-
-		#{$prefix}.field {
-			@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
-				&.#{$sizeName} .ui-select-container {
-					width: $sizeEms !important;
-				}
-			}
-		}
-		#{$prefix}.fitting.field .ui-select-container,
-		.fitting.ui-select-container {
-			width: 100%;
 		}
 	}
 }
