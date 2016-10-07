@@ -59,7 +59,7 @@
 
 			.ui-select-match-text {
 				white-space: pre;
-				text-overflow: ellipsis;
+				float: none !important;
 			}
 
 			&:not(.open) .ui-select-toggle,
