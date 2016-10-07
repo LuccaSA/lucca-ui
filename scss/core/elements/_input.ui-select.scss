@@ -45,12 +45,19 @@
 
 				width: 100%;
 			}
+			&:not(.ui-select-multiple).open .ui-select-match {
+				display: block !important;
+				visibility: hidden;
+			}
+			&:not(.ui-select-multiple) .ui-select-search {
+				position: absolute;
+				left: 0; top: 0;
+			}
 			.ui-select-match[allow-clear="true"] .ui-select-toggle {
 				padding-right: 2.5em !important;
 			}
 
 			.ui-select-match-text {
-				overflow: hidden;
 				white-space: pre;
 				text-overflow: ellipsis;
 			}
