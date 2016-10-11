@@ -181,6 +181,20 @@
 }
 
 
+// Collapse
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/collapse.defaults";
+
+	// Theme overrides
+	@import "core/elements/collapse.overrides";
+	$luiTheme: luiSetTheme(element, collapse, $myTheme);
+}
+
+
 // Divider
 // ===================================
 

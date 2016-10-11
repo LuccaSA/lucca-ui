@@ -16,10 +16,11 @@
 		}
 		#view #main-header {
 			@include lui_screens_smaller_than(tablet) {
-				padding: 1em 0;
-
 				@include flex-justify-content(center);
 
+				.item {
+					padding: 0 0 1em 0;
+				}
 				.item, .menu {
 					margin: auto;
 				}

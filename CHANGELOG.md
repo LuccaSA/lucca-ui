@@ -1,8 +1,16 @@
 # Change log
 
+## 3.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.4)
+
+### Bug fixes
+
 ## 3.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.3)
 
 ### Bug fixes
+- uib-collapse was mistakenly removed and thus is back!
+- Datepicker sizing fix
+- UI-select: adds support for dividers and groups
+- UI-select: scss refactoring (absolute positionning) to hide the potential lag in ng-hide toggling
 
 ## 3.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.2)
 

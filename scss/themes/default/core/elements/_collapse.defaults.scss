@@ -1,0 +1,12 @@
+
+// Collapse
+// @type: element
+// ===================================
+
+$collapse: (
+	enabled: 					true,
+
+	transition-duration:		0.2s,
+	transition-easing:			ease-out
+);
+$luiTheme: luiSetTheme(element, collapse, $collapse);
