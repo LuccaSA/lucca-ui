@@ -1209,8 +1209,8 @@
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"{{allowClear}}\">" +
-		"<div ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</div>" +
-		"<div ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
+		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
+		"<span ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</span>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
 	"</ui-select>";
