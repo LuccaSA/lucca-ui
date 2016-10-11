@@ -55,7 +55,7 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 @import	"core/elements/icon",
 		"core/elements/grid",
 		"core/elements/typography",
-		// "core/elements/input",
+		"core/elements/collapse",
 		"core/elements/field",
 		"core/elements/button",
 		"core/elements/divider",
