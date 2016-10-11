@@ -7,6 +7,9 @@
 - Datepicker sizing fix
 - UI-select: adds support for dividers and groups
 - UI-select: scss refactoring (absolute positionning) to hide the potential lag in ng-hide toggling
+- appLayout: progress-bar is now affected by topOffset
+- Dropdown: removed default width
+- appLayout: Active state =/= hover state on navigation items
 
 ## 3.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.2)
 
