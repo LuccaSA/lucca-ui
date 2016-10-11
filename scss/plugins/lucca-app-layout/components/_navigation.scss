@@ -10,16 +10,28 @@
 
 			// Text and links coloring
 			&, a {
-				color: lighten(map-gets($vars, navigation, background), 25);
+				color: lighten(map-gets($vars, navigation, background), 35);
 			}
 		}
 
 		// Menu item
 		#main-navigation a.item {
 			text-align: center;
+			transition-property: background-color, color;
+			transition-duration: 150ms;
+			transition-timing-function: ease-out;
 
 			&:before {
 				margin-left: 0;
+			}
+
+			&:after {
+				right: -#{lui_rem(1)};
+				opacity: 1;
+				transition-property: right, opacity;
+				transition-duration: 200ms;
+				transition-delay: 150ms;
+				transition-timing-function: ease-out;
 			}
 
 			// Hover and active states
@@ -27,9 +39,17 @@
 				background: darken(map-gets($vars, navigation, background), 1);
 				color: #FFF;
 			}
+
 			&.active {
 				background: luiPalette(primary, color);
 				color: luiPalette(primary, text);
+
+				&:after {
+					@include lui_points_towards(left, map-gets($vars, appBackground), lui_rem(0.75));
+					right: 0;
+					top: 50%;
+					transform: translateY(-50%);
+				}
 			}
 			// Item icon
 			> i.icon {
