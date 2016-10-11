@@ -1,5 +1,14 @@
 # Change log
 
+## 3.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.3)
+
+### Bug fixes
+
+## 3.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.2)
+
+### Bug fixes
+- user-picker - fix nullrefex due to the new rights on api/v3/users
+
 ## 3.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.1)
 
 ### Bug fixes

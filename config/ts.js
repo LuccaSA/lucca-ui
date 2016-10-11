@@ -8,11 +8,15 @@ module.exports = function(grunt, options){
 		},
 		dist:{
 			src: [
-				"ts/**/*.ts", 
+				// "ts/**/*.ts",
+				"ts/*.ts",
+				"ts/config/*.ts",
+				"ts/date-picker/*.ts",
+				"ts/filters/*.ts",
+				"ts/progress-bar/*.ts",
+				"ts/utils/*.ts",
 				"!ts/**/*.spec.ts", 
 				"!ts/**/*.e2e.ts",
-				"!ts/table-grid/**/*.*",
-				"!ts/notify-service/**/*.*",
 				"typings/index.d.ts"
 			],
 			dest: ".temp/lucca-ui-ts.js",
