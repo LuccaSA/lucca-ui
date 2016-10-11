@@ -77,7 +77,6 @@
 		luid-date-picker-popup .lui.datepicker.input,
 		luid-daterange-picker .lui.daterange.input {
 			position: relative;
-			width: map-gets($vars, input, width);
 			max-width: 100%;
 
 			input, label {
