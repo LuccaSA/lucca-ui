@@ -109,6 +109,10 @@
 				@extend %lui_dropdown_list_item;
 			}
 
+			.divider {
+				margin-bottom: 0;
+			}
+
 			&.direction-up {
 				.ui-select-choices {
 					top: auto !important;
