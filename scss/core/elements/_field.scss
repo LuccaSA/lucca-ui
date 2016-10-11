@@ -189,7 +189,6 @@
 	margin: 0;
 }
 %lui_dropdown_sizing {
-	width: luiTheme(element, field, lengths, medium);
 	max-width: 100%;
 
 	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
