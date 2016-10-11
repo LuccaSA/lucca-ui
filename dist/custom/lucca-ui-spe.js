@@ -1646,7 +1646,9 @@
 						// Add each property to the user
 						_.each(props, function(prop) {
 							var newProp = prop.name.split('.')[0];
-							user[newProp] = userWithProps[newProp];
+							if (!!userWithProps && !!userWithProps[newProp]) {
+								user[newProp] = userWithProps[newProp];
+							}
 						});
 					});
 
@@ -2395,7 +2397,7 @@ var Lui;
             return LuipConfig;
         }());
         var Config = (function () {
-            function Config(conf, $log, cgNotify) {
+            function Config(conf, $log) {
                 _.extend(this, conf);
                 if (!this.parentElt && !!this.parentTagIdClass) {
                     var parentTagIdClass = this.parentTagIdClass || "body";
@@ -4459,41 +4461,6 @@ var Lui;
 (function (Lui) {
     var Directives;
     (function (Directives) {
-        var Iban;
-        (function (Iban) {
-            "use strict";
-            var SelectNext = (function () {
-                function SelectNext() {
-                    this.restrict = "A";
-                }
-                SelectNext.factory = function () {
-                    var directive = function () {
-                        return new SelectNext();
-                    };
-                    return directive;
-                };
-                SelectNext.prototype.link = function (scope, element, attrs) {
-                    element.on("input", function (event) {
-                        if (!!element[0].maxLength && (element[0].value.length === element[0].maxLength)) {
-                            var nextElements = element.next();
-                            if (nextElements.length) {
-                                nextElements[0].select();
-                            }
-                        }
-                    });
-                };
-                SelectNext.IID = "selectNext";
-                return SelectNext;
-            }());
-            Iban.SelectNext = SelectNext;
-            angular.module("lui.directives").directive(SelectNext.IID, SelectNext.factory());
-        })(Iban = Directives.Iban || (Directives.Iban = {}));
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
         var TableGrid;
         (function (TableGrid) {
             "use strict";
@@ -5179,7 +5146,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/radio.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small><label>{{ options.templateOptions.label }}</label></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
