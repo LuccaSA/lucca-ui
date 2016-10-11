@@ -1,5 +1,9 @@
 # Change log
 
+## 3.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.4)
+
+### Bug fixes
+
 ## 3.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.3)
 
 ### Bug fixes
