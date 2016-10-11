@@ -14,6 +14,9 @@
 - appLayout: progress-bar is now affected by topOffset
 - Dropdown: removed default width
 - appLayout: Active state =/= hover state on navigation items
+- Points towards: triangles are more squarish
+- New behaviour for active item in AppLayout plugin navigation
+- Fixes issue #342
 
 ## 3.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.2)
 
@@ -24,13 +27,13 @@
 
 ### Bug fixes
 - input tag were inheriting some styles from normalize
-- margin for fields iinside lui ciolumns
+- margin for fields inside lui columns
 
 ## 3.0.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.0)
 
 ### Dependencies
 
-the following dependencies have been updated to their latest verion at time of release. This might introduce breaking changes
+the following dependencies have been updated to their latest version at time of release. This might introduce breaking changes
 
 - moment `2.15`
 - angular-ui-bootstrap `2.1` - this one has breaking-changes if you're using a popover or tooltip with custom trigger
