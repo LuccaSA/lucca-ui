@@ -346,14 +346,6 @@ declare module Lui.Service {
         getDomElement: () => ng.IAugmentedJQuery;
     }
 }
-declare module Lui.Directives.Iban {
-    class SelectNext implements ng.IDirective {
-        static IID: string;
-        restrict: string;
-        static factory(): angular.IDirectiveFactory;
-        link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void;
-    }
-}
 declare module Lui.Directives.TableGrid {
     class Tree {
         node: Header;
@@ -500,10 +492,10 @@ declare module Lui.Utils {
         private body;
         private $scope;
         private clickedOutside;
+        open: ($event?: ng.IAngularEvent) => void;
+        close: ($event?: ng.IAngularEvent) => void;
         constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void);
         toggle($event?: ng.IAngularEvent): void;
-        close($event?: ng.IAngularEvent): void;
-        open($event: ng.IAngularEvent): void;
         private onClickedOutside($event?);
     }
 }

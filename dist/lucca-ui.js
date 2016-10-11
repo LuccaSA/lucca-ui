@@ -1293,6 +1293,31 @@
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
+        return {
+            restrict: "A",
+            link: function (scope, element, attrs) {
+                $timeout(function () {
+                    attrs.$set("deferredCloak", undefined);
+                    element.removeClass("deferred-cloak");
+                }, 0);
+            },
+        };
+    },]);
+var Lui;
+(function (Lui) {
+    "use strict";
+    var Period = (function () {
+        function Period(unformatted, formatter) {
+            var start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
+            var end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
+            this.start = formatter.parseValue(start);
+            this.end = formatter.parseValue(end);
+        }
+        return Period;
+    }());
+    Lui.Period = Period;
+})(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
     "use strict";
@@ -1330,7 +1355,7 @@ var Lui;
             return LuipConfig;
         }());
         var Config = (function () {
-            function Config(conf, $log, cgNotify) {
+            function Config(conf, $log) {
                 _.extend(this, conf);
                 if (!this.parentElt && !!this.parentTagIdClass) {
                     var parentTagIdClass = this.parentTagIdClass || "body";
@@ -2206,31 +2231,6 @@ var Lui;
         angular.module("lui.directives").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
     })(Directives = Lui.Directives || (Lui.Directives = {}));
 })(Lui || (Lui = {}));
-angular.module("lui.directives").directive("deferredCloak", ["$timeout", function ($timeout) {
-        return {
-            restrict: "A",
-            link: function (scope, element, attrs) {
-                $timeout(function () {
-                    attrs.$set("deferredCloak", undefined);
-                    element.removeClass("deferred-cloak");
-                }, 0);
-            },
-        };
-    },]);
-var Lui;
-(function (Lui) {
-    "use strict";
-    var Period = (function () {
-        function Period(unformatted, formatter) {
-            var start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
-            var end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
-            this.start = formatter.parseValue(start);
-            this.end = formatter.parseValue(end);
-        }
-        return Period;
-    }());
-    Lui.Period = Period;
-})(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
     var Filters;
@@ -2335,659 +2335,6 @@ var Lui;
         }
         angular.module("lui.filters").filter("luifStripAccents", luifStripAccents);
     })(Filters = Lui.Filters || (Lui.Filters = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    "use strict";
-    angular.module("lui.formlytemplates")
-        .config(["formlyConfigProvider", function (formlyConfigProvider) {
-            formlyConfigProvider.setType({
-                name: "text",
-                templateUrl: "lui/templates/formly/fields/text.html",
-            });
-            formlyConfigProvider.setType({
-                name: "textarea",
-                templateUrl: "lui/templates/formly/fields/textarea.html",
-            });
-            formlyConfigProvider.setType({
-                name: "number",
-                templateUrl: "lui/templates/formly/fields/number.html",
-            });
-            formlyConfigProvider.setType({
-                name: "email",
-                templateUrl: "lui/templates/formly/fields/email.html",
-            });
-            formlyConfigProvider.setType({
-                name: "date",
-                templateUrl: "lui/templates/formly/fields/date.html",
-            });
-            formlyConfigProvider.setType({
-                name: "select",
-                templateUrl: "lui/templates/formly/fields/select.html",
-            });
-            formlyConfigProvider.setType({
-                name: "checkbox",
-                templateUrl: "lui/templates/formly/fields/checkbox.html",
-            });
-            formlyConfigProvider.setType({
-                name: "radio",
-                templateUrl: "lui/templates/formly/fields/radio.html",
-            });
-            formlyConfigProvider.setType({
-                name: "picture",
-                templateUrl: "lui/templates/formly/fields/picture.html",
-            });
-            formlyConfigProvider.setType({
-                name: "portrait",
-                templateUrl: "lui/templates/formly/fields/portrait.html",
-            });
-            formlyConfigProvider.setType({
-                name: "user",
-                templateUrl: "lui/templates/formly/fields/user.html",
-            });
-            formlyConfigProvider.setType({
-                name: "user_multiple",
-                templateUrl: "lui/templates/formly/fields/user-multiple.html",
-            });
-            formlyConfigProvider.setType({
-                name: "api_select",
-                templateUrl: "lui/templates/formly/fields/api-select.html",
-            });
-            formlyConfigProvider.setType({
-                name: "api_select_multiple",
-                templateUrl: "lui/templates/formly/fields/api-select-multiple.html",
-            });
-            formlyConfigProvider.setType({
-                name: "iban",
-                templateUrl: "lui/templates/formly/fields/iban.html",
-            });
-        }]);
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    "use strict";
-})(Lui || (Lui = {}));
-var dir;
-(function (dir) {
-    var directives;
-    (function (directives) {
-        "use strict";
-        var MAGIC_PAGING = "0,10";
-        var ApiSelect = (function () {
-            function ApiSelect() {
-                this.restrict = "AE";
-                this.templateUrl = "lui/templates/formly/inputs/api-select.html";
-                this.scope = {
-                    api: "=",
-                    filter: "=",
-                    placeholder: "@",
-                };
-                this.controller = ApiSelectController.IID;
-            }
-            ApiSelect.factory = function () {
-                var directive = function () {
-                    return new ApiSelect();
-                };
-                return directive;
-            };
-            ApiSelect.IID = "luidApiSelect";
-            return ApiSelect;
-        }());
-        var ApiSelectMultiple = (function () {
-            function ApiSelectMultiple() {
-                this.restrict = "AE";
-                this.templateUrl = "lui/templates/formly/inputs/api-select-multiple.html";
-                this.scope = {
-                    api: "=",
-                    filter: "=",
-                    placeholder: "@",
-                };
-                this.controller = ApiSelectController.IID;
-            }
-            ApiSelectMultiple.factory = function () {
-                var directive = function () {
-                    return new ApiSelectMultiple();
-                };
-                return directive;
-            };
-            ApiSelectMultiple.IID = "luidApiSelectMultiple";
-            return ApiSelectMultiple;
-        }());
-        var StandardApiService = (function () {
-            function StandardApiService($http) {
-                this.$http = $http;
-            }
-            StandardApiService.prototype.get = function (clue, api, additionalFilter) {
-                var clueFilter = !!clue ? "name=like," + clue : "paging=" + MAGIC_PAGING;
-                var filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
-                return this.$http.get(api + "?" + filter + "&fields=id,name")
-                    .then(function (response) {
-                    if (api.indexOf("/v3/") !== -1) {
-                        return response.data.data.items;
-                    }
-                    else {
-                        return response.data.data;
-                    }
-                });
-            };
-            StandardApiService.IID = "luisStandardApiService";
-            StandardApiService.$inject = ["$http"];
-            return StandardApiService;
-        }());
-        var ApiSelectController = (function () {
-            function ApiSelectController($scope, service) {
-                $scope.refresh = function (clue) {
-                    service.get(clue, $scope.api, $scope.filter)
-                        .then(function (choices) {
-                        $scope.choices = choices;
-                    });
-                };
-            }
-            ApiSelectController.IID = "luidApiSelectController";
-            ApiSelectController.$inject = [
-                "$scope",
-                StandardApiService.IID,
-            ];
-            return ApiSelectController;
-        }());
-        angular.module("lui.directives").controller(ApiSelectController.IID, ApiSelectController);
-        angular.module("lui.directives").directive(ApiSelect.IID, ApiSelect.factory());
-        angular.module("lui.directives").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
-        angular.module("lui.directives").service(StandardApiService.IID, StandardApiService);
-    })(directives = dir.directives || (dir.directives = {}));
-})(dir || (dir = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-        var LuidIbanController = (function () {
-            function LuidIbanController($scope) {
-                this.$scope = $scope;
-                this.setPatterns();
-                this.initScope();
-            }
-            LuidIbanController.prototype.setNgModelCtrl = function (ngModelCtrl) {
-                var _this = this;
-                this.ngModelCtrl = ngModelCtrl;
-                this.ngModelCtrl.$render = function () {
-                    var iban = _this.getViewValue();
-                    if (!!iban) {
-                        _this.$scope.countryCode = iban.substring(0, 2);
-                        _this.$scope.controlKey = iban.substring(2, 4);
-                        _this.$scope.bban = iban.substring(4);
-                    }
-                    else {
-                        _this.$scope.countryCode = "";
-                        _this.$scope.controlKey = "";
-                        _this.$scope.bban = "";
-                    }
-                };
-                this.ngModelCtrl.$validators.iban = function () {
-                    if (!!_this.ngModelCtrl.$viewValue) {
-                        return IBAN.isValid(ngModelCtrl.$viewValue);
-                    }
-                    return true;
-                };
-            };
-            LuidIbanController.prototype.setInputs = function (elt) {
-                var inputs = elt.find("input");
-                this.countryInput = angular.element(inputs[0]);
-                this.controlInput = angular.element(inputs[1]);
-                this.bbanInput = angular.element(inputs[2]);
-            };
-            LuidIbanController.prototype.initScope = function () {
-                var _this = this;
-                this.$scope.updateValue = function () {
-                    _this.setViewValue(_this.$scope.countryCode.toUpperCase() + _this.$scope.controlKey.toUpperCase() + _this.$scope.bban.toUpperCase());
-                };
-                this.$scope.pasteIban = function (event) {
-                    _this.setViewValue(event.clipboardData.getData("text/plain"));
-                    _this.ngModelCtrl.$render();
-                    event.target.blur();
-                };
-                this.$scope.selectInput = function (event) {
-                    event.target.select();
-                };
-                this.$scope.setTouched = function () {
-                    _this.setTouched();
-                };
-                this.$scope.controlKeyMappings = {
-                    8: function () {
-                        if (!_this.$scope.controlKey) {
-                            _this.focusCountryInput();
-                        }
-                    }
-                };
-                this.$scope.bbanMappings = {
-                    8: function () {
-                        if (!_this.$scope.bban) {
-                            _this.focusControlInput();
-                        }
-                    }
-                };
-            };
-            LuidIbanController.prototype.setPatterns = function () {
-                this.$scope.countryCodePattern = "[a-zA-Z]{2}";
-                this.$scope.controlKeyPattern = "\\d{2}";
-                this.$scope.bbanPattern = "\\w{11,30}";
-            };
-            LuidIbanController.prototype.getViewValue = function () {
-                return this.ngModelCtrl.$viewValue;
-            };
-            LuidIbanController.prototype.setViewValue = function (iban) {
-                this.ngModelCtrl.$setViewValue(iban);
-                this.ngModelCtrl.$setTouched();
-            };
-            LuidIbanController.prototype.setTouched = function () {
-                this.ngModelCtrl.$setTouched();
-            };
-            LuidIbanController.prototype.focusCountryInput = function () {
-                this.countryInput[0].focus();
-                this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
-            };
-            LuidIbanController.prototype.focusControlInput = function () {
-                this.controlInput[0].focus();
-                this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
-            };
-            LuidIbanController.IID = "luidIbanController";
-            LuidIbanController.$inject = ["$scope"];
-            return LuidIbanController;
-        }());
-        Directives.LuidIbanController = LuidIbanController;
-        angular.module("lui.directives").controller(LuidIbanController.IID, LuidIbanController);
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-        var LuidIban = (function () {
-            function LuidIban() {
-                this.restrict = "AE";
-                this.templateUrl = "lui/templates/iban/iban.view.html";
-                this.require = [LuidIban.IID, "^ngModel"];
-                this.controller = Directives.LuidIbanController.IID;
-            }
-            LuidIban.factory = function () {
-                var directive = function () {
-                    return new LuidIban();
-                };
-                return directive;
-            };
-            LuidIban.prototype.link = function (scope, element, attrs, ctrls) {
-                var ibanCtrl = ctrls[0];
-                var ngModelCtrl = ctrls[1];
-                ibanCtrl.setNgModelCtrl(ngModelCtrl);
-                ibanCtrl.setInputs(element);
-            };
-            LuidIban.IID = "luidIban";
-            return LuidIban;
-        }());
-        Directives.LuidIban = LuidIban;
-        angular.module("lui.directives").directive(LuidIban.IID, LuidIban.factory());
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-        var LuidSelectNext = (function () {
-            function LuidSelectNext() {
-                this.restrict = "A";
-            }
-            LuidSelectNext.factory = function () {
-                var directive = function () {
-                    return new LuidSelectNext();
-                };
-                return directive;
-            };
-            LuidSelectNext.prototype.link = function (scope, element, attrs) {
-                element.on("input", function (event) {
-                    if (!!element[0].maxLength && (element[0].value.length === element[0].maxLength)) {
-                        var nextElements = element.next();
-                        if (nextElements.length) {
-                            nextElements[0].select();
-                        }
-                    }
-                });
-            };
-            LuidSelectNext.IID = "luidSelectNext";
-            return LuidSelectNext;
-        }());
-        Directives.LuidSelectNext = LuidSelectNext;
-        angular.module("lui.directives").directive(LuidSelectNext.IID, LuidSelectNext.factory());
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    "use strict";
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-        var LuidImageCropper = (function () {
-            function LuidImageCropper() {
-                this.controller = LuidImageCropperController.IID;
-                this.restrict = "AE";
-                this.scope = {
-                    onCropped: "=",
-                    onCancelled: "=",
-                    croppingRatio: "=",
-                    croppingDisabled: "=",
-                };
-                this.link = function (scope, element, attrs) {
-                    var handleFileSelect = function (evt) {
-                        var file = evt.currentTarget.files[0];
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            scope.$apply(function ($scope) {
-                                scope.image = event.target.result;
-                                if (!scope.croppingDisabled) {
-                                    scope.openCropper();
-                                }
-                                else {
-                                    scope.onCropped(scope.image);
-                                }
-                            });
-                        };
-                        reader.readAsDataURL(file);
-                    };
-                    angular.element(element[0]).on("change", handleFileSelect);
-                };
-            }
-            LuidImageCropper.Factory = function () {
-                var directive = function () { return new LuidImageCropper(); };
-                directive.$inject = [];
-                return directive;
-            };
-            ;
-            ;
-            LuidImageCropper.IID = "luidImageCropper";
-            return LuidImageCropper;
-        }());
-        Directives.LuidImageCropper = LuidImageCropper;
-        var LuidImageCropperController = (function () {
-            function LuidImageCropperController($scope, moment, $uibModal, luisConfig) {
-                $scope.image = "";
-                $scope.cropped = "";
-                $scope.openCropper = function () {
-                    var modalOptions = {
-                        templateUrl: "lui/templates/image-picker/image-cropper.modal.html",
-                        controller: LuidImageCropperModalController.IID,
-                        size: "desktop",
-                        resolve: {
-                            image: function () {
-                                return $scope.image;
-                            },
-                            croppingRatio: function () {
-                                return $scope.croppingRatio;
-                            },
-                            cancelLabel: function () {
-                                return luisConfig.cancelLabel;
-                            }
-                        },
-                    };
-                    var modalInstance = $uibModal.open(modalOptions);
-                    modalInstance.result.then(function (cropped) {
-                        $scope.cropped = cropped;
-                        $scope.onCropped(cropped);
-                    }, function () {
-                        if (!!$scope.onCancelled) {
-                            $scope.onCancelled();
-                        }
-                    });
-                };
-            }
-            LuidImageCropperController.IID = "luidImageCropperController";
-            LuidImageCropperController.$inject = ["$scope", "moment", "$uibModal", "luisConfig"];
-            return LuidImageCropperController;
-        }());
-        var LuidImageCropperModalController = (function () {
-            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, croppingRatio, cancelLabel) {
-                var doClose = false;
-                $scope.image = image;
-                $scope.cancelLabel = cancelLabel;
-                $scope.croppingRatio = croppingRatio;
-                $scope.crop = function () {
-                    doClose = true;
-                    $uibModalInstance.close($scope.cropped);
-                };
-                $scope.donotcrop = function () {
-                    doClose = true;
-                    $uibModalInstance.close($scope.image);
-                };
-                $scope.cancel = function () {
-                    doClose = true;
-                    $uibModalInstance.dismiss();
-                };
-                $scope.$on("modal.closing", function ($event) {
-                    if (!doClose) {
-                        $event.preventDefault();
-                    }
-                });
-            }
-            LuidImageCropperModalController.IID = "luidImageCropperModalController";
-            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
-            return LuidImageCropperModalController;
-        }());
-        angular.module("lui.directives").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
-        angular.module("lui.directives").controller(LuidImageCropperController.IID, LuidImageCropperController);
-        angular.module("lui.directives").controller(LuidImageCropperModalController.IID, LuidImageCropperModalController);
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directives;
-    (function (Directives) {
-        "use strict";
-        var LuidImagePicker = (function () {
-            function LuidImagePicker() {
-                this.restrict = "E";
-                this.templateUrl = "lui/templates/image-picker/image-picker.html";
-                this.require = ["ngModel", LuidImagePicker.IID];
-                this.scope = {
-                    placeholderUrl: "@",
-                    croppingRatio: "=",
-                    croppingDisabled: "=",
-                };
-                this.controller = LuidImagePickerController.IID;
-            }
-            LuidImagePicker.factory = function () {
-                var directive = function () {
-                    return new LuidImagePicker();
-                };
-                return directive;
-            };
-            LuidImagePicker.prototype.link = function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
-                var imgPickerCtrl = ctrls[1];
-                imgPickerCtrl.setNgModelCtrl(ngModelCtrl);
-                imgPickerCtrl.setPlaceholder(scope.placeholderUrl);
-            };
-            LuidImagePicker.IID = "luidImagePicker";
-            return LuidImagePicker;
-        }());
-        var LuidImagePickerController = (function () {
-            function LuidImagePickerController($scope, uploaderService) {
-                var _this = this;
-                this.$scope = $scope;
-                $scope.setTouched = function () {
-                    _this.ngModelCtrl.$setTouched();
-                };
-                $scope.onCropped = function (cropped) {
-                    $scope.uploading = true;
-                    uploaderService.postDataURI(cropped)
-                        .then(function (file) {
-                        $scope.uploading = false;
-                        _this.setViewValue(file);
-                        _this.$scope.pictureStyle = { "background-image": "url('" + file.href + "')" };
-                    }, function (message) {
-                        _this.ngModelCtrl.$setTouched();
-                        $scope.uploading = false;
-                    });
-                };
-                $scope.onCancelled = function () {
-                    $scope.file = undefined;
-                    _this.ngModelCtrl.$setTouched();
-                };
-            }
-            LuidImagePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
-                var _this = this;
-                this.ngModelCtrl = ngModelCtrl;
-                ngModelCtrl.$render = function () {
-                    var vv = _this.getViewValue();
-                    if (!!vv && !!vv.href) {
-                        _this.$scope.pictureStyle = { "background-image": "url('" + vv.href + "')" };
-                    }
-                    else {
-                        _this.$scope.pictureStyle = { "background-image": "url('" + _this.placeholder + "')" };
-                    }
-                };
-            };
-            LuidImagePickerController.prototype.setPlaceholder = function (placeholder) {
-                this.placeholder = placeholder || "/static/common/images/placeholder-pp.png";
-            };
-            LuidImagePickerController.prototype.getViewValue = function () {
-                return this.ngModelCtrl.$viewValue;
-            };
-            LuidImagePickerController.prototype.setViewValue = function (file) {
-                this.ngModelCtrl.$setTouched();
-                this.ngModelCtrl.$setViewValue(file);
-            };
-            LuidImagePickerController.IID = "luidImagePickerController";
-            LuidImagePickerController.$inject = ["$scope", "uploaderService"];
-            return LuidImagePickerController;
-        }());
-        angular.module("lui.directives").directive(LuidImagePicker.IID, LuidImagePicker.factory());
-        angular.module("lui.directives").controller(LuidImagePickerController.IID, LuidImagePickerController);
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Directive;
-    (function (Directive) {
-        "use strict";
-        angular.module("lui.translates.imagepicker").config(["$translateProvider", function ($translateProvider) {
-                $translateProvider.translations("en", {
-                    "LUIIMGPICKER_UPLOAD_IMAGE": "change picture",
-                    "LUIIMGCROPPER_CROP": "Crop",
-                    "LUIIMGCROPPER_DO_NOT_CROP": "Do not crop",
-                });
-                $translateProvider.translations("de", {});
-                $translateProvider.translations("es", {});
-                $translateProvider.translations("fr", {
-                    "LUIIMGPICKER_UPLOAD_IMAGE": "changer l'image",
-                    "LUIIMGCROPPER_CROP": "Recadrer",
-                    "LUIIMGCROPPER_DO_NOT_CROP": "Ne pas recadrer",
-                });
-                $translateProvider.translations("it", {});
-                $translateProvider.translations("nl", {});
-            }]);
-    })(Directive = Lui.Directive || (Lui.Directive = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
-    var Service;
-    (function (Service) {
-        "use strict";
-        var UploaderService = (function () {
-            function UploaderService($http, $q, _, moment) {
-                this.mainApiUrl = "/api/files";
-                this.$http = $http;
-                this.$q = $q;
-                this._ = _;
-                this.moment = moment;
-            }
-            UploaderService.prototype.postFromUrl = function (url) {
-                var _this = this;
-                var dfd = this.$q.defer();
-                var req = new XMLHttpRequest();
-                req.open("GET", url, true);
-                req.responseType = "arraybuffer";
-                req.onload = function (event) {
-                    var blob = new Blob([req.response], { type: "image/jpeg" });
-                    _this.postBlob(blob)
-                        .then(function (response) {
-                        dfd.resolve(response);
-                    }, function (response) {
-                        dfd.reject(response.data.Message);
-                    });
-                };
-                req.send();
-                return dfd.promise;
-            };
-            UploaderService.prototype.postDataURI = function (dataURI) {
-                var blob = this.dataURItoBlob(dataURI);
-                return this.postBlob(blob);
-            };
-            UploaderService.prototype.postBlob = function (blob) {
-                var dfd = this.$q.defer();
-                var url = this.mainApiUrl;
-                var fd = new FormData();
-                fd.append("file", blob, "file.png");
-                this.$http({
-                    method: "POST",
-                    url: url,
-                    data: fd,
-                    headers: {
-                        "Content-Type": undefined,
-                        "Accept": undefined,
-                    },
-                    transformRequest: angular.identity,
-                })
-                    .then(function (response) {
-                    dfd.resolve(response.data.data);
-                }, function (response) {
-                    dfd.reject(response.data.Message);
-                });
-                return dfd.promise;
-            };
-            UploaderService.prototype.dataURItoBlob = function (dataURI) {
-                var byteString = atob(dataURI.split(",")[1]);
-                var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-                var ab = new ArrayBuffer(byteString.length);
-                var ia = new Uint8Array(ab);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-                var bb = new Blob([ab], { type: mimeString });
-                return bb;
-            };
-            UploaderService.IID = "uploaderService";
-            UploaderService.$inject = ["$http", "$q", "_", "moment"];
-            return UploaderService;
-        }());
-        var ApiResponseItem = (function () {
-            function ApiResponseItem() {
-            }
-            return ApiResponseItem;
-        }());
-        var ApiError = (function () {
-            function ApiError() {
-            }
-            return ApiError;
-        }());
-        angular.module("lui.services").service(UploaderService.IID, UploaderService);
-    })(Service = Lui.Service || (Lui.Service = {}));
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
@@ -3209,41 +2556,6 @@ var Lui;
 })(Lui || (Lui = {}));
 var Lui;
 (function (Lui) {
-    var Directives;
-    (function (Directives) {
-        var Iban;
-        (function (Iban) {
-            "use strict";
-            var SelectNext = (function () {
-                function SelectNext() {
-                    this.restrict = "A";
-                }
-                SelectNext.factory = function () {
-                    var directive = function () {
-                        return new SelectNext();
-                    };
-                    return directive;
-                };
-                SelectNext.prototype.link = function (scope, element, attrs) {
-                    element.on("input", function (event) {
-                        if (!!element[0].maxLength && (element[0].value.length === element[0].maxLength)) {
-                            var nextElements = element.next();
-                            if (nextElements.length) {
-                                nextElements[0].select();
-                            }
-                        }
-                    });
-                };
-                SelectNext.IID = "selectNext";
-                return SelectNext;
-            }());
-            Iban.SelectNext = SelectNext;
-            angular.module("lui.directives").directive(SelectNext.IID, SelectNext.factory());
-        })(Iban = Directives.Iban || (Directives.Iban = {}));
-    })(Directives = Lui.Directives || (Lui.Directives = {}));
-})(Lui || (Lui = {}));
-var Lui;
-(function (Lui) {
     var Utils;
     (function (Utils) {
         "use strict";
@@ -3296,12 +2608,37 @@ var Lui;
     var Utils;
     (function (Utils) {
         "use strict";
+        var MAGIC_TIMEOUT_DELAY = 100;
         var ClickoutsideTrigger = (function () {
             function ClickoutsideTrigger(elt, $scope, clickedOutside) {
+                var _this = this;
                 this.elt = elt;
                 this.body = angular.element(document.getElementsByTagName("body")[0]);
                 this.$scope = $scope;
                 this.clickedOutside = clickedOutside;
+                var that = this;
+                var onBodyClicked = function () {
+                    that.onClickedOutside();
+                    that.$scope.$digest();
+                };
+                var onEltClicked = function (otherEvent) {
+                    otherEvent.stopPropagation();
+                };
+                this.open = function ($event) {
+                    _this.$scope.popover.isOpen = true;
+                    setTimeout(function () {
+                        _this.body.on("click", onBodyClicked);
+                        _this.elt.on("click", onEltClicked);
+                    }, MAGIC_TIMEOUT_DELAY);
+                };
+                this.close = function ($event) {
+                    _this.$scope.popover.isOpen = false;
+                    if (!!_this.body) {
+                        var that_1 = _this;
+                        _this.body.off("click", onBodyClicked);
+                        _this.elt.off("click", onEltClicked);
+                    }
+                };
             }
             ClickoutsideTrigger.prototype.toggle = function ($event) {
                 if (this.$scope.popover.isOpen) {
@@ -3310,26 +2647,6 @@ var Lui;
                 else {
                     this.open($event);
                 }
-            };
-            ClickoutsideTrigger.prototype.close = function ($event) {
-                this.$scope.popover.isOpen = false;
-                if (!!this.body) {
-                    this.body.off("click");
-                    this.elt.off("click");
-                }
-            };
-            ClickoutsideTrigger.prototype.open = function ($event) {
-                var _this = this;
-                this.$scope.popover.isOpen = true;
-                setTimeout(function () {
-                    _this.body.on("click", function () {
-                        _this.onClickedOutside();
-                        _this.$scope.$digest();
-                    });
-                    _this.elt.on("click", function (otherEvent) {
-                        otherEvent.stopPropagation();
-                    });
-                }, 1);
             };
             ClickoutsideTrigger.prototype.onClickedOutside = function ($event) {
                 if (this.clickedOutside) {
@@ -3348,162 +2665,167 @@ var Lui;
   'use strict';
 
   $templateCache.put('lui/templates/date-picker/datepicker-inline.html',
-    "<div class=calendars><div class=calendar mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=[direction]><header><button class=previous ng-click=previous()></button> <span ng-switch=mode><span ng-switch-default ng-click=switchToMonthMode()>{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=1 ng-click=switchToYearMode()>{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=2>{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=next ng-click=next()></button></header><table class=days><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=day.disabled ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><div class=months><ul><li ng-repeat=\"m in calendar.months\" ng-click=selectMonth(m) ng-disabled=m.disabled ng-class=\"[{selected: m.selected}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=years><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=y.disabled ng-click=selectYear(y) ng-class=\"[{selected: y.selected}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=!!shortcuts.length><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-if=!!groupedShortcuts.length ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=\"calendars\"><div class=\"calendar\" mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=\"[direction]\"><header><button class=\"previous\" ng-click=\"previous()\"></button> <span ng-switch=\"mode\"><span ng-switch-default ng-click=\"switchToMonthMode()\">{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=\"1\" ng-click=\"switchToYearMode()\">{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=\"2\">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=\"next\" ng-click=\"next()\"></button></header><table class=\"days\"><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected}, day.customClass]\" ng-disabled=\"day.disabled\" ng-click=\"selectDay(day)\">{{ ::day.dayNum }}</td></tr></tbody></table><div class=\"months\"><ul><li ng-repeat=\"m in calendar.months\" ng-click=\"selectMonth(m)\" ng-disabled=\"m.disabled\" ng-class=\"[{selected: m.selected}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=\"years\"><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=\"y.disabled\" ng-click=\"selectYear(y)\" ng-class=\"[{selected: y.selected}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=\"!!shortcuts.length\"><ul><li class=\"shortcut\" ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=\"selectShortcut(shortcut)\">{{ ::shortcut.label }}</a></li></ul></li><li class=\"group\" ng-if=\"!!groupedShortcuts.length\" ng-repeat=\"group in groupedShortcuts\"><ul><li class=\"shortcut\" ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=\"selectShortcut(shortcut)\">{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=popover.isOpen ng-model=displayStr ng-focus=openPopover($event) luid-keydown mappings=closePopoverOnTab placeholder={{placeholder}}> <i class=empty ng-click=clear($event)></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=\"bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=\"popover.isOpen\" ng-model=\"displayStr\" ng-focus=\"openPopover($event)\" luid-keydown mappings=\"closePopoverOnTab\" placeholder=\"{{placeholder}}\"> <i class=\"empty\" ng-click=\"clear($event)\"></i></div>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker-popover.html',
-    "<div class=calendars><div class=calendar mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=[direction]><header><button class=previous ng-click=previous()></button> <span ng-switch=mode><span ng-switch-default ng-click=switchToMonthMode()>{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=1 ng-click=switchToYearMode()>{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=2>{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=next ng-click=next()></button></header><table class=days><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected, start: day.start, end: day.end, 'in-between': day.inBetween}, day.customClass]\" ng-disabled=day.disabled ng-mouseenter=onMouseEnter(day) ng-mouseleave=onMouseLeave(day) ng-click=selectDay(day)>{{ ::day.dayNum }}</td></tr></tbody></table><div class=months><ul><li ng-repeat=\"m in calendar.months\" ng-click=selectMonth(m) ng-disabled=m.disabled ng-mouseenter=onMouseEnter(m) ng-mouseleave=onMouseLeave(m) ng-class=\"[{selected: m.selected, start: m.start, end: m.end, 'in-between': m.inBetween}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=years><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=y.disabled ng-click=selectYear(y) ng-mouseenter=onMouseEnter(y) ng-mouseleave=onMouseLeave(y) ng-class=\"[{selected: y.selected, start: y.start, end: y.end, 'in-between': y.inBetween}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=!!shortcuts.length><ul><li class=shortcut ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li><li class=group ng-if=!!groupedShortcuts.length ng-repeat=\"group in groupedShortcuts\"><ul><li class=shortcut ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=selectShortcut(shortcut)>{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
+    "<div class=\"calendars\"><div class=\"calendar\" mode=\"{{ mode }}\" ng-repeat=\"calendar in calendars\" ng-class=\"[direction]\"><header><button class=\"previous\" ng-click=\"previous()\"></button> <span ng-switch=\"mode\"><span ng-switch-default ng-click=\"switchToMonthMode()\">{{ calendar.date | luifMoment : calendar.currentYear ? \"MMMM\" : \"MMMM - YYYY\" }}</span> <span ng-switch-when=\"1\" ng-click=\"switchToYearMode()\">{{ calendar.date | luifMoment : \"YYYY\" }}</span> <span ng-switch-when=\"2\">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span></span> <button class=\"next\" ng-click=\"next()\"></button></header><table class=\"days\"><thead><th ng-repeat=\"dayLabel in dayLabels\">{{ ::dayLabel }}</th></thead><tbody><tr ng-repeat=\"week in calendar.weeks\"><td ng-repeat=\"day in week.days\" ng-class=\"[{empty: day.empty, selected: day.selected, start: day.start, end: day.end, 'in-between': day.inBetween}, day.customClass]\" ng-disabled=\"day.disabled\" ng-mouseenter=\"onMouseEnter(day)\" ng-mouseleave=\"onMouseLeave(day)\" ng-click=\"selectDay(day)\">{{ ::day.dayNum }}</td></tr></tbody></table><div class=\"months\"><ul><li ng-repeat=\"m in calendar.months\" ng-click=\"selectMonth(m)\" ng-disabled=\"m.disabled\" ng-mouseenter=\"onMouseEnter(m)\" ng-mouseleave=\"onMouseLeave(m)\" ng-class=\"[{selected: m.selected, start: m.start, end: m.end, 'in-between': m.inBetween}, m.customClass]\">{{ m.date | luifMoment : \"MMM\" }}</li></ul></div><div class=\"years\"><ul><li ng-repeat=\"y in calendar.years\" ng-disabled=\"y.disabled\" ng-click=\"selectYear(y)\" ng-mouseenter=\"onMouseEnter(y)\" ng-mouseleave=\"onMouseLeave(y)\" ng-class=\"[{selected: y.selected, start: y.start, end: y.end, 'in-between': y.inBetween}, y.customClass]\">{{ y.date | luifMoment : \"YYYY\" }}</li></ul></div></div></div><footer ng-if=\"!!shortcuts || !!groupedShortcuts\"><ul><li ng-if=\"!!shortcuts.length\"><ul><li class=\"shortcut\" ng-repeat=\"shortcut in shortcuts\"><a class=\"lui small grey wired button\" ng-click=\"selectShortcut(shortcut)\">{{ ::shortcut.label }}</a></li></ul></li><li class=\"group\" ng-if=\"!!groupedShortcuts.length\" ng-repeat=\"group in groupedShortcuts\"><ul><li class=\"shortcut\" ng-repeat=\"shortcut in group\"><a class=\"lui small grey wired button\" ng-click=\"selectShortcut(shortcut)\">{{ ::shortcut.label }}</a></li></ul></li></ul></footer>"
   );
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=bottom-left popover-trigger=none popover-is-open=popover.isOpen popover-class=\"lui luid-daterangepicker\" ng-click=togglePopover($event)><i class=empty ng-click=clear($event)></i> <span class=tags ng-show=popover.isOpen><span class=tag ng-class=\"{ selected: editingStart }\" ng-click=editStart($event)>{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=tag ng-class=\"{ selected: !editingStart }\" ng-click=editEnd($event)>{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=displayStr placeholder={{placeholder}}></span>"
+    "<span class=\"lui daterange tagged long input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=\"bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-daterangepicker\" ng-click=\"togglePopover($event)\"><i class=\"empty\" ng-click=\"clear($event)\"></i> <span class=\"tags\" ng-show=\"popover.isOpen\"><span class=\"tag\" ng-class=\"{ selected: editingStart }\" ng-click=\"editStart($event)\">{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span> <i class=\"lui east arrow icon\"></i> <span class=\"tag\" ng-class=\"{ selected: !editingStart }\" ng-click=\"editEnd($event)\">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span></span> <input ng-model=\"displayStr\" placeholder=\"{{placeholder}}\"></span>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select-multiple api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select-multiple api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select api=options.templateOptions.api filter=options.templateOptions.filter placeholder={{::options.templateOptions.placeholder}} name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}}></luid-api-select><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/checkbox.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox input\"><input type=checkbox name={{::id}} ng-model=model[options.key] ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox input\"><input type=\"checkbox\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/date.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-date-picker-popup ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-date-picker-popup><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-date-picker-popup ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-date-picker-popup><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/daterange.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-daterange-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-daterange-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/email.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=email name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"email\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/iban.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-iban ng-model=model[options.key] ng-required={{::options.templateOptions.required}} name={{::id}} ng-disabled=options.templateOptions.disabled></luid-iban><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-iban ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-iban><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/number.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=number name={{::id}} ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"number\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/picture.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-image-picker ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" class=\"{{::options.templateOptions.size}}\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/portrait.html',
-    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><div class=\"lui input\"><luid-image-picker ng-model=model[options.key] name={{::id}} ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled class={{::options.templateOptions.size}}></luid-image-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><div class=\"lui input\"><luid-image-picker ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" class=\"{{::options.templateOptions.size}}\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/radio.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id={{::id}}_{{$index}} type=radio name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled ng-value=choice><label for={{::id}}_{{$index}}>{{ choice.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small><label>{{ options.templateOptions.label }}</label></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><ui-select ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}} focus-on={{::id}}><ui-select-match placeholder={{::options.templateOptions.placeholder}} allow-clear=true>{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><ui-select ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" focus-on=\"{{::id}}\"><ui-select-match placeholder=\"{{::options.templateOptions.placeholder}}\" allow-clear=\"true\">{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/text.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/textarea.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name={{::id}} ng-model=model[options.key] ng-required={{options.templateOptions.required}} ng-disabled=options.templateOptions.disabled rows=\"{{::options.templateOptions.rows }}\"></textarea><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" rows=\"{{::options.templateOptions.rows }}\"></textarea><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker-multiple ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker-multiple><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker-multiple ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-user-picker-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=model[options.key] ng-required={{::options.templateOptions.required}} ng-disabled=options.templateOptions.disabled name={{::id}}></luid-user-picker><label for={{::id}}>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-user-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select-multiple.html',
-    "<ui-select multiple><ui-select-match placeholder={{::placeholder}} allow-clear=true>{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=refresh($select.search) refresh-delay=0><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select multiple><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select.html',
-    "<ui-select><ui-select-match placeholder={{::placeholder}} allow-clear=true>{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=refresh($select.search) refresh-delay=0><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/iban/iban.view.html',
-    "<input id=countryCode class=upper-case size=2 maxlength=2 ng-model=countryCode ng-model-options=\"{ allowInvalid: true }\" ng-pattern=countryCodePattern ng-change=updateValue() ng-paste=pasteIban($event) ng-focus=selectInput($event) luid-select-next ng-blur=\"setTouched()\"> <input id=controlKey class=upper-case size=2 maxlength=2 ng-model=controlKey ng-model-options=\"{ allowInvalid: true }\" ng-pattern=controlKeyPattern ng-change=updateValue() luid-select-next ng-blur=setTouched() luid-keydown mappings=\"controlKeyMappings\"> <input id=bban class=upper-case maxlength=30 ng-model=bban ng-model-options=\"{ allowInvalid: true }\" ng-pattern=bbanPattern ng-change=updateValue() ng-blur=setTouched() luid-keydown mappings=\"bbanMappings\">"
+    "<input id=\"countryCode\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"countryCode\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"countryCodePattern\" ng-change=\"updateValue()\" ng-paste=\"pasteIban($event)\" ng-focus=\"selectInput($event)\" luid-select-next ng-blur=\"setTouched()\"> <input id=\"controlKey\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"controlKey\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"controlKeyPattern\" ng-change=\"updateValue()\" luid-select-next ng-blur=\"setTouched()\" luid-keydown mappings=\"controlKeyMappings\"> <input id=\"bban\" class=\"upper-case\" maxlength=\"30\" ng-model=\"bban\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"bbanPattern\" ng-change=\"updateValue()\" ng-blur=\"setTouched()\" luid-keydown mappings=\"bbanMappings\">"
   );
 
 
   $templateCache.put('lui/templates/image-picker/image-cropper.modal.html',
-    "<div class=luid-cropper><img-crop image=image result-image=cropped area-type=rectangle result-image-size=\"'max'\" aspect-ratio=croppingRatio></img-crop></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=crop()>{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=donotcrop()>{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=cancel()>{{ cancelLabel }}</div></footer>"
+    "<div class=\"luid-cropper\"><img-crop image=\"image\" result-image=\"cropped\" area-type=\"rectangle\" result-image-size=\"'max'\" aspect-ratio=\"croppingRatio\"></img-crop></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=\"crop()\">{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=\"donotcrop()\">{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=\"cancel()\">{{ cancelLabel }}</div></footer>"
   );
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=luid-image-picker-picture ng-style=\"pictureStyle\"><div class=input-overlay><span class=\"lui capitalized sentence\" translate=LUIIMGPICKER_UPLOAD_IMAGE></span> <input accept=image/* type=file ng-model=file class=fileInput file-model=image luid-image-cropper on-cropped=onCropped on-cancelled=onCancelled cropping-disabled=croppingDisabled cropping-ratio=\"croppingRatio\"></div><div class=upload-overlay><div class=\"lui inverted x-large loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"></div><div class=\"upload-overlay\"><div class=\"lui inverted x-large loader\"></div></div></div>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/alert.html',
-    "<section>{{message}}</section><footer class=\"lui right aligned\"><button class=\"lui button\" ng-click=ok()>{{okLabel}}</button></footer>"
+    "<section>{{message}}</section><footer class=\"lui right aligned\"><button class=\"lui button\" ng-click=\"ok()\">{{okLabel}}</button></footer>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/confirm.html',
-    "<section>{{message}}</section><footer class=\"lui right aligned\"><button class=\"lui button\" ng-click=ok()>{{okLabel}}</button> <button class=\"lui flat button\" ng-click=cancel()>{{cancelLabel}}</button></footer>"
+    "<section>{{message}}</section><footer class=\"lui right aligned\"><button class=\"lui button\" ng-click=\"ok()\">{{okLabel}}</button> <button class=\"lui flat button\" ng-click=\"cancel()\">{{cancelLabel}}</button></footer>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/error.html',
-    "<div class=\"lui callout filled luis-notify red typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small red button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>Error</h5><h5 ng-hide=!$message>{{ $message }}</h5></div>"
+    "<div class=\"lui callout filled luis-notify red typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small red button icon cross close\" ng-click=\"$close()\"></div><h5 ng-show=\"!$message\">Error</h5><h5 ng-hide=\"!$message\">{{ $message }}</h5></div>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/loading.html',
-    "<div class=\"lui up callout luis-notify typeset\" ng-class=[calloutClass] ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close() ng-hide=loading></div><div class=\"lui small filling button icon cross close\" ng-click=cancel() ng-show=\"loading && canCancel\"></div><h5 ng-show=!message><span class=\"lui loader\" ng-show=loading></span>&nbsp;&nbsp;Loading</h5><h5 ng-hide=!message><span class=\"lui loader\" ng-show=loading></span>&nbsp;&nbsp;{{ message }}</h5></div>"
+    "<div class=\"lui up callout luis-notify typeset\" ng-class=\"[calloutClass]\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=\"$close()\" ng-hide=\"loading\"></div><div class=\"lui small filling button icon cross close\" ng-click=\"cancel()\" ng-show=\"loading && canCancel\"></div><h5 ng-show=\"!message\"><span class=\"lui loader\" ng-show=\"loading\"></span>&nbsp;&nbsp;Loading</h5><h5 ng-hide=\"!message\"><span class=\"lui loader\" ng-show=\"loading\"></span>&nbsp;&nbsp;{{ message }}</h5></div>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/success.html',
-    "<div class=\"lui green up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>Success</h5><h5 ng-hide=!$message>{{ $message }}</h5></div>"
+    "<div class=\"lui green up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=\"$close()\"></div><h5 ng-show=\"!$message\">Success</h5><h5 ng-hide=\"!$message\">{{ $message }}</h5></div>"
   );
 
 
   $templateCache.put('lui/templates/notify-service/warning.html',
-    "<div class=\"lui orange up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=$close()></div><h5 ng-show=!$message>Warning</h5><h5 ng-hide=!$message>{{ $message }}</h5></div>"
+    "<div class=\"lui orange up callout luis-notify typeset\" ng-style=\"{'margin-left': $centerMargin}\"><div class=\"lui small filling button icon cross close\" ng-click=\"$close()\"></div><h5 ng-show=\"!$message\">Warning</h5><h5 ng-hide=\"!$message\">{{ $message }}</h5></div>"
   );
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.html',
-    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\"><div class=virtualscroll ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=holder><div class=virtualscroll ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
+    "<div class=\"lui tablegrid\"><div class=\"scrollable columns\"><div class=\"virtualscroll\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div><div class=\"locked columns\" ng-if=\"existFixedRow || isSelectable\"><div class=\"holder\"><div class=\"virtualscroll\" ng-include=\"'lui/templates/table-grid/table-grid.table.html'\"></div></div></div></div>"
   );
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=row ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1></th><th role=columnheader class=sortable ng-repeat=\"header in ::row track by $index\" ng-click=updateOrderedRows(header) ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=row><th ng-if=isSelectable style=\"width: 3.5em\" class=locked role=columnheader colspan=1 rowspan=1><div class=\"lui solo checkbox input\"><input ng-class=masterCheckBoxCssClass type=checkbox ng-model=allChecked.value ng-change=onMasterCheckBoxChange() ng-value=\"true\"><label>&nbsp;</label></div></th><th role=columnheader ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=1 rowspan=1 class=filtering><div class=\"lui fitting field\"><div class=\"lui searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=updateFilteredRows() ng-model=filters[$index].currentValues[0] ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues reset-search-input=true on-remove=updateFilteredRows() ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\" on-select=updateFilteredRows()><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=value></span></ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=filters[$index].currentValues[0] reset-search-input=true on-select=updateFilteredRows() allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select-match allow-clear=true placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=value></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=row ng-repeat=\"row in visibleRows\" ng-style=row.styles ng-click=\"internalRowClick($event, row);\"><td ng-if=isSelectable style=\"width: 3.5em\" class=locked colspan=1 rowspan=1><div class=\"lui solo checkbox input\"><input type=checkbox ng-change=onCheckBoxChange() ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=cell ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=cell.getValue(row) ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=\"row\" ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"></th><th role=\"columnheader\" class=\"sortable\" ng-repeat=\"header in ::row track by $index\" ng-click=\"updateOrderedRows(header)\" ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=\"row\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input ng-class=\"masterCheckBoxCssClass\" type=\"checkbox\" ng-model=\"allChecked.value\" ng-change=\"onMasterCheckBoxChange()\" ng-value=\"true\"><label>&nbsp;</label></div></th><th role=\"columnheader\" ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=\"1\" rowspan=\"1\" class=\"filtering\"><div class=\"lui fitting field\"><div class=\"lui searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=\"updateFilteredRows()\" ng-model=\"filters[$index].currentValues[0]\" ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><ui-select multiple class=\"lui fitting nguibs-ui-select\" ng-model=\"filters[$index].currentValues\" reset-search-input=\"true\" on-remove=\"updateFilteredRows()\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\" on-select=\"updateFilteredRows()\"><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select><ui-select class=\"lui fitting nguibs-ui-select\" ng-model=\"filters[$index].currentValues[0]\" reset-search-input=\"true\" on-select=\"updateFilteredRows()\" allow-clear ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select-match allow-clear=\"true\" placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=\"row\" ng-repeat=\"row in visibleRows\" ng-style=\"row.styles\" ng-click=\"internalRowClick($event, row);\"><td ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input type=\"checkbox\" ng-change=\"onCheckBoxChange()\" ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=\"cell\" ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=\"cell.getValue(row)\" ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 }]);

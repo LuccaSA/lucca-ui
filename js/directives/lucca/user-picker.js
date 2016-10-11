@@ -480,7 +480,9 @@
 						// Add each property to the user
 						_.each(props, function(prop) {
 							var newProp = prop.name.split('.')[0];
-							user[newProp] = userWithProps[newProp];
+							if (!!userWithProps && !!userWithProps[newProp]) {
+								user[newProp] = userWithProps[newProp];
+							}
 						});
 					});
 
