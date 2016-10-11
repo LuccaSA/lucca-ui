@@ -17,6 +17,7 @@
 	transition-timing-function: luiTheme(element, field, transition, easing);
 
 	color: luiTheme(element, typography, body, color);
+	text-align: left;
 
 	@include flex(0, 0, auto);
 
@@ -208,6 +209,8 @@
 	min-width: 100%;
 
 	background-color: #FFF;
+	color: luiTheme(element, typography, body, color);
+	text-align: left;
 
 	opacity: 0;
 	transform: scale(0);
