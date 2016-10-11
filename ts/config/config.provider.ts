@@ -51,7 +51,7 @@ module Lui.Service {
 		public okLabel: string;
 		public cancelLabel: string;
 		public canDismissConfirm: boolean;
-		constructor(conf: IConfig, $log?: ng.ILogService, cgNotify?: any) {
+		constructor(conf: IConfig, $log?: ng.ILogService) {
 			_.extend(this, conf);
 			// find the parent element where we'll append all modals
 			if (!this.parentElt && !!this.parentTagIdClass) {
