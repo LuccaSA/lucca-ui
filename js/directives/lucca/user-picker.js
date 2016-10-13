@@ -42,7 +42,7 @@
 
 	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"{{allowClear}}\">" +
+	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
 		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
 		"<span ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</span>" +
 	"</ui-select-match>" +
@@ -51,7 +51,7 @@
 
 	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
-	"<ui-select-match placeholder=\"{{ ::placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
+	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
