@@ -18,6 +18,16 @@ module dir.directives {
 			};
 			return directive;
 		}
+
+		public link(scope: IApiSelectScope, element: angular.IAugmentedJQuery): void {
+			scope.onDropdownToggle = (isOpen: boolean) => {
+				if (isOpen) {
+					element.addClass("ng-open");
+				} else {
+					element.removeClass("ng-open");
+				}
+			}
+		}
 	}
 	class ApiSelectMultiple implements angular.IDirective {
 		public static IID = "luidApiSelectMultiple";
@@ -35,6 +45,15 @@ module dir.directives {
 				return new ApiSelectMultiple();
 			};
 			return directive;
+		}
+		public link(scope: IApiSelectScope, element: angular.IAugmentedJQuery): void {
+			scope.onDropdownToggle = (isOpen: boolean) => {
+				if (isOpen) {
+					element.addClass("ng-open");
+				} else {
+					element.removeClass("ng-open");
+				}
+			}
 		}
 	}
 	interface IStandardApiResource {
@@ -62,11 +81,12 @@ module dir.directives {
 			});
 		}
 	}
-	interface IApiSelectController extends ng.IScope {
+	interface IApiSelectScope extends ng.IScope {
 		api: string;
 		filter: string;
 		choices: IStandardApiResource[];
 
+		onDropdownToggle(isOpen: boolean): void;
 		refresh(clue: string): void;
 	}
 	class ApiSelectController {
@@ -76,7 +96,7 @@ module dir.directives {
 			StandardApiService.IID,
 		];
 		constructor(
-			$scope: IApiSelectController,
+			$scope: IApiSelectScope,
 			service: StandardApiService
 		) {
 			$scope.refresh = (clue: string) => {
