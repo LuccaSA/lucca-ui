@@ -1,6 +1,6 @@
 module dir.directives {
 	"use strict";
-	let MAGIC_PAGING = "0,10";
+	let MAGIC_PAGING = "0,100";
 	class ApiSelect implements angular.IDirective {
 		public static IID = "luidApiSelect";
 		public restrict = "AE";
