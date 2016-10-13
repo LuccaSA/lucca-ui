@@ -17,6 +17,7 @@
 	transition-timing-function: luiTheme(element, field, transition, easing);
 
 	color: luiTheme(element, typography, body, color);
+	text-align: left;
 
 	@include flex(0, 0, auto);
 
@@ -189,7 +190,6 @@
 	margin: 0;
 }
 %lui_dropdown_sizing {
-	width: luiTheme(element, field, lengths, medium);
 	max-width: 100%;
 
 	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
@@ -209,6 +209,8 @@
 	min-width: 100%;
 
 	background-color: #FFF;
+	color: luiTheme(element, typography, body, color);
+	text-align: left;
 
 	opacity: 0;
 	transform: scale(0);
@@ -336,10 +338,6 @@
 			.count {
 				text-align: right;
 			}
-		}
-
-		#{$prefix}.column > #{$prefix}.field {
-			margin: 0;
 		}
 
 		#{$prefix}.input {

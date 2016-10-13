@@ -11,25 +11,25 @@
 		& {
 			border-left-width: $size;
 			border-right-width: $size;
-			border-bottom: (2 * $size) solid $color;
+			border-bottom: ($size / 1.25) solid $color;
 		}
 	} @else if $direction == bottom {
 		& {
 			border-left-width: $size;
 			border-right-width: $size;
-			border-top: (2 * $size) solid $color;
+			border-top: ($size / 1.25) solid $color;
 		}
 	} @else if $direction == left {
 		& {
 			border-top-width: $size;
 			border-bottom-width: $size;
-			border-right: (2 * $size) solid $color;
+			border-right: ($size / 1.25) solid $color;
 		}
 	} @else if $direction == right {
 		& {
 			border-top-width: $size;
 			border-bottom-width: $size;
-			border-left: (2 * $size) solid $color;
+			border-left: ($size / 1.25) solid $color;
 		}
 	} @else {
 		@warn "#{$direction} is not a supported triangle direction";
