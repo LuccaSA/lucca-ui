@@ -2,12 +2,6 @@
 	'use strict';
 
 	angular.module('demoApp')
-	.controller('dayBlockCtrl', ['$scope', function($scope){
-		$scope.myDate = new Date();
-		$scope.palette = "";
-		$scope.sizing = "";
-	}]);
-	angular.module('demoApp')
 	.controller('datepickerCtrl', ['$scope', function($scope){
 		$scope.dateMoment = moment().add(22, "days").startOf("day");
 		$scope.dateMin = moment().add(-22, "days").startOf("day");
