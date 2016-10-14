@@ -1,53 +1,61 @@
 (function(){
 	'use strict';
 
-	angular.module('underscore', []).factory('_', function () { return window._; });
-	angular.module('moment', []).factory('moment', function () { return window.moment; });
+	angular.module("demoApp.router",["ui.router"]);
+	angular.module("demoApp",[
+		"demoApp.router",
+		"lui",
+		"ui.bootstrap",
+		"ngSanitize",
+		"ui.select",
+		"ngMockE2E",
+		"hljs",
+		"lui.formlytemplates",
+	]);
 
-	angular.module('demoApp',['lui', 'ui.bootstrap', 'ngRoute', 'ngSanitize', 'ui.select', 'ngMockE2E', 'hljs', "lui.formlytemplates"]);
+	// angular.module('demoApp')
+	// .controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
+	// 	$scope.isActive = function(viewLocation) {
+	// 		return viewLocation === $location.path();
+	// 	};
+	// }]);
 
 	angular.module('demoApp')
-	.controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
-		$scope.isActive = function(viewLocation) {
-			return viewLocation === $location.path();
-		};
-	}]);
-
-	angular.module('demoApp')
-	.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
-		$routeProvider
-			.when('/sass', {
-				templateUrl: 'sass-framework.html',
-			})
-			.when('/icons', {
-				templateUrl: 'icons.html'
-			})
-			.when('/animations', {
-				templateUrl: 'animations.html',
-			})
-			.when('/nguibs', {
-				templateUrl: 'nguibs.html',
-			})
-			.when('/filters', {
-				templateUrl: 'filters.html',
-			})
-			.when('/directives', {
-				templateUrl: 'directives/index.html',
-			})
-			.when('/lucca', {
-				templateUrl: 'lucca-spe.html',
-			})
-			.when('/form', {
-				templateUrl: 'form.html',
-			})
-			.otherwise({ redirectTo: '/sass'});
-
+	.config(['$translateProvider', function($translateProvider) {
 		var culture = 'en';
 		$translateProvider.use(culture);
 		$translateProvider.preferredLanguage(culture);
 		$translateProvider.fallbackLanguage(['en', 'fr']);
-		// moment.locale(culture);
+		moment.locale(culture);
 	}])
+	// .config(['$routeProvider', function($routeProvider) {
+	// 	$routeProvider
+	// 		.when('/sass', {
+	// 			templateUrl: 'sass-framework.html',
+	// 		})
+	// 		.when('/icons', {
+	// 			templateUrl: 'icons.html'
+	// 		})
+	// 		.when('/animations', {
+	// 			templateUrl: 'animations.html',
+	// 		})
+	// 		.when('/nguibs', {
+	// 			templateUrl: 'nguibs.html',
+	// 		})
+	// 		.when('/filters', {
+	// 			templateUrl: 'filters.html',
+	// 		})
+	// 		.when('/directives', {
+	// 			templateUrl: 'directives/index.html',
+	// 		})
+	// 		.when('/lucca', {
+	// 			templateUrl: 'lucca-spe.html',
+	// 		})
+	// 		.when('/form', {
+	// 			templateUrl: 'form.html',
+	// 		})
+	// 		.otherwise({ redirectTo: '/sass'});
+	// }])
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
 	})

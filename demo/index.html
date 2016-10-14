@@ -19,7 +19,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.4.6/angular-locale_fr-fr.min.js"></script> -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-mocks.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.0/angular-translate.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.19.0/select.min.js"></script>
@@ -39,22 +39,24 @@
 	<script src="lib/formly.min.js"></script>
 
 	<!-- This app -->
-	<script type="text/javascript" src="js/demo.js"></script>
-	<script type="text/javascript" src="js/sass-framework.js"></script>
-	<script type="text/javascript" src="js/icons.js"></script>
-	<script type="text/javascript" src="js/animations.js"></script>
-	<script type="text/javascript" src="js/nguibs.js"></script>
-	<script type="text/javascript" src="js/filters.js"></script>
+	<script type="text/javascript" src="demo.js"></script>
+	<script type="text/javascript" src="demo.router.js"></script>
+	<!-- <script type="text/javascript" src="js/sass-framework.js"></script> -->
+	<!-- <script type="text/javascript" src="js/icons.js"></script> -->
+	<!-- <script type="text/javascript" src="js/animations.js"></script> -->
+	<!-- <script type="text/javascript" src="js/nguibs.js"></script> -->
+	<!-- <script type="text/javascript" src="js/filters.js"></script> -->
 	<!-- <script type="text/javascript" src="js/directives.js"></script> -->
-	<script type="text/javascript" src="js/form.js"></script>
-	<script type="text/javascript" src="js/lucca-spe.js"></script>
+	<!-- <script type="text/javascript" src="js/form.js"></script> -->
+	<!-- <script type="text/javascript" src="js/lucca-spe.js"></script> -->
 
+	<!-- /directives -->
 	<script type="text/javascript" src="directives/timespan/timespan.js"></script>
 
 </head>
 <body ng-app="demoApp" >
 	<div id="demo">
-		<nav id="banner" class="lui top stuck primary dividing menu" ng-controller="bannerCtrl">
+		<nav id="banner" class="lui top stuck primary dividing menu">
 			<h4 class="header item">
 				<i class="lui icon jumping cc"></i>Lucca UI 2.3
 			</h4>
@@ -69,7 +71,12 @@
 			<a class="right item" href="#/lucca" ng-class="{ active: isActive('/lucca') }">Lucca Specific</a>
 		</nav>
 
-		<div ng-view class="lui container"></div>
+		<!-- <div ng-view class="lui container"></div> -->
+		<main class="lui container">
+			<nav ui-view="nav"></nav>
+			<header ui-view="header"></header>
+			<content ui-view="content"></content>
+		</main>
 	</div>
 </body>
 </html>
