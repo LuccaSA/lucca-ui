@@ -51,14 +51,14 @@
 				<label for="">User</label>
 			</div>
 
-			<div class="lui field">
-				<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
-					<ui-select-match>{{$select.selected.name}}</ui-select-match>
-					<ui-select-choices repeat="person in people | filter: $select.search">
+			<div class="lui input">
+				<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui" uis-open-close="debug(isOpen)">
+					<ui-select-match uis-open-close="debug(isOpen)">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="person in people | filter: $select.search" uis-open-close="debug(isOpen)">
 						<span ng-bind-html="person.name | highlight: $select.search"></span>
 					</ui-select-choices>
 				</ui-select>
-				<label for="">User</label>
+				<label for="">User lol mdr</label>
 			</div>
 
 			<div class="lui long input">

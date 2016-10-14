@@ -32,7 +32,7 @@
 				templateUrl: 'filters.html',
 			})
 			.when('/directives', {
-				templateUrl: 'directives.html',
+				templateUrl: 'directives/index.html',
 			})
 			.when('/lucca', {
 				templateUrl: 'lucca-spe.html',
@@ -68,7 +68,7 @@
 			luisProgressBar.startListening();
 		});
 		$httpBackend.whenGET('animations.html').passThrough();
-		$httpBackend.whenGET('directives.html').passThrough();
+		$httpBackend.whenGET(/directives\//).passThrough();
 		$httpBackend.whenGET('filters.html').passThrough();
 		$httpBackend.whenGET('form.html').passThrough();
 		$httpBackend.whenGET('icons.html').passThrough();

@@ -4,6 +4,9 @@
 
 	angular.module('demoApp')
 	.controller('uiselectCtrl', ['$scope', function($scope){
+		$scope.debug = function(isOpen) {
+			debugger;
+		};
 		$scope.person = {};
 		$scope.people = [
 			{ name: 'Adam',      email: 'adam@email.com',      age: 10 },
