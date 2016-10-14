@@ -13,13 +13,6 @@
 		"lui.formlytemplates",
 	]);
 
-	// angular.module('demoApp')
-	// .controller('bannerCtrl', ['$scope', '$location', function($scope, $location) {
-	// 	$scope.isActive = function(viewLocation) {
-	// 		return viewLocation === $location.path();
-	// 	};
-	// }]);
-
 	angular.module('demoApp')
 	.config(['$translateProvider', function($translateProvider) {
 		var culture = 'en';

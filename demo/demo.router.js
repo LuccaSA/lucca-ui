@@ -15,7 +15,7 @@
 		});
 
 		$stateProvider
-		.state("profile", {
+		.state("directives", {
 			parent: "root",
 			url: "/directives",
 			views: {
