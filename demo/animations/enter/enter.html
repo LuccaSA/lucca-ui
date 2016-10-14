@@ -1,0 +1,38 @@
+<h2 class="lui divider below">Entering animations</h2>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage:</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;ANY class="lui animated up fade in"&gt;&lt;/ANY&gt;
+&lt;ANY class="lui animated _direction_ _animation_"&gt;&lt;/ANY&gt;</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo:</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/Vy79xAx4D8QieTAyuVcV?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div ng-controller="enterCtrl" class="lui block round">
+	<p>
+		<div class="lui buttons">
+			<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
+			<button class="lui button" ng-model="animation" uib-btn-radio="'slide in'">Slide in</button>
+			<button class="lui button" ng-model="animation" uib-btn-radio="'scale in'">Scale in</button>
+		</div>
+		<div>
+			<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
+			<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
+			<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
+			<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
+		</div>
+		<div class="lui button" ng-click="add()">Add</div> <code>lui animated {{direction}} {{animation}}</code>
+	</p>
+	<p>
+		<span ng-repeat="item in array track by $index" class="lui label animated" ng-class="direction + ' ' + animation">{{item}}</span>
+	</p>
+</div>

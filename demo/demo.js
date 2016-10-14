@@ -35,20 +35,19 @@
 	});
 
 	angular.module('demoApp')
-	.run(function($httpBackend, luisNotify, luisProgressBar, $rootScope, moment, luisConfig) {
-		moment.locale("fr");
+	.run(function(luisProgressBar, $rootScope) {
 		luisProgressBar.addProgressBar("demo", "grey");
 		$rootScope.$on("$routeChangeStart", function() {
 			luisProgressBar.startListening();
 		});
-		$httpBackend.whenGET('animations.html').passThrough();
+	});
+
+	angular.module('demoApp')
+	.run(function($httpBackend) {
+		$httpBackend.whenGET(/animations\//).passThrough();
 		$httpBackend.whenGET(/directives\//).passThrough();
-		$httpBackend.whenGET('filters.html').passThrough();
-		$httpBackend.whenGET('form.html').passThrough();
-		$httpBackend.whenGET('icons.html').passThrough();
-		$httpBackend.whenGET('lucca-spe.html').passThrough();
-		$httpBackend.whenGET('nguibs.html').passThrough();
-		$httpBackend.whenGET('sass-framework.html').passThrough();
+
+
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
 	});

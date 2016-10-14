@@ -1,5 +1,15 @@
 (function(){
 	"use strict";
+	var tabs = [
+	// "sass",
+	// "icons",
+	"animations",
+	// "bootstrap",
+	// "filters",
+	"directives",
+	// "lucca",
+	];
+
 
 	angular.module("demoApp.router")
 	.config(["$urlRouterProvider", function($urlRouterProvider) {
@@ -13,22 +23,23 @@
 			url: "",
 			abstract: true,
 		});
-
-		$stateProvider
-		.state("directives", {
-			parent: "root",
-			url: "/directives",
-			views: {
-				"header@": {
-					templateUrl: "directives/header.html"
-				},
-				"nav@": {
-					templateUrl: "directives/nav.html"
-				},
-				"content@": {
-					templateUrl: "directives/content.html"
-				},
-			}
-		})
+		_.each(tabs, function(tab) {
+			$stateProvider
+			.state(tab, {
+				parent: "root",
+				url: "/" + tab,
+				views: {
+					"header@": {
+						templateUrl: tab + "/header.html"
+					},
+					"nav@": {
+						templateUrl: tab + "/nav.html"
+					},
+					"content@": {
+						templateUrl: tab + "/content.html"
+					},
+				}
+			});
+		});
 	}]);
 })();
