@@ -28,34 +28,7 @@
 		$translateProvider.fallbackLanguage(['en', 'fr']);
 		moment.locale(culture);
 	}])
-	// .config(['$routeProvider', function($routeProvider) {
-	// 	$routeProvider
-	// 		.when('/sass', {
-	// 			templateUrl: 'sass-framework.html',
-	// 		})
-	// 		.when('/icons', {
-	// 			templateUrl: 'icons.html'
-	// 		})
-	// 		.when('/animations', {
-	// 			templateUrl: 'animations.html',
-	// 		})
-	// 		.when('/nguibs', {
-	// 			templateUrl: 'nguibs.html',
-	// 		})
-	// 		.when('/filters', {
-	// 			templateUrl: 'filters.html',
-	// 		})
-	// 		.when('/directives', {
-	// 			templateUrl: 'directives/index.html',
-	// 		})
-	// 		.when('/lucca', {
-	// 			templateUrl: 'lucca-spe.html',
-	// 		})
-	// 		.when('/form', {
-	// 			templateUrl: 'form.html',
-	// 		})
-	// 		.otherwise({ redirectTo: '/sass'});
-	// }])
+
 	.config(function($httpProvider) {
 		$httpProvider.interceptors.push("luiHttpInterceptor");
 	})
@@ -85,6 +58,5 @@
 		$httpBackend.whenGET('sass-framework.html').passThrough();
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
-
 	});
 })();
