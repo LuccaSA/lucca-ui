@@ -2,7 +2,7 @@
 	"use strict";
 	var tabs = [
 	// "sass",
-	// "icons",
+	"icons",
 	"animations",
 	// "nguibs",
 	"filters",
