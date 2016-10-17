@@ -7,7 +7,7 @@
 	// "nguibs",
 	"filters",
 	"directives",
-	// "lucca",
+	"lucca",
 	];
 
 

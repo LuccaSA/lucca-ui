@@ -45,8 +45,9 @@
 	angular.module('demoApp')
 	.run(function($httpBackend) {
 		$httpBackend.whenGET(/animations\//).passThrough();
-		$httpBackend.whenGET(/filters\//).passThrough();
 		$httpBackend.whenGET(/directives\//).passThrough();
+		$httpBackend.whenGET(/filters\//).passThrough();
+		$httpBackend.whenGET(/lucca\//).passThrough();
 
 
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});

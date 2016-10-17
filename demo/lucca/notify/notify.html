@@ -1,0 +1,137 @@
+<h2 class="lui divider below">luisNotify</h2>
+
+<p>
+	a service to display notifications using the <a class="lui fancy link" href="https://github.com/cgross/angular-notify">angular-notify</a> library and have a better <code>alert</code> and <code>confirm</code> methods
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Features</h4>
+</div>
+<p>
+	A method <code>config</code> where you can set
+	<ul>
+		<li><code>parentTagIdClass</code>: the tag/id/class of the element you want to append to, for when you are using a namespaced distribution of lucca-ui, default: <code>"body"</code></li>
+		<li><code>prefix</code>: the prefix or your distribution, default <code>"lui"</code></li>
+		<li><code>startTop</code>: the margin in px between the top of the screen and the first notification, to prevent it to go over an horizontal menu, default <code>40</code></li>
+		<li><code>okLabel</code>: the label you want for the button ok in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Ok"</code></li>
+		<li><code>cancelLabel</code>: the label you want for the button cancel in the modal used by methods <code>alert</code> and <code>confirm</code>, default <code>"Cancel"</code></li>
+		<li><code>canDismissConfim</code>: if set to <code>true</code>, the user will be able to close the confirmation modal by clicking outside of it, when set to <code>false</code> the user will have to click either Ok or Cancel to cose the modal, default <code>false</code></li>
+	</ul>
+</p>
+<p>
+	Methods <code>success</code>, <code>warning</code> and<code>error</code> taking <code>message</code> and <code>details</code> as arguments. the message will be displayed in the popup while both message and details will be logged in the browser console using <code>$log</code>
+</p>
+<p>
+	A method <code>loading</code> taking a <code>ng.IPromise&lt;string&gt;</code>, a <code>message</code> and a <code>cancel function</code> as arguments. Will display a notification with a spinner and the provided message.
+	<ul>
+		<li>notifying the promise with a new message will change the message displayed</li>
+		<li>resolving the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the success notification</li>
+		<li>rejecting the promise with a new message will change the message displayed, remove the spinner and change the color of the notification to make it look like the error notification</li>
+		<li>if you do not provide a <code>cancel function</code>, the <i class="lui small cross icon"></i> won't be present while the promise isn't resolved/rejected</li>
+		<li>if you do provide a <code>cancel function</code>, clicking <i class="lui small cross icon"></i> while the promise isn't resolved/rejected will cal said function before closing the notification</li>
+	</ul>
+</p>
+<p>
+	Methods <code>alert</code>, and<code>confirm</code> taking <code>message</code>, <code>okLabel</code> and <code>cancelLabel</code> as arguments. returns a <code>ng.IPromise&lt;boolean&gt;</code> that resolves with <code>true</code> if user clicked Ok and <code>false</code> if user clicked cancel, rejects if user clicked outside of the modal
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage:</h4>
+</div>
+<p>
+	<pre hljs no-escape language="js">// to configure, needs to be done just once
+angular.module("myApp").config(fumction(luisConfigProvider){
+	luisConfigProvider.setConfig({
+		parentTagIdClass: "demo",
+		startTop: 60,
+		prefix: "lui",
+		canDismissConfim: true
+	});
+});
+
+// to use in your controller
+angular.controller("myCtrl", function(luisNotify) {
+	luisNotify.error("your message", "some details");
+	luisNotify.confirm("This action is irreversible, are you really sure you want to do it?", "Yes I am", "No i'm not")
+	.then(function(isSure) {
+		if (isSure) {
+			var loadingDfd = $q.defer();
+			luisNotify.loading(loadingDfd.promise, "doing the stuff");
+			doTheStuff()
+			.then( function() {
+				loadingDfd.resolve("the stuff is done");
+			}, function() {
+				loadingDfd.reject("an error happened :'(");
+			});
+		}
+	});
+});</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+</div>
+<div class="lui block round">
+	<h5>Notifications</h5>
+	<p>
+		<div class="lui field">
+			<label>message displayed</label>
+			<span class="lui input">
+				<input type="text" ng-model="message">
+			</span>
+		</div>
+		<div class="lui field">
+			<label>details logged</label>
+			<span class="lui long input">
+				<input type="text" ng-model="details">
+			</span>
+		</div>
+	</p>
+	<p>
+		<button class="lui green button" ng-click="notifySuccess(message, details)">success</button>
+		<button class="lui orange button" ng-click="notifyWarning(message, details)">warning</button>
+		<button class="lui red button" ng-click="notifyError(message, details)">error</button>
+	</p>
+	<hr class="lui dashed divider">
+	<h5>Loading notification</h5>
+	<p>
+		<div class="lui field">
+			<label>message displayed while loading</label>
+			<span class="lui input">
+				<input type="text" ng-model="loadingMessage">
+			</span>
+		</div>
+		<div class="lui field">
+			<label>message displayed when resolved</label>
+			<span class="lui input">
+				<input type="text" ng-model="resolvedMessage">
+			</span>
+		</div>
+		<div class="lui field">
+			<label>message displayed when rejected</label>
+			<span class="lui input">
+				<input type="text" ng-model="rejectedMessage">
+			</span>
+		</div>
+	</p>
+	<p>
+		<button class="lui button" ng-click="notifyLoading(loadingMessage)" ng-disabled="loading">loading</button>
+		<button class="lui button" ng-click="changeLoading(loadingMessage)" ng-disabled="!loading">change message</button>
+		<button class="lui green button" ng-click="resolveLoading(resolvedMessage)" ng-disabled="!loading">resolve loading</button>
+		<button class="lui red button" ng-click="rejectLoading(rejectedMessage)" ng-disabled="!loading">reject loading</button>
+	</p>
+	<hr class="lui dashed divider">
+	<h5>Alerts and confirms</h5>
+	<p>
+		<div class="lui field">
+			<label>message displayed</label>
+			<span class="lui long input">
+				<input type="text" ng-model="message2">
+			</span>
+		</div>
+	</p>
+	<p>
+		<button class="lui button" ng-click="notifyAlert(message2)">alert</button>
+		<button class="lui button" ng-click="notifyConfirm(message2)">confirm</button>
+		{{confirmationMessage}}
+	</p>
+</div>
