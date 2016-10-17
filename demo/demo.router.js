@@ -4,7 +4,7 @@
 	// "sass",
 	"icons",
 	"animations",
-	// "nguibs",
+	"nguibs",
 	"filters",
 	"directives",
 	"lucca",

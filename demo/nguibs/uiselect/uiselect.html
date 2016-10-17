@@ -1,0 +1,63 @@
+<h2 class="lui divider below">ui-select</h2>
+<p><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
+<p>
+	<b>Important:</b> do <b>not</b> import the select.css or else some of the styling will be broken
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Simple select</h4>
+</div>
+<div class="lui field">
+	<ui-select ng-model="person.selected" ng-disabled="disabled" placeholder="Test" class="lui">
+		<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
+		<ui-select-choices repeat="person in people | filter: $select.search">
+			<span ng-bind-html="person.name | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+	<label for="">User</label>
+</div>
+
+<div class="lui input">
+	<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+		<ui-select-match>{{$select.selected.name}}</ui-select-match>
+		<ui-select-choices repeat="person in people | filter: $select.search">
+			<span ng-bind-html="person.name | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+	<label for="">User</label>
+</div>
+
+<div class="lui long input">
+	<input type="text" name="name" placeholder="This is a lui long input">
+</div>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Multi-select</h4>
+</div>
+<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
+	<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+	<ui-select-choices repeat="color in availableColors | filter:$select.search">
+		{{color}}
+	</ui-select-choices>
+</ui-select>
+
+<p>
+	<span>I seriously want to hire</span>
+	<ui-select ng-model="person.selected" class="lui natural" search-enabled="false">
+		<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+		<ui-select-choices repeat="person in people | filter: $select.search">
+			<span ng-bind-html="person.name | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+	<span>because he/she just rocks at organizing LAN parties.</span>
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage:</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;ui-select ng-model="myVar" <b>class="lui"</b>&gt;
+...
+&lt;/ui-select&gt;
+&lt;ui-select  multiple ng-model="myVar" <b>class="lui"</b>&gt;
+...
+&lt;/ui-select&gt;</pre>
+</p>
