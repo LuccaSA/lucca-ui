@@ -1,0 +1,52 @@
+
+<h2 class="lui divider below">luifHumanize</h2>
+
+<p>
+	A filter to cast the input to a <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/">moment.duration</a> and call the method <a class="lui fancy link" href="http://momentjs.com/docs/#/durations/humanize/">humanize</a> on it.
+</p>
+<p>
+	The first argument is to use the suffix in the humanize function
+	<ul class="lui unstyled">
+		<li><code>moment.duration(-3,'m').humanize()</code> : 3 minutes</li>
+		<li><code>moment.duration(3,'m').humanize()</code> : 3 minutes</li>
+		<li><code>moment.duration(-3,'m').humanize(true)</code> : 3 minutes <b>ago</b></li>
+		<li><code>moment.duration(3,'m').humanize(true)</code> : <b>in</b> 3 minutes</li>
+	</ul>
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myValue | luifHumanize }}
+{{ myValue | luifHumanize : usePrefix }}</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/1XwKuVmfzH13V0Nw8fwX?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		myValue :
+		<span class="lui input">
+			<input type="text" ng-model="myValue">
+		</span>
+		(enter '1.11:30:00' or 'PT35H30M' or such like)
+	</p>
+	<p>
+		Set myValue to
+		<span class="lui button" ng-click="myValue='PT1H'">1h</span>
+		<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
+	</p>
+	<p>
+		myValue humanized : <code>{{ myValue | luifHumanize }}</code>
+	</p>
+	<p>
+		myValue humanized with a suffix : <code>{{ myValue | luifHumanize : true }}</code>
+	</p>
+</div>
