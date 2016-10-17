@@ -51,4 +51,20 @@
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
 		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
 	});
+
+	angular.module('demoApp')
+	.constant("dependencies", {
+		angular: "~1.5",
+		crop: "~0.5",
+		formly: "~8.4",
+		iban: "~0.0",
+		icons: "~1.1",
+		moment: "~2.15",
+		nguibs: "~2.1",
+		normalize: "~5.0",
+		notify: "~2.5",
+		translate: "~2.12",
+		uiselect: "~0.19",
+		underscore: "~1.8",
+	})
 })();

@@ -30,7 +30,10 @@
 				url: "/" + tab,
 				views: {
 					"header@": {
-						templateUrl: tab + "/header.html"
+						templateUrl: tab + "/header.html",
+						controller: function($scope, dependencies) {
+							$scope.dependencies = dependencies;
+						}
 					},
 					"nav@": {
 						templateUrl: tab + "/nav.html"
