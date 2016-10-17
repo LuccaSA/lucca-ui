@@ -1,7 +1,7 @@
 (function(){
 	"use strict";
 	var tabs = [
-	// "sass",
+	"sass",
 	"icons",
 	"animations",
 	"nguibs",

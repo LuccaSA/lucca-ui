@@ -1,0 +1,76 @@
+<h2 class="lui divider below">The grid</h2>
+
+<p>
+	By default, the lucca grid is 12 columns based. This can be overriden.
+</p>
+<p>
+	Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
+</p>
+<p>
+	To define the size of a grid element for different devices, x being the number of columns, use
+	<ul class="lui unstyled">
+		<li><code>lui column mobile-x</code> for mobiles phones</li>
+		<li><code>lui column tablet-x</code> for tablets</li>
+		<li><code>lui column desktop-x</code> for desktops</li>
+		<li><code>lui column large-x</code> for large screens</li>
+	</ul>
+</p>
+
+<p>
+	Use the <code>{device}-offset-x</code> class to offset a specific grid child.
+</p>
+<p>
+	Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
+</p>
+<p>
+	Don't want any margin on the sides of your container ? Give it the <code>fitting</code> class.
+</p>
+<br/>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Example #1: Without gutter space</h4>
+</div>
+
+<div class="lui container">
+	<div class="lui column tablet-6 desktop-10"><p>&nbsp;</p></div>
+	<div class="lui column tablet-3 desktop-2"><p>&nbsp;</p></div>
+	<div class="lui column tablet-3"><p>&nbsp;</p></div>
+
+	<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
+	<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
+	<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
+</div>
+
+<br/>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Example #2: With gutter space</h4>
+</div>
+<p>
+	Add the <code>spaced</code> class to give a column a gutter. Add it to the <code>.lui.container</code> parent element to give gutters to all <code>.lui.column</code> children.
+</p>
+<p>
+	Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
+</p>
+<div class="lui container spaced">
+	<div class="lui columns">
+		<div class="lui column mobile-push-6 mobile-6 tablet-push-0 tablet-6 desktop-10"><p>&nbsp;</p></div>
+		<div class="lui column mobile-pull-6 mobile-6 tablet-push-0 tablet-3 desktop-2"><p>&nbsp;</p></div>
+		<div class="lui column tablet-3"><p>&nbsp;</p></div>
+
+		<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
+		<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
+		<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
+	</div>
+</div>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Example #3: Same height columns</h4>
+</div>
+<div class="lui spaced container">
+	<div class="lui fitting columns">
+		<div class="lui mobile-6 column" style="background-color:#CCC; border: 1px solid black;"><p></p><p></p><p></p></div>
+		<div class="lui mobile-6 column" style="background-color:#AAA; border: 1px solid black;"><p></p></div>
+		<div class="lui mobile-3 column" style="background-color:#DDD; border: 1px solid black;"><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div>
+		<div class="lui mobile-9 column" style="background-color:#EEE; border: 1px solid black;"><p></p></div>
+	</div>
+</div>
+
