@@ -4,7 +4,7 @@ html, body {
 }
 #demo{
 	$prefix: '.lui';
-	@import "../../scss/lucca-ui.namespaced.scss";
+	@import "../scss/lucca-ui.namespaced.scss";
 	$light: luiPalette(light, color);
 	// Table of contents
 	$toc-width: 11em;
