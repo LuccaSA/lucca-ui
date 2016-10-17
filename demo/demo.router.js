@@ -4,8 +4,8 @@
 	// "sass",
 	// "icons",
 	"animations",
-	// "bootstrap",
-	// "filters",
+	// "nguibs",
+	"filters",
 	"directives",
 	// "lucca",
 	];

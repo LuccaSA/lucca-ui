@@ -45,6 +45,7 @@
 	angular.module('demoApp')
 	.run(function($httpBackend) {
 		$httpBackend.whenGET(/animations\//).passThrough();
+		$httpBackend.whenGET(/filters\//).passThrough();
 		$httpBackend.whenGET(/directives\//).passThrough();
 
 
