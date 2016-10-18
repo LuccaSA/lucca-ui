@@ -40,7 +40,7 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
 		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
@@ -49,7 +49,7 @@
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
-	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
+	var userPickerMultipleTemplate = "<ui-select multiple uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
@@ -125,6 +125,13 @@
 					}
 					return [];
 				};
+				scope.onDropdownToggle = function(isOpen) {
+					if (isOpen) {
+						elt.addClass("ng-open");
+					} else {
+						elt.removeClass("ng-open");
+					}
+				}
 			}
 		};
 	})
