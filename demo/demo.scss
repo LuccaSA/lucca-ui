@@ -10,6 +10,7 @@ html, body {
 	$toc-width: 11em;
 	$banner-height: 4em;
 
+	padding-top: $banner-height;
 
 	#banner {
 		background: #FFF;
@@ -20,6 +21,13 @@ html, body {
 		margin-top: $banner-height + 1;
 		width: $toc-width;
 		height: 100%;
+	}
+
+	[ui-view="content"] > section > article:before {
+		content: "";
+		display:block;
+		height: $banner-height; /* fixed header height*/
+		margin-top:-#{$banner-height}; /* negative fixed header height */
 	}
 
 	#demoBlock {
