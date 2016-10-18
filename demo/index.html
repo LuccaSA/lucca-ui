@@ -83,12 +83,16 @@
 	<script type="text/javascript" src="lucca/translations/translations.js"></script>
 	<script type="text/javascript" src="lucca/userpicker/userpicker.js"></script>
 
+	<!-- /formly -->
+	<script type="text/javascript" src="formly/types/types.js"></script>
+	<script type="text/javascript" src="formly/validation/validation.js"></script>
+
 </head>
 <body ng-app="demoApp" >
 	<div id="demo">
 		<nav id="banner" class="lui top stuck primary dividing menu">
 			<h4 class="header item">
-				<i class="lui icon jumping cc"></i>Lucca UI 2.3
+				<i class="lui icon jumping cc"></i>Lucca UI 3.0
 			</h4>
 			<a class="item" href="https://github.com/LuccaSA/lucca-ui/wiki">Github documentation</a>
 			<a class="item" ui-sref="sass" ui-sref-active="active">Sass framework</a>
@@ -97,11 +101,10 @@
 			<a class="item" ui-sref="nguibs" ui-sref-active="active">Bootstrap</a>
 			<a class="item" ui-sref="filters" ui-sref-active="active">Lucca Filters</a>
 			<a class="item" ui-sref="directives" ui-sref-active="active">Directives</a>
-
-			<a class="right item" ui-sref="lucca" ui-sref-active="active">Lucca Specific</a>
+			<a class="item" ui-sref="lucca" ui-sref-active="active">Lucca Specific</a>
+			<a class="item" ui-sref="formly" ui-sref-active="active">Formly</a>
 		</nav>
 
-		<!-- <div ng-view class="lui container"></div> -->
 		<main class="lui container">
 			<nav ui-view="nav"></nav>
 			<header ui-view="header"></header>
