@@ -181,7 +181,6 @@ declare module Lui.Directives {
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
         setInputs(elt: ng.IAugmentedJQuery): void;
         private initScope();
-        private setPatterns();
         private getViewValue();
         private setViewValue(iban);
         private setTouched();
@@ -207,9 +206,6 @@ declare module Lui.Directives {
         countryCode: string;
         controlKey: string;
         bban: string;
-        countryCodePattern: string;
-        controlKeyPattern: string;
-        bbanPattern: string;
         bbanMappings: {
             [key: number]: ($event: ng.IAngularEvent) => void;
         };
