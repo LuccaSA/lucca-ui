@@ -206,8 +206,9 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
-		var init = true; // boolean to initialise the connected user
+		var initConnectedUser = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+		var isInitialised = false;
 
 		/** HttpService **/
 		var getHttpMethod = function(method){
@@ -216,6 +217,16 @@
 			}
 			return $http[method];
 		};
+
+		// Reset list of displayed users when showFormerEmployees attribute changes
+		$scope.$watch(function() {
+			return $scope.showFormerEmployees;
+		}, function(newValue, oldValue) {
+			// To avoid 2 calls when view is loaded
+			if (newValue !== oldValue && isInitialised) {
+				$scope.find();
+			}
+		});
 
 		/****************/
 		/***** FIND *****/
@@ -229,6 +240,8 @@
 			initMe();
 			getUsersAsync(clue)
 			.then(function(results) {
+				isInitialised = true;
+
 				if (results.length > 0) {
 					var users = results;
 					filteredUsers = filterResults(users) || [];
@@ -680,13 +693,13 @@
 		/**************/
 
 		var initMe = function() {
-			if (init && !!$scope.displayMeFirst) {
+			if (initConnectedUser && !!$scope.displayMeFirst) {
 				getMeAsync().then(function(id) {
 					myId = id;
 				}, function(message) {
 					errorHandler("GET_ME", message);
 				});
-				init = false;
+				initConnectedUser = false;
 			}
 		};
 

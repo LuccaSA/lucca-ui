@@ -1150,6 +1150,33 @@ describe('luidUserPicker', function(){
 		});
 	});
 
+	/****************************
+	** SHOW FORMER EMPLOYEES   **
+	****************************/
+	describe("with showFormerEmployees", function() {
+		var findApiWithoutClue = /api\/v3\/users\/find\?/;
+		var withoutFormerEmployeesFilter = /formerEmployees=false\&limit=\d*/;
+		var withFormerEmployeesFilter = /formerEmployees=true\&limit=\d*/;
+
+		beforeEach(function(){
+			$scope.showFormerEmployees = false;
+			var tpl = angular.element('<luid-user-picker ng-model="myUser" show-former-employees="showFormerEmployees"></luid-user-picker>');
+			elt = $compile(tpl)($scope);
+			isolateScope = elt.isolateScope();
+			$scope.$digest();
+		});
+		it('should call the api with the right filters when showFormerEmployees attribute changes', function(){
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + withoutFormerEmployeesFilter.source)).respond(200, RESPONSE_0_users);
+			isolateScope.find();
+			expect($httpBackend.flush).not.toThrow();
+			// Update showFormerEmployees property
+			$scope.showFormerEmployees = true;
+			$httpBackend.expectGET(new RegExp(findApiWithoutClue.source + withFormerEmployeesFilter.source)).respond(200, RESPONSE_0_users);
+			$scope.$digest();
+			expect($httpBackend.flush).not.toThrow();
+		});
+	});
+
 	// Not implemented yet
 	// describe("pagination", function(){
 	// 	it("onSelect should update the pagination label", function(){});
