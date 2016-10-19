@@ -12,7 +12,6 @@ module Lui.Directives {
 
 		constructor($scope: ILuidIbanScope) {
 			this.$scope = $scope;
-			this.setPatterns();
 			this.initScope();
 		}
 
@@ -78,14 +77,6 @@ module Lui.Directives {
 					}
 				}
 			};
-		}
-
-		private setPatterns(): void {
-			// https://fr.wikipedia.org/wiki/International_Bank_Account_Number
-			// 2 letters (country code) + 2 digits (control key) + 11-30 characters (BBAN)
-			this.$scope.countryCodePattern = "[a-zA-Z]{2}";
-			this.$scope.controlKeyPattern = "\\d{2}";
-			this.$scope.bbanPattern = "\\w{11,30}";
 		}
 
 		private getViewValue(): string {
