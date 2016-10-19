@@ -1,8 +1,16 @@
 # Change log
 
+## 3.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.5)
+
+### Bug fixes
+
 ## 3.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.4)
 
 ### Bug fixes
+- `.field` inside .`column` had no margin
+- user-picker placeholder was binded once
+- changed paging for api-select
+- api-select and user-picker have class ng-open when the dropdown is open
 
 ## 3.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.3)
 
