@@ -33,7 +33,7 @@
 			> .separator,
 			> .moment.input {
 				display: inline-block;
-				vertical-align: baseline;
+				vertical-align: middle;
 			}
 			> .moment.input {
 				position: relative;
@@ -41,18 +41,6 @@
 
 				> input[type="text"] {
 					text-align: center !important;
-				}
-			}
-
-
-			// Hide selection when using buttons
-			// ====
-			&[show-buttons="true"] input[type="text"] {
-				&::selection {
-					background: #FFF !important;
-				}
-				&::-moz-selection {
-					background: #FFF !important;
 				}
 			}
 
@@ -103,6 +91,14 @@
 				.top.mp-button {
 					top: -1.5em;
 					bottom: 0;
+				}
+				input[type="text"] {
+					&::selection {
+						background: #FFF !important;
+					}
+					&::-moz-selection {
+						background: #FFF !important;
+					}
 				}
 			}
 
