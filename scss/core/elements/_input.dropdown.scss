@@ -16,10 +16,7 @@
 			}
 
 			.dropdown-header {
-				font-size: luiTheme(element, field, input, font-size);
-				padding: luiTheme(element, field, input, vertical-padding) 1em;
-				border-bottom: 1px dotted luiTheme(element, divider, color);
-				font-weight: 600;
+				@extend %lui_dropdown_list_group_header;
 			}
 		}
 		[uib-dropdown] {

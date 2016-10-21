@@ -109,6 +109,10 @@
 				@extend %lui_dropdown_list_item;
 			}
 
+			.ui-select-choices-group {
+				@extend %lui_dropdown_list_group;
+			}
+
 			.divider {
 				margin-bottom: 0;
 			}

@@ -227,6 +227,7 @@
 	opacity: 1;
 }
 %lui_dropdown_list_item {
+	cursor: pointer;
 	position: relative;
 	padding: 0;
 
@@ -262,6 +263,18 @@
 		font-size: lui_rem(0.9);
 		font-weight: 600;
 	}
+}
+
+%lui_dropdown_list_group {
+	border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+}
+
+%lui_dropdown_list_group_header {
+	font-size: luiTheme(element, field, input, font-size);
+	font-weight: 600;
+	color: luiTheme(element, typography, body, color);
+	padding: luiTheme(element, field, input, vertical-padding) 1em;
+	border-bottom: 1px dotted luiTheme(element, field, field, default-border-color);
 }
 
 @if luiTheme(element, field, enabled) {
@@ -342,14 +355,10 @@
 			display: inline-block;
 			vertical-align: middle;
 			position: relative;
-			margin-top: 1.3em;
 
 			#{$prefix}.input {
 				margin-top: 0;
 			}
-
-			@include display-flex();
-			@include flex-align-items(center);
 
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
@@ -428,6 +437,17 @@
 
 				cursor: pointer;
 			}
+		}
+
+		#{$prefix}.field > .input {
+			@include display-flex();
+			@include flex-align-items(center);
+		}
+
+		#{$prefix}.input {
+			margin-top: 1.3em;
+			@include display-flex(true);
+			@include flex-align-items(center);
 		}
 
 
