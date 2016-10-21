@@ -230,20 +230,19 @@
 	position: relative;
 	padding: 0;
 
-	a {
+	> * {
 		display: block;
 		font-size: luiTheme(element, field, input, font-size);
 		color: luiTheme(element, typography, body, color);
 		padding: luiTheme(element, field, input, vertical-padding) 1em;
 		text-decoration: none;
-		opacity: 0.85;
 	}
-	&.disabled a {
+	&.disabled > * {
 		cursor: default;
 		color: rgba(0, 0, 0, 0.26);
 	}
-	&.active a,
-	&:not(.disabled) a:hover {
+	&.active > *,
+	&:not(.disabled) > *:hover {
 		opacity: 1;
 		background-color: luiPalette(light, color, light);
 	}
@@ -256,7 +255,6 @@
 		left: 0; right: 0;
 		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
 	}
-
 
 	.label {
 		float: right;
@@ -341,6 +339,8 @@
 		}
 
 		#{$prefix}.input {
+			display: inline-block;
+			vertical-align: middle;
 			position: relative;
 			margin-top: 1.3em;
 
