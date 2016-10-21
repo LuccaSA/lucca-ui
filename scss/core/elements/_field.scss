@@ -443,9 +443,12 @@
 			@include display-flex();
 			@include flex-align-items(center);
 		}
+		#{$prefix}.field > .input,
+		#{$prefix}.input.labelled {
+			margin-top: 1.3em;
+		}
 
 		#{$prefix}.input {
-			margin-top: 1.3em;
 			@include display-flex(true);
 			@include flex-align-items(center);
 		}
