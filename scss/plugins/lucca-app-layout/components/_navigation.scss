@@ -26,6 +26,8 @@
 			transition-duration: 150ms;
 			transition-timing-function: ease-out;
 			overflow: hidden;
+			width: map-gets($vars, navigation, width);
+			box-sizing: border-box;
 
 			&:before {
 				margin-left: 0;
