@@ -528,9 +528,15 @@
 
 		// Fitting size: takes up the whole available width
 		// ====
-		#{$prefix}.fitting.field {
-			> .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
-			.message {
+		#{$prefix}.fitting.field,
+		#{$prefix}.fitting.field > .input,
+		#{$prefix}.fitting.field .message,
+		#{$prefix}.fitting.input {
+			width: 100%;
+		}
+		#{$prefix}.fitting.field > .input,
+		#{$prefix}.fitting.input {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]) {
 				width: 100%;
 			}
 		}
