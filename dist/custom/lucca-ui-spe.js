@@ -1206,7 +1206,7 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
 		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
@@ -1215,7 +1215,7 @@
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
-	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
+	var userPickerMultipleTemplate = "<ui-select multiple uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
@@ -1291,6 +1291,13 @@
 					}
 					return [];
 				};
+				scope.onDropdownToggle = function(isOpen) {
+					if (isOpen) {
+						elt.addClass("ng-open");
+					} else {
+						elt.removeClass("ng-open");
+					}
+				}
 			}
 		};
 	})
@@ -1365,8 +1372,9 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
-		var init = true; // boolean to initialise the connected user
+		var initConnectedUser = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+		var isInitialised = false;
 
 		/** HttpService **/
 		var getHttpMethod = function(method){
@@ -1375,6 +1383,16 @@
 			}
 			return $http[method];
 		};
+
+		// Reset list of displayed users when showFormerEmployees attribute changes
+		$scope.$watch(function() {
+			return $scope.showFormerEmployees;
+		}, function(newValue, oldValue) {
+			// To avoid 2 calls when view is loaded
+			if (newValue !== oldValue && isInitialised) {
+				$scope.find();
+			}
+		});
 
 		/****************/
 		/***** FIND *****/
@@ -1388,6 +1406,8 @@
 			initMe();
 			getUsersAsync(clue)
 			.then(function(results) {
+				isInitialised = true;
+
 				if (results.length > 0) {
 					var users = results;
 					filteredUsers = filterResults(users) || [];
@@ -1839,13 +1859,13 @@
 		/**************/
 
 		var initMe = function() {
-			if (init && !!$scope.displayMeFirst) {
+			if (initConnectedUser && !!$scope.displayMeFirst) {
 				getMeAsync().then(function(id) {
 					myId = id;
 				}, function(message) {
 					errorHandler("GET_ME", message);
 				});
-				init = false;
+				initConnectedUser = false;
 			}
 		};
 
@@ -3483,7 +3503,7 @@ var dir;
     var directives;
     (function (directives) {
         "use strict";
-        var MAGIC_PAGING = "0,10";
+        var MAGIC_PAGING = "0,100";
         var ApiSelect = (function () {
             function ApiSelect() {
                 this.restrict = "AE";
@@ -3500,6 +3520,16 @@ var dir;
                     return new ApiSelect();
                 };
                 return directive;
+            };
+            ApiSelect.prototype.link = function (scope, element) {
+                scope.onDropdownToggle = function (isOpen) {
+                    if (isOpen) {
+                        element.addClass("ng-open");
+                    }
+                    else {
+                        element.removeClass("ng-open");
+                    }
+                };
             };
             ApiSelect.IID = "luidApiSelect";
             return ApiSelect;
@@ -3520,6 +3550,16 @@ var dir;
                     return new ApiSelectMultiple();
                 };
                 return directive;
+            };
+            ApiSelectMultiple.prototype.link = function (scope, element) {
+                scope.onDropdownToggle = function (isOpen) {
+                    if (isOpen) {
+                        element.addClass("ng-open");
+                    }
+                    else {
+                        element.removeClass("ng-open");
+                    }
+                };
             };
             ApiSelectMultiple.IID = "luidApiSelectMultiple";
             return ApiSelectMultiple;
@@ -3575,7 +3615,6 @@ var Lui;
         var LuidIbanController = (function () {
             function LuidIbanController($scope) {
                 this.$scope = $scope;
-                this.setPatterns();
                 this.initScope();
             }
             LuidIbanController.prototype.setNgModelCtrl = function (ngModelCtrl) {
@@ -3637,11 +3676,6 @@ var Lui;
                         }
                     }
                 };
-            };
-            LuidIbanController.prototype.setPatterns = function () {
-                this.$scope.countryCodePattern = "[a-zA-Z]{2}";
-                this.$scope.controlKeyPattern = "\\d{2}";
-                this.$scope.bbanPattern = "\\w{11,30}";
             };
             LuidIbanController.prototype.getViewValue = function () {
                 return this.ngModelCtrl.$viewValue;
@@ -5171,7 +5205,7 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/fields/user.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-user-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" allow-clear=\"true\"></luid-user-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -5181,12 +5215,12 @@ var Lui;
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select.html',
-    "<ui-select><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/iban/iban.view.html',
-    "<input id=\"countryCode\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"countryCode\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"countryCodePattern\" ng-change=\"updateValue()\" ng-paste=\"pasteIban($event)\" ng-focus=\"selectInput($event)\" luid-select-next ng-blur=\"setTouched()\"> <input id=\"controlKey\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"controlKey\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"controlKeyPattern\" ng-change=\"updateValue()\" luid-select-next ng-blur=\"setTouched()\" luid-keydown mappings=\"controlKeyMappings\"> <input id=\"bban\" class=\"upper-case\" maxlength=\"30\" ng-model=\"bban\" ng-model-options=\"{ allowInvalid: true }\" ng-pattern=\"bbanPattern\" ng-change=\"updateValue()\" ng-blur=\"setTouched()\" luid-keydown mappings=\"bbanMappings\">"
+    "<input id=\"countryCode\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"countryCode\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-paste=\"pasteIban($event)\" ng-focus=\"selectInput($event)\" luid-select-next ng-blur=\"setTouched()\"> <input id=\"controlKey\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"controlKey\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" luid-select-next ng-blur=\"setTouched()\" luid-keydown mappings=\"controlKeyMappings\"> <input id=\"bban\" class=\"upper-case\" maxlength=\"30\" ng-model=\"bban\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-blur=\"setTouched()\" luid-keydown mappings=\"bbanMappings\">"
   );
 
 

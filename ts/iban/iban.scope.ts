@@ -5,9 +5,6 @@ module Lui.Directives {
 		countryCode: string;
 		controlKey: string;
 		bban: string;
-		countryCodePattern: string;
-		controlKeyPattern: string;
-		bbanPattern: string;
 
 		bbanMappings: { [key: number]: ($event: ng.IAngularEvent) => void; };
 		controlKeyMappings: { [key: number]: ($event: ng.IAngularEvent) => void; };

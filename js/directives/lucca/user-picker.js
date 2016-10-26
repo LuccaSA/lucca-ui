@@ -40,7 +40,7 @@
 	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
 	"</ui-select-choices>";
 
-	var userPickerTemplate = "<ui-select theme=\"bootstrap\"" +
+	var userPickerTemplate = "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
 		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
@@ -49,7 +49,7 @@
 	uiSelectChoicesTemplate +
 	"</ui-select>";
 
-	var userPickerMultipleTemplate = "<ui-select multiple theme=\"bootstrap\" " +
+	var userPickerMultipleTemplate = "<ui-select multiple uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
@@ -125,6 +125,13 @@
 					}
 					return [];
 				};
+				scope.onDropdownToggle = function(isOpen) {
+					if (isOpen) {
+						elt.addClass("ng-open");
+					} else {
+						elt.removeClass("ng-open");
+					}
+				}
 			}
 		};
 	})
@@ -199,8 +206,9 @@
 		var selectedUsersCount = 0;
 		// Only used for asynchronous pagination
 		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
-		var init = true; // boolean to initialise the connected user
+		var initConnectedUser = true; // boolean to initialise the connected user
 		var myId; // used for 'display me first' feature
+		var isInitialised = false;
 
 		/** HttpService **/
 		var getHttpMethod = function(method){
@@ -209,6 +217,16 @@
 			}
 			return $http[method];
 		};
+
+		// Reset list of displayed users when showFormerEmployees attribute changes
+		$scope.$watch(function() {
+			return $scope.showFormerEmployees;
+		}, function(newValue, oldValue) {
+			// To avoid 2 calls when view is loaded
+			if (newValue !== oldValue && isInitialised) {
+				$scope.find();
+			}
+		});
 
 		/****************/
 		/***** FIND *****/
@@ -222,6 +240,8 @@
 			initMe();
 			getUsersAsync(clue)
 			.then(function(results) {
+				isInitialised = true;
+
 				if (results.length > 0) {
 					var users = results;
 					filteredUsers = filterResults(users) || [];
@@ -673,13 +693,13 @@
 		/**************/
 
 		var initMe = function() {
-			if (init && !!$scope.displayMeFirst) {
+			if (initConnectedUser && !!$scope.displayMeFirst) {
 				getMeAsync().then(function(id) {
 					myId = id;
 				}, function(message) {
 					errorHandler("GET_ME", message);
 				});
-				init = false;
+				initConnectedUser = false;
 			}
 		};
 
