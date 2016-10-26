@@ -7,7 +7,7 @@
 			display: none; overflow: hidden;
 			position: fixed;
 			top: 0; right: 0; bottom: 0; left: 0;
-			z-index: map-gets($vars, z-index);
+			z-index: map-gets($vars, z-index) !important;
 			-webkit-overflow-scrolling: touch;
 			outline: 0; // Chrome fix
 
@@ -59,6 +59,31 @@
 		&.modal-open {
 			overflow: hidden;
 			#{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
+		}
+
+		// Side panel
+		// =====================================================================
+		#{$prefix}.modal.side-panel {
+			.modal-dialog {
+				margin: 0;
+				height: 100vh;
+			}
+
+			&.right .modal-dialog {
+				margin-right: 0;
+				margin-left: auto;
+			}
+			&.left .modal-dialog {
+				margin-right: auto;
+				margin-left: 0;
+			}
+
+			&.in.right {
+				animation-name: rightFadeIn;
+			}
+			&.in.left {
+				animation-name: leftFadeIn;
+			}
 		}
 	}
 }
