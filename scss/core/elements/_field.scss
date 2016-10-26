@@ -287,15 +287,30 @@
 		// ====
 		#{$prefix}.form, #{$prefix}.fieldset {
 			&.natural {
-				> span,
-				> #{$prefix}.field {
-					display: inline-block;
-					vertical-align: middle;
+				font-size: 2em - luiTheme(element, field, input, font-size);
+
+				> span {
+					font-size: luiTheme(element, field, input, font-size);
 				}
 
-				> #{$prefix}.field {
-					margin: 0 0.5em;
-					font-size: (0em + 1em / map-gets($vars, input, font-size)) !important;
+				> span,
+				> #{$prefix}.field,
+				> #{$prefix}.input,
+				> [ng-model] {
+					display: inline-block;
+					vertical-align: middle;
+					margin: 0 #{lui_rem(0.25)} 0 0;
+				}
+
+				.ui-select-container {
+					.ui-select-choices {
+						min-width: 15em;
+						width: 100%;
+					}
+
+					&:not(.ui-select-multiple) .ui-select-match:hover {
+						background-color: rgba(50, 50, 50, 0.05);
+					}
 				}
 			}
 		}
@@ -510,7 +525,7 @@
 		// Field length (horizontal sizing)
 		// ====
 		// Defaults to medium
-		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
 		#{$prefix}.input:not(.radio):not(.checkbox):not(.switch) > label {
 			max-width: 100%;
 			width: map-gets($vars, lengths, medium);
@@ -518,7 +533,7 @@
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label,
 			#{$prefix}.field.#{$sizeName} .message {
 				min-width: 0;
@@ -530,9 +545,11 @@
 		// ====
 		#{$prefix}.fitting.field,
 		#{$prefix}.fitting.field > .input,
+		#{$prefix}.fitting.field > .input > label,
 		#{$prefix}.fitting.field .message,
-		#{$prefix}.fitting.input {
-			width: 100%;
+		#{$prefix}.fitting.input,
+		#{$prefix}.fitting.input > label {
+			width: 100% !important;
 		}
 		#{$prefix}.fitting.field > .input,
 		#{$prefix}.fitting.input {

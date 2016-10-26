@@ -133,7 +133,7 @@
 					display: block !important;
 				}
 				.ui-select-choices {
-					top: 0;
+					top: -0.25em;
 					left: -1em;
 					right: -1em;
 				}
@@ -178,34 +178,6 @@
 				}
 				.btn-primary, .btn-primary:hover {
 					@extend %lui_tagged_input_tag_active;
-				}
-			}
-
-			// Natural style
-			// ====
-			&.natural {
-				display: inline-block;
-				vertical-align: middle;
-				margin: 0 0.5em;
-				margin-bottom: luiTheme(element, field, input, vertical-padding);
-				width: auto;
-
-				.ui-select-toggle {
-					padding-right: 1.5em;
-				}
-
-				&, .ui-select-toggle, a {
-					font-size: 1em;
-				}
-
-				.ui-select-choices {
-					min-width: 15em;
-					left: 50%;
-
-					transform: scale(0) translateX(-50%);
-					&:not(.ng-hide) {
-						transform: scale(1) translateX(-50%);
-					}
 				}
 			}
 		}
