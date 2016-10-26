@@ -123,4 +123,8 @@ html, body {
 		width: 150px;
 		display: inline-block;
 	}
+
+	pre[hljs] * {
+		font-family: monospace !important;
+	}
 }

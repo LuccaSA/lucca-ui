@@ -21,6 +21,7 @@ module.exports = function(grunt, options){
 				includePaths: [
 					'scss/themes/sample'
 				],
+				outputStyle: "expanded",
 			},
 			files: [
 				{
