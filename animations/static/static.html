@@ -1,0 +1,32 @@
+<h2 class="lui divider below">Static animations</h2>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage:</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;ANY class="lui animated <b>bounce</b>"&gt;&lt;/ANY&gt;
+&lt;ANY class="lui animated <b>bounce infinitely</b>"&gt;&lt;/ANY&gt;
+&lt;ANY class="lui animated <b>pulse</b>"&gt;&lt;/ANY&gt;</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo:</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/z4amPexUFMX7Pkzc5MVk?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div ng-controller="staticCtrl" class="lui block round">
+	<p>
+		<div class="lui button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div>
+		<div class="lui button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div>
+	</p>
+	<p>Infinite animation
+		<span class="lui label animated infinitely bounce">Bounce!</span>
+		<span class="lui label animated infinitely pulse up">Pulse up!</span>
+		<span class="lui label animated infinitely pulse down">Pulse down!</span>
+		<!-- <span class="lui animated infinitely spin">you spin me right roud baby right round!</span> -->
+	</p>
+</div>

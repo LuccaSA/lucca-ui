@@ -1,25 +1,76 @@
 (function(){
 	'use strict';
-	var colors = ['none', 'primary', 'secondary', 'success', 'warning', 'error', 'grey', 'light', 'yellow', 'green', 'orange', 'red'];
-	
-	// we use underscore cuz it's awesome
-	// http://underscorejs.org/
-	angular.module('underscore', []).factory('_', function () { return window._; });
 
-	angular.module('demoApp',['ui.bootstrap']);
+	angular.module("demoApp.router",["ui.router"]);
+	angular.module("demoApp",[
+		"demoApp.router",
+		"lui",
+		"ui.bootstrap",
+		"ngSanitize",
+		"ui.select",
+		"ngMockE2E",
+		"hljs",
+		"lui.formlytemplates",
+	]);
 
 	angular.module('demoApp')
-	.controller('buttonsCtrl', ['$scope', function($scope){
-		$scope.colors = colors;
-		$scope.styles = ['default', 'flat', 'wired', 'filling'];
-		$scope.sizes = ['small', 'default', 'large', 'x-large'];
+	.config(['$translateProvider', function($translateProvider) {
+		var culture = 'en';
+		$translateProvider.use(culture);
+		$translateProvider.preferredLanguage(culture);
+		$translateProvider.fallbackLanguage(['en', 'fr']);
+		moment.locale(culture);
+	}])
 
-		$scope.color = '';
-		$scope.style = '';
-		$scope.size = '';
-		$scope.status = '';
-		$scope.inverted = false;
-		$scope.disabled = false;
+	.config(function($httpProvider) {
+		$httpProvider.interceptors.push("luiHttpInterceptor");
+	})
+	.config(function(luisConfigProvider, $uibModalProvider) {
+		luisConfigProvider.setConfig({
+			parentTagIdClass: "demo",
+			startTop: 60,
+			prefix: "lui",
+			canDismissConfirm: true,
+		});
+	});
 
-	}]);
+	angular.module('demoApp')
+	.run(function(luisProgressBar, $rootScope) {
+		luisProgressBar.addProgressBar("demo", "grey");
+		$rootScope.$on("$routeChangeStart", function() {
+			luisProgressBar.startListening();
+		});
+	});
+
+	angular.module('demoApp')
+	.run(function($httpBackend) {
+		$httpBackend.whenGET(/animations\//).passThrough();
+		$httpBackend.whenGET(/directives\//).passThrough();
+		$httpBackend.whenGET(/filters\//).passThrough();
+		$httpBackend.whenGET(/form\//).passThrough();
+		$httpBackend.whenGET(/icons\//).passThrough();
+		$httpBackend.whenGET(/lucca\//).passThrough();
+		$httpBackend.whenGET(/nguibs\//).passThrough();
+		$httpBackend.whenGET(/sass\//).passThrough();
+
+
+		$httpBackend.whenGET('/bogus-progress').respond(200, {});
+		$httpBackend.whenGET("http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=l").passThrough();
+	});
+
+	angular.module('demoApp')
+	.constant("dependencies", {
+		angular: "~1.5",
+		crop: "~0.5",
+		formly: "~8.4",
+		iban: "~0.0",
+		icons: "~1.1",
+		moment: "~2.15",
+		nguibs: "~2.1",
+		normalize: "~5.0",
+		notify: "~2.5",
+		translate: "~2.12",
+		uiselect: "~0.19",
+		underscore: "~1.8",
+	})
 })();

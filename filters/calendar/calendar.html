@@ -1,0 +1,48 @@
+<h2 class="lui divider below">luifCalendar</h2>
+
+<p>
+	A filter to display a date, a moment or a string using the function <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/calendar-time/">moment().calendar()</a>
+</p>
+<p>
+	Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+</p>
+<p>
+	You can pass a reference date as an argument to the filter. If none is provided or moment cannot parse it, it will use today
+</p>
+<p>
+	Does not support the formats arguments available from momentjs version 2.10.5 onwards
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myValue | luifCalendar }}
+{{ myValue | luifCalendar : myRefDate }}</pre>
+</p>
+
+<div class="lui bottom dashed divider menu">
+	<h4 class="lui underline">Demo</h4>
+</div>
+<div class="lui block round">
+	<p class="lui fields">
+		<div clas="lui field">
+			<span class="lui input">
+				<luid-date-picker-popup ng-model="myValue"></luid-date-picker-popup>
+				<label>Value</label>
+			</span>
+		</div>
+		<div clas="lui field">
+			<span class="lui input">
+				<luid-date-picker-popup ng-model="myRefDate"></luid-date-picker-popup>
+				<label>Reference date</label>
+			</span>
+		</div>
+	</p>
+	<p>
+		myValue relative to today : <code>{{ myValue | luifCalendar }}</code>
+	</p>
+	<p>
+		myValue relative to myRefDate : <code>{{ myValue | luifCalendar : myRefDate }}</code>
+	</p>
+</div>

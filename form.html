@@ -1,0 +1,74 @@
+<div id="main-content">
+	<nav id="toc" class="lui left stuck vertical primary dividing menu">
+		<a class="item" href="#/filters#luifPlaceholder">luifPlaceholder</a>
+	</nav>
+
+	<section class="lui typeset container">
+<!-- 		<div class="lui callout primary">
+			<p>
+				<b>Important:</b>
+				The js part of lucca-ui is an angular framework so is obviously dependent on <code>angular</code>.
+				It also uses <code>moment.js</code> for its manipulation of dates as <a class="lui fancy link" href="http://momentjs.com/">moment.js</a> is super awesome.
+			</p>
+			<p>
+				The exact list of dependencies which can be found in the bower.json file is:
+				<ul class="lui unstyled">
+					<li><a class="lui fancy link" href="https://github.com/LuccaSA/lucca-icons">lucca-icons</a> <span class="lui label">1.1</span></li>
+					<li><a class="lui fancy link" href="https://angularjs.org/">angular</a> <span class="lui label">1.5</span></li>
+					<li><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/">angular ui bootstrap</a> <span class="lui label">1.3</span> - this dependency is not used here</li>
+					<li><a class="lui fancy link" href="http://momentjs.com/">momentjs</a> <span class="lui label">2.13</span></li>
+				</ul>
+			</p>
+		</div> -->
+
+		<article id="formly">
+			<h2 class="lui divider below">Formly templates</h2>
+			<p>
+				link to formly documentation and stuff
+			</p>
+			<h3>@paugam: quelques remarques</h3>
+			<p>
+				<ul class="lui unstyled">
+					<li> - la couleur du label est un peu trop claire, elle vient de luiPalette(light, color, dark) _field.defaults.scss~25. c'est la meme que la couleur du placeholder qui lui vient de .5 opacity couleur de l'input qui lui est #666 _input.defaults.scss~11,25. du coup c'est un peu bizarre comme facon de definir les choses. aussi pour certains types d'input t'utilises luiTheme(element, typography, body, color) comme couleur du label _input.radio.scss~23</li>
+					<li> - y'a pas encore de style quand l'input est disabled (regarde l'adresse)</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">templates</h4>
+			</div>
+			<p>
+				<ul class="lui unstyled">
+					<li>text</li>
+				</ul>
+			</p>
+			<div class="lui dashed divider">
+				<h4 class="lui underline">Usage</h4>
+			</div>
+			<p>
+				<pre hljs no-escape language="html"></pre>
+			</p>
+			<div class="lui bottom dashed divider menu" id="demoBlock">
+				<div class="lui header vertical menu">
+					<h4 class="lui underline">Demo</h4>
+				</div>
+<!-- 				<div class="lui right item">
+					<a class="lui button primary" href="http://plnkr.co/edit/XlbdTgYgxAHnIQaQMvsf?p=preview">
+						<i class="lui icon edit"></i>Edit in Plunker
+					</a>
+				</div> -->
+			</div>
+			<div ng-controller="formlyCtrl" class="lui block round">
+				<div class="lui fitting fields" ng-form="myForm">
+					<formly-form model="model" fields="fields" options="options" form="myForm"></formly-form>
+				</div>
+				<p>
+					<button class="lui large primary button" ng-disabled="myForm.$invalid">submit</button> <span ng-show="invalidFields().length">{{invalidFields().length}} invalid fields <button class="lui flat button" ng-click="nextInvalid()">go to next invalid field</button></span>
+				</p>
+				<p>
+					the form is <span class="lui green label" ng-show="myForm.$valid">valid</span> <span class="lui red label" ng-show="myForm.$invalid">invalid</span> <span class="lui green label" ng-show="myForm.$pristine">pristine</span> <span class="lui orange label" ng-show="myForm.$dirty">dirty</span>
+				</p>
+				<p>{{ model }}</p>
+			</div>
+		</article>
+	</section>
+</div>

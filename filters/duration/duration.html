@@ -1,0 +1,70 @@
+<h2 class="lui divider below">luifDuration</h2>
+
+<p>
+	A filter to display a timespan or a moment.duration
+</p>
+<p>
+	Will try to transform the input to a moment.duration, if the resulting duration is not valid, it will return nothing
+</p>
+<p>
+	The arguments for this filter are :
+	<ul class="lui unstyled">
+		<li><code>showSign</code>: do you want 00h30 to appear as 30m or +30m</li>
+		<li><code>unit</code>: when displaying 1h30, do you want it to appear as 1h30 or 90m. See below for supported units</li>
+		<li><code>precision</code>: when displaying 1d 21h30m45.525s, how much precision do you want? Do you want to display 1d or 1d 21h30?</li>
+	</ul>
+	If you do not provide a unit and precision it will use 'hour' as unit and 'minute' as precision. If you provide a unit but no precision it will use the next unit. For example 90 minutes and 45 seconds with unit='hour' will be displayed 1h30. the same duration with unit='minutes' will be displayed 90m45.
+</p>
+<p>
+	And the supported units are:
+	<ul class="lui unstyled">
+		<li>day: <code ng-non-bindable>{{ myValue | luifDuration : false : 'd'}}</code> or 'day' or 'days'</li>
+		<li>hour: <code ng-non-bindable>{{ myValue | luifDuration : false : 'h'}}</code> or 'hour' or 'hours'</li>
+		<li>minute: <code ng-non-bindable>{{ myValue | luifDuration : false : 'm'}}</code> or 'min' or 'minute' or 'minutes'</li>
+		<li>second: <code ng-non-bindable>{{ myValue | luifDuration : false : 's'}}</code> or 'sec' or 'second' or 'seconds'</li>
+		<li>millisecond: <code ng-non-bindable>{{ myValue | luifDuration : false : 'ms'}}</code> or 'millisec' or 'millisecond' or 'milliseconds'</li>
+	</ul>
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myValue | luifDuration }}
+{{ myValue | luifDuration : showSign : unit : precision }}</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/2LRJVMnEA77ncwJOU3b9?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		myValue :
+		<span class="lui input">
+			<input type="text" ng-model="myValue">
+		</span>
+		(enter '1.11:30:00' or 'PT35H30M' or such like)
+	</p>
+	<p>
+		Set myValue to
+		<span class="lui button" ng-click="myValue='PT35H'">35h</span>
+		<span class="lui button" ng-click="myValue='-PT30M'">-30m</span>
+	</p>
+	<p>
+		myValue : <code>{{ myValue | luifDuration }}</code>
+	</p>
+	<p>
+		myValue with unit='day': <code>{{ myValue | luifDuration : false : 'd' }}</code> - duration under the hour won't be displayed
+	</p>
+	<p>
+		myValue with unit='day' and precision='second': <code>{{ myValue | luifDuration : false : 'd' : 's'}}</code> - duration under the second won't be displayed
+	</p>
+	<p>
+		myValue with a sign: <code>{{ myValue | luifDuration : true }}</code>
+	</p>
+</div>
