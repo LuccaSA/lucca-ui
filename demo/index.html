@@ -8,65 +8,110 @@
 	<link rel="shortcut icon" type="image/png" href="/lucca.png" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"/>
 	<link rel="stylesheet" href="demo.min.css"/>
-
-	<!-- Highlight JS -->
-	<!-- Must be declared before angular-highlightjs -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
-
-	<!-- Angular -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.4.6/angular-locale_fr-fr.min.js"></script> -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-mocks.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.0/angular-translate.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.19.3/select.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.0/ui-bootstrap-tpls.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-highlightjs/0.4.3/angular-highlightjs.min.js"></script>
-
-	<!-- Other libs -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
-	<script type="text/javascript" src="lib/iban.js"></script>
-
-	<!-- Common lib -->
-	<script src="../dist/custom/lucca-ui-spe.js"></script>
-	<script src="lib/angular-notify.min.js"></script>
-	<script src="lib/ng-img-crop.js"></script>
-	<script src="lib/api-check.min.js"></script>
-	<script src="lib/formly.min.js"></script>
-
-	<!-- This app -->
-	<script type="text/javascript" src="js/demo.js"></script>
-	<script type="text/javascript" src="js/sass-framework.js"></script>
-	<script type="text/javascript" src="js/icons.js"></script>
-	<script type="text/javascript" src="js/animations.js"></script>
-	<script type="text/javascript" src="js/nguibs.js"></script>
-	<script type="text/javascript" src="js/filters.js"></script>
-	<script type="text/javascript" src="js/directives.js"></script>
-	<script type="text/javascript" src="js/form.js"></script>
-	<script type="text/javascript" src="js/lucca-spe.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"/>
 </head>
+
+
 <body ng-app="demoApp" >
 	<div id="demo">
-		<nav id="banner" class="lui top stuck primary dividing menu" ng-controller="bannerCtrl">
+		<nav id="banner" class="lui top stuck primary dividing menu">
 			<h4 class="header item">
-				<i class="lui icon jumping cc"></i>Lucca UI 2.3
+				<i class="lui icon jumping cc"></i>Lucca UI 3.0
 			</h4>
 			<a class="item" href="https://github.com/LuccaSA/lucca-ui/wiki">Github documentation</a>
-			<a class="item" href="#/sass" ng-class="{ active: isActive('/sass') }">Sass framework</a>
-			<a class="item" href="#/icons" ng-class="{ active: isActive('/icons') }">Lucca Icons</a>
-			<a class="item" href="#/animations" ng-class="{ active: isActive('/animations') }">Animations</a>
-			<a class="item" href="#/nguibs" ng-class="{ active: isActive('/nguibs') }">Bootstrap components</a>
-			<a class="item" href="#/filters" ng-class="{ active: isActive('/filters') }">Lucca Filters</a>
-			<a class="item" href="#/directives" ng-class="{ active: isActive('/directives') }">Lucca Directives</a>
-
-			<a class="right item" href="#/lucca" ng-class="{ active: isActive('/lucca') }">Lucca Specific</a>
+			<a class="item" ui-sref="sass" ui-sref-active="active">Sass framework</a>
+			<a class="item" ui-sref="icons" ui-sref-active="active">Icons</a>
+			<a class="item" ui-sref="animations" ui-sref-active="active">Animations</a>
+			<a class="item" ui-sref="nguibs" ui-sref-active="active">Bootstrap</a>
+			<a class="item" ui-sref="filters" ui-sref-active="active">Lucca Filters</a>
+			<a class="item" ui-sref="directives" ui-sref-active="active">Directives</a>
+			<a class="item" ui-sref="lucca" ui-sref-active="active">Lucca Specific</a>
+			<a class="item" ui-sref="formly" ui-sref-active="active">Formly (WIP)</a>
 		</nav>
 
-		<div ng-view class="lui container"></div>
+		<main class="lui container">
+			<nav ui-view="nav"></nav>
+			<header ui-view="header"></header>
+			<content ui-view="content"></content>
+		</main>
 	</div>
 </body>
+
+<!-- Highlight JS -->
+<!-- Must be declared before angular-highlightjs -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+
+<!-- Angular -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-mocks.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.0/angular-translate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.19.3/select.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.0/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-highlightjs/0.4.3/angular-highlightjs.min.js"></script>
+
+<!-- Other libs -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
+
+<!-- Common lib -->
+<script type="text/javascript" src="../dist/custom/lucca-ui-spe.js"></script>
+<script type="text/javascript" src="lib/iban.js"></script>
+<script type="text/javascript" src="lib/angular-notify.min.js"></script>
+<script type="text/javascript" src="lib/ng-img-crop.js"></script>
+<script type="text/javascript" src="lib/api-check.min.js"></script>
+<script type="text/javascript" src="lib/formly.min.js"></script>
+
+<!-- This app -->
+<script type="text/javascript" src="demo.js"></script>
+<script type="text/javascript" src="demo.router.js"></script>
+
+<!-- /animations -->
+<script type="text/javascript" src="animations/enter/enter.js"></script>
+<!-- <script type="text/javascript" src="animations/leave/leave.js"></script> -->
+<script type="text/javascript" src="animations/static/static.js"></script>
+
+<!-- /icons -->
+<script type="text/javascript" src="icons/icons.js"></script>
+
+<!-- /nguibs -->
+<script type="text/javascript" src="nguibs/modal/modal.js"></script>
+<script type="text/javascript" src="nguibs/pagination/pagination.js"></script>
+<script type="text/javascript" src="nguibs/popover/popover.js"></script>
+<script type="text/javascript" src="nguibs/uiselect/uiselect.js"></script>
+
+<!-- /filters -->
+<script type="text/javascript" src="filters/calendar/calendar.js"></script>
+<script type="text/javascript" src="filters/defaultcode/defaultcode.js"></script>
+<script type="text/javascript" src="filters/duration/duration.js"></script>
+<script type="text/javascript" src="filters/friendlyrange/friendlyrange.js"></script>
+<script type="text/javascript" src="filters/humanize/humanize.js"></script>
+<script type="text/javascript" src="filters/moment/moment.js"></script>
+<script type="text/javascript" src="filters/number/number.js"></script>
+<script type="text/javascript" src="filters/placeholder/placeholder.js"></script>
+
+<!-- /directives -->
+<script type="text/javascript" src="directives/timespan/timespan.js"></script>
+<script type="text/javascript" src="directives/percentage/percentage.js"></script>
+<script type="text/javascript" src="directives/moment/moment.js"></script>
+<script type="text/javascript" src="directives/keydown/keydown.js"></script>
+<script type="text/javascript" src="directives/dayblock/dayblock.js"></script>
+<script type="text/javascript" src="directives/datepicker/datepicker.js"></script>
+<script type="text/javascript" src="directives/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="directives/iban/iban.js"></script>
+<script type="text/javascript" src="directives/progressbar/progressbar.js"></script>
+
+<!-- /lucca -->
+<script type="text/javascript" src="lucca/imagepicker/imagepicker.js"></script>
+<script type="text/javascript" src="lucca/notify/notify.js"></script>
+<script type="text/javascript" src="lucca/tablegrid/tablegrid.js"></script>
+<script type="text/javascript" src="lucca/translations/translations.js"></script>
+<script type="text/javascript" src="lucca/userpicker/userpicker.js"></script>
+
+<!-- /form -->
+<script type="text/javascript" src="form/inputs/inputs.js"></script>
+<script type="text/javascript" src="form/types/types.js"></script>
+<script type="text/javascript" src="form/validation/validation.js"></script>
 </html>

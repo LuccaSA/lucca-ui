@@ -1,0 +1,149 @@
+<h2 class="lui divider below">luifNumber</h2>
+<p>
+	A interesting filter when displaying numbers aligned to the right in a table when some of them have a non integer part and some don't and nothing is aligned and it's horrible.
+</p>
+<p>
+	It is a slight modification of the <a class="lui fancy link" href="https://docs.angularjs.org/api/ng/filter/number">filter number</a> provided by angular but it puts the non integral part in an invisible span if this part is zero, allowing it to be correctly aligned in a table of values with text-align: right
+</p>
+<!-- 			<p>
+Also, this page uses the locale <code>FR-fr</code> for no other reason than to show that the luifNumber supports the same locale as <a class="lui fancy link" href="https://docs.angularjs.org/guide/i18n">angular i18n</a>
+</p> -->
+<p>
+	The generated html looks like this <code>integralPart&lt;span&gt;separator and decimalPart&lt;span&gt;</code>. When the decimal part is null, the span has its opacity set to 0. That means that you can apply your own style to the span with the right css selector, for example in the following table I applied <code>font-size: 90%; opacity: .6;</code> to the decimal part of te result of luifNumber by adding the class <code>luifNumberValue</code> to my cell and targetting <code>luifNumberValue &gt; span</code>.
+</p>
+<p>
+	<b>Numeric values:</b>
+	<div class="lui container">
+		<div class="lui table zebra column mobile-12 desktop-8 large-6">
+			<div class="thead">
+				<div class="tr">
+					<div class="th lui right aligned">myValue</div>
+					<div class="th lui right aligned">myValue | number : 2</div>
+					<div class="th lui right aligned">myValue | luifNumber : 2</div>
+				</div>
+			</div>
+			<div class="tbody">
+				<div class="tr">
+					<div class="td lui right aligned">0,5</div>
+					<div class="td lui right aligned">{{0.5 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="0.5 | luifNumber : 2 "></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">10,5</div>
+					<div class="td lui right aligned">{{10.5 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="10.5 | luifNumber : 2 "></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">10</div>
+					<div class="td lui right aligned">{{10 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="10 | luifNumber : 2 "></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">10000</div>
+					<div class="td lui right aligned">{{10000 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="10000 | luifNumber : 2 "></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">1000,54368</div>
+					<div class="td lui right aligned">{{1000.54368 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="1000.54368 | luifNumber : 2 "></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">0.0001</div>
+					<div class="td lui right aligned">{{0.0001 | number : 2}}</div>
+					<div class="td lui right aligned luifNumberValue" ng-bind-html="0.0001 | luifNumber : 2 "></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</p>
+<p>
+	<b>Edge cases</b>, what happens when the value provided is not numeric or is <code>undefined</code>?
+	For non numeric values it will return the value but with a margin on the right to be aligned with the integer part of the other values. For <code>undefined</code> you can provide a value for it to use instead. By default luifNumber will treat <code>undefined</code> as <code>''</code>
+	<div class="lui container">
+		<div class="lui table zebra column large-12">
+			<div class="thead">
+				<div class="tr">
+					<div class="th lui right aligned">myValue</div>
+					<div class="th lui right aligned">myValue | number : 2</div>
+					<div class="th lui right aligned">myValue | luifNumber : 2</div>
+					<div class="th lui right aligned">myValue | luifNumber : 2 : 0</div>
+					<div class="th lui right aligned">myValue | luifNumber : 2 : 3.1415</div>
+					<div class="th lui right aligned">myValue | luifNumber : 2 : '-'</div>
+				</div>
+			</div>
+			<div class="tbody">
+				<div class="tr">
+					<div class="td lui right aligned">for alignment reference: <code>40</code></div>
+					<div class="td lui right aligned">{{40 | number : 2}}</div>
+					<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 "></div>
+					<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 0"></div>
+					<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : 3.1415"></div>
+					<div class="td lui right aligned" ng-bind-html="40 | luifNumber : 2 : '-'"></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned">for alignment reference: <code>0.5</code></div>
+					<div class="td lui right aligned">{{0.5 | number : 2}}</div>
+					<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 "></div>
+					<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 0"></div>
+					<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : 3.1415"></div>
+					<div class="td lui right aligned" ng-bind-html="0.5 | luifNumber : 2 : '-'"></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned"><code>'a string'</code></div>
+					<div class="td lui right aligned">{{'a string' | number : 2}}</div>
+					<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 "></div>
+					<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 0"></div>
+					<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : 3.1415"></div>
+					<div class="td lui right aligned" ng-bind-html="'a string' | luifNumber : 2 : '-'"></div>
+				</div>
+				<div class="tr">
+					<div class="td lui right aligned"><code>undefined</code></div>
+					<div class="td lui right aligned">{{undefined | number : 2}}</div>
+					<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 "></div>
+					<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 0"></div>
+					<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : 3.1415"></div>
+					<div class="td lui right aligned" ng-bind-html="undefined | luifNumber : 2 : '-'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</p>
+<p>
+	<strong>Important:</strong> May require <a class="lui fancy link" href="https://docs.angularjs.org/api/ngSanitize">ngSanitize</a> as what the filter produce is <code>10&lt;span style="opacity:0"&gt;.00&lt;/span&gt;</code>. However, this page does not depend on ngSanitize and everything seems fine, so...
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;ANY ng-bind-html="myValue | luifNumber : 2"&gt;&lt;/ANY&gt;
+&lt;ANY ng-bind-html="myValue | luifNumber : 2 : 0"&gt;&lt;/ANY&gt;
+&lt;ANY ng-bind-html="myValue | luifNumber : 2 : 'a placeholder string for undefined values'"&gt;&lt;/ANY&gt;</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/nc1sYOJUAg1bOjrMGbvb?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		Value :
+		<span class="lui input">
+			<input type="number" ng-model="myValue">
+		</span>
+	</p>
+	<p>
+		MyValue : <code>{{myValue}}</code>
+	</p>
+	<p>
+		With filter number : <code>{{myValue | number : 2}}</code>
+	</p>
+	<p>
+		With luifNumber : <code ng-bind-html="myValue | luifNumber : 2"></code>
+	</p>
+</div>

@@ -19,13 +19,13 @@ module.exports = function(grunt, options){
 		demo:{
 			options: {
 				includePaths: [
-					'demo/sass/demo-theme',
 					'scss/themes/sample'
 				],
+				outputStyle: "expanded",
 			},
 			files: [
 				{
-					"demo/demo.min.css": "demo/sass/demo.scss"
+					"demo/demo.min.css": "demo/demo.scss"
 				}
 			]
 		}

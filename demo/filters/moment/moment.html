@@ -1,0 +1,51 @@
+<h2 class="lui divider below">luifMoment</h2>
+
+<p>
+	A filter to display a date, a moment or a string using the formats provided by <a class="lui fancy link" href="http://momentjs.com/docs/#/displaying/format/">momentjs</a>
+</p>
+<p>
+	Will try to transform the input to a moment, if the resulting moment is not valid it will just return the input
+</p>
+<p>
+	If none is provided, will use the format <code>LLL</code>
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myValue | luifMoment : "LL" }}
+{{ myValue | luifMoment : myFormat }}</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/upJIOJvbWWcia1LXnBnk?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		myValue :
+		<span class="lui long input">
+			<input type="text" ng-model="myValue">
+		</span>
+		(enter '2015-01-01' or such like, or try something that is not parsable by moment)
+	</p>
+	<p>
+		Set myValue to : 
+		<span class="lui button" ng-click="setToDate()">new Date()</span>
+		<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
+	</p>
+	<p>
+		MyFormat :
+		<span class="lui long input">
+			<input type="text" ng-model="myFormat">
+		</span>
+	</p>
+	<p>
+		Formatted MyValue  : <code>{{ myValue | luifMoment : myFormat }}</code>
+	</p>
+</div>

@@ -1,0 +1,45 @@
+<h2 class="lui divider below">luifPlaceholder</h2>
+<p>
+	A basic filter that display a placeholder if the value is <code>undefined</code> or <code>""</code>
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myValue | luifPlaceholder:"a fixed placeholder" }}
+{{ myValue | luifPlaceholder: aVarInScope }}</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/XlbdTgYgxAHnIQaQMvsf?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		<span class="lui input">
+			<input type="text" ng-model="myValue">
+			<label>Value</label>
+		</span>
+		<button class="lui flat button" ng-click="myValue='';">clear</button>
+	</p>
+	<p>
+		<span class="lui input">
+			<input type="text" ng-model="myPlaceholder">
+			<label>Dynamic placeholder</label>
+		</span>
+	</p>
+	<p>
+		MyValue : <code>{{myValue}}</code>
+	</p>
+	<p>
+		With fixed luifPlaceholder : <code>{{ myValue | luifPlaceholder:"a fixed placeholder" }}</code>
+	</p>
+	<p>
+		With dynamic luifPlaceholder : <code>{{ myValue | luifPlaceholder:myPlaceholder }}</code>
+	</p>
+</div>
