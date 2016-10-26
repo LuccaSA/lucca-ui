@@ -1,0 +1,15 @@
+<h2 class="lui divider below">Inputs and fields</h2>
+
+<p>
+	If you want to use the lucca-ui styling for your inputs, here is the correct synthax to employ
+</p>
+<p>
+	<pre hljs no-escape language="html">&lt;div class="lui {sizing} field"&gt; &lt;!-- sizing is short, regular, long, fitting, etc... --&gt;
+	&lt;span class="lui input"&gt;
+		&lt;input ng-model="myVar" {name="name"} {placeholder=} {ng-required}&gt; &lt;!-- any king of input works, even the luid-date-picker-popup or luid-user-picker --&gt;
+		&lt;label&gt;Label&lt;/label&gt; &lt;!-- always put the label after the input --&gt;
+	&lt;/span&gt;
+	&lt;small class="message helper"&gt;a message to display bellow the input&lt;/small&gt;
+	&lt;small class="message error" ng-show="form.name.$invalid"&gt;the input is invalid&lt;/small&gt;
+&lt;/div&gt;</pre>
+</p>

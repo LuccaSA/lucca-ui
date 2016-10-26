@@ -47,7 +47,7 @@
 		$httpBackend.whenGET(/animations\//).passThrough();
 		$httpBackend.whenGET(/directives\//).passThrough();
 		$httpBackend.whenGET(/filters\//).passThrough();
-		$httpBackend.whenGET(/formly\//).passThrough();
+		$httpBackend.whenGET(/form\//).passThrough();
 		$httpBackend.whenGET(/icons\//).passThrough();
 		$httpBackend.whenGET(/lucca\//).passThrough();
 		$httpBackend.whenGET(/nguibs\//).passThrough();

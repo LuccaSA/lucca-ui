@@ -8,7 +8,7 @@
 	"filters",
 	"directives",
 	"lucca",
-	"formly",
+	"form",
 	];
 
 
