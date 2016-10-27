@@ -22,6 +22,7 @@
 - Checkbox: solo checkbox now display properly
 - Buttons: fixes border-radius on last child when accompanied with a label
 - Tablegrid: fixes the filters margin + adds shadow to thead
+- Fixes issue #301
 
 ## 3.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.4)
 
