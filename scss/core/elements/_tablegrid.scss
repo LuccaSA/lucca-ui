@@ -18,6 +18,12 @@
 				border-collapse: collapse;
 			}
 
+			// Field
+			// ===
+			.field {
+				margin: 0;
+			}
+
 			// Columns
 			// ====
 			.columns {
@@ -105,6 +111,7 @@
 				min-width: 100%;
 				color: map-gets($vars, header, text);
 				text-align: map-gets($vars, header, textAlignment);
+				@include lui_raised();
 
 				a {
 					color: map-gets($vars, header, text);
