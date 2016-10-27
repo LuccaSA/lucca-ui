@@ -181,5 +181,24 @@
 				}
 			}
 		}
+
+		// Natural style
+		// ===============================================================
+		#{$prefix}.natural.form .ui-select-container {
+			.ui-select-choices {
+				min-width: 15em;
+				width: 100%;
+			}
+
+			&:not(.ui-select-multiple) .ui-select-match:hover {
+				background-color: luiTheme(element, field, natural-hover-background);
+			}
+
+			.ui-select-toggle {
+				width: auto;
+				padding-right: 0 !important;
+				&:after { display: none; }
+			}
+		}
 	}
 }
