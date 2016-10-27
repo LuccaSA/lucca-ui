@@ -3,7 +3,7 @@
 
 		$vars: luiTheme(element, tooltip);
 
-		[uib-tooltip]:not([uib-tooltip=""]) { cursor: help; }
+		[uib-tooltip]:not([uib-tooltip=""]):not(a):not(button):not(.button) { cursor: help; }
 
 		#{$prefix}.tooltip {
 			position: absolute;
