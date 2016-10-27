@@ -3,6 +3,8 @@
 
 		$vars: luiTheme(element, tooltip);
 
+		[uib-tooltip]:not([uib-tooltip=""]):not(a):not(button):not(.button) { cursor: help; }
+
 		#{$prefix}.tooltip {
 			position: absolute;
 			z-index: map-gets($vars, z-index);

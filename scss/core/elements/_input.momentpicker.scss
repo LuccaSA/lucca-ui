@@ -33,26 +33,14 @@
 			> .separator,
 			> .moment.input {
 				display: inline-block;
-				vertical-align: baseline;
-				vertical-align: -webkit-baseline-middle;
+				vertical-align: middle;
 			}
 			> .moment.input {
 				position: relative;
 				width: luiTheme(element, field, momentpicker, width);
-			}
 
-			input[type="text"] {
-				text-align: center;
-			}
-
-			// Hide selection when using buttons
-			// ====
-			&[show-buttons="true"] input[type="text"] {
-				&::selection {
-					background: #FFF !important;
-				}
-				&::-moz-selection {
-					background: #FFF !important;
+				> input[type="text"] {
+					text-align: center !important;
 				}
 			}
 
@@ -61,6 +49,7 @@
 				left: 0;
 				right: 0;
 				opacity: 0;
+				line-height: 1.5em;
 				cursor: pointer;
 				color: luiPalette(light, color);
 
@@ -84,17 +73,32 @@
 				}
 
 				&.top {
-					top: -1em;
-					bottom: 0;
+					bottom: 100%;
 				}
 				&.bottom {
 					top: 100%;
+					height: 1.5em;
 				}
 				&.left {
 					left: 0;
 				}
 				&.right {
 					right: 0;
+				}
+			}
+
+			&[disable-keyboard="true"] {
+				.top.mp-button {
+					top: -1.5em;
+					bottom: 0;
+				}
+				input[type="text"] {
+					&::selection {
+						background: #FFF !important;
+					}
+					&::-moz-selection {
+						background: #FFF !important;
+					}
 				}
 			}
 

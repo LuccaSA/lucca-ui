@@ -2,9 +2,15 @@
 	@at-root #{$namespace} {
 
 		#main-navigation {
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			bottom: 0;
+			left: 0;
 			background: map-gets($vars, navigation, background);
 			width: map-gets($vars, navigation, width);
-			padding-top: map-gets($vars, topOffset);
+			padding-top: map-gets($vars, topOffset) + lui_rem(1.5em);
+			box-sizing: border-box;
 
 			border: none;
 
@@ -14,12 +20,44 @@
 			}
 		}
 
+		#main-navigation .mobile-toggle {
+			position: relative;
+			display: none;
+			padding: #{map-gets($vars, navigation, mobile-toggle, vertical-padding)} lui_rem(luiTheme(reference, breakpoints, mobile, spacing));
+			background-color: map-gets($vars, navigation, mobile-toggle, background);
+			color: map-gets($vars, navigation, mobile-toggle, color);
+			font-size: map-gets($vars, navigation, mobile-toggle, font-size);
+			font-weight: map-gets($vars, navigation, mobile-toggle, font-weight);
+
+			text-decoration: none;
+
+			@include lui_make_icon("south arrow", right);
+
+			&:after {
+				position: absolute;
+				right: luiTheme(reference, breakpoints, mobile, spacing);
+				font-size: map-gets($vars, navigation, mobile-toggle, arrow-size);
+			}
+
+			&:hover {
+				background-color: lighten(map-gets($vars, navigation, mobile-toggle, background), 5);
+			}
+			&:active {
+				background-color: darken(map-gets($vars, navigation, mobile-toggle, background), 5);
+			}
+		}
+
 		// Menu item
 		#main-navigation a.item {
 			text-align: center;
 			transition-property: background-color, color;
 			transition-duration: 150ms;
 			transition-timing-function: ease-out;
+			overflow: hidden;
+			width: map-gets($vars, navigation, width);
+			box-sizing: border-box;
+			padding-left: 0;
+			padding-right: 0;
 
 			&:before {
 				margin-left: 0;
@@ -82,17 +120,44 @@
 		@include lui_screens_smaller_than(tablet) {
 			#main-header {
 				left: 0;
+				padding-top: 1em;
 			}
 			#main-navigation {
 				background: transparent;
 				position: relative !important;
 				left: 0; right: 0; bottom: auto;
 				z-index: 100;
-				width: 100%; max-height: 100vh; overflow: auto;
+				width: 100%;
 				height: auto;
+				padding-top: map-gets($vars, topOffset);
+
+				.mobile-toggle {
+					display: block;
+				}
 
 				a.item {
-					background: map-gets($vars, navigation, background);
+					width: 100%;
+					opacity: 1;
+					background-color: map-gets($vars, appBackground);
+					color: luiTheme(element, typography, body, color);
+					border-bottom: 1px solid luiTheme(element, divider, color);
+
+					&:before,
+					&:after {
+						display: none !important;
+					}
+
+					&:not(.active):hover {
+						background-color: transparentize(luiPalette(primary, color), 0.75);
+						color: luiTheme(element, typography, body, color);
+					}
+					&:not(.active):active {
+						background-color: transparentize(luiPalette(primary, color), 0.5);
+					}
+
+					&.active {
+						background-color: transparentize(luiPalette(primary, color), 0.75);
+					}
 				}
 
 				a.item span.item-name,
@@ -113,8 +178,15 @@
 
 				// Dropped state
 				.item { display: none; }
-				&.dropped a.item {
-					display: block;
+				&.dropped {
+					height: 100vh;
+					overflow-x: hidden;
+					overflow-y: auto;
+					background-color: map-gets($vars, appBackground);
+
+					a.item {
+						display: block;
+					}
 				}
 			}
 		}

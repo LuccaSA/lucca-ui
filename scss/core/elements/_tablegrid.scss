@@ -18,6 +18,12 @@
 				border-collapse: collapse;
 			}
 
+			// Field
+			// ===
+			.field {
+				margin: 0;
+			}
+
 			// Columns
 			// ====
 			.columns {
@@ -47,18 +53,20 @@
 				}
 			}
 
-			// Fields
-			// ====
-			.field {
-				margin: 0;
-			}
-
 			// Cells
 			// ====
 			th, td {
 				padding: map-gets($vars, cell, padding);
 				box-sizing: border-box;
-				word-break: break-all;
+
+				/* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+				-ms-word-break: break-all;
+				/* Non standard for webkit */
+				word-break: break-word;
+				-webkit-hyphens: auto;
+				-moz-hyphens: auto;
+				-ms-hyphens: auto;
+				hyphens: auto;
 
 				border: 1px solid luiPalette(light, color);
 
@@ -103,6 +111,7 @@
 				min-width: 100%;
 				color: map-gets($vars, header, text);
 				text-align: map-gets($vars, header, textAlignment);
+				@include lui_raised();
 
 				a {
 					color: map-gets($vars, header, text);

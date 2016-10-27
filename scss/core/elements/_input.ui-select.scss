@@ -109,6 +109,10 @@
 				@extend %lui_dropdown_list_item;
 			}
 
+			.ui-select-choices-group {
+				@extend %lui_dropdown_list_group;
+			}
+
 			.divider {
 				margin-bottom: 0;
 			}
@@ -129,7 +133,7 @@
 					display: block !important;
 				}
 				.ui-select-choices {
-					top: 0;
+					top: -0.25em;
 					left: -1em;
 					right: -1em;
 				}
@@ -176,33 +180,24 @@
 					@extend %lui_tagged_input_tag_active;
 				}
 			}
+		}
 
-			// Natural style
-			// ====
-			&.natural {
-				display: inline-block;
-				vertical-align: middle;
-				margin: 0 0.5em;
-				margin-bottom: luiTheme(element, field, input, vertical-padding);
+		// Natural style
+		// ===============================================================
+		#{$prefix}.natural.form .ui-select-container {
+			.ui-select-choices {
+				min-width: 15em;
+				width: 100%;
+			}
+
+			&:not(.ui-select-multiple) .ui-select-match:hover {
+				background-color: luiTheme(element, field, natural-hover-background);
+			}
+
+			.ui-select-toggle {
 				width: auto;
-
-				.ui-select-toggle {
-					padding-right: 1.5em;
-				}
-
-				&, .ui-select-toggle, a {
-					font-size: 1em;
-				}
-
-				.ui-select-choices {
-					min-width: 15em;
-					left: 50%;
-
-					transform: scale(0) translateX(-50%);
-					&:not(.ng-hide) {
-						transform: scale(1) translateX(-50%);
-					}
-				}
+				padding-right: 0 !important;
+				&:after { display: none; }
 			}
 		}
 	}

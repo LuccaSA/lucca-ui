@@ -20,3 +20,12 @@ $vars: $pluginVars;
 @import "components/header";
 @import "components/navigation";
 @import "components/view";
+
+// Core overrides
+// =============================================
+#{$prefix}.side-panel.modal {
+	.modal-dialog {
+		margin-top: map-gets($vars, topOffset);
+		height: calc(100vh - #{map-gets($vars, topOffset)});
+	}
+}

@@ -227,23 +227,23 @@
 	opacity: 1;
 }
 %lui_dropdown_list_item {
+	cursor: pointer;
 	position: relative;
 	padding: 0;
 
-	a {
+	> * {
 		display: block;
 		font-size: luiTheme(element, field, input, font-size);
 		color: luiTheme(element, typography, body, color);
 		padding: luiTheme(element, field, input, vertical-padding) 1em;
 		text-decoration: none;
-		opacity: 0.85;
 	}
-	&.disabled a {
+	&.disabled > * {
 		cursor: default;
 		color: rgba(0, 0, 0, 0.26);
 	}
-	&.active a,
-	&:not(.disabled) a:hover {
+	&.active > *,
+	&:not(.disabled) > *:hover {
 		opacity: 1;
 		background-color: luiPalette(light, color, light);
 	}
@@ -257,13 +257,24 @@
 		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
 	}
 
-
 	.label {
 		float: right;
 		margin-right: 0;
 		font-size: lui_rem(0.9);
 		font-weight: 600;
 	}
+}
+
+%lui_dropdown_list_group {
+	border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+}
+
+%lui_dropdown_list_group_header {
+	font-size: luiTheme(element, field, input, font-size);
+	font-weight: 600;
+	color: luiTheme(element, typography, body, color);
+	padding: luiTheme(element, field, input, vertical-padding) 1em;
+	border-bottom: 1px dotted luiTheme(element, field, field, default-border-color);
 }
 
 @if luiTheme(element, field, enabled) {
@@ -275,22 +286,10 @@
 		// Best practice: You should have only one (displayed) form per page.
 		// ====
 		#{$prefix}.form, #{$prefix}.fieldset {
-			&.natural {
-				> span,
-				> #{$prefix}.field {
-					display: inline-block;
-					vertical-align: middle;
-				}
-
-				> #{$prefix}.field {
-					margin: 0 0.5em;
-					font-size: (0em + 1em / map-gets($vars, input, font-size)) !important;
-				}
-			}
 		}
 
 		// Fieldsets are a group of fields
-		// ====
+		// =====================================================================
 		#{$prefix}.form fieldset,
 		#{$prefix}.fieldset {
 
@@ -305,7 +304,7 @@
 
 
 		// Fields are a label coupled with an input and a potential validation message
-		// ====
+		// =====================================================================
 		#{$prefix}.field,
 		#{$prefix}.fieldset .field {
 			margin: map-gets($vars, vertical-margin) 0;
@@ -340,16 +339,16 @@
 			}
 		}
 
+		// Input
+		// =====================================================================
 		#{$prefix}.input {
+			display: inline-block;
+			vertical-align: middle;
 			position: relative;
-			margin-top: 1.3em;
 
 			#{$prefix}.input {
 				margin-top: 0;
 			}
-
-			@include display-flex();
-			@include flex-align-items(center);
 
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
@@ -430,9 +429,23 @@
 			}
 		}
 
+		#{$prefix}.field > .input {
+			@include display-flex();
+			@include flex-align-items(center);
+		}
+		#{$prefix}.field > .input,
+		#{$prefix}.input.labelled {
+			margin-top: 1.3em;
+		}
+
+		#{$prefix}.input {
+			@include display-flex(true);
+			@include flex-align-items(center);
+		}
+
 
 		// Required
-		// ====
+		// =====================================================================
 		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label {
 			padding-right: 1em;
 		}
@@ -447,7 +460,7 @@
 
 
 		// Disabled
-		// ====
+		// =====================================================================
 		#{$prefix}.field *[disabled]:not([type="checkbox"]):not([type="radio"]) {
 			border-bottom-style: dotted;
 			color: transparentize(luiTheme(element, typography, body, color), 0.2);
@@ -455,7 +468,7 @@
 
 
 		// Invalid
-		// ====
+		// =====================================================================
 		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
 		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
 		#{$prefix}.field .error {
@@ -471,7 +484,7 @@
 
 		// Valid
 		// !!! This class goes on the .input div itself !!!
-		// ====
+		// =====================================================================
 		#{$prefix}.is-valid.input {
 			@include lui_make_icon("check", right);
 			&:after {
@@ -485,9 +498,9 @@
 
 
 		// Field length (horizontal sizing)
-		// ====
+		// =====================================================================
 		// Defaults to medium
-		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
 		#{$prefix}.input:not(.radio):not(.checkbox):not(.switch) > label {
 			max-width: 100%;
 			width: map-gets($vars, lengths, medium);
@@ -495,7 +508,7 @@
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label,
 			#{$prefix}.field.#{$sizeName} .message {
 				min-width: 0;
@@ -504,10 +517,18 @@
 		}
 
 		// Fitting size: takes up the whole available width
-		// ====
-		#{$prefix}.fitting.field {
-			> .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
-			.message {
+		// =====================================================================
+		#{$prefix}.fitting.field,
+		#{$prefix}.fitting.field > .input,
+		#{$prefix}.fitting.field > .input > label,
+		#{$prefix}.fitting.field .message,
+		#{$prefix}.fitting.input,
+		#{$prefix}.fitting.input > label {
+			width: 100% !important;
+		}
+		#{$prefix}.fitting.field > .input,
+		#{$prefix}.fitting.input {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]) {
 				width: 100%;
 			}
 		}
@@ -516,7 +537,7 @@
 		// Inline style
 		// Fields are stacked on each line
 		// Default is block
-		// ====
+		// =====================================================================
 		#{$prefix}.form.inline .field,
 		#{$prefix}.fieldset.inline .field,
 		#{$prefix}.field.inline {
@@ -529,8 +550,39 @@
 		}
 
 
+		// Natural style
+		// =====================================================================
+		#{$prefix}.natural.form {
+			font-size: 2em - luiTheme(element, field, input, font-size);
+
+			> span {
+				font-size: luiTheme(element, field, input, font-size);
+			}
+
+			> span,
+			> #{$prefix}.field,
+			> #{$prefix}.input,
+			> [ng-model] {
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 #{lui_rem(0.12)} 0 0;
+			}
+
+			.input .unit {
+				font-weight: inherit;
+			}
+
+			.input:hover {
+				> input:not([type="checkbox"]):not([type="radio"]),
+				> textarea {
+					background-color: luiTheme(element, field, natural-hover-background);
+				}
+			}
+		}
+
+
 		// Percentage
-		// ====
+		// =====================================================================
 		luid-percentage {
 			> .input {
 				input {
@@ -542,7 +594,7 @@
 
 
 		// UI-select directive extensions
-		// ====
+		// =====================================================================
 		luid-api-select,
 		luid-api-select-multiple,
 		luid-user-picker,

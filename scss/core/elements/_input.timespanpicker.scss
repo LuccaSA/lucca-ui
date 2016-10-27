@@ -9,5 +9,11 @@
 				width: map-gets($vars, width) !important;
 			}
 		}
+
+		#{$prefix}.natural.form luid-timespan {
+			input {
+				text-align: center;
+			}
+		}
 	}
 }

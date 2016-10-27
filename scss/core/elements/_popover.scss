@@ -14,10 +14,7 @@
 			transition-duration: map-gets($vars, animation-duration);
 			transition-timing-function: map-gets($vars, animation-easing);
 
-
-
 			.popover-inner {
-				overflow: hidden;
 				background-color: #FFF;
 				box-sizing: border-box;
 

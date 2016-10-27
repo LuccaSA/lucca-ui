@@ -249,10 +249,10 @@
 					z-index: 2;
 				}
 				border-radius: 0;
-				&:first-child {
+				&:first-of-type {
 					border-radius: (map-gets($vars, borderRadius)) 0 0 (map-gets($vars, borderRadius));
 				}
-				&:last-child {
+				&:last-of-type {
 					border-radius: 0 (map-gets($vars, borderRadius)) (map-gets($vars, borderRadius)) 0;
 				}
 			}

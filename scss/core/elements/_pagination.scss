@@ -47,6 +47,12 @@
 				// Prev / next buttons
 				// ====
 				&:not(.pagination-page) a { @extend %lui_basic_button; }
+				&.pagination-prev a {
+					@include lui_make_icon("west arrow");
+				}
+				&.pagination-next a {
+					@include lui_make_icon("east arrow", right);
+				}
 			}
 
 
