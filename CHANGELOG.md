@@ -2,7 +2,26 @@
 
 ## 3.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.5)
 
+### Changes (non-breaking)
+- Applayout navigation is now fixed by default
+- Momentpicker: adds support for [disabled-keyboard="{bool}"]
+- Momentpicker: prevent browser spell checking the input value
+- Field: support for a labelled input without a field parent via the `labelled` class
+- Field: support for a fitting input without a field parent
+- Popover: no more hidden overflow on inner
+- Modal: z-index is now important to circumvent the lucca-banner authoritarian css
+- Tooltip: now displays a help cursor icon on hover
+- New `side-panel` style for modals
+- Pagination: prev and next buttons now have arrow icons
+
 ### Bug fixes
+- Fixes issue #353
+- Applayout: the navigation arrow positioning is now correct
+- Datepicker: z-index fix
+- Momentpiker: vertical-align fix
+- Checkbox: solo checkbox now display properly
+- Buttons: fixes border-radius on last child when accompanied with a label
+- Tablegrid: fixes the filters margin + adds shadow to thead
 
 ## 3.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.4)
 
