@@ -4,7 +4,6 @@ $pluginVars: (
 	namespace: 					'#myApp',
 	topOffset: 					0,
 	appBackground: 				#EEE,
-	logoFontSize: 				1.75em,
 	bottomMargin: 				lui_rem(5),
 
 	header: (
@@ -20,6 +19,15 @@ $pluginVars: (
 		compactItemHeight: 		lui_rem(3.25),
 		fontSize: 				lui_rem(0.9),
 		fontWeight: 			600,
-		bulletSize: 			5px
+		bulletSize: 			5px,
+
+		mobile-toggle: (
+			background: 		luiPalette(primary, color),
+			color: 				luiPalette(primary, text),
+			font-size: 			lui_rem(2),
+			font-weight: 		300,
+			vertical-padding: 	1em,
+			arrow-size:			lui_rem(1)
+		)
 	)
 );
