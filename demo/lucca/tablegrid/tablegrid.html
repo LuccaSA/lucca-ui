@@ -1,0 +1,86 @@
+<h2 class="lui divider below">luid-table-grid</h2>
+<p>
+	A table directive to display any data
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Features</h4>
+</div>
+<ul class="lui unstyled">
+	<li>Show datas as a table.</li>
+	<li>Handles fixed colums and scrollable columns.</li>
+	<li>Can take any form of data as a n input.</li>
+	<li>Filtering and order by supported.</li>
+	<li>Show custom html in cells.</li>
+	<li>Handles nested headers.</li>
+	<li>Text alignment property : left/center/right</li>
+</ul>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Supported arguments</h4>
+</div>
+<p>
+	<ul class="lui unstyled">
+		<li><code>header</code> : this describes your header and how you get values for cells. See example below.</li>
+		<li><code>datas</code> : a list of things you want to display.</li>
+		<li><code>height</code> : your table won't be higher than that (px).</li>
+		<li><code>height-type</code> : (global | body, default: body) specify if the given height should be applied on the whole tablegrid (global), or on the body (body)</li>
+		<li><code>selectable</code> : if this attribute is present, your table will contain a checkboxes column as first fixed column.</li>
+		<li><code>default-order</code> : At first load, your table will be order by the header of which the label is the value of this attribute. The value can be optionally prefixed with + or - to control ascending or descending sort order. </li>
+		<li><code>on-row-click</code> : can specify a function which will be called on a row tablegrid click. The function take one parameter containing the row object.
+	</ul>
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<pre hljs no-escape language="html"> &lt;luid-table-grid header=&quot;headerTree&quot; datas=&quot;people&quot; height=&quot;500&quot;&gt;&lt;/luid-table-grid&gt;</pre>
+<pre hljs no-escape language="js"> // example header
+{
+node: null,
+children: [
+	{
+		node: {
+			filterType: Lui.Directives.FilterTypeEnum.TEXT,
+			fixed: true,
+			label: &quot;id&quot;,
+			width: 20,
+			getValue: function (someone) { return someone.id; },
+			getOrderByValue: function (someone) { return someone.id; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;right&quot;,
+		},
+		children: []
+	},
+	{
+		node: {
+			filterType: Lui.Directives.FilterTypeEnum.SELECT,
+			fixed: false,
+			label: &quot;name&quot;,
+			width: 20,
+			getFilterValue: function (someone) { return someone.name; },
+			getValue: function (someone) { return someone.name; },
+			colspan: null,
+			hidden: false,
+			rowspan: null,
+			textAlign: &quot;left&quot;,
+		},
+		children: [],
+	},
+]
+}</pre>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Demo</h4>
+</div>
+<div class="lui block round">
+	<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500" default-order="+name" on-row-click="alertRow(row)"></luid-table-grid>
+	<div>{{numberOfRow(people)}}/{{people.length}} are in the filtered dataset</div>
+</div>
+<div class="lui dashed divider"></div>
+<div class="lui block round">
+	<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="200" default-order="-name"></luid-table-grid>
+	<div>{{numberOfRow(people2)}}/{{people2.length}} are in the filtered dataset</div>
+</div>

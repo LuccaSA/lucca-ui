@@ -1,0 +1,58 @@
+
+<h2 class="lui divider below">luifFriendlyRange</h2>
+
+<p>
+	A filter to display a block having a start and an end, the start and end may be the same day/year/month and you dont want to repeat the same information
+	so you can't just use <code>start.format('LL') - end.format('LL')</code>
+</p>
+<p>
+	Will try to find property <code>start</code>, <code>startsOn</code>, <code>startsAt</code>, <code>end</code>, <code>endsOn</code>, <code>endsAt</code>
+</p>
+<p>
+	If both start's and end's year is the current year, it will not be displayed because saying "September 25th - October 2nd" implies "September 25th - October 2nd, this year"
+</p>
+<p>
+	It has the parameter <code>excludeEnd</code> for when you are dealing with block going from start included to end excluded.
+	Example : september is from September 1st included to October 1st excluded or from Septembre 1st included to September 30th included
+</p>
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">{{ myBlock | luifFriendlyRange }}
+{{ myBlock | luifFriendlyRange : true }}</pre>
+</p>
+<div class="lui bottom dashed divider menu" id="demoBlock">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+	<div class="lui right item">
+		<a class="lui button primary" href="http://plnkr.co/edit/pVKZqmRX4gO001JaqE0i?p=preview">
+			<i class="lui icon edit"></i>Edit in Plunker
+		</a>
+	</div>
+</div>
+<div class="lui block round">
+	<p>
+		<div class="lui inline fields">
+			<div class="lui field">
+				<span class="lui long input">
+					<input type="text" ng-model="myBlock.start">
+					<label>Start</label>
+				</span>
+			</div>
+			<div class="lui field">
+				<span class="lui long input">
+					<input type="text" ng-model="myBlock.end">
+					<label>End</label>
+				</span>
+			</div>
+		</div>
+	</p>
+	<p>
+		myBlock : <code>{{ myBlock | luifFriendlyRange }}</code>
+	</p>
+	<p>
+		myBlock with end excluded : <code>{{ myBlock | luifFriendlyRange : true }}</code>
+	</p>
+</div>
