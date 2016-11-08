@@ -1,8 +1,14 @@
 # Change log
 
-## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
+## 3.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.7)
 
 ### Bug fixes
+
+## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
+
+### Changes (non-breaking)
+
+- Updated `package.json` in order to match bower version.
 
 ## 3.0.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.5)
 
