@@ -1,4 +1,4 @@
-/node_modules
+**/node_modules
 /bower_components
 /typings
 
@@ -13,4 +13,4 @@ karma-results.xml
 
 **/.baseDir.ts
 **/.baseDir.js
-.vscode/
+**/.vscode/
