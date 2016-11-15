@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
-import { ProgressBarService } from '../../src/services/progress-bar/progress-bar.service';
+import { LuiProgressBarModule } from '../../src/components/progress-bar';
 
 @NgModule({
 imports: [
 	BrowserModule,
 	HttpModule,
-	FormsModule
+	FormsModule,
+	LuiProgressBarModule
 ],
 declarations: [
 	AppComponent
