@@ -48,9 +48,9 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/configuration.html#entry
    */
   config.entry = isTest ? {} : {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
-    'app': './src/main.ts' // our angular app
+    'polyfills': './demo/polyfills.ts',
+    'vendor': './demo/vendor.ts',
+    'app': './demo/main.ts' // our angular app
   };
 
   /**
@@ -105,29 +105,29 @@ module.exports = function makeWebpackConfig() {
 
       // Support for CSS as raw text
       // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-      // all css in src/style will be bundled in an external css file
+      // all css in demo/style will be bundled in an external css file
       {
         test: /\.css$/,
-        exclude: root('src', 'app'),
+        exclude: root('demo', 'app'),
         loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css-loader', 'postcss-loader']})
       },
-      // all css required in src/app files will be merged in js files
-      {test: /\.css$/, include: root('src', 'app'), loader: 'raw-loader!postcss-loader'},
+      // all css required in demo/app files will be merged in js files
+      {test: /\.css$/, include: root('demo', 'app'), loader: 'raw-loader!postcss-loader'},
 
       // support for .scss files
       // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-      // all css in src/style will be bundled in an external css file
+      // all css in demo/style will be bundled in an external css file
       {
         test: /\.(scss|sass)$/,
-        exclude: root('src', 'app'),
+        exclude: root('demo', 'app'),
         loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css-loader', 'postcss-loader', 'sass-loader']})
       },
-      // all css required in src/app files will be merged in js files
-      {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loader: 'raw-loader!postcss-loader!sass-loader'},
+      // all css required in demo/app files will be merged in js files
+      {test: /\.(scss|sass)$/, exclude: root('demo', 'style'), loader: 'raw-loader!postcss-loader!sass-loader'},
 
       // support for .html as raw text
       // todo: change the loader to something that adds a hash to images
-      {test: /\.html$/, loader: 'raw-loader',  exclude: root('src', 'public')}
+      {test: /\.html$/, loader: 'raw-loader',  exclude: root('demo', 'public')}
     ]
   };
 
@@ -136,7 +136,7 @@ module.exports = function makeWebpackConfig() {
     config.module.rules.push({
       test: /\.ts$/,
       enforce: 'post',
-      include: path.resolve('src'),
+      include: path.resolve('demo'),
       loader: 'istanbul-instrumenter-loader',
       exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/]
     });
@@ -170,7 +170,7 @@ module.exports = function makeWebpackConfig() {
       new webpack.ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in *nix and Windows
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-        root('./src') // location of your src
+        root('./demo') // location of your src
       ),
 
     // Tslint configuration for webpack 2
@@ -224,7 +224,7 @@ module.exports = function makeWebpackConfig() {
       // Inject script and link tags into html files
       // Reference: https://github.com/ampedandwired/html-webpack-plugin
       new HtmlWebpackPlugin({
-        template: './src/public/index.html',
+        template: './demo/public/index.html',
         chunksSortMode: 'dependency'
       }),
 
@@ -253,7 +253,7 @@ module.exports = function makeWebpackConfig() {
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
       new CopyWebpackPlugin([{
-        from: root('src/public')
+        from: root('demo/public')
       }])
     );
   }
@@ -264,7 +264,7 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
-    contentBase: './src/public',
+    contentBase: './demo/public',
     historyApiFallback: true,
     quiet: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
