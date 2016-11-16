@@ -2,22 +2,28 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
+// Lucca UI modules
 import { LuiProgressBarModule } from '../../src/components/progress-bar';
+import { LuiUserPickerModule } from '../../src/components/user-picker';
+
+// Demo app
+import { AppComponent } from './app.component';
+import { UserPickerDemoComponent } from './../components/user-picker-demo/user-picker-demo.component';
+
 
 @NgModule({
 imports: [
 	BrowserModule,
 	HttpModule,
 	FormsModule,
-	LuiProgressBarModule
+	LuiProgressBarModule,
+	LuiUserPickerModule
 ],
 declarations: [
-	AppComponent
+	AppComponent,
+	UserPickerDemoComponent
 ],
 providers: [
 ],
