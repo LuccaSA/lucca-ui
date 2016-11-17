@@ -87,7 +87,7 @@ describe('luid-user-picker', () => {
 	// **********************/
 	// describe('with pagination', () => {
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker ng-model=""></luid-user-picker>');
+	// 		var tpl = angular.element('<luid-user-picker ng-model=''></luid-user-picker>');
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
 	// 		$scope.$digest();
@@ -349,7 +349,6 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				// TODO comportement différent du précédent lucca-ui, à checker.
 				const legalEntityProperty = homonyms[0].homonyms.find(h => h.key === 'legalEntity').value;
 				expect(legalEntityProperty).toEqual(usersWithHomonyms[0].legalEntity);
 			}, INPUT_DEBOUNCE);
@@ -362,67 +361,255 @@ describe('luid-user-picker', () => {
 	// 		$httpBackend.flush();
 	// 		expect(console.log).toHaveBeenCalled();
 	// 	});
-	// 	it('should identify the first and second property as differentiating properties', () => {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_1);
-	// 		$httpBackend.flush();
+		it('should identify the first and second property as differentiating properties', inject([LuiUserPickerService], fakeAsync((service) => {
+			const usersWithHomonyms_1 = [
+				{
+					'id': 1,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 87,
+					'legalEntity': {'name': 'Lucca UK'},
+					'department': {'name': 'BU Timmi/Lucca'}
+				},
+				{
+					'id': 3,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 110,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'Sales'}
+				}
+			];
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('department.name');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('legalEntity.name');
-	// 	});
-	// 	it('should identify the first and last property as differentiating properties', () => {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_0_3);
-	// 		$httpBackend.flush();
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms_1));
+			fixture.detectChanges();
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('department.name');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('mail');
-	// 	});
-	// 	it('should only identify the third property as differentiating', function() {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(RESPONSE_2_homonyms_details_2);
-	// 		$httpBackend.flush();
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(1);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('employeeNumber');
-	// 	});
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				expect(homonymsProperties.length).toBe(2);
+				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('legalEntity');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
+
+		it('should identify the first and last property as differentiating properties', inject([LuiUserPickerService], fakeAsync((service) => {
+			const usersWithHomonyms_2 = [
+				{
+					'id': 1,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'lbertin@lucca.fr',
+					'employeeNumber': 87,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'BU Timmi/Lucca'}
+				},
+				{
+					'id': 3,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'lbertin2@lucca.fr',
+					'employeeNumber': 87,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'Sales'}
+				}
+			];
+
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms_2));
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
+
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				expect(homonymsProperties.length).toBe(2);
+				expect(homonymsProperties).toContain('department');
+				expect(homonymsProperties).toContain('mail');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
+
+		it('should only identify the third property as differentiating', inject([LuiUserPickerService], fakeAsync((service) => {
+			const usersWithHomonyms_3 = [
+				{
+					'id': 1,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 87,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'BU Timmi/Lucca'}
+				},
+				{'id': 3,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'employeeNumber': 110,
+				'legalEntity': {'name': 'Lucca'},
+				'department': {'name': 'BU Timmi/Lucca'}
+				}
+			];
+
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms_3));
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
+
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+
+				expect(homonymsProperties.length).toBe(1);
+				expect(homonymsProperties).toContain('employeeNumber');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
 	});
 
-	// /* COMPLEX CASE: more than 2 homonyms */
-	// describe('with 4 homonyms', () => {
-	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser'></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	/* COMPLEX CASE: more than 2 homonyms */
+	describe('with 4 homonyms', () => {
+		const users = [
+			{'id': 1, 'firstName': 'Guillaume', 'lastName': 'Allain'},
+			{'id': 2, 'firstName': 'Elsa', 'lastName': 'Arrou-Vignod'},
+			{'id': 3, 'firstName': 'Chloé', 'lastName': 'Azibert Yekdah'},
+			{'id': 4, 'firstName': 'Clément', 'lastName': 'Barbotin'},
+			{'id': 5, 'firstName': 'Lucien', 'lastName': 'Bertin'},
+			{'id': 6, 'firstName': 'Jean-Baptiste', 'lastName': 'Beuzelin'},
+			{'id': 7, 'firstName': 'Kevin', 'lastName': 'Brochet'},
+			{'id': 8, 'firstName': 'Lucien', 'lastName': 'Bertin'},
+			{'id': 9, 'firstName': 'Bruno', 'lastName': 'Catteau'},
+			{'id': 10, 'firstName': 'Orion', 'lastName': 'Charlier'},
+			{'id': 11, 'firstName': 'Sandrine', 'lastName': 'Conraux'},
+			{'id': 12, 'firstName': 'Tristan', 'lastName': 'Couëtoux du Tertre'},
+			{'id': 13, 'firstName': 'Lucien', 'lastName': 'Bertin'},
+			{'id': 14, 'firstName': 'Larissa', 'lastName': 'De Andrade Gaulia'},
+			{'id': 15, 'firstName': 'Christophe', 'lastName': 'Demarle'},
+			{'id': 16, 'firstName': 'Lucien', 'lastName': 'Bertin'},
+			{'id': 17, 'firstName': 'Nicolas', 'lastName': 'Faugout'},
+			{'id': 18, 'firstName': 'Brice', 'lastName': 'Francois'},
+			{'id': 19, 'firstName': 'Tristan', 'lastName': 'Goguillot'},
+			{'id': 20, 'firstName': 'Julia', 'lastName': 'Ivanets'}
+		];
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users_4_homonyms);
-	// 		isolateScope.find();
-	// 	});
-	// 	it('should identify the first and third property as differentiating properties', () => {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_0_2);
-	// 		$httpBackend.flush();
+		const usersWithHomonyms = [
+			{
+				'id': 5,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'employeeNumber': 87,
+				'legalEntity': {'name': 'Lucca UK'},
+				'department': {'name': 'BU Timmi/Lucca'}
+			},
+			{
+				'id': 8,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'employeeNumber': 110,
+				'legalEntity': {'name': 'Lucca'},
+				'department': {'name': 'BU Timmi/Lucca'}
+			},
+			{
+				'id': 13,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'employeeNumber': 163,
+				'legalEntity': {'name': 'Lucca UK'},
+				'department': {'name': 'BU Timmi/Lucca'}
+			},
+			{
+				'id': 16,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'employeeNumber': 145,
+				'legalEntity': {'name': 'Lucca UK'},
+				'department': {'name': 'Marketing'}
+			}
+		];
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('department.name');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('employeeNumber');
-	// 	});
-	// 	it('should identify the first and second property as differentiating properties', () => {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_0_1);
-	// 		$httpBackend.flush();
+		let fixture, app;
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('department.name');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('legalEntity.name');
-	// 	});
-	// 	it('should identify the second and third property as differentiating properties', () => {
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=5,8,13,16\&fields=.*/i).respond(RESPONSE_4_homonyms_details_1_2);
-	// 		$httpBackend.flush();
+		beforeEach(inject([LuiUserPickerService], (service) => {
+			fixture = TestBed.createComponent(LuiUserPickerComponent);
+			app = fixture.debugElement.componentInstance;
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('legalEntity.name');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('employeeNumber');
-	// 	});
-	// });
+			service.getUsers = jasmine.createSpy('getUsers').and.returnValue(Observable.of(users));
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms));
+		}));
+
+		it('should identify the first and third property as differentiating properties', fakeAsync(() => {
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
+
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				expect(homonymsProperties.length).toBe(2);
+				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('legalEntity');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		}));
+		it('should identify the first and second property as differentiating properties', inject([LuiUserPickerService], fakeAsync((service) => {
+			const usersWithHomonyms_1 = [
+				{
+					'id': 5,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 87,
+					'legalEntity': {'name': 'Lucca UK'},
+					'department': {'name': 'BU Timmi/Lucca'}
+				},
+				{
+					'id': 8,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 110,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'BU Timmi/Lucca'}
+				},
+				{
+					'id': 13,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 163,
+					'legalEntity': {'name': 'Lucca UK'},
+					'department': {'name': 'Sales'}
+				},
+				{
+					'id': 16,
+					'firstName': 'Lucien',
+					'lastName': 'Bertin',
+					'mail': 'no-reply@lucca.fr',
+					'employeeNumber': 145,
+					'legalEntity': {'name': 'Lucca'},
+					'department': {'name': 'Sales'}
+				}
+			];
+
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms_1));
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
+
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				expect(homonymsProperties.length).toBe(2);
+				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('legalEntity');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
+	});
 
 	// /**********************
 	// ** HOMONYMS WITH     **
@@ -752,7 +939,7 @@ describe('luid-user-picker', () => {
 	// /************************
 	// ** DISPLAY ALL USERS   **
 	// ************************/
-	// describe('with "display-all-users" set to true', () => {
+	// describe('with 'display-all-users' set to true', () => {
 	// 	var chloe = { id:3,
 	// 		firstName:'Chloé',
 	// 		lastName:'Azibert Yekdah'
@@ -761,7 +948,7 @@ describe('luid-user-picker', () => {
 	// 		isAll: true
 	// 	};
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser" display-all-users="true"></luid-user-picker>');
+	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser' display-all-users='true'></luid-user-picker>');
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
 	// 		$scope.$digest();
@@ -769,7 +956,7 @@ describe('luid-user-picker', () => {
 	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 	// 		$httpBackend.flush();
 	// 	});
-	// 	it('should display "all users" when find() is called', function() {
+	// 	it('should display 'all users' when find() is called', function() {
 	// 		expect(_.where(isolateScope.users, {isAll:true}).length).toBe(1);
 	// 		expect(_.first(isolateScope.users).isAll).toBe(true);
 	// 	});
@@ -785,12 +972,12 @@ describe('luid-user-picker', () => {
 	// 		expect(isolateScope.users[1].isAll).toBe(true);
 	// 		expect(userIds).toEqual([3,-1,1,2,4,5,6,7,8,9,-1]); // the -1 is because of 'all users' and overflow
 	// 	});
-	// 	it('should not display "selected" when we select "all users"', function() {
+	// 	it('should not display 'selected' when we select 'all users'', function() {
 	// 		$scope.myUser = allUsers;
 	// 		$scope.$digest();
 	// 		expect(_.where(isolateScope.users, {isSelected:true}).length).toBe(0);
 	// 	});
-	// 	it('should not display "all users" when find() is called with a clue', function() {
+	// 	it('should not display 'all users' when find() is called with a clue', function() {
 	// 		isolateScope.find('a');
 	// 		$httpBackend.expectGET(findApi).respond(200, RESPONSE_4_users);
 	// 		$httpBackend.flush();
@@ -804,7 +991,7 @@ describe('luid-user-picker', () => {
 	// *****************************/
 	// // Only check the order of displayed users with 'display-me-first' and 'display-all-users'
 	// // It should be [selected, all, me, rest of users]
-	// describe('with "display-me-first" and "display-all-users" set to true', () => {
+	// describe('with 'display-me-first' and 'display-all-users' set to true', () => {
 	// 	var chloe = { id:3,
 	// 		firstName:'Chloé',
 	// 		lastName:'Azibert Yekdah'
@@ -815,7 +1002,7 @@ describe('luid-user-picker', () => {
 	// 	var meApi = /api\/v3\/users\/me/;
 	// 	var myId = 10;
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser" display-me-first="true" display-all-users="true"></luid-user-picker>');
+	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser' display-me-first='true' display-all-users='true'></luid-user-picker>');
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
 	// 		$scope.$digest();
@@ -824,7 +1011,7 @@ describe('luid-user-picker', () => {
 	// 		$httpBackend.whenGET(meApi).respond(200, RESPONSE_me); // id: 10
 	// 		$httpBackend.flush();
 	// 	});
-	// 	it('should display "all users" and "me" when find() is called and "me" is fetched', function() {
+	// 	it('should display 'all users' and 'me' when find() is called and 'me' is fetched', function() {
 	// 		var userIds = _.pluck(isolateScope.users, 'id');
 	// 		expect(userIds).toEqual([-1,10,1,2,3,4,5,6,7,8,-1]); // the -1 is because of 'all users' and overflow
 	// 	});
@@ -841,7 +1028,7 @@ describe('luid-user-picker', () => {
 	// **********************/
 	// describe('with multi-select', function() {
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model='myUsers'></luid-user-picker-multiple>');
 	// 		$scope.myUsers = [];
 
 	// 		elt = $compile(tpl)($scope);
@@ -939,7 +1126,7 @@ describe('luid-user-picker', () => {
 	// **********************/
 	// describe('with multi-select and homonyms', function() {
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers"></luid-user-picker-multiple>');
+	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model='myUsers'></luid-user-picker-multiple>');
 	// 		$scope.myUsers = [];
 
 	// 		elt = $compile(tpl)($scope);
@@ -977,7 +1164,7 @@ describe('luid-user-picker', () => {
 	// ** MULTISELECT WITH   **
 	// ** DISPLAY ME FIRST   **
 	// ***********************/
-	// describe('with multi-select and "display-me-first" set to true', function() {
+	// describe('with multi-select and 'display-me-first' set to true', function() {
 	// 	var orion = { id:10,
 	// 		firstName:'Orion',
 	// 		lastName:'Charlier'
@@ -985,7 +1172,7 @@ describe('luid-user-picker', () => {
 	// 	var meApi = /api\/v3\/users\/me/;
 	// 	var myId = 10;
 	// 	beforeEach(() => {
-	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model="myUsers" display-me-first="true"></luid-user-picker-multiple>');
+	// 		var tpl = angular.element('<luid-user-picker-multiple ng-model='myUsers' display-me-first='true'></luid-user-picker-multiple>');
 
 	// 		$scope.myUsers = [];
 	// 		elt = $compile(tpl)($scope);
@@ -1001,7 +1188,7 @@ describe('luid-user-picker', () => {
 	// 		var userIds = _.pluck(isolateScope.users, 'id');
 	// 		expect(userIds).toEqual([10,1,2,3,4,5,6,7,8,9,-1]); // the -1 is because of the overflow
 	// 	});
-	// 	it('should not display "me" when "me" is selected', function() {
+	// 	it('should not display 'me' when 'me' is selected', function() {
 	// 		$httpBackend.flush();
 	// 		$scope.myUsers.push(orion);
 	// 		$scope.$digest();
@@ -1025,8 +1212,8 @@ describe('luid-user-picker', () => {
 	// 		}
 	// 	};
 	// 	var meApi = /api\/v3\/users\/me/;
-	// 	it('should call the given "get" method', function() {
-	// 		var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+	// 	it('should call the given 'get' method', function() {
+	// 		var tpl = angular.element('<luid-user-picker ng-model='chloe' custom-http-service='customHttpService'></luid-user-picker>');
 	// 		$scope.customHttpService = customHttpService;
 	// 		elt = $compile(tpl)($scope);
 	// 		isolateScope = elt.isolateScope();
@@ -1035,7 +1222,7 @@ describe('luid-user-picker', () => {
 	// 		$scope.$digest();
 	// 		expect($scope.customHttpService.get).toHaveBeenCalled();
 	// 	});
-	// 	it('should call the $http "get" method if no CustomHttpService', function() {
+	// 	it('should call the $http 'get' method if no CustomHttpService', function() {
 	// 		var tpl = angular.element('<luid-user-picker ng-model='chloe'></luid-user-picker>');
 	// 		$scope.customHttpService = customHttpService;
 	// 		elt = $compile(tpl)($scope);
@@ -1046,7 +1233,7 @@ describe('luid-user-picker', () => {
 	// 	});
 	// 	describe('and homonyms', function() {
 	// 		it('should still not call $http.get', () => {
-	// 			var tpl = angular.element('<luid-user-picker ng-model="chloe" custom-http-service="customHttpService"></luid-user-picker>');
+	// 			var tpl = angular.element('<luid-user-picker ng-model='chloe' custom-http-service='customHttpService'></luid-user-picker>');
 	// 			$scope.customHttpService = {
 	// 				get: function(query){
 	// 					var deferred = $q.defer();
@@ -1065,7 +1252,7 @@ describe('luid-user-picker', () => {
 	// 	});
 	// 	describe('and with me', function() {
 	// 		it('should still not call $http.get', () => {
-	// 			var tpl = angular.element('<luid-user-picker ng-model="chloe" display-me-first="true" custom-http-service="customHttpService"></luid-user-picker>');
+	// 			var tpl = angular.element('<luid-user-picker ng-model='chloe' display-me-first='true' custom-http-service='customHttpService'></luid-user-picker>');
 	// 			$scope.customHttpService = customHttpService;
 	// 			spyOn($scope.customHttpService, 'get').and.callThrough();
 	// 			elt = $compile(tpl)($scope);
@@ -1086,7 +1273,7 @@ describe('luid-user-picker', () => {
 	// 		$scope.ops = [1,2,3];
 	// 		$scope.appId = 86;
 	// 		$scope.idsToBypass = [5, 7];
-	// 		var tpl = angular.element('<luid-user-picker ng-model="myUser" bypass-operations-for="idsToBypass" operations="ops" app-id="appId"></luid-user-picker>');
+	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser' bypass-operations-for='idsToBypass' operations='ops' app-id='appId'></luid-user-picker>');
 
 	// 		$scope.myUser = {};
 	// 		elt = $compile(tpl)($scope);

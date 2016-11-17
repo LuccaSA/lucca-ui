@@ -1,3 +1,4 @@
+import { HomonymProperty, defaultHomonymsProperties } from './constants';
 import { User } from './user.model';
 import * as moment from 'moment';
 
@@ -29,24 +30,34 @@ export function markHomonyms(users: Array<User>): Array<User> {
 	});
 }
 
+const getHomonymProperty = (defaultHomonymsProperties: Array<HomonymProperty>, homonymProperty: {key: string, value: string}) => {
+	return defaultHomonymsProperties.find(hp => hp.name === homonymProperty.key);
+};
+
 export function formatItems(users: Array<User>): Array<{id: any, text: string}> {
 	return users
 		.map(user => {
 			let text = `<div>${user.firstName} ${user.lastName}</div>`;
+
 			if (user.hasHomonyms) {
-				text += `<div>Has homonyms ! ${JSON.stringify(user.homonyms)}</div>`;
+				const homonyms = user.homonyms.map(h => {
+					let property = getHomonymProperty(defaultHomonymsProperties, h);
+					return `<i class="lui icon ${property.icon}"></i> <strong>${property.label}</strong> ${h.value}`;
+				});
+
+				text += `<div>${homonyms.join('<br>')}</div>`;
 			}
 
 			if (user.isFormerEmployee) {
-				text += `<div>Is a former employee: ${user.dtContractEnd}</div>`;
+				text += `<div>Left on ${user.dtContractEnd}</div>`;
 			}
 
 			if (user.info) {
-				text += `<div>Custom Info: ${user.info}</div>`;
+				text += `<div>${user.info}</div>`;
 			}
 
 			if (user.infoAsync) {
-				text += `<div>Custom Info async: ${user.infoAsync}</div>`;
+				text += `<div>${user.infoAsync}</div>`;
 			}
 
 			return { id: user.id, text: text};

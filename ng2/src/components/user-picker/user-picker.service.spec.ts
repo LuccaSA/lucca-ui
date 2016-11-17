@@ -2,7 +2,7 @@ import { User } from './user.model';
 import { LuiUserPickerService } from './user-picker.sevice';
 import { inject, TestBed, fakeAsync } from '@angular/core/testing';
 
-import { BaseRequestOptions, Http, RequestMethod, Response, ResponseOptions, ResponseType } from '@angular/http';
+import { BaseRequestOptions, Http, RequestMethod, Response, ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';

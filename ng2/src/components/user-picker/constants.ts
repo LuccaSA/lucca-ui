@@ -5,8 +5,9 @@ export class HomonymProperty {
 }
 
 export const defaultHomonymsProperties: Array<HomonymProperty> = [
+	{name: 'department', label: 'LUIDUSERPICKER_DEPARTMENT', icon: 'location'},
 	{name: 'employeeNumber', label: 'LUIDUSERPICKER_LEGALENTITY', icon: 'user'},
-	{name: 'legalEntity.name', label: 'LUIDUSERPICKER_EMPLOYEENUMBER', icon: 'tree list'},
+	{name: 'legalEntity', label: 'LUIDUSERPICKER_EMPLOYEENUMBER', icon: 'tree list'},
 	{name: 'mail', label: 'LUIDUSERPICKER_MAIL', icon: 'email'}
 ];
 
