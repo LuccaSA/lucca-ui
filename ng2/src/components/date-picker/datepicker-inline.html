@@ -1,0 +1,64 @@
+<div class="calendars">
+	<div class="calendar" [attr.mode]="mode" *ngFor="let calendar of calendars" ng-class="[direction]">
+		<header>
+			<button class="previous" ng-click="previous()"></button>
+			<span ng-switch="mode">
+				<span ng-switch-default ng-click="switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+				<span ng-switch-when="1" ng-click="switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
+				<span ng-switch-when="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
+			</span>
+			<button class="next" ng-click="next()"></button>
+		</header>
+
+		<table class="days">
+			<thead>
+				<th *ngFor="let dayLabel of dayLabels">{{ dayLabel }}</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="week in calendar.weeks">
+					<td ng-repeat="day in week.days"
+						ng-class="[{empty: day.empty, selected: day.selected}, day.customClass]"
+						ng-disabled="day.disabled"
+						ng-click="selectDay(day)">{{ day.dayNum }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="months">
+			<ul>
+				<li ng-repeat="m in calendar.months"
+				ng-click="selectMonth(m)"
+				ng-disabled="m.disabled"
+				ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luipMoment : "MMM" }}</li>
+			</ul>
+		</div>
+
+		<div class="years">
+			<ul>
+				<li ng-repeat="y in calendar.years"
+				ng-disabled="y.disabled"
+				ng-click="selectYear(y)"
+				ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luipMoment : "YYYY" }}</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<footer ng-if="!!shortcuts || !!groupedShortcuts">
+	<ul>
+		<li ng-if="!!shortcuts.length">
+			<ul>
+				<li class="shortcut" ng-repeat="shortcut in shortcuts">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+				</li>
+			</ul>
+		</li>
+		<li class="group" ng-if="!!groupedShortcuts.length" ng-repeat="group in groupedShortcuts">
+			<ul>
+				<li class="shortcut" ng-repeat="shortcut in group">
+					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</footer>

@@ -7,6 +7,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 // Lucca UI modules
 import { LuiProgressBarModule } from '../../src/components/progress-bar';
 import { LuiUserPickerModule } from '../../src/components/user-picker';
+import { LuiDatePickerModule } from '../../src/components/date-picker';
 
 // Demo app
 import { AppComponent } from './app.component';
@@ -20,7 +21,8 @@ imports: [
 	HttpModule,
 	FormsModule,
 	LuiProgressBarModule,
-	LuiUserPickerModule
+	LuiUserPickerModule,
+	LuiDatePickerModule
 ],
 declarations: [
 	AppComponent,
