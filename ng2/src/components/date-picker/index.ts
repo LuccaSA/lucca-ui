@@ -5,7 +5,7 @@ import { LuiTimePipesModule } from './../../pipes/time';
 @NgModule({
 	imports: [
 		LuiTimePipesModule
-	]
+	],
 	declarations: [
 		LuiDatePickerComponent
 	],
