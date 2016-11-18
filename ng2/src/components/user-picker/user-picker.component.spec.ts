@@ -354,13 +354,18 @@ describe('luid-user-picker', () => {
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
 		}));
-	// 	it('should handle errors when getting homonyms details', () => {
-	// 		spyOn(console, 'log');
-	// 		$httpBackend.whenGET(/api\/v3\/users\?id=1,3\&fields=.*/i).respond(500, RESPONSE_ERROR_DETAILS);
 
-	// 		$httpBackend.flush();
-	// 		expect(console.log).toHaveBeenCalled();
-	// 	});
+		it('should handle errors when getting homonyms details', inject([LuiUserPickerService], fakeAsync((service) => {
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.throw('error'));
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				expect(app.users[0].overflow).toEqual('LUIDUSERPICKER_ERR_GET_USERS');
+				expect(app.users[0].id).toEqual(-1);
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
+
 		it('should identify the first and second property as differentiating properties', inject([LuiUserPickerService], fakeAsync((service) => {
 			const usersWithHomonyms_1 = [
 				{
@@ -391,7 +396,7 @@ describe('luid-user-picker', () => {
 
 				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('department');
 				expect(homonymsProperties).toContain('legalEntity');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
@@ -551,7 +556,7 @@ describe('luid-user-picker', () => {
 
 				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('department');
 				expect(homonymsProperties).toContain('legalEntity');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
@@ -604,7 +609,7 @@ describe('luid-user-picker', () => {
 
 				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('employeeNumber');
+				expect(homonymsProperties).toContain('department');
 				expect(homonymsProperties).toContain('legalEntity');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
@@ -713,29 +718,35 @@ describe('luid-user-picker', () => {
 	// /*********************
 	// ** CUSTOM INFO SYNC **
 	// **********************/
-	// describe('with custom info to display next to each user', () => {
-	// 	beforeEach(() => {
-	// 		$scope.customCount = function(user) {
-	// 			return user.id * 2;
-	// 		};
-	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser' custom-info='customCount'></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		controller = elt.controller('luidUserPicker');
-	// 		$scope.$digest();
+	describe('with custom info to display next to each user', () => {
+		let fixture, app;
 
-	// 		spyOn($scope, 'customCount').and.callThrough();
-	// 		isolateScope.find();
-	// 	});
-	// 	it('should initialise useCustomCount', () => {
-	// 		expect(controller.displayCustomInfo).toBe(true);
-	// 	});
-	// 	it('should call $scope.customCount N times when there is no overflow', () => {
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users);
-	// 		$httpBackend.flush();
-	// 		expect($scope.customCount).toHaveBeenCalled();
-	// 		expect($scope.customCount.calls.count()).toBe(4);
-	// 	});
+		beforeEach(() => {
+			fixture = TestBed.createComponent(LuiUserPickerComponent);
+			app = fixture.debugElement.componentInstance;
+
+			app.customInfo = (user) => user.id;
+			spyOn(app, 'customInfo').and.callThrough();
+		});
+
+		it('should initialise customInfo', () => {
+			expect(app.customInfo).not.toBeNull();
+		});
+
+		it('should call app.customInfo N times when there is no overflow', inject([LuiUserPickerService], fakeAsync((service) => {
+			const usersIds = [1, 2, 3, 4];
+			const users = usersIds.map(v => ({ id: v, firstName: v.toString() }));
+			service.getUsers = jasmine.createSpy('getUsers').and.returnValue(Observable.of(users));
+
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				expect(app.customInfo).toHaveBeenCalled();
+				expect(app.customInfo.calls.count()).toBe(4);
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		})));
+
 	// 	it('should call $scope.customCount 5 times when there is overflow', () => {
 	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_20_users);
 	// 		$httpBackend.flush();
@@ -769,7 +780,7 @@ describe('luid-user-picker', () => {
 	// 		expect($scope.customCount).toHaveBeenCalled();
 	// 		expect($scope.customCount.calls.count()).toBe(15); // fetch info for the 5th user
 	// 	});
-	// });
+	});
 
 	// /**********************
 	// ** CUSTOM INFO ASYNC **

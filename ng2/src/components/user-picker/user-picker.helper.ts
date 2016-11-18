@@ -71,13 +71,40 @@ const arePropertiesEqual = (a, b) => {
 	return a === b;
 };
 
+const sortKeysByPriority = (keys: string[]) => {
+	const orderedDefaultHomonymsProperties = defaultHomonymsProperties
+		.sort((a, b) => {
+			if (a.priority > b.priority) {
+				return -1;
+			} else {
+				return 1;
+			}
+		})
+		.map(p => p.name);
+
+	return keys
+		.concat() // Use concat to create a new array
+		.sort((a, b) => {
+			const indexOfA = orderedDefaultHomonymsProperties.indexOf(a);
+			const indexOfB = orderedDefaultHomonymsProperties.indexOf(b);
+
+			if (indexOfA === -1 || indexOfA < indexOfB) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
+};
+
 const keepDifferentiatingKeys = (users: Array<any>) => {
 	const unusedKeys = ['id', 'firstName', 'lastName'];
 	const keys = Object
 		.keys(users[0])
 		.filter(k => unusedKeys.indexOf(k) === -1);
 
-	const differentiatingKeys = keys.map(key => {
+	const orderedKeys = sortKeysByPriority(keys);
+
+	const differentiatingKeys = orderedKeys.map(key => {
 		if (users.every(user => arePropertiesEqual(user[key], users[0][key]))) {
 			return null;
 		}

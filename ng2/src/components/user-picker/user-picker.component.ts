@@ -113,7 +113,7 @@ export class LuiUserPickerComponent implements OnInit, OnDestroy {
 		const homonyms = users.filter(user => user.hasHomonyms);
 
 		if (homonyms.length) {
-			return this.usersService.getHomonymsProperties(homonyms, this.homonymsProperties.map(p => p.name))
+			return this.usersService.getHomonymsProperties(homonyms, this.homonymsProperties.map(p => p.value))
 				.map(usersWithHomonyms => {
 					const homonymsDictionary = getDifferentiatingPropertiesByUserid(usersWithHomonyms);
 
