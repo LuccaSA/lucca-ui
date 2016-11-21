@@ -1,13 +1,13 @@
 <div class="calendars">
 	<div class="calendar" [attr.mode]="config.mode" *ngFor="let calendar of calendars" ng-class="[direction]">
 		<header>
-			<button class="previous" ng-click="previous()"></button>
+			<button class="previous" (click)="config.previous()"></button>
 			<span ng-switch="mode">
 				<span ng-switch-default ng-click="switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
 				<span ng-switch-when="1" ng-click="switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
 				<span ng-switch-when="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
 			</span>
-			<button class="next" ng-click="next()"></button>
+			<button class="next" (click)="config.next()"></button>
 		</header>
 
 		<table class="days">

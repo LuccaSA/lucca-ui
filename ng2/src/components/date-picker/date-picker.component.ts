@@ -19,7 +19,6 @@ import { FormControl } from '@angular/forms';
 })
 export class LuiDatePickerComponent extends CalendarBaseComponent {
 	private formatter: IFormatter<moment.Moment>;
-	private calendars: Calendar[];
 	private formControl: FormControl;
 
 	@Input() public date: moment.Moment;

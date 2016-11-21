@@ -14,6 +14,8 @@ export abstract class CalendarBaseComponent implements OnInit {
 	protected min: moment.Moment;
 	protected max: moment.Moment;
 	protected minMode: CalendarMode = CalendarMode.Days;
+	public calendars: Calendar[];
+
 	constructor(
 		public config: ICalendarConfiguration,
 		private $log: LuiLogService // TODO: interface
@@ -176,13 +178,13 @@ export abstract class CalendarBaseComponent implements OnInit {
 		config.dayLabels = this.constructDayLabels();
 		config.next = () => {
 			this.changeCurrentDate(1);
-			config.calendars = this.constructCalendars();
+			this.calendars = this.constructCalendars();
 			config.direction = 'next';
 			this.assignClasses();
 		};
 		config.previous = () => {
 			this.changeCurrentDate(-1);
-			config.calendars = this.constructCalendars();
+			this.calendars = this.constructCalendars();
 			config.direction = 'previous';
 			this.assignClasses();
 		};
@@ -190,13 +192,13 @@ export abstract class CalendarBaseComponent implements OnInit {
 			config.mode = CalendarMode.Months;
 			config.direction = 'mode-change out';
 			this.currentDate.startOf('year');
-			config.calendars = this.constructCalendars();
+			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
 		config.switchToYearMode = () => {
 			config.mode = CalendarMode.Years;
 			config.direction = 'mode-change out';
-			config.calendars = this.constructCalendars();
+			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
 		config.selectDay = (day: CalendarDate) => {
@@ -209,7 +211,7 @@ export abstract class CalendarBaseComponent implements OnInit {
 				this.currentDate = month.date;
 				config.mode = CalendarMode.Days;
 				config.direction = 'mode-change in';
-				config.calendars = this.constructCalendars();
+				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
 		};
@@ -220,14 +222,13 @@ export abstract class CalendarBaseComponent implements OnInit {
 				this.currentDate = year.date;
 				config.mode = CalendarMode.Months;
 				config.direction = 'mode-change in';
-				config.calendars = this.constructCalendars();
+				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
 		};
 	}
 	private constructCalendar(start: moment.Moment, offset: number): Calendar {
 		let calendar: Calendar;
-		console.log(this.config.mode);
 		switch (this.config.mode) {
 			case CalendarMode.Days:
 				calendar = new Calendar(moment(start).startOf('month').add(offset, 'month'));
@@ -271,7 +272,7 @@ export abstract class CalendarBaseComponent implements OnInit {
 		return week;
 	}
 	private extractDays(): CalendarDay[] {
-		return _.chain(this.config.calendars)
+		return _.chain(this.calendars)
 		.pluck('weeks')
 		.flatten()
 		.pluck('days')
@@ -282,13 +283,13 @@ export abstract class CalendarBaseComponent implements OnInit {
 		.value();
 	}
 	private extractMonths(): CalendarDate[] {
-		return _.chain(this.config.calendars)
+		return _.chain(this.calendars)
 		.pluck('months')
 		.flatten()
 		.value();
 	}
 	private extractYears(): CalendarDate[] {
-		return _.chain(this.config.calendars)
+		return _.chain(this.calendars)
 		.pluck('years')
 		.flatten()
 		.value();
