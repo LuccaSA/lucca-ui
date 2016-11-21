@@ -1,37 +1,31 @@
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import { OnInit } from '@angular/core';
-import { ICalendarConfiguration, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
-import { LuiLogService } from '../../utils/log.service';
+import { ICalendarUiConfig, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
 
 
-export abstract class CalendarBaseComponent implements OnInit {
+export abstract class CalendarBaseComponent {
 	protected calendarCnt: number;
 	protected currentDate: moment.Moment;
-	protected selected: moment.Moment;
 	protected start: moment.Moment;
 	protected end: moment.Moment;
 	protected min: moment.Moment;
 	protected max: moment.Moment;
 	protected minMode: CalendarMode = CalendarMode.Days;
 	public calendars: Calendar[];
+	public selected: moment.Moment;
+	public uiConfig: ICalendarUiConfig;
 
-	constructor(
-		public config: ICalendarConfiguration,
-		private $log: LuiLogService // TODO: interface
-	) {
-		this.initCalendarUiMethods(config);
-		this.setMinMode(config.minMode);
-		this.config.mode = this.minMode;
-		config.direction = 'init';
-	}
-	public ngOnInit() {
+	constructor() {
+		this.uiConfig = <ICalendarUiConfig>{};
+		this.initCalendarUiMethods();
+		this.setMinMode();
+		this.uiConfig.mode = this.minMode;
+		this.uiConfig.direction = 'init';
 	}
 	public setCalendarCnt(cntStr?: string, inAPopover?: boolean): void {
 		this.calendarCnt = parseInt(cntStr, 10) || 1;
 		if (inAPopover && this.calendarCnt > 2) {
 			this.calendarCnt = 2;
-			this.$log.warn('no more than 2 months displayed in a date-picker popover');
 		}
 	}
 	protected constructCalendars(): Calendar[] {
@@ -45,7 +39,7 @@ export abstract class CalendarBaseComponent implements OnInit {
 		});
 	}
 	protected assignClasses(): void {
-		switch (this.config.mode) {
+		switch (this.uiConfig.mode) {
 			case CalendarMode.Days:
 				return this.assignDayClasses();
 			case CalendarMode.Months:
@@ -56,8 +50,8 @@ export abstract class CalendarBaseComponent implements OnInit {
 		}
 	}
 	protected abstract selectDate(date: moment.Moment): void;
-	private setMinMode(mode: string): void {
-		switch ((mode || '').toLowerCase()) {
+	private setMinMode(): void {
+		switch ((this.uiConfig.minMode || '').toLowerCase()) {
 			case '0':
 			case 'd':
 			case 'day':
@@ -106,8 +100,8 @@ export abstract class CalendarBaseComponent implements OnInit {
 			if (!!this.max && this.max.diff(day.date) < 0) {
 				day.disabled = true;
 			}
-			if (!!this.config.customClass) {
-				day.customClass = this.config.customClass(day.date, CalendarMode.Days);
+			if (!!this.uiConfig.customClass) {
+				day.customClass = this.uiConfig.customClass(day.date, CalendarMode.Days);
 			}
 		});
 	}
@@ -137,8 +131,8 @@ export abstract class CalendarBaseComponent implements OnInit {
 			if (!!this.max && this.max.diff(month.date) < 0) {
 				month.disabled = true;
 			}
-			if (!!this.config.customClass) {
-				month.customClass = this.config.customClass(month.date, CalendarMode.Months);
+			if (!!this.uiConfig.customClass) {
+				month.customClass = this.uiConfig.customClass(month.date, CalendarMode.Months);
 			}
 		});
 	}
@@ -168,60 +162,60 @@ export abstract class CalendarBaseComponent implements OnInit {
 			if (!!this.max && this.max.diff(year.date) < 0) {
 				year.disabled = true;
 			}
-			if (!!this.config.customClass) {
-				year.customClass = this.config.customClass(year.date, CalendarMode.Years);
+			if (!!this.uiConfig.customClass) {
+				year.customClass = this.uiConfig.customClass(year.date, CalendarMode.Years);
 			}
 		});
 	}
 
-	private initCalendarUiMethods(config: ICalendarConfiguration): void {
-		config.dayLabels = this.constructDayLabels();
-		config.next = () => {
+	private initCalendarUiMethods(): void {
+		this.uiConfig.dayLabels = this.constructDayLabels();
+		this.uiConfig.next = () => {
 			this.changeCurrentDate(1);
 			this.calendars = this.constructCalendars();
-			config.direction = 'next';
+			this.uiConfig.direction = 'next';
 			this.assignClasses();
 		};
-		config.previous = () => {
+		this.uiConfig.previous = () => {
 			this.changeCurrentDate(-1);
 			this.calendars = this.constructCalendars();
-			config.direction = 'previous';
+			this.uiConfig.direction = 'previous';
 			this.assignClasses();
 		};
-		config.switchToMonthMode = () => {
-			config.mode = CalendarMode.Months;
-			config.direction = 'mode-change out';
+		this.uiConfig.switchToMonthMode = () => {
+			this.uiConfig.mode = CalendarMode.Months;
+			this.uiConfig.direction = 'mode-change out';
 			this.currentDate.startOf('year');
 			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
-		config.switchToYearMode = () => {
-			config.mode = CalendarMode.Years;
-			config.direction = 'mode-change out';
+		this.uiConfig.switchToYearMode = () => {
+			this.uiConfig.mode = CalendarMode.Years;
+			this.uiConfig.direction = 'mode-change out';
 			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
-		config.selectDay = (day: CalendarDate) => {
+		this.uiConfig.selectDay = (day: CalendarDate) => {
 			this.selectDate(day.date);
 		};
-		config.selectMonth = (month: CalendarDate) => {
+		this.uiConfig.selectMonth = (month: CalendarDate) => {
 			if (this.minMode === CalendarMode.Months) {
 				this.selectDate(month.date);
 			} else {
 				this.currentDate = month.date;
-				config.mode = CalendarMode.Days;
-				config.direction = 'mode-change in';
+				this.uiConfig.mode = CalendarMode.Days;
+				this.uiConfig.direction = 'mode-change in';
 				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
 		};
-		config.selectYear = (year: CalendarDate) => {
+		this.uiConfig.selectYear = (year: CalendarDate) => {
 			if (this.minMode === CalendarMode.Years) {
 				this.selectDate(year.date);
 			} else {
 				this.currentDate = year.date;
-				config.mode = CalendarMode.Months;
-				config.direction = 'mode-change in';
+				this.uiConfig.mode = CalendarMode.Months;
+				this.uiConfig.direction = 'mode-change in';
 				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
@@ -229,7 +223,7 @@ export abstract class CalendarBaseComponent implements OnInit {
 	}
 	private constructCalendar(start: moment.Moment, offset: number): Calendar {
 		let calendar: Calendar;
-		switch (this.config.mode) {
+		switch (this.uiConfig.mode) {
 			case CalendarMode.Days:
 				calendar = new Calendar(moment(start).startOf('month').add(offset, 'month'));
 				calendar.weeks = this.constructWeeks(calendar.date);
@@ -295,7 +289,7 @@ export abstract class CalendarBaseComponent implements OnInit {
 		.value();
 	}
 	private changeCurrentDate(offset: number): void {
-		switch (this.config.mode) {
+		switch (this.uiConfig.mode) {
 			case CalendarMode.Days:
 				this.currentDate.add(offset, 'months');
 				break;

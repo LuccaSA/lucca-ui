@@ -46,7 +46,7 @@ export enum CalendarMode {
 	Months = 1,
 	Years = 2,
 }
-export interface ICalendarConfiguration {
+export interface ICalendarUiConfig {
 	customClass: (date: moment.Moment, mode?: CalendarMode) => string;
 	displayedMonths: string;
 

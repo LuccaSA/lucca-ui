@@ -1,18 +1,18 @@
 <div class="calendars">
-	<div class="calendar" [attr.mode]="config.mode" *ngFor="let calendar of calendars" [ngClass]="config.direction">
+	<div class="calendar" [attr.mode]="uiConfig.mode" *ngFor="let calendar of calendars" [ngClass]="uiConfig.direction">
 		<header>
-			<button class="previous" (click)="config.previous()"></button>
-			<span [ngSwitch]="config.mode">
-				<span *ngSwitchDefault (click)="config.switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-				<span *ngSwitchCase="1" (click)="config.switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
+			<button class="previous" (click)="uiConfig.previous()"></button>
+			<span [ngSwitch]="uiConfig.mode">
+				<span *ngSwitchDefault (click)="uiConfig.switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+				<span *ngSwitchCase="1" (click)="uiConfig.switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
 				<span *ngSwitchCase="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
 			</span>
-			<button class="next" (click)="config.next()"></button>
+			<button class="next" (click)="uiConfig.next()"></button>
 		</header>
 
 		<table class="days">
 			<thead>
-				<th *ngFor="let dayLabel of config.dayLabels">{{ dayLabel }}</th>
+				<th *ngFor="let dayLabel of uiConfig.dayLabels">{{ dayLabel }}</th>
 			</thead>
 			<tbody>
 				<tr *ngFor="let week of calendar.weeks">
@@ -20,7 +20,7 @@
 						[ngClass]="{empty: day.empty, selected: day.selected}"
 						class="{{ day.customClass }}"
 						ng-disabled="day.disabled"
-						(click)="config.selectDay(day)">{{ day?.dayNum }}</td>
+						(click)="uiConfig.selectDay(day)">{{ day?.dayNum }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -28,7 +28,7 @@
 		<div class="months">
 			<ul>
 				<li *ngFor="let m of calendar.months"
-					(click)="config.selectMonth(m)"
+					(click)="uiConfig.selectMonth(m)"
 					ng-disabled="m.disabled"
 					[ngClass]="{selected: m.selected}"
 					class="{{ m.customClass }}">{{ m?.date | luipMoment : "MMM" }}</li>
@@ -39,7 +39,7 @@
 			<ul>
 				<li *ngFor="let y of calendar.years"
 					ng-disabled="y.disabled"
-					(click)="config.selectYear(y)"
+					(click)="uiConfig.selectYear(y)"
 					[ngClass]="{selected: y.selected}"
 					class="{{ y.customClass }}">{{ y?.date | luipMoment : "YYYY" }}</li>
 			</ul>
@@ -52,14 +52,14 @@
 		<li *ngIf="!!shortcuts.length">
 			<ul>
 				<li class="shortcut" *ngFor="let shortcut of shortcuts">
-					<a class="lui small grey wired button" (click)="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+					<a class="lui small grey wired button" (click)="uiConfig.selectShortcut(shortcut)">{{ shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>
 		<li class="group" *ngFor="let group of groupedShortcuts">
 			<ul>
 				<li class="shortcut" *ngFor="let shortcut of group">
-					<a class="lui small grey wired button" (click)="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+					<a class="lui small grey wired button" (click)="uiConfig.selectShortcut(shortcut)">{{ shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>

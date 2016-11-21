@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Shortcut } from './calendar.class';
 import { IFormatter, MomentFormatter } from '../../utils/formatter';
-import { CalendarMode, Calendar } from './calendar.class';
+import { CalendarMode } from './calendar.class';
 import { CalendarBaseComponent } from './calendar-base.component';
 import { FormControl } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { FormControl } from '@angular/forms';
 	selector: 'luid-date-picker',
 	templateUrl: 'datepicker-inline.html'
 })
-export class LuiDatePickerComponent extends CalendarBaseComponent {
+export class LuiDatePickerComponent extends CalendarBaseComponent implements OnChanges, OnInit {
 	private formatter: IFormatter<moment.Moment>;
 	private formControl: FormControl;
 
@@ -34,15 +34,11 @@ export class LuiDatePickerComponent extends CalendarBaseComponent {
 	@Input() public shortcuts: Object[];
 	@Input() public groupedShortcuts: string;
 
-	@Output() ngModelChange = new EventEmitter();
+	@Output() dateChange = new EventEmitter();
 
 	public displayStr: string;
 	public selected: moment.Moment;
 	public selectedViewValue: string;
-
-	constructor() {
-		super({}, () => {});
-	}
 
 	public ngOnInit() {
 		this.setFormat(this.format, this.displayFormat);
@@ -50,7 +46,14 @@ export class LuiDatePickerComponent extends CalendarBaseComponent {
 		this.formControl = new FormControl(this.date);
 		this.formControl.registerOnChange(() => this.render());
 		this.render();
-		console.log(this.calendars);
+	}
+
+	public ngOnChanges(changes: SimpleChanges) {
+		for (let propName in changes) {
+			if (propName === 'date') {
+				this.date = this.date.isValid() ? this.date : undefined;
+			}
+		}
 	}
 
 	public selectShortcut = (shortcut: Shortcut) => {
@@ -91,71 +94,73 @@ export class LuiDatePickerComponent extends CalendarBaseComponent {
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
 		this.selected = date;
+		this.date = this.selected;
 		this.assignClasses();
 		// this.closePopover();
+		this.dateChange.emit(this.date);
 	}
-	public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
-		let onClosing = (): void => {
-			this.formControl.markAsTouched();
-			this.closePopover();
-		};
-		this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
-		$scope.popover = { isOpen: false };
-		$scope.togglePopover = ($event: ng.IAngularEvent) => {
-			this.togglePopover($event);
-		};
-	}
+	// public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
+	// 	let onClosing = (): void => {
+	// 		this.formControl.markAsTouched();
+	// 		this.closePopover();
+	// 	};
+	// 	this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
+	// 	$scope.popover = { isOpen: false };
+	// 	$scope.togglePopover = ($event: ng.IAngularEvent) => {
+	// 		this.togglePopover($event);
+	// 	};
+	// }
 
-	public setElement(element: ng.IAugmentedJQuery): void {
-		this.element = element;
-	}
+	// public setElement(element: ng.IAugmentedJQuery): void {
+	// 	this.element = element;
+	// }
 
-	// ng-model logic
+	// // ng-model logic
 	private setViewValue(value: moment.Moment): void {
 		this.selectedViewValue = this.formatter.formatValue(value);
 		this.formControl.markAsTouched();
 	}
-	/*
-	private getViewValue(): moment.Moment {
-		return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
-	}
-	private validate(): void {
-		this.ngModelCtrl.$validate();
-	}
-	*/
+
+	// private getViewValue(): moment.Moment {
+	// 	return this.formatter.parseValue(this.ngModelCtrl.$viewValue);
+	// }
+	// private validate(): void {
+	// 	this.ngModelCtrl.$validate();
+	// }
+
 	private render(): void {
 		this.currentDate = moment(this.date).startOf('month');
-		this.config.mode = this.minMode;
+		this.uiConfig.mode = this.minMode;
 		this.calendars = this.constructCalendars();
-		this.selected = this.date;
+		// this.selected = moment(this.date);
 		this.min = this.formatter.parseValue(this.min);
 		this.max = this.formatter.parseValue(this.max);
 		this.assignClasses();
-		this.displayStr = this.getDisplayStr(this.date);
+		this.displayStr = this.getDisplayStr(moment(this.date));
 	}
 	// popover logic
-	private togglePopover($event: ng.IAngularEvent): void {
-		if (this.$scope.popover.isOpen) {
-			this.closePopover();
-		} else {
-			this.openPopover($event);
-		}
-	}
-	private closePopover(): void {
-		this.$scope.direction = '';
-		this.element.removeClass('ng-open');
-		if (!!this.popoverController) {
-			this.popoverController.close();
-		}
-	}
-	private openPopover($event: ng.IAngularEvent): void {
-		this.element.addClass('ng-open');
-		this.$scope.direction = 'init';
-		if (!!this.popoverController) {
-			this.render();
-			this.popoverController.open($event);
-		}
-	}
+	// private togglePopover($event: ng.IAngularEvent): void {
+	// 	if (this.$scope.popover.isOpen) {
+	// 		this.closePopover();
+	// 	} else {
+	// 		this.openPopover($event);
+	// 	}
+	// }
+	// private closePopover(): void {
+	// 	this.$scope.direction = '';
+	// 	this.element.removeClass('ng-open');
+	// 	if (!!this.popoverController) {
+	// 		this.popoverController.close();
+	// 	}
+	// }
+	// private openPopover($event: ng.IAngularEvent): void {
+	// 	this.element.addClass('ng-open');
+	// 	this.$scope.direction = 'init';
+	// 	if (!!this.popoverController) {
+	// 		this.render();
+	// 		this.popoverController.open($event);
+	// 	}
+	// }
 
 	private getDisplayStr(date: moment.Moment): string {
 		return !!date ? date.format(this.displayFormat) : undefined;
