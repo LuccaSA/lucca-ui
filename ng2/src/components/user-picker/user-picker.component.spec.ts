@@ -349,8 +349,8 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const legalEntityProperty = homonyms[0].homonyms.find(h => h.key === 'legalEntity').value;
-				expect(legalEntityProperty).toEqual(usersWithHomonyms[0].legalEntity);
+				const legalEntityProperty = homonyms[0].homonyms.find(h => h.name === 'legalEntity.name').value;
+				expect(legalEntityProperty).toEqual(usersWithHomonyms[0].legalEntity.name);
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
 		}));
@@ -394,10 +394,10 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.name);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('department');
-				expect(homonymsProperties).toContain('legalEntity');
+				expect(homonymsProperties).toContain('department.name');
+				expect(homonymsProperties).toContain('legalEntity.name');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
 		})));
@@ -430,9 +430,9 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.name);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('department');
+				expect(homonymsProperties).toContain('department.name');
 				expect(homonymsProperties).toContain('mail');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
@@ -465,7 +465,7 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.name);
 
 				expect(homonymsProperties.length).toBe(1);
 				expect(homonymsProperties).toContain('employeeNumber');
@@ -554,10 +554,10 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.name);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('department');
-				expect(homonymsProperties).toContain('legalEntity');
+				expect(homonymsProperties).toContain('department.name');
+				expect(homonymsProperties).toContain('legalEntity.name');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
 		}));
@@ -607,62 +607,87 @@ describe('luid-user-picker', () => {
 			setTimeout(() => {
 				const homonyms = app.users.filter(u => u.hasHomonyms);
 
-				const homonymsProperties = homonyms[0].homonyms.map(h => h.key);
+				const homonymsProperties = homonyms[0].homonyms.map(h => h.name);
 				expect(homonymsProperties.length).toBe(2);
-				expect(homonymsProperties).toContain('department');
-				expect(homonymsProperties).toContain('legalEntity');
+				expect(homonymsProperties).toContain('department.name');
+				expect(homonymsProperties).toContain('legalEntity.name');
 			}, INPUT_DEBOUNCE);
 			tick(INPUT_DEBOUNCE);
 		})));
 	});
 
-	// /**********************
-	// ** HOMONYMS WITH     **
-	// ** CUSTOM PROPERTIES **
-	// **********************/
-	// describe('with homonyms and custom properties', () => {
-	// 	beforeEach(() => {
-	// 		$scope.properties= [{
-	// 			'label': 'Date de naissance',
-	// 			'name': 'birthDate'
-	// 		}, {
-	// 			'label': 'Email',
-	// 			'name': 'mail'
-	// 		}, {
-	// 			'label': 'Nom du manager',
-	// 			'name': 'manager.name'
-	// 		}];
-	// 		var tpl = angular.element('<luid-user-picker ng-model='myUser' homonyms-properties='properties'></luid-user-picker>');
-	// 		elt = $compile(tpl)($scope);
-	// 		isolateScope = elt.isolateScope();
-	// 		$scope.$digest();
+	/**********************
+	** HOMONYMS WITH     **
+	** CUSTOM PROPERTIES **
+	**********************/
+	describe('with homonyms and custom properties', () => {
+		const properties = [{
+			'label': 'Date de naissance',
+			'name': 'birthDate'
+		}, {
+			'label': 'Email',
+			'name': 'mail'
+		}, {
+			'label': 'Nom du manager',
+			'name': 'manager.name'
+		}];
 
-	// 		$httpBackend.whenGET(findApi).respond(200, RESPONSE_4_users_2_homonyms);
-	// 		isolateScope.find();
-	// 	});
-	// 	it('should fetch additional info for these homonyms via the right api', () => {
-	// 		$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
-	// 		expect($httpBackend.flush).not.toThrow();
-	// 	});
-	// 	it('should fetch additional info for these homonyms and add the properties to the users', () => {
-	// 		$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
-	// 		$httpBackend.flush();
+		const users = [
+			{ 'id': 1, 'firstName': 'Lucien', 'lastName': 'Bertin'},
+			{ 'id': 2, 'firstName': 'Jean-Baptiste', 'lastName': 'Beuzelin' },
+			{ 'id': 3, 'firstName': 'Lucien', 'lastName': 'Bertin' },
+			{ 'id': 4, 'firstName': 'Benoit', 'lastName': 'Paugam' }
+		];
 
-	// 		// users = [{'id':1, 'firstName':'Lucien','lastName':'Bertin','hasHomonyms':true,'mail':'no-reply@lucca.fr','manager':{'name':'Romain Vergnory'},'birthDate':'1990-12-10T00:00:00'},{'id':3,'firstName':'Lucien','lastName':'Bertin','hasHomonyms':true,'mail':'no-reply@lucca.fr','manager':{'name':'Benoît Paugam'},'birthDate':'1986-03-25T00:00:00'}];
-	// 		var homonyms = _.where(isolateScope.users, {hasHomonyms:true}); // keep only the one having an homonym
-	// 		expect(angular.equals(RESPONSE_2_homonyms_details_0_2.data.items[0].birthDate, homonyms[0].birthDate)).toBe(true);
-	// 	});
-	// 	it('should identify the first and third property as differentiating properties', () => {
-	// 		$httpBackend.expectGET(/api\/v3\/users\?id=1,3\&fields=id,firstname,lastname,birthDate,mail,manager.name/i).respond(RESPONSE_2_homonyms_details_0_2);
-	// 		$httpBackend.flush();
+		const usersWithHomonyms = [
+			{
+				'id': 1,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'manager': {'name': 'Romain Vergnory'},
+				'birthDate': '1990-12-10T00:00:00'
+			},
+			{
+				'id': 3,
+				'firstName': 'Lucien',
+				'lastName': 'Bertin',
+				'mail': 'no-reply@lucca.fr',
+				'manager': {'name': 'Benoît Paugam'},
+				'birthDate': '1986-03-25T00:00:00'
+			}
+		];
 
-	// 		expect(isolateScope.displayedProperties.length).toBe(2);
-	// 		expect(isolateScope.displayedProperties[0].name).toBe('birthDate');
-	// 		expect(isolateScope.displayedProperties[1].name).toBe('manager.name');
-	// 		expect(isolateScope.displayedProperties[0].label).toBe('Date de naissance');
-	// 		expect(isolateScope.displayedProperties[1].label).toBe('Nom du manager');
-	// 	});
+		let fixture, app;
 
+		beforeEach(inject([LuiUserPickerService], (service) => {
+			fixture = TestBed.createComponent(LuiUserPickerComponent);
+			app = fixture.debugElement.componentInstance;
+
+			service.getUsers = jasmine.createSpy('getUsers').and.returnValue(Observable.of(users));
+			service.getHomonymsProperties = jasmine.createSpy('getHomonymsProperties').and.returnValue(Observable.of(usersWithHomonyms));
+
+			app.homonymsProperties = properties;
+		}));
+
+		it('should identify the first and third property as differentiating properties', fakeAsync(() => {
+			fixture.detectChanges();
+
+			setTimeout(() => {
+				const homonyms = app.users.filter(u => u.hasHomonyms);
+
+				const homonymsProperties = homonyms[0].homonyms;
+				expect(homonymsProperties.length).toBe(2);
+
+				expect(homonymsProperties[0].name).toBe('birthDate');
+				expect(homonymsProperties[1].name).toBe('manager.name');
+				expect(homonymsProperties[0].label).toBe('Date de naissance');
+				expect(homonymsProperties[1].label).toBe('Nom du manager');
+			}, INPUT_DEBOUNCE);
+			tick(INPUT_DEBOUNCE);
+		}));
+
+	// TODO Vraiment utile ??
 	// 	describe('after updating homonyms-properties', () => {
 	// 		beforeEach(() => {
 	// 			// flush the response related to the previous request
@@ -713,7 +738,7 @@ describe('luid-user-picker', () => {
 	// 			$httpBackend.flush();
 	// 		});
 	// 	})
-	// });
+	});
 
 	// /*********************
 	// ** CUSTOM INFO SYNC **

@@ -44,7 +44,7 @@ export class LuiUserPickerComponent implements OnInit, OnDestroy {
 
 	private _users: Array<User>;
 	private get users() { return this._users; }
-	private set users(users: Array<User>) { this.items = formatItems(users); this._users = users; }
+	private set users(users: Array<User>) { this.items = formatItems(users, this.homonymsProperties); this._users = users; }
 
 	private observableInput: BehaviorSubject<string> = new BehaviorSubject('');
 
@@ -113,9 +113,9 @@ export class LuiUserPickerComponent implements OnInit, OnDestroy {
 		const homonyms = users.filter(user => user.hasHomonyms);
 
 		if (homonyms.length) {
-			return this.usersService.getHomonymsProperties(homonyms, this.homonymsProperties.map(p => p.value))
+			return this.usersService.getHomonymsProperties(homonyms, this.homonymsProperties.map(p => p.name))
 				.map(usersWithHomonyms => {
-					const homonymsDictionary = getDifferentiatingPropertiesByUserid(usersWithHomonyms);
+					const homonymsDictionary = getDifferentiatingPropertiesByUserid(usersWithHomonyms, this.homonymsProperties);
 
 					return users.map(user => Object.assign(user, homonymsDictionary[user.id]));
 				});

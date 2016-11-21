@@ -115,4 +115,20 @@ describe('userPickerService', () => {
 		}));
 	});
 
+	describe('with homonyms and custom properties', () => {
+		it('should fetch additional info for these homonyms via the right api', fakeAsync(() => {
+			const homonymsProperties = ['a.b.c', 'cc.dd'];
+			const usersIds = [1, 2];
+			mockbackend.connections.subscribe((connection: MockConnection) => {
+
+				expect(connection.request.method)
+					.toBe(RequestMethod.Get);
+				expect(connection.request.url)
+					.toBe(`/api/v3/users?id=${usersIds.join(',')}&fields=${homonymsProperties.join(',')},id,firstName,lastName`);
+			});
+
+			service.getHomonymsProperties(usersIds.map(i => ({id: i})), homonymsProperties);
+		}));
+	});
+
 });

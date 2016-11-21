@@ -1,8 +1,8 @@
-import { HomonymProperty, defaultHomonymsProperties } from './constants';
+import { HomonymProperty } from './constants';
 import { User } from './user.model';
 import * as moment from 'moment';
 
-const getNameIdentifier = user => `${user.firstName}${user.lastName}`.toLowerCase();
+const getNameIdentifier = user => `${user.firstName}_${user.lastName}`.toLowerCase();
 
 export function markFormerEmployees(users: Array<User>): Array<User> {
 	return users.map(user => {
@@ -30,20 +30,13 @@ export function markHomonyms(users: Array<User>): Array<User> {
 	});
 }
 
-const getHomonymProperty = (defaultHomonymsProperties: Array<HomonymProperty>, homonymProperty: {key: string, value: string}) => {
-	return defaultHomonymsProperties.find(hp => hp.name === homonymProperty.key);
-};
-
-export function formatItems(users: Array<User>): Array<{id: any, text: string}> {
+export function formatItems(users: Array<User>, homonymsPropertiesCandidates: Array<HomonymProperty>): Array<{id: any, text: string}> {
 	return users
 		.map(user => {
 			let text = `<div>${user.firstName} ${user.lastName}</div>`;
 
 			if (user.hasHomonyms) {
-				const homonyms = user.homonyms.map(h => {
-					let property = getHomonymProperty(defaultHomonymsProperties, h);
-					return `<i class="lui icon ${property.icon}"></i> <strong>${property.label}</strong> ${h.value}`;
-				});
+				const homonyms = user.homonyms.map(h => `<i class="lui icon ${h.icon}"></i> <strong>${h.label}</strong> ${h.value}`);
 
 				text += `<div>${homonyms.join('<br>')}</div>`;
 			}
@@ -64,61 +57,51 @@ export function formatItems(users: Array<User>): Array<{id: any, text: string}> 
 		});
 }
 
-const arePropertiesEqual = (a, b) => {
-	if (a instanceof Object) {
-		return JSON.stringify(a) === JSON.stringify(b);
+const getDeepKeyValue = (object: Object, key: string) => {
+	const keys = key.split('.');
+
+	if (keys.length > 1) {
+		return getDeepKeyValue(object[keys[0]], keys.slice(1).join('.'));
 	}
-	return a === b;
+
+	return object[keys[0]];
 };
 
-const sortKeysByPriority = (keys: string[]) => {
-	const orderedDefaultHomonymsProperties = defaultHomonymsProperties
+const keepDifferentiatingKeys = (users: Array<any>, homonymsProperties: Array<HomonymProperty>) => {
+	const orderedProperties = homonymsProperties
 		.sort((a, b) => {
 			if (a.priority > b.priority) {
 				return -1;
 			} else {
 				return 1;
 			}
-		})
-		.map(p => p.name);
-
-	return keys
-		.concat() // Use concat to create a new array
-		.sort((a, b) => {
-			const indexOfA = orderedDefaultHomonymsProperties.indexOf(a);
-			const indexOfB = orderedDefaultHomonymsProperties.indexOf(b);
-
-			if (indexOfA === -1 || indexOfA < indexOfB) {
-				return -1;
-			} else {
-				return 1;
-			}
 		});
-};
 
-const keepDifferentiatingKeys = (users: Array<any>) => {
-	const unusedKeys = ['id', 'firstName', 'lastName'];
-	const keys = Object
-		.keys(users[0])
-		.filter(k => unusedKeys.indexOf(k) === -1);
-
-	const orderedKeys = sortKeysByPriority(keys);
-
-	const differentiatingKeys = orderedKeys.map(key => {
-		if (users.every(user => arePropertiesEqual(user[key], users[0][key]))) {
+	const differentiatingProperties = orderedProperties.map(prop => {
+		const key = prop.name;
+		const firstUserValue = getDeepKeyValue(users[0], key);
+		if (users.every(user => getDeepKeyValue(user, key) === firstUserValue)) {
 			return null;
 		}
-		return key;
-	}).filter(key => key !== null)
+		return prop;
+	}).filter(prop => prop !== null)
 	.slice(0, 2);
 
 	return users.map(user => ({
 		id: user.id,
-		homonyms: [ ...differentiatingKeys.map(key => ({key: key, value: user[key]}))]
+		homonyms: [ ...differentiatingProperties.map(prop => ({
+			name: prop.name,
+			value: getDeepKeyValue(user, prop.name),
+			label: prop.label,
+			icon: prop.icon
+		}))]
 	}));
 };
 
-export function getDifferentiatingPropertiesByUserid(usersWithHomonyms: Array<any>): {[id: number]: any} {
+export function getDifferentiatingPropertiesByUserid(
+	usersWithHomonyms: Array<any>,
+	homonymsProperties: Array<HomonymProperty>
+): {[id: number]: any} {
 	const homonymsDictionary = usersWithHomonyms.reduce((prev, cur) => {
 		let name = getNameIdentifier(cur);
 
@@ -126,7 +109,7 @@ export function getDifferentiatingPropertiesByUserid(usersWithHomonyms: Array<an
 	}, {});
 
 	return Object.keys(homonymsDictionary)
-		.map(key => keepDifferentiatingKeys(homonymsDictionary[key]))
+		.map(key => keepDifferentiatingKeys(homonymsDictionary[key], homonymsProperties))
 		.reduce((prev, cur) => [...prev, ...cur], [])
 		.reduce((prev, cur) => Object.assign(prev, {[cur.id]: cur}, {}), {});
 }
