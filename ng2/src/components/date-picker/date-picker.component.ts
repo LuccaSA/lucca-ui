@@ -92,7 +92,7 @@ export class LuiDatePickerComponent extends CalendarBaseComponent {
 		this.displayStr = this.getDisplayStr(date);
 		this.selected = date;
 		this.assignClasses();
-		this.closePopover();
+		// this.closePopover();
 	}
 	public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
 		let onClosing = (): void => {

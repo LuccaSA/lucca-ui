@@ -4,6 +4,7 @@ import { CalendarBaseComponent } from './calendar-base.component'
 
 // most methods are private or protected, i use this to be able to add spies
 interface ICalendarBaseComponent {
+	calendars: Calendar[];
 	currentDate: moment.Moment;
 	setCalendarCnt(cnt?: number): void;
 	constructCalendars(): Calendar[];
@@ -79,22 +80,22 @@ describe('calendar controller', () => {
 		beforeEach(() => {
 			baseCmpnt.setCalendarCnt();
 			baseCmpnt.currentDate = moment('2016-06-06'); // june 2016
-			config.calendars = baseCmpnt.constructCalendars();
+			baseCmpnt.calendars = baseCmpnt.constructCalendars();
 		});
 		it('assign class selected to the selected day', () => {
 			baseCmpnt.selected = moment('2016-06-06');
 			baseCmpnt.assignClasses();
-			let june6 = config.calendars[0].weeks[1].days[0];
+			let june6 = baseCmpnt.calendars[0].weeks[1].days[0];
 			expect(june6.selected).toBe(true);
 		});
 		it('assign class start to the start day, end to end and in-between between', () => {
 			baseCmpnt.start = moment('2016-06-06');
 			baseCmpnt.end = moment('2016-06-16');
 			baseCmpnt.assignClasses();
-			let june6 = config.calendars[0].weeks[1].days[0];
-			let june7 = config.calendars[0].weeks[1].days[1];
-			let june14 = config.calendars[0].weeks[2].days[1];
-			let june16 = config.calendars[0].weeks[2].days[3];
+			let june6 = baseCmpnt.calendars[0].weeks[1].days[0];
+			let june7 = baseCmpnt.calendars[0].weeks[1].days[1];
+			let june14 = baseCmpnt.calendars[0].weeks[2].days[1];
+			let june16 = baseCmpnt.calendars[0].weeks[2].days[3];
 			expect(june6.start).toBe(true);
 			expect(june16.end).toBe(true);
 			expect(june7.inBetween).toBe(true);
@@ -104,10 +105,10 @@ describe('calendar controller', () => {
 			baseCmpnt.min = moment('2016-06-06');
 			baseCmpnt.max = moment('2016-06-16');
 			baseCmpnt.assignClasses();
-			let june5 = config.calendars[0].weeks[0].days[6];
-			let june6 = config.calendars[0].weeks[1].days[0];
-			let june16 = config.calendars[0].weeks[2].days[3];
-			let june17 = config.calendars[0].weeks[2].days[4];
+			let june5 = baseCmpnt.calendars[0].weeks[0].days[6];
+			let june6 = baseCmpnt.calendars[0].weeks[1].days[0];
+			let june16 = baseCmpnt.calendars[0].weeks[2].days[3];
+			let june17 = baseCmpnt.calendars[0].weeks[2].days[4];
 			expect(june5.disabled).toBeTruthy();
 			expect(june6.disabled).toBeFalsy();
 			expect(june16.disabled).toBeFalsy();
@@ -118,8 +119,8 @@ describe('calendar controller', () => {
 				return m.format('L');
 			}
 			baseCmpnt.assignClasses();
-			let june6 = config.calendars[0].weeks[1].days[0];
-			let june16 = config.calendars[0].weeks[2].days[3];
+			let june6 = baseCmpnt.calendars[0].weeks[1].days[0];
+			let june16 = baseCmpnt.calendars[0].weeks[2].days[3];
 			expect(june6.customClass).toBe(june6.date.format('L'));
 			expect(june16.customClass).toBe(june16.date.format('L'));
 		});

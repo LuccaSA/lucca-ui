@@ -41,8 +41,8 @@ describe('luid-date-picker', () => {
 			shortcuts = [shortcut]
 		});
 
-		it('should select shortcut', () => {
-			component.selectShortcut(shortcuts[0]);
-		});
+		// it('should select shortcut', () => {
+		// 	component.selectShortcut(shortcuts[0]);
+		// });
 	});
 });
