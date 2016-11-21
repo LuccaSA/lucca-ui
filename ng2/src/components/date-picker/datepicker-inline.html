@@ -1,5 +1,5 @@
 <div class="calendars">
-	<div class="calendar" [attr.mode]="mode" *ngFor="let calendar of calendars" ng-class="[direction]">
+	<div class="calendar" [attr.mode]="config.mode" *ngFor="let calendar of calendars" ng-class="[direction]">
 		<header>
 			<button class="previous" ng-click="previous()"></button>
 			<span ng-switch="mode">
@@ -12,51 +12,51 @@
 
 		<table class="days">
 			<thead>
-				<th *ngFor="let dayLabel of dayLabels">{{ dayLabel }}</th>
+				<th *ngFor="let dayLabel of config.dayLabels">{{ dayLabel }}</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="week in calendar.weeks">
-					<td ng-repeat="day in week.days"
+				<tr *ngFor="let week of calendar.weeks">
+					<td *ngFor="let day of week.days"
 						ng-class="[{empty: day.empty, selected: day.selected}, day.customClass]"
 						ng-disabled="day.disabled"
-						ng-click="selectDay(day)">{{ day.dayNum }}</td>
+						ng-click="selectDay(day)">{{ day?.dayNum }}</td>
 				</tr>
 			</tbody>
 		</table>
 
 		<div class="months">
 			<ul>
-				<li ng-repeat="m in calendar.months"
+				<li *ngFor="let m of calendar.months"
 				ng-click="selectMonth(m)"
 				ng-disabled="m.disabled"
-				ng-class="[{selected: m.selected}, m.customClass]">{{ m.date | luipMoment : "MMM" }}</li>
+				ng-class="[{selected: m.selected}, m.customClass]">{{ m?.date | luipMoment : "MMM" }}</li>
 			</ul>
 		</div>
 
 		<div class="years">
 			<ul>
-				<li ng-repeat="y in calendar.years"
+				<li *ngFor="let y of calendar.years"
 				ng-disabled="y.disabled"
 				ng-click="selectYear(y)"
-				ng-class="[{selected: y.selected}, y.customClass]">{{ y.date | luipMoment : "YYYY" }}</li>
+				ng-class="[{selected: y.selected}, y.customClass]">{{ y?.date | luipMoment : "YYYY" }}</li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-<footer ng-if="!!shortcuts || !!groupedShortcuts">
+<footer *ngIf="!!shortcuts || !!groupedShortcuts">
 	<ul>
-		<li ng-if="!!shortcuts.length">
+		<li *ngIf="!!shortcuts.length">
 			<ul>
-				<li class="shortcut" ng-repeat="shortcut in shortcuts">
-					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+				<li class="shortcut" *ngFor="let shortcut of shortcuts">
+					<a class="lui small grey wired button" (click)="selectShortcut(shortcut)">{{ shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>
-		<li class="group" ng-if="!!groupedShortcuts.length" ng-repeat="group in groupedShortcuts">
+		<li class="group" *ngFor="let group of groupedShortcuts">
 			<ul>
-				<li class="shortcut" ng-repeat="shortcut in group">
-					<a class="lui small grey wired button" ng-click="selectShortcut(shortcut)">{{ shortcut.label }}</a>
+				<li class="shortcut" *ngFor="let shortcut of group">
+					<a class="lui small grey wired button" (click)="selectShortcut(shortcut)">{{ shortcut.label }}</a>
 				</li>
 			</ul>
 		</li>

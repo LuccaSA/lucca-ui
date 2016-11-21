@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export class CalendarDate {
 	public date: moment.Moment;
 	public disabled: boolean;
@@ -44,7 +46,7 @@ export enum CalendarMode {
 	Months = 1,
 	Years = 2,
 }
-export interface ICalendarScope extends ng.IScope {
+export interface ICalendarConfiguration {
 	customClass: (date: moment.Moment, mode?: CalendarMode) => string;
 	displayedMonths: string;
 
