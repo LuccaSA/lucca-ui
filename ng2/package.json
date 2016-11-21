@@ -1,7 +1,8 @@
 {
-  "name": "app",
-  "version": "0.0.0",
+  "name": "lucca-ui",
+  "version": "4.0.0",
   "license": "MIT",
+  "main": "./build/index.js",
   "scripts": {
     "clean": "rimraf node_modules doc dist && npm cache clean",
     "clean-install": "npm run clean && npm install",
@@ -22,7 +23,8 @@
     "docs": "typedoc --options typedoc.json demo/app/app.component.ts",
     "start": "npm run server",
     "start:hmr": "npm run server -- --hot",
-    "postinstall": "npm run webdriver-update"
+    "postinstall": "npm run webdriver-update",
+    "prepublish": "ngc"
   },
   "dependencies": {
     "@angular/common": "^2.2.0",

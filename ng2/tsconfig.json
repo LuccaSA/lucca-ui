@@ -1,14 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "noEmitHelpers": true
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5",
+    "outDir": "./dist"
   },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "index.ts"
+  ],
   "compileOnSave": false,
-  "buildOnSave": false,
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true
+  },
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
     "useWebpackText": true
