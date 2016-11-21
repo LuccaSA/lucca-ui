@@ -1,11 +1,11 @@
 <div class="calendars">
-	<div class="calendar" [attr.mode]="config.mode" *ngFor="let calendar of calendars" ng-class="[direction]">
+	<div class="calendar" [attr.mode]="config.mode" *ngFor="let calendar of calendars" [ngClass]="config.direction">
 		<header>
 			<button class="previous" (click)="config.previous()"></button>
-			<span ng-switch="mode">
-				<span ng-switch-default ng-click="switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
-				<span ng-switch-when="1" ng-click="switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
-				<span ng-switch-when="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
+			<span [ngSwitch]="config.mode">
+				<span *ngSwitchDefault (click)="switchToMonthMode()">{{ calendar.date | luipMoment : calendar.currentYear ? "MMMM" : "MMMM - YYYY" }}</span>
+				<span *ngSwitchCase="1" (click)="switchToYearMode()">{{ calendar.date | luipMoment : "YYYY" }}</span>
+				<span *ngSwitchCase="2">{{ calendar.date.year() }} - {{ calendar.date.year() + 11 }}</span>
 			</span>
 			<button class="next" (click)="config.next()"></button>
 		</header>
@@ -17,9 +17,10 @@
 			<tbody>
 				<tr *ngFor="let week of calendar.weeks">
 					<td *ngFor="let day of week.days"
-						ng-class="[{empty: day.empty, selected: day.selected}, day.customClass]"
+						[ngClass]="{empty: day.empty, selected: day.selected}"
+						class="{{ day.customClass }}"
 						ng-disabled="day.disabled"
-						ng-click="selectDay(day)">{{ day?.dayNum }}</td>
+						(click)="selectDay(day)">{{ day?.dayNum }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -27,18 +28,20 @@
 		<div class="months">
 			<ul>
 				<li *ngFor="let m of calendar.months"
-				ng-click="selectMonth(m)"
-				ng-disabled="m.disabled"
-				ng-class="[{selected: m.selected}, m.customClass]">{{ m?.date | luipMoment : "MMM" }}</li>
+					(click)="selectMonth(m)"
+					ng-disabled="m.disabled"
+					[ngClass]="{selected: m.selected}"
+					class="{{ m.customClass }}">{{ m?.date | luipMoment : "MMM" }}</li>
 			</ul>
 		</div>
 
 		<div class="years">
 			<ul>
 				<li *ngFor="let y of calendar.years"
-				ng-disabled="y.disabled"
-				ng-click="selectYear(y)"
-				ng-class="[{selected: y.selected}, y.customClass]">{{ y?.date | luipMoment : "YYYY" }}</li>
+					ng-disabled="y.disabled"
+					(click)="selectYear(y)"
+					[ngClass]="{selected: y.selected}"
+					class="{{ y.customClass }}">{{ y?.date | luipMoment : "YYYY" }}</li>
 			</ul>
 		</div>
 	</div>
