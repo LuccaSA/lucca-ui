@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -10,11 +10,13 @@
     "target": "es5",
     "outDir": "./dist"
   },
-  "exclude": [
-    "node_modules"
+  "include": [
+     "index.ts"
   ],
-  "files": [
-    "index.ts"
+  "exclude": [
+    "./node_modules",
+    "**/*.spec.ts",
+	"./demo"
   ],
   "compileOnSave": false,
   "angularCompilerOptions": {
