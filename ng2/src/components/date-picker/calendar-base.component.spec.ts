@@ -1,4 +1,5 @@
-import * as moment from 'moment'
+import 'jasmine';
+import * as moment from 'moment';
 import { Calendar, ICalendarUiConfig, CalendarMode } from './calendar.class'
 import { CalendarBaseComponent } from './calendar-base.component'
 
