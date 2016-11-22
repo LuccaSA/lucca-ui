@@ -27,7 +27,7 @@
 
 		<div class="months">
 			<ul>
-				<li *ngFor="let m of calendar.months">
+				<li *ngFor="let m of calendar.months"
 					(click)="uiConfig.selectMonth(m)"
 					ng-disabled="m.disabled"
 					[ngClass]="{selected: m.selected}"

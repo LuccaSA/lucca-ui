@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import * as _ from '@types/underscore';
+import * as _ from 'underscore';
 import { ICalendarUiConfig, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
 
 
