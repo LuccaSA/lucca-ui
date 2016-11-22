@@ -70,10 +70,11 @@ export interface ICalendarUiConfig {
 	switchToMonthMode(): void;
 	switchToYearMode(): void;
 
-	onMouseEnter(day: CalendarDay, $event?: ng.IAngularEvent): void;
-	onMouseLeave(day: CalendarDay, $event?: ng.IAngularEvent): void;
+	onMouseEnter(day: CalendarDay, $event?: MouseEvent): void;
+	onMouseLeave(day: CalendarDay, $event?: MouseEvent): void;
 }
-export interface ICalendarValidators extends ng.IModelValidators {
+export interface ICalendarValidators {
+	[index: string]: (modelValue: any, viewValue: any) => boolean;
 	min: (modelValue: any, viewValue: any) => boolean;
 	max: (modelValue: any, viewValue: any) => boolean;
 }
