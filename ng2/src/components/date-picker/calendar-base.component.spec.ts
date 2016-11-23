@@ -1,6 +1,6 @@
 import 'jasmine';
 import * as moment from 'moment';
-import { Calendar, ICalendarUiConfig, CalendarMode } from './calendar.class'
+import { Calendar, ICalendarUiController, CalendarMode } from './calendar.class'
 import { CalendarBaseComponent } from './calendar-base.component'
 
 // most methods are private or protected, i use this to be able to add spies
@@ -16,7 +16,7 @@ interface ICalendarBaseComponent {
 	end: moment.Moment;
 	min: moment.Moment;
 	max: moment.Moment;
-	uiConfig: ICalendarUiConfig;
+	uiCtrl: ICalendarUiController;
 }
 class TestComponent extends CalendarBaseComponent {
 	public selectDate(): void {
@@ -108,7 +108,7 @@ describe('calendar controller', () => {
 			expect(june17.disabled).toBeTruthy();
 		});
 		it('assign customClass to every days', () => {
-			baseCmpnt.uiConfig.customClass = (m) => {
+			baseCmpnt.uiCtrl.customClass = (m) => {
 				return m.format('L');
 			}
 			baseCmpnt.assignClasses();
@@ -128,7 +128,7 @@ describe('calendar controller', () => {
 			spyOn(baseCmpnt, 'assignClasses');
 		});
 		it('should call moment.add and constructMonth', () => {
-			baseCmpnt.uiConfig.previous();
+			baseCmpnt.uiCtrl.previous();
 			expect(m.add).toHaveBeenCalledWith(-1, 'months');
 			expect(baseCmpnt.constructCalendars).toHaveBeenCalled();
 			expect(baseCmpnt.assignClasses).toHaveBeenCalled();
@@ -144,7 +144,7 @@ describe('calendar controller', () => {
 			spyOn(baseCmpnt, 'assignClasses');
 		});
 		it('should call moment.add and constructMonth', () => {
-			baseCmpnt.uiConfig.next();
+			baseCmpnt.uiCtrl.next();
 			expect(m.add).toHaveBeenCalledWith(1, 'months');
 			expect(baseCmpnt.constructCalendars).toHaveBeenCalled();
 			expect(baseCmpnt.assignClasses).toHaveBeenCalled();

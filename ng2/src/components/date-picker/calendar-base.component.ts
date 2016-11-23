@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import { ICalendarUiConfig, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
+import { ICalendarUiController, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
 
 
 export abstract class CalendarBaseComponent {
@@ -13,14 +13,14 @@ export abstract class CalendarBaseComponent {
 	protected minMode: CalendarMode = CalendarMode.Days;
 	public calendars: Calendar[];
 	public selected: moment.Moment;
-	public uiConfig: ICalendarUiConfig;
+	public uiCtrl: ICalendarUiController;
 
 	constructor() {
-		this.uiConfig = <ICalendarUiConfig>{};
+		this.uiCtrl = <ICalendarUiController>{};
 		this.initCalendarUiMethods();
 		this.setMinMode();
-		this.uiConfig.mode = this.minMode;
-		this.uiConfig.direction = 'init';
+		this.uiCtrl.mode = this.minMode;
+		this.uiCtrl.direction = 'init';
 	}
 	public setCalendarCnt(cntStr?: string, inAPopover?: boolean): void {
 		this.calendarCnt = parseInt(cntStr, 10) || 1;
@@ -39,7 +39,7 @@ export abstract class CalendarBaseComponent {
 		});
 	}
 	protected assignClasses(): void {
-		switch (this.uiConfig.mode) {
+		switch (this.uiCtrl.mode) {
 			case CalendarMode.Days:
 				return this.assignDayClasses();
 			case CalendarMode.Months:
@@ -51,7 +51,7 @@ export abstract class CalendarBaseComponent {
 	}
 	protected abstract selectDate(date: moment.Moment): void;
 	private setMinMode(): void {
-		switch ((this.uiConfig.minMode || '').toLowerCase()) {
+		switch ((this.uiCtrl.minMode || '').toLowerCase()) {
 			case '0':
 			case 'd':
 			case 'day':
@@ -100,8 +100,8 @@ export abstract class CalendarBaseComponent {
 			if (!!this.max && this.max.diff(day.date) < 0) {
 				day.disabled = true;
 			}
-			if (!!this.uiConfig.customClass) {
-				day.customClass = this.uiConfig.customClass(day.date, CalendarMode.Days);
+			if (!!this.uiCtrl.customClass) {
+				day.customClass = this.uiCtrl.customClass(day.date, CalendarMode.Days);
 			}
 		});
 	}
@@ -131,8 +131,8 @@ export abstract class CalendarBaseComponent {
 			if (!!this.max && this.max.diff(month.date) < 0) {
 				month.disabled = true;
 			}
-			if (!!this.uiConfig.customClass) {
-				month.customClass = this.uiConfig.customClass(month.date, CalendarMode.Months);
+			if (!!this.uiCtrl.customClass) {
+				month.customClass = this.uiCtrl.customClass(month.date, CalendarMode.Months);
 			}
 		});
 	}
@@ -162,60 +162,60 @@ export abstract class CalendarBaseComponent {
 			if (!!this.max && this.max.diff(year.date) < 0) {
 				year.disabled = true;
 			}
-			if (!!this.uiConfig.customClass) {
-				year.customClass = this.uiConfig.customClass(year.date, CalendarMode.Years);
+			if (!!this.uiCtrl.customClass) {
+				year.customClass = this.uiCtrl.customClass(year.date, CalendarMode.Years);
 			}
 		});
 	}
 
 	private initCalendarUiMethods(): void {
-		this.uiConfig.dayLabels = this.constructDayLabels();
-		this.uiConfig.next = () => {
+		this.uiCtrl.dayLabels = this.constructDayLabels();
+		this.uiCtrl.next = () => {
 			this.changeCurrentDate(1);
 			this.calendars = this.constructCalendars();
-			this.uiConfig.direction = 'next';
+			this.uiCtrl.direction = 'next';
 			this.assignClasses();
 		};
-		this.uiConfig.previous = () => {
+		this.uiCtrl.previous = () => {
 			this.changeCurrentDate(-1);
 			this.calendars = this.constructCalendars();
-			this.uiConfig.direction = 'previous';
+			this.uiCtrl.direction = 'previous';
 			this.assignClasses();
 		};
-		this.uiConfig.switchToMonthMode = () => {
-			this.uiConfig.mode = CalendarMode.Months;
-			this.uiConfig.direction = 'mode-change out';
+		this.uiCtrl.switchToMonthMode = () => {
+			this.uiCtrl.mode = CalendarMode.Months;
+			this.uiCtrl.direction = 'mode-change out';
 			this.currentDate.startOf('year');
 			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
-		this.uiConfig.switchToYearMode = () => {
-			this.uiConfig.mode = CalendarMode.Years;
-			this.uiConfig.direction = 'mode-change out';
+		this.uiCtrl.switchToYearMode = () => {
+			this.uiCtrl.mode = CalendarMode.Years;
+			this.uiCtrl.direction = 'mode-change out';
 			this.calendars = this.constructCalendars();
 			this.assignClasses();
 		};
-		this.uiConfig.selectDay = (day: CalendarDate) => {
+		this.uiCtrl.selectDay = (day: CalendarDate) => {
 			this.selectDate(day.date);
 		};
-		this.uiConfig.selectMonth = (month: CalendarDate) => {
+		this.uiCtrl.selectMonth = (month: CalendarDate) => {
 			if (this.minMode === CalendarMode.Months) {
 				this.selectDate(month.date);
 			} else {
 				this.currentDate = month.date;
-				this.uiConfig.mode = CalendarMode.Days;
-				this.uiConfig.direction = 'mode-change in';
+				this.uiCtrl.mode = CalendarMode.Days;
+				this.uiCtrl.direction = 'mode-change in';
 				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
 		};
-		this.uiConfig.selectYear = (year: CalendarDate) => {
+		this.uiCtrl.selectYear = (year: CalendarDate) => {
 			if (this.minMode === CalendarMode.Years) {
 				this.selectDate(year.date);
 			} else {
 				this.currentDate = year.date;
-				this.uiConfig.mode = CalendarMode.Months;
-				this.uiConfig.direction = 'mode-change in';
+				this.uiCtrl.mode = CalendarMode.Months;
+				this.uiCtrl.direction = 'mode-change in';
 				this.calendars = this.constructCalendars();
 				this.assignClasses();
 			}
@@ -223,7 +223,7 @@ export abstract class CalendarBaseComponent {
 	}
 	private constructCalendar(start: moment.Moment, offset: number): Calendar {
 		let calendar: Calendar;
-		switch (this.uiConfig.mode) {
+		switch (this.uiCtrl.mode) {
 			case CalendarMode.Days:
 				calendar = new Calendar(moment(start).startOf('month').add(offset, 'month'));
 				calendar.weeks = this.constructWeeks(calendar.date);
@@ -289,7 +289,7 @@ export abstract class CalendarBaseComponent {
 		.value();
 	}
 	private changeCurrentDate(offset: number): void {
-		switch (this.uiConfig.mode) {
+		switch (this.uiCtrl.mode) {
 			case CalendarMode.Days:
 				this.currentDate.add(offset, 'months');
 				break;

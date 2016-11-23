@@ -33,7 +33,8 @@ describe('luid-date-picker', () => {
 		beforeEach(() => {
 			const fixture = TestBed.createComponent(LuiDatePickerComponent);
 			component = fixture.componentInstance;
-			component.date = new FormControl(moment('2016-11-21'));
+			component.date = moment('2016-11-21');
+			component.ngOnInit();
 			fixture.detectChanges();
 
 			let shortcut = new Shortcut();

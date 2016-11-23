@@ -130,7 +130,7 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 
 	private render(): void {
 		this.currentDate = moment(this.date).startOf('month');
-		this.uiConfig.mode = this.minMode;
+		this.uiCtrl.mode = this.minMode;
 		this.calendars = this.constructCalendars();
 		// this.selected = moment(this.date);
 		this.min = this.formatter.parseValue(this.min);
