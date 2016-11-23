@@ -1,4 +1,3 @@
-import 'jasmine';
 import { Component, OnInit } from '@angular/core';
 import { LuiDatePickerComponent } from './date-picker.component';
 import { TestBed } from '@angular/core/testing';

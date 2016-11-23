@@ -1,4 +1,3 @@
-import 'jasmine';
 import * as moment from 'moment';
 import { Calendar, ICalendarUiController, CalendarMode } from './calendar.class'
 import { CalendarBaseComponent } from './calendar-base.component'
