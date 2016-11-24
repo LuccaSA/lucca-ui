@@ -24,8 +24,7 @@
     "start": "npm run server",
     "start:hmr": "npm run server -- --hot",
     "postinstall": "npm run webdriver-update",
-    "prepublish": "ngc",
-    "dist": "rimraf dist && tsc --declaration --project ./tsconfig.json"
+    "prepublish": "rimraf dist && ngc"
   },
   "dependencies": {
     "@angular/common": "^2.2.0",
