@@ -29,6 +29,7 @@ Icon?
 Thumbs.db
 
 # Node Files #
+npm-debug.log
 /node_modules
 /bower_components
 
@@ -54,3 +55,6 @@ __build__/**
 # IDE #
 .idea/
 *.swp
+
+# Config #
+proxy.conf.js

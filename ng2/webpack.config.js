@@ -11,6 +11,13 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
+// Proxy config is optional
+// => Model available in proxy.conf.js.model
+var proxy = {};
+try {
+  proxy = require('./proxy.conf');
+} catch (e) {}
+
 /**
  * Env
  * Get npm lifecycle event to identify the environment
@@ -267,7 +274,8 @@ module.exports = function makeWebpackConfig() {
     contentBase: './demo/public',
     historyApiFallback: true,
     quiet: true,
-    stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
+    stats: 'minimal', // none (or false), errors-only, minimal, normal (or true) and verbose
+    proxy: proxy.config
   };
 
   return config;

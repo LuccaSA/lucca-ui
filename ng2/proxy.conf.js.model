@@ -1,0 +1,8 @@
+exports.proxyConfig = {
+  "/api": {
+    "target": "https://URL_HERE",
+    "secure": false,
+    "changeOrigin": true,
+    "headers": {"Cookie": "longToken=TOKEN_HERE"}
+  }
+};
