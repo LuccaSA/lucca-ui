@@ -131,7 +131,7 @@
 					} else {
 						elt.removeClass("ng-open");
 					}
-				}
+				};
 			}
 		};
 	})
