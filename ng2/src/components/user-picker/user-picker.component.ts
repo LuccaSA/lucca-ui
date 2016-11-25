@@ -17,8 +17,8 @@ import 'rxjs/add/observable/zip';
 	template: `
 		<ng-select [disabled]="controlDisabled"
 			[items]="items"
-			(selected)="selected(element)"
-			(removed)="removed(element)"
+			(selected)="selected($event)"
+			(removed)="removed($event)"
 			(typed)="typed($event)"
 			placeholder="Users">
 		</ng-select>
@@ -59,6 +59,7 @@ export class LuiUserPickerComponent implements OnInit, OnDestroy {
 	}
 
 	selected(element: {id: number, text: string}) {
+		console.log(element);
 		this.onSelect.next(this.getUserFromId(element.id));
 	}
 
