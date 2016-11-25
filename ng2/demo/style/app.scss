@@ -9,3 +9,14 @@ body {
 a {
 	color: #03A9F4;
 }
+
+// Override lucca-ui
+body .ui-select-container:not(.ui-select-multiple).open .ui-select-match {
+	visibility: visible!important;
+}
+body .ui-select-container .ui-select-choices {
+	margin-top: 32px;
+}
+body .ui-select-container .ui-select-match-text {
+	white-space: nowrap;
+}

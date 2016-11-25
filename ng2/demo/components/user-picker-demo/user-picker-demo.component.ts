@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
 	templateUrl: 'user-picker-demo.html'
 })
 export class UserPickerDemoComponent {
-	constructor(
-	) {
-	}
+	constructor() { }
 }
 
