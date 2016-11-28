@@ -3,6 +3,12 @@
 
 		$vars: luiTheme(element, popover);
 
+		[popover-trigger="'outsideClick'"],
+		[popover-trigger="outsideClick"],
+		[popover-trigger="click"] {
+			cursor: pointer;
+		}
+
 		#{$prefix}.popover {
 			position: absolute;
 			z-index: map-gets($vars, z-index);
