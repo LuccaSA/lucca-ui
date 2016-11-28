@@ -78,10 +78,10 @@
 				margin-left: 0;
 			}
 
-			&.in.right {
+			&.in.right .modal-dialog {
 				animation-name: rightFadeIn;
 			}
-			&.in.left {
+			&.in.left .modal-dialog {
 				animation-name: leftFadeIn;
 			}
 		}
