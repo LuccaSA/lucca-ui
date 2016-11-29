@@ -63,7 +63,7 @@
 			link: link,
 			template:
 				"<div class='lui timespan input'>" +
-					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()' autocorrect='off' spellcheck='false'>" +
 				"</div>"
 		};
 	}])
