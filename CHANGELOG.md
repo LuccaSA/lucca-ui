@@ -1,4 +1,14 @@
 # Change log
+## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
+
+### Changes (non-breaking)
+### Bug fixes
+- Checkbox: adds support for partially checked
+- Minor fix on side-panel modals appearance
+- Popover: adds cursor pointer on triggering element when click is the triggering
+- Tooltip: break words that are too long
+- Timespanpicker: prevent browser from trying to autocorrect and spellcheck input value
+
 
 ## 3.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.7)
 

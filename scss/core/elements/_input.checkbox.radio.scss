@@ -74,6 +74,9 @@
 				input:checked ~ label {
 					@include lui_make_icon("checkbox checked", right);
 				}
+				&.partial label {
+					@include lui_make_icon("checkbox partial", right);
+				}
 			}
 			&.radio {
 				label {
