@@ -54,10 +54,28 @@
 	<h4 class="lui underline">Usage:</h4>
 </div>
 <p>
-	<pre hljs no-escape language="html">&lt;ui-select ng-model="myVar" <b>class="lui"</b>&gt;
-...
+	<pre hljs no-escape language="html">
+&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
+	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
+	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
+		{{color}}
+	&lt;/ui-select-choices&gt;
 &lt;/ui-select&gt;
-&lt;ui-select  multiple ng-model="myVar" <b>class="lui"</b>&gt;
 ...
-&lt;/ui-select&gt;</pre>
+&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
+	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
+	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
+		{{color}}
+	&lt;/ui-select-choices&gt;
+&lt;/ui-select&gt;
+...
+&lt;span&gt;I seriously want to hire&lt;/span&gt;
+&lt;ui-select ng-model="person.selected" class="lui natural" search-enabled="false"&gt;
+	&lt;ui-select-match placeholder="Pick a user"&gt;{{$select.selected.name}}&lt;/ui-select-match&gt;
+	&lt;ui-select-choices repeat="person in people | filter: $select.search"&gt;
+		&lt;span ng-bind-html="person.name | highlight: $select.search"&gt;&lt;/span&gt;
+	&lt;/ui-select-choices&gt;
+&lt;/ui-select&gt;
+&lt;span&gt;because he/she just rocks at organizing LAN parties.&lt;/span&gt;</pre>
+
 </p>
