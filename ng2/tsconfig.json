@@ -11,13 +11,10 @@
     "outDir": "./dist"
   },
   "include": [
-     "index.ts"
+     "index.ts",
+	 "src/**/*.ts"
   ],
-  "exclude": [
-    "./node_modules",
-    "**/*.spec.ts",
-	"./demo"
-  ],
+  "exclude": [],
   "compileOnSave": false,
   "angularCompilerOptions": {
     "strictMetadataEmit": true,
