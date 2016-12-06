@@ -1,7 +1,7 @@
-import * as moment from 'moment';
 import * as _ from 'underscore';
-import { ICalendarUiController, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
+import * as moment from 'moment';
 
+import { Calendar, CalendarDate, CalendarDay, CalendarMode, CalendarWeek, ICalendarUiController } from './calendar.class';
 
 export abstract class CalendarBaseComponent {
 	protected calendarCnt: number;
@@ -12,7 +12,7 @@ export abstract class CalendarBaseComponent {
 	protected max: moment.Moment;
 	protected minMode: CalendarMode = CalendarMode.Days;
 	public calendars: Calendar[];
-	public selected: moment.Moment;
+	public date: moment.Moment;
 	public uiCtrl: ICalendarUiController;
 
 	constructor() {
@@ -82,7 +82,7 @@ export abstract class CalendarBaseComponent {
 			day.start = false;
 			day.end = false;
 			day.inBetween = false;
-			if (!!this.selected && day.date.format('YYYYMMDD') === moment(this.selected).format('YYYYMMDD')) {
+			if (!!this.date && day.date.format('YYYYMMDD') === moment(this.date).format('YYYYMMDD')) {
 				day.selected = true;
 			}
 			if (!!this.start && day.date.format('YYYYMMDD') === moment(this.start).format('YYYYMMDD')) {
@@ -112,7 +112,7 @@ export abstract class CalendarBaseComponent {
 			month.start = false;
 			month.end = false;
 			month.inBetween = false;
-			if (!!this.selected && month.date.format('YYYYMM') === moment(this.selected).format('YYYYMM')) {
+			if (!!this.date && month.date.format('YYYYMM') === moment(this.date).format('YYYYMM')) {
 				month.selected = true;
 			}
 			if (!!this.start && month.date.format('YYYYMM') === moment(this.start).format('YYYYMM')) {
@@ -143,7 +143,7 @@ export abstract class CalendarBaseComponent {
 			year.start = false;
 			year.end = false;
 			year.inBetween = false;
-			if (!!this.selected && year.date.format('YYYY') === moment(this.selected).format('YYYY')) {
+			if (!!this.date && year.date.format('YYYY') === moment(this.date).format('YYYY')) {
 				year.selected = true;
 			}
 			if (!!this.start && year.date.format('YYYY') === moment(this.start).format('YYYY')) {

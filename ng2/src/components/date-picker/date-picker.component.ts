@@ -1,10 +1,13 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { Shortcut } from './calendar.class';
+
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IFormatter, MomentFormatter } from '../../utils/formatter';
-import { CalendarMode } from './calendar.class';
+
 import { CalendarBaseComponent } from './calendar-base.component';
+import { CalendarMode } from './calendar.class';
 import { FormControl } from '@angular/forms';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap/popover/popover';
+import { Shortcut } from './calendar.class';
 
 // http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
 // export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -29,6 +32,7 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	@Input() public minMode: CalendarMode;
 	@Input() public min: moment.Moment;
 	@Input() public max: moment.Moment;
+	@Input() public popover: NgbPopover;
 	@Input() public customClass: string;
 	@Input() public placeholder: string;
 	@Input() public shortcuts: Object[];
@@ -37,7 +41,6 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	@Output() dateChange = new EventEmitter();
 
 	public displayStr: string;
-	public selected: moment.Moment;
 	public selectedViewValue: string;
 
 	public ngOnInit() {
@@ -49,9 +52,11 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	}
 
 	public ngOnChanges(changes: SimpleChanges) {
+		console.log('ngOnChanges');
 		for (let propName in changes) {
 			if (propName === 'date') {
 				this.date = this.date.isValid() ? this.date : undefined;
+				this.assignClasses();
 			}
 		}
 	}
@@ -61,7 +66,6 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
 		// this.closePopover();
-		this.selected = date;
 		this.assignClasses();
 	};
 
@@ -93,10 +97,9 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	protected selectDate(date: moment.Moment): void {
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
-		this.selected = date;
-		this.date = this.selected;
+		this.date = date;
 		this.assignClasses();
-		// this.closePopover();
+		this.closePopover();
 		this.dateChange.emit(this.date);
 	}
 	// public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
@@ -146,13 +149,11 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	// 		this.openPopover($event);
 	// 	}
 	// }
-	// private closePopover(): void {
-	// 	this.$scope.direction = '';
-	// 	this.element.removeClass('ng-open');
-	// 	if (!!this.popoverController) {
-	// 		this.popoverController.close();
-	// 	}
-	// }
+	private closePopover(): void {
+		if (!!this.popover) {
+			this.popover.close();
+		}
+	}
 	// private openPopover($event: ng.IAngularEvent): void {
 	// 	this.element.addClass('ng-open');
 	// 	this.$scope.direction = 'init';

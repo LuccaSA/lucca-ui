@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+
+import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'date-picker-demo',

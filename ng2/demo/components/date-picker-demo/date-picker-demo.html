@@ -4,12 +4,15 @@
 	</div>
 
 	<div class="lui container">
-		<div class="lui column desktop-6 tablet-6">
+		<div class="lui column desktop-4 tablet-4">
 			<div>Parent component value:</div>
 			<div>{{ date }}</div>
 		</div>
-		<div class="lui column desktop-6 tablet-6">
+		<div class="lui column desktop-4 tablet-4">
 			<luid-date-picker [(date)]='date'></luid-date-picker>
+		</div>
+		<div class="lui column desktop-4 tablet-4">
+			<luid-date-picker-popup [(date)]='date'></luid-date-picker-popup>
 		</div>
 	</div>
 </div>
