@@ -7,9 +7,9 @@
 			min-width: map-gets($pluginVars, popover, minWidth);
 			max-width: map-gets($pluginVars, popover, maxWidth);
 
-			.popover-inner { @extend #{$prefix}.clear; }
+			.popover-content { @extend #{$prefix}.clear; }
 
-			.popover-inner, .popover-title {
+			.popover-content, .popover-title {
 				padding: (map-gets($pluginVars, popover, innerVerticalPadding)) (map-gets($pluginVars, popover, innerHorizontalPadding));
 			}
 

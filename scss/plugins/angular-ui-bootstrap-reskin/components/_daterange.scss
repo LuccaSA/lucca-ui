@@ -5,8 +5,8 @@
 		$shortcutsWidth: 15em;
 
 		#{$prefix}.daterange {
-			.popover-inner { width: $popoverWidth; }
-			&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
+			.popover-content { width: $popoverWidth; }
+			&.has-periods .popover-content { width: $popoverWidth + $shortcutsWidth; }
 			.shortcuts.menu {
 				width: $shortcutsWidth;
 				float: right;
