@@ -1,0 +1,8 @@
+<template #luiDatepickerPopover>
+	<luid-date-picker [(date)]="date" (dateChange)="onDateChange()"></luid-date-picker>
+</template>
+
+<div [ngbPopover]="luiDatepickerPopover" placement="bottom" class="lui datepicker input">
+	<input type="text" [(ngModel)]="displayStr" placeholder="{{placeholder}}">
+	<i class="empty"></i>
+</div>
