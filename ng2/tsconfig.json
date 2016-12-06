@@ -12,7 +12,8 @@
   },
   "include": [
      "index.ts",
-	 "src/**/*.ts"
+	 "src/**/*.ts",
+	 "demo/**/*.ts"
   ],
   "exclude": [],
   "compileOnSave": false,
