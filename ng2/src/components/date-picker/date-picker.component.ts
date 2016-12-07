@@ -25,11 +25,10 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	private formControl: FormControl;
 
 	@Input() public date: moment.Moment;
-	@Input() public mode: CalendarMode;
 	@Input() public format: string;
 	@Input() public displayFormat: string;
 	@Input() public displayedCalendars: string;
-	@Input() public minMode: CalendarMode;
+	@Input() public minMode: string;
 	@Input() public min: moment.Moment;
 	@Input() public max: moment.Moment;
 	@Input() public popover: NgbPopover;
@@ -44,6 +43,7 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	public selectedViewValue: string;
 
 	public ngOnInit() {
+		super.ngOnInit();
 		this.setFormat(this.format, this.displayFormat);
 		this.setCalendarCnt(this.displayedCalendars, false);
 		this.formControl = new FormControl(this.date);
@@ -52,7 +52,6 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	}
 
 	public ngOnChanges(changes: SimpleChanges) {
-		console.log('ngOnChanges');
 		for (let propName in changes) {
 			if (propName === 'date') {
 				this.date = this.date.isValid() ? this.date : undefined;
@@ -65,7 +64,7 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 		let date = this.formatter.parseValue(shortcut.date);
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
-		// this.closePopover();
+		this.closePopover();
 		this.assignClasses();
 	};
 
@@ -133,9 +132,8 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 
 	private render(): void {
 		this.currentDate = moment(this.date).startOf('month');
-		this.uiCtrl.mode = this.minMode;
+		// this.handleMinMode();
 		this.calendars = this.constructCalendars();
-		// this.selected = moment(this.date);
 		this.min = this.formatter.parseValue(this.min);
 		this.max = this.formatter.parseValue(this.max);
 		this.assignClasses();
@@ -149,6 +147,18 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	// 		this.openPopover($event);
 	// 	}
 	// }
+
+	private handleMinMode(): void {
+		switch (this._minMode) {
+			case CalendarMode.Years:
+				this.uiCtrl.switchToYearMode();
+				break;
+			case CalendarMode.Months:
+				this.uiCtrl.switchToMonthMode();
+				break;
+		}
+	}
+
 	private closePopover(): void {
 		if (!!this.popover) {
 			this.popover.close();

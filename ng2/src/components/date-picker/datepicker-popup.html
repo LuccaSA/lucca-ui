@@ -1,5 +1,18 @@
 <template #luiDatepickerPopover>
-	<luid-date-picker [(date)]="date" (dateChange)="onDateChange()"></luid-date-picker>
+	<luid-date-picker
+		[(date)]="date"
+		[format]="format"
+		[displayFormat]="displayFormat"
+		[displayedCalendars]="displayedCalendars"
+		[minMode]="minMode"
+		[min]="min"
+		[max]="max"
+		[customClass]="customClass"
+		[placeholder]="placeholder"
+		[shortcuts]="shortcuts"
+		[groupedShortcuts]="groupedShortcuts"
+		(dateChange)="onDateChange()">
+	</luid-date-picker>
 </template>
 
 <div [ngbPopover]="luiDatepickerPopover" placement="bottom" class="lui datepicker input">

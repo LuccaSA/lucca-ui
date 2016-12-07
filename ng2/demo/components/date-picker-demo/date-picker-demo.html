@@ -12,7 +12,14 @@
 			<luid-date-picker [(date)]='date'></luid-date-picker>
 		</div>
 		<div class="lui column desktop-4 tablet-4">
+			<p>Default minMode</p>
 			<luid-date-picker-popup [(date)]='date'></luid-date-picker-popup>
+			<p>Day minMode</p>
+			<luid-date-picker-popup [(date)]='date' minMode="day"></luid-date-picker-popup>
+			<p>Month minMode</p>
+			<luid-date-picker-popup [(date)]='date' minMode="month"></luid-date-picker-popup>
+			<p>Year minMode</p>
+			<luid-date-picker-popup [(date)]='date' minMode="year"></luid-date-picker-popup>
 		</div>
 	</div>
 </div>
