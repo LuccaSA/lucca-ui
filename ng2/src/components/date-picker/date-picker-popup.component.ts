@@ -1,8 +1,9 @@
 import * as moment from 'moment';
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { CalendarMode } from './calendar.class';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap/popover/popover';
 
 @Component({
 	selector: 'luid-date-picker-popup',
@@ -23,8 +24,14 @@ export class LuiDatePickerPopupComponent {
 	@Input() public shortcuts: Object[];
 	@Input() public groupedShortcuts: string;
 	@Output() public dateChange = new EventEmitter();
+	@ViewChild('popover') popover: NgbPopover;
 
 	public onDateChange(): void {
 		this.dateChange.emit(this.date);
+		this.popover.close();
+	}
+
+	public onDisplayStrChange(displayStr: string): void {
+		this.displayStr = displayStr;
 	}
 }

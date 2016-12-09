@@ -2,6 +2,7 @@
 	<luid-date-picker
 		[(date)]="date"
 		(dateChange)="onDateChange()"
+		(displayStrChange)="onDisplayStrChange($event)"
 		[format]="format"
 		[displayFormat]="displayFormat"
 		[displayedCalendars]="displayedCalendars"
@@ -11,9 +12,7 @@
 		[customClass]="customClass"
 		[placeholder]="placeholder"
 		[shortcuts]="shortcuts"
-		[groupedShortcuts]="groupedShortcuts"
-		[popover]="popover"
-		(dateChange)="onDateChange()">
+		[groupedShortcuts]="groupedShortcuts">
 	</luid-date-picker>
 </template>
 
