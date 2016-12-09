@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 
 import { CalendarMode } from './calendar.class';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap/popover/popover';
@@ -24,7 +24,22 @@ export class LuiDatePickerPopupComponent {
 	@Input() public shortcuts: Object[];
 	@Input() public groupedShortcuts: string;
 	@Output() public dateChange = new EventEmitter();
-	@ViewChild('popover') popover: NgbPopover;
+	@ViewChild('popover') public popover: NgbPopover;
+
+	private thisElement: ElementRef;
+
+	public constructor(thisElement: ElementRef) {
+		this.thisElement = thisElement;
+	}
+
+	@HostListener('document:click')
+	public onOutsideClick(): void {
+		this.popover.close();
+	}
+
+	public onInsideClick($event: MouseEvent): void {
+		$event.stopPropagation();
+	}
 
 	public onDateChange(): void {
 		this.dateChange.emit(this.date);

@@ -12,11 +12,12 @@
 		[customClass]="customClass"
 		[placeholder]="placeholder"
 		[shortcuts]="shortcuts"
-		[groupedShortcuts]="groupedShortcuts">
+		[groupedShortcuts]="groupedShortcuts"
+		(click)="onInsideClick($event)">
 	</luid-date-picker>
 </template>
 
-<div [ngbPopover]="luiDatepickerPopover" #popover="ngbPopover" placement="bottom" class="lui datepicker input">
+<div [ngbPopover]="luiDatepickerPopover" #popover="ngbPopover" placement="bottom" class="lui datepicker input" (click)="onInsideClick($event)">
 	<input type="text" [(ngModel)]="displayStr" placeholder="{{placeholder}}">
 	<i class="empty"></i>
 </div>
