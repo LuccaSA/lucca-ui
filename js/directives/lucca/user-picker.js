@@ -8,7 +8,7 @@
 	**  - ngSanitize as a result of the dependency to ui.select
 	**/
 
-	var MAX_COUNT = 10; // MAGIC_NUMBER
+	var MAX_COUNT = 15; // MAGIC_NUMBER
 	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
 	var DEFAULT_HOMONYMS_PROPERTIES = [{
 		"label": "LUIDUSERPICKER_DEPARTMENT",
@@ -30,10 +30,10 @@
 
 	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
 	"<div ng-class=\"{dividing: user.isDisplayedFirst}\">" +
-		"<div class=\"selected-first\" ng-if=\"!!user.isSelected\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
+		"<div class=\"selected-first\" ng-if=\"!!user.isSelected\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div>" +
 		"<div ng-if=\"!!user.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
-		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
-		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.firstName + ' ' + user.lastName | luifHighlight : $select.search : user.info\"></div>" +
+		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
+		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div>" +
 		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
 		"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</div>" +
@@ -43,7 +43,7 @@
 	var userPickerTemplate = "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
 	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
-		"<span ng-if=\"!$select.selected.isAll\">{{ $select.selected.firstName }} {{$select.selected.lastName}}</span>" +
+		"<span ng-if=\"!$select.selected.isAll\">{{$select.selected.lastName}} {{ $select.selected.firstName }}</span>" +
 		"<span ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</span>" +
 	"</ui-select-match>" +
 	uiSelectChoicesTemplate +
@@ -51,7 +51,7 @@
 
 	var userPickerMultipleTemplate = "<ui-select multiple uis-open-close=\"onDropdownToggle(isOpen)\" " +
 	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
-	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.firstName}} {{$item.lastName}} " +
+	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.lastName}} {{$item.firstName}}" +
 		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
 		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
 	"</ui-select-match>" +
