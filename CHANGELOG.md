@@ -12,7 +12,8 @@
 - Tooltip: break words that are too long
 - Timespanpicker: prevent browser from trying to autocorrect and spellcheck input value
 - UI-select: disabled style refactoring
-
+- user-picker: display 15 results instead of 10
+- user-picker: display lastname firstname isteand of firstname lastname
 
 ## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
 
