@@ -180,8 +180,6 @@
 			var ngModelCtrl = ctrls[1];
 			var mpCtrl = ctrls[0];
 
-			scope.hasButtons = attrs.showButtons !== undefined;
-
 			// display the value i on two chars
 			if(!!attrs.format){ // allows to have a ng-model of type string, not moment
 				var format = scope.$eval(attrs.format);
@@ -544,14 +542,14 @@
 		$templateCache.put("lui/directives/luidMoment.html",
 			"<div class='lui hours moment input' ng-class='{disabled:disabled}'>" +
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-if='hasButtons' ng-click='incrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-if='hasButtons' ng-click='decrHours()' ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled:maxed}'></i>" +
+			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled:mined}'></i>" +
 			"</div>" +
 			"<span class='separator'>:</span>" +
 			"<div class='lui minutes moment input' ng-class='{disabled:disabled}'>" +
 			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-if='hasButtons' ng-click='incrMins()'  ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-if='hasButtons' ng-click='decrMins()' ng-show='showButtons||hoursFocused||minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled:maxed}'></i>" +
+			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled:mined}'></i>" +
 			"</div>" +
 			"");
 	}]);
@@ -774,7 +772,7 @@
 			link: link,
 			template:
 				"<div class='lui timespan input'>" +
-					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()'>" +
+					"<input type='text' ng-disabled='ngDisabled' placeholder='{{placeholder}}' ng-pattern='pattern' ng-model='strDuration' ng-change='updateValue()' ng-blur='formatInputValue()' autocorrect='off' spellcheck='false'>" +
 				"</div>"
 		};
 	}])
