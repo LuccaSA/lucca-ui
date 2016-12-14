@@ -1,6 +1,6 @@
 {
   "name": "Lucca-ui",
-  "version": "1.0.0",
+  "version": "3.0.6",
   "description": "less and js framework by lucca",
   "main": "Gruntfile.js",
   "dependencies": {
