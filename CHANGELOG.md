@@ -8,6 +8,7 @@
 - Popover: adds cursor pointer on triggering element when click is the triggering
 - Tooltip: break words that are too long
 - Timespanpicker: prevent browser from trying to autocorrect and spellcheck input value
+- UI-select: disabled style refactoring
 
 
 ## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
