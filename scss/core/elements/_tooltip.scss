@@ -66,6 +66,7 @@
 				background-color: map-gets($vars, default-coloring, color);
 				color: map-gets($vars, default-coloring, text);
 				white-space: pre-wrap; // Support for line breaks in tooltip content
+				word-break: break-word;
 			}
 
 			@each $name, $scheme in luiPalettes() {
