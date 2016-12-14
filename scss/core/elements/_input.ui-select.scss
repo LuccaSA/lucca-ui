@@ -139,6 +139,19 @@
 				}
 			}
 
+			// Disabled
+			// ====
+			&[disabled="disabled"] {
+				border-bottom-width: 0;
+				border-bottom-color: transparent;
+
+				.ui-select-toggle {
+					cursor: default;
+					
+					@extend %lui_input_disabled_input;
+				}
+			}
+
 			// Invalid
 			// ====
 			&.ng-invalid.ng-touched {
