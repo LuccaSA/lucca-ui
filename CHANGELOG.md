@@ -1,7 +1,10 @@
 # Change log
-## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
+## 3.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.8)
 
-### Changes (non-breaking)
+### Bug fixes
+
+## 3.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.7)
+
 ### Bug fixes
 - Checkbox: adds support for partially checked
 - Minor fix on side-panel modals appearance
@@ -11,11 +14,9 @@
 - UI-select: disabled style refactoring
 
 
-## 3.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.7)
-
-### Bug fixes
-
 ## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
+
+This version was skipped on bower but was necessary to register to npm
 
 ### Changes (non-breaking)
 
