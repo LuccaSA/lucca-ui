@@ -119,6 +119,12 @@
 	color: luiTheme(element, field, invalid-color);
 }
 
+%lui_input_disabled_input {
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	color: transparentize(luiTheme(element, typography, body, color), 0.2);
+}
+
 %lui_field_input_inner_right_icon {
 	position: absolute;
 	bottom: lui_rem(luiTheme(element, field, input, vertical-padding) * (1 + luiTheme(element, field, input, font-size)));
@@ -461,9 +467,8 @@
 
 		// Disabled
 		// =====================================================================
-		#{$prefix}.field *[disabled]:not([type="checkbox"]):not([type="radio"]) {
-			border-bottom-style: dotted;
-			color: transparentize(luiTheme(element, typography, body, color), 0.2);
+		#{$prefix}.input > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
+			@extend %lui_input_disabled_input;
 		}
 
 
