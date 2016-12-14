@@ -2,9 +2,10 @@
 
 ## 2.3.1 - in dev
 
-### New features
-
 ### Resolved issues
+- user-picker - display lastname - fistname instead of firstname-lastname
+- user-picker - display 15 results
+
 
 ## 2.3.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/2.3.0)
 
