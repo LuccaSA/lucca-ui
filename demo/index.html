@@ -30,10 +30,12 @@
 			<a class="item" ui-sref="form" ui-sref-active="active">Formly (WIP)</a>
 		</nav>
 
-		<main class="lui container">
-			<nav ui-view="nav"></nav>
-			<header ui-view="header"></header>
-			<content ui-view="content"></content>
+		<main>
+			<nav ui-view="nav" id="toc" class="lui raised left stuck vertical primary dividing menu"></nav>
+			<div class="page">
+				<header ui-view="header"></header>
+				<content ui-view="content"></content>
+			</div>
 		</main>
 	</div>
 </body>
