@@ -21,6 +21,7 @@ module Lui.Directives {
 
 			shortcuts: "=",
 			groupedShortcuts: "=",
+			disableKeyboardInput: "="
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -29,7 +30,7 @@ module Lui.Directives {
 			};
 			return directive;
 		}
-		public link (scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
+		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let drCtrl = <LuidDaterangePickerController>ctrls[1];
 			drCtrl.setNgModelCtrl(ngModelCtrl);
@@ -48,7 +49,18 @@ module Lui.Directives {
 		startProperty: string;
 		endProperty: string;
 
+		startDisplayStr: string;
+		endDisplayStr: string;
+
+		disableKeyboardInput: boolean;
+
+		onStartDisplayStrChanged: ($event?: ng.IAngularEvent) => void;
+		onEndDisplayStrChanged: ($event?: ng.IAngularEvent) => void;
+
 		period: Lui.Period;
+
+		focusEndInputOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
+		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
 
 		editingStart: boolean;
 		editStart: ($event?: ng.IAngularEvent) => void;
@@ -93,12 +105,41 @@ module Lui.Directives {
 					break;
 			}
 
+			$scope.startDisplayStr = "";
+			$scope.endDisplayStr = "";
+
+			$scope.focusEndInputOnTab = { 9: ($event: ng.IAngularEvent): void => { this.$scope.editEnd($event); } };
+			$scope.closePopoverOnTab = { 9: ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); } };
+
 			$scope.selectShortcut = (shortcut: Shortcut) => {
 				$scope.period = this.toPeriod(shortcut);
 				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
 				this.setViewValue($scope.period);
 				this.closePopover();
 			};
+
+			$scope.onStartDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
+				let displayStr = $scope.startDisplayStr;
+				let dateFromStr = moment(displayStr, $scope.displayFormat);
+				if (dateFromStr.isValid() || (dateFromStr = moment(displayStr, $scope.format)).isValid()) {
+					this.selectDate(dateFromStr, false);
+					this.currentDate = this.$scope.period.start;
+					this.start = this.$scope.period.start;
+					this.$scope.calendars = this.constructCalendars();
+					this.assignClasses();
+				}
+			}
+			$scope.onEndDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
+				let displayStr = $scope.endDisplayStr;
+				let dateFromStr = moment(displayStr, $scope.displayFormat);
+				if (dateFromStr.isValid() || (dateFromStr = moment(displayStr, $scope.format)).isValid()) {
+					this.selectDate(dateFromStr, false);
+					this.currentDate = moment(this.$scope.period.end);
+					this.end = this.currentDate;
+					this.$scope.calendars = this.constructCalendars();
+					this.assignClasses();
+				}
+			}
 
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
@@ -159,6 +200,8 @@ module Lui.Directives {
 				if (ngModelCtrl.$viewValue) {
 					this.$scope.period = this.getViewValue();
 					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+					this.$scope.startDisplayStr = !!this.$scope.period && !!this.$scope.period[this.startProperty] ? this.formatter.formatValue(moment(this.$scope.period[this.startProperty])) : "";
+					this.$scope.endDisplayStr = !!this.$scope.period && !!this.$scope.period[this.endProperty] ? this.formatter.formatValue(moment(this.$scope.period[this.endProperty])) : "";
 				} else {
 					this.$scope.period = undefined;
 					this.$scope.displayStr = undefined;
@@ -178,6 +221,24 @@ module Lui.Directives {
 				let max = this.formatter.parseValue(this.$scope.max);
 				return !end || !max || max.diff(end) >= 0;
 			};
+			if (!!this.$scope.customClass) {
+				(<ICalendarValidators>ngModelCtrl.$validators).customClass = (modelValue: any, viewValue: any) => {
+					let value = this.getViewValue();
+					if (!!this.$scope.customClass && !!value) {
+						let resStart = true, resEnd = true;
+						if (!!value.start) {
+							let customClassStart = this.$scope.customClass(value.start, CalendarMode.Days).toLowerCase();
+							resStart = customClassStart.indexOf("disabled") === -1 && customClassStart.indexOf("forbidden") === -1;
+						}
+						if (!!value.end) {
+							let customClassEnd = this.$scope.customClass(value.end, CalendarMode.Days).toLowerCase();
+							resEnd = customClassEnd.indexOf("disabled") === -1 && customClassEnd.indexOf("forbidden") === -1;;
+						}
+						return resStart && resEnd;
+					}
+					return true;
+				};
+			}
 		}
 		public setProperties(startProperty: string, endProperty: string): void {
 			this.startProperty = startProperty || "start";
@@ -204,11 +265,13 @@ module Lui.Directives {
 			};
 		}
 
-		protected selectDate(date: moment.Moment): void {
-			if (this.$scope.editingStart || (!!this.$scope.period.start && date.isBefore(this.$scope.period.start))) {
+		protected selectDate(date: moment.Moment, goToNextState: boolean = true): void {
+			if (this.$scope.editingStart) {
 				this.$scope.period.start = date;
 				this.start = date;
-				this.$scope.editEnd();
+
+				if (goToNextState) { this.$scope.editEnd(); }
+
 				if (!!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
 					this.$scope.period.end = undefined;
 					this.end = undefined;
@@ -226,7 +289,9 @@ module Lui.Directives {
 						this.$scope.period.end = date;
 				}
 				if (!!this.$scope.period.start) {
-					this.closePopover();
+					if (goToNextState) {
+						this.closePopover();
+					}
 				} else {
 					this.$scope.editStart();
 				}
@@ -237,15 +302,23 @@ module Lui.Directives {
 		private setViewValue(value: Lui.Period): void {
 			let period: Lui.IPeriod = _.clone(<Lui.IPeriod>this.ngModelCtrl.$viewValue);
 			if (!value && !period) {
+				this.$scope.startDisplayStr = "";
+				this.$scope.endDisplayStr = "";
 				return this.ngModelCtrl.$setViewValue(undefined);
 			}
 			period = period || {};
 			if (!value) {
 				period[this.startProperty] = undefined;
 				period[this.endProperty] = undefined;
+
+				this.$scope.startDisplayStr = "";
+				this.$scope.endDisplayStr = "";
 			} else {
 				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
 				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
+
+				this.$scope.startDisplayStr = period[this.startProperty];
+				this.$scope.endDisplayStr = period[this.endProperty];
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}

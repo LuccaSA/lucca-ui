@@ -1,14 +1,34 @@
 <span class="lui daterange tagged long input"
-	uib-popover-template="'lui/templates/date-picker/daterangepicker-popover.html'"
-	popover-placement="bottom-left"
-	popover-trigger="'none'" popover-is-open="popover.isOpen"
-	popover-class="lui luid-daterangepicker"
-	ng-click="togglePopover($event)">
+	  uib-popover-template="'lui/templates/date-picker/daterangepicker-popover.html'"
+	  popover-placement="bottom-left"
+	  popover-trigger="'none'" popover-is-open="popover.isOpen"
+	  popover-class="lui luid-daterangepicker"
+	  ng-click="togglePopover($event)">
 	<i class="empty" ng-click="clear($event)"></i>
 	<span class="tags" ng-show="popover.isOpen">
-		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span>
+		<input type="text"
+		       class="tag"
+			   ng-readonly="disableKeyboardInput"
+			   ng-class="{ selected: editingStart}"
+			   ng-click="editStart($event)"
+			   ng-model="startDisplayStr"
+			   ng-change="onStartDisplayStrChanged($event)"
+			   placeholder="{{fromLabel}}"
+			   luid-keydown mappings="focusEndInputOnTab"
+			   style="color: #000 !important;">
+
 		<i class="lui east arrow icon"></i>
-		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span>
+
+		<input type="text"
+		       class="tag"
+			   ng-readonly="disableKeyboardInput"
+			   ng-class="{ selected: !editingStart}"
+			   ng-click="editEnd($event)"
+			   ng-model="endDisplayStr"
+			   ng-change="onEndDisplayStrChanged($event)"
+			   placeholder="{{toLabel}}"
+			   luid-keydown mappings="closePopoverOnTab"
+			   style="color: #000 !important;">
 	</span>
-	<input type="text" ng-model="displayStr" placeholder="{{placeholder}}">
+	<input type="text" ng-readonly="true" ng-model="displayStr" placeholder="{{placeholder}}">
 </span>
