@@ -35,7 +35,7 @@ html, body {
 		background: white;
 	}
 
-	article {
+
 		font-size: .875em;
 		margin-bottom: 1em;
 		background: white;
@@ -43,17 +43,11 @@ html, body {
 			margin: 0 !important;
 			background: $light;
 			padding: 1rem;
-			span, a {
+			span {
 				font-size:1rem;
 				color: white;
 				font-weight: 600;
 				margin-left: 2em;
-			}
-			a,
-			a:visited {
-				color: white;
-				float: right;
-				line-height: 3;
 			}
 		}
 		.lui.container.spaced  {
@@ -107,45 +101,7 @@ html, body {
 			border-radius: 2px;
 			font-size:.825em;
 		}
-	}
 
-	#demoBlock {
-		margin: 13px 0;
-		.header {
-			padding: 0;
-			h4 {
-				padding-bottom: 17px;
-			}
-		}
-	}
-
-	.dark {
-		background-color: #333;
-		padding: 1em;
-		&.inline {
-			display: inline-block;
-		}
-	}
-
-	#main-content {
-		margin-top: $banner-height;
-		margin-left: $toc-width;
-		padding: 2em;
-	}
-
-	#grid .column {
-		p {
-			height: 2em;
-			margin: 0.5em 0;
-			border-radius: 2em;
-		}
-		&:nth-child(2n) p {
-			background: grey;
-		}
-		&:nth-child(2n+1) p {
-			background: black;
-		}
-	}
 
 	article {
 		@extend #{$prefix}.clear;
