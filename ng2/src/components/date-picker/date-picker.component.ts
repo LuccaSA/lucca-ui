@@ -1,10 +1,12 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { Shortcut } from './calendar.class';
+
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IFormatter, MomentFormatter } from '../../utils/formatter';
-import { CalendarMode } from './calendar.class';
+
 import { CalendarBaseComponent } from './calendar-base.component';
+import { CalendarMode } from './calendar.class';
 import { FormControl } from '@angular/forms';
+import { Shortcut } from './calendar.class';
 
 // http://almerosteyn.com/2016/04/linkup-custom-control-to-ngcontrol-ngmodel
 // export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -22,11 +24,10 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	private formControl: FormControl;
 
 	@Input() public date: moment.Moment;
-	@Input() public mode: CalendarMode;
 	@Input() public format: string;
 	@Input() public displayFormat: string;
 	@Input() public displayedCalendars: string;
-	@Input() public minMode: CalendarMode;
+	@Input() public minMode: string;
 	@Input() public min: moment.Moment;
 	@Input() public max: moment.Moment;
 	@Input() public customClass: string;
@@ -35,12 +36,13 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	@Input() public groupedShortcuts: string;
 
 	@Output() dateChange = new EventEmitter();
+	@Output() displayStrChange = new EventEmitter();
 
 	public displayStr: string;
-	public selected: moment.Moment;
 	public selectedViewValue: string;
 
 	public ngOnInit() {
+		super.ngOnInit();
 		this.setFormat(this.format, this.displayFormat);
 		this.setCalendarCnt(this.displayedCalendars, false);
 		this.formControl = new FormControl(this.date);
@@ -52,16 +54,20 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 		for (let propName in changes) {
 			if (propName === 'date') {
 				this.date = this.date.isValid() ? this.date : undefined;
+				this.assignClasses();
 			}
 		}
+	}
+
+	public emitChanges(): void {
+		this.dateChange.emit(this.date);
+		this.displayStrChange.emit(this.displayStr);
 	}
 
 	public selectShortcut = (shortcut: Shortcut) => {
 		let date = this.formatter.parseValue(shortcut.date);
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
-		// this.closePopover();
-		this.selected = date;
 		this.assignClasses();
 	};
 
@@ -93,11 +99,9 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	protected selectDate(date: moment.Moment): void {
 		this.setViewValue(date);
 		this.displayStr = this.getDisplayStr(date);
-		this.selected = date;
-		this.date = this.selected;
+		this.date = date;
 		this.assignClasses();
-		// this.closePopover();
-		this.dateChange.emit(this.date);
+		this.emitChanges();
 	}
 	// public setPopoverTrigger(elt: angular.IAugmentedJQuery, $scope: IDatePickerScope): void {
 	// 	let onClosing = (): void => {
@@ -130,9 +134,8 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 
 	private render(): void {
 		this.currentDate = moment(this.date).startOf('month');
-		this.uiCtrl.mode = this.minMode;
+		this.handleMinMode();
 		this.calendars = this.constructCalendars();
-		// this.selected = moment(this.date);
 		this.min = this.formatter.parseValue(this.min);
 		this.max = this.formatter.parseValue(this.max);
 		this.assignClasses();
@@ -146,13 +149,18 @@ export class LuiDatePickerComponent extends CalendarBaseComponent implements OnC
 	// 		this.openPopover($event);
 	// 	}
 	// }
-	// private closePopover(): void {
-	// 	this.$scope.direction = '';
-	// 	this.element.removeClass('ng-open');
-	// 	if (!!this.popoverController) {
-	// 		this.popoverController.close();
-	// 	}
-	// }
+
+	private handleMinMode(): void {
+		switch (this._minMode) {
+			case CalendarMode.Years:
+				this.uiCtrl.switchToYearMode();
+				break;
+			case CalendarMode.Months:
+				this.uiCtrl.switchToMonthMode();
+				break;
+		}
+	}
+
 	// private openPopover($event: ng.IAngularEvent): void {
 	// 	this.element.addClass('ng-open');
 	// 	this.$scope.direction = 'init';

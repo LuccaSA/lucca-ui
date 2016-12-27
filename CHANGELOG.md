@@ -1,5 +1,13 @@
 # Change log
 
+## 4.0.0-alpha.1
+
+### Changes
+- Datepicker with popup support, minMode and displayFormat
+- User picker
+- Progress bar
+- Moment Pipe
+
 ## 3.0.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.6)
 
 ### Bug fixes

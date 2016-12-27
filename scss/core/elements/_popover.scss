@@ -14,7 +14,7 @@
 			transition-duration: map-gets($vars, animation-duration);
 			transition-timing-function: map-gets($vars, animation-easing);
 
-			.popover-inner {
+			.popover-content {
 				background-color: #FFF;
 				box-sizing: border-box;
 
@@ -37,21 +37,21 @@
 				transform: scale(1);
 			}
 
-			&.top .popover-inner,
-			&.top-left .popover-inner,
-			&.top-right .popover-inner { margin-bottom: map-gets($vars, offset); }
+			&.top .popover-content,
+			&.top-left .popover-content,
+			&.top-right .popover-content { margin-bottom: map-gets($vars, offset); }
 
-			&.bottom .popover-inner,
-			&.bottom-left .popover-inner,
-			&.bottom-right .popover-inner { margin-top: map-gets($vars, offset); }
+			&.bottom .popover-content,
+			&.bottom-left .popover-content,
+			&.bottom-right .popover-content { margin-top: map-gets($vars, offset); }
 
-			&.left .popover-inner,
-			&.left-top .popover-inner,
-			&.left-bottom .popover-inner { margin-right: map-gets($vars, offset); }
+			&.left .popover-content,
+			&.left-top .popover-content,
+			&.left-bottom .popover-content { margin-right: map-gets($vars, offset); }
 
-			&.right .popover-inner,
-			&.right-top .popover-inner,
-			&.right-bottom .popover-inner { margin-left: map-gets($vars, offset); }
+			&.right .popover-content,
+			&.right-top .popover-content,
+			&.right-bottom .popover-content { margin-left: map-gets($vars, offset); }
 
 			&.top { transform-origin: bottom center; }
 			&.bottom { transform-origin: top center; }

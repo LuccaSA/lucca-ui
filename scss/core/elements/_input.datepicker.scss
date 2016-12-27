@@ -39,8 +39,8 @@
 
 		// Neutralize popover max-width
 		// ====
-		luid-date-picker-popup .popover-inner,
-		luid-daterange-picker .popover-inner {
+		luid-date-picker-popup .popover-content,
+		luid-daterange-picker .popover-content {
 			max-width: none !important;
 			margin: luiTheme(element, field, field, focus-border-width) !important;
 		}
@@ -66,7 +66,7 @@
 		}
 		luid-date-picker-popup[displayed-calendars],
 		luid-daterange-picker {
-			.popover-inner {
+			.popover-content {
 				box-sizing: border-box;
 				width: 14 * map-gets($vars, day,size) + 1;
 			}
@@ -337,7 +337,7 @@
 
 		luid-daterange-picker,
 		luid-date-picker-popup[displayed-calendars="2"] {
-			.popover-inner { width: 40em; }
+			.popover-content { width: 40em; }
 		}
 
 		luid-date-picker,

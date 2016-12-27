@@ -1,27 +1,35 @@
-import * as moment from 'moment';
 import * as _ from 'underscore';
-import { ICalendarUiController, CalendarMode, Calendar, CalendarDay, CalendarDate, CalendarWeek } from './calendar.class';
+import * as moment from 'moment';
 
+import { Calendar, CalendarDate, CalendarDay, CalendarMode, CalendarWeek, ICalendarUiController } from './calendar.class';
 
-export abstract class CalendarBaseComponent {
+import { OnInit } from '@angular/core';
+
+export abstract class CalendarBaseComponent implements OnInit {
 	protected calendarCnt: number;
 	protected currentDate: moment.Moment;
 	protected start: moment.Moment;
 	protected end: moment.Moment;
 	protected min: moment.Moment;
 	protected max: moment.Moment;
-	protected minMode: CalendarMode = CalendarMode.Days;
+	protected minMode: string;
+	protected _minMode: CalendarMode = CalendarMode.Days;
 	public calendars: Calendar[];
-	public selected: moment.Moment;
+	public date: moment.Moment;
 	public uiCtrl: ICalendarUiController;
 
-	constructor() {
+	public constructor() {
 		this.uiCtrl = <ICalendarUiController>{};
 		this.initCalendarUiMethods();
-		this.setMinMode();
-		this.uiCtrl.mode = this.minMode;
-		this.uiCtrl.direction = 'init';
 	}
+
+	public ngOnInit(): void {
+		this.setMinMode();
+		this.uiCtrl.mode = this._minMode;
+		this.uiCtrl.direction = 'init';
+		this.assignClasses();
+	}
+
 	public setCalendarCnt(cntStr?: string, inAPopover?: boolean): void {
 		this.calendarCnt = parseInt(cntStr, 10) || 1;
 		if (inAPopover && this.calendarCnt > 2) {
@@ -51,27 +59,27 @@ export abstract class CalendarBaseComponent {
 	}
 	protected abstract selectDate(date: moment.Moment): void;
 	private setMinMode(): void {
-		switch ((this.uiCtrl.minMode || '').toLowerCase()) {
+		switch (('' + this.minMode).toLowerCase()) {
 			case '0':
 			case 'd':
 			case 'day':
 			case 'days':
-				this.minMode = CalendarMode.Days;
+				this._minMode = CalendarMode.Days;
 				break;
 			case '1':
 			case 'm':
 			case 'month':
 			case 'months':
-				this.minMode = CalendarMode.Months;
+				this._minMode = CalendarMode.Months;
 				break;
 			case '2':
 			case 'y':
 			case 'year':
 			case 'years':
-				this.minMode = CalendarMode.Years;
+				this._minMode = CalendarMode.Years;
 				break;
 			default:
-				this.minMode = CalendarMode.Days;
+				this._minMode = CalendarMode.Days;
 				break;
 		}
 	}
@@ -82,7 +90,7 @@ export abstract class CalendarBaseComponent {
 			day.start = false;
 			day.end = false;
 			day.inBetween = false;
-			if (!!this.selected && day.date.format('YYYYMMDD') === moment(this.selected).format('YYYYMMDD')) {
+			if (!!this.date && day.date.format('YYYYMMDD') === moment(this.date).format('YYYYMMDD')) {
 				day.selected = true;
 			}
 			if (!!this.start && day.date.format('YYYYMMDD') === moment(this.start).format('YYYYMMDD')) {
@@ -112,7 +120,7 @@ export abstract class CalendarBaseComponent {
 			month.start = false;
 			month.end = false;
 			month.inBetween = false;
-			if (!!this.selected && month.date.format('YYYYMM') === moment(this.selected).format('YYYYMM')) {
+			if (!!this.date && month.date.format('YYYYMM') === moment(this.date).format('YYYYMM')) {
 				month.selected = true;
 			}
 			if (!!this.start && month.date.format('YYYYMM') === moment(this.start).format('YYYYMM')) {
@@ -143,7 +151,7 @@ export abstract class CalendarBaseComponent {
 			year.start = false;
 			year.end = false;
 			year.inBetween = false;
-			if (!!this.selected && year.date.format('YYYY') === moment(this.selected).format('YYYY')) {
+			if (!!this.date && year.date.format('YYYY') === moment(this.date).format('YYYY')) {
 				year.selected = true;
 			}
 			if (!!this.start && year.date.format('YYYY') === moment(this.start).format('YYYY')) {
@@ -199,7 +207,7 @@ export abstract class CalendarBaseComponent {
 			this.selectDate(day.date);
 		};
 		this.uiCtrl.selectMonth = (month: CalendarDate) => {
-			if (this.minMode === CalendarMode.Months) {
+			if (this._minMode === CalendarMode.Months) {
 				this.selectDate(month.date);
 			} else {
 				this.currentDate = month.date;
@@ -210,7 +218,7 @@ export abstract class CalendarBaseComponent {
 			}
 		};
 		this.uiCtrl.selectYear = (year: CalendarDate) => {
-			if (this.minMode === CalendarMode.Years) {
+			if (this._minMode === CalendarMode.Years) {
 				this.selectDate(year.date);
 			} else {
 				this.currentDate = year.date;
@@ -236,7 +244,8 @@ export abstract class CalendarBaseComponent {
 				calendar = new Calendar(moment(start).startOf('year').add(offset * 12, 'year'));
 				calendar.years = this.constructDates(calendar.date, 'years');
 				return calendar;
-			default: break;
+			default:
+				throw new Error('Invalid calendar mode: ' + this.minMode);
 		}
 	}
 	private constructDates(start: moment.Moment, unitOfTime: string): CalendarDate[] {

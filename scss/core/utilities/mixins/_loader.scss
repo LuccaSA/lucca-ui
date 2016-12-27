@@ -1,5 +1,5 @@
 
-$lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
+// $lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 
 @mixin lui_loader($inverted: false, $size: 1em, $thickness: 2px, $speed: 0.5s) {
 	display: inline-block;
@@ -35,11 +35,12 @@ $lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
 	// Sizing support
 	@include lui_supports_sizing();
 
-	// IE9 support
-	@include lui_target_IE9 {
-		&:before { border: none; }
-		&:after { border: none; margin: 0; background: transparent url("#{$lui_ie_fallback_loader}") no-repeat center center; background-size: contain; }
-	}
+	// Causes 'Cannot find module "../../../dist/ie_fallback_spinner.gif"' when bundled with ng cli.
+	// // IE9 support
+	// @include lui_target_IE9 {
+	// 	&:before { border: none; }
+	// 	&:after { border: none; margin: 0; background: transparent url("#{$lui_ie_fallback_loader}") no-repeat center center; background-size: contain; }
+	// }
 }
 
 #{$prefix}.loader:not(.inverted) {
