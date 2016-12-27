@@ -6,12 +6,12 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 // Lucca UI modules
 import { LuiProgressBarModule } from '../../src/components/progress-bar';
-import { LuiUserPickerModule } from '../../src/components/user-picker/user-picker.module';
+// import { LuiUserPickerModule } from '../../src/components/user-picker/user-picker.module';
 import { LuiDatePickerModule } from '../../src/components/date-picker';
 
 // Demo app
 import { AppComponent } from './app.component';
-import { UserPickerDemoComponent } from './../components/user-picker-demo/user-picker-demo.component';
+// import { UserPickerDemoComponent } from './../components/user-picker-demo/user-picker-demo.component';
 import { DatePickerDemoComponent } from './../components/date-picker-demo/date-picker-demo.component';
 
 
@@ -21,12 +21,12 @@ imports: [
 	HttpModule,
 	FormsModule,
 	LuiProgressBarModule,
-	LuiUserPickerModule,
+	// LuiUserPickerModule,
 	LuiDatePickerModule
 ],
 declarations: [
 	AppComponent,
-	UserPickerDemoComponent,
+	// UserPickerDemoComponent,
 	DatePickerDemoComponent
 ],
 providers: [
