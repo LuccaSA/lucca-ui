@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--[if lte IE 9 ]><html class="ie9"><![endif]-->
+<!--[if !(IE)]><!--><html><!--<![endif]-->
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Lucca UI - Guidelines</title>
+	<link rel="icon" type="image/png" href="/lucca.png" />
+	<link rel="shortcut icon" type="image/png" href="/lucca.png" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="guidelines.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"/>
+</head>
+
+
+<body id="guidelines" class="lui fitting container">
+	<header>
+		<button class="lui button flat"><i class="lui icon west arrow"></i>Back to Lucca-UI demo</button>Lucca UI - Guidelines
+	</header>
+	<nav class="lui column desktop-1 raised">
+		<ul>
+			<li><a href="#buttons">Buttons</a></li>
+			<li><a href="#blankstates">Blankstates</a></li>
+			<li><a href="#feedbacks">Feedbacks</a></li>
+			<li><a href="#forms">Forms</a></li>
+			<li><a href="#save-bar">Save bar</a></li>
+		</ul>
+	</nav>
+	<main class="lui column desktop-11">
+		<section class="lui spaced container" id="buttons">
+			<h2>Buttons</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>
+							You shouldn't have more than 2 <em>primary</em> button per page.<br/>
+							Other actions of less importance will be displayed as <em>flat button</em> or just links.</p>
+						<p class="example">
+							<img src="guidelines/img/buttons-dont-1.png" />
+							<img src="guidelines/img/buttons-do-1.png" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>
+							<em>Save</em> and <em>cancel</em> buttons should be displayed side by side, right aligned below the targeted area. <br/>
+							Always display the main action button on the left, and the second action button on the right:</p>
+						<p class="example">
+							<img src="guidelines/img/buttons-do-2.png" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>You should avoid using icons inside the buttons, as the label should be self-explanatory. There are a few exceptions:</p>
+						<ul>
+							<li>When you have 2 actions that are equality likely to be considered as main action (ie. Approve/Deny)</li>
+							<li>When you want to provide feedback to the user, right after he has clicked on the button</li>
+						</ul>
+						<p class="example">
+							<img src="guidelines/img/buttons-do-3.png" />
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="lui spaced container" id="blankstates">
+			<h2>Blankstates</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-12">
+					<div class="lui raised">
+						<p>There are 3 kinds of blankstates:</p>
+						<ul>
+							<li>When the page or its content can't be loaded (ie. error). <strong>Error blankstates</strong></li>
+							<li>When it's the first time the user log into the application: he hasn't create any object yet, so there's nothing to show. <strong>Unique blankstate</strong></li>
+							<li>When the user has completed his tasks: there is no more items to show. <strong>Repeated blankstates</strong></li>
+						</ul>
+						<p><a href="https://discourse.lucca.fr/t/blank-states/642">Read more about blankstates on Discourse</a></p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>In any case, you should provide minimum information to the user:</p>
+						<ul>
+							<li>Why nothing is displayed</li>
+							<li>What he could do to avoid feeling trapped in a dead-end path (and a CTA to help him to proceed).</li>
+							<li>An illustration could fill the emptiness and please the user.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>For unique blankstate, you can add a colorful illustration to avoid frustration on a first visit.</p>
+						<p class="example">
+							<img src="guidelines/img/unique-blankstate.gif" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>For repeated blank state, the illustration should be less catchy to avoid weariness. You can also build a fake view of the items that have been there:</p>
+						<p class="example">
+							<img src="guidelines/img/repeated-blankstate.jpg" />
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="lui spaced container" id="feedbacks">
+			<h2>Feedbacks</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-12">
+					<div class="lui raised">
+						<p>You should provide feedback for every action done by the user. <br/>
+						Each time a user clicks on a button, something is happening. The <em>active</em> style that is provided for buttons by Lucca-UI is sometimes enough to provide feedback, but when the click triggers a change in the GUI, you should provide more accurate feedback.</p>
+					</div>
+				</div>
+				<div class="lui column desktop-6">
+					<div class="lui raised">
+						<p>Feedback should always be displayed in the locus of attention of the user. If the user's just clicked on a button located on the bottom of the page, the feedback should be located in the same area. That's why Lucca-UI provides <em>status buttons</em>: </p>
+						<p class="example">
+							<img src="guidelines/img/status-button.gif" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-6">
+					<div class="lui raised">
+						<p>To show that a page is being loaded, use the progress bar and place it below the lucca-banner:</p>
+						<p class="example">
+							<img src="guidelines/img/global-feedback.gif" />
+						</p>
+						<p>To avoid displaying an empty web page during the loading, you should build a fake view of the page that'll be loaded.</p>
+					</div>
+				</div>
+			</div>
+		</section>	
+		<section class="lui spaced container" id="forms">
+			<h2>Forms</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-12">
+					<div class="lui raised">
+						<p>As forms are a set of items that the user interact with, feedbacks should be given for each item as much as for the whole form.</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>Form input feedbacks are given on <em>blur</em>:</p>
+						<p class="example">
+							<img src="guidelines/img/form-feedbacks.gif"" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>Global form feedbacks are given in the form footer, side to the submit buttons:
+						</p>
+						<p class="example">
+							<img src="guidelines/img/global-form-feedbacks.png" />
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>While there are empty mandatory fields, or fields flagged as invalid, the submit button is disabled. When the user try to click it anyway, a tooltip explain why he can't submit the form.</p>
+					</div>
+				</div>
+			</div>
+		</section>				
+		<section class="lui spaced container" id="save-bar">
+			<h2>Save bar</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-12">
+					<div class="lui raised">
+						<p>Save bar should always be:</p>
+						<ul>
+							<li>visible,</li>
+							<li>100% of the targeted area's width,</li>
+							<li>displayed at the bottom of the area where the savable items are displayed:</li>
+						</ul>
+						<p class="example">
+							<img src="guidelines/img/save-bar.gif"" />
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>		</main>
+<!--jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="guidelines/js/guidelines.js"></script>	
+</body>
+
+
