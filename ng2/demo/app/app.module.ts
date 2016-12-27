@@ -8,11 +8,16 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { LuiProgressBarModule } from '../../src/components/progress-bar';
 // import { LuiUserPickerModule } from '../../src/components/user-picker/user-picker.module';
 import { LuiDatePickerModule } from '../../src/components/date-picker';
+import {LuiModalModule} from '../../src/components/modal/index';
 
 // Demo app
 import { AppComponent } from './app.component';
 // import { UserPickerDemoComponent } from './../components/user-picker-demo/user-picker-demo.component';
 import { DatePickerDemoComponent } from './../components/date-picker-demo/date-picker-demo.component';
+import { ModalDemoComponent } from '../components/modal-demo/modal-demo.component';
+import {ModalContentComponent} from '../components/modal-demo/modal-content/modal-content.component';
+import {LuiModalService} from '../../src/components/modal/modal.service';
+import {LuiModal} from '../../src/components/modal/modal.model';
 
 
 @NgModule({
@@ -22,14 +27,20 @@ imports: [
 	FormsModule,
 	LuiProgressBarModule,
 	// LuiUserPickerModule,
-	LuiDatePickerModule
+	LuiDatePickerModule,
+	LuiModalModule
 ],
 declarations: [
 	AppComponent,
 	// UserPickerDemoComponent,
-	DatePickerDemoComponent
+	DatePickerDemoComponent,
+	ModalDemoComponent,
+	ModalContentComponent
 ],
+entryComponents: [ModalContentComponent],
 providers: [
+	LuiModalService,
+	LuiModal
 ],
 bootstrap: [AppComponent]
 })
