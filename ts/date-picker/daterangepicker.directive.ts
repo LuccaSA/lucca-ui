@@ -122,10 +122,10 @@ module Lui.Directives {
 				let displayStr = $scope.startDisplayStr;
 				let dateFromStr = moment(displayStr, $scope.displayFormat);
 				if (dateFromStr.isValid() || (dateFromStr = moment(displayStr, $scope.format)).isValid()) {
-					this.selectDate(dateFromStr, false);
+					this.selectDate(dateFromStr, false, false);
 					this.currentDate = this.$scope.period.start;
 					this.start = this.$scope.period.start;
-					this.$scope.calendars = this.constructCalendars();
+					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
 			}
@@ -133,10 +133,10 @@ module Lui.Directives {
 				let displayStr = $scope.endDisplayStr;
 				let dateFromStr = moment(displayStr, $scope.displayFormat);
 				if (dateFromStr.isValid() || (dateFromStr = moment(displayStr, $scope.format)).isValid()) {
-					this.selectDate(dateFromStr, false);
+					this.selectDate(dateFromStr, false, false);
 					this.currentDate = moment(this.$scope.period.end);
 					this.end = this.currentDate;
-					this.$scope.calendars = this.constructCalendars();
+					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
 			}
@@ -256,20 +256,16 @@ module Lui.Directives {
 			}
 		}
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IDaterangePickerScope): void {
-			let onClosing = () => {
-				this.closePopover();
-			};
+			let onClosing = () => { this.closePopover(); };
 			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope, onClosing);
-			scope.togglePopover = ($event: ng.IAngularEvent) => {
-				this.togglePopover($event);
-			};
+			scope.togglePopover = ($event: ng.IAngularEvent) => { this.togglePopover($event); };
 		}
 
-		protected selectDate(date: moment.Moment, goToNextState: boolean = true): void {
+		protected selectDate(date: moment.Moment, goToNextState: boolean = true, updateDisplayStrs: boolean = true): void {
 			if (this.$scope.editingStart) {
 				this.$scope.period.start = date;
 				this.start = date;
-
+				if (updateDisplayStrs) { this.$scope.startDisplayStr = date.format(this.$scope.displayFormat); }
 				if (goToNextState) { this.$scope.editEnd(); }
 
 				if (!!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
@@ -287,6 +283,7 @@ module Lui.Directives {
 						break;
 					default:
 						this.$scope.period.end = date;
+						if (updateDisplayStrs) { this.$scope.endDisplayStr = date.format(this.$scope.displayFormat); }
 				}
 				if (!!this.$scope.period.start) {
 					if (goToNextState) {
@@ -348,14 +345,14 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			if (!!this.$scope.period.start && !!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
+				let tmp = this.$scope.period.start;
+				this.$scope.period.start = this.$scope.period.end;
+				this.$scope.period.end = tmp;
+			}
 			this.$scope.direction = "";
-			// if (!!this.$scope.period.start && !!this.$scope.period.end) {
 			this.setViewValue(this.$scope.period);
 			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
-			// } else {
-			// 	this.$scope.period = this.getViewValue();
-			// 	this.$scope.displayStr = "";
-			// }
 			this.element.removeClass("ng-open");
 			this.popoverController.close();
 		}
