@@ -12,7 +12,7 @@ module.exports = function(grunt, options){
 		},
 		sassdemo: {
 			files: ['scss/**/*.scss', 'scss/*.sass', 'demo/**/*.scss'],
-			tasks: ['sass:demo'],
+			tasks: ['sass:demo', "sass:guidelines"],
 		},
 
 		js: {
