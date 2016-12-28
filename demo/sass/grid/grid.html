@@ -1,10 +1,73 @@
-<h2 class="lui divider below">The grid</h2>
+<h2>The grid<span>Grid helps organizing the page.</span></h2>
 
+<div class="lui spaced container syntax">
+	<div class="columns">
+		<div class="lui column desktop-12">
+			<h3>Base syntax</h3>
+			<p>Container should have the <span>.lui.container</span> classes.</p>
+			<p>If you add the <span>.spaced</span> class, margins will be added around and between each column.</p>
+			
+		</div>	
+		<div class="lui column desktop-12 show-grid">
+			<h4>Container</h4>
+			<p class="clear">Default container:
+			<div class="lui container">
+				&nbsp;
+			</div>
+			<p class="clear">Default container with <span>.fitting</span> class added, to fit 100% of the available width:</p>
+			<div class="lui fitting container">
+				&nbsp;
+			</div>
+			<p class="clear">6 columns in a <span>.fitting</span> container:</p>
+			<div class="lui fitting container">
+				<div class="lui column mobile-2">Column #1</div>
+				<div class="lui column mobile-2">Column #2</div>
+				<div class="lui column spaced mobile-2">Column #3 (spaced)</div>
+				<div class="lui column mobile-2">Column #4</div>
+				<div class="lui column mobile-2">Column #5</div>
+				<div class="lui column mobile-2">Column #6</div>
+				<div class="clear"></div>
+			</div>
+			<p class="clear">6 columns in a <span>.spaced</span> container:</p>
+			<div class="lui spaced container">
+				<div class="lui column mobile-2">Column #1</div>
+				<div class="lui column mobile-2">Column #2</div>
+				<div class="lui column spaced mobile-2">Column #3 (spaced)</div>
+				<div class="lui column mobile-2">Column #4</div>
+				<div class="lui column mobile-2">Column #5</div>
+				<div class="lui column mobile-2">Column #6</div>
+				<div class="clear"></div>
+			</div>
+			<p class="clear">As space between columns is set with the padding property, if you want your columns to be visually separated, you'll have to style the first child element:</p>
+			<div class="lui spaced container">
+				<div class="lui column mobile-2"><p class="styled">Column #1</p></div>
+				<div class="lui column mobile-2"><p class="styled">Column #2</div>
+				<div class="lui column mobile-2"><p class="styled">Column #3</div>
+				<div class="lui column mobile-2"><p class="styled">Column #4</div>
+				<div class="lui column mobile-2"><p class="styled">Column #5</div>
+				<div class="lui column mobile-2"><p class="styled">Column #6</div>
+				<div class="clear"></div>
+			</div>
+			<p class="clear">If you need space between your columns but not around the first and last one, wrap your columns in a <span>.lui.columns</span> element:</p>
+			<div class="lui spaced container">
+				<div class="lui columns">
+					<div class="lui column mobile-2"><p class="styled">Column #1</p></div>
+					<div class="lui column mobile-2"><p class="styled">Column #2</div>
+					<div class="lui column mobile-2"><p class="styled">Column #3</div>
+					<div class="lui column mobile-2"><p class="styled">Column #4</div>
+					<div class="lui column mobile-2"><p class="styled">Column #5</div>
+					<div class="lui column mobile-2"><p class="styled">Column #6</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <p>
-	By default, the lucca grid is 12 columns based. This can be overriden.
+	
 </p>
 <p>
-	Container should have the <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
+	 <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
 </p>
 <p>
 	To define the size of a grid element for different devices, x being the number of columns, use

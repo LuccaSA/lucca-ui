@@ -133,18 +133,44 @@ html, body {
 		padding: 2em;
 	}
 
-	#grid .column {
-		p {
-			height: 2em;
-			margin: 0.5em 0;
-			border-radius: 2em;
+	.show-grid {
+		.container {
+			border: 1px solid grey;
+			margin-top: .5em;
+			margin-bottom: .5em;
+			background: rgba(grey, .25);
+			.column {
+				border: 1px dashed tomato;
+				border-radius: 10px;
+				p.styled {
+					border: 1px solid white;
+				}
+			}
 		}
-		&:nth-child(2n) p {
-			background: grey;
+		.clear {
+			clear: both;
 		}
-		&:nth-child(2n+1) p {
-			background: black;
+		.container,
+		.column,
+		p.styled {
+			position: relative;
+			margin-top: 2em !important;
+			padding-top: 1em !important;
+			padding-bottom: 1em !important;
+			&:after {
+				content:"nom de l'élément";
+				font-size: 12px;
+				position: absolute;
+				bottom: 100%;
+				left: 1em;
+				padding: 0 .5em;
+				border-radius: 2px 2px 0 0;
+			}
 		}
+		.container:after { background: grey; content:"container"; color: white; }
+		.column:after { background: tomato; content:"column"; color: white; }
+		p.styled:after { background: white; content:"child";}
+
 	}
 
 	article {
