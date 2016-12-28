@@ -22,6 +22,7 @@
 			<li><a href="#buttons">Buttons</a></li>
 			<li><a href="#blankstates">Blankstates</a></li>
 			<li><a href="#feedbacks">Feedbacks</a></li>
+			<li><a href="#modals">Modals</a></li>
 			<li><a href="#forms">Forms</a></li>
 			<li><a href="#save-bar">Save bar</a></li>
 		</ul>
@@ -55,7 +56,7 @@
 					<div class="lui raised">
 						<p>You should avoid using icons inside the buttons, as the label should be self-explanatory. There are a few exceptions:</p>
 						<ul>
-							<li>When you have 2 actions that are equality likely to be considered as main action (ie. Approve/Deny)</li>
+							<li>When you have 2 actions that are equality likely to be considered as main action (e.g. Approve/Deny)</li>
 							<li>When you want to provide feedback to the user, right after he has clicked on the button</li>
 						</ul>
 						<p class="example">
@@ -72,7 +73,7 @@
 					<div class="lui raised">
 						<p>There are 3 kinds of blankstates:</p>
 						<ul>
-							<li>When the page or its content can't be loaded (ie. error). <strong>Error blankstates</strong></li>
+							<li>When the page or its content can't be loaded (e.g. error). <strong>Error blankstates</strong></li>
 							<li>When it's the first time the user log into the application: he hasn't create any object yet, so there's nothing to show. <strong>Unique blankstate</strong></li>
 							<li>When the user has completed his tasks: there is no more items to show. <strong>Repeated blankstates</strong></li>
 						</ul>
@@ -135,7 +136,56 @@
 				</div>
 			</div>
 		</section>	
-		<section class="lui spaced container" id="forms">
+		<section class="lui spaced container" id="modals">
+			<h2>Modals</h2>
+			<div class="lui columns">
+				<div class="lui column desktop-12">
+					<div class="lui raised">
+						<p>All modals might soon be replaced by side panels, as they are more up to date, and can be adapted for mobile browsing easily. </p>
+						<p class="lui column mobile-6 example">
+							<img src="guidelines/img/modal.gif" />
+							<strong>Modal</strong>
+						</p>
+						<p class="lui column mobile-6 example">
+							<img src="guidelines/img/side-panel.gif" />
+							<strong>Side panel</strong>
+						</p>
+						<p>These guidelines apply to both modals and side panels.</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>A modal/side panel is composed of:</p>
+						<ul>
+							<li>A fixed header, which has a title (optional) and a cross icon allowing to close (mandatory)</li>
+							<li>A scrollable body</li>
+							<li>A fixed footer, containing one or more action action buttons (which also close the modal/side panel)</li>
+						</ul>
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>Modals/side panels should be used when:</p>
+						<ul>
+							<li>We need the user to take an action before continuing the process. All other actions are disabled.</li>
+							<li>When the user need to edit/read a complex item (with multiple data) showed in a collection of items (e.g. expense in a list of expenses)</li>
+						</ul>
+						</p>
+					</div>
+				</div>
+				<div class="lui column desktop-4">
+					<div class="lui raised">
+						<p>Modals/side panels should NOT be used when:</p>
+						<ul>
+							<li>The user needs to take several steps to proceed. In that case, you should use the main view to display information, with a progress indicator and a back button.</li>
+							<li>You just need to display additional information. In that case you should display it right in the main body (in a collapsable area or a tooltip) or, if there's a lot to show, by a link to another page.</li>
+						</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>		<section class="lui spaced container" id="forms">
 			<h2>Forms</h2>
 			<div class="lui columns">
 				<div class="lui column desktop-12">
