@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LuiModal } from './modal.model';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class LuiModalService {
+
+
 	constructor(private modalService: NgbModal) {}
 
-
-	displayModal(component: any): LuiModal {
-		return new LuiModal(this.modalService.open(component));
+	displayModal(component: any): NgbModalRef  {
+		let ngbModalRef =  this.modalService.open(component);
+		return ngbModalRef;
 	}
 }
+

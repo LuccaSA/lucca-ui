@@ -15,9 +15,8 @@ import { AppComponent } from './app.component';
 // import { UserPickerDemoComponent } from './../components/user-picker-demo/user-picker-demo.component';
 import { DatePickerDemoComponent } from './../components/date-picker-demo/date-picker-demo.component';
 import { ModalDemoComponent } from '../components/modal-demo/modal-demo.component';
-import {ModalContentComponent} from '../components/modal-demo/modal-content/modal-content.component';
-import {LuiModalService} from '../../src/components/modal/modal.service';
-import {LuiModal} from '../../src/components/modal/modal.model';
+import { ModalContentComponent } from '../components/modal-demo/modal-content/modal-content.component';
+import { LuiModalService } from '../../src/components/modal/modal.service';
 
 
 @NgModule({
@@ -39,8 +38,7 @@ declarations: [
 ],
 entryComponents: [ModalContentComponent],
 providers: [
-	LuiModalService,
-	LuiModal
+	LuiModalService
 ],
 bootstrap: [AppComponent]
 })
