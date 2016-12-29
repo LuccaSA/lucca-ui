@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 
 @Component({
 	selector: 'lui-modal-container',
-	templateUrl: 'modal.html'
+	templateUrl: 'modal-container.html'
 })
-export class LuiModalComponent {
+export class LuiModalContainerComponent {
 
 	constructor() {}
 }

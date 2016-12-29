@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LuiModalContent } from '../../../../src/components/modal/modal-content.component';
+import { LuiModalContent } from '../../../../src/components/modal/modal-content';
 
 @Component({
 	selector: 'modal-content-demo',

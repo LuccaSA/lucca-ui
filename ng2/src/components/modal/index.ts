@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { NgbModule, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { LuiModalComponent } from './modal.component';
+import { LuiModalContainerComponent } from './modal-container.component';
 
 @NgModule({
-	declarations: [LuiModalComponent],
+	declarations: [LuiModalContainerComponent],
 	imports: [NgbModule.forRoot()],
 	providers: [NgbModalRef],
-	exports: [LuiModalComponent]
+	exports: [LuiModalContainerComponent]
 })
 export class LuiModalModule {
 

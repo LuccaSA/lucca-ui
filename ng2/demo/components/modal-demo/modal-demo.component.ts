@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalContentComponent } from './modal-content/modal-content.component';
-import { LuiModalDisplayer } from '../../../src/components/modal/modal-displayer.component';
+import { LuiModalDisplayer } from '../../../src/components/modal/modal-displayer';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
