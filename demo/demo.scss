@@ -125,15 +125,29 @@ html, body {
 		padding: 2em;
 	}
 
-	.show-grid {
+	.view-window {
 		margin: 0;
-		border-radius: 12px;
-		padding: 3em 0 2em;
+		border-radius: 8px;
+		padding: 6em 0 2em;
 		background-image: url(sass/img/window-tl.png), url(sass/img/window-tr.png), url(sass/img/window-t.png);
 		background-repeat: no-repeat, no-repeat, repeat-x;
 		background-position: 0 0, 100% 0, 0 0;
 		background-color: white;
 		box-shadow: 0 0 20px rgba(0,0,0,.15);
+	}
+
+	#menu .view-window {
+		padding-top: 71px;
+		margin-top: 1em;
+		&.vertical-menu {
+			padding-bottom: 0;
+			.lui.menu.vertical {
+				max-width: 50%;
+			}
+		}
+	}
+
+	.show-grid {
 		.container {
 			border: 1px solid grey;
 			margin-top: .5em;
