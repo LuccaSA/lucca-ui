@@ -1,18 +1,46 @@
-<h2>Labels</h2>
+<h2>Labels<span>Labels allow to display more information in a colorful way. There are no action linked to those element.</h2>
 <div class="lui container syntax">
-	<span class="lui label">Default</span>
-	<span class="lui label primary">Primary</span>
-	<span class="lui label secondary">Secondary</span>
-	<span class="lui label"><i class="lui icon edit"></i>With icon</span>
-	<span class="lui label with addon green">
-		<span class="lui addon">Users:</span> 128 <i class="lui right addon icon user"></i>
-	</span>
-
-	<span class="lui large primary labels">
-		<span class="lui label">A labels</span>
-		<span class="lui label">element</span>
-		<span class="lui label">can contain</span>
-		<span class="lui label">multiple</span>
-		<span class="lui label">label elements</span>
-	</span>
+	<div class="lui columns">
+		<div class="lui column desktop-12">
+			<h3>Base syntax</h3>
+			<p>To display a default label (unstyled), just add the classes <span>.lui.label</span> to your element.
+			It'll look like this: <span class="lui label">Default</span>
+			Then you can add more classes to style your label:</p>
+		</div>
+		<div class="lui column mobile-4">
+			<h4>Color classes</h4>
+			<ul class="unstyled">
+				<li><span>.primary</span><span class="lui label primary">Primary</span></li>
+				<li><span>.secondary</span><span class="lui label secondary">Secondary</span></li>
+				<li><span>.yellow</span><span class="lui label yellow">Yellow (Lucca's color)</span></li>
+				<li><span>.grey</span><span class="lui label grey">Grey</span></li>
+				<li><span>.light</span><span class="lui label light">Light</span></li>
+				<li><span>.red</span><span class="lui label red">Red</span></li>
+				<li><span>.orange</span><span class="lui label orange">Orange</span></li>
+				<li><span>.green</span><span class="lui label green">Grey</span></li>
+			</ul>
+		</div>
+		<div class="lui column mobile-4">
+			<h4>Size classes</h4>
+			<ul class="unstyled">
+				<li><span>.x-small</span><span class="lui label primary x-small">x-small</span></li>
+				<li><span>.small</span><span class="lui label secondary small">small</span></li>
+				<li><span>.large</span><span class="lui label yellow large">large</span></li>
+				<li><span>.x-large</span><span class="lui label grey x-large">x-large</span></li>
+		</div>
+		<div class="lui column mobile-4">
+			<h4>Addon support</h4>
+			<ul class="unstyled">
+				<li><span>.lui.with.addon.green</span><span class="lui label with addon green large"><span class="lui addon">Addon</span>With addon</span></li>
+			</ul>
+			<h4>Labels group</h4>
+			To display several labels styled in the same way, you can wrap them in a <span>.lui.labels.{style}</span> parent:
+			<div class="lui labels large primary">
+				<span class="lui label">Label #1</span>
+				<span class="lui label">Label #2</span>
+				<span class="lui label">Label #3</span>
+				<span class="lui label">Label #4</span>
+			</div>
+		</div>
+	</div>
 </div>
