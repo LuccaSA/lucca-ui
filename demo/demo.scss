@@ -38,31 +38,34 @@ html, body {
 	article {
 		font-size: .875em;
 		margin-bottom: 1em;
-		background: white;
-		padding-bottom: 2em;
+		padding-top: calc(#{$banner-height} + 1em);
+
 		h2 {
-			margin: 0 !important;
-			background: $light;
-			padding: 1rem;
+			color: #666;
+			font-size: 4em;
+			border-bottom: 1px solid $light;
+			margin-top: 0 !important;
+			padding: 0 4rem;
 			span, a {
+				color: #666;
 				font-size:1rem;
-				color: white;
 				font-weight: 600;
 				margin-left: 2em;
 			}
 			a,
 			a:visited {
-				color: white;
+				color: #666;
 				float: right;
-				line-height: 3;
+				line-height: 6;
 			}
 		}
+
 		.syntax  {
 			margin: 0 1em !important;
-			padding: 0 1em 2em;
+			padding: 0 4rem 2em !important;
 			span {
 				display: inline-block;
-				background: lighten($light, 15);
+				background: white;
 				border: 1px solid $light;
 				color: red;
 				font-family: 'Source Code Pro', monospace;
@@ -117,7 +120,7 @@ html, body {
 	}
 
 	.show-grid {
-		margin: 0 1em;
+		margin: 0;
 		border-radius: 12px;
 		padding: 3em 0 2em;
 		background-image: url(sass/img/window-tl.png), url(sass/img/window-tr.png), url(sass/img/window-t.png);
