@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 import { DatePickerDemoComponent } from './../components/date-picker-demo/date-picker-demo.component';
 import { ModalDemoComponent } from '../components/modal-demo/modal-demo.component';
 import { ModalContentComponent } from '../components/modal-demo/modal-content/modal-content.component';
-import { LuiModalService } from '../../src/components/modal/modal.service';
+import {ModalDisplayerInsideModalComponent} from '../components/modal-demo/modal-content/modal-displayer-inside-modal/modal-displayer-inside-modal.component';
 
 
 @NgModule({
@@ -34,12 +34,11 @@ declarations: [
 	// UserPickerDemoComponent,
 	DatePickerDemoComponent,
 	ModalDemoComponent,
-	ModalContentComponent
+	ModalContentComponent,
+	ModalDisplayerInsideModalComponent
 ],
 entryComponents: [ModalContentComponent],
-providers: [
-	LuiModalService
-],
+providers: [],
 bootstrap: [AppComponent]
 })
 export class AppModule {

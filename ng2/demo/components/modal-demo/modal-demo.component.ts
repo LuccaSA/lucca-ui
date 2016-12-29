@@ -1,22 +1,30 @@
 import { Component } from '@angular/core';
-import { LuiModalService } from '../../../src/components/modal/modal.service';
 import { ModalContentComponent } from './modal-content/modal-content.component';
+import { LuiModalDisplayer } from '../../../src/components/modal/modal-displayer.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
 	selector: 'modal-demo',
 	templateUrl: 'modal-demo.html'
 })
-export class ModalDemoComponent {
+export class ModalDemoComponent extends LuiModalDisplayer {
 
 	public message: string;
 
-	constructor(private modalService: LuiModalService) {
-		this.message = 'Click here for modal demo : ';
+	constructor(ngbModal: NgbModal) {
+		super(ngbModal);
+		this.message = 'Result will appear here ';
 	}
 
 	showLuiModal() {
-		let modalRef = this.modalService.displayModal(ModalContentComponent);
-		modalRef.result
-			.then( (result) => this.message = 'Retrieved data : ' + result)
-			.catch(() => this.message = 'Modal was dismissed');
+		this.openModal(ModalContentComponent);
+	}
+
+	onClose(result?: any) {
+		this.message = 'Retrieved data : ' + (result || 'none');
+	}
+
+	onDismiss(reason?: any) {
+		this.message = 'Modal was dismissed';
 	}
 }

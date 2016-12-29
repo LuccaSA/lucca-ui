@@ -5,7 +5,7 @@ import { LuiModalContent } from '../../../../src/components/modal/modal-content.
 	selector: 'modal-content-demo',
 	templateUrl: 'modal-content.html'
 })
-export class ModalContentComponent extends LuiModalContent  {
+export class ModalContentComponent extends LuiModalContent {
 
 	private message: string;
 
