@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {LuiModalDisplayer} from '../../../../../src/components/modal/modal-displayer.component';
-import {ModalContentComponent} from '../modal-content.component';
+import { LuiModalDisplayer, LuiModalOptions } from '../../../../../src/components/modal/modal-displayer.component';
+import { ModalContentComponent } from '../modal-content.component';
 
 @Component({
 	selector: 'modal-displayer-inside-modal',
@@ -17,7 +17,13 @@ export class ModalDisplayerInsideModalComponent extends LuiModalDisplayer {
 	}
 
 	displayAnotherModal() {
-		this.openModal(ModalContentComponent);
+		let options: LuiModalOptions = {
+			backdrop: false,
+			keyboard: false,
+			size: 'sm',
+			windowClass: 'lui-demo'
+		};
+		this.openModal(ModalContentComponent, options);
 	}
 
 	onClose(result?: any) {
