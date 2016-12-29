@@ -1,139 +1,98 @@
 <h2>The grid<span>Grid helps organizing the page.</span></h2>
-
-<div class="lui spaced container syntax">
+<div class="lui container syntax">
 	<div class="columns">
 		<div class="lui column desktop-12">
 			<h3>Base syntax</h3>
-			<p>Container should have the <span>.lui.container</span> classes.</p>
-			<p>If you add the <span>.spaced</span> class, margins will be added around and between each column.</p>
-			
-		</div>	
-		<div class="lui column desktop-12 show-grid">
-			<h4>Container</h4>
-			<p class="clear">Default container:
-			<div class="lui container">
-				&nbsp;
-			</div>
-			<p class="clear">Default container with <span>.fitting</span> class added, to fit 100% of the available width:</p>
-			<div class="lui fitting container">
-				&nbsp;
-			</div>
-			<p class="clear">6 columns in a <span>.fitting</span> container:</p>
-			<div class="lui fitting container">
-				<div class="lui column mobile-2">Column #1</div>
-				<div class="lui column mobile-2">Column #2</div>
-				<div class="lui column spaced mobile-2">Column #3 (spaced)</div>
-				<div class="lui column mobile-2">Column #4</div>
-				<div class="lui column mobile-2">Column #5</div>
-				<div class="lui column mobile-2">Column #6</div>
-				<div class="clear"></div>
-			</div>
-			<p class="clear">6 columns in a <span>.spaced</span> container:</p>
-			<div class="lui spaced container">
-				<div class="lui column mobile-2">Column #1</div>
-				<div class="lui column mobile-2">Column #2</div>
-				<div class="lui column spaced mobile-2">Column #3 (spaced)</div>
-				<div class="lui column mobile-2">Column #4</div>
-				<div class="lui column mobile-2">Column #5</div>
-				<div class="lui column mobile-2">Column #6</div>
-				<div class="clear"></div>
-			</div>
-			<p class="clear">As space between columns is set with the padding property, if you want your columns to be visually separated, you'll have to style the first child element:</p>
-			<div class="lui spaced container">
-				<div class="lui column mobile-2"><p class="styled">Column #1</p></div>
-				<div class="lui column mobile-2"><p class="styled">Column #2</div>
-				<div class="lui column mobile-2"><p class="styled">Column #3</div>
-				<div class="lui column mobile-2"><p class="styled">Column #4</div>
-				<div class="lui column mobile-2"><p class="styled">Column #5</div>
-				<div class="lui column mobile-2"><p class="styled">Column #6</div>
-				<div class="clear"></div>
-			</div>
-			<p class="clear">If you need space between your columns but not around the first and last one, wrap your columns in a <span>.lui.columns</span> element:</p>
-			<div class="lui spaced container">
-				<div class="lui columns">
-					<div class="lui column mobile-2"><p class="styled">Column #1</p></div>
-					<div class="lui column mobile-2"><p class="styled">Column #2</div>
-					<div class="lui column mobile-2"><p class="styled">Column #3</div>
-					<div class="lui column mobile-2"><p class="styled">Column #4</div>
-					<div class="lui column mobile-2"><p class="styled">Column #5</div>
-					<div class="lui column mobile-2"><p class="styled">Column #6</div>
+			<p>By default, the lucca grid is 12 columns based. This can be overriden.<br />
+			Grid is made of one (or more) container(s) defined by the <span>.lui.container</span> classes, and columns, set by the <span>.lui.column</span> classes.</p>
+
+		</div>
+		<div class="lui column desktop-12">
+			<h4>Options for container and columns</h4>
+			<div class="show-grid">
+				<p class="clear">Default container has side margins:
+				<div class="lui container">
+					&nbsp;
+				</div>
+				<p class="clear">Container with <span>.fitting</span> class added, to fit 100% of the available width:</p>
+				<div class="lui fitting container">
+					&nbsp;
+				</div>
+				<p class="clear">To define the size of a grid element for different devices, x being the number of columns, use:</p>
+				<ul>
+					<li><span>.lui.column.mobile-x</span> for mobiles phones</li>
+					<li><span>.lui.column.tablet-x</span> for tablets</li>
+					<li><span>.lui.column.desktop-x</span> for desktops</li>
+					<li><span>.lui.column.large-x</span> for large screens</li>
+				</ul>
+				<p class="clear">6 columns in a <span>.fitting</span> container:</p>
+				<div class="lui fitting container highlight-child">
+					<div class="lui column mobile-2">Column #1 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #2 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #3 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #4 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #5 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #6 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
 					<div class="clear"></div>
 				</div>
+				<p class="clear">Add <span>.spaced</span> to a column to separate its content from its siblings' content:</p>
+				<div class="lui fitting container highlight-child">
+					<div class="lui column mobile-2">Column #1 <br><span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #2 <br><span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2 spaced">Column #3 (spaced)<br> <span>.lui.column.mobile-2.spaced</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #4 <br><span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #5 <br><span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #6 <br><span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="clear"></div>
+				</div>
+				<p class="clear">6 columns in a <span>.spaced</span> container. Columns borders are still collapsed, but they now have padding, so their content is separate:</p>
+				<div class="lui spaced container highlight-child">
+					<div class="lui column mobile-2">Column #1 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #2 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #3 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #4 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #5 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="lui column mobile-2">Column #6 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+					<div class="clear"></div>
+				</div>
+				<p class="clear">If you need space between your columns but not before the first one and after the last one, wrap your columns in a <span>.lui.columns</span> element:</p>
+				<div class="lui spaced container highlight-child">
+					<div class="lui columns">
+						<div class="lui column mobile-2">Column #1 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="lui column mobile-2">Column #2 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="lui column mobile-2">Column #3 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="lui column mobile-2">Column #4 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="lui column mobile-2">Column #5 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="lui column mobile-2">Column #6 <span>.lui.column.mobile-2</span><p class="lui raised styled">Child <span>.lui.raised</span></p></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<p class="clear">Use the <span>.{device}-offset-x</span> class to offset a specific grid child.
+				Use the <span>.{device}-push-x</span> and <span>.{device}-pull-x</span> classes to reorder children elements.</p>
+				<div class="lui container highlight-child">
+					<div class="lui column mobile-2">Column #1 <span>.mobile-2</span></div>
+					<div class="lui column mobile-2 mobile-offset-2">Column #2 <span>.mobile-2.mobile-offset-2</span></div>
+					<div class="clear"></div>
+					<div class="lui column mobile-2">Column #1 <span>.mobile-2</span></div>
+					<div class="lui column mobile-2 mobile-push-2">Column #1 <span>.mobile-2.mobile-push-2</span></div>
+					<div class="clear"></div>
+					<div class="lui column mobile-2 mobile-pull-2">Column #1 <span>.mobile-2.mobile-pull-2</span></div>
+					<div class="lui column mobile-2 mobile-pull-2">Column #2 <span>.mobile-2.mobile-pull-2</span></div>
+					<div class="clear"></div>
+				</div>
+				<!-- <p class="clear">If you want all columns of a same parent container to be the same height, you should wrap the columns in a  <span>.lui.fitting.columns</span> element.</p>
+				<div class="lui spaced container highlight-child">
+					<div class="lui fitting columns ">
+						<div class="lui column mobile-2">Column #1 <span>.lui.column.mobile-2</span></div>
+						<div class="lui column mobile-2">Column #2 <span>.lui.column.mobile-2</span></div>
+						<div class="lui column mobile-2">Column #3 <span>.lui.column.mobile-2</span> <br/>This column has much more content than its siblings, so by default, it should be higher than its siblings. With the <span>.lui.fitting.columns</span></div>
+						<div class="lui column mobile-2">Column #4 <span>.lui.column.mobile-2</span></div>
+						<div class="lui column mobile-2">Column #5 <span>.lui.column.mobile-2</span></div>
+						<div class="lui column mobile-2">Column #6 <span>.lui.column.mobile-2</span></div>
+						<div class="clear"></div>
+					</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
 </div>
-<p>
-	
-</p>
-<p>
-	 <code>lui container</code> classes. Columns must be given the <code>lui column</code> classes.
-</p>
-<p>
-	To define the size of a grid element for different devices, x being the number of columns, use
-	<ul class="lui unstyled">
-		<li><code>lui column mobile-x</code> for mobiles phones</li>
-		<li><code>lui column tablet-x</code> for tablets</li>
-		<li><code>lui column desktop-x</code> for desktops</li>
-		<li><code>lui column large-x</code> for large screens</li>
-	</ul>
-</p>
-
-<p>
-	Use the <code>{device}-offset-x</code> class to offset a specific grid child.
-</p>
-<p>
-	Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
-</p>
-<p>
-	Don't want any margin on the sides of your container ? Give it the <code>fitting</code> class.
-</p>
-<br/>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Example #1: Without gutter space</h4>
-</div>
-
-<div class="lui container">
-	<div class="lui column tablet-6 desktop-10"><p>&nbsp;</p></div>
-	<div class="lui column tablet-3 desktop-2"><p>&nbsp;</p></div>
-	<div class="lui column tablet-3"><p>&nbsp;</p></div>
-
-	<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
-	<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
-	<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
-</div>
-
-<br/>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Example #2: With gutter space</h4>
-</div>
-<p>
-	Add the <code>spaced</code> class to give a column a gutter. Add it to the <code>.lui.container</code> parent element to give gutters to all <code>.lui.column</code> children.
-</p>
-<p>
-	Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
-</p>
-<div class="lui container spaced">
-	<div class="lui columns">
-		<div class="lui column mobile-push-6 mobile-6 tablet-push-0 tablet-6 desktop-10"><p>&nbsp;</p></div>
-		<div class="lui column mobile-pull-6 mobile-6 tablet-push-0 tablet-3 desktop-2"><p>&nbsp;</p></div>
-		<div class="lui column tablet-3"><p>&nbsp;</p></div>
-
-		<div class="lui column tablet-4 mobile-6 large-2"><p>&nbsp;</p></div>
-		<div class="lui column tablet-4 mobile-6 large-offset-5 large-2"><p>&nbsp;</p></div>
-		<div class="lui column tablet-4 large-12"><p>&nbsp;</p></div>
-	</div>
-</div>
-
-<div class="lui dashed divider">
-	<h4 class="lui underline">Example #3: Same height columns</h4>
-</div>
-<div class="lui spaced container">
-	<div class="lui fitting columns">
-		<div class="lui mobile-6 column" style="background-color:#CCC; border: 1px solid black;"><p></p><p></p><p></p></div>
-		<div class="lui mobile-6 column" style="background-color:#AAA; border: 1px solid black;"><p></p></div>
-		<div class="lui mobile-3 column" style="background-color:#DDD; border: 1px solid black;"><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div>
-		<div class="lui mobile-9 column" style="background-color:#EEE; border: 1px solid black;"><p></p></div>
-	</div>
-</div>
-
