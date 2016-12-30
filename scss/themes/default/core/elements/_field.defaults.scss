@@ -4,32 +4,86 @@
 // ===================================
 
 $field: (
-	enabled: 					true,
+	enabled: 						true,
 
-	invalid-color: 				luiPalette(red, color),
-	valid-color:				luiPalette(green, color),
+	invalid-color: 					luiPalette(red, color),
+	valid-color:					luiPalette(green, color),
+
+	input: (
+		vertical-padding: 			0.5em,
+		font-size:					1.1em,
+		placeholder-color:			transparentize(luiTheme(element, typography, body, color), 0.35),
+		selection-background:		transparentize(luiPalette(primary, color), 0.5),
+		selection-text:				luiPalette(primary, text),
+
+		label: (
+			color: 					luiPalette(light, color, dark),
+			displaced-font-size:	0.9em,
+		),
+
+		transition: (
+			duration:				100ms,
+			easing:					cubic-bezier(0.25, 0.8, 0.25, 1)
+		),
+
+		// Material style
+		material: (
+			default-border-width: 	1px,
+			default-border-color:	luiPalette(light, color),
+
+			focus-border-width:		2px,
+			focus-border-color: 	luiPalette(primary, color)
+
+		),
+
+		// Compact style
+		compact: (
+			border-width: 			1px,
+			border-color: 			luiPalette(light, color),
+			border-radius: 			luiTheme(adjective, rounded, radius),
+			background-color: 		#efefef,
+
+			focus: (
+				background-color: 	#fafafa
+			)
+		)
+	),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	valid-icon-size:			0.75em,
 	vertical-margin: 			2em,
 
 	natural-hover-background: 	rgba(50, 50, 50, 0.05),
 
-	input: (
-		vertical-padding: 		0.5em,
-		font-size:				1.1em,
-		placeholder-color:		transparentize(luiTheme(element, typography, body, color), 0.35),
-		selection-background:	transparentize(luiPalette(primary, color), 0.5),
-		selection-text:			luiPalette(primary, text)
-	),
-
-	transition: (
-		duration:				100ms,
-		easing:					cubic-bezier(0.25, 0.8, 0.25, 1)
-	),
-
-	label: (
-		color: 					luiPalette(light, color, dark),
-		displaced-font-size:	0.9em,
-	),
 
 	message: (
 		font-size: 				0.85em,
@@ -44,11 +98,6 @@ $field: (
 	),
 
 	field: (
-		default-border-width: 	1px,
-		default-border-color:	luiPalette(light, color),
-
-		focus-border-width:		2px,
-		focus-border-color: 	luiPalette(primary, color)
 	),
 
 	lengths: (

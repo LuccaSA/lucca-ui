@@ -24,7 +24,7 @@
 					right: -1em;
 					width: 100%;
 					padding: 0 1em 1em 1em;
-					padding-top: lui_rem(0.5) + luiTheme(element, field, field, focus-border-width) + lui_rem(luiTheme(element, field, input, font-size)) + 2 * (luiTheme(element, field, input, font-size) / (luiTheme(element, field, input, font-size) * 0 + 1)) * lui_rem(luiTheme(element, field, input, vertical-padding) / (luiTheme(element, field, input, vertical-padding) * 0 + 1));
+					padding-top: lui_rem(0.5) + luiTheme(element, field, input, material, focus-border-width) + lui_rem(luiTheme(element, field, input, font-size)) + 2 * (luiTheme(element, field, input, font-size) / (luiTheme(element, field, input, font-size) * 0 + 1)) * lui_rem(luiTheme(element, field, input, vertical-padding) / (luiTheme(element, field, input, vertical-padding) * 0 + 1));
 					@include lui_raised(3);
 					transition-delay: 100ms;
 

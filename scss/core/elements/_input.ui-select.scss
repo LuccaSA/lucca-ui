@@ -78,13 +78,13 @@
 			}
 
 			.ui-select-placeholder {
-				@include lui_input_placeholder;
+				color: luiTheme(element, field, input, placeholder-color);
 			}
 
 			&.open .ui-select-search,
 			.ui-select-search:focus,
 			.ui-select-match.btn-default-focus .ui-select-toggle {
-				@extend %lui_input_focus;
+				@extend %lui_input_focus_material;
 			}
 			&:not(.ui-select-multiple) .ui-select-search {
 				width: 100% !important;
@@ -147,8 +147,8 @@
 
 				.ui-select-toggle {
 					cursor: default;
-					
-					@extend %lui_input_disabled_input;
+
+					@extend %lui_input_disabled_input_material;
 				}
 			}
 
@@ -157,7 +157,7 @@
 			&.ng-invalid.ng-touched {
 				.ui-select-toggle,
 				.ui-select-search {
-					@extend %lui_input_invalid_input;
+					@extend %lui_input_invalid_input_material;
 				}
 			}
 

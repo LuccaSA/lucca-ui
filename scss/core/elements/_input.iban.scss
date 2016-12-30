@@ -22,16 +22,16 @@
 			> input {
 				display: inline-block;
 
-				&::-webkit-input-placeholder { @include lui_input_placeholder; }
-				&::-moz-placeholder { @include lui_input_placeholder; }
-				&-ms-input-placeholder { @include lui_input_placeholder; }
-				&:-moz-placeholder { @include lui_input_placeholder; }
+				&::-webkit-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&::-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 
-				@extend %lui_input_reset;
+				@extend %lui_input_reset_material;
 				@extend %lui_input_sizing;
 
 				&:focus {
-					@extend %lui_input_focus;
+					@extend %lui_input_focus_material;
 				}
 
 				&:last-of-type {
@@ -45,7 +45,7 @@
 			.ng-not-empty.ng-pristine.ng-invalid {
 				box-shadow: none !important;
 				input {
-					@extend %lui_input_invalid_input;
+					@extend %lui_input_invalid_input_material;
 				}
 			}
 		}
