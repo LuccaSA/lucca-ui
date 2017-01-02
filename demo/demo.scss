@@ -27,18 +27,17 @@ html, body {
 		width: calc(100% - #{$toc-width});
 		margin-left: $toc-width;
 		overflow: auto;
+		header {
+			.lui.callout {
+				margin-top: 0;
+			}
+		}
 	}
 	#toc {
 		margin-top: $banner-height;
 		width: $toc-width;
 		height: 100%;
 		background: white;
-		> nav {
-			font-size: .875em;
-			a.item {
-				padding-left: 2em;
-			}
-		}
 	}
 
 	article {
@@ -274,6 +273,37 @@ html, body {
 
 	}
 
+	#lui-icon .icon-list {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			width: 15%;
+			margin-right: calc(100%/6 - 15%);
+			margin-bottom: 1em;
+			padding: 1em 0;
+			display: inline-block;
+			text-align: center;
+			background: white;
+			span {
+				white-space: nowrap;
+				margin: 0 1em;
+				max-width: calc(100% - 2em);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				&:hover {
+					max-width: 1000%;
+					overflow-x: visible;
+					overflow-y: hidden;
+				}
+			}
+			i {
+				font-size: 2em;
+				margin: 1em auto;
+			}
+		}
+	}
+
 	article {
 		@extend #{$prefix}.clear;
 	}
@@ -296,30 +326,7 @@ html, body {
 		-webkit-text-size-adjust: none;
 	}
 
-	#lui-icon .icon-list {
-		padding: 0;
-		margin: 0;
-		list-style: none;
-		li {
-			margin: 0 2em 3em 2em;
-			padding: 0;
-			display: inline-block;
-			text-align: center;
-			i {
-				color: #162a36;
-				font-size: 24px;
-				margin-bottom: 1em;
-			}
-			.lui.input {
-				display: block;
-				input {
-					display: block;
-					text-align: center;
-					margin-bottom: 0.5em;
-				}
-			}
-		}
-	}
+
 	.luifNumberValue > span {
 		font-size:90%;
 		opacity: .6;
