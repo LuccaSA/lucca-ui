@@ -1,108 +1,26 @@
-<section id="lui-icon" class="lui typeset container" ng-controller="iconsCtrl">
-	<article id="how-to">
-		<h2 class="lui divider below">How to use</h2>
-		<p>
-			Just append/prepend a <code>&lt;i class="lui {palette} icon {icon-name}"&gt;&lt;/i&gt;</code> element.
-		</p>
-		<p>
-			<code>&lt;i class="lui red icon warning"&gt;&lt;/i&gt;</code>: <i class="lui red icon warning"></i>, <code>&lt;i class="lui primary icon jumpping cc"&gt;&lt;/i&gt;</code>: <i class="lui primary icon jumping cc"></i>
-		</p>
-		<p>
-			<b>Important:</b> the words order is important in the icon-name : <code>lui icon arrow south</code> is not the same that <code>lui icon south arrow</code>
-		</p>
-		<p>
-			Finally, you can use the available mixin <code>.lui_icon_maker(forbidden)</code>
-		</p>
+<section id="lui-icon" class="lui typeset fitting container" ng-controller="iconsCtrl">
+	<article id="how-to" class="syntax">
+		<h2>How to use<a href="guidelines.html#icons">Guidelines Lucca</a></h2>
+		<div class="lui container syntax">
+
+			<p class="lui column mobile-12">
+				Just append/prepend <span>.lui.{color}.icon.{icon-name}</span> classes to your element: <i class="lui icon image"></i> <br /><br />
+				Icons support color but only on <span>&lt;i&gt;&lt;/i&gt;</span> elements. <span>&lt;i class="lui red icon warning"&gt;&lt;/i&gt;</span> will display as: <i class="lui red icon warning"></i><br /><br />
+				<b>Important:</b> the words order is important in the icon-name : <span>.lui.icon.arrow.south</span> is not the same that <span>.lui.icon.south.arrow</span>
+			</p>
+		</div>
 	</article>
-	<article>
-		<h2 class="lui divider below">List of all available icons</h2>
+	<article id="icons-list">
+		<h2>List of available icons</h2>
+		<div class="lui container syntax">
 
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline" id="arrows">Arrows</h4>
-		</div>
-		<ul class="icon-list lucca-input-group" ng-repeat="list in arrowIcons">
-			<li ng-repeat="item in list">
+		<ul class="icon-list lucca-input-group" ng-repeat="list in allIcons">
+			<li ng-repeat="item in list" class="lui raised">
 				<i class="lui icon {{item}}"></i>
-				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
+				<p><span>{{item}}</span></p>
 			</li>
 		</ul>
+		<div class="lui container syntax">
 
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline" id="sensitive">Context sensitive icons</h4>
-		</div>
-		<p>
-			Icons that tend to appear a lot in the web page and convey a message that depends highly on the context. They serve to reinforce a message given by the context.
-		</p>
-		<p>
-			For example this
-			<div class="lui small buttons"><button class="lui button"><i class="check icon lui"></i> ok</button><button class="lui button">cancel</button></div><br>
-			does not convey the same information as this
-			<ul>
-				<li>Some stuff, status: <span class="lui green label with addon">Success <i class="lui icon check right addon"></i></span></li>
-				<li>Other stuff, status: <span class="lui green label with addon">Commit <i class="lui icon check right addon"></i></span></li>
-				<li>A third thing, status: <span class="lui red label with addon">Failure <i class="lui icon warning right addon"></i></span></li>
-				<li>You get the idea, status: <span class="lui green label with addon">Miracle <i class="lui icon check right addon"></i></span></li>
-			</ul>
-			In both cases <i class="lui icon check"></i> put emphasis on the information next to it but the information reinforced is not the same
-		</p>
-		<ul class="icon-list lucca-input-group" ng-repeat="list in contextSensIcons">
-			<li ng-repeat="item in list">
-				<i class="lui icon {{item}}"></i>
-				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
-			</li>
-		</ul>
-
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline" id="insensitive">Context insensitive icons</h4>
-		</div>
-		<p>
-			Generic icons that convey a fixed message and using them adds information to the element or put emphasis on existing information.
-		</p>
-		<p>
-			For example this <button class="lui flat button">some_doc_name</button> looks like a link to some page while this <button class="lui flat button"><i class="lui icon attachment"></i>some_doc_name</button> is clearly a link to some attachment
-		</p>
-		<p>
-			Also this button <button class="lui button with addon"><i class="lui icon send addon"></i> send</button> conveys a clearer information than this button <button class="lui button">send</button>
-		</p>
-		<ul class="icon-list lucca-input-group" ng-repeat="list in contextInsensIcons">
-			<li ng-repeat="item in list">
-				<i class="lui icon {{item}}"></i>
-				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
-			</li>
-		</ul>
-
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline" id="mouse">Mouse interactions</h4>
-		</div>
-		<p>
-			Here are the icons that either tell the user there is a mouse interaction possible or that appear when the user interacts using his/her mouse.
-		</p>
-		<p>
-			This <i class="lui drag icon"></i> tells the user he can drag n drop the element. By doing so, his mouse cursor is changed to <i class="lui icon move"></i> to confirm he is moving something.
-		</p>
-		<ul class="icon-list lucca-input-group" ng-repeat="list in mouseIcons">
-			<li ng-repeat="item in list">
-				<i class="lui icon {{item}}"></i>
-				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
-			</li>
-		</ul>
-
-
-		<div class="lui dashed divider">
-			<h4 class="lui underline" id="specific">Specific icons</h4>
-		</div>
-		<p>
-			Icons that represent one thing and one thing only
-		</p>
-		<ul class="icon-list lucca-input-group" ng-repeat="list in speIcons">
-			<li ng-repeat="item in list">
-				<i class="lui icon {{item}}"></i>
-				<div class="lui input"><input type="text" readonly="readonly" value="{{item}}"></div>
-			</li>
-		</ul>
 	</article>
 </section>

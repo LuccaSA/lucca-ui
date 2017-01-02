@@ -3,38 +3,9 @@
 
 	angular.module('demoApp')
 	.controller('iconsCtrl', ['$scope', function($scope){
-		$scope.contextSensIcons = [
-			['plus', 'minus', 'check', 'cross', 'forbidden'],
-			['error','warning','help'],
-			["ellipsis", "list", "tree list", "blocks", "filter"],
-			['lock', 'unlock'],
-		];
-
-		$scope.contextInsensIcons = [
-			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "sliders", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "branch", "analytics"],
-			["edit", "edit frame", "edit mini", "download", "upload", "outside", "send", "search", "trash", "refresh", "printer"],
-			["user", "add user", "remove user", "to user"],
-			["bookmark", "add bookmark", "remove bookmark"],
-		];
-
-		$scope.mouseIcons = [
-			['drag', 'drag2'],
-			['move','move horizontally','move vertically']
-		];
-
-		$scope.arrowIcons = [
-			['north chevron','east chevron','south chevron','west chevron'],
-			['north arrow','east arrow','south arrow','west arrow']
-		];
-
-		$scope.speIcons = [
-			["breakfast", "coffee", "meal", "lunch", "diner", "drink"],
-			["car", "clean car", "taxi", "bus", "subway", "truck", "train", "plane"],
-			["euro toll", "dollar toll", "parking", "milestone", "mileage", "gasoline"],
-			["journey", "luggage", "hotel", "postage"],
-			["euro", "dollar", "quantity", "piggy bank", "bank card", "pricetag", "payment"],
-			["computer", "computer mouse", "database"],
-			["tools", "tiles", "iron", "roles", "jumping cc"]
-		];
+		$scope.allIcons = [
+			['breakfast', 'gallery', 'lock', 'unlock', 'north chevron', 'south chevron', 'west chevron', 'east chevron', 'west arrow', 'east arrow', 'north arrow', 'south arrow', 'attachment', 'blocks', 'branch', 'coffee', 'check', 'checkbox', 'checkbox checked', 'checkbox partial', 'clock', 'cross', 'calendar', 'download', 'edit', 'edit frame', 'edit mini', 'ellipsis', 'error', 'files', 'filter', 'email', 'user', 'add user', 'remove user', 'to user', 'help', 'forbidden', 'minus', 'move', 'move horizontally', 'move vertically', 'notification', 'outside', 'camera', 'printer', 'refresh', 'drag', 'search', 'send', 'settings', 'comment', 'timer', 'trash', 'plus', 'upload', 'warning', 'bookmark', 'add bookmark', 'remove bookmark', 'milestone', 'quantity', 'luggage', 'train', 'tools', 'dollar toll', 'euro toll', 'taxi', 'clean car', 'car', 'postage', 'iron', 'plane', 'piggy bank', 'phone', 'parking', 'computer mouse', 'subway', 'meal', 'lunch', 'mileage', 'hotel', 'gasoline', 'euro', 'drink', 'diner', 'dollar', 'computer', 'bus', 'pin', 'analytics', 'location', 'tiles', 'truck', 'bank card', 'database', 'journey', 'pricetag', 'payment', 'analytical allocation', 'tree list', 'jumping cc', 'drag2', 'sliders', 'roles', 'radio', 'radio checked', 'imported item', 'headphones', 'help outline', 'image', 'import cb', 'list', 'pristine imported item', 'rejected', 'mosaic', 'customize', 'watch', 'unwatch', 'nine tiles', 'birthday', 'group', 'thin cross', 'synchronization', 'thin plus', 'heart', 'broken heart', 'star', 'key', 'history'
+			]
+		]
 	}]);
 })();
