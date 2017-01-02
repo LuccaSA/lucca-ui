@@ -1,7 +1,3 @@
-@import "input.common",
-		"input.material",
-		"input.compact";
-
 @if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
 
@@ -232,16 +228,6 @@
 	}
 }
 
-
-@import "input.checkbox.radio",
-		"input.switch",
-		"input.tagged",
-		"input.dropdown",
-		"input.ui-select",
-		"input.translations",
-		"input.imagepicker",
-		"input.datepicker",
-		"input.userpicker",
-		"input.timespanpicker",
-		"input.momentpicker",
-		"input.iban";
+@import "input/input.common",
+		"input/input.material",
+		"input/input.compact";
