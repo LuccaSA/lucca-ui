@@ -1,38 +1,18 @@
-<h2 class="lui divider below">Callouts</h2>
-<div class="lui callout">
-	<p>
-		<b>Default</b> - This is just a regular callout. <a class="lui fancy link" href="#/" class="lui button flat">Learn more</a>
-	</p>
-</div>
-<div class="lui callout filled red">
-	<p>
-		<b>Filled</b> - This is a 'filled' style callout
-	</p>
-</div>
-
-<p>
-	Callouts can be listed in a `.lui.callouts` parent element:
-</p>
-
-<div class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
-	<div class="lui filled red callout">
-		<h4 class="header">Error!</h4>
-		<p>
-			Something went terribly wrong
-		</p>
-		<div class="footer actions">
-			<button class="lui button flat">Dismiss</button>
-		</div>
+<h2>Callouts<span>Display information about an action that has just been done.</span></h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-4">
+		<h4>Default callout</h4>
+		<p>Use the <span>.lui.callout</span> classes:</p>
+		<div class="lui callout">Default callout</div>
 	</div>
-	<span class="lui filled green callout">Success<button class="lui button flat">Dismiss</button></span>
-	<span class="lui filled orange callout">Achtung!<button class="lui button flat">Dismiss</button></span>
-	<span class="lui filled callout">Fair enough...<button class="lui button flat">Dismiss</button></span>
-</div>
-
-<div class="lui up callout">
-	<div class="lui attached slim secondary progressing progress">
-		<div class="indicator" data-percentage="45" style="width: 45%;"></div>
+	<div class="lui column desktop-4">
+		<h4>Color support</h4>
+		<p>You can specify colors for your callouts:</p>
+		<div class="lui primary callout">This is a callout with a <span>.{color}</span> class applied.</div>
 	</div>
-
-	<h4>You can attach a progress to a callout</h4>
+	<div class="lui column desktop-4">
+		<h4>Filling mode</h4>
+		<p>To more visible callouts, you can add the <span>.filled</span> class:</p>
+		<div class="lui orange filled callout">This is a callout with <span>.filled.{color}</span> classes applied.</div>
+	</div>
 </div>

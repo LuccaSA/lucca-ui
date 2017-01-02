@@ -33,6 +33,12 @@ html, body {
 		width: $toc-width;
 		height: 100%;
 		background: white;
+		> nav {
+			font-size: .875em;
+			a.item {
+				padding-left: 2em;
+			}
+		}
 	}
 
 	article {
@@ -64,6 +70,7 @@ html, body {
 			margin: 0 1em !important;
 			padding: 0 4rem 2em !important;
 			span:not(.lui) {
+				text-shadow: none;
 				display: inline-block;
 				background: white;
 				border: 1px solid $light;
@@ -72,6 +79,7 @@ html, body {
 				padding: 0 .5em;
 				border-radius: 2px;
 				font-size:.825em;
+				font-weight: 400;
 			}
 			ul.unstyled {
 				padding:0;
@@ -79,7 +87,11 @@ html, body {
 					margin-bottom: .5em;
 				}
 			}
-			p {
+			p,
+			textarea,
+			.lui.callout,
+			.view-window,
+			.lui.progress {
 				max-width: 95%;
 			}
 		}
@@ -127,7 +139,6 @@ html, body {
 		background-position: 0 0, 100% 0, 0 0;
 		background-color: white;
 		box-shadow: 0 0 20px rgba(0,0,0,.15);
-		width: 95%;
 	}
 
 	#menu .view-window {
@@ -144,10 +155,10 @@ html, body {
 
 	textarea {
 		font-family: 'Source Code Pro', monospace;
-		width: 95%;
 		padding: .5em 1em;
 		font-weight: 400;
 		border: none;
+		width: 100%;
 		border-radius: 2px;
 		box-sizing: border-box;
 		min-height: 6em;
@@ -183,10 +194,22 @@ html, body {
 			height: 13em;
 		}
 		&#imbricated-menu {
-			height: 39em;
-			margin-top: 2em;
+			height: 41em;
+			margin-top: 1em;
+		}
+		&#progress-1 {
+			height: 10em;
+		}
+		&#progress-2,
+		&#progress-3 {
+			height: 12em;
+			margin-top: 1em;
 		}
 	}
+	.lui.progress:not(.demo) { /* specific styling for demo */
+	 	background-color: white;
+	 	box-shadow: 0 0 1px 1px rgba($light, .25);
+	 }
 
 	.show-grid {
 		.container {
