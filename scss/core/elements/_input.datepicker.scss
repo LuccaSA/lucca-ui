@@ -78,11 +78,13 @@
 		luid-daterange-picker .lui.daterange.input {
 			position: relative;
 			max-width: 100%;
+			border-bottom: none !important;
 
 			> input, label {
 				width: 100% !important;
 				padding-right: 2.25em;
 			}
+			.clickable { cursor: pointer; }
 			i.empty { z-index: 1; }
 		}
 
@@ -138,8 +140,10 @@
 						padding-left: 1em;
 					}
 				}
+				.active-input { border-bottom: 2px solid luiPalette(primary, color); }
 			}
 
+			.hidden-input { opacity: 0; }
 		}
 
 		luid-date-picker,
