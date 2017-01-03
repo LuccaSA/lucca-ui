@@ -1,0 +1,65 @@
+<h2 class="lui divider below">luid-new-user-picker</h2>
+<p>An enhanced version of the original, based on the luid-select directive.</p>
+<div class="lui dashed divider"></div>
+<div class="lui container">
+	<p>To try this component, you need to be connected on your local server. Please enter the login you want to use to get the auth token:</p>
+	<form name="authForm">
+		<div class="lui input">
+			<input type="text" ng-model="authUserLogin" ng-required="true" placeholder="login">
+		</div>
+		<input type="submit" class="lui button primary" ng-click="auth()" ng-disabled="!authForm.$valid">
+	</form>
+</div>
+<div class="lui dashed divider"></div>
+<div class="lui container">
+	<luid-new-user-picker ng-if="!!authToken"
+						  ng-model="$parent.firstModel"
+						  homonyms-properties="homonymsProperties"
+						  show-former-employees="includeFormerEmployees"
+						  show-future-employees="includeFutureEmployees"
+						  display-me-first="true"
+						  on-select="onSelectFirstModel()"
+						  on-remove="onRemoveFirstModel()"
+						  custom-filter="customFilter"
+						  custom-info="getCustomInfo"
+						  custom-info-async="getCustomInfoAsync"
+						  control-disabled="disableUserPicker"
+						  app-id="appId"
+						  operations="operations"
+						  placeholder="Select a user">
+	</luid-new-user-picker>
+</div>
+
+<div class="lui container" style="margin-top: 3em;">
+	<p>
+		<p><code>ng-model:</code></p>
+		<p><code>{{ firstModel }}</code></p>
+		<button class="lui button" ng-click="clearFirstModel()" ng-disabled="firstModel === undefined">Clear the ng-model</button>
+	</p>
+	<div class="lui checkbox input">
+		<input type="checkbox" name="disable-user-picker" id="disable-user-picker" ng-model="disableUserPicker">
+		<label for="disable-user-picker">Disable</label>
+	</div>
+	<div class="lui checkbox input">
+		<input type="checkbox" name="include-former-employees" id="include-former-employees" ng-model="includeFormerEmployees">
+		<label for="include-former-employees">Include former employees</label>
+	</div>
+	<div class="lui checkbox input">
+		<input type="checkbox" name="include-future-employees" id="include-future-employees" ng-model="includeFutureEmployees">
+		<label for="include-future-employees">Include future employees</label>
+	</div>
+
+	<p>Only display the users who have access to this application and have these permissions :</p>
+	<form name="userPickerForm" style="margin-top: 3em;">
+		<div class="lui input">
+			<input type="text" placeholder="App Id" ng-required="true" ng-model="appIdTmp">
+		</div>
+		<div class="lui input">
+			<input type="text" ng-pattern="'((\\d+,)*(\\d+))$'" placeholder="Operations id (separated with ',')" ng-required="true" ng-model="operationsIdTmp">
+		</div>
+		<input type="submit" class="lui primary button" ng-disabled="!userPickerForm.$valid"
+			   ng-click="setAppIdAndOperations(appIdTmp,operationsIdTmp)">
+		<input type="reset" class="lui button"
+			   ng-click="resetAppIdAndOperations()">
+	</form>
+</div>
