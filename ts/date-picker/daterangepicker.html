@@ -8,7 +8,7 @@
 	<div class="inputs" ng-if="popover.isOpen">
 		<input type="text" auto-focus
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ 'clickable': disableKeyboardInput, 'active-input': editingStart}"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
 			   ng-click="editStart($event)"
 			   ng-model="startDisplayStr"
 			   ng-change="onStartDisplayStrChanged($event)"
@@ -19,7 +19,7 @@
 
 		<input type="text"
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ 'clickable': disableKeyboardInput, 'active-input': !editingStart}"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
 			   ng-model="endDisplayStr"
 			   ng-click="editEnd($event)"
 			   ng-change="onEndDisplayStrChanged($event)"
@@ -27,5 +27,5 @@
 			   luid-keydown mappings="closePopoverOnTab">
 	</div>
 	<!--ng-hide messes up the alignments, for some reasons... ng-class will be good enough -->
-	<input type="text" ng-class="{ 'hidden-input' : popover.isOpen, 'clickable': disableKeyboardInput }" ng-model="displayStr" placeholder="{{placeholder}}">
+	<input type="text" ng-readonly="disableKeyboardInput" ng-model="displayStr" placeholder="{{placeholder}}">
 </div>

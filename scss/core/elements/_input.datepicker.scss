@@ -26,11 +26,10 @@
 			}
 		}
 
+
+
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			&.ng-open > .lui.input > input {
-				@extend %lui_input_focus;
-			}
 			&.ng-invalid.ng-touched > .lui.input > input,
 			&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
 				@extend %lui_input_invalid_input;
@@ -90,6 +89,9 @@
 
 		luid-date-picker-popup,
 		luid-daterange-picker {
+			> .lui.input > input[readonly] {
+				cursor: pointer;
+			}
 			position: relative;
 			&.ng-empty {
 				i.empty { display: none; }
@@ -102,11 +104,11 @@
 		}
 
 		luid-daterange-picker {
-			&.ng-open {
+			&.ng-open > .lui.input {
 				> input {
 					color: transparent !important;
+					visibility: hidden;
 				}
-				.clickable { cursor: pointer; }
 			}
 			.inputs {
 				@include display-flex();
@@ -129,18 +131,17 @@
 				> input {
 					width: 50% !important;
 					box-sizing: border-box;
-					border: none;
-					margin: 0;
-					outline: 0;
-					outline: none;
+					@extend %lui_input_reset;
 					&:first-of-type {
 						padding-right: 1em;
 					}
 					&:last-of-type {
 						padding-left: 1em;
 					}
+					&:focus {
+						@extend %lui_input_focus;
+					}
 				}
-				.active-input { border-bottom: 2px solid luiPalette(primary, color); }
 			}
 
 			.hidden-input { opacity: 0; }
