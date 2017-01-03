@@ -104,6 +104,7 @@
 				> input {
 					color: transparent !important;
 				}
+				.clickable { cursor: pointer; }
 			}
 			.inputs {
 				@include display-flex();

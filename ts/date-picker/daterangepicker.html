@@ -5,10 +5,10 @@
 	 popover-class="lui luid-daterangepicker"
 	 ng-click="togglePopover($event)">
 	<i class="empty" ng-click="clear($event)"></i>
-	<div class="inputs" ng-show="popover.isOpen">
-		<input type="text"
+	<div class="inputs" ng-if="popover.isOpen">
+		<input type="text" auto-focus
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ selected: editingStart}"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
 			   ng-click="editStart($event)"
 			   ng-model="startDisplayStr"
 			   ng-change="onStartDisplayStrChanged($event)"
@@ -19,7 +19,7 @@
 
 		<input type="text"
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ selected: !editingStart}"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
 			   ng-model="endDisplayStr"
 			   ng-click="editEnd($event)"
 			   ng-change="onEndDisplayStrChanged($event)"

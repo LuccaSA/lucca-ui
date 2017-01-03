@@ -1,6 +1,11 @@
 module Lui.Directives {
 	"use strict";
 
+	// to auto focus the first date input
+	angular.module("lui.directives").directive("autoFocus", () => {
+		return { restrict: "A", link: ($scope: any, element: angular.IAugmentedJQuery): void => { element[0].focus(); } };
+	});
+
 	class LuidDaterangePicker implements angular.IDirective {
 		public static IID: string = "luidDaterangePicker";
 		public restrict = "E";
@@ -25,10 +30,7 @@ module Lui.Directives {
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
-			let directive = () => {
-				return new LuidDaterangePicker();
-			};
-			return directive;
+			return () => { return new LuidDaterangePicker(); };
 		}
 		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
