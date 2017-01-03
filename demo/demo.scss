@@ -11,7 +11,7 @@ html, body {
 	$light: luiPalette(light, color);
 	// Table of contents
 	$toc-width: 11em;
-	$banner-height: 4em;
+	$banner-height: 4rem;
 	font-size: 16px !important;
 	background: lighten($light, 15);
 
@@ -43,14 +43,13 @@ html, body {
 	article {
 		font-size: .875em;
 		margin-bottom: 1em;
-		padding-top: calc(#{$banner-height} + 1em);
 
 		h2 {
 			color: #666;
 			font-size: 4em;
 			border-bottom: 1px solid $light;
 			margin-top: 0 !important;
-			padding: 0 4rem;
+			padding: calc(#{$banner-height} + 1rem) 4rem 0;
 			span, a {
 				color: #666;
 				font-size:1rem;
