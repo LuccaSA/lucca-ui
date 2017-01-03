@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
-export abstract class LuiModalDisplayer {
+export class LuiModalDisplayer {
 
 	private modalService: NgbModal;
 
@@ -14,9 +14,7 @@ export abstract class LuiModalDisplayer {
 		let modalRef: NgbModalRef;
 		modalRef = options ? this.modalService.open(contentComponent, this.luiToNgbOptions(options))
 			: this.modalService.open(contentComponent);
-		modalRef.result
-			.then( result => this.onClose(result))
-			.catch(() => this.onDismiss());
+		return modalRef.result;
 	}
 
 	/**
@@ -41,10 +39,6 @@ export abstract class LuiModalDisplayer {
 		}
 		return null;
 	}
-
-	abstract onClose(result?: any);
-
-	abstract onDismiss(reason?: any);
 }
 
 

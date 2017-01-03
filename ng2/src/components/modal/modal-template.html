@@ -1,10 +1,9 @@
 <div class="lui-modal">
 	<div class="lui-modal-header">
 		<h1>
-			<ng-content select=".lui-modal-title">
-			</ng-content>
+			{{title}}
 		</h1>
 		<i lui icon cross></i>
 	</div>
-	<ng-content select=".lui-modal-content"></ng-content>
+	<ng-content></ng-content>
 </div>
