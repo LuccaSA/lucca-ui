@@ -1,0 +1,15 @@
+<section class="lui">
+	<div class="lui callout" ng-class="{'green': !!authToken, 'red': !authToken}">
+		<p><b>Disclaimer:</b> to try most of the following components, you have to be connected to a local Lucca server. Please enter
+			the login you want to use to get the auth token:</p>
+		<form name="authForm">
+			<div class="lui input">
+				<input type="text" ng-model="$parent.authUserLogin" ng-required="true" placeholder="login">
+			</div>
+			<input type="submit" class="lui button primary" ng-click="auth(true)" ng-disabled="!authForm.$valid">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span ng-if="!!authToken" style="color:green;">You are connected. Your current auth token is: "<code>{{authToken}}</code>"</span>
+			<span ng-if="!authToken" style="color:red;"><i class="lui icon warning large"></i>&nbsp;&nbsp;<b>You are not connected</b></span>
+		</form>
+	</div>
+</section>

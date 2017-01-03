@@ -5,9 +5,9 @@
 		luid-new-user-picker {
 			// outline: 1px dashed tomato;
 
-			// .ui-select-highlight {
-			// 	background: red;
-			// }
+			.ui-select-highlight {
+				background: luiPalette(primary, color);
+			}
 
 			.selected-first {
 				font-weight: 600;

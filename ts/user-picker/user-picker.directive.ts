@@ -71,6 +71,7 @@ module Lui.Directives {
 		filter: string;
 		selectedUser: IUserLookup;
 		onSelectedUserChanged(user: IUserLookup): void;
+		find(search: string): void;
 	}
 
 	const DEFAULT_HOMONYMS_PROPERTIES: ISimpleProperty[] = [
@@ -107,13 +108,15 @@ module Lui.Directives {
 			this.$scope.limit = 10000;
 
 			this.$scope.$watchGroup(["showFormerEmployees", "showFutureEmployees"], () => {
-				this.refresh();
+				this.refresh(undefined);
 			});
 			this.$scope.$watchGroup(["appId", "operations"], () => {
 				if (!!this.$scope.appId && !!this.$scope.operations && this.$scope.operations.length > 0) {
-					this.refresh();
+					this.refresh(undefined);
 				}
 			});
+
+			this.$scope.find = (search: string): void => { this.refresh(search); }
 
 			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
 				this.setViewValue(user);
@@ -122,7 +125,7 @@ module Lui.Directives {
 				}
 			};
 
-			this.refresh();
+			this.refresh(undefined);
 		}
 
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -210,8 +213,8 @@ module Lui.Directives {
 			});
 		}
 
-		private refresh(): void {
-			this.updateFilter();
+		private refresh(clue: string): void {
+			this.updateFilter(clue);
 			this.userPickerService.getUsers(this.$scope.filter)
 				.then((allUsers: IUserLookup[]) => {
 					this.tidyUp(allUsers).then((neatUsers: IUserLookup[]) => {
@@ -220,12 +223,13 @@ module Lui.Directives {
 				});
 		}
 
-		private updateFilter(): void {
+		private updateFilter(clue: string): void {
 			let s = this.$scope;
 			this.$scope.filter =
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") + "&" +
 				"futureEmployees=" + (!!s.showFutureEmployees ? s.showFutureEmployees.toString() : "false") + "&" +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") + "&" : "") +
+				(!!clue ? "clue=" + clue + "&" : "") +
 				"limit=" + s.limit;
 		}
 	}

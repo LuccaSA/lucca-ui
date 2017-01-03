@@ -1,19 +1,8 @@
 <h2 class="lui divider below">luid-new-user-picker</h2>
-<p>An enhanced version of the original, based on the luid-select directive.</p>
+<p>An enhanced version of the original luid-user-picker, based on the luid-select directive.</p>
 <div class="lui dashed divider"></div>
 <div class="lui container">
-	<p>To try this component, you need to be connected on your local server. Please enter the login you want to use to get the auth token:</p>
-	<form name="authForm">
-		<div class="lui input">
-			<input type="text" ng-model="authUserLogin" ng-required="true" placeholder="login">
-		</div>
-		<input type="submit" class="lui button primary" ng-click="auth()" ng-disabled="!authForm.$valid">
-	</form>
-</div>
-<div class="lui dashed divider"></div>
-<div class="lui container">
-	<luid-new-user-picker ng-if="!!authToken"
-						  ng-model="$parent.firstModel"
+	<luid-new-user-picker ng-model="$parent.firstModel"
 						  homonyms-properties="homonymsProperties"
 						  show-former-employees="includeFormerEmployees"
 						  show-future-employees="includeFutureEmployees"
