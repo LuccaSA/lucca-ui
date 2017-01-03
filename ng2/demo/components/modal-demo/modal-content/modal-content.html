@@ -1,7 +1,11 @@
-<h3>My modal</h3>
-<modal-displayer-inside-modal></modal-displayer-inside-modal>
-<br/>
-<input type="text" [(ngModel)]="message">
-<br/>
-<button type="button" (click)="send()">Send</button>
-<a (click)="cancel()">Cancel</a>
+<lui-modal>
+	<div class="lui-modal-title">Demo Modal</div>
+	<div class="lui-modal-content">
+		<modal-displayer-inside-modal></modal-displayer-inside-modal>
+		<br/>
+		<input type="text" [(ngModel)]="message">
+		<br/>
+		<button type="button" (click)="send()">Send</button>
+		<a (click)="cancel()">Cancel</a>
+	</div>
+</lui-modal>

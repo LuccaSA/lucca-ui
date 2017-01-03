@@ -33,7 +33,7 @@ export abstract class LuiModalDisplayer {
 	 */
 	private luiToNgbOptions(luiOptions: LuiModalOptions): NgbModalOptions {
 		if (luiOptions) {
-			if ((luiOptions.size != 'sm') || (luiOptions.size != 'lg')) {
+			if ((luiOptions.size !== 'sm') || (luiOptions.size !== 'lg')) {
 				luiOptions.windowClass = [luiOptions.windowClass, 'lui-modal-' + luiOptions.size].join(' ')
 					|| luiOptions.size;
 			}
