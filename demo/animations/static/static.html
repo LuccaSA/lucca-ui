@@ -1,32 +1,41 @@
-<h2 class="lui divider below">Static animations</h2>
+<h2>Static animations</h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-6">
+		<h3>Base syntax</h3>
+		<p>To animate an element, add the <span>.lui.animated</span> classes.</p>
+		<h3>Animation type</h3>
+		<p>There are 2 kinds of static animation :</p>
+		<ul class="squared" ng-controller="staticCtrl">
+			<li><span>.bounce</span> <div class="lui primary button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div></li>
+			<li><span>.pulse</span> <div class="lui primary button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div></li>
+		</li>
+		</ul>
+		<h3>Animation options</h3>
+		<p>By default, animation occur juste once. If you want it to run indefinitely, add the <span>.infinitely</span> class.
+		</div>
+		<div class="lui column desktop-6" id="demoBlock">
+		<h3>
+			Demo
+			<a class="lui link" href="http://plnkr.co/edit/z4amPexUFMX7Pkzc5MVk?p=preview">Edit in Plunker</a>
+		</h3>
 
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
-</div>
-<p>
-	<pre hljs no-escape language="html">&lt;ANY class="lui animated <b>bounce</b>"&gt;&lt;/ANY&gt;
-&lt;ANY class="lui animated <b>bounce infinitely</b>"&gt;&lt;/ANY&gt;
-&lt;ANY class="lui animated <b>pulse</b>"&gt;&lt;/ANY&gt;</pre>
-</p>
-<div class="lui bottom dashed divider menu" id="demoBlock">
-	<div class="lui header vertical menu">
-		<h4 class="lui underline">Demo:</h4>
+		<div ng-controller="staticCtrl" class="lui block round">
+			<p>
+				<div class="lui button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div>
+				<div class="lui button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div>
+			</p>
+			<p>Infinite animation
+				<span class="lui label animated infinitely bounce">Bounce!</span>
+				<span class="lui label animated infinitely pulse up">Pulse up!</span>
+				<span class="lui label animated infinitely pulse down">Pulse down!</span>
+				<!-- <span class="lui animated infinitely spin">you spin me right roud baby right round!</span> -->
+			</p>
+		</div>
+		<h3>Usage</h3>
+		<textarea readonly id="static-animations"><ANY class="lui animated bounce"></ANY>
+<ANY class="lui animated bounce infinitely"></ANY>
+<ANY class="lui animated pulse"></ANY>
+		</textarea>
+
 	</div>
-	<div class="lui right item">
-		<a class="lui button primary" href="http://plnkr.co/edit/z4amPexUFMX7Pkzc5MVk?p=preview">
-			<i class="lui icon edit"></i>Edit in Plunker
-		</a>
-	</div>
-</div>
-<div ng-controller="staticCtrl" class="lui block round">
-	<p>
-		<div class="lui button animated" ng-class="bouncing" ng-click="applyBounce()">Click to bounce</div>
-		<div class="lui button animated" ng-class="pulsing" ng-click="applyPulse()">Click to pulse</div>
-	</p>
-	<p>Infinite animation
-		<span class="lui label animated infinitely bounce">Bounce!</span>
-		<span class="lui label animated infinitely pulse up">Pulse up!</span>
-		<span class="lui label animated infinitely pulse down">Pulse down!</span>
-		<!-- <span class="lui animated infinitely spin">you spin me right roud baby right round!</span> -->
-	</p>
 </div>

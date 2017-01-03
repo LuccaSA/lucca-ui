@@ -79,12 +79,16 @@ html, body {
 				font-size:.825em;
 				font-weight: 400;
 			}
-			ul.unstyled {
-				padding:0;
+			ul {
 				li {
 					margin-bottom: .5em;
 				}
-			}
+				&.squared {
+					list-style-type: square;
+				}
+				&.unstyled {
+					padding:0;
+				}}
 			p,
 			textarea,
 			.lui.callout,
@@ -105,12 +109,23 @@ html, body {
 	}
 
 	#demoBlock {
-		margin: 13px 0;
-		.header {
-			padding: 0;
-			h4 {
-				padding-bottom: 17px;
+		h3 {
+			a.link {
+				font-size: 1rem;
+				margin-left: .5rem;
 			}
+		}
+		.added-classes {
+			margin: 1em 0;
+		}
+		.actions {
+			border-top: 1px solid $light;
+			margin-top: 1em;
+			padding-top: 1em;
+			text-align: right;
+		}
+		.result {
+			text-align: center;
 		}
 	}
 

@@ -1,4 +1,58 @@
-<h2 class="lui divider below">Entering animations</h2>
+<h2>Entering animations</h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-6">
+		<h3>Base syntax</h3>
+		<p>To animate an element, add the <span>.lui.animated</span> classes.</p>
+		<h3>Animation type</h3>
+		<p>There are 3 kinds of entering animations:</p>
+		<ul class="squared">
+			<li><span>.fade.in</span></li>
+			<li><span>.slide.in</span></li>
+			<li><span>.scale.in</span></li>
+		</ul>
+		You can also specify the direction of the animation:</li>
+		<ul class="squared">
+			<li><span>.up</span></li>
+			<li><span>.down</span></li>
+			<li><span>.left</span></li>
+			<li><span>.right</span></li>
+		</ul>
+	</div>
+	<div class="lui column desktop-6" id="demoBlock">
+		<h3>
+			Demo
+			<a class="lui link" href="http://plnkr.co/edit/Vy79xAx4D8QieTAyuVcV?p=preview">Edit in Plunker</a>
+		</h3>
+		<div ng-controller="enterCtrl" class="lui block round spaced container">
+			<div class="lui columns">
+				<div class="lui column mobile-6">
+					Choose a type:<br/>
+					<div class="lui buttons">
+						<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
+						<button class="lui button" ng-model="animation" uib-btn-radio="'slide in'">Slide in</button>
+						<button class="lui button" ng-model="animation" uib-btn-radio="'scale in'">Scale in</button>
+					</div>
+
+					And a direction:<br/>
+					<div class="lui buttons">
+						<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
+						<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
+					</div>
+
+					<p>Classes added: <span>lui animated {{direction}} {{animation}}</span></p>
+					<div class="actions">
+						<div class="lui primary button" ng-click="add()">Show me</div>
+					</div>
+				</div>
+				<div class="lui column mobile-6 result">
+					<button ng-repeat="item in array track by $index" class="lui primary button animated" ng-class="direction + ' ' + animation">{{item}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Usage:</h4>
@@ -17,22 +71,4 @@
 		</a>
 	</div>
 </div>
-<div ng-controller="enterCtrl" class="lui block round">
-	<p>
-		<div class="lui buttons">
-			<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
-			<button class="lui button" ng-model="animation" uib-btn-radio="'slide in'">Slide in</button>
-			<button class="lui button" ng-model="animation" uib-btn-radio="'scale in'">Scale in</button>
-		</div>
-		<div>
-			<button class="lui button" ng-model="direction" uib-btn-radio="'up'">Up</button>
-			<button class="lui button" ng-model="direction" uib-btn-radio="'down'">Down</button>
-			<button class="lui button" ng-model="direction" uib-btn-radio="'left'">Left</button>
-			<button class="lui button" ng-model="direction" uib-btn-radio="'right'">Right</button>
-		</div>
-		<div class="lui button" ng-click="add()">Add</div> <code>lui animated {{direction}} {{animation}}</code>
-	</p>
-	<p>
-		<span ng-repeat="item in array track by $index" class="lui label animated" ng-class="direction + ' ' + animation">{{item}}</span>
-	</p>
-</div>
+
