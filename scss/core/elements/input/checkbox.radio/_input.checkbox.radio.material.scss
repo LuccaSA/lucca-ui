@@ -1,0 +1,15 @@
+@if luiTheme(element, field, enabled) {
+	@at-root #{$namespace} {
+		#{$prefix}.radio.input.material,
+		#{$prefix}.checkbox.input.material {
+
+			> input {
+
+				&:focus + label:after {
+					box-shadow: 0 0 0.25em luiPalette(primary, color),
+								inset 0 0 0.25em luiPalette(primary, color);
+				}
+			}
+		}
+	}
+}

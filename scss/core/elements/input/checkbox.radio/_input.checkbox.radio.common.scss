@@ -18,11 +18,6 @@
 				width: luiTheme(element, field, input, font-size);
 				height: luiTheme(element, field, input, font-size);
 				opacity: 0;
-
-				&:focus + label:after {
-					box-shadow: 0 0 0.25em luiPalette(primary, color),
-								inset 0 0 0.25em luiPalette(primary, color);
-				}
 			}
 			label {
 				color: luiTheme(element, typography, body, color);
