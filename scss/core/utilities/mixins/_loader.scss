@@ -1,5 +1,5 @@
 
-$lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif";
+$lui_ie_fallback_loader: "../../../dist/ie_fallback_spinner.gif" !default;
 
 @mixin lui_loader($inverted: false, $size: 1em, $thickness: 2px, $speed: 0.5s) {
 	display: inline-block;
