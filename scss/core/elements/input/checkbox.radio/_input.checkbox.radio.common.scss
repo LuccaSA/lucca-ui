@@ -115,8 +115,6 @@
 			.radio.input ~ label,
 			.checkbox.input ~ label {
 				@extend %lui_input_label;
-				@extend %lui_input_label_displacable;
-				@extend %lui_input_label_displaced;
 			}
 
 			&.vertical {

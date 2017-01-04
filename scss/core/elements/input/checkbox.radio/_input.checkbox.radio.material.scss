@@ -10,6 +10,11 @@
 								inset 0 0 0.25em luiPalette(primary, color);
 				}
 			}
+
+			& ~ label {
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
+			}
 		}
 	}
 }
