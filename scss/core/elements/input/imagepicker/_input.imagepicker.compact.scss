@@ -1,0 +1,44 @@
+@at-root #{$namespace} {
+
+	@if luiTheme(element, field, image-picker, enabled) {
+
+		$vars: luiTheme(element, field, image-picker);
+
+		luid-image-picker.compact {
+
+			height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+			line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+
+			.upload-overlay {
+				height: 0;
+			}
+
+			.input-overlay {
+				height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+			}
+
+			.input-overlay {
+				> span {
+					color: #A6A6A6;
+				}
+			}
+
+			&:hover {
+				.luid-image-picker-picture {
+					background-color: #EFEFEF;
+					color: #666;
+					border-color: #A6A6A6;
+				}
+			}
+
+			.luid-image-picker-picture {
+				padding-left: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+				background-position: 0 0;
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-color: #FAFAFA;
+				border: 1px dashed #DAE0E4;
+			}
+		}
+	}
+}
