@@ -38,6 +38,7 @@
 				background-size: contain;
 				background-color: #FAFAFA;
 				border: 1px dashed #DAE0E4;
+				border-radius: luiTheme(element, field, input, compact, border-radius);
 			}
 		}
 	}
