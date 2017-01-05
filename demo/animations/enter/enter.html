@@ -23,9 +23,9 @@
 			Demo
 			<a class="lui link" href="http://plnkr.co/edit/Vy79xAx4D8QieTAyuVcV?p=preview">Edit in Plunker</a>
 		</h3>
-		<div ng-controller="enterCtrl" class="lui block round spaced container">
-			<div class="lui columns">
-				<div class="lui column mobile-6">
+		<div ng-controller="enterCtrl" class="lui block round fitting container">
+			<div class="lui fitting columns">
+				<div class="lui spaced column mobile-6">
 					Choose a type:<br/>
 					<div class="lui buttons">
 						<button class="lui button" ng-model="animation" uib-btn-radio="'fade in'">Fade in</button>
@@ -46,29 +46,17 @@
 						<div class="lui primary button" ng-click="add()">Show me</div>
 					</div>
 				</div>
-				<div class="lui column mobile-6 result">
-					<button ng-repeat="item in array track by $index" class="lui primary button animated" ng-class="direction + ' ' + animation">{{item}}</button>
+				<div class="lui spaced column mobile-6 result">
+				Your element will appear this way:<br/>
+					<!-- <button ng-repeat="item in array track by $index" class="lui primary button animated" ng-class="direction + ' ' + animation">{{item}}</button> -->
+					<button ng-if="showButton" class="lui primary button animated" ng-class="direction + ' ' + animation">Here I am!</button>
 				</div>
 			</div>
 		</div>
+		<h3>Usage</h3>
+		<textarea readonly id="static-animations"><ANY class="lui animated bounce"></ANY>
+<ANY class="lui animated up fade in"></ANY>
+<ANY class="lui animated {direction} {animation.type}"></ANY>
+		</textarea>
 	</div>
 </div>
-
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
-</div>
-<p>
-	<pre hljs no-escape language="html">&lt;ANY class="lui animated up fade in"&gt;&lt;/ANY&gt;
-&lt;ANY class="lui animated _direction_ _animation_"&gt;&lt;/ANY&gt;</pre>
-</p>
-<div class="lui bottom dashed divider menu" id="demoBlock">
-	<div class="lui header vertical menu">
-		<h4 class="lui underline">Demo:</h4>
-	</div>
-	<div class="lui right item">
-		<a class="lui button primary" href="http://plnkr.co/edit/Vy79xAx4D8QieTAyuVcV?p=preview">
-			<i class="lui icon edit"></i>Edit in Plunker
-		</a>
-	</div>
-</div>
-
