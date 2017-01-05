@@ -190,7 +190,7 @@
 					@extend %lui_tagged_input_close;
 				}
 				.btn-primary, .btn-primary:hover {
-					@extend %lui_tagged_input_tag_active;
+					@extend %lui_tagged_input_tag_active_material;
 				}
 			}
 		}

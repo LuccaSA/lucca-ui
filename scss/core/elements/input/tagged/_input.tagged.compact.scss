@@ -1,0 +1,36 @@
+%lui_tagged_input_tag_compact {
+	background-color: luiPalette(light, color, dark);
+	color: luiPalette(light, text);
+
+	&:hover {
+		background-color: luiPalette(grey, color);
+		color: luiPalette(grey, text);
+	}
+}
+
+%lui_tagged_input_tag_active_compact {
+	background-color: luiPalette(primary, color);
+	color: luiPalette(primary, text);
+}
+
+@if luiTheme(element, field, tagged, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, tagged);
+
+		#{$prefix}.tagged.input.compact {
+			.holder {
+				@extend %lui_input_reset_compact;
+				input {
+					@extend %lui_input_reset;
+				}
+			}
+			.tag {
+				@extend %lui_tagged_input_tag_compact;
+
+				&.selected {
+					@extend %lui_tagged_input_tag_active_compact;
+				}
+			}
+		}
+	}
+}

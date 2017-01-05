@@ -1,0 +1,30 @@
+%lui_tagged_input_tag_material {
+	background-color: luiPalette(light, color, light);
+	color: luiPalette(light, text);
+
+	&:hover {
+		background-color: luiPalette(grey, color);
+		color: luiPalette(grey, text);
+	}
+}
+
+%lui_tagged_input_tag_active_material{
+	background-color: luiPalette(primary, color);
+	color: luiPalette(primary, text);
+}
+
+@if luiTheme(element, field, tagged, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, tagged);
+
+		#{$prefix}.tagged.input.material {
+			.tag {
+				@extend %lui_tagged_input_tag_material;
+
+				&.selected {
+					@extend %lui_tagged_input_tag_active_material;
+				}
+			}
+		}
+	}
+}
