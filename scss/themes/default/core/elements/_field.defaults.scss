@@ -42,6 +42,8 @@ $field: (
 			border-color: 			luiPalette(light, color),
 			border-radius: 			luiTheme(adjective, rounded, radius),
 			background-color: 		#efefef,
+			selection-color: 		#666,
+			selection-background: 	#fafafa,
 
 			focus: (
 				background-color: 	#fafafa

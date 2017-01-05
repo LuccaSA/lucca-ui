@@ -12,6 +12,15 @@
 	transition-property: background-color;
 	transition-duration: luiTheme(element, field, input, transition, duration);
 	transition-timing-function: luiTheme(element, field, input, transition, easing);
+
+	&::selection {
+		background: luiTheme(element, field, input, compact, selection-background);
+		color: luiTheme(element, field, input, compact, selection-text);
+	}
+	&::-moz-selection {
+		background: luiTheme(element, field, input, compact, selection-color);
+		color: luiTheme(element, field, input, compact, selection-text);
+	}
 }
 
 %lui_input_focus_compact {
@@ -27,6 +36,13 @@
 %lui_input_disabled_compact {
 	border-color: luiTheme(element, field, input, compact, background-color);
 	color: transparentize(luiTheme(element, typography, body, color), 0.25);
+}
+
+%lui_quick_compact_input {
+	@extend %lui_input_reset_compact;
+	&:focus {
+		@extend %lui_input_focus_compact;
+	}
 }
 
 @if (luiTheme(element, field, enabled)) {
@@ -66,4 +82,5 @@
 }
 
 @import "iban/input.iban.compact",
+		"momentpicker/input.momentpicker.compact",
 		"imagepicker/input.imagepicker.compact";

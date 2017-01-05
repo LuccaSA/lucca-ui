@@ -37,7 +37,6 @@
 			}
 			> .moment.input {
 				position: relative;
-				width: luiTheme(element, field, momentpicker, width);
 
 				> input[type="text"] {
 					text-align: center !important;
@@ -60,14 +59,7 @@
 					font-size: 0.75em;
 					animation-duration: 180ms;
 				}
-
-				&:hover {
-					color: luiPalette(primary, color);
-					background: transparentize(luiPalette(primary, color), 0.9);
-				}
 				&:active {
-					background: transparentize(luiPalette(primary, color), 0.8);
-
 					&.top:before { animation-name: momentPickerArrowUp; }
 					&.bottom:before { animation-name: momentPickerArrowDown; }
 				}

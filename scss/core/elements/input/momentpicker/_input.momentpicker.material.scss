@@ -1,0 +1,22 @@
+@if luiTheme(element, field, momentpicker, enabled) {
+	@at-root #{$namespace} {
+		luid-moment.material {
+			> .moment.input {
+				width: luiTheme(element, field, momentpicker, width);
+				input {
+					@extend %lui_quick_material_input;
+				}
+			}
+
+			.mp-button {
+				&:hover {
+					color: luiPalette(primary, color);
+					background: transparentize(luiPalette(primary, color), 0.9);
+				}
+				&:active {
+					background: transparentize(luiPalette(primary, color), 0.8);
+				}
+			}
+		}
+	}
+}

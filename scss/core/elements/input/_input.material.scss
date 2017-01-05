@@ -9,6 +9,15 @@
 	transition-property: border-bottom-color, box-shadow;
 	transition-duration: luiTheme(element, field, input, transition, duration);
 	transition-timing-function: luiTheme(element, field, input, transition, easing);
+
+	&::selection {
+		background: luiTheme(element, field, input, selection-background);
+		color: luiTheme(element, field, input, selection-text);
+	}
+	&::-moz-selection {
+		background: luiTheme(element, field, input, selection-background);
+		color: luiTheme(element, field, input, selection-text);
+	}
 }
 
 %lui_input_focus_material {
@@ -49,6 +58,13 @@
 	border-bottom-width: 1px;
 	border-bottom-style: dotted;
 	color: transparentize(luiTheme(element, typography, body, color), 0.2);
+}
+
+%lui_quick_material_input {
+	@extend %lui_input_reset_material;
+	&:focus {
+		@extend %lui_input_focus_material;
+	}
 }
 
 @if (luiTheme(element, field, enabled)) {
@@ -112,5 +128,6 @@
 
 @import "iban/input.iban.material",
 		"checkbox.radio/input.checkbox.radio.material",
+		"momentpicker/input.momentpicker.material",
 		"imagepicker/input.imagepicker.material";
 

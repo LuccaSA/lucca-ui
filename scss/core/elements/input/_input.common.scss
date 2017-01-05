@@ -12,15 +12,6 @@
 	text-align: left;
 
 	@include flex(0, 0, auto);
-
-	&::selection {
-		background: luiTheme(element, field, input, selection-background);
-		color: luiTheme(element, field, input, selection-text);
-	}
-	&::-moz-selection {
-		background: luiTheme(element, field, input, selection-background);
-		color: luiTheme(element, field, input, selection-text);
-	}
 }
 
 %lui_input_sizing {
