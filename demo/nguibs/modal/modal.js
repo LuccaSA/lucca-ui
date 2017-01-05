@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module('demoApp')
 	.controller('modalCtrl', function ($scope, $uibModal) {
-		$scope.size = "desktop";
+		$scope.size = "sm";
 		$scope.open = function () {
 			var modalInstance = $uibModal.open({
 				size: $scope.size,

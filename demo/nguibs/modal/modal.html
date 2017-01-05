@@ -1,74 +1,70 @@
-<h2 class="lui divider below">Modal</h2>
-<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/modal">github.io page</a></p>
-<h4>Important</h4>
-<p>
-	If you are using a namespaced distribution of lucca-ui, you have to use the <code>appendTo</code> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <code>body</code> and lucca-ui's styles wont apply
-</p>
-<p>
-	If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window
-</p>
-<p>
-	You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>):
-	<span class="lui buttons">
-		<button class="lui button" ng-model="size" uib-btn-radio="'mobile'">mobile</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="'tablet'">tablet</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="'desktop'">desktop</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="'large'">large</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="''">none</button>
-	</span>
-	providing no size will make the modal take 90% of the width
-</p>
-<p>
-	Or you can use the sizes supported by angular-ui-bootstrap:
-	<span class="lui buttons">
-		<button class="lui button" ng-model="size" uib-btn-radio="'sm'">sm</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="'md'">md</button>
-		<button class="lui button" ng-model="size" uib-btn-radio="'lg'">lg</button>
-	</span>
-</p>
-<p>
-	<div class="lui button" ng-click="open()">Open in namespace with prefix</div>
-	The styles of lucca-ui will be applied to the modal window, inside the modal window and to the background
-</p>
-<p>
-	<div class="lui button" ng-click="openWithoutPrefix()">Open without prefix</div>
-	Because the prefix is missing for the <code>modal-window</code> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work
-</p>
-<p>
-	<div class="lui button" ng-click="openWithoutNamespace()">Open without namespace</div>
-	The modal is appended out off the namespace, as a result none of lucca-ui's styles are applied to the modal, its backdrop or its content
-</p>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
-</div>
-<p>
-	<pre hljs no-escape language="js">// global distribution
+<h2>Modals<span><a class="lui link" href="https://angular-ui.github.io/bootstrap/#/modal">See documentation for Bootstrap's modals</a></span></h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-6">
+		<h3>Syntax</h3>
+		<p>If you are using a namespaced distribution of lucca-ui, you have to use the <span>appendTo</span> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <span>body</span> and lucca-ui's styles wont apply.</p>
+		<p>If you are using a prefixed distribution of lucca-ui, you have to use the <span>windowClass</span> and <span>backdropClass</span> option in the open function to add the prefix to the backdrop and modal window.</p>
+		<p>You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>):</p>
+		<ul class="squared">
+			<li><span>mobile</span></li>
+			<li><span>tablet</span></li>
+			<li><span>desktop</span></li>
+			<li><span>large</span></li>
+		</ul>
+		<p>Providing no size will make the modal take 90% of the width.</p>
+		<p>Or you can use the sizes supported by angular-ui-bootstrap:</p>
+		<ul class="squared">
+			<li><span>sm</span></li>
+			<li><span>md</span></li>
+			<li><span>lg</span></li>
+		</ul>
+		<h3>Demo</h3>
+		<div class="dropdowns-demo">
+			<div class="lui column mobile-4">
+				<div class="lui primary button" ng-click="open()">Open in namespace with prefix</div>
+				<p>The styles of lucca-ui will be applied to the modal window, inside the modal window and to the background.</p>
+			</div>
+			<div class="lui column mobile-4">
+				<div class="lui primary button" ng-click="openWithoutPrefix()">Open without prefix</div>
+				<p>Because the prefix is missing for the <span>modal-window</span> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work.</p>
+			</div>
+			<div class="lui column mobile-4">
+				<div class="lui primary button" ng-click="openWithoutNamespace()">Open without namespace</div>
+				<p>The modal is appended out off the namespace, as a result none of lucca-ui's styles are applied to the modal, its backdrop or its content.</p>
+			</div>
+		</div>
+	</div>
+	<div class="lui column desktop-6">
+	<h3>Usage</h3>
+	<textarea readonly style="height: 38em">// global distribution
 var modalInstance = $uibModal.open({
-templateUrl: 'myModalContent.html',
-controller: 'ModalInstanceCtrl',
-size: 'desktop',
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
 });
 // namespaced distribution
 var modalInstance = $uibModal.open({
-templateUrl: 'myModalContent.html',
-controller: 'ModalInstanceCtrl',
-appendTo: angular.element(document.getElementById("myNamespace")),
-size: 'desktop',
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+	appendTo: angular.element(document.getElementById("myNamespace")),
+	size: 'desktop',
 });
 // prefixed distribution
 var modalInstance = $uibModal.open({
-backdropClass: 'myPrefix',
-windowClass: 'myPrefix',
-templateUrl: 'myModalContent.html',
-controller: 'ModalInstanceCtrl',
-size: 'desktop',
-});</pre>
-</p>
+	backdropClass: 'myPrefix',
+	windowClass: 'myPrefix',
+	templateUrl: 'myModalContent.html',
+	controller: 'ModalInstanceCtrl',
+	size: 'desktop',
+});</textarea>
+	</div>
+</div>
+
 <script type="text/ng-template" id="myModalContent.html">
 	<h1>Modal</h1>
 	<p>
-		<div class="lui callout">
-			<span class="lui label">some label</span> inside a callout and omg an icon <i class="lui jumping cc icon"></i>
+		<div class="lui green callout">
+			<span class="lui primary label">some label</span> inside a callout and omg an icon <i class="lui jumping cc icon"></i>
 		</div>
 	</p>
 </script>
