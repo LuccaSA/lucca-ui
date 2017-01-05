@@ -56,8 +56,8 @@ html, body {
 				font-weight: 600;
 				margin-left: 2em;
 			}
-			a,
-			a:visited {
+			> a,
+			> a:visited {
 				color: #666;
 				float: right;
 				line-height: 6;
@@ -67,7 +67,8 @@ html, body {
 		.syntax  {
 			margin: 0 1em !important;
 			padding: 0 4rem 2em !important;
-			span:not(.lui) {
+			span:not(.lui),
+			code {
 				text-shadow: none;
 				display: inline-block;
 				background: white;
@@ -78,6 +79,7 @@ html, body {
 				border-radius: 2px;
 				font-size:.825em;
 				font-weight: 400;
+				overflow-x: visible;
 			}
 			ul {
 				li {
@@ -96,6 +98,17 @@ html, body {
 			.view-window,
 			.lui.progress {
 				max-width: 95%;
+			}
+			.dropdowns-demo .lui.column {
+				text-align: center;
+				p {
+					max-width: 95%;
+					text-align: left;
+					padding: 0 5%;
+				}
+				&:not(:last-child) {
+					border-right: 1px dashed $light;
+				}
 			}
 		}
 
@@ -218,6 +231,9 @@ html, body {
 		&#progress-3 {
 			height: 12em;
 			margin-top: 1em;
+		}
+		&#nguibs-dropdowns {
+			height: 13em;
 		}
 	}
 	.lui.progress:not(.demo) { /* specific styling for demo */
