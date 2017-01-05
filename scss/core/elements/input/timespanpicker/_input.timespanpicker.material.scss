@@ -1,0 +1,11 @@
+@if luiTheme(element, field, momentpicker, enabled) {
+	@at-root #{$namespace} {
+		luid-timespan.material {
+			> .timespan.input {
+				input {
+					@extend %lui_quick_material_input;
+				}
+			}
+		}
+	}
+}
