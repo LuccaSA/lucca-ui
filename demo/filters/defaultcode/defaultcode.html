@@ -1,30 +1,22 @@
-<h2 class="lui divider below">luifDefaultCode</h2>
-
-<p>
-	A basic filter that capitalizes and replace spaces by _
-</p>
-
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage</h4>
-</div>
-<p>
-	<pre hljs no-escape language="html">{{ myValue | luifDefaultCode }}</pre>
-</p>
-
-<div class="lui bottom dashed divider menu">
-	<h4 class="lui underline">Demo</h4>
-</div>
-<div class="lui block round">
-	<p>
-		<span class="lui long input">
-			<input type="text" ng-model="myValue">
-			<label>Value</label>
-		</span>
-	</p>
-	<p>
-		MyValue : <code>{{myValue}}</code>
-	</p>
-	<p>
-		With luifDefaultCode : <code>{{ myValue | luifDefaultCode }}</code>
-	</p>
+<h2>luifDefaultCode<span>A basic filter that capitalizes and replace spaces by _</span></h2>
+<div class="lui container syntax">
+	<div class="lui columns">
+		<div class="lui column desktop-6">
+			<h3>Demo</h3>
+			<div>
+				<span class="lui long input">
+					<input type="text" ng-model="myValue">
+					<label>Value</label>
+				</span>
+			</div>
+			<ul class="squared">
+				<li>MyValue : <code>{{myValue}}</code></li>
+				<li>With luifDefaultCode : <code>{{ myValue | luifDefaultCode }}</code></li>
+			</ul>
+		</div>
+		<div class="lui column desktop-6">
+			<h3>Usage</h3>
+			<pre hljs no-escape language="html">{{ myValue | luifDefaultCode }}</pre>
+		</div>
+	</div>
 </div>
