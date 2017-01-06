@@ -1,12 +1,13 @@
-
-<h2 class="lui divider below">Tooltip</h2>
-<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-<button uib-tooltip="Regular tooltip" tooltip-class="lui" tooltip-placement="bottom-right" class="lui button">Hover me!</button>
-<button uib-tooltip="Primary tooltip" tooltip-class="lui primary" tooltip-placement="right" class="lui button">No, Me!!!</button>
-<button uib-tooltip="OMG! An error!" tooltip-class="lui red" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
+<h2>Tooltips<span><a class="lui link" href="https://angular-ui.github.io/bootstrap/#/tooltip">See documentation for Bootstrap's tooltips</a></span></h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-6">
+		<h3>Demo</h3>
+		<button uib-tooltip="Regular tooltip" tooltip-class="lui" tooltip-placement="bottom-right" class="lui button">Hover me!</button>
+		<button uib-tooltip="Primary tooltip with position" tooltip-class="lui primary" tooltip-placement="right" class="lui button">No, Me!!!</button>
+		<button uib-tooltip="Tooltip with tooltip-placement attribute set to left" tooltip-class="lui red" tooltip-trigger="click" tooltip-placement="left" class="lui button">Click me!</button>
+	</div>
+	<div class="lui column desktop-6">
+		<h3>Usage</h3>
+		<textarea readonly><button uib-tooltip="Hello there!" tooltip-class="lui" class="lui button">Hover me!</button></textarea>
+	</div>
 </div>
-<p>
-	<pre hljs no-escape language="html">&lt;button uib-tooltip="Hello there!" <b>tooltip-class="lui"</b> class="lui button"&gt;Hover me!&lt;/button&gt;</pre>
-</p>
