@@ -1,7 +1,7 @@
 <h2>Progress<span>Indicates to the user the completion level of the current task, or how far the user is from the end of a process.</span></h2>
 <div class="lui container syntax">
 	<p class="lui column desktop-12">
-		A progress bar is made of a container (<span>.lui.progress</span>) which define the maximum width (when the process is 100% done), and an indicator (<span>.indicator</span> which grows to show progress).
+		A progress bar is made of a container (<code>.lui.progress</code>) which define the maximum width (when the process is 100% done), and an indicator (<code>.indicator</code> which grows to show progress).
 	</p>
 	<div class="lui column desktop-4">
 		<div class="lui progress">
@@ -17,7 +17,7 @@
 		<div class="lui progressing progress">
 			<div class="indicator" data-percentage="75" style="width: 75%;"></div>
 		</div>
-		<p>You can animate the indicator by adding the <span>.progressing</span> class to the <span>.progress</span> parent:
+		<p>You can animate the indicator by adding the <code>.progressing</code> class to the <code>.progress</code> parent:
 		<textarea readonly id="progress-2"><div class="lui progressing progress">
 	<div class="indicator" data-percentage="{n%}" style="width: {n%};"></div>
 </div></textarea>
@@ -27,7 +27,7 @@
 		<div class="lui slim secondary progress">
 			<div class="indicator" data-percentage="45" style="width: 45%;"></div>
 		</div>
-		<p>You can display a thiner progress bar with the <span>.slim</span> class, or a colored one with a <span>.{color}</span> class. Both classes has to be added to the <span>.lui.progress</span> parent:
+		<p>You can display a thiner progress bar with the <code>.slim</code> class, or a colored one with a <code>.{color}</code> class. Both classes has to be added to the <code>.lui.progress</code> parent:
 		<textarea readonly id="progress-3"><div class="lui progress secondary slim">
 	<div class="indicator" data-percentage="{n%}" style="width: {n%};"></div>
 </div></textarea>

@@ -67,7 +67,6 @@ html, body {
 		.syntax  {
 			margin: 0 1em !important;
 			padding: 0 4rem 2em !important;
-			span:not(.lui),
 			code {
 				text-shadow: none;
 				display: inline-block;
@@ -80,6 +79,7 @@ html, body {
 				font-size:.825em;
 				font-weight: 400;
 				overflow-x: visible;
+
 			}
 			ul {
 				li {

@@ -2,21 +2,21 @@
 <div class="lui container syntax">
 	<div class="lui column desktop-6">
 		<h3>Syntax</h3>
-		<p>If you are using a namespaced distribution of lucca-ui, you have to use the <span>appendTo</span> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <span>body</span> and lucca-ui's styles wont apply.</p>
-		<p>If you are using a prefixed distribution of lucca-ui, you have to use the <span>windowClass</span> and <span>backdropClass</span> option in the open function to add the prefix to the backdrop and modal window.</p>
+		<p>If you are using a namespaced distribution of lucca-ui, you have to use the <code>appendTo</code> option in the open function to append the modal <i>inside</i> your namespaced, or else it will append to <code>body</code> and lucca-ui's styles wont apply.</p>
+		<p>If you are using a prefixed distribution of lucca-ui, you have to use the <code>windowClass</code> and <code>backdropClass</code> option in the open function to add the prefix to the backdrop and modal window.</p>
 		<p>You can use the lucca-ui adjectives for sizing (see the <a href="/#/sass#lui-grid">grid</a>):</p>
 		<ul class="squared">
-			<li><span>mobile</span></li>
-			<li><span>tablet</span></li>
-			<li><span>desktop</span></li>
-			<li><span>large</span></li>
+			<li><code>mobile</code></li>
+			<li><code>tablet</code></li>
+			<li><code>desktop</code></li>
+			<li><code>large</code></li>
 		</ul>
 		<p>Providing no size will make the modal take 90% of the width.</p>
 		<p>Or you can use the sizes supported by angular-ui-bootstrap:</p>
 		<ul class="squared">
-			<li><span>sm</span></li>
-			<li><span>md</span></li>
-			<li><span>lg</span></li>
+			<li><code>sm</code></li>
+			<li><code>md</code></li>
+			<li><code>lg</code></li>
 		</ul>
 		<h3>Demo</h3>
 		<div class="dropdowns-demo">
@@ -26,7 +26,7 @@
 			</div>
 			<div class="lui column mobile-4">
 				<div class="lui primary button" ng-click="openWithoutPrefix()">Open without prefix</div>
-				<p>Because the prefix is missing for the <span>modal-window</span> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work.</p>
+				<p>Because the prefix is missing for the <code>modal-window</code> or the <code>modal-backdrop</code>, their styles aren't applied. But because the content of the modal is in the namespace, other lucca-ui elements (callout, label) still work.</p>
 			</div>
 			<div class="lui column mobile-4">
 				<div class="lui primary button" ng-click="openWithoutNamespace()">Open without namespace</div>

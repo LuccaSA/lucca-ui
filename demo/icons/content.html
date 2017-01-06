@@ -4,9 +4,9 @@
 		<div class="lui container syntax">
 
 			<p class="lui column mobile-12">
-				Just append/prepend <span>.lui.{color}.icon.{icon-name}</span> classes to your element: <i class="lui icon image"></i> <br /><br />
-				Icons support color but only on <span>&lt;i&gt;&lt;/i&gt;</span> elements. <span>&lt;i class="lui red icon warning"&gt;&lt;/i&gt;</span> will display as: <i class="lui red icon warning"></i><br /><br />
-				<b>Important:</b> the words order is important in the icon-name : <span>.lui.icon.arrow.south</span> is not the same that <span>.lui.icon.south.arrow</span>
+				Just append/prepend <code>.lui.{color}.icon.{icon-name}</code> classes to your element: <i class="lui icon image"></i> <br /><br />
+				Icons support color but only on <code>&lt;i&gt;&lt;/i&gt;</code> elements. <code>&lt;i class="lui red icon warning"&gt;&lt;/i&gt;</code> will display as: <i class="lui red icon warning"></i><br /><br />
+				<b>Important:</b> the words order is important in the icon-name : <span>.lui.icon.arrow.south</span> is not the same that <code>.lui.icon.south.arrow</code>
 			</p>
 		</div>
 	</article>
@@ -17,7 +17,7 @@
 		<ul class="icon-list lucca-input-group" ng-repeat="list in allIcons">
 			<li ng-repeat="item in list" class="lui raised">
 				<i class="lui icon {{item}}"></i>
-				<p><span>{{item}}</span></p>
+				<p><code>{{item}}</code></p>
 			</li>
 		</ul>
 		<div class="lui container syntax">
