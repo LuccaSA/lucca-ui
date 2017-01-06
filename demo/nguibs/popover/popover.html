@@ -1,17 +1,17 @@
-<h2 class="lui divider below">Popover</h2>
-<p><a class="lui fancy link" href="https://angular-ui.github.io/bootstrap/#/tooltip">github.io page</a></p>
-<button uib-popover="some important text about stuff" popover-placement="bottom" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
+<h2>Popovers<span><a class="lui link" href="https://angular-ui.github.io/bootstrap/#/tooltip">See documentation for Bootstrap's tooltips</a></span></h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-6">
+		<h3>Demo</h3>
+		<button uib-popover="some important text about stuff" popover-placement="bottom" popover-title="This is critical!" popover-class="lui" class="lui button">Click me!</button>
 <button uib-popover="Primary tooltip" popover-placement="right-top" popover-title="I got a title too!" popover-class="lui primary" class="lui button">Primary tooltip</button>
 <button uib-popover-html="popoverHtml" popover-placement="right-bottom" popover-class="lui" class="lui button">with some html</button>
 <button uib-popover-template="'myPopoverTemplate.html'" popover-class="lui" class="lui button">with a template</button>
-
-
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
+	</div>
+	<div class="lui column desktop-6">
+		<h3>Usage</h3>
+		<textarea readonly><button uib-popover="Hello there!" popover-class="lui popover" class="lui button">Click me!</button></textarea>
+	</div>
 </div>
-<p>
-	<pre hljs no-escape language="html">&lt;button uib-popover="Hello there!" <b>popover-class="lui popover"</b> class="lui button"&gt;Click me!&lt;/button&gt;</pre>
-</p>
 <script type="text/ng-template" id="myPopoverTemplate.html">
 	<h4 class="lui divider below">a title</h4>
 	<div class="lui input with addon">
