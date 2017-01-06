@@ -1,0 +1,35 @@
+@if luiTheme(element, field, ui-select, enabled) {
+	@at-root #{$namespace} {
+		#{$prefix}.input.compact .ui-select-container, #{$prefix}.input .ui-select-container.compact {
+
+			.ui-select-match .ui-select-toggle,
+			.ui-select-search {
+				@extend %lui_input_reset_compact;
+			}
+
+			&.open .ui-select-search,
+			.ui-select-search:focus,
+			.ui-select-match.btn-default-focus .ui-select-toggle {
+				@extend %lui_input_focus_compact;
+			}
+
+			// Invalid
+			// ====
+			&.ng-invalid.ng-touched {
+				.ui-select-toggle,
+				.ui-select-search {
+					@extend %lui_input_invalid_input_compact;
+				}
+			}
+
+
+			// Multiselect
+			// ====
+			&.ui-select-multiple {
+				.btn-primary, .btn-primary:hover {
+					@extend %lui_tagged_input_tag_active_compact;
+				}
+			}
+		}
+	}
+}
