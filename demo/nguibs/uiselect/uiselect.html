@@ -1,46 +1,74 @@
-<h2 class="lui divider below">ui-select</h2>
-<p><a class="lui fancy link" href="https://github.com/angular-ui/ui-select">ui-select github page</a></p>
-<p>
-	<b>Important:</b> do <b>not</b> import the select.css or else some of the styling will be broken
-</p>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Simple select</h4>
-</div>
-<div class="lui field">
-	<ui-select ng-model="person.selected" ng-disabled="disabled" placeholder="Test" class="lui">
-		<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
-		<ui-select-choices repeat="person in people | filter: $select.search">
-			<span ng-bind-html="person.name | highlight: $select.search"></span>
-		</ui-select-choices>
-	</ui-select>
-	<label for="">User</label>
-</div>
+<h2>UI-select<span><a class="lui link" href="https://github.com/angular-ui/ui-select">See documentation for Angular's ui-select</a></span></h2>
+<div class="lui container syntax">
+	<div class="lui column desktop-3">
+		<h3>Base syntax</h3>
+		<p><b>Important:</b> do <b>not</b> import the select.css or else some of the styling will be broken.</p>
 
-<div class="lui input">
-	<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
-		<ui-select-match>{{$select.selected.name}}</ui-select-match>
-		<ui-select-choices repeat="person in people | filter: $select.search">
-			<span ng-bind-html="person.name | highlight: $select.search"></span>
-		</ui-select-choices>
-	</ui-select>
-	<label for="">User</label>
-</div>
+		<h3>Demo</h3>
+		<div class="ui-select-demo">
+			<div class="block">
+				<h4>Simple select</h4>
+				<div class="lui field">
+					<ui-select ng-model="person.selected" ng-disabled="disabled" placeholder="Test" class="lui">
+						<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="person in people | filter: $select.search">
+							<span ng-bind-html="person.name | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+					<label for="">User</label>
+				</div>
+				<div class="lui input">
+					<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+						<ui-select-match>{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="person in people | filter: $select.search">
+							<span ng-bind-html="person.name | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+					<label for="">User</label>
+				</div>
+			</div>
+			<div class="block">
+				<h4>Multi-select</h4>
+				<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long primary">
+					<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+					<ui-select-choices repeat="color in availableColors | filter:$select.search">
+						{{color}}
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="block">
+				<h4>Natural form</h4>
+				<p class="lui natural form">
+					<span>I seriously want to hire</span>
+					<ui-select ng-model="person.selected" search-enabled="false">
+						<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="person in people | filter: $select.search">
+							<span ng-bind-html="person.name | highlight: $select.search"></span>
+						</ui-select-choices>
+					</ui-select>
+					<span>because he/she just rocks at organizing LAN parties.</span>
+				</p>
+			</div>
+		</div>
+	</div>
 
-<div class="lui long input">
-	<input type="text" name="name" placeholder="This is a lui long input">
-</div>
-
-<div class="lui dashed divider">
-	<h4 class="lui underline">Multi-select</h4>
-</div>
+	<div class="lui column desktop-9">
+		<h3>Usage</h3>
+		<textarea readonly style="height: 43em;"><ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
+	<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+	<ui-select-choices repeat="color in availableColors | filter:$select.search">
+		{{color}}
+	</ui-select-choices>
+</ui-select>
+...
 <ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
 	<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
 	<ui-select-choices repeat="color in availableColors | filter:$select.search">
 		{{color}}
 	</ui-select-choices>
 </ui-select>
-
-<p class="lui natural form">
+...
+<div class="lui natural form">
 	<span>I seriously want to hire</span>
 	<ui-select ng-model="person.selected" search-enabled="false">
 		<ui-select-match placeholder="Pick a user">{{$select.selected.name}}</ui-select-match>
@@ -49,35 +77,7 @@
 		</ui-select-choices>
 	</ui-select>
 	<span>because he/she just rocks at organizing LAN parties.</span>
-</p>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Usage:</h4>
+<div>
+</textarea>
+	</div>
 </div>
-<p>
-	<pre hljs no-escape language="html">
-&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
-	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
-	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
-		{{color}}
-	&lt;/ui-select-choices&gt;
-&lt;/ui-select&gt;
-...
-&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
-	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
-	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
-		{{color}}
-	&lt;/ui-select-choices&gt;
-&lt;/ui-select&gt;
-...
-&lt;div class="lui natural form"&gt;
-	&lt;span&gt;I seriously want to hire&lt;/span&gt;
-	&lt;ui-select ng-model="person.selected" search-enabled="false"&gt;
-		&lt;ui-select-match placeholder="Pick a user"&gt;{{$select.selected.name}}&lt;/ui-select-match&gt;
-		&lt;ui-select-choices repeat="person in people | filter: $select.search"&gt;
-			&lt;span ng-bind-html="person.name | highlight: $select.search"&gt;&lt;/span&gt;
-		&lt;/ui-select-choices&gt;
-	&lt;/ui-select&gt;
-	&lt;span&gt;because he/she just rocks at organizing LAN parties.&lt;/span&gt;
-&lt;div&gt;
-</pre>
-</p>

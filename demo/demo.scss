@@ -110,6 +110,26 @@ html, body {
 					border-right: 1px dashed $light;
 				}
 			}
+			.ui-select-demo {
+				max-width: 95%;
+				.block {
+					background: rgba(white, .75);
+					padding: .5em;
+					margin: 0 -.5em 1em -.5em;
+					h4 {
+						margin-top: 0;
+					}
+				}
+				.ui-select-container.ui-select-multiple .ui-select-match-item {
+					background-color: #ffb900;
+				}
+			}
+			.dropdown-menu {
+				max-height: 23em;
+			}
+			.lui.input {
+				margin: 2em 0;
+			}
 		}
 
 		/*.examples {
