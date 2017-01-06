@@ -50,7 +50,7 @@ html, body {
 			border-bottom: 1px solid $light;
 			margin-top: 0 !important;
 			padding: calc(#{$banner-height} + 1rem) 4rem 0;
-			span, a {
+			span, > a {
 				color: #666;
 				font-size:1rem;
 				font-weight: 600;
