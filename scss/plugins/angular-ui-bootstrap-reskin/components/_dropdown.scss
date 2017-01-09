@@ -42,8 +42,6 @@
 				-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
 				backface-visibility: hidden;
 
-				@include lui_target_IE9 { box-sizing: content-box; }
-
 				a:hover { background-color: map-gets($pluginVars, dropdown, hoverBackground); }
 				.active a { background-color: map-gets($pluginVars, dropdown, activeBackground); }
 
@@ -92,12 +90,6 @@
 					@if (map-has-key(map-get($pluginVars, dropdown), animationDuration)) {
 						animation-duration: map-gets($pluginVars, dropdown, animationDuration);
 					}
-				}
-
-				@include lui_target_IE9 {
-					display: block;
-					opacity: 1;
-					height: auto;
 				}
 			}
 
