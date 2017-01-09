@@ -265,11 +265,6 @@
 			// Modern browsers: flex-box model
 			@include display-flex(true);
 
-			@include lui_target_IE9 {
-				display: inline-table;
-				> .button { display: table-cell; }
-			}
-
 			// Vertical buttons
 			&.vertical {
 				@include flex-direction(column);
@@ -302,16 +297,6 @@
 
 		#{$prefix}.buttons.justified {
 			width: 100%;
-
-			@include lui_target_IE9() {
-				display: table;
-				table-layout: fixed;
-
-				> .button {
-					display: table-cell;
-					text-align: center;
-				}
-			}
 
 			> .button {
 				float: none;

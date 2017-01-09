@@ -5,10 +5,11 @@
 	 popover-class="lui luid-datepicker"
 	 class="lui datepicker input">
 		<input type="text"
-			ng-readonly="popover.isOpen"
-			ng-model="displayStr"
-			ng-focus="openPopover($event)"
-			luid-keydown mappings="closePopoverOnTab"
-			placeholder="{{placeholder}}">
+			   ng-readonly="disableKeyboardInput"
+			   ng-model="displayStr"
+			   ng-change="onDisplayStrChanged($event)"
+			   ng-focus="openPopover($event)"
+			   luid-keydown mappings="closePopoverOnTab"
+			   placeholder="{{placeholder}}">
 		<i class="empty" ng-click="clear($event)"></i>
 </div>
