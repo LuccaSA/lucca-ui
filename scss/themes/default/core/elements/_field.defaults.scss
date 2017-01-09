@@ -32,7 +32,10 @@ $field: (
 			default-border-color:	luiPalette(light, color),
 
 			focus-border-width:		2px,
-			focus-border-color: 	luiPalette(primary, color)
+			focus-border-color: 	luiPalette(primary, color),
+
+			vertical-padding: 		0.5em,
+			horizontal-padding: 	0em,
 
 		),
 
@@ -44,6 +47,8 @@ $field: (
 			background-color: 		#efefef,
 			selection-color: 		#666,
 			selection-background: 	#fafafa,
+			vertical-padding: 		0em,
+			horizontal-padding: 	0.5em,
 
 			focus: (
 				background-color: 	#fafafa
