@@ -1,8 +1,8 @@
 %lui_input_reset_compact {
 	@extend %lui_input_reset;
 
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+	padding-left: luiTheme(element, field, input, compact, horizontal-padding);
+	padding-right: luiTheme(element, field, input, compact, horizontal-padding);
 
 	border-radius: luiTheme(element, field, input, compact, border-radius);
 	border: luiTheme(element, field, input, compact, border-width) solid luiTheme(element, field, input, compact, border-color);
@@ -38,6 +38,10 @@
 	color: transparentize(luiTheme(element, typography, body, color), 0.25);
 }
 
+%lui_input_sizing_compact {
+	padding: luiTheme(element, field, input, compact, vertical-padding) luiTheme(element, field, input, compact, horizontal-padding);
+}
+
 %lui_quick_compact_input {
 	@extend %lui_input_reset_compact;
 	&:focus {
@@ -47,6 +51,13 @@
 
 @if (luiTheme(element, field, enabled)) {
 	#{$prefix}.input.compact {
+
+		> input:not([type="checkbox"]):not([type="radio"]),
+		> textarea,
+		> select,
+		.unit {
+			@extend %lui_input_sizing_compact;
+		}
 
 		> input:not([type="checkbox"]):not([type="radio"]),
 		> textarea {

@@ -20,10 +20,8 @@
 	vertical-align: baseline;
 
 	margin: 0;
-	padding: luiTheme(element, field, input, vertical-padding) 0;
 
 	&:not(textarea) {
-		padding: 0;
 		height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 		line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 	}

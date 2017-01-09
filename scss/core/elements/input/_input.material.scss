@@ -60,6 +60,10 @@
 	color: transparentize(luiTheme(element, typography, body, color), 0.2);
 }
 
+%lui_input_sizing_material {
+	padding: luiTheme(element, field, input, material, vertical-padding) luiTheme(element, field, input, material, horizontal-padding);
+}
+
 %lui_quick_material_input {
 	@extend %lui_input_reset_material;
 	&:focus {
@@ -81,6 +85,13 @@
 		&.focused > input:not([type="checkbox"]):not([type="radio"]),
 		&.focused > textarea {
 			@extend %lui_input_focus_material;
+		}
+
+		> input:not([type="checkbox"]):not([type="radio"]),
+		> textarea,
+		> select,
+		.unit {
+			@extend %lui_input_sizing_material;
 		}
 
 		// label
