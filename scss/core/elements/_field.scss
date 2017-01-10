@@ -208,7 +208,7 @@
 	@extend %lui_unstyled_list;
 	@include lui_raised(2);
 	position: absolute;
-	z-index: 2;
+	z-index: luiTheme(element, field, dropdown, z-index);
 	top: 100%;
 	left: 0;
 
