@@ -22,8 +22,7 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 
 // Mixins
 // ===================================
-@import	"core/utilities/mixins/ie9-support",
-		"core/utilities/mixins/flex",
+@import	"core/utilities/mixins/flex",
 		"core/utilities/mixins/responsive",
 		"core/utilities/mixins/transition",
 		"core/utilities/mixins/is-animated",

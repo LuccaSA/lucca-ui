@@ -67,6 +67,105 @@
 			}
 		}
 
+		// debut lol
+		// Input
+		// =====================================================================
+		#{$prefix}.input {
+			display: inline-block;
+			vertical-align: middle;
+			position: relative;
+
+			#{$prefix}.input {
+				margin-top: 0;
+			}
+
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea,
+			> select,
+			.unit {
+				@extend %lui_input_sizing;
+			}
+
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				@extend %lui_input_reset;
+
+				&::-webkit-input-placeholder {
+					@include lui_input_placeholder;
+				}
+				&::-moz-placeholder {
+					@include lui_input_placeholder;
+				}
+				&::-ms-input-placeholder {
+					@include lui_input_placeholder;
+				}
+				&:-moz-placeholder {
+					@include lui_input_placeholder;
+				}
+			}
+
+			> input:not([type="checkbox"]):not([type="radio"]):focus,
+			> textarea:focus,
+			&.focused > input:not([type="checkbox"]):not([type="radio"]),
+			&.focused > textarea {
+				@extend %lui_input_focus;
+			}
+
+			// Textarea specifics
+			// ====
+			textarea {
+				resize: vertical;
+				height: auto;
+			}
+
+			// label
+			// ====
+			&:not(.radio):not(.checkbox):not(.switch) > label {
+				@extend %lui_input_label_displacable;
+			}
+
+			& > label {
+				@extend %lui_input_label;
+			}
+
+			// Unit
+			// ====
+			.unit {
+				width: auto;
+				font-weight: 600;
+				margin-left: 0.5em;
+				margin-bottom: map-gets($vars, input, default-border-width);
+			}
+
+			// Label displacement when focused or filled
+			// ====
+			& > *[ng-model][placeholder]:not([placeholder=""]) ~ label,
+			& > *[ng-model][placeholder]:not([placeholder=""]) > * ~ label,
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *[ng-model].ng-open ~ label,
+			& > *[ng-model].dropdown.open ~ label,
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]):focus ~ label {
+				@extend %lui_input_label_displaced;
+				width: auto !important;
+				min-width: 100%;
+			}
+
+			// Searchable input
+			// Displays a magnifier icon
+			// ====
+			&.searchable {
+				@extend %lui_searchable_input;
+			}
+
+			// Empty button
+			// ====
+			i.empty {
+				@extend %lui_input_clear;
+
+				cursor: pointer;
+			}
+		}
+		// fin lol
 
 		#{$prefix}.field > .input {
 			@include display-flex();

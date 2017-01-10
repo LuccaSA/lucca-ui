@@ -19,7 +19,6 @@
 				z-index: 4;
 				right: map-gets($inputVars, padding, right);
 				top: 50%; transform: translateY(-50%);
-				@include lui_target_IE9 { margin-top: -0.5em; } }
 
 			.ui-select-choices {
 				border-color: map-gets($inputVars, focusBorderColor);
@@ -34,7 +33,6 @@
 			&.ui-select-multiple > div {
 				@extend %lui_input_field_base;
 				@extend %lui_input_text_field;
-				@include lui_target_IE9 { width: 100%; }
 			}
 
 			.ui-select-search { width: 100% !important; } // Prevents JS from messing up sizing

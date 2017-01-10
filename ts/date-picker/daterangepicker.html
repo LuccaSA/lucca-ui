@@ -1,14 +1,31 @@
-<span class="lui daterange tagged long input"
-	uib-popover-template="'lui/templates/date-picker/daterangepicker-popover.html'"
-	popover-placement="bottom-left"
-	popover-trigger="'none'" popover-is-open="popover.isOpen"
-	popover-class="lui luid-daterangepicker"
-	ng-click="togglePopover($event)">
+<div class="lui daterange fitting input"
+	 uib-popover-template="'lui/templates/date-picker/daterangepicker-popover.html'"
+	 popover-placement="bottom-left"
+	 popover-trigger="'none'" popover-is-open="popover.isOpen"
+	 popover-class="lui luid-daterangepicker"
+	 ng-click="togglePopover($event)">
 	<i class="empty" ng-click="clear($event)"></i>
-	<span class="tags" ng-show="popover.isOpen">
-		<span class="tag" ng-class="{ selected: editingStart }" ng-click="editStart($event)">{{ !!period.start ? (period.start | luifMoment : momentFormat) : fromLabel }}</span>
+	<div class="inputs" ng-if="popover.isOpen">
+		<input type="text" auto-focus
+			   ng-readonly="disableKeyboardInput"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
+			   ng-click="editStart($event)"
+			   ng-model="startDisplayStr"
+			   ng-change="onStartDisplayStrChanged($event)"
+			   placeholder="{{fromLabel}}"
+			   luid-keydown mappings="focusEndInputOnTab">
+
 		<i class="lui east arrow icon"></i>
-		<span class="tag" ng-class="{ selected: !editingStart }" ng-click="editEnd($event)">{{ !!period.end ? (period.end | luifMoment : momentFormat) : toLabel }}</span>
-	</span>
-	<input type="text" ng-model="displayStr" placeholder="{{placeholder}}">
-</span>
+
+		<input type="text"
+			   ng-readonly="disableKeyboardInput"
+			   ng-class="{ 'clickable': disableKeyboardInput}"
+			   ng-model="endDisplayStr"
+			   ng-click="editEnd($event)"
+			   ng-change="onEndDisplayStrChanged($event)"
+			   placeholder="{{toLabel}}"
+			   luid-keydown mappings="closePopoverOnTab">
+	</div>
+	<!--ng-hide messes up the alignments, for some reasons... ng-class will be good enough -->
+	<input type="text" ng-readonly="disableKeyboardInput" ng-model="displayStr" placeholder="{{placeholder}}">
+</div>

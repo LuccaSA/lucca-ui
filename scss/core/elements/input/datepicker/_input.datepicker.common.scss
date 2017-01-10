@@ -26,11 +26,10 @@
 			}
 		}
 
+
+
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			&.ng-open > .lui.input > input {
-				@extend %lui_input_focus_material;
-			}
 			&.ng-invalid.ng-touched > .lui.input > input,
 			&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
 				@extend %lui_input_invalid_input_material;
@@ -78,28 +77,22 @@
 		luid-daterange-picker .lui.daterange.input {
 			position: relative;
 			max-width: 100%;
+			border-bottom: none !important;
 
-			input, label {
+			> input, label {
 				width: 100% !important;
 				padding-right: 2.25em;
 			}
+			.clickable { cursor: pointer; }
 			i.empty { z-index: 1; }
 		}
 
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			position: relative;
-
-			&.ng-open {
-				.tags {
-					position: absolute;
-					z-index: 1;
-					top: 0;
-					left: 50%;
-					transform: translateX(-50%);
-				}
+			> .lui.input > input[readonly] {
+				cursor: pointer;
 			}
-
+			position: relative;
 			&.ng-empty {
 				i.empty { display: none; }
 				@include lui_make_icon("calendar", right);
@@ -111,15 +104,47 @@
 		}
 
 		luid-daterange-picker {
-			.lui.tagged.input {
-				width: 2 * map-gets($vars, input, width);
-				.tag {
-					cursor: pointer;
+			&.ng-open > .lui.input {
+				> input {
+					color: transparent !important;
+					visibility: hidden;
 				}
 			}
-			&.ng-open input {
-				color: transparent !important;
+			.inputs {
+				@include display-flex();
+				@include flex-wrap(nowrap);
+				position: absolute;
+				z-index: 1;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+
+				.icon {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					font-size: 0.5em;
+				}
+
+				> input {
+					width: 50% !important;
+					box-sizing: border-box;
+					@extend %lui_input_reset;
+					&:first-of-type {
+						padding-right: 1em;
+					}
+					&:last-of-type {
+						padding-left: 1em;
+					}
+					&:focus {
+						@extend %lui_input_focus;
+					}
+				}
 			}
+
+			.hidden-input { opacity: 0; }
 		}
 
 		luid-date-picker,
@@ -320,20 +345,6 @@
 			}
 		}
 
-		luid-daterange-picker {
-			.lui.input > .tags {
-				display: block;
-				width: 100%;
-				text-align: center;
-
-				white-space: pre;
-
-				.arrow.icon {
-					font-size: 0.5em;
-					margin: 0 1em;
-				}
-			}
-		}
 
 		luid-daterange-picker,
 		luid-date-picker-popup[displayed-calendars="2"] {

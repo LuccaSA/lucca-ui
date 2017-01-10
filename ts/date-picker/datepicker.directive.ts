@@ -46,6 +46,7 @@ module Lui.Directives {
 
 			shortcuts: "=",
 			groupedShortcuts: "=",
+			disableKeyboardInput: "="
 		};
 		public controller: string = LuidDatePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -74,8 +75,11 @@ module Lui.Directives {
 
 		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
 
+		disableKeyboardInput: boolean;
+
 		togglePopover($event: ng.IAngularEvent): void;
 		openPopover($event: ng.IAngularEvent): void;
+		onDisplayStrChanged($event: ng.IAngularEvent): void;
 		// closePopover($event: ng.IAngularEvent): void;
 		clear($event: ng.IAngularEvent): void;
 	}
@@ -132,6 +136,24 @@ module Lui.Directives {
 				this.selected = date;
 				this.assignClasses();
 			};
+
+			$scope.onDisplayStrChanged = ($event: ng.IAngularEvent): void => {
+				let displayStr = $scope.displayStr;
+				let dateFromStr = moment(displayStr, $scope.displayFormat);
+				if (dateFromStr.isValid()) {
+					this.setViewValue(dateFromStr);
+					this.render();
+					$scope.displayStr = displayStr;
+				} else {
+					dateFromStr = moment(displayStr, $scope.format);
+					if (dateFromStr.isValid()) {
+						this.setViewValue(dateFromStr);
+						this.render();
+						$scope.displayStr = displayStr;
+					}
+				}
+				this.validate();
+			};
 		}
 		// set stuff - is called in the linq function
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
@@ -147,6 +169,16 @@ module Lui.Directives {
 				let value = this.getViewValue();
 				return !value || !max || max.diff(value) >= 0;
 			};
+			if (!!this.$scope.customClass) {
+				(<ICalendarValidators>ngModelCtrl.$validators).customClass = (modelValue: any, viewValue: any) => {
+					let value = this.getViewValue();
+					if (!!this.$scope.customClass && !!value) {
+						let customClass = this.$scope.customClass(value, CalendarMode.Days).toLowerCase();
+						return customClass.indexOf("disabled") === -1 && customClass.indexOf("forbidden") === -1;
+					}
+					return true;
+				};
+			}
 		}
 		public setFormat(format: string, displayFormat?: string): void {
 			this.formatter = new Lui.Utils.MomentFormatter(format);
@@ -210,6 +242,7 @@ module Lui.Directives {
 			}
 		}
 		private closePopover(): void {
+			this.$scope.displayStr = this.getDisplayStr(this.getViewValue());
 			this.$scope.direction = "";
 			this.element.removeClass("ng-open");
 			if (!!this.popoverController) {
@@ -222,6 +255,9 @@ module Lui.Directives {
 			if (!!this.popoverController) {
 				this.render();
 				this.popoverController.open($event);
+			}
+			if (!this.$scope.disableKeyboardInput) {
+				this.$scope.displayStr = "";
 			}
 		}
 
