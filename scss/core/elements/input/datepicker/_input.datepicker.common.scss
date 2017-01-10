@@ -139,7 +139,7 @@
 						padding-left: 1em;
 					}
 					&:focus {
-						@extend %lui_input_focus;
+						@extend %lui_input_focus_material;
 					}
 				}
 			}
