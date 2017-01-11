@@ -2,12 +2,12 @@
 	<ui-select ng-model="$parent.selectedUser"
 			   ng-disabled="controlDisabled"
 			   search-enabled="true"
-			   on-select="onSelectedUserChanged($select.selected);"
+			   on-select="onSelectedUserChanged($select.selected)"
 			   on-remove="onRemove()"
 			   class="lui ui-select-container">
 		<ui-select-match placeholder="{{placeholder}}" allow-clear="true">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match>
-		<ui-select-choices repeat="user in users" refresh="find($select.search)" refresh-delay="0"> <!--| filter:$select.search-->
-			<div ng-if="user.id === myId" class="selected-first"
+		<ui-select-choices repeat="user in users" refresh="find($select.search)" refresh-delay="0" on-scroll-bottom="loadMore()">
+			<div ng-if="user.id === myId" class="selected-first" ng-class="{'dividing': $index === 0}"
 				 ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'">
 			</div>
 			<div ng-if="user.id !== myId" ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info"></div>

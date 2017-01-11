@@ -1,10 +1,10 @@
 module Lui.Directives {
 	"use strict";
-	class LuidUserPicker implements angular.IDirective {
-		public static IID: string = "luidUserPicker";
+	class LuidUserPickerMultiple implements angular.IDirective {
+		public static IID: string = "luidUserPickerMultiple";
 		public restrict = "E";
-		public templateUrl = "lui/templates/user-picker/user-picker.html";
-		public require = ["ngModel", LuidUserPicker.IID];
+		public templateUrl = "lui/templates/user-picker/user-picker.multiple.html";
+		public require = ["ngModel", LuidUserPickerMultiple.IID];
 		public scope = {
 			placeholder: "@",
 			onSelect: "&",
@@ -29,7 +29,7 @@ module Lui.Directives {
 			bypassOperationsFor: "=", // List of users that should be displayed even if they don't have access to the operations
 		};
 		public controller: string = LuidUserPickerController.IID;
-		public static factory(): angular.IDirectiveFactory { return () => { return new LuidUserPicker(); }; }
+		public static factory(): angular.IDirectiveFactory { return () => { return new LuidUserPickerMultiple(); }; }
 		public link(
 			scope: ILuidUserPickerScope,
 			element: angular.IAugmentedJQuery,
@@ -38,27 +38,8 @@ module Lui.Directives {
 
 			let ngModelCtrl = ctrls[0];
 			let userPickerCtrl = ctrls[1];
-			userPickerCtrl.setNgModelCtrl(ngModelCtrl);
+			userPickerCtrl.setNgModelCtrl(ngModelCtrl, true);
 		}
 	}
-	angular.module("lui.directives").directive(LuidUserPicker.IID, LuidUserPicker.factory());
-
-	/**
-	 * Directive used to call a custom function when the user scroll to the bottom of an element.
-	 * Usage: <element on-scroll-bottom="yourCallback()"></element>
-	 */
-	angular.module("lui.directives").directive("onScrollBottom", () => {
-		return {
-			restrict: "A",
-			scope: { onScrollBottom: "&" },
-			link: ($scope: any, element: angular.IAugmentedJQuery): void => {
-				element.bind("scroll", (eventArg: JQueryEventObject) => {
-					let scrollbarHeight = eventArg.srcElement.scrollHeight - eventArg.srcElement.clientHeight;
-					if (Math.abs(scrollbarHeight - eventArg.srcElement.scrollTop) < 2 && !!$scope.onScrollBottom()) {
-						$scope.onScrollBottom();
-					}
-				});
-			}
-		};
-	});
+	angular.module("lui.directives").directive(LuidUserPickerMultiple.IID, LuidUserPickerMultiple.factory());
 }

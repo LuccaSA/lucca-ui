@@ -6,7 +6,6 @@ module Lui.Directives {
 		firstName: string;
 		lastName: string;
 		dtContractEnd: string;
-		dtContractStart: string;
 
 		hasLeft: boolean;
 		info: string;
@@ -22,12 +21,37 @@ module Lui.Directives {
 	}
 
 	export interface IUserPickerService {
+		/** Get the Id of the current connected user */
 		getMyId(): ng.IPromise<number>;
-		getHomonyms(user: IUserLookup[]): IUserLookup[];
+
+		/** Get the informations of the current connected users */
+		getMe(): ng.IPromise<IUserLookup>;
+
+		/**
+		 * Analyzes an array of users and returns an array containing all the homonyms users
+		 * @param {IUserLookup[]} user the array of users to analyze
+		 */
+		getHomonyms(users: IUserLookup[]): IUserLookup[];
+
+		/**
+		 * Fetches all the users
+		 * @param {string} filters filter given to the API request
+		 */
 		getUsers(filters: string): ng.IPromise<IUserLookup[]>;
+
+		/**
+		 * Fetches additional properties for the given user
+		 * @param {IUserLookup} user the user you want additionalProperties
+		 * @param {ISimpleProperty[]} properties array of the properties you want to fetch
+		 */
 		getAdditionalProperties(user: IUserLookup, properties: ISimpleProperty[]): ng.IPromise<ISimpleProperty[]>;
 
+		getMultipleUsers(ids: number[]): ng.IPromise<IUserLookup[]>;
+
+		getUser(id: number): ng.IPromise<IUserLookup>;
+
 		reduceAdditionalProperties(users: IUserLookup[]): IUserLookup[];
+
 		setCustomHttpService(httpService: ng.IHttpService): void;
 	}
 
@@ -41,10 +65,12 @@ module Lui.Directives {
 		private defaultHttpService: ng.IHttpService;
 		private $q: ng.IQService;
 
-		private usersMeFullQuery = "/api/v3/users/me?fields=id";
+		private meApiUrl = "/api/v3/users/me";
 		private userLookUpApiUrl = "/api/v3/users/find";
+		private userApiUrl = "/api/v3/users/";
+		private userLookupFields = "fields=Id,firstName,lastName,dtContractEnd";
 
-		private userLookupFields = "&fields=Id,firstName,lastName,dtContractEnd,dtContractStart";
+		private meCache: IUserLookup;
 
 		private myIdCache: number;
 		private stripAccents: (str: string) => string;
@@ -57,16 +83,32 @@ module Lui.Directives {
 		}
 
 		public getMyId(): ng.IPromise<number> {
-			if (!!this.myIdCache) {
+			if (this.myIdCache !== undefined) {
 				let dfd = this.$q.defer();
 				dfd.resolve(this.myIdCache);
 				return dfd.promise;
 			}
 
-			return this.$http.get(this.usersMeFullQuery)
+			return this.$http.get(this.meApiUrl + "?fields=id")
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: { id: number } }>) => {
 					this.myIdCache = response.data.data.id;
 					return this.myIdCache;
+				}).catch((reason: any) => {
+					return undefined;
+				});
+		}
+
+		public getMe(): ng.IPromise<IUserLookup> {
+			if (this.meCache !== undefined) {
+				let dfd = this.$q.defer();
+				dfd.resolve(this.meCache);
+				return dfd.promise;
+			}
+
+			return this.$http.get(this.meApiUrl + "?" + this.userLookupFields)
+				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
+					this.meCache = response.data.data;
+					return this.meCache;
 				}).catch((reason: any) => {
 					return undefined;
 				});
@@ -81,9 +123,24 @@ module Lui.Directives {
 		}
 
 		public getUsers(filters: string): ng.IPromise<IUserLookup[]> {
-			return this.$http.get(this.userLookUpApiUrl + "?" + filters + this.userLookupFields)
+			return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + this.userLookupFields)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: { items: IUserLookup[] } }>) => {
 					return response.data.data.items;
+				});
+		}
+
+		public getMultipleUsers(ids: number[]): ng.IPromise<IUserLookup[]> {
+			let promises = new Array<ng.IPromise<IUserLookup>>();
+			_.each(ids, (id: number) => {
+				promises.push(this.getUser(id));
+			});
+			return this.$q.all(promises);
+		}
+
+		public getUser(id: number): ng.IPromise<IUserLookup> {
+			return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
+				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
+					return response.data.data;
 				});
 		}
 
@@ -125,7 +182,7 @@ module Lui.Directives {
 					.groupBy((property: ISimpleProperty) => { return property.name; })
 					.value();
 				_.each(groupedProperties, propertyGroup => {
-					let uniq = _.uniq(propertyGroup, (property: ISimpleProperty) => { return property.value });
+					let uniq = _.uniq(propertyGroup, (property: ISimpleProperty) => { return property.value; });
 					if (uniq.length === 1) {
 						// this property can be removed
 						reducableProperties.push(propertyGroup[0].name);
@@ -151,11 +208,7 @@ module Lui.Directives {
 			let splitted = prop.split(".");
 			let curObject = object;
 			_.each(splitted, (propName: string) => {
-				if (!!curObject && !!curObject[propName]) {
-					curObject = curObject[propName];
-				} else {
-					curObject = undefined;
-				}
+				curObject = !!curObject && !!curObject[propName] ? curObject[propName] : undefined;
 			});
 			return curObject;
 		}
