@@ -367,10 +367,18 @@
 			> textarea {
 				@extend %lui_input_reset;
 
-				&::-webkit-input-placeholder { @include lui_input_placeholder; }
-				&::-moz-placeholder { @include lui_input_placeholder; }
-				&-ms-input-placeholder { @include lui_input_placeholder; }
-				&:-moz-placeholder { @include lui_input_placeholder; }
+				&::-webkit-input-placeholder {
+					@include lui_input_placeholder;
+				}
+				&::-moz-placeholder {
+					@include lui_input_placeholder;
+				}
+				&::-ms-input-placeholder {
+					@include lui_input_placeholder;
+				}
+				&:-moz-placeholder {
+					@include lui_input_placeholder;
+				}
 			}
 
 			> input:not([type="checkbox"]):not([type="radio"]):focus,
