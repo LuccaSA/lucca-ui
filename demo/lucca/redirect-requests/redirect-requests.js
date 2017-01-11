@@ -1,20 +1,22 @@
 (function () {
 	'use strict';
 	angular.module("demoApp")
-		.controller("redirectRequestsCtrl", ["$scope", "$httpBackend", "$http", "$q",
-			function ($scope, $httpBackend, $http, $q) {
+		.controller("redirectRequestsCtrl", ["$scope", "$httpBackend", "$http", "$q", "$rootScope",
+			function ($scope, $httpBackend, $http, $q, $rootScope) {
 				$scope.local = "lucca.local.dev";
-				$scope.authUserLogin = "passepartout";
+				$scope.authUserLogin = "bguillon@lucca.fr";
 				$scope.auth = function (disp) {
 					disp = !!disp ? disp : false;
 					$http.post("https://" + $scope.local + "/auth/userlogin?login=" + $scope.authUserLogin + "&password=")
 						.success(function (response) {
+							$rootScope.globalConnected = true;
 							$scope.authToken = response;
 							if (disp) alert("Auth: success! Token = " + response);
 						})
 						.error(function (response) {
+							$rootScope.globalConnected = false;
 							$scope.authToken = undefined;
-							if (disp) alert("Auth failed... Is '" + + "Wrong login ?");
+							if (disp) alert("Auth failed... Is '" + $scope.authUserLogin + "' a wrong login ?");
 						});
 				};
 				$scope.auth(false);
