@@ -2,6 +2,7 @@
 ## 3.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.8)
 
 ### Bug fixes
+- Higher z-index for dropdowns
 
 ## 3.0.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.7)
 
