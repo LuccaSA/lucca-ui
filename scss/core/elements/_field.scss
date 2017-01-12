@@ -122,7 +122,8 @@
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
+			@warn "#{$sizeName}";
+			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
 			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label,
 			#{$prefix}.field.#{$sizeName} .message {
 				min-width: 0;
