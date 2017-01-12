@@ -137,11 +137,12 @@
 	}
 }
 
-@import "iban/input.iban.material",
-		"checkbox.radio/input.checkbox.radio.material",
+@import "checkbox.radio/input.checkbox.radio.material",
+		"datepicker/input.datepicker.material",
+		"iban/input.iban.material",
+		"imagepicker/input.imagepicker.material",
 		"momentpicker/input.momentpicker.material",
 		"tagged/input.tagged.material",
 		"timespanpicker/input.timespanpicker.material",
-		"ui-select/input.ui-select.material",
-		"imagepicker/input.imagepicker.material";
+		"ui-select/input.ui-select.material";
 

@@ -92,9 +92,10 @@
 	}
 }
 
-@import "iban/input.iban.compact",
+@import "datepicker/input.datepicker.compact",
+		"iban/input.iban.compact",
+		"imagepicker/input.imagepicker.compact",
 		"momentpicker/input.momentpicker.compact",
 		"tagged/input.tagged.compact",
 		"timespanpicker/input.timespanpicker.compact",
-		"ui-select/input.ui-select.compact",
-		"imagepicker/input.imagepicker.compact";
+		"ui-select/input.ui-select.compact";

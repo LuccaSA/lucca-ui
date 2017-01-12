@@ -1,0 +1,9 @@
+@if luiTheme(element, field, momentpicker, enabled) {
+	@at-root #{$namespace} {
+		luid-date-picker-popup.compact {
+			input {
+				@extend %lui_quick_compact_input;
+			}
+		}
+	}
+}
