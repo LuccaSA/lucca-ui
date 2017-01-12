@@ -1,4 +1,8 @@
 # Change log
+
+## 4.0.0
+- New compact inputs (breaking change for all inputs)
+
 ## 3.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.8)
 
 ### Bug fixes
