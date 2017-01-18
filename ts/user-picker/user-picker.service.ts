@@ -1,25 +1,6 @@
 module Lui.Directives {
 	"use strict";
 
-	export interface IUserLookup {
-		id: number;
-		firstName: string;
-		lastName: string;
-		dtContractEnd: string;
-
-		hasLeft: boolean;
-		info: string;
-		hasHomonyms: boolean;
-		additionalProperties: ISimpleProperty[];
-	}
-
-	export interface ISimpleProperty {
-		translationKey: string;
-		name: string;
-		icon: string;
-		value?: string;
-	}
-
 	export interface IUserPickerService {
 		/** Get the Id of the current connected user */
 		getMyId(): ng.IPromise<number>;
@@ -44,12 +25,16 @@ module Lui.Directives {
 		 * @param {IUserLookup} user the user you want additionalProperties
 		 * @param {ISimpleProperty[]} properties array of the properties you want to fetch
 		 */
-		getAdditionalProperties(user: IUserLookup, properties: ISimpleProperty[]): ng.IPromise<ISimpleProperty[]>;
+		getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]>;
 
-		getMultipleUsers(ids: number[]): ng.IPromise<IUserLookup[]>;
+		getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]>;
+		getUserById(id: number): ng.IPromise<IUserLookup>;
 
-		getUser(id: number): ng.IPromise<IUserLookup>;
-
+		/**
+		 * Removes the potential useless additional properties of an array of users who have homonyms.
+		 * If two homonyms have an additional property with the same value, this property will be removed.
+		 * @param {IUserLookup[]} users Array containing the users who have homonyms.
+		 */
 		reduceAdditionalProperties(users: IUserLookup[]): IUserLookup[];
 
 		setCustomHttpService(httpService: ng.IHttpService): void;
@@ -129,30 +114,30 @@ module Lui.Directives {
 				});
 		}
 
-		public getMultipleUsers(ids: number[]): ng.IPromise<IUserLookup[]> {
+		public getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]> {
 			let promises = new Array<ng.IPromise<IUserLookup>>();
 			_.each(ids, (id: number) => {
-				promises.push(this.getUser(id));
+				promises.push(this.getUserById(id));
 			});
 			return this.$q.all(promises);
 		}
 
-		public getUser(id: number): ng.IPromise<IUserLookup> {
+		public getUserById(id: number): ng.IPromise<IUserLookup> {
 			return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
 					return response.data.data;
 				});
 		}
 
-		public getAdditionalProperties(user: IUserLookup, properties: ISimpleProperty[]): ng.IPromise<ISimpleProperty[]> {
-			let fields = _.map(properties, (prop: ISimpleProperty) => { return prop.name; }).join(",");
+		public getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]> {
+			let fields = _.map(properties, (prop: IHomonymProperty) => { return prop.name; }).join(",");
 			return this.$http.get("/api/v3/users/" + user.id + "?fields=" + fields)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: any }>) => {
-					let result = new Array<ISimpleProperty>();
-					_.each(properties, (property: ISimpleProperty) => {
+					let result = new Array<IHomonymProperty>();
+					_.each(properties, (property: IHomonymProperty) => {
 						let value = <string>this.getProperty(response.data.data, property.name);
 						if (!!value) {
-							result.push(<ISimpleProperty>{
+							result.push(<IHomonymProperty>{
 								translationKey: property.translationKey,
 								name: property.name,
 								icon: property.icon,
@@ -179,10 +164,10 @@ module Lui.Directives {
 				let groupedProperties = _.chain(homonyms)
 					.map((user: IUserLookup) => { return user.additionalProperties; })
 					.flatten()
-					.groupBy((property: ISimpleProperty) => { return property.name; })
+					.groupBy((property: IHomonymProperty) => { return property.name; })
 					.value();
 				_.each(groupedProperties, propertyGroup => {
-					let uniq = _.uniq(propertyGroup, (property: ISimpleProperty) => { return property.value; });
+					let uniq = _.uniq(propertyGroup, (property: IHomonymProperty) => { return property.value; });
 					if (uniq.length === 1) {
 						// this property can be removed
 						reducableProperties.push(propertyGroup[0].name);

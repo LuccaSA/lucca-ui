@@ -5,11 +5,11 @@ module Lui.Directives {
 	 * List containing the default properties used to differentiate homonyms users when
 	 * the user of the user-picker doesn't specify the 'homonymsProperties' attribute.
 	 */
-	const DEFAULT_HOMONYMS_PROPERTIES: ISimpleProperty[] = [
-		<ISimpleProperty>{ translationKey: "LUIDUSERPICKER_DEPARTMENT", name: "department.name", icon: "location" },
-		<ISimpleProperty>{ translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" },
+	const DEFAULT_HOMONYMS_PROPERTIES: IHomonymProperty[] = [
+		<IHomonymProperty>{ translationKey: "LUIDUSERPICKER_DEPARTMENT", name: "department.name", icon: "location" },
+		<IHomonymProperty>{ translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" },
 		// <ISimpleProperty>{ translationKey: "LUIDUSERPICKER_EMPLOYEENUMBER", name: "employeeNumber", icon: "user" },
-		<ISimpleProperty>{ translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email" },
+		<IHomonymProperty>{ translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email" },
 	];
 
 	/**
@@ -21,19 +21,20 @@ module Lui.Directives {
 	const MAGIC_PAGING = 15;
 	const MAX_SEARCH_LIMIT = 10000;
 
+	/**
+	 * Controller of the luid-user-picker directive as well as the luid-user-picker-multiple directive.
+	 */
 	export class LuidUserPickerController {
 		public static IID: string = "luidUserPickerController";
-		public static $inject: Array<string> = [
-			"$scope",
-			"$q",
-			"userPickerService"
-		];
+		public static $inject: Array<string> = ["$scope", "$q", "userPickerService"];
 
 		private $scope: ILuidUserPickerScope;
 		private $q: ng.IQService;
 		private userPickerService: IUserPickerService;
 
 		private ngModelCtrl: ng.INgModelController;
+
+		/** Indicates if the controller controls a user-picker or a user-picker-multiple directive */
 		private multiple: boolean;
 
 		constructor(
@@ -68,11 +69,7 @@ module Lui.Directives {
 				}
 			};
 		}
-
-		private getViewValue(): IUserLookup | IUserLookup[] {
-			return this.ngModelCtrl.$viewValue;
-		}
-
+		private getViewValue(): IUserLookup | IUserLookup[] { return this.ngModelCtrl.$viewValue; }
 		private setViewValue(value: IUserLookup | IUserLookup[]): void {
 			this.ngModelCtrl.$setViewValue(angular.copy(value));
 			this.ngModelCtrl.$setTouched();
@@ -110,7 +107,7 @@ module Lui.Directives {
 
 			this.$scope.$watchCollection("bypassOperationsFor", (newValue: number[], oldValue: number[]) => {
 				if (newValue !== undefined) {
-					this.userPickerService.getMultipleUsers(newValue).then((bypassedUsers: IUserLookup[]) => {
+					this.userPickerService.getUsersByIds(newValue).then((bypassedUsers: IUserLookup[]) => {
 						this.tidyUp(bypassedUsers).then((completedByPassedUsers: IUserLookup[]) => {
 							_.each(completedByPassedUsers, (byPassedUser: IUserLookup) => {
 								if (_.find(this.$scope.users, (user: IUserLookup) => { return user.id === byPassedUser.id; }) === undefined) {
