@@ -1,5 +1,11 @@
 # Change log
+## 3.0.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.9)
+### Bug fixes
+
 ## 3.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.8)
+
+### Changes (non-breaking)
+- added keyboard support in luid-date-picker-popup and luid-daterage-picker
 
 ### Bug fixes
 - Higher z-index for dropdowns
