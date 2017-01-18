@@ -76,6 +76,7 @@ declare module Lui.Directives {
     interface ICalendarValidators extends ng.IModelValidators {
         min: (modelValue: any, viewValue: any) => boolean;
         max: (modelValue: any, viewValue: any) => boolean;
+        customClass?: (modelValue: any, viewValue: any) => boolean;
     }
 }
 declare module Lui.Directives {
