@@ -63,17 +63,6 @@ html, body {
   font-size: 1.5em;
 }
 
-.ie9 #demo .lui.loader:not(.inverted):before {
-  border: none;
-}
-
-.ie9 #demo .lui.loader:not(.inverted):after {
-  border: none;
-  margin: 0;
-  background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
-  background-size: contain;
-}
-
 #demo .lui.loader.inverted {
   display: inline-block;
   position: relative;
@@ -127,17 +116,6 @@ html, body {
 
 #demo .lui.loader.inverted.x-large {
   font-size: 1.5em;
-}
-
-.ie9 #demo .lui.loader.inverted:before {
-  border: none;
-}
-
-.ie9 #demo .lui.loader.inverted:after {
-  border: none;
-  margin: 0;
-  background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
-  background-size: contain;
 }
 
 #demo button.lui.unstyled, #demo .lui.button, #demo .lui.pagination li a, #demo .lui.pagination li:not(.pagination-page) a, #demo .ui-select-container .btn, #demo luid-date-picker .months ul, #demo luid-date-picker .years ul, #demo luid-date-picker-popup .months ul, #demo luid-date-picker-popup .years ul, #demo luid-daterange-picker .months ul, #demo luid-daterange-picker .years ul {
@@ -2361,10 +2339,11 @@ html, body {
 }
 
 #demo [uib-collapse].collapse:not(.in), #demo [uib-collapse].collapsing {
+  height: 0;
   overflow: hidden;
 }
 
-#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]), #demo .lui.input > textarea, #demo .ui-select-container .ui-select-match .ui-select-toggle, #demo .ui-select-container .ui-select-search, #demo luid-iban > input {
+#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]), #demo .lui.input > textarea, #demo .ui-select-container .ui-select-match .ui-select-toggle, #demo .ui-select-container .ui-select-search, #demo luid-daterange-picker .inputs > input, #demo luid-iban > input {
   outline: 0;
   outline: none;
   background: transparent;
@@ -2383,22 +2362,22 @@ html, body {
   flex: 0 0 auto;
 }
 
-#demo .lui.input > input:not([type="radio"]):not([type="checkbox"])::selection, #demo .lui.input > textarea::selection, #demo .ui-select-container .ui-select-match .ui-select-toggle::selection, #demo .ui-select-container .ui-select-search::selection, #demo luid-iban > input::selection {
+#demo .lui.input > input:not([type="radio"]):not([type="checkbox"])::selection, #demo .lui.input > textarea::selection, #demo .ui-select-container .ui-select-match .ui-select-toggle::selection, #demo .ui-select-container .ui-select-search::selection, #demo luid-daterange-picker .inputs > input::selection, #demo luid-iban > input::selection {
   background: rgba(255, 201, 0, 0.5);
   color: #666;
 }
 
-#demo .lui.input > input:not([type="radio"]):not([type="checkbox"])::-moz-selection, #demo .lui.input > textarea::-moz-selection, #demo .ui-select-container .ui-select-match .ui-select-toggle::-moz-selection, #demo .ui-select-container .ui-select-search::-moz-selection, #demo luid-iban > input::-moz-selection {
+#demo .lui.input > input:not([type="radio"]):not([type="checkbox"])::-moz-selection, #demo .lui.input > textarea::-moz-selection, #demo .ui-select-container .ui-select-match .ui-select-toggle::-moz-selection, #demo .ui-select-container .ui-select-search::-moz-selection, #demo luid-daterange-picker .inputs > input::-moz-selection, #demo luid-iban > input::-moz-selection {
   background: rgba(255, 201, 0, 0.5);
   color: #666;
 }
 
-#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]):focus, #demo .lui.input > textarea:focus, #demo .lui.input.focused > input:not([type="checkbox"]):not([type="radio"]), #demo .lui.input.focused > textarea, #demo .ui-select-container.open .ui-select-search, #demo .ui-select-container .ui-select-search:focus, #demo .ui-select-container .ui-select-match.btn-default-focus .ui-select-toggle, #demo luid-date-picker-popup.ng-open > .lui.input > input, #demo luid-daterange-picker.ng-open > .lui.input > input, #demo luid-iban > input:focus {
+#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]):focus, #demo .lui.input > textarea:focus, #demo .lui.input.focused > input:not([type="checkbox"]):not([type="radio"]), #demo .lui.input.focused > textarea, #demo .ui-select-container.open .ui-select-search, #demo .ui-select-container .ui-select-search:focus, #demo .ui-select-container .ui-select-match.btn-default-focus .ui-select-toggle, #demo luid-daterange-picker .inputs > input:focus, #demo luid-iban > input:focus {
   border-bottom-color: #FFC900 !important;
   box-shadow: 0 1px 0 0 #FFC900;
 }
 
-#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]):focus > ~ label, #demo .lui.input > textarea:focus > ~ label, #demo .lui.input.focused > input:not([type="checkbox"]):not([type="radio"]) > ~ label, #demo .lui.input.focused > textarea > ~ label, #demo .ui-select-container.open .ui-select-search > ~ label, #demo .ui-select-container .ui-select-search:focus > ~ label, #demo .ui-select-container .ui-select-match.btn-default-focus .ui-select-toggle > ~ label, #demo luid-date-picker-popup.ng-open > .lui.input > input > ~ label, #demo luid-daterange-picker.ng-open > .lui.input > input > ~ label, #demo luid-iban > input:focus > ~ label {
+#demo .lui.input > input:not([type="checkbox"]):not([type="radio"]):focus > ~ label, #demo .lui.input > textarea:focus > ~ label, #demo .lui.input.focused > input:not([type="checkbox"]):not([type="radio"]) > ~ label, #demo .lui.input.focused > textarea > ~ label, #demo .ui-select-container.open .ui-select-search > ~ label, #demo .ui-select-container .ui-select-search:focus > ~ label, #demo .ui-select-container .ui-select-match.btn-default-focus .ui-select-toggle > ~ label, #demo luid-daterange-picker .inputs > input:focus > ~ label, #demo luid-iban > input:focus > ~ label {
   color: #FFC900;
 }
 
@@ -2470,6 +2449,12 @@ html, body {
 
 #demo .lui.input > *.ng-touched.ng-invalid ~ label, #demo .lui.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label, #demo .lui.field .error {
   color: #F60;
+}
+
+#demo .lui.input > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]), #demo .ui-select-container[disabled="disabled"] .ui-select-toggle {
+  border-bottom-width: 1px;
+  border-bottom-style: dotted;
+  color: rgba(102, 102, 102, 0.8);
 }
 
 #demo .lui.input i.empty, #demo .ui-select-container .glyphicon-remove, #demo .lui.input.searchable:before, #demo .ui-select-container.open:not([search-enabled="false"]):before, #demo .ui-select-container:not(.open) .ui-select-toggle:after, #demo .ui-select-container.ui-select-multiple:not(.open) > div:after, #demo luid-date-picker-popup.ng-empty:after, #demo luid-daterange-picker.ng-empty:after {
@@ -2581,7 +2566,7 @@ html, body {
 #demo .dropdown .dropdown-menu {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
-  z-index: 2;
+  z-index: 10;
   top: 100%;
   left: 0;
   min-width: 100%;
@@ -2604,25 +2589,25 @@ html, body {
 }
 
 #demo [uib-dropdown] ul li, #demo .ui-select-container .ui-select-choices-row {
+  cursor: pointer;
   position: relative;
   padding: 0;
 }
 
-#demo [uib-dropdown] ul li a, #demo .ui-select-container .ui-select-choices-row a {
+#demo [uib-dropdown] ul li > *, #demo .ui-select-container .ui-select-choices-row > * {
   display: block;
   font-size: 1.1em;
   color: #666;
   padding: 0.5em 1em;
   text-decoration: none;
-  opacity: 0.85;
 }
 
-#demo [uib-dropdown] ul li.disabled a, #demo .ui-select-container .disabled.ui-select-choices-row a {
+#demo [uib-dropdown] ul li.disabled > *, #demo .ui-select-container .disabled.ui-select-choices-row > * {
   cursor: default;
   color: rgba(0, 0, 0, 0.26);
 }
 
-#demo [uib-dropdown] ul li.active a, #demo .ui-select-container .active.ui-select-choices-row a, #demo [uib-dropdown] ul li:not(.disabled) a:hover, #demo .ui-select-container .ui-select-choices-row:not(.disabled) a:hover {
+#demo [uib-dropdown] ul li.active > *, #demo .ui-select-container .active.ui-select-choices-row > *, #demo [uib-dropdown] ul li:not(.disabled) > *:hover, #demo .ui-select-container .ui-select-choices-row:not(.disabled) > *:hover {
   opacity: 1;
   background-color: #f2f2f2;
 }
@@ -2645,16 +2630,16 @@ html, body {
   font-weight: 600;
 }
 
-#demo .lui.form.natural > span,
-#demo .lui.form.natural > .lui.field, #demo .lui.fieldset.natural > span,
-#demo .lui.fieldset.natural > .lui.field {
-  display: inline-block;
-  vertical-align: middle;
+#demo .ui-select-container .ui-select-choices-group {
+  border-bottom: 1px solid #CCC;
 }
 
-#demo .lui.form.natural > .lui.field, #demo .lui.fieldset.natural > .lui.field {
-  margin: 0 0.5em;
-  font-size: 0.9090909091em !important;
+#demo .dropdown .dropdown-header {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #666;
+  padding: 0.5em 1em;
+  border-bottom: 1px dotted #CCC;
 }
 
 #demo .lui.form fieldset > legend,
@@ -2710,12 +2695,9 @@ html, body {
 }
 
 #demo .lui.input {
+  display: inline-block;
+  vertical-align: middle;
   position: relative;
-  margin-top: 1.3em;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 #demo .lui.input .lui.input {
@@ -2732,8 +2714,8 @@ html, body {
   color: rgba(102, 102, 102, 0.65);
 }
 
-#demo .lui.input > input:not([type="checkbox"]):not([type="radio"])-ms-input-placeholder,
-#demo .lui.input > textarea-ms-input-placeholder {
+#demo .lui.input > input:not([type="checkbox"]):not([type="radio"])::-ms-input-placeholder,
+#demo .lui.input > textarea::-ms-input-placeholder {
   color: rgba(102, 102, 102, 0.65);
 }
 
@@ -2767,6 +2749,28 @@ html, body {
   cursor: pointer;
 }
 
+#demo .lui.field > .input {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+#demo .lui.field > .input,
+#demo .lui.input.labelled {
+  margin-top: 1.3em;
+}
+
+#demo .lui.input {
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+html:not(.ie9) #demo .lui.input {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
 #demo .lui.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label {
   padding-right: 1em;
 }
@@ -2778,11 +2782,6 @@ html, body {
   display: inline-block;
   margin-left: 0.25em;
   color: #F60;
-}
-
-#demo .lui.field *[disabled]:not([type="checkbox"]):not([type="radio"]) {
-  border-bottom-style: dotted;
-  color: rgba(102, 102, 102, 0.8);
 }
 
 #demo .lui.is-valid.input:after {
@@ -2801,49 +2800,58 @@ html, body {
   color: #5cb85c;
 }
 
-#demo .lui.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
 #demo .lui.input:not(.radio):not(.checkbox):not(.switch) > label {
   max-width: 100%;
   width: 210px;
 }
 
-#demo .lui.field.x-short > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.field.x-short > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 #demo .lui.field.x-short > .input:not(.radio):not(.checkbox):not(.switch) > label,
 #demo .lui.field.x-short .message {
   min-width: 0;
   width: 70px;
 }
 
-#demo .lui.field.short > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.field.short > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 #demo .lui.field.short > .input:not(.radio):not(.checkbox):not(.switch) > label,
 #demo .lui.field.short .message {
   min-width: 0;
   width: 112px;
 }
 
-#demo .lui.field.medium > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.field.medium > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 #demo .lui.field.medium > .input:not(.radio):not(.checkbox):not(.switch) > label,
 #demo .lui.field.medium .message {
   min-width: 0;
   width: 210px;
 }
 
-#demo .lui.field.long > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.field.long > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 #demo .lui.field.long > .input:not(.radio):not(.checkbox):not(.switch) > label,
 #demo .lui.field.long .message {
   min-width: 0;
   width: 280px;
 }
 
-#demo .lui.field.x-long > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.field.x-long > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
 #demo .lui.field.x-long > .input:not(.radio):not(.checkbox):not(.switch) > label,
 #demo .lui.field.x-long .message {
   min-width: 0;
   width: 350px;
 }
 
+#demo .lui.fitting.field,
+#demo .lui.fitting.field > .input,
+#demo .lui.fitting.field > .input > label,
+#demo .lui.fitting.field .message,
+#demo .lui.fitting.input,
+#demo .lui.fitting.input > label {
+  width: 100% !important;
+}
+
 #demo .lui.fitting.field > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]),
-#demo .lui.fitting.field .message {
+#demo .lui.fitting.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]) {
   width: 100%;
 }
 
@@ -2858,6 +2866,32 @@ html, body {
 #demo .lui.fieldset.inline .field + .field.inline,
 #demo .lui.field.inline + .field.inline {
   margin-left: 1em;
+}
+
+#demo .lui.natural.form {
+  font-size: 0.9em;
+}
+
+#demo .lui.natural.form > span {
+  font-size: 1.1em;
+}
+
+#demo .lui.natural.form > span,
+#demo .lui.natural.form > .lui.field,
+#demo .lui.natural.form > .lui.input,
+#demo .lui.natural.form > [ng-model] {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 2px 0 0;
+}
+
+#demo .lui.natural.form .input .unit {
+  font-weight: inherit;
+}
+
+#demo .lui.natural.form .input:hover > input:not([type="checkbox"]):not([type="radio"]),
+#demo .lui.natural.form .input:hover > textarea {
+  background-color: rgba(50, 50, 50, 0.05);
 }
 
 #demo luid-percentage > .input input {
@@ -2894,8 +2928,7 @@ html, body {
   position: absolute;
   z-index: 2;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
   width: 1.1em;
   height: 1.1em;
   opacity: 0;
@@ -2920,11 +2953,11 @@ html, body {
 #demo .lui.checkbox.input label:before {
   position: absolute;
   left: 0;
-  top: 0.1em;
+  top: 0;
   content: '';
   display: block;
-  width: 1em;
-  height: 1em;
+  width: 1.1em;
+  height: 1.1em;
   border-radius: 50%;
   background-color: rgba(25, 25, 25, 0.2);
   opacity: 0;
@@ -2937,6 +2970,7 @@ html, body {
   transform: translateY(-50%);
   left: 0;
   display: inline-block;
+  width: 1.1em;
   margin-left: 0 !important;
 }
 
@@ -2971,6 +3005,16 @@ html, body {
   vertical-align: middle;
   font-style: normal;
   content: "";
+  margin-left: 0.5em;
+}
+
+#demo .lui.radio.input.checkbox.partial label:after,
+#demo .lui.checkbox.input.checkbox.partial label:after {
+  font-family: "lucca-icons";
+  display: inline-block;
+  vertical-align: middle;
+  font-style: normal;
+  content: "";
   margin-left: 0.5em;
 }
 
@@ -3015,6 +3059,15 @@ html, body {
 #demo .lui.radio.input.solo,
 #demo .lui.checkbox.input.solo {
   margin-right: 0;
+  padding-top: 0;
+  width: 1.1em;
+}
+
+#demo .lui.radio.input.solo label,
+#demo .lui.checkbox.input.solo label {
+  padding: 0;
+  width: 100%;
+  height: 1.1em;
 }
 
 #demo .lui.field.vertical .radio.input,
@@ -3139,13 +3192,6 @@ html, body {
 
 #demo .lui.tagged.input .close:after {
   content: "\00d7";
-}
-
-#demo .dropdown .dropdown-header {
-  font-size: 1.1em;
-  padding: 0.5em 1em;
-  border-bottom: 1px dotted rgba(50, 50, 50, 0.2);
-  font-weight: 600;
 }
 
 #demo [uib-dropdown] .lui.button {
@@ -3296,9 +3342,18 @@ html, body {
 }
 
 #demo .ui-select-container[search-enabled="false"] .ui-select-choices {
-  top: 0;
+  top: -0.25em;
   left: -1em;
   right: -1em;
+}
+
+#demo .ui-select-container[disabled="disabled"] {
+  border-bottom-width: 0;
+  border-bottom-color: transparent;
+}
+
+#demo .ui-select-container[disabled="disabled"] .ui-select-toggle {
+  cursor: default;
 }
 
 #demo .ui-select-container.ui-select-multiple {
@@ -3313,30 +3368,22 @@ html, body {
   box-sizing: border-box;
 }
 
-#demo .ui-select-container.natural {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 0.5em;
-  margin-bottom: 0.5em;
-  width: auto;
-}
-
-#demo .ui-select-container.natural .ui-select-toggle {
-  padding-right: 1.5em;
-}
-
-#demo .ui-select-container.natural, #demo .ui-select-container.natural .ui-select-toggle, #demo .ui-select-container.natural a {
-  font-size: 1em;
-}
-
-#demo .ui-select-container.natural .ui-select-choices {
+#demo .lui.natural.form .ui-select-container .ui-select-choices {
   min-width: 15em;
-  left: 50%;
-  transform: scale(0) translateX(-50%);
+  width: 100%;
 }
 
-#demo .ui-select-container.natural .ui-select-choices:not(.ng-hide) {
-  transform: scale(1) translateX(-50%);
+#demo .lui.natural.form .ui-select-container:not(.ui-select-multiple) .ui-select-match:hover {
+  background-color: rgba(50, 50, 50, 0.05);
+}
+
+#demo .lui.natural.form .ui-select-container .ui-select-toggle {
+  width: auto;
+  padding-right: 0 !important;
+}
+
+#demo .lui.natural.form .ui-select-container .ui-select-toggle:after {
+  display: none;
 }
 
 #demo luid-translations {
@@ -3344,45 +3391,40 @@ html, body {
   position: relative;
 }
 
+#demo luid-translations .field {
+  margin: 0 !important;
+}
+
 #demo luid-translations .dropdown {
   width: auto;
 }
 
-#demo luid-translations .dropdown > .field {
+#demo luid-translations .dropdown .input {
+  position: relative;
   margin: 0 !important;
 }
 
-#demo luid-translations .dropdown > .input {
-  position: relative;
-  z-index: 3;
-}
-
 #demo luid-translations .dropdown .dropdown-menu {
-  top: 0;
+  top: -0.5em;
   left: -1em;
   right: -1em;
   width: 100%;
   padding: 0 1em 1em 1em;
-  padding-top: 32.4px;
+  padding-top: 39.4px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   transition-delay: 100ms;
 }
 
 #demo luid-translations .dropdown .dropdown-menu .field {
-  margin: 0.5em 0 0 0;
+  margin-top: 0.5em !important;
 }
 
 #demo luid-translations .unit {
   text-transform: uppercase;
 }
 
-#demo luid-translations.open {
-  border-bottom: none;
-}
-
-#demo luid-translations.open .dropdown-menu {
-  border-top: none;
-  visibility: visible;
+#demo luid-translations .dropdown.open .input {
+  z-index: 3;
 }
 
 #demo luid-image-picker {
@@ -3618,18 +3660,24 @@ html, body {
 #demo luid-daterange-picker .lui.daterange.input {
   position: relative;
   max-width: 100%;
+  border-bottom: none !important;
 }
 
-#demo luid-date-picker-popup .lui.datepicker.input input, #demo luid-date-picker-popup .lui.datepicker.input label,
-#demo luid-daterange-picker .lui.daterange.input input,
+#demo luid-date-picker-popup .lui.datepicker.input > input, #demo luid-date-picker-popup .lui.datepicker.input label,
+#demo luid-daterange-picker .lui.daterange.input > input,
 #demo luid-daterange-picker .lui.daterange.input label {
   width: 100% !important;
   padding-right: 2.25em;
 }
 
+#demo luid-date-picker-popup .lui.datepicker.input .clickable,
+#demo luid-daterange-picker .lui.daterange.input .clickable {
+  cursor: pointer;
+}
+
 #demo luid-date-picker-popup .lui.datepicker.input i.empty,
 #demo luid-daterange-picker .lui.daterange.input i.empty {
-  z-index: 2;
+  z-index: 1;
 }
 
 #demo luid-date-picker-popup,
@@ -3637,13 +3685,9 @@ html, body {
   position: relative;
 }
 
-#demo luid-date-picker-popup.ng-open .tags,
-#demo luid-daterange-picker.ng-open .tags {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+#demo luid-date-picker-popup > .lui.input > input[readonly],
+#demo luid-daterange-picker > .lui.input > input[readonly] {
+  cursor: pointer;
 }
 
 #demo luid-date-picker-popup.ng-empty i.empty,
@@ -3666,16 +3710,47 @@ html, body {
   pointer-events: none;
 }
 
-#demo luid-daterange-picker .lui.tagged.input {
-  width: 20em;
-}
-
-#demo luid-daterange-picker .lui.tagged.input .tag {
-  cursor: pointer;
-}
-
-#demo luid-daterange-picker.ng-open input {
+#demo luid-daterange-picker.ng-open > .lui.input > input {
   color: transparent !important;
+  visibility: hidden;
+}
+
+#demo luid-daterange-picker .inputs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#demo luid-daterange-picker .inputs .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.5em;
+}
+
+#demo luid-daterange-picker .inputs > input {
+  width: 50% !important;
+  box-sizing: border-box;
+}
+
+#demo luid-daterange-picker .inputs > input:first-of-type {
+  padding-right: 1em;
+}
+
+#demo luid-daterange-picker .inputs > input:last-of-type {
+  padding-left: 1em;
+}
+
+#demo luid-daterange-picker .hidden-input {
+  opacity: 0;
 }
 
 #demo luid-date-picker .calendar,
@@ -3953,18 +4028,6 @@ html, body {
   margin: 0.5em -1em -1em -1em;
   padding: 0.5em 1em;
   border-top: 1px solid rgba(50, 50, 50, 0.2);
-}
-
-#demo luid-daterange-picker .lui.input > .tags {
-  display: block;
-  width: 100%;
-  text-align: center;
-  white-space: pre;
-}
-
-#demo luid-daterange-picker .lui.input > .tags .arrow.icon {
-  font-size: 0.5em;
-  margin: 0 1em;
 }
 
 #demo luid-daterange-picker .popover-inner,
@@ -4288,6 +4351,10 @@ html, body {
   width: 4em !important;
 }
 
+#demo .lui.natural.form luid-timespan input {
+  text-align: center;
+}
+
 @keyframes momentPickerArrowUp {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -4322,8 +4389,7 @@ html, body {
 #demo luid-moment > .separator,
 #demo luid-moment > .moment.input {
   display: inline-block;
-  vertical-align: baseline;
-  vertical-align: -webkit-baseline-middle;
+  vertical-align: middle;
 }
 
 #demo luid-moment > .moment.input {
@@ -4331,16 +4397,8 @@ html, body {
   width: 1.5em;
 }
 
-#demo luid-moment input[type="text"] {
-  text-align: center;
-}
-
-#demo luid-moment[show-buttons="true"] input[type="text"]::selection {
-  background: #FFF !important;
-}
-
-#demo luid-moment[show-buttons="true"] input[type="text"]::-moz-selection {
-  background: #FFF !important;
+#demo luid-moment > .moment.input > input[type="text"] {
+  text-align: center !important;
 }
 
 #demo luid-moment .mp-button {
@@ -4348,6 +4406,7 @@ html, body {
   left: 0;
   right: 0;
   opacity: 0;
+  line-height: 1.5em;
   cursor: pointer;
   color: #CCC;
   transition: opacity 125ms ease-out;
@@ -4376,12 +4435,12 @@ html, body {
 }
 
 #demo luid-moment .mp-button.top {
-  top: -1em;
-  bottom: 0;
+  bottom: 100%;
 }
 
 #demo luid-moment .mp-button.bottom {
   top: 100%;
+  height: 1.5em;
 }
 
 #demo luid-moment .mp-button.left {
@@ -4390,6 +4449,19 @@ html, body {
 
 #demo luid-moment .mp-button.right {
   right: 0;
+}
+
+#demo luid-moment[disable-keyboard="true"] .top.mp-button {
+  top: -1.5em;
+  bottom: 0;
+}
+
+#demo luid-moment[disable-keyboard="true"] input[type="text"]::selection {
+  background: #FFF !important;
+}
+
+#demo luid-moment[disable-keyboard="true"] input[type="text"]::-moz-selection {
+  background: #FFF !important;
 }
 
 #demo luid-moment input:focus ~ .mp-button,
@@ -5103,11 +5175,11 @@ html, body {
   z-index: 2;
 }
 
-#demo .lui.buttons > .button:first-child {
+#demo .lui.buttons > .button:first-of-type {
   border-radius: 3px 0 0 3px;
 }
 
-#demo .lui.buttons > .button:last-child {
+#demo .lui.buttons > .button:last-of-type {
   border-radius: 0 3px 3px 0;
 }
 
@@ -5118,14 +5190,6 @@ html, body {
 html:not(.ie9) #demo .lui.buttons {
   display: -ms-inline-flexbox;
   display: inline-flex;
-}
-
-.ie9 #demo .lui.buttons {
-  display: inline-table;
-}
-
-.ie9 #demo .lui.buttons > .button {
-  display: table-cell;
 }
 
 #demo .lui.buttons.vertical {
@@ -5155,16 +5219,6 @@ html:not(.ie9) #demo .lui.buttons {
 
 #demo .lui.buttons.justified {
   width: 100%;
-}
-
-.ie9 #demo .lui.buttons.justified {
-  display: table;
-  table-layout: fixed;
-}
-
-.ie9 #demo .lui.buttons.justified > .button {
-  display: table-cell;
-  text-align: center;
 }
 
 #demo .lui.buttons.justified > .button {
@@ -5302,19 +5356,6 @@ html:not(.ie9) #demo .lui.buttons {
 #demo .lui.button.status[class*="with addon"].loading > .addon.x-large,
 #demo .lui.button.status:not([class*="with addon"]).loading.x-large {
   font-size: 1.5em;
-}
-
-.ie9 #demo .lui.button.status[class*="with addon"].loading > .addon:before, .ie9
-#demo .lui.button.status:not([class*="with addon"]).loading:before {
-  border: none;
-}
-
-.ie9 #demo .lui.button.status[class*="with addon"].loading > .addon:after, .ie9
-#demo .lui.button.status:not([class*="with addon"]).loading:after {
-  border: none;
-  margin: 0;
-  background: transparent url("../../../dist/ie_fallback_spinner.gif") no-repeat center center;
-  background-size: contain;
 }
 
 #demo .lui.button.status[class*="with addon"].ok > .addon:after,
@@ -6923,7 +6964,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 100;
+  z-index: 998 !important;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -7299,6 +7340,10 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   border-collapse: collapse;
 }
 
+#demo .lui.tablegrid .field {
+  margin: 0;
+}
+
 #demo .lui.tablegrid .columns {
   background-color: #FFF;
 }
@@ -7306,7 +7351,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
 #demo .lui.tablegrid .locked.columns {
   position: absolute;
   overflow: hidden;
-  z-index: 3;
+  z-index: 1;
   top: 0;
   bottom: 0;
   left: 0;
@@ -7327,17 +7372,20 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
 }
 
 #demo .lui.tablegrid .scrollable.columns thead {
-  z-index: 2;
-}
-
-#demo .lui.tablegrid .field {
-  margin: 0;
+  z-index: 1;
 }
 
 #demo .lui.tablegrid th, #demo .lui.tablegrid td {
   padding: 0.5em 1em;
   box-sizing: border-box;
-  word-break: break-all;
+  /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+  -ms-word-break: break-all;
+  /* Non standard for webkit */
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   border: 1px solid #CCC;
 }
 
@@ -7392,6 +7440,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   min-width: 100%;
   color: #8c8c8c;
   text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 #demo .lui.tablegrid thead a {
@@ -7447,6 +7496,10 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
 
 .ie9 #demo .lui.tablegrid .locked.columns {
   display: none;
+}
+
+#demo [uib-tooltip]:not([uib-tooltip=""]):not(a):not(button):not(.button) {
+  cursor: help;
 }
 
 #demo .lui.tooltip {
@@ -7523,6 +7576,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   background-color: #616161;
   color: #FFF;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 #demo .lui.tooltip.grey .tooltip-inner {
@@ -7565,6 +7619,12 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   color: #666;
 }
 
+#demo [popover-trigger="'outsideClick'"],
+#demo [popover-trigger="outsideClick"],
+#demo [popover-trigger="click"] {
+  cursor: pointer;
+}
+
 #demo .lui.popover {
   position: absolute;
   z-index: 500;
@@ -7576,7 +7636,6 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
 }
 
 #demo .lui.popover .popover-inner {
-  overflow: hidden;
   background-color: #FFF;
   box-sizing: border-box;
   min-width: 15em;
@@ -7680,6 +7739,24 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
 
 #demo .lui.pagination li.active a {
   font-weight: 800;
+}
+
+#demo .lui.pagination li.pagination-prev a:before {
+  font-family: "lucca-icons";
+  display: inline-block;
+  vertical-align: middle;
+  font-style: normal;
+  content: "";
+  margin-right: 0.5em;
+}
+
+#demo .lui.pagination li.pagination-next a:after {
+  font-family: "lucca-icons";
+  display: inline-block;
+  vertical-align: middle;
+  font-style: normal;
+  content: "";
+  margin-left: 0.5em;
 }
 
 #demo .lui.pagination:not(.dividing) li.active a {
@@ -7843,7 +7920,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999;
+  z-index: 999 !important;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
@@ -7943,6 +8020,29 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   overflow-y: auto;
 }
 
+#demo .lui.modal.side-panel .modal-dialog {
+  margin: 0;
+  height: 100vh;
+}
+
+#demo .lui.modal.side-panel.right .modal-dialog {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+#demo .lui.modal.side-panel.left .modal-dialog {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+#demo .lui.modal.side-panel.in.right .modal-dialog {
+  animation-name: rightFadeIn;
+}
+
+#demo .lui.modal.side-panel.in.left .modal-dialog {
+  animation-name: leftFadeIn;
+}
+
 #demo .luis-notify {
   -ms-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
@@ -7959,6 +8059,11 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   position: absolute;
   right: 0;
   top: .5em;
+}
+
+#demo .lui.side-panel.modal .modal-dialog {
+  margin-top: 0;
+  height: calc(100vh - 0);
 }
 
 #demo #banner {
