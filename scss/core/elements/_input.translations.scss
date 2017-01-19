@@ -41,7 +41,7 @@
 
 			.dropdown.open {
 				.input {
-					z-index: luiTheme(element, field, popover, z-index) + 1;
+					z-index: luiTheme(element, popover, z-index) + 1;
 				}
 			}
 		}
