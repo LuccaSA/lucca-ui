@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.datepicker {
 	"use strict";
 	class LuidDatePicker implements angular.IDirective {
 		public static IID: string = "luidDatePicker";
@@ -66,7 +66,7 @@ module Lui.Directives {
 		}
 	}
 
-	interface IDatePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope, ICalendarScope {
+	interface IDatePickerScope extends ng.IScope, utils.IClickoutsideTriggerScope, ICalendarScope {
 		format: string;
 		displayedCalendars: string;
 
@@ -88,10 +88,10 @@ module Lui.Directives {
 		public static IID: string = "luidDatePickerController";
 		public static $inject: Array<string> = ["$scope", "$log", "$timeout"];
 		protected $scope: IDatePickerScope;
-		private formatter: Lui.Utils.IFormatter<moment.Moment>;
+		private formatter: IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
-		private popoverController: Lui.Utils.IPopoverController;
+		private popoverController: utils.IPopoverController;
 		private element: ng.IAugmentedJQuery;
 
 		constructor($scope: IDatePickerScope, $log: ng.ILogService, $timeout: ng.ITimeoutService) {
@@ -181,7 +181,7 @@ module Lui.Directives {
 			}
 		}
 		public setFormat(format: string, displayFormat?: string): void {
-			this.formatter = new Lui.Utils.MomentFormatter(format);
+			this.formatter = new utils.MomentFormatter(format);
 			if (format !== "moment" && format !== "date") {
 				this.displayFormat = displayFormat || format || "L";
 			} else {
@@ -200,7 +200,7 @@ module Lui.Directives {
 				this.ngModelCtrl.$setTouched();
 				this.closePopover();
 			};
-			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, $scope, onClosing);
+			this.popoverController = new utils.ClickoutsideTrigger(elt, $scope, onClosing);
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);

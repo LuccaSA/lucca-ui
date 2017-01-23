@@ -1,4 +1,4 @@
-module Lui.Directives.Datepicker.Test {
+module lui.datepicker.test {
 	"use strict";
 	beforeEach(angular.mock.module("lui.directives"));
 	describe("luid-date-picker controller", () => {

@@ -1,4 +1,4 @@
-module Lui.Directives.Test {
+module lui.datepicker.test {
 	"use strict";
 	// most methods are private or protected, i use this to be able to add spies
 	interface ICalendarController {
