@@ -20,7 +20,7 @@
 
 					&::-webkit-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 					&::-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
-					&-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+					&:-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 					&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 
 					@extend %lui_input_sizing;
