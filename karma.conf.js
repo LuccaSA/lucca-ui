@@ -27,13 +27,13 @@ module.exports = function(config) {
 			// 'js/filters/*.js',
 			// 'js/directives/*.js',
 			// 'js/directives/lucca/*.js',
-			"dist/custom/lucca-ui-spe.js",
+			"dist/lucca-ui.js",
 
 			'tests/spec/**/*.js',
 			".tests/**/*.spec.js",
 		],
 		preprocessors: {
-			"dist/custom/lucca-ui-spe.js": ['coverage'],
+			"dist/lucca-ui.js": ['coverage'],
 			// 'js/lui.js': ['coverage'],
 			// 'js/filters/*.js': ['coverage'],
 			// 'js/directives/*.js': ['coverage'],

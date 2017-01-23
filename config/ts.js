@@ -9,29 +9,13 @@ module.exports = function(grunt, options){
 		dist:{
 			src: [
 				// "ts/**/*.ts",
-				"ts/*.ts",
-				"ts/config/*.ts",
-				"ts/date-picker/*.ts",
-				"ts/filters/*.ts",
-				"ts/progress-bar/*.ts",
-				"ts/utils/*.ts",
+				"typings/index.d.ts",
+				"ts/modules.ts",
+				"ts/**/*.ts",
 				"!ts/**/*.spec.ts", 
 				"!ts/**/*.e2e.ts",
-				"typings/index.d.ts"
 			],
 			dest: ".temp/lucca-ui-ts.js",
-			// options: {
-			// 	declaration: true,
-			// },
-		},
-		distspe:{
-			src: [
-				"ts/**/*.ts",
-				"!ts/**/*.spec.ts",
-				"!ts/**/*.e2e.ts",
-				"typings/index.d.ts"
-			],
-			dest: ".temp/lucca-ui-spe-ts.js",
 			options: {
 				declaration: true,
 			},
