@@ -6,7 +6,7 @@
 	**  - underscore
 	**/
 
-	angular.module('lui.directives')
+	angular.module('lui.translate')
 	.directive('luidTranslations', ['$translate', '_', '$filter', '$timeout', function($translate, _, $filter,  $timeout){
 		function link(scope, element, attrs, ctrls){
 			var ngModelCtrl = ctrls[1];

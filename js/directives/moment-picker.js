@@ -5,7 +5,7 @@
 	**  - moment
 	**/
 
-	angular.module('lui.directives')
+	angular.module('lui')
 	.directive('luidMoment', ['moment', function(moment){
 		function link(scope, element, attrs, ctrls){
 			var ngModelCtrl = ctrls[1];

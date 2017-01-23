@@ -13,7 +13,7 @@
 		}
 		return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 	}
-	angular.module('lui.filters')
+	angular.module('lui')
 	.filter('luifPlaceholder', function () {
 		return function (_input, _placeholder) {
 			return !!_input ? _input : _placeholder;
