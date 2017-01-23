@@ -5,12 +5,17 @@
 	angular.module("demoApp",[
 		"demoApp.router",
 		"lui",
-		"ui.bootstrap",
-		"ngSanitize",
-		"ui.select",
+		// "ui.bootstrap",
+		// "ngSanitize",
+		// "ui.select",
 		"ngMockE2E",
 		"hljs",
-		"lui.formlytemplates",
+		"lui.crop",
+		"lui.formly",
+		"lui.iban",
+		"lui.notify",
+		"lui.tablegrid",
+		"lui.translate",
 	]);
 
 	angular.module('demoApp')
