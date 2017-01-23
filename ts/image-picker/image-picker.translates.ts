@@ -1,7 +1,7 @@
-module Lui.Directive {
+module lui.imagepicker {
 	"use strict";
 	/* tslint:disable */
-	angular.module("lui.translates.imagepicker").config(["$translateProvider", function ($translateProvider) {
+	angular.module("lui.crop").config(["$translateProvider", function ($translateProvider) {
 		$translateProvider.translations("en", {
 			"LUIIMGPICKER_UPLOAD_IMAGE": "change picture",
 			"LUIIMGCROPPER_CROP": "Crop",
