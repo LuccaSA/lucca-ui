@@ -1,4 +1,4 @@
-module lui.utils {
+module lui.popover {
 	"use strict";
 	let MAGIC_TIMEOUT_DELAY = 100;
 	// we dont want to register body.onclick right away cuz then we'd have to stop ethe event propagation,

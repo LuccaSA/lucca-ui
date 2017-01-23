@@ -1,4 +1,4 @@
-module lui.utils.test {
+module lui.formatter.test {
 	"use strict";
 	describe("moment formatter", () => {
 		let formatter: MomentFormatter;

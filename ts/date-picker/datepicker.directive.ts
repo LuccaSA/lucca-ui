@@ -66,7 +66,7 @@ module lui.datepicker {
 		}
 	}
 
-	interface IDatePickerScope extends ng.IScope, utils.IClickoutsideTriggerScope, ICalendarScope {
+	interface IDatePickerScope extends ng.IScope, popover.IClickoutsideTriggerScope, ICalendarScope {
 		format: string;
 		displayedCalendars: string;
 
@@ -91,7 +91,7 @@ module lui.datepicker {
 		private formatter: IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
 		private displayFormat: string;
-		private popoverController: utils.IPopoverController;
+		private popoverController: popover.IPopoverController;
 		private element: ng.IAugmentedJQuery;
 
 		constructor($scope: IDatePickerScope, $log: ng.ILogService, $timeout: ng.ITimeoutService) {
@@ -181,7 +181,7 @@ module lui.datepicker {
 			}
 		}
 		public setFormat(format: string, displayFormat?: string): void {
-			this.formatter = new utils.MomentFormatter(format);
+			this.formatter = new formatter.MomentFormatter(format);
 			if (format !== "moment" && format !== "date") {
 				this.displayFormat = displayFormat || format || "L";
 			} else {
@@ -200,7 +200,7 @@ module lui.datepicker {
 				this.ngModelCtrl.$setTouched();
 				this.closePopover();
 			};
-			this.popoverController = new utils.ClickoutsideTrigger(elt, $scope, onClosing);
+			this.popoverController = new popover.ClickoutsideTrigger(elt, $scope, onClosing);
 			$scope.popover = { isOpen: false };
 			$scope.togglePopover = ($event: ng.IAngularEvent) => {
 				this.togglePopover($event);

@@ -5,7 +5,7 @@ module lui {
 		formatValue(value: T): any;
 	}
 }
-module lui.utils {
+module lui.formatter {
 	"use strict";
 	export class MomentFormatter implements IFormatter<moment.Moment> {
 		private format: string;
