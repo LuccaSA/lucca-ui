@@ -1,5 +1,5 @@
 
-module Lui.Directives.TableGrid {
+module lui.tablegrid {
 	"use strict";
 
 	export class Tree {

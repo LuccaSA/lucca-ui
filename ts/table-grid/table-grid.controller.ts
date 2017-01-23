@@ -1,5 +1,5 @@
 
-module Lui.Directives {
+module lui.tablegrid {
 
 	"use strict";
 
@@ -14,7 +14,7 @@ module Lui.Directives {
 		public static IID: string = "luidTableGridController";
 		public static $inject: Array<string> = ["$filter", "$scope", "$translate", "$timeout"];
 
-		constructor($filter: Lui.ILuiFilters, $scope: IDataGridScope, $translate: angular.translate.ITranslateService, $timeout: ng.ITimeoutService) {
+		constructor($filter: IFilterService, $scope: IDataGridScope, $translate: angular.translate.ITranslateService, $timeout: ng.ITimeoutService) {
 
 			// private members
 			let maxDepth = 0;
@@ -34,11 +34,11 @@ module Lui.Directives {
 			};
 
 			// private methods
-			let browse = (result: TableGrid.BrowseResult): TableGrid.BrowseResult => {
+			let browse = (result: BrowseResult): BrowseResult => {
 
 				if (!result.tree.children.length) { result.subChildren++; };
 
-				result.tree.children.forEach((child: TableGrid.Tree) => {
+				result.tree.children.forEach((child: Tree) => {
 					let subResult = browse({ depth: result.depth + 1, tree: child, subChildren: 0, subDepth: 0 });
 					result.subChildren += subResult.subChildren;
 					result.subDepth = Math.max(result.subDepth, subResult.subDepth);
@@ -62,9 +62,9 @@ module Lui.Directives {
 				return result;
 			};
 
-			let getTreeDepth = (tree: TableGrid.Tree): number => {
+			let getTreeDepth = (tree: Tree): number => {
 				let depth = 0;
-				tree.children.forEach((child: TableGrid.Tree) => {
+				tree.children.forEach((child: Tree) => {
 					depth = Math.max(depth, getTreeDepth(child));
 				});
 				return depth + 1;
@@ -73,7 +73,7 @@ module Lui.Directives {
 			$scope.initFilter = () => {
 				$scope.filters = [];
 
-				_.each($scope.colDefinitions, (header: TableGrid.Header, index: number) => {
+				_.each($scope.colDefinitions, (header: Header, index: number) => {
 					_.each($scope.datas, (row: any) => {
 						if (!$scope.filters[index]) {
 							$scope.filters[index] = { header: header, selectValues: [], currentValues: [] };
@@ -108,7 +108,7 @@ module Lui.Directives {
 
 				browse({ depth: 0, subChildren: 0, subDepth: 0, tree: $scope.header });
 
-				$scope.existFixedRow = _.some($scope.colDefinitions, (colDef: TableGrid.Header) => {
+				$scope.existFixedRow = _.some($scope.colDefinitions, (colDef: Header) => {
 					return colDef.fixed;
 				});
 
@@ -121,7 +121,7 @@ module Lui.Directives {
 
 						$scope.selected.reverse = firstChar === "-" ? true : false;
 					}
-					let orderByHeader = _.find($scope.colDefinitions, (header: TableGrid.Header) => {
+					let orderByHeader = _.find($scope.colDefinitions, (header: Header) => {
 						return header.label === $scope.defaultOrder;
 					});
 					$scope.selected.orderBy = !!orderByHeader ? orderByHeader : null;
@@ -170,7 +170,7 @@ module Lui.Directives {
 					})
 					.filter((row: any) => {
 						let result = true;
-						$scope.filters.forEach((filter: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }) => {
+						$scope.filters.forEach((filter: { header: Header, selectValues: string[], currentValues: string[] }) => {
 							if (filter.header
 									&& !!filter.currentValues[0]
 									&& filter.currentValues[0] !== "") {
@@ -214,7 +214,7 @@ module Lui.Directives {
 				$scope.filteredAndOrderedRows = $scope.selected.reverse ? $scope.filteredAndOrderedRows.reverse() : $scope.filteredAndOrderedRows;
 			};
 
-			$scope.updateOrderedRows = (header: TableGrid.Header) => {
+			$scope.updateOrderedRows = (header: Header) => {
 				if (header === $scope.selected.orderBy) {
 					if ($scope.selected.reverse) {
 						$scope.selected.orderBy = null;
@@ -259,7 +259,6 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives")
-		.controller(LuidTableGridController.IID, LuidTableGridController);
+	angular.module("lui.tablegrid").controller(LuidTableGridController.IID, LuidTableGridController);
 
 }
