@@ -4,6 +4,7 @@
   "description": "less and js framework by lucca",
   "main": "Gruntfile.js",
   "dependencies": {
+    "bower": "^1.8.0",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^1.0.3",
     "grunt-cache-bust": "^1.1.0",
