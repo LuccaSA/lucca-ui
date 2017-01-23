@@ -3,7 +3,7 @@ describe('luidUserPicker', function(){
 	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.directives'));
+	beforeEach(module('lui.translate'));
 
 	var _, $scope, isolateScope, $compile, elt, $httpBackend, controller, moment, $timeout, $q;
 	var users;
