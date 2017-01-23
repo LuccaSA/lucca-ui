@@ -20,9 +20,9 @@ module.exports = function(grunt, options){
 		},
 		test:{
 			src: [
-				"ts/**/*.spec.ts",
 				"typings/index.d.ts",
 				"dist/lucca-ui.d.ts",
+				"ts/**/*.spec.ts",
 			], 
 			outDir: ".tests",
 			options: {

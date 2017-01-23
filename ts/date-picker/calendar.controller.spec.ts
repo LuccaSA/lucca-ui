@@ -3,15 +3,15 @@ module lui.datepicker.test {
 	// most methods are private or protected, i use this to be able to add spies
 	interface ICalendarController {
 		currentDate: moment.Moment;
-		setCalendarCnt(cnt?: number): void;
-		constructCalendars(): Calendar[];
-		constructCalendar(): Calendar;
-		assignClasses(): void;
 		selected: moment.Moment;
 		start: moment.Moment;
 		end: moment.Moment;
 		min: moment.Moment;
 		max: moment.Moment;
+		setCalendarCnt(cnt?: number): void;
+		constructCalendars(): Calendar[];
+		constructCalendar(): Calendar;
+		assignClasses(): void;
 	}
 	class TestController extends CalendarController {
 		constructor($scope: ICalendarScope, $log: ng.ILogService) {
@@ -25,6 +25,7 @@ module lui.datepicker.test {
 		let createController: () => ICalendarController;
 		let ctrl: ICalendarController;
 		let $scope: ICalendarScope;
+
 		beforeEach(inject((
 			_$rootScope_: ng.IRootScopeService,
 			_$log_: ng.ILogService
@@ -34,6 +35,7 @@ module lui.datepicker.test {
 			createController = () => {
 				return <ICalendarController>(<any>new TestController($scope, _$log_));
 			};
+
 		}));
 		describe("constructMonths", () => {
 			beforeEach(() => {

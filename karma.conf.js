@@ -25,8 +25,8 @@ module.exports = function(config) {
 
 			"dist/lucca-ui.js",
 
-			// 'tests/spec/**/*.js',
-			// ".tests/**/*.spec.js",
+			'tests/spec/**/*.js',
+			".tests/**/*.spec.js",
 		],
 		preprocessors: {
 			"dist/lucca-ui.js": ["coverage"],

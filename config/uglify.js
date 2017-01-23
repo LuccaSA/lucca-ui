@@ -10,11 +10,6 @@ module.exports = function(grunt, options){
 			files: {
 				'dist/lucca-ui.min.js': ['dist/lucca-ui.js']
 			}
-		}, 
-		// spe :{
-		// 	files: {
-		// 		'dist/custom/lucca-ui-spe.min.js': ['dist/custom/lucca-ui-spe.js']
-		// 	}
-		// },
+		},
 	};
 }
