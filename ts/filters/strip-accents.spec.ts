@@ -1,8 +1,8 @@
-module Lui.Utils.Test {
+module lui.test {
 	"use strict";
 
 
-	let $filter: Lui.ILuiFilters;
+	let $filter: IFilterService;
 
 	describe("luifStripAccents", function(){
 		beforeEach(() => angular.mock.module("lui.filters"));
