@@ -2,8 +2,6 @@
 module.exports = function(grunt, options){
 	return {
 		options:{
-			experimentalDecorators: true,
-			emitDecoratorMetadata: true,
 			sourceMap: false,
 		},
 		dist:{
