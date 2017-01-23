@@ -28,7 +28,7 @@ module lui.progressbar {
 		private $timeout: ng.ITimeoutService;
 		private $interval: ng.IIntervalService;
 		private $log: ng.ILogService;
-		private luisConfig: Lui.IConfig;
+		private luisConfig: IConfig;
 		private status: number = 0;
 		private currentPromiseInterval: ng.IPromise<any>;
 		private completeTimeout: ng.IPromise<any>;
@@ -42,7 +42,7 @@ module lui.progressbar {
 			$timeout: ng.ITimeoutService,
 			$interval: ng.IIntervalService,
 			$log: ng.ILogService,
-			luisConfig: Lui.IConfig) {
+			luisConfig: IConfig) {
 			this.$document = $document;
 			this.$window = $window;
 			this.$timeout = $timeout;
