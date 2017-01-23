@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.iban {
 	"use strict";
 
 	export class LuidSelectNext implements ng.IDirective {
