@@ -38,7 +38,8 @@
   "author": "Lucca",
   "license": "ISC",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "node ./node_modules/protractor/bin/webdriver-manager update"
+    "install": "typings install && bower install",
+    "start": "grunt",
+    "test": "grunt test"
   }
 }
