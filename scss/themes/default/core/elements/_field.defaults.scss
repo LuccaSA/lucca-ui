@@ -37,6 +37,8 @@ $field: (
 			vertical-padding: 		0.5em,
 			horizontal-padding: 	0em,
 
+			hover-color: 			luiPalette(primary, color),
+
 		),
 
 		// Compact style
@@ -49,6 +51,8 @@ $field: (
 			selection-background: 	#fafafa,
 			vertical-padding: 		0em,
 			horizontal-padding: 	0.5em,
+
+			hover-color: 			luiPalette(light, color, dark),
 
 			focus: (
 				background-color: 	#fafafa

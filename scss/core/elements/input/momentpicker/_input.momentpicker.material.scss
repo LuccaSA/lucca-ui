@@ -10,7 +10,7 @@
 
 			.mp-button {
 				&:hover {
-					color: luiPalette(primary, color);
+					color: luiTheme(element, field, input, material, hover-color);
 					background: transparentize(luiPalette(primary, color), 0.9);
 				}
 				&:active {
