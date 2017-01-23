@@ -2,7 +2,7 @@ module lui.datepicker {
 	"use strict";
 
 	// to auto focus the first date input
-	angular.module("lui.directives").directive("autoFocus", () => {
+	angular.module("lui").directive("autoFocus", () => {
 		return { restrict: "A", link: ($scope: any, element: angular.IAugmentedJQuery): void => { element[0].focus(); } };
 	});
 

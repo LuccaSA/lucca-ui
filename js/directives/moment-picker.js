@@ -369,7 +369,7 @@
 
 	}]);
 
-	angular.module("lui.templates.momentpicker").run(["$templateCache", function($templateCache) {
+	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
 			"<div class='lui hours moment input' ng-class='{disabled:disabled}'>" +
 			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
