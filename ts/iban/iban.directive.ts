@@ -23,5 +23,5 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").directive(LuidIban.IID, LuidIban.factory());
+	angular.module("lui.iban").directive(LuidIban.IID, LuidIban.factory());
 }

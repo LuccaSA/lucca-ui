@@ -1,6 +1,6 @@
 module lui.tablegrid {
 	"use strict";
-	angular.module("lui.translates").config(["$translateProvider", function ($translateProvider: angular.translate.ITranslateProvider): void {
+	angular.module("lui.tablegrid").config(["$translateProvider", function ($translateProvider: angular.translate.ITranslateProvider): void {
 		$translateProvider.translations("en", {
 			"SELECT_ITEM": "Select an item",
 			"SELECT_ITEMS": "Select items",

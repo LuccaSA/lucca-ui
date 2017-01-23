@@ -1,6 +1,6 @@
 module Lui {
 	"use strict";
-	angular.module("lui.formlytemplates")
+	angular.module("lui.formly")
 	.config(["formlyConfigProvider", (formlyConfigProvider: AngularFormly.IFormlyConfig) => {
 		formlyConfigProvider.setType({
 			name: "text",

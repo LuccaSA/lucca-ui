@@ -378,6 +378,6 @@ module lui.datepicker {
 		}
 	}
 
-	angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
-	angular.module("lui.directives").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
+	angular.module("lui").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
+	angular.module("lui").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
 }

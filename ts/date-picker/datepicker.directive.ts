@@ -266,7 +266,7 @@ module lui.datepicker {
 		}
 	}
 
-	angular.module("lui.directives").controller(LuidDatePickerController.IID, LuidDatePickerController);
-	angular.module("lui.directives").directive(LuidDatePicker.IID, LuidDatePicker.factory());
-	angular.module("lui.directives").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
+	angular.module("lui").controller(LuidDatePickerController.IID, LuidDatePickerController);
+	angular.module("lui").directive(LuidDatePicker.IID, LuidDatePicker.factory());
+	angular.module("lui").directive(LuidDatePickerPopup.IID, LuidDatePickerPopup.factory());
 }
