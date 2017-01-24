@@ -1,8 +1,11 @@
 @if luiTheme(element, field, momentpicker, enabled) {
 	@at-root #{$namespace} {
-		luid-date-picker-popup.material {
-			input {
-				@extend %lui_quick_material_input;
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			luid-date-picker-popup#{$selector} {
+				input {
+					@extend %lui_quick_material_input;
+				}
 			}
 		}
 	}

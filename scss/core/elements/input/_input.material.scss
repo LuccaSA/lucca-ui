@@ -72,67 +72,71 @@
 }
 
 @if (luiTheme(element, field, enabled)) {
-	#{$prefix}.input.material {
-		margin-top: 1.3em;
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
 
-		> input:not([type="checkbox"]):not([type="radio"]),
-		> textarea {
-			@extend %lui_input_reset_material;
-		}
+		#{$prefix}.input#{$selector} {
+			margin-top: 1.3em;
 
-		> input:not([type="checkbox"]):not([type="radio"]):focus,
-		> textarea:focus,
-		&.focused > input:not([type="checkbox"]):not([type="radio"]),
-		&.focused > textarea {
-			@extend %lui_input_focus_material;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				@extend %lui_input_reset_material;
+			}
 
-		> input:not([type="checkbox"]):not([type="radio"]),
-		> textarea,
-		> select,
-		.unit {
-			@extend %lui_input_sizing_material;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]):focus,
+			> textarea:focus,
+			&.focused > input:not([type="checkbox"]):not([type="radio"]),
+			&.focused > textarea {
+				@extend %lui_input_focus_material;
+			}
 
-		// label
-		// ====
-		&:not(.radio):not(.checkbox):not(.switch) > label {
-			@extend %lui_input_label_displacable;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea,
+			> select,
+			.unit {
+				@extend %lui_input_sizing_material;
+			}
 
-		// Label displacement when focused or filled
-		& > *[ng-model][placeholder]:not([placeholder=""]) ~ label,
-		& > *[ng-model][placeholder]:not([placeholder=""]) > * ~ label,
-		& > *[ng-model]:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
-		& > *[ng-model].ng-open ~ label,
-		& > *[ng-model].dropdown.open ~ label,
-		& > *[ng-model]:not([type="checkbox"]):not([type="radio"]):focus ~ label {
-			@extend %lui_input_label_displaced;
-			width: auto !important;
-			min-width: 100%;
-		}
+			// label
+			// ====
+			&:not(.radio):not(.checkbox):not(.switch) > label {
+				@extend %lui_input_label_displacable;
+			}
 
-		// Disabled
-		// ====
-		& > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
-			@extend %lui_input_disabled_input_material;
-		}
+			// Label displacement when focused or filled
+			& > *[ng-model][placeholder]:not([placeholder=""]) ~ label,
+			& > *[ng-model][placeholder]:not([placeholder=""]) > * ~ label,
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
+			& > *[ng-model].ng-open ~ label,
+			& > *[ng-model].dropdown.open ~ label,
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]):focus ~ label {
+				@extend %lui_input_label_displaced;
+				width: auto !important;
+				min-width: 100%;
+			}
 
-		// Invalid
-		// ====
-		& > *.ng-touched.ng-invalid ~ label,
-		& > *.ng-not-empty.ng-pristine.ng-invalid ~ label {
-			@extend %lui_input_invalid_input_label_material;
-		}
-		& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
-		& > textarea.ng-invalid.ng-touched,
-		& > textarea.ng-not-empty.ng-pristine.ng-invalid {
-			@extend %lui_input_invalid_input_material;
-		}
+			// Disabled
+			// ====
+			& > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
+				@extend %lui_input_disabled_input_material;
+			}
 
-		.unit {
-			margin-bottom: luiTheme(element, field, input, material, default-border-width);
+			// Invalid
+			// ====
+			& > *.ng-touched.ng-invalid ~ label,
+			& > *.ng-not-empty.ng-pristine.ng-invalid ~ label {
+				@extend %lui_input_invalid_input_label_material;
+			}
+			& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+			& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
+			& > textarea.ng-invalid.ng-touched,
+			& > textarea.ng-not-empty.ng-pristine.ng-invalid {
+				@extend %lui_input_invalid_input_material;
+			}
+
+			.unit {
+				margin-bottom: luiTheme(element, field, input, material, default-border-width);
+			}
 		}
 	}
 }

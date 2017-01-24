@@ -1,20 +1,23 @@
 @if luiTheme(element, field, momentpicker, enabled) {
-	@at-root #{$namespace} {
-		luid-moment.compact {
-			> .moment.input {
-				width: 2.5em;
-				input {
-					@extend %lui_quick_compact_input;
+	@if lui_input_style_enabled("compact") {
+		$selector: lui_input_get_style_selector("compact");
+		@at-root #{$namespace} {
+			luid-moment#{$selector} {
+				> .moment.input {
+					width: 2.5em;
+					input {
+						@extend %lui_quick_compact_input;
+					}
 				}
-			}
 
-			.mp-button {
-				&:hover {
-					color: luiTheme(element, field, input, compact, hover-color);
-					background: transparentize(luiPalette(light, color), 0.9);
-				}
-				&:active {
-					background: transparentize(luiPalette(light, color, dark), 0.8);
+				.mp-button {
+					&:hover {
+						color: luiTheme(element, field, input, compact, hover-color);
+						background: transparentize(luiPalette(light, color), 0.9);
+					}
+					&:active {
+						background: transparentize(luiPalette(light, color, dark), 0.8);
+					}
 				}
 			}
 		}

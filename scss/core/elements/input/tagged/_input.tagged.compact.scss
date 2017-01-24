@@ -14,21 +14,24 @@
 }
 
 @if luiTheme(element, field, tagged, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, tagged);
+	@if lui_input_style_enabled("compact") {
+		$selector: lui_input_get_style_selector("compact");
+		@at-root #{$namespace} {
+			$vars: luiTheme(element, field, tagged);
 
-		#{$prefix}.tagged.input.compact {
-			.holder {
-				@extend %lui_input_reset_compact;
-				input {
-					@extend %lui_input_reset;
+			#{$prefix}.tagged.input#{$selector} {
+				.holder {
+					@extend %lui_input_reset_compact;
+					input {
+						@extend %lui_input_reset;
+					}
 				}
-			}
-			.tag {
-				@extend %lui_tagged_input_tag_compact;
+				.tag {
+					@extend %lui_tagged_input_tag_compact;
 
-				&.selected {
-					@extend %lui_tagged_input_tag_active_compact;
+					&.selected {
+						@extend %lui_tagged_input_tag_active_compact;
+					}
 				}
 			}
 		}

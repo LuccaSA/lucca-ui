@@ -50,44 +50,48 @@
 }
 
 @if (luiTheme(element, field, enabled)) {
-	#{$prefix}.input.compact {
+	@if lui_input_style_enabled("compact") {
+		$selector: lui_input_get_style_selector("compact");
 
-		> input:not([type="checkbox"]):not([type="radio"]),
-		> textarea,
-		> select,
-		.unit {
-			@extend %lui_input_sizing_compact;
-		}
+		#{$prefix}.input#{$selector} {
 
-		> input:not([type="checkbox"]):not([type="radio"]),
-		> textarea {
-			@extend %lui_input_reset_compact;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea,
+			> select,
+			.unit {
+				@extend %lui_input_sizing_compact;
+			}
 
-		> input:not([type="checkbox"]):not([type="radio"]):focus,
-		> textarea:focus,
-		&.focused > input:not([type="checkbox"]):not([type="radio"]),
-		&.focused > textarea {
-			@extend %lui_input_focus_compact;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				@extend %lui_input_reset_compact;
+			}
 
-		// Disabled
-		// ====
-		& > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
-			@extend %lui_input_disabled_compact;
-		}
+			> input:not([type="checkbox"]):not([type="radio"]):focus,
+			> textarea:focus,
+			&.focused > input:not([type="checkbox"]):not([type="radio"]),
+			&.focused > textarea {
+				@extend %lui_input_focus_compact;
+			}
 
-		// Invalid
-		// ====
-		& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
-		& > textarea.ng-invalid.ng-touched,
-		& > textarea.ng-not-empty.ng-pristine.ng-invalid {
-			@extend %lui_input_invalid_input_compact;
-		}
+			// Disabled
+			// ====
+			& > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
+				@extend %lui_input_disabled_compact;
+			}
 
-		& > label {
-			@include flex-order(-1);
+			// Invalid
+			// ====
+			& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+			& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
+			& > textarea.ng-invalid.ng-touched,
+			& > textarea.ng-not-empty.ng-pristine.ng-invalid {
+				@extend %lui_input_invalid_input_compact;
+			}
+
+			& > label {
+				@include flex-order(-1);
+			}
 		}
 	}
 }

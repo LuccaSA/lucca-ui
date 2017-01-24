@@ -1,41 +1,42 @@
 @at-root #{$namespace} {
 
 	@if luiTheme(element, field, image-picker, enabled) {
-		$vars: luiTheme(element, field, image-picker);
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			$vars: luiTheme(element, field, image-picker);
 
-		luid-image-picker.material {
-			.luid-image-picker-picture {
-				background-position: map-gets($vars, background-position);
-				background-repeat: map-gets($vars, background-repeat);
-				background-size: map-gets($vars, background-size);
-			}
-
-			.input-overlay,
-			.upload-overlay {
-				height: 0;
-				background-color: map-gets($vars, overlay, bg-color);
-			}
-
-			.input-overlay {
-				> span {
-					padding: map-gets($vars, overlay, padding);
+			luid-image-picker#{$selector} {
+				.luid-image-picker-picture {
+					background-position: map-gets($vars, background-position);
+					background-repeat: map-gets($vars, background-repeat);
+					background-size: map-gets($vars, background-size);
 				}
-			}
 
-			&:hover {
+				.input-overlay,
+				.upload-overlay {
+					height: 0;
+					background-color: map-gets($vars, overlay, bg-color);
+				}
+
 				.input-overlay {
-					height: map-gets($vars, overlay, height);
+					> span {
+						padding: map-gets($vars, overlay, padding);
+					}
+				}
+
+				&:hover {
+					.input-overlay {
+						height: map-gets($vars, overlay, height);
+					}
 				}
 			}
-		}
 
-
-
-		// In a field
-		// ====
-		#{$prefix}.field {
-			luid-image-picker.material {
-				height: map-gets($vars, size) !important;
+			// In a field
+			// ====
+			#{$prefix}.field {
+				luid-image-picker#{$selector} {
+					height: map-gets($vars, size) !important;
+				}
 			}
 		}
 	}
