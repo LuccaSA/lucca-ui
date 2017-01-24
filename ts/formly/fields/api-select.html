@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<luid-api-select api="options.templateOptions.api" filter="options.templateOptions.filter" placeholder="{{::options.templateOptions.placeholder}}" name="{{::id}}" ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}"></luid-api-select>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>

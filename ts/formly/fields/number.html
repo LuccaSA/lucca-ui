@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<input placeholder="{{::options.templateOptions.placeholder }}" type="number" name="{{::id}}" ng-model="model[options.key]"  ng-required="{{::options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled">
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>

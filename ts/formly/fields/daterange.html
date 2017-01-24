@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<luid-daterange-picker ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" name="{{::id}}" ng-disabled="options.templateOptions.disabled"></luid-daterange-picker>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
