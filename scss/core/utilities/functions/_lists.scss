@@ -1,0 +1,3 @@
+@function list_contains($list, $var) {
+	@return not(index($list, $var) == null);
+}
