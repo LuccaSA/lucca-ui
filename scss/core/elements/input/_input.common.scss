@@ -1,3 +1,11 @@
+@function lui_input_style_enabled($styleName) {
+	@return list_contains(luiTheme(element, input, styles), $styleName);
+}
+
+@function lui_input_get_style_selector($styleName) {
+	@return if(unquote(luiTheme(element, input, styles)) == unquote($styleName), "", ".#{$styleName}");
+}
+
 %lui_input_reset {
 	outline: 0;
 	outline: none;
