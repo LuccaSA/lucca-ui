@@ -10,6 +10,7 @@ $field: (
 	valid-color:					luiPalette(green, color),
 
 	input: (
+		styles:						("material", "compact"),
 		vertical-padding: 			0.5em,
 		font-size:					1.1em,
 		placeholder-color:			transparentize(luiTheme(element, typography, body, color), 0.35),
