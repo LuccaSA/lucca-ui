@@ -50,7 +50,7 @@ module Lui.Directives {
 			};
 
 			this.$scope.pasteIban = (event: ClipboardEvent): void => {
-				this.setViewValue(event.clipboardData.getData("text/plain"));
+				this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
 				this.ngModelCtrl.$render();
 				(<HTMLInputElement>event.target).blur();
 			};
@@ -63,14 +63,14 @@ module Lui.Directives {
 				this.setTouched();
 			};
 
-			this.$scope.controlKeyMappings = { 
+			this.$scope.controlKeyMappings = {
 				8: () => { // backspace
 					if (!this.$scope.controlKey) {
 						this.focusCountryInput();
 					}
 				}
 			};
-			this.$scope.bbanMappings = { 
+			this.$scope.bbanMappings = {
 				8: () => { // backspace
 					if (!this.$scope.bban) {
 						this.focusControlInput();
