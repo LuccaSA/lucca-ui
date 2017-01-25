@@ -32,6 +32,7 @@ module Lui.Directives {
 		file: any;
 		onCropped(cropped: string): void;
 		onCancelled(): void;
+		onDelete(): void;
 		setTouched(): void;
 	}
 
@@ -63,6 +64,10 @@ module Lui.Directives {
 			$scope.onCancelled = () => {
 				$scope.file = undefined;
 				this.ngModelCtrl.$setTouched();
+			};
+			$scope.onDelete = () => {
+				this.setViewValue(undefined);
+				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 			};
 		}
 		// set stuff - is called in the linq function
