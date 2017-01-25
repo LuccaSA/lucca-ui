@@ -1,6 +1,12 @@
 # Change log
+## 3.0.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.10)
+### Bug fixes
+- Modal: !important on z-index is conflicting with automatic z-index increment handled by angular-ui-bootstrap
+
+
 ## 3.0.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.9)
 ### Bug fixes
+- Z-index fix for translation-picker
 
 ## 3.0.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.8)
 
