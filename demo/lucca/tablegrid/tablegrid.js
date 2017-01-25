@@ -80,6 +80,17 @@
 			};
 		});
 
+		/*$scope.people2 = [];
+		_.each(_.range(5), function (index) {
+			$scope.people2[index] = {
+				id: index,
+				name: "john cena",
+				adress: "1234 avenue john cena",
+				phone: "0123456789",
+				mail: "john.cena@john.cena.com"
+			};
+		});*/
+
 		$scope.headerTree = {
 			node: null,
 			children: [
@@ -192,6 +203,7 @@
 					hidden: false,
 					rowspan: null,
 					textAlign: "right",
+					position: 3
 				},
 				children: [],
 			},
@@ -202,11 +214,13 @@
 					label: "name",
 					width: 20,
 					getFilterValue: function (someone) { return someone.name; },
-					getValue: function (someone) { return "<span>" + someone.name + "</span>"; },
+					getValue: function (someone) { return someone.name; },
 					colspan: null,
 					hidden: false,
 					rowspan: null,
 					textAlign: "left",
+					position: 1,
+					grouped: true
 				},
 				children: [],
 			},
@@ -222,6 +236,8 @@
 					hidden: false,
 					rowspan: null,
 					textAlign: "left",
+					position: 2,
+					grouped: true
 				},
 				children: [],
 			},
@@ -237,6 +253,7 @@
 					hidden: false,
 					rowspan: null,
 					textAlign: "center",
+					position: 4
 				},
 				children: [],
 			},
@@ -245,12 +262,6 @@
 
 		$scope.alertRow = function(row) {
 			alert(JSON.stringify(row));
-		}
-
-		$scope.numberOfRow = function(data) {
-			return _.filter(data, function(d) {
-				return d._luiTableGridRow.isInFilteredDataset;
-			}).length;
 		}
 	}]);
 })();

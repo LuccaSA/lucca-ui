@@ -75,12 +75,8 @@ children: [
 <div class="lui dashed divider">
 	<h4 class="lui underline">Demo</h4>
 </div>
-<div class="lui block round">
-	<luid-table-grid id="tableGrid1" header="headerTree" datas="people" selectable height="500" default-order="+name" on-row-click="alertRow(row)"></luid-table-grid>
-	<div>{{numberOfRow(people)}}/{{people.length}} are in the filtered dataset</div>
-</div>
 <div class="lui dashed divider"></div>
 <div class="lui block round">
-	<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="200" default-order="-name"></luid-table-grid>
+	<luid-table-grid id="tableGrid2" header="headerTree2" datas="people2" height="500" default-order="-name"></luid-table-grid>
 	<div>{{numberOfRow(people2)}}/{{people2.length}} are in the filtered dataset</div>
 </div>

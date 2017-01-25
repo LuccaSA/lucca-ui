@@ -2,7 +2,7 @@
 	<thead>
 		<tr role="row" ng-repeat="row in ::headerRows track by $index" ng-if="$index !== 0">
 			<th ng-if="isSelectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
-			<th role="columnheader" class="sortable" ng-repeat="header in ::row track by $index" ng-click="updateOrderedRows(header)" ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
+			<th role="columnheader" class="sortable" ng-repeat="header in ::row track by $index" ng-click="updateOrderedRows(header.position)" ng-class="{'locked': header.fixed, 'desc': (columnSelected.orderByColumnIndex === header.position && columnSelected.reverse === false), 'asc': (columnSelected.orderByColumnIndex === header.position && columnSelected.reverse === true)}"
 			ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}" rowspan="{{ header.rowspan }}" colspan="{{ header.colspan }}">{{ header.label }}</th>
 		</tr>
 		<tr role="row">
@@ -13,8 +13,8 @@
 					<label>&nbsp;</label>
 				</div>
 			</th>
-			<th role="columnheader" ng-repeat="header in ::colDefinitions track by $index" ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}"
-			ng-if="::header.filterType != FilterTypeEnum.NONE" colspan="1" rowspan="1" class="filtering">
+			<th role="columnheader" ng-repeat="header in ::columnDefinitions track by $index" ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}"
+				ng-if="::header.filterType != FilterTypeEnum.NONE" colspan="1" rowspan="1" class="filtering">
 				<div class="lui fitting searchable input" ng-if="::header.filterType === FilterTypeEnum.TEXT">
 					<input type="text" ng-change="updateFilteredRows()" ng-model="filters[$index].currentValues[0]" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }">
 				</div>
@@ -34,16 +34,12 @@
 			</th>
 		</tr>
 	</thead>
+
 	<tbody>
-		<tr role="row" ng-repeat="row in visibleRows" ng-style="row.styles" ng-click="internalRowClick($event, row);">
-			<td ng-if="isSelectable" style="width: 3.5em" class="locked" colspan="1" rowspan="1">
-				<div class="lui solo checkbox input">
-					<input type="checkbox" ng-change="onCheckBoxChange()" ng-model="row._luiTableGridRow.isChecked" />
-					<label>&nbsp;</label>
-				</div>
-			</td>
-			<td role="cell" ng-repeat="cell in ::colDefinitions track by $index" ng-style="{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}"
-			ng-bind-html="cell.getValue(row)" ng-class="{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
+		<tr role="row" ng-repeat="row in visibleRows">
+			<td role="cell" ng-repeat="dataCell in row track by $index" ng-style="{'max-width': dataCell.width + 'em', 'min-width': dataCell.width + 'em'}"
+				ng-bind-html="dataCell.value" rowspan="{{dataCell.rowspan}}"
+				ng-class="{'locked': dataCell.fixed, 'lui left aligned': dataCell.textAlign == 'left', 'lui right aligned': dataCell.textAlign == 'right', 'lui center aligned': dataCell.textAlign == 'center'}"></td>
 		</tr>
 	</tbody>
 </table>

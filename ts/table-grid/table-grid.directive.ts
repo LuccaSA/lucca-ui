@@ -26,6 +26,7 @@ module Lui.Directives {
 		public scope = { header: "=", height: "@", datas: "=*", selectable: "@", defaultOrder: "@", onRowClick: "&", heightType: "@" };
 		public templateUrl = "lui/templates/table-grid/table-grid.html";
 		private $timeout: ng.ITimeoutService;
+		private keySeparator = "@|";
 
 		public static Factory(): angular.IDirectiveFactory {
 			let directive = ($timeout: ng.ITimeoutService) => { return new LuidTableGrid($timeout); };
@@ -41,6 +42,7 @@ module Lui.Directives {
 				// ==========================================
 				// ---- DOM Elements
 				// ==========================================
+
 				let tablegrid: any = angular.element(element[0].querySelector(".lui.tablegrid"))[0]; // the directive's template container node
 
 				let tables: any = tablegrid.querySelectorAll("table"); 			// Both tables
@@ -57,6 +59,17 @@ module Lui.Directives {
 				let MINROWSCOUNTFORVS = 200; //MAGIC NUMBER
 
 				attrs.selectable = angular.isDefined(attrs.selectable);
+
+				let getRootNodes = (dataTree: any): any[] => {
+					let rootNodes = [];
+					if (dataTree.children.length) {
+						var self = this;
+						_.each(dataTree.children, (child: any) => {
+							rootNodes.push(child);
+						});
+					}
+					return rootNodes;
+				};
 
 				// ==========================================
 				// ---- Helpers (methods)
@@ -169,7 +182,7 @@ module Lui.Directives {
 				};
 
 				let setCanvasHeight = (startNumRowIn: number) => {
-					canvasHeight = (scope.filteredAndOrderedRows.length - startNumRowIn) * ROWHEIGHTMIN;
+					canvasHeight = (scope.filteredAndOrderedDatasTrees.length - startNumRowIn) * ROWHEIGHTMIN;
 					if (canvasHeight > height) {
 						scrollableAreaVS.style.height = canvasHeight + "px";
 						if (!!lockedColumnsVS) {
@@ -190,13 +203,13 @@ module Lui.Directives {
 
 				let updateVisibleRows = () => {
 					// Do not use virtual scroll if number of rows are less than
-					if (scope.filteredAndOrderedRows.length <= MINROWSCOUNTFORVS) {
-						scope.visibleRows = scope.filteredAndOrderedRows;
+					if (scope.displayedRows.length <= MINROWSCOUNTFORVS) {
+						scope.visibleRows = scope.displayedRows;
 						setCanvasHeight(0);
 						return;
 					}
 					let isScrollDown = lastScrollTop < scrollableArea.scrollTop;
-					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.filteredAndOrderedRows);
+					let isLastRowDrawn = _.last(scope.visibleRows) === _.last(scope.displayedRows);
 
 					if (isScrollDown && isLastRowDrawn) {
 						return;
@@ -205,7 +218,7 @@ module Lui.Directives {
 					let startNumRow = Math.floor(scrollableArea.scrollTop / ROWHEIGHTMIN);
 					let cellsToCreate = Math.min(startNumRow + numberOfRows, numberOfRows);
 					currentMarginTop = startNumRow * ROWHEIGHTMIN;
-					scope.visibleRows = scope.filteredAndOrderedRows.slice(startNumRow, startNumRow + cellsToCreate);
+					scope.visibleRows = scope.displayedRows.slice(startNumRow, startNumRow + cellsToCreate);
 					if (scope.existFixedRow || attrs.selectable) {
 						tables[1].style.marginTop = (headerHeight + currentMarginTop) + "px";
 					}
@@ -216,7 +229,136 @@ module Lui.Directives {
 					setCanvasHeight(startNumRow);
 				};
 
+				// ==========================================
+				// ---- Group data to get a tree of datas
+				// ==========================================
+
+				let fillFilter = (index: number, columnHeader: TableGrid.Header, data: any) => {
+					if (!scope.filters[index]) {
+						scope.filters[index] = { header: columnHeader, selectValues: [], currentValues: [] };
+					}
+					if (columnHeader.filterType === FilterTypeEnum.SELECT
+						|| columnHeader.filterType === FilterTypeEnum.MULTISELECT) {
+						let value = columnHeader.getValue(data);
+						if (!!columnHeader.getFilterValue) {
+							value = columnHeader.getFilterValue(data);
+						}
+
+						let valuesToCheck = value.split("|");
+						_.each(valuesToCheck, (val: string) => {
+							if (!_.contains(scope.filters[index].selectValues, val)) {
+								scope.filters[index].selectValues.push(val);
+							}
+						});
+					}
+				};
+
+				//Group data into list of tree and fill filters
+				let groupDatas = (orderedColDefinitions: TableGrid.HeaderTree[]): TableGrid.Tree[] => {
+					let dataTrees: TableGrid.Tree[] = [];
+					let groupingKeyMap: any = {};
+					scope.filters = [];
+					_.each(scope.datas, (data: any) => {
+						let needGrouping: boolean = true;
+						//Get only root column definitions
+						//Children are ordered by position
+						let currentDataTree;
+						_.each(scope.header.children, (columnDefinition: TableGrid.HeaderTree, columnIndex: number) => {
+							fillFilter(columnIndex, columnDefinition.node, data);
+							needGrouping = needGrouping && !!columnDefinition.node.grouped;
+							//Find the matching rowAsTree
+							let newDataTree = new TableGrid.Tree(getNodeValue(columnDefinition, currentDataTree, data), currentDataTree);
+							if (needGrouping) {
+								let groupingKey = getNodeKey(columnDefinition.node.getValue(data).toString(), currentDataTree, newDataTree.node.dataColumns);
+								newDataTree.node.key = groupingKey;
+								if (_.has(groupingKeyMap, groupingKey)) {
+									currentDataTree = groupingKeyMap[groupingKey];
+									return;
+								} else {
+									groupingKeyMap[groupingKey] = newDataTree;
+								}
+							}
+							if (!!currentDataTree) {
+								currentDataTree.children.push(newDataTree);
+								if (currentDataTree.children.length > 1) {
+									incrementRowSpan(currentDataTree);
+								}
+								currentDataTree = newDataTree;
+							} else {
+								currentDataTree = newDataTree;
+								dataTrees.push(currentDataTree);
+							}
+						});
+					});
+					return dataTrees;
+				};
+
+				let incrementRowSpan = (dataTree: TableGrid.Tree) => {
+					_.each(dataTree.node.dataColumns, (dataColumn: TableGrid.DataColumn) => {
+						dataColumn.rowspan += 1;
+					});
+					if (!!dataTree.parent) {
+						incrementRowSpan(dataTree.parent);
+					}
+				};
+
+				let getNodeKey = (nodeValue: string, parentTree: TableGrid.Tree, dataColumns: TableGrid.DataColumn[]) => {
+					let nodeKey = "";
+					if (dataColumns.length) {
+						_.each(dataColumns, (dataColumn: TableGrid.DataColumn) => {
+							nodeKey += dataColumn.value;
+						});
+					}
+					return (!!parentTree ? parentTree.node.key + this.keySeparator : "") + nodeKey;
+				};
+
+				let getNodeValue = (columnDefinition: TableGrid.HeaderTree, parentTree: TableGrid.Tree, data: any): TableGrid.Node => {
+					let nodeValue: TableGrid.Node = {
+						key: undefined,
+						rowSpan: 1,
+						dataColumns: getDataColumns(columnDefinition, data)
+					};
+					if (!nodeValue.dataColumns.length) {
+						nodeValue.dataColumns.push(new TableGrid.DataColumn(columnDefinition, data));
+					}
+					return nodeValue;
+				};
+
+				let getDataColumns = (columnDefinition: TableGrid.HeaderTree, data: any): TableGrid.DataColumn[] => {
+					let dataColumns: TableGrid.DataColumn[] = [];
+					_.each(columnDefinition.children, (columnChild: TableGrid.HeaderTree) => {
+						if (columnChild.children.length) {
+							dataColumns = dataColumns.concat(getDataColumns(columnChild, data));
+						} else {
+							dataColumns.push(new TableGrid.DataColumn(columnChild, data));
+						}
+					});
+					return dataColumns;
+				};
+
+				let getTableRowsFromTrees = (rowsTrees: any[]): TableGrid.DataColumn[][] => {
+					let tableRows: TableGrid.DataColumn[][] = [];
+					_.each(rowsTrees, (rowsTree: any) => {
+						tableRows = tableRows.concat(getTableRowsFromTree(rowsTree));
+					});
+					return tableRows;
+				};
+
+				let getTableRowsFromTree = (rowsTree: TableGrid.Tree, currentRow: TableGrid.DataColumn[] = []): TableGrid.DataColumn[][] => {
+					let tableRows: TableGrid.DataColumn[][] = [];
+					currentRow = currentRow.concat(rowsTree.node.dataColumns);
+					_.each(rowsTree.children, (child) => {
+						tableRows = tableRows.concat(getTableRowsFromTree(child, currentRow));
+						currentRow = [];
+					});
+					if (currentRow.length) {
+						tableRows.push(currentRow);
+					}
+					return tableRows;
+				};
+
 				scope.updateViewAfterOrderBy = () => {
+					scope.displayedRows = getTableRowsFromTrees(scope.filteredAndOrderedDatasTrees);
 					updateVisibleRows();
 					this.$timeout(() => {
 						updateHeight();
@@ -231,6 +373,7 @@ module Lui.Directives {
 						lockedColumnsSynced.scrollTop = 0;
 						tables[1].style.marginTop = "0px";
 					}
+					scope.displayedRows = getTableRowsFromTrees(scope.filteredAndOrderedDatasTrees);
 					updateVisibleRows();
 					this.$timeout(() => {
 						resize();
@@ -243,17 +386,9 @@ module Lui.Directives {
 				// Watches collection changes
 				scope.$watchCollection("datas", () => {
 					if (!!scope.datas) {
-						scope.filteredAndOrderedRows = scope.datas;
-						scope.initFilter();
-						if (scope.selected.orderBy !== null) {
-							scope.orderBySelectedHeader();
-						}
-						// Reset isInFilteredDataset
-						_.each(scope.datas, (row) => {
-							row._luiTableGridRow = {
-								isInFilteredDataset: true
-							};
-						});
+						scope.datasTrees = groupDatas(scope.header.children);
+						scope.filteredAndOrderedDatasTrees = scope.datasTrees;
+						scope.orderBySelectedHeader();
 						scope.updateViewAfterFiltering();
 
 					}
@@ -270,7 +405,7 @@ module Lui.Directives {
 						lockedColumnsSynced.scrollTop = scrollableArea.scrollTop;
 					}
 					headers[0].style.left = -scrollableArea.scrollLeft + "px";
-					if (scope.visibleRows.length !== scope.filteredAndOrderedRows.length) {
+					if (scope.visibleRows.length !== scope.displayedRows.length) {
 						updateVisibleRows();
 						scope.$digest();
 					}

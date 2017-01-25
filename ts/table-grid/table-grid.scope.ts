@@ -2,6 +2,7 @@
 module Lui.Directives {
 
 	"use strict";
+	import DataColumn = Lui.Directives.TableGrid.DataColumn;
 
 	export interface IDataGridScope extends angular.IScope {
 
@@ -9,7 +10,7 @@ module Lui.Directives {
 		FilterTypeEnum: FilterTypeEnum;
 
 		//Directive attributes
-		header: TableGrid.Tree;
+		header: TableGrid.HeaderTree;
 		datas: any[];
 		selectable: boolean;
 		defaultOrder: string;
@@ -17,22 +18,25 @@ module Lui.Directives {
 		//Properties
 		allChecked: any;
 		bodyRows: TableGrid.Header[][];
-		colDefinitions: TableGrid.Header[];
+		columnDefinitions: TableGrid.Header[];
 		existFixedRow: boolean;
-		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
-		filteredAndOrderedRows: any[];
+		displayedRows: DataColumn[][];
+		filters: { header: TableGrid.Header, selectValues: string[], currentValues: string[] }[];
+		filteredAndOrderedDatasTrees: TableGrid.Tree[];
+		datasTrees: TableGrid.Tree[];
 		headerRows: TableGrid.Header[][];
 		isSelectable: boolean;
 		lockedWidth: number;
 		masterCheckBoxCssClass: string;
 		scrollableRowDefinition: TableGrid.Header[];
-		selected: { orderBy: TableGrid.Header, reverse: boolean };
+		columnSelected: { orderByColumnIndex: number, reverse: boolean };
 		visibleRows: any[];
 
 		//Methods
 		initFilter: () => void;
 		onCheckBoxChange: () => void;
 		onMasterCheckBoxChange: () => void;
+		getCustomRowsGroups: (rowsTrees: any[]) => TableGrid.DataColumn[][][];
 		internalRowClick: (event: any, row: any) => void;
 		onRowClick: (row: any) => void;
 		orderBySelectedHeader: () => void;
@@ -40,7 +44,7 @@ module Lui.Directives {
 		resizedHeaders: () => void;
 		stripHtml: (html: string) => string;
 		updateFilteredRows: () => void;
-		updateOrderedRows: (header: TableGrid.Header) => void;
+		updateOrderedRows: (columnIndex: number) => void;
 		updateViewAfterFiltering: () => void;
 		updateViewAfterOrderBy: () => void;
 	}
