@@ -14,12 +14,12 @@ module Lui.Utils {
 		popover: { isOpen: boolean };
 	}
 	export class ClickoutsideTrigger implements IPopoverController {
+		public open: ($event?: ng.IAngularEvent) => void;
+		public close: ($event?: ng.IAngularEvent) => void;
 		private elt: angular.IAugmentedJQuery;
 		private body: angular.IAugmentedJQuery;
 		private $scope: IClickoutsideTriggerScope;
 		private clickedOutside: () => void;
-		public open: ($event?: ng.IAngularEvent) => void;
-		public close: ($event?: ng.IAngularEvent) => void;
 		constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void) {
 			this.elt = elt;
 			this.body = angular.element(document.getElementsByTagName("body")[0]);
@@ -40,14 +40,14 @@ module Lui.Utils {
 					this.elt.on("click", onEltClicked);
 				}, MAGIC_TIMEOUT_DELAY);
 			};
-			this.close = ($event?: ng.IAngularEvent)=> {
+			this.close = ($event?: ng.IAngularEvent) => {
 				this.$scope.popover.isOpen = false;
 				if (!!this.body) {
 					let that = this;
 					this.body.off("click", onBodyClicked);
 					this.elt.off("click", onEltClicked);
 				}
-			}
+			};
 		}
 		public toggle($event?: ng.IAngularEvent): void {
 			if (this.$scope.popover.isOpen) {

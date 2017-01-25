@@ -12,4 +12,4 @@ angular.module("lui.directives").directive("deferredCloak", [ "$timeout", ($time
 			}, 0);
 		},
 	};
-}, ] );
+}]);
