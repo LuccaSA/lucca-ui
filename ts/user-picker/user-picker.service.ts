@@ -114,6 +114,13 @@ module Lui.Directives {
 				});
 		}
 
+		public getUserById(id: number): ng.IPromise<IUserLookup> {
+			return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
+				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
+					return response.data.data;
+				});
+		}
+
 		public getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]> {
 			let promises = new Array<ng.IPromise<IUserLookup>>();
 			_.each(ids, (id: number) => {
@@ -122,16 +129,9 @@ module Lui.Directives {
 			return this.$q.all(promises);
 		}
 
-		public getUserById(id: number): ng.IPromise<IUserLookup> {
-			return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
-				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
-					return response.data.data;
-				});
-		}
-
 		public getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]> {
 			let fields = _.map(properties, (prop: IHomonymProperty) => { return prop.name; }).join(",");
-			return this.$http.get("/api/v3/users/" + user.id + "?fields=" + fields)
+			return this.$http.get("/api/v3/users/" + user.id.toString() + "?fields=" + fields)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: any }>) => {
 					let result = new Array<IHomonymProperty>();
 					_.each(properties, (property: IHomonymProperty) => {
