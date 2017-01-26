@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.datepicker {
 	"use strict";
 	export abstract class CalendarController {
 		protected calendarCnt: number;

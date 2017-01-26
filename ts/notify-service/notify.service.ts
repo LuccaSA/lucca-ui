@@ -1,4 +1,15 @@
-module Lui.Service {
+module lui {
+	"use strict";
+	export interface INotifyService {
+		error(message: string, details?: string): void;
+		warning(message: string, details?: string): void;
+		success(message: string, details?: string): void;
+		alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
+		confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
+		loading(loadingPromise: ng.IPromise<string>, message?: string, cancelFn?: () => void): void;
+	}
+}
+module lui.notify {
 	"use strict";
 	class Log {
 		public message: string;
@@ -57,7 +68,7 @@ module Lui.Service {
 			this.scope = scope;
 		}
 	}
-	export class NotifyService {
+	export class NotifyService implements INotifyService {
 		public static IID: string = "luisNotify";
 		public static $inject: Array<string> = ["notify", "$q", "$log", "$rootScope", "$timeout", "$uibModal", "luisConfig"];
 		private $q: ng.IQService;
@@ -69,7 +80,7 @@ module Lui.Service {
 		// private parentElt: ng.IAugmentedJQuery;
 		private luisConfig: IConfig;
 
-		constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService, luisConfig: Lui.IConfig) {
+		constructor(notify: any, $q: angular.IQService, $log: ng.ILogService, $rootScope: ng.IRootScopeService, $timeout: ng.ITimeoutService, $uibModal: ng.ui.bootstrap.IModalService, luisConfig: IConfig) {
 			this.cgNotify = notify;
 			this.$q = $q;
 			this.$log = $log;
@@ -205,6 +216,6 @@ module Lui.Service {
 			}
 		}
 	}
-	angular.module("lui.services").service(NotifyService.IID, NotifyService);
-	angular.module("lui.services").controller(NotifyModalController.IID, NotifyModalController);
+	angular.module("lui.notify").service(NotifyService.IID, NotifyService);
+	angular.module("lui.notify").controller(NotifyModalController.IID, NotifyModalController);
 }

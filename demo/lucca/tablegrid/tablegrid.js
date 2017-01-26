@@ -85,7 +85,7 @@
 			children: [
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: true,
 					label: "id",
 					width: 20,
@@ -100,7 +100,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.SELECT,
+					filterType: lui.tablegrid.FilterType.SELECT,
 					fixed: false,
 					label: "name",
 					width: 20,
@@ -115,7 +115,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: false,
 					label: "adress",
 					width: 20,
@@ -130,7 +130,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: false,
 					label: "contacts",
 					width: 20,
@@ -144,7 +144,7 @@
 				children: [
 				{
 					node: {
-						filterType: Lui.Directives.FilterTypeEnum.MULTISELECT,
+						filterType: lui.tablegrid.FilterType.MULTISELECT,
 						fixed: false,
 						label: "phone",
 						width: 20,
@@ -159,7 +159,7 @@
 				},
 				{
 					node: {
-						filterType: Lui.Directives.FilterTypeEnum.TEXT,
+						filterType: lui.tablegrid.FilterType.TEXT,
 						fixed: false,
 						label: "mail",
 						width: 20,
@@ -182,7 +182,7 @@
 			children: [
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: false,
 					label: "id",
 					width: 20,
@@ -197,7 +197,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.SELECT,
+					filterType: lui.tablegrid.FilterType.SELECT,
 					fixed: false,
 					label: "name",
 					width: 20,
@@ -212,7 +212,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: false,
 					label: "adress",
 					width: 20,
@@ -227,7 +227,7 @@
 			},
 			{
 				node: {
-					filterType: Lui.Directives.FilterTypeEnum.TEXT,
+					filterType: lui.tablegrid.FilterType.TEXT,
 					fixed: false,
 					label: "mail",
 					width: 20,

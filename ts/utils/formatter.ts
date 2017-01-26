@@ -1,9 +1,12 @@
-module Lui.Utils {
+module lui {
 	"use strict";
 	export interface IFormatter<T> {
 		parseValue(value: any): T;
 		formatValue(value: T): any;
 	}
+}
+module lui.formatter {
+	"use strict";
 	export class MomentFormatter implements IFormatter<moment.Moment> {
 		private format: string;
 		constructor(format?: string) {

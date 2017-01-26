@@ -1,10 +1,13 @@
-module Lui.Service {
+module lui {
 	"use strict";
 	export interface IUploaderService {
-		postFromUrl(url: string): ng.IPromise<Lui.IFile>;
-		postDataURI(dataURI: string): ng.IPromise<Lui.IFile>;
-		postBlob(blob: Blob): ng.IPromise<Lui.IFile>;
+		postFromUrl(url: string): ng.IPromise<IFile>;
+		postDataURI(dataURI: string): ng.IPromise<IFile>;
+		postBlob(blob: Blob): ng.IPromise<IFile>;
 	}
+}
+module lui.upload {
+	"use strict";
 	class UploaderService implements IUploaderService {
 		public static IID: string = "uploaderService";
 		public static $inject: Array<string> = ["$http", "$q", "_", "moment"];
@@ -24,7 +27,7 @@ module Lui.Service {
 			this.moment = moment;
 		}
 
-		public postFromUrl(url: string): ng.IPromise<Lui.IFile> {
+		public postFromUrl(url: string): ng.IPromise<IFile> {
 			let dfd = this.$q.defer();
 
 			let req = new XMLHttpRequest();
@@ -44,12 +47,12 @@ module Lui.Service {
 			return dfd.promise;
 		}
 
-		public postDataURI(dataURI: string): ng.IPromise<Lui.IFile> {
+		public postDataURI(dataURI: string): ng.IPromise<IFile> {
 			let blob = this.dataURItoBlob(dataURI);
 			return this.postBlob(blob);
 		}
 
-		public postBlob(blob: Blob): ng.IPromise<Lui.IFile> {
+		public postBlob(blob: Blob): ng.IPromise<IFile> {
 			let dfd = this.$q.defer();
 			let url = this.mainApiUrl;
 			let fd = new FormData();
@@ -101,5 +104,5 @@ module Lui.Service {
 	/* tslint:enable */
 	}
 
-	angular.module("lui.services").service(UploaderService.IID, UploaderService);
+	angular.module("lui").service(UploaderService.IID, UploaderService);
 }

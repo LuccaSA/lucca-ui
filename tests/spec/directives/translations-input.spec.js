@@ -2,7 +2,7 @@ describe('luidTranslations', function(){
 	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.directives'));
+	beforeEach(module('lui.translate'));
 
 	var moment, $scope, isolateScope, $compile, $filter, elt, input, ngModelCtrl;
 	beforeEach(inject(function (_moment_, _$rootScope_, _$compile_, _$filter_) {

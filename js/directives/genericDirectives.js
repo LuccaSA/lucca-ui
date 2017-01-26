@@ -4,7 +4,7 @@
 	** DEPENDENCIES
 	**  - none
 	**/
-	angular.module('lui.directives')
+	angular.module('lui')
 	.directive('luidKeydown', function () {
 		return {
 			restrict: 'A',
@@ -21,7 +21,7 @@
 			}
 		};
 	});
-	angular.module('lui.directives')
+	angular.module('lui')
 	.directive('luidSelectOnClick', function () {
 		return {
 			restrict: 'A',
@@ -35,7 +35,7 @@
 			}
 		};
 	});
-	angular.module('lui.directives')
+	angular.module('lui')
 	.directive('luidFocusOn', function() {
 		return function(scope, elem, attr) {
 			scope.$on(attr.luidFocusOn, function(e) {

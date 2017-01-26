@@ -1,10 +1,10 @@
-module Lui.Service {
+module lui.progressbar {
 
 	//==========================================
 // ---- inspired by https://github.com/chieffancypants/angular-loading-bar/blob/master/src/loading-bar.js
 // ==========================================
 	"use strict";
-	export class LuiHttpInterceptor implements angular.IHttpInterceptor {
+	class LuiHttpInterceptor implements angular.IHttpInterceptor {
 
 		public static IID: string = "luiHttpInterceptor";
 		public static $inject: Array<string> = ["$q", "$cacheFactory", "$timeout", "luisProgressBar"];
@@ -18,13 +18,13 @@ module Lui.Service {
 		private $q: ng.IQService;
 		private $cacheFactory: ng.ICacheFactoryService;
 		private $timeout: ng.ITimeoutService;
-		private progressBarService: Lui.Service.ProgressBarService;
+		private progressBarService: IProgressBarService;
 
 		constructor(
-			$q: angular.IQService,
+			$q: ng.IQService,
 			$cacheFactory: ng.ICacheFactoryService,
 			$timeout: ng.ITimeoutService,
-			progressBarService: Lui.Service.ProgressBarService) {
+			progressBarService: IProgressBarService) {
 			this.$q = $q;
 			this.$cacheFactory = $cacheFactory;
 			this.$timeout = $timeout;
@@ -96,7 +96,7 @@ module Lui.Service {
 		};
 
 		private startRequest = (httpMethod: string): void => {
-			if (this.progressBarService.isHttpResquestListening()) {
+			if (this.progressBarService.isListening()) {
 				if (this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
 					if (this.totalRequests === 0) {
 						this.progressBarService.start();
@@ -121,7 +121,7 @@ module Lui.Service {
 		};
 
 		private endRequest = (httpMethod: string): void => {
-			if (this.progressBarService.isHttpResquestListening()) {
+			if (this.progressBarService.isListening()) {
 				if (this.progressBarService.getHttpRequestMethods().indexOf(httpMethod) > -1) {
 					this.completedRequests++;
 					if (this.completedRequests >= this.totalRequests) {
@@ -132,5 +132,5 @@ module Lui.Service {
 		};
 	}
 
-	angular.module("lui.services").service(LuiHttpInterceptor.IID, LuiHttpInterceptor);
+	angular.module("lui").service(LuiHttpInterceptor.IID, LuiHttpInterceptor);
 }
