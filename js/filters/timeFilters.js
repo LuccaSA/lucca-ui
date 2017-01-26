@@ -12,7 +12,7 @@
 		return m.isValid() ? m.format(_format) : _moment;
 	};
 
-	angular.module('lui.filters')
+	angular.module('lui')
 	.filter('luifFriendlyRange', function () {
 		var translations = {
 			'en': {

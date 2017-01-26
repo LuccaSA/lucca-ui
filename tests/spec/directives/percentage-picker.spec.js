@@ -3,7 +3,7 @@ describe('luidPercentage', function(){
 	beforeEach(module('underscore'));
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.directives'));
+	// beforeEach(module('lui.directives'));
 
 	var $scope, isolateScope, $compile, elt, input;
 	beforeEach(inject(function (_$rootScope_, _$compile_) {

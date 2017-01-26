@@ -1,8 +1,8 @@
-module Lui.Directives {
+module lui.datepicker {
 	"use strict";
 
 	// to auto focus the first date input
-	angular.module("lui.directives").directive("autoFocus", () => {
+	angular.module("lui").directive("autoFocus", () => {
 		return { restrict: "A", link: ($scope: any, element: angular.IAugmentedJQuery): void => { element[0].focus(); } };
 	});
 
@@ -45,7 +45,7 @@ module Lui.Directives {
 		}
 	}
 
-	interface IDaterangePickerScope extends ng.IScope, Lui.Utils.IClickoutsideTriggerScope, ICalendarScope {
+	interface IDaterangePickerScope extends ng.IScope, popover.IClickoutsideTriggerScope, ICalendarScope {
 		format: string;
 		excludeEnd: string;
 		startProperty: string;
@@ -59,7 +59,7 @@ module Lui.Directives {
 		onStartDisplayStrChanged: ($event?: ng.IAngularEvent) => void;
 		onEndDisplayStrChanged: ($event?: ng.IAngularEvent) => void;
 
-		period: Lui.Period;
+		period: Period;
 
 		focusEndInputOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
 		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
@@ -82,16 +82,16 @@ module Lui.Directives {
 		public static IID: string = "luidDaterangePickerController";
 		public static $inject: Array<string> = ["$scope", "$filter", "$log"];
 		protected $scope: IDaterangePickerScope;
-		private formatter: Lui.Utils.IFormatter<moment.Moment>;
+		private formatter: IFormatter<moment.Moment>;
 		private ngModelCtrl: ng.INgModelController;
-		private $filter: Lui.ILuiFilters;
-		private popoverController: Lui.Utils.IPopoverController;
+		private $filter: IFilterService;
+		private popoverController: popover.IPopoverController;
 		private excludeEnd: boolean;
 		private startProperty: string;
 		private endProperty: string;
 		private element: ng.IAugmentedJQuery;
 
-		constructor($scope: IDaterangePickerScope, $filter: Lui.ILuiFilters, $log: ng.ILogService) {
+		constructor($scope: IDaterangePickerScope, $filter: IFilterService, $log: ng.ILogService) {
 			super($scope, $log);
 			this.$scope = $scope;
 			this.$filter = $filter;
@@ -130,7 +130,8 @@ module Lui.Directives {
 					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
-			}
+			};
+
 			$scope.onEndDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
 				let displayStr = $scope.endDisplayStr;
 				let dateFromStr = moment(displayStr, $scope.displayFormat);
@@ -141,7 +142,7 @@ module Lui.Directives {
 					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
-			}
+			};
 
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
@@ -210,7 +211,7 @@ module Lui.Directives {
 				}
 			};
 			ngModelCtrl.$isEmpty = (value: any) => {
-				let period: Lui.IPeriod = this.toPeriod(value);
+				let period: IPeriod = this.toPeriod(value);
 				return !period || (!period.start && !period.end);
 			};
 			(<ICalendarValidators>ngModelCtrl.$validators).min = (modelValue: any, viewValue: any) => {
@@ -234,7 +235,7 @@ module Lui.Directives {
 						}
 						if (!!value.end) {
 							let customClassEnd = this.$scope.customClass(value.end, CalendarMode.Days).toLowerCase();
-							resEnd = customClassEnd.indexOf("disabled") === -1 && customClassEnd.indexOf("forbidden") === -1;;
+							resEnd = customClassEnd.indexOf("disabled") === -1 && customClassEnd.indexOf("forbidden") === -1;
 						}
 						return resStart && resEnd;
 					}
@@ -250,7 +251,7 @@ module Lui.Directives {
 			this.excludeEnd = excludeEnd === "true";
 		}
 		public setFormat(format: string, displayFormat: string): void {
-			this.formatter = new Lui.Utils.MomentFormatter(format);
+			this.formatter = new formatter.MomentFormatter(format);
 			if (format !== "moment" && format !== "date") {
 				this.$scope.momentFormat = displayFormat || format || "L";
 			} else {
@@ -259,7 +260,7 @@ module Lui.Directives {
 		}
 		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IDaterangePickerScope): void {
 			let onClosing = () => { this.closePopover(); };
-			this.popoverController = new Lui.Utils.ClickoutsideTrigger(elt, scope, onClosing);
+			this.popoverController = new popover.ClickoutsideTrigger(elt, scope, onClosing);
 			scope.togglePopover = ($event: ng.IAngularEvent) => { this.togglePopover($event); };
 		}
 
@@ -298,8 +299,8 @@ module Lui.Directives {
 		}
 
 		// ng-model logic
-		private setViewValue(value: Lui.Period): void {
-			let period: Lui.IPeriod = _.clone(<Lui.IPeriod>this.ngModelCtrl.$viewValue);
+		private setViewValue(value: IPeriod): void {
+			let period: IPeriod = _.clone(<IPeriod>this.ngModelCtrl.$viewValue);
 			if (!value && !period) {
 				this.$scope.startDisplayStr = "";
 				this.$scope.endDisplayStr = "";
@@ -321,17 +322,17 @@ module Lui.Directives {
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
-		private getViewValue(): Lui.Period {
+		private getViewValue(): Period {
 			return this.toPeriod(this.ngModelCtrl.$viewValue);
 		}
-		private toPeriod(v: any): Lui.Period {
+		private toPeriod(v: any): Period {
 			if (!v) {
 				return { start: undefined, end: undefined };
 			}
-			let iperiod: Lui.IPeriod = {};
+			let iperiod: IPeriod = {};
 			iperiod.start = v[this.startProperty];
 			iperiod.end = v[this.endProperty];
-			let period = new Lui.Period(iperiod, this.formatter);
+			let period = new Period(iperiod, this.formatter);
 			if (this.excludeEnd && !!period.end) {
 				period.end.add(-1, "day");
 			}
@@ -359,7 +360,7 @@ module Lui.Directives {
 			this.popoverController.close();
 		}
 		private openPopover($event: ng.IAngularEvent): void {
-			let vv: Lui.Period = this.getViewValue();
+			let vv: Period = this.getViewValue();
 			this.$scope.period = vv || { start: undefined, end: undefined };
 			this.currentDate = (!!vv ? moment(vv.start) : moment()).startOf("month");
 			this.$scope.mode = this.minMode;
@@ -378,6 +379,6 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
-	angular.module("lui.directives").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
+	angular.module("lui").controller(LuidDaterangePickerController.IID, LuidDaterangePickerController);
+	angular.module("lui").directive(LuidDaterangePicker.IID, LuidDaterangePicker.factory());
 }

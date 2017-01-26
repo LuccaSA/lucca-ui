@@ -1,4 +1,4 @@
-module Lui {
+module lui {
 	"use strict";
 	export interface IField extends AngularFormly.IFieldConfigurationObject {
 		key: string;

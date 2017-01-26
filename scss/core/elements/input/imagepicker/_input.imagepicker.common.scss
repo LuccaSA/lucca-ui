@@ -37,6 +37,12 @@
 						position: absolute;
 						left: 0; right: 0;
 					}
+					.cross {
+						position: absolute;
+						top: 0;
+						right: 0;
+						cursor: pointer;
+					}
 				}
 
 				input[type="file"] {
