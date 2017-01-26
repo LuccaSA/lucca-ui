@@ -130,7 +130,8 @@ module lui.datepicker {
 					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
-			}
+			};
+
 			$scope.onEndDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
 				let displayStr = $scope.endDisplayStr;
 				let dateFromStr = moment(displayStr, $scope.displayFormat);
@@ -141,7 +142,7 @@ module lui.datepicker {
 					$scope.calendars = this.constructCalendars();
 					this.assignClasses();
 				}
-			}
+			};
 
 			$scope.editStart = ($event?: ng.IAngularEvent) => {
 				if (!!$event) {
@@ -234,7 +235,7 @@ module lui.datepicker {
 						}
 						if (!!value.end) {
 							let customClassEnd = this.$scope.customClass(value.end, CalendarMode.Days).toLowerCase();
-							resEnd = customClassEnd.indexOf("disabled") === -1 && customClassEnd.indexOf("forbidden") === -1;;
+							resEnd = customClassEnd.indexOf("disabled") === -1 && customClassEnd.indexOf("forbidden") === -1;
 						}
 						return resStart && resEnd;
 					}

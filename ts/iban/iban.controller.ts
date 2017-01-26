@@ -66,14 +66,14 @@ module lui.iban {
 				this.setTouched();
 			};
 
-			this.$scope.controlKeyMappings = { 
+			this.$scope.controlKeyMappings = {
 				8: () => { // backspace
 					if (!this.$scope.controlKey) {
 						this.focusCountryInput();
 					}
 				}
 			};
-			this.$scope.bbanMappings = { 
+			this.$scope.bbanMappings = {
 				8: () => { // backspace
 					if (!this.$scope.bban) {
 						this.focusControlInput();

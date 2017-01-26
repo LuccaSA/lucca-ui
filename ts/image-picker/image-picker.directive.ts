@@ -9,6 +9,7 @@ module lui.imagepicker {
 			placeholderUrl: "@",
 			croppingRatio: "=",
 			croppingDisabled: "=",
+			deleteEnabled: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -32,6 +33,7 @@ module lui.imagepicker {
 		file: any;
 		onCropped(cropped: string): void;
 		onCancelled(): void;
+		onDelete(): void;
 		setTouched(): void;
 	}
 
@@ -63,6 +65,10 @@ module lui.imagepicker {
 			$scope.onCancelled = () => {
 				$scope.file = undefined;
 				this.ngModelCtrl.$setTouched();
+			};
+			$scope.onDelete = () => {
+				this.setViewValue(undefined);
+				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 			};
 		}
 		// set stuff - is called in the linq function
