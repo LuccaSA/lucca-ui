@@ -3,7 +3,7 @@
 }
 
 @function lui_input_get_style_selector($styleName) {
-	@return if(unquote(luiTheme(element, field, input, styles)) == unquote($styleName), "", ".#{$styleName}");
+	@return if(luiTheme(element, field, input, styles) == unquote($styleName), "", ".#{$styleName}");
 }
 
 %lui_input_reset {
