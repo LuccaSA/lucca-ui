@@ -9,6 +9,7 @@ module Lui.Directives {
 			placeholderUrl: "@",
 			croppingRatio: "=",
 			croppingDisabled: "=",
+			deleteEnabled: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
