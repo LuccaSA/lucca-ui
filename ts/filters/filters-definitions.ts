@@ -1,6 +1,6 @@
-module Lui {
+module lui {
 	"use strict";
-	export interface ILuiFilters extends ng.IFilterService {
+	export interface IFilterService extends ng.IFilterService {
 		(name: "luifDuration"): (input: any, showSign?: boolean, unit?: string, precision?: string) => string;
 		(name: "luifPlaceholder"): (input: any, placeholder: string) => string;
 		(name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean) => string;
@@ -19,7 +19,7 @@ module Lui {
 	export class Period implements IPeriod {
 		public start: moment.Moment;
 		public end: moment.Moment;
-		constructor(unformatted: IPeriod, formatter?: Lui.Utils.IFormatter<moment.Moment>) {
+		constructor(unformatted: IPeriod, formatter?: IFormatter<moment.Moment>) {
 			let start = unformatted.start || unformatted.startsOn || unformatted.startsAt;
 			let end = unformatted.end || unformatted.endsOn || unformatted.endsAt;
 			this.start = formatter.parseValue(start);

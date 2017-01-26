@@ -1,4 +1,4 @@
 
-module Lui.Directives.TableGrid.Test {
+module lui.tablegrid.test {
 	"use strict";
 }

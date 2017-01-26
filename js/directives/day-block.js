@@ -40,7 +40,7 @@
 
 
 	angular
-	.module('lui.directives')
+	.module('lui')
 	.directive('luidDayBlock', DayBlockDirective)
 	.controller('luidDayBlockController', function(){
 		var controller = this;

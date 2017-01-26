@@ -1,4 +1,4 @@
-module Lui.Utils {
+module lui.popover {
 	"use strict";
 	let MAGIC_TIMEOUT_DELAY = 100;
 	// we dont want to register body.onclick right away cuz then we'd have to stop ethe event propagation,
@@ -25,14 +25,20 @@ module Lui.Utils {
 			this.body = angular.element(document.getElementsByTagName("body")[0]);
 			this.$scope = $scope;
 			this.clickedOutside = clickedOutside;
-			let that = this;
-			let onBodyClicked = () => {
-				that.onClickedOutside();
-				that.$scope.$digest();
-			};
-			let onEltClicked = (otherEvent: JQueryEventObject) => {
+			function onClickedOutside($event?: ng.IAngularEvent): void {
+				if (!!this.clickedOutside) {
+					this.clickedOutside();
+				} else {
+					this.close();
+				}
+			}
+			function onBodyClicked(): void {
+				onClickedOutside();
+				this.$scope.$digest();
+			}
+			function onEltClicked(otherEvent: JQueryEventObject): void {
 				otherEvent.stopPropagation();
-			};
+			}
 			this.open = ($event: ng.IAngularEvent) => {
 				this.$scope.popover.isOpen = true;
 				setTimeout( () => {
@@ -43,7 +49,6 @@ module Lui.Utils {
 			this.close = ($event?: ng.IAngularEvent) => {
 				this.$scope.popover.isOpen = false;
 				if (!!this.body) {
-					let that = this;
 					this.body.off("click", onBodyClicked);
 					this.elt.off("click", onEltClicked);
 				}
@@ -54,13 +59,6 @@ module Lui.Utils {
 				this.close($event);
 			} else {
 				this.open($event);
-			}
-		}
-		private onClickedOutside($event?: ng.IAngularEvent): void {
-			if (this.clickedOutside) {
-				this.clickedOutside();
-			} else {
-				this.close();
 			}
 		}
 	}

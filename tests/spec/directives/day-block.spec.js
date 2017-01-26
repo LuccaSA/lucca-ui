@@ -6,7 +6,7 @@
 describe('luidDayBlock', function(){
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.directives'));
+	// beforeEach(module('lui.directives'));
 
 	var moment, $scope, isolateScope, $compile, $filter, elt, input;
 	beforeEach(inject(function (_moment_, _$rootScope_, _$compile_, _$filter_) {

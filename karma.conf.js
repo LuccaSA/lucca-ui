@@ -9,35 +9,27 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'bower_components/angular/angular.js',
-			'bower_components/angular-translate/angular-translate.js',
-			'bower_components/angular-sanitize/angular-sanitize.js',
-			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-			'bower_components/ui-select/dist/select.js',
-			'bower_components/moment/min/moment-with-locales.js',
-			'bower_components/underscore/underscore-min.js',
-			'bower_components/angular-notify/dist/angular-notify.min.js',
-			'bower_components/ng-img-crop-full-extended/compile/unminified/ng-img-crop.js',
 			'bower_components/api-check/dist/api-check.js',
+			'bower_components/angular/angular.js',
+			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/angular-formly/dist/formly.js',
-
 			'bower_components/angular-mocks/angular-mocks.js',
+			'bower_components/angular-notify/dist/angular-notify.min.js',
+			'bower_components/angular-sanitize/angular-sanitize.js',
+			'bower_components/angular-translate/angular-translate.js',
+			'bower_components/moment/min/moment-with-locales.js',
+			'bower_components/ng-img-crop-full-extended/compile/unminified/ng-img-crop.js',
+			'bower_components/ui-select/dist/select.js',
+			'bower_components/underscore/underscore-min.js',
 
-			// 'js/lui.js',
-			// 'js/filters/*.js',
-			// 'js/directives/*.js',
-			// 'js/directives/lucca/*.js',
-			"dist/custom/lucca-ui-spe.js",
+
+			"dist/lucca-ui.js",
 
 			'tests/spec/**/*.js',
 			".tests/**/*.spec.js",
 		],
 		preprocessors: {
-			"dist/custom/lucca-ui-spe.js": ['coverage'],
-			// 'js/lui.js': ['coverage'],
-			// 'js/filters/*.js': ['coverage'],
-			// 'js/directives/*.js': ['coverage'],
-			// 'js/directives/lucca/*.js': ['coverage'],
+			"dist/lucca-ui.js": ["coverage"],
 		},
 		// web server port
 		port: 9876,

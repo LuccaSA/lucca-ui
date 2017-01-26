@@ -1,5 +1,5 @@
 
-module Lui.Directives {
+module lui.tablegrid {
 
 	"use strict";
 
@@ -274,7 +274,6 @@ module Lui.Directives {
 		};
 	}
 
-	angular.module("lui.directives")
-		.directive(LuidTableGrid.IID, LuidTableGrid.Factory());
+	angular.module("lui.tablegrid").directive(LuidTableGrid.IID, LuidTableGrid.Factory());
 
 }

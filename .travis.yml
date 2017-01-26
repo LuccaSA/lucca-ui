@@ -3,9 +3,6 @@ node_js:
   - "6.9"
 
 before_script:
-  - npm install -g grunt grunt-cli bower typings --progress=false
-  - bower install --force-latest
-  - typings install
 
 script: 
   - grunt dist

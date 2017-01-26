@@ -1,4 +1,4 @@
-module dir.directives {
+module lui.apiselect {
 	"use strict";
 	let MAGIC_PAGING = "0,100";
 	class ApiSelect implements angular.IDirective {
@@ -107,8 +107,8 @@ module dir.directives {
 			};
 		}
 	}
-	angular.module("lui.directives").controller(ApiSelectController.IID, ApiSelectController);
-	angular.module("lui.directives").directive(ApiSelect.IID, ApiSelect.factory());
-	angular.module("lui.directives").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
-	angular.module("lui.directives").service(StandardApiService.IID, StandardApiService);
+	angular.module("lui").controller(ApiSelectController.IID, ApiSelectController);
+	angular.module("lui").directive(ApiSelect.IID, ApiSelect.factory());
+	angular.module("lui").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
+	angular.module("lui").service(StandardApiService.IID, StandardApiService);
 }

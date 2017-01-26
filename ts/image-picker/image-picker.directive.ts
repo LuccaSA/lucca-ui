@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.imagepicker {
 	"use strict";
 	class LuidImagePicker implements angular.IDirective {
 		public static IID: string = "luidImagePicker";
@@ -45,7 +45,7 @@ module Lui.Directives {
 		private ngModelCtrl: ng.INgModelController;
 		private placeholder: string;
 
-		constructor($scope: IImagepickerScope, uploaderService: Lui.Service.IUploaderService) {
+		constructor($scope: IImagepickerScope, uploaderService: IUploaderService) {
 			this.$scope = $scope;
 			$scope.setTouched = () => {
 				this.ngModelCtrl.$setTouched();
@@ -96,6 +96,6 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").directive(LuidImagePicker.IID, LuidImagePicker.factory());
-	angular.module("lui.directives").controller(LuidImagePickerController.IID, LuidImagePickerController);
+	angular.module("lui.crop").directive(LuidImagePicker.IID, LuidImagePicker.factory());
+	angular.module("lui.crop").controller(LuidImagePickerController.IID, LuidImagePickerController);
 }

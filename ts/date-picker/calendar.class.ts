@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.datepicker {
 	"use strict";
 	export class CalendarDate {
 		public date: moment.Moment;

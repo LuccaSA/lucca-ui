@@ -1,4 +1,4 @@
-module Lui {
+module lui {
 	"use strict";
 	export interface IFile {
 		id?: string;
@@ -6,7 +6,7 @@ module Lui {
 		href: string;
 	}
 }
-module Lui.Directives {
+module lui.imagepicker {
 	"use strict";
 	interface IImageCropperScope extends angular.IScope {
 		image: string;
@@ -71,7 +71,7 @@ module Lui.Directives {
 		public static IID: string = "luidImageCropperController";
 		public static $inject: Array<string> = ["$scope", "moment", "$uibModal", "luisConfig"];
 
-		constructor($scope: IImageCropperScope, moment: moment.MomentStatic, $uibModal: angular.ui.bootstrap.IModalService, luisConfig: Lui.IConfig) {
+		constructor($scope: IImageCropperScope, moment: moment.MomentStatic, $uibModal: angular.ui.bootstrap.IModalService, luisConfig: IConfig) {
 			$scope.image = "";
 			$scope.cropped = "";
 
@@ -134,8 +134,7 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
-	angular.module("lui.directives").controller(LuidImageCropperController.IID, LuidImageCropperController);
-	angular.module("lui.directives").controller(LuidImageCropperModalController.IID, LuidImageCropperModalController);
+	angular.module("lui.crop").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
+	angular.module("lui.crop").controller(LuidImageCropperController.IID, LuidImageCropperController);
+	angular.module("lui.crop").controller(LuidImageCropperModalController.IID, LuidImageCropperModalController);
 }
-					// uploaderService.postDataURI(cropped).then((file: IFile) => {

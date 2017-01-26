@@ -3424,7 +3424,7 @@ html:not(.ie9) #demo .lui.input {
 }
 
 #demo luid-translations .dropdown.open .input {
-  z-index: 3;
+  z-index: 501;
 }
 
 #demo luid-image-picker {
@@ -7920,7 +7920,7 @@ html:not(.ie9) #demo .lui.label[class*="with addon"], html:not(.ie9)
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999 !important;
+  z-index: 999;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
