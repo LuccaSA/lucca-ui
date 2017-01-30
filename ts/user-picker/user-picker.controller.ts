@@ -119,8 +119,10 @@ module Lui.Directives {
 				}
 			});
 
-			this.$scope.$watchGroup(["appId", "operations"], () => {
-				if (!!this.$scope.appId && !!this.$scope.operations && this.$scope.operations.length > 0) {
+			this.$scope.$watchGroup(["appId", "operations"], (newValue: [number, string[]], oldValue: [number, string[]]) => {
+				if (angular.isDefined(newValue) && angular.isDefined(newValue[0]) &&
+					angular.isDefined(newValue[1]) && newValue[1].length > 0 &&
+					newValue[0] != oldValue[0] && !_.isEqual(newValue[1], oldValue[1])) {
 					this.resetUsers();
 					this.refresh();
 				}
@@ -200,7 +202,7 @@ module Lui.Directives {
 			return this.$q.all(promises).then((values: any[]) => {
 				if (!!homonyms && homonyms.length > 0) {
 					_.each(users, (user: IUserLookup) => {
-						if (!!homonymsDico[user.id]) {
+						if (angular.isDefined(homonymsDico[user.id])) {
 							user.additionalProperties = values[homonymsDico[user.id.toString()]];
 							user.hasHomonyms = true;
 						}
@@ -211,7 +213,11 @@ module Lui.Directives {
 				if (!!this.$scope.customInfoAsync) {
 					_.each(users, (user: IUserLookup) => {
 						let indexInValuesArray = customInfoDico[user.id.toString()];
-						user.info = user.info === "" ? values[indexInValuesArray] : user.info + " " + values[indexInValuesArray];
+						if (angular.isDefined(user.info) && user.info !== "") {
+							user.info = user.info + " " + values[indexInValuesArray];
+						} else {
+							user.info = values[indexInValuesArray];
+						}
 					});
 				}
 				return users;

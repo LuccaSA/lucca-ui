@@ -158,7 +158,6 @@ module Lui.Directives {
 			if (groupedHomonyms.length === 0) {
 				return users;
 			}
-
 			_.each(groupedHomonyms, (homonyms: IUserLookup[]) => {
 				let reducableProperties = new Array<string>();
 				let groupedProperties = _.chain(homonyms)
