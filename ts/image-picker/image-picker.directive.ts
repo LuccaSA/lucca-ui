@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.imagepicker {
 	"use strict";
 	class LuidImagePicker implements angular.IDirective {
 		public static IID: string = "luidImagePicker";
@@ -9,6 +9,7 @@ module Lui.Directives {
 			placeholderUrl: "@",
 			croppingRatio: "=",
 			croppingDisabled: "=",
+			deleteEnabled: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -32,6 +33,7 @@ module Lui.Directives {
 		file: any;
 		onCropped(cropped: string): void;
 		onCancelled(): void;
+		onDelete(): void;
 		setTouched(): void;
 	}
 
@@ -43,7 +45,7 @@ module Lui.Directives {
 		private ngModelCtrl: ng.INgModelController;
 		private placeholder: string;
 
-		constructor($scope: IImagepickerScope, uploaderService: Lui.Service.IUploaderService) {
+		constructor($scope: IImagepickerScope, uploaderService: IUploaderService) {
 			this.$scope = $scope;
 			$scope.setTouched = () => {
 				this.ngModelCtrl.$setTouched();
@@ -63,6 +65,10 @@ module Lui.Directives {
 			$scope.onCancelled = () => {
 				$scope.file = undefined;
 				this.ngModelCtrl.$setTouched();
+			};
+			$scope.onDelete = () => {
+				this.setViewValue(undefined);
+				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 			};
 		}
 		// set stuff - is called in the linq function
@@ -90,6 +96,6 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").directive(LuidImagePicker.IID, LuidImagePicker.factory());
-	angular.module("lui.directives").controller(LuidImagePickerController.IID, LuidImagePickerController);
+	angular.module("lui.crop").directive(LuidImagePicker.IID, LuidImagePicker.factory());
+	angular.module("lui.crop").controller(LuidImagePickerController.IID, LuidImagePickerController);
 }

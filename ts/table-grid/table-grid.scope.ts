@@ -1,32 +1,37 @@
 
-module Lui.Directives {
+module lui.tablegrid {
 
 	"use strict";
 
 	export interface IDataGridScope extends angular.IScope {
 
 		//Enum
-		FilterTypeEnum: FilterTypeEnum;
+		FilterTypeEnum: {
+			NONE: FilterType,
+			TEXT: FilterType,
+			SELECT: FilterType,
+			MULTISELECT: FilterType,
+		};
 
 		//Directive attributes
-		header: TableGrid.Tree;
+		header: ITree;
 		datas: any[];
 		selectable: boolean;
 		defaultOrder: string;
 
 		//Properties
 		allChecked: any;
-		bodyRows: TableGrid.Header[][];
-		colDefinitions: TableGrid.Header[];
+		bodyRows: IHeader[][];
+		colDefinitions: IHeader[];
 		existFixedRow: boolean;
-		filters: {header: TableGrid.Header, selectValues: string[], currentValues: string[]}[];
+		filters: {header: IHeader, selectValues: string[], currentValues: string[]}[];
 		filteredAndOrderedRows: any[];
-		headerRows: TableGrid.Header[][];
+		headerRows: IHeader[][];
 		isSelectable: boolean;
 		lockedWidth: number;
 		masterCheckBoxCssClass: string;
-		scrollableRowDefinition: TableGrid.Header[];
-		selected: { orderBy: TableGrid.Header, reverse: boolean };
+		scrollableRowDefinition: IHeader[];
+		selected: { orderBy: IHeader, reverse: boolean };
 		visibleRows: any[];
 
 		//Methods
@@ -40,7 +45,7 @@ module Lui.Directives {
 		resizedHeaders: () => void;
 		stripHtml: (html: string) => string;
 		updateFilteredRows: () => void;
-		updateOrderedRows: (header: TableGrid.Header) => void;
+		updateOrderedRows: (header: IHeader) => void;
 		updateViewAfterFiltering: () => void;
 		updateViewAfterOrderBy: () => void;
 	}

@@ -1,17 +1,20 @@
-module Lui.Directives {
+module lui.iban {
 	"use strict";
 
 	export class LuidIbanController {
 		public static IID: string = "luidIbanController";
-		public static $inject: Array<string> = ["$scope"];
+		public static $inject: Array<string> = ["$scope", "iban"];
 		private $scope: ILuidIbanScope;
 		private ngModelCtrl: ng.INgModelController;
 		private countryInput: ng.IAugmentedJQuery;
 		private controlInput: ng.IAugmentedJQuery;
 		private bbanInput: ng.IAugmentedJQuery;
 
-		constructor($scope: ILuidIbanScope) {
+		private ibanChecker: IBANStatic;
+
+		constructor($scope: ILuidIbanScope, iban: IBANStatic) {
 			this.$scope = $scope;
+			this.ibanChecker = iban;
 			this.initScope();
 		}
 
@@ -31,7 +34,7 @@ module Lui.Directives {
 			};
 			(<ILuidIbanValidators>this.ngModelCtrl.$validators).iban = (): boolean => {
 				if (!!this.ngModelCtrl.$viewValue) {
-					return IBAN.isValid(ngModelCtrl.$viewValue);
+					return this.ibanChecker.isValid(ngModelCtrl.$viewValue);
 				}
 				return true;
 			};
@@ -63,14 +66,14 @@ module Lui.Directives {
 				this.setTouched();
 			};
 
-			this.$scope.controlKeyMappings = { 
+			this.$scope.controlKeyMappings = {
 				8: () => { // backspace
 					if (!this.$scope.controlKey) {
 						this.focusCountryInput();
 					}
 				}
 			};
-			this.$scope.bbanMappings = { 
+			this.$scope.bbanMappings = {
 				8: () => { // backspace
 					if (!this.$scope.bban) {
 						this.focusControlInput();
@@ -94,13 +97,17 @@ module Lui.Directives {
 
 		private focusCountryInput(): void {
 			this.countryInput[0].focus();
+			/* tslint:disable */
 			this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 		private focusControlInput(): void {
 			this.controlInput[0].focus();
+			/* tslint:disable */
 			this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 	}
 
-	angular.module("lui.directives").controller(LuidIbanController.IID, LuidIbanController);
+	angular.module("lui.iban").controller(LuidIbanController.IID, LuidIbanController);
 }

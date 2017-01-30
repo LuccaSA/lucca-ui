@@ -6,7 +6,7 @@
 	**  - underscore
 	**/
 
-	angular.module('lui.directives')
+	angular.module('lui.translate')
 	.directive('luidTranslations', ['$translate', '_', '$filter', '$timeout', function($translate, _, $filter,  $timeout){
 		function link(scope, element, attrs, ctrls){
 			var ngModelCtrl = ctrls[1];
@@ -154,7 +154,7 @@
 	/**************************/
 	/***** TEMPLATEs      *****/
 	/**************************/
-	angular.module("lui.templates.translationsinput").run(["$templateCache", function($templateCache) {
+	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
 			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
 			"	<div class=\"lui input\">" +
