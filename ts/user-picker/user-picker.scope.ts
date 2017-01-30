@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.userpicker {
 	"use strict";
 
 	export interface ILuidUserPickerScope extends ng.IScope {

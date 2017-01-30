@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.userpicker {
 	"use strict";
 	class LuidUserPickerMultiple implements angular.IDirective {
 		public static IID: string = "luidUserPickerMultiple";
@@ -41,5 +41,5 @@ module Lui.Directives {
 			userPickerCtrl.setNgModelCtrl(ngModelCtrl, true);
 		}
 	}
-	angular.module("lui.directives").directive(LuidUserPickerMultiple.IID, LuidUserPickerMultiple.factory());
+	angular.module("lui").directive(LuidUserPickerMultiple.IID, LuidUserPickerMultiple.factory());
 }

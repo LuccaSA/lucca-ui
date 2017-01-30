@@ -1,11 +1,11 @@
-module Lui.Directives.Test {
+module lui.userpicker.Test {
 	"use strict";
 
 	describe("luidUserPicker", () => {
 
 		let $httpBackend: ng.IHttpBackendService;
 		let $q: ng.IQService;
-		let service: Lui.Directives.IUserPickerService;
+		let service: lui.userpicker.IUserPickerService;
 
 		let fakeUsers: IUserLookup[];
 
@@ -18,7 +18,7 @@ module Lui.Directives.Test {
 		beforeEach(inject((
 			_$httpBackend_: ng.IHttpBackendService,
 			_$q_: ng.IQService,
-			userPickerService: Lui.Directives.IUserPickerService) => {
+			userPickerService: lui.userpicker.IUserPickerService) => {
 
 			$httpBackend = _$httpBackend_;
 			$q = _$q_;

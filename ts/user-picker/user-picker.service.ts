@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.userpicker {
 	"use strict";
 
 	export interface IUserPickerService {
@@ -202,5 +202,5 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").service(UserPickerService.IID, UserPickerService);
+	angular.module("lui").service(UserPickerService.IID, UserPickerService);
 }

@@ -1,11 +1,11 @@
-module Lui.Directives.Test {
+module lui.userpicker.Test {
 	"use strict";
 
 	describe("luidUserPicker", () => {
 		let $rootScope: ng.IScope;
 		let $httpBackend: ng.IHttpBackendService;
 		let $q: ng.IQService;
-		let service: Lui.Directives.IUserPickerService;
+		let service: lui.userpicker.IUserPickerService;
 
 		let me: IUserLookup;
 		let user2, user3, user4, user5, user6, user7, user8: IUserLookup;
@@ -16,7 +16,7 @@ module Lui.Directives.Test {
 			_$rootScope_: ng.IRootScopeService,
 			_$httpBackend_: ng.IHttpBackendService,
 			_$q_: ng.IQService,
-			userPickerService: Lui.Directives.IUserPickerService) => {
+			userPickerService: lui.userpicker.IUserPickerService) => {
 
 			$rootScope = _$rootScope_;
 			$httpBackend = _$httpBackend_;

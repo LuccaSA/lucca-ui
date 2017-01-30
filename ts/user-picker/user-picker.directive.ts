@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.userpicker {
 	"use strict";
 	class LuidUserPicker implements angular.IDirective {
 		public static IID: string = "luidUserPicker";
@@ -41,13 +41,13 @@ module Lui.Directives {
 			userPickerCtrl.setNgModelCtrl(ngModelCtrl);
 		}
 	}
-	angular.module("lui.directives").directive(LuidUserPicker.IID, LuidUserPicker.factory());
+	angular.module("lui").directive(LuidUserPicker.IID, LuidUserPicker.factory());
 
 	/**
 	 * Directive used to call a custom function when the user scroll to the bottom of an element.
 	 * Usage: <element on-scroll-bottom="yourCallback()"></element>
 	 */
-	angular.module("lui.directives").directive("onScrollBottom", () => {
+	angular.module("lui").directive("onScrollBottom", () => {
 		return {
 			restrict: "A",
 			scope: { onScrollBottom: "&" },

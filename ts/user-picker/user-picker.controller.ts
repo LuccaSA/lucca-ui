@@ -1,4 +1,4 @@
-module Lui.Directives {
+module lui.userpicker {
 	"use strict";
 
 	/**
@@ -281,13 +281,13 @@ module Lui.Directives {
 		}
 	}
 
-	angular.module("lui.directives").controller(LuidUserPickerController.IID, LuidUserPickerController);
+	angular.module("lui").controller(LuidUserPickerController.IID, LuidUserPickerController);
 
 	/**
 	 * Filter to display custom info next to each user
 	 * Highlight the search in the name of the user and display a label next to each user
 	 */
-	angular.module("lui.filters").filter("luifHighlight", ["$filter", "$translate",
+	angular.module("lui").filter("luifHighlight", ["$filter", "$translate",
 		function ($filter: ng.IFilterService, $translate: ng.translate.ITranslateService): (input: string, clue: string, info: string, key: string) => string {
 			return function (_input: string, _clue: string, _info: string, _key: string): string {
 				let highlight = <(input: string, clue: string) => string>$filter("highlight");
@@ -298,7 +298,7 @@ module Lui.Directives {
 	/**
 	 * Translations dictionaries used by the luid-user-picker directive.
 	 */
-	angular.module("lui.translates.userpicker").config(["$translateProvider", function ($translateProvider: ng.translate.ITranslateProvider): void {
+	angular.module("lui.translate").config(["$translateProvider", function ($translateProvider: ng.translate.ITranslateProvider): void {
 		$translateProvider.translations("en", {
 			"LUIDUSERPICKER_FORMEREMPLOYEE": "Left on {{dtContractEnd | luifMoment : 'LL'}}",
 			"LUIDUSERPICKER_NORESULTS": "No results",
