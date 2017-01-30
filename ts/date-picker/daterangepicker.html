@@ -10,7 +10,7 @@
 			   ng-readonly="disableKeyboardInput"
 			   ng-class="{ 'clickable': disableKeyboardInput}"
 			   ng-click="editStart($event)"
-			   ng-model="startDisplayStr"
+			   ng-model="internal.startDisplayStr"
 			   ng-change="onStartDisplayStrChanged($event)"
 			   placeholder="{{fromLabel}}"
 			   luid-keydown mappings="focusEndInputOnTab">
@@ -20,7 +20,7 @@
 		<input type="text"
 			   ng-readonly="disableKeyboardInput"
 			   ng-class="{ 'clickable': disableKeyboardInput}"
-			   ng-model="endDisplayStr"
+			   ng-model="internal.endDisplayStr"
 			   ng-click="editEnd($event)"
 			   ng-change="onEndDisplayStrChanged($event)"
 			   placeholder="{{toLabel}}"
