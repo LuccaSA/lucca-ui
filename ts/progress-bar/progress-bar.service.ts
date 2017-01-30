@@ -138,12 +138,6 @@ module lui.progressbar {
 				this.progressbarEl.children().attr("data-percentage", this.status);
 			}
 		};
-
-
-		private getDomElement(): any {
-			return this.progressbarEl;
-		};
 	}
-
 	angular.module("lui").service(ProgressBarService.IID, ProgressBarService);
 }
