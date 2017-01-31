@@ -122,7 +122,7 @@ module lui.userpicker {
 			this.$scope.$watchGroup(["appId", "operations"], (newValue: [number, string[]], oldValue: [number, string[]]) => {
 				if (angular.isDefined(newValue) && angular.isDefined(newValue[0]) &&
 					angular.isDefined(newValue[1]) && newValue[1].length > 0 &&
-					newValue[0] != oldValue[0] && !_.isEqual(newValue[1], oldValue[1])) {
+					newValue[0] !== oldValue[0] && !_.isEqual(newValue[1], oldValue[1])) {
 					this.resetUsers();
 					this.refresh();
 				}
@@ -170,13 +170,13 @@ module lui.userpicker {
 		private tidyUp(users: IUserLookup[]): ng.IPromise<IUserLookup[]> {
 			let promises = new Array<ng.IPromise<any>>();
 			let customInfoDico: { [userId: number]: ng.IPromise<string> } = {};
-			let homonymsDico = {};
+			let homonymsDico: { [userId: number]: number } = {};
 
 			_.each(users, (user: IUserLookup) => {
 				user.hasLeft = !!user.dtContractEnd && moment(user.dtContractEnd).isBefore(moment().startOf("day"));
 			});
 
-			if (this.$scope.customFilter) {
+			if (!!this.$scope.customFilter) {
 				users = _.filter(users, (user: IUserLookup) => { return this.$scope.customFilter(user); });
 			}
 			if (!!this.$scope.customInfo) {
@@ -227,7 +227,7 @@ module lui.userpicker {
 		private refresh(clue: string = ""): ng.IPromise<IUserLookup[]> {
 			return this.userPickerService.getUsers(this.getFilter(clue))
 				.then((allUsers: IUserLookup[]) => {
-					if ((clue === undefined || clue === "") && this.$scope.displayMeFirst && !!this.$scope.users &&
+					if (!clue && this.$scope.displayMeFirst && !!this.$scope.users &&
 						this.$scope.users.length > 1 && this.$scope.users[0].id !== this.$scope.myId) {
 
 						let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });

@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 	angular.module("demoApp")
-		.controller("newUserPickerCtrl", ["$scope", "$httpBackend", "$http", "$q", function ($scope, $httpBackend, $http, $q) {
+		.controller("userPickerCtrl", ["$scope", "$httpBackend", "$http", "$q", function ($scope, $httpBackend, $http, $q) {
 			$scope.firstModel = undefined;
 			$scope.disableUserPicker = false;
 			$scope.onSelectFirstModel = () => { alert("onSelect()"); }

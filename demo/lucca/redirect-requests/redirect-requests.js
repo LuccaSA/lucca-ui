@@ -4,7 +4,7 @@
 		.controller("redirectRequestsCtrl", ["$scope", "$httpBackend", "$http", "$q", "$rootScope",
 			function ($scope, $httpBackend, $http, $q, $rootScope) {
 				$scope.local = "lucca.local.dev";
-				$scope.authUserLogin = "bguillon@lucca.fr";
+				$scope.authUserLogin = "passepartout";
 				$scope.auth = function (disp) {
 					disp = !!disp ? disp : false;
 					$http.post("https://" + $scope.local + "/auth/userlogin?login=" + $scope.authUserLogin + "&password=")

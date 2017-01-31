@@ -3,8 +3,13 @@
 		<p><b>Disclaimer:</b> If you want to try most of the following components, you have to be connected to a local Lucca server. Please enter
 			the login you want to use to get an auth token:</p>
 		<form name="authForm">
-			<div class="lui input">
-				<input type="text" ng-model="$parent.authUserLogin" ng-required="true" placeholder="login">
+			<div>
+				<span class="lui input">Reroute all calls to &nbsp;&nbsp;&nbsp; http://
+				<input type="text" ng-model="$parent.local" ng-required="true"></span>
+			</div>
+			<div>
+				<span class="lui input">Log in as &nbsp;&nbsp;&nbsp;
+				<input type="text" ng-model="$parent.authUserLogin" ng-required="true" placeholder="login"></span>
 			</div>
 			<input type="submit" class="lui button primary" ng-click="auth(true)" ng-disabled="!authForm.$valid">
 			&nbsp;&nbsp;&nbsp;&nbsp;
