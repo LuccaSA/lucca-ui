@@ -1,10 +1,23 @@
-module Lui.Service {
+module lui {
+	"use strict";
+	export interface IProgressBarService {
+		addProgressBar(palette?: string): void;
+		startListening(httpRequestMethods?: string[]): void;
+		stopListening(): void;
+		isListening(): boolean;
+		getHttpRequestMethods(): string[];
+		start(): void;
+		complete(): void;
+	}
+}
+
+module lui.progressbar {
 	"use strict";
 
 //==========================================
 // ---- inspired by https://github.com/VictorBjelkholm/ngProgress/blob/master/src/provider.js
 // ==========================================
-	export class ProgressBarService {
+	class ProgressBarService implements IProgressBarService {
 		public static IID: string = "luisProgressBar";
 		public static $inject: string[] = ["$document", "$window", "$timeout", "$interval", "$log", "luisConfig"];
 		public latencyThreshold = 200;
@@ -15,7 +28,7 @@ module Lui.Service {
 		private $timeout: ng.ITimeoutService;
 		private $interval: ng.IIntervalService;
 		private $log: ng.ILogService;
-		private luisConfig: Lui.IConfig;
+		private luisConfig: IConfig;
 		private status: number = 0;
 		private currentPromiseInterval: ng.IPromise<any>;
 		private completeTimeout: ng.IPromise<any>;
@@ -29,7 +42,7 @@ module Lui.Service {
 			$timeout: ng.ITimeoutService,
 			$interval: ng.IIntervalService,
 			$log: ng.ILogService,
-			luisConfig: Lui.IConfig) {
+			luisConfig: IConfig) {
 			this.$document = $document;
 			this.$window = $window;
 			this.$timeout = $timeout;
@@ -38,7 +51,7 @@ module Lui.Service {
 			this.luisConfig = luisConfig;
 		}
 
-		public addProgressBar = (palette: string = "primary") => {
+		public addProgressBar(palette: string = "primary"): void {
 			if (!!this.progressbarEl) {
 				this.progressbarEl.remove();
 			}
@@ -47,7 +60,7 @@ module Lui.Service {
 			this.luisConfig.parentElt.append(this.progressbarEl);
 		};
 
-		public startListening = ( httpRequestMethods?: string[]): void => {
+		public startListening(httpRequestMethods?: string[]): void {
 			this.httpResquestListening = true;
 			if (!!httpRequestMethods) {
 				this.httpRequestMethods = httpRequestMethods;
@@ -57,20 +70,20 @@ module Lui.Service {
 			this.setStatus(0);
 		};
 
-		public stopListening = (): void => {
+		public stopListening(): void {
 			this.httpResquestListening = false;
 			this.setStatus(0);
 		};
 
-		public isHttpResquestListening = (): boolean => {
+		public isListening(): boolean {
 			return this.httpResquestListening;
 		};
 
-		public getHttpRequestMethods = (): string[] => {
+		public getHttpRequestMethods(): string[] {
 			return this.httpRequestMethods;
 		};
 
-		public start = () => {
+		public start(): void {
 			if (!this.isStarted) {
 				this.isStarted = true;
 				this.$timeout.cancel(this.completeTimeout);
@@ -92,8 +105,15 @@ module Lui.Service {
 				}, this.latencyThreshold);
 			}
 		};
+		public complete(): void {
+			this.$interval.cancel(this.currentPromiseInterval);
+			this.isStarted = false;
+			this.httpResquestListening = false;
+			this.setStatus(100);
+			this.hide();
+		};
 
-		public hide = () => {
+		private hide(): void {
 			this.$timeout(() => {
 				if (!!this.progressbarEl) {
 					this.progressbarEl.removeClass("in");
@@ -103,7 +123,7 @@ module Lui.Service {
 			}, 300);
 		};
 
-		public show = () => {
+		private show(): void {
 			if (!!this.progressbarEl) {
 				this.progressbarEl.removeClass("out");
 				this.progressbarEl.addClass("in");
@@ -111,26 +131,13 @@ module Lui.Service {
 			}
 		};
 
-		public setStatus = (status: number) => {
+		private setStatus(status: number): void {
 			this.status = status;
 			if (!!this.progressbarEl) {
 				this.progressbarEl.children().css("width", this.status + "%");
 				this.progressbarEl.children().attr("data-percentage", this.status);
 			}
 		};
-
-		public complete = () => {
-			this.$interval.cancel(this.currentPromiseInterval);
-			this.isStarted = false;
-			this.httpResquestListening = false;
-			this.setStatus(100);
-			this.hide();
-		};
-
-		public getDomElement = () => {
-			return this.progressbarEl;
-		};
 	}
-
-	angular.module("lui.services").service(ProgressBarService.IID, ProgressBarService);
+	angular.module("lui").service(ProgressBarService.IID, ProgressBarService);
 }

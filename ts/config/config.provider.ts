@@ -1,4 +1,4 @@
-module Lui {
+module lui {
 	"use strict";
 	export interface IConfig {
 		parentTagIdClass?: string;
@@ -11,12 +11,13 @@ module Lui {
 		cropLabel?: string;
 		noCropLabel?: string;
 	}
-}
-module Lui.Service {
-	"use strict";
 	export interface IConfigProvider {
 		setConfig(config: IConfig): void;
 	}
+}
+module lui.config {
+	"use strict";
+
 	class LuipConfig implements IConfigProvider {
 		public static $inject: Array<string> = ["$uibModalProvider"];
 		public $get = ["$log", ($log: ng.ILogService): Config => {
@@ -77,5 +78,5 @@ module Lui.Service {
 			this.canDismissConfirm = this.canDismissConfirm;
 		}
 	}
-	angular.module("lui.services").provider("luisConfig", LuipConfig);
+	angular.module("lui").provider("luisConfig", LuipConfig);
 }

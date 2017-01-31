@@ -6,7 +6,7 @@ module.exports = function(grunt, options){
 			src: '**/*.html',
 			dest: '.temp/templates.js',
 			options: {
-				module: "lui.directives",
+				module: "lui",
 				prefix: 'lui/templates',
 				htmlmin: {
 					collapseBooleanAttributes: true,

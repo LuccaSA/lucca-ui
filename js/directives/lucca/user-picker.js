@@ -59,7 +59,7 @@
 	"</ui-select>";
 
 
-	angular.module('lui.directives')
+	angular.module('lui.translate')
 	.directive('luidUserPicker', function () {
 		return {
 			restrict: 'E',
@@ -843,7 +843,7 @@
 	/**************************/
 	/***** TRANSLATIONS   *****/
 	/**************************/
-	angular.module('lui.translates.userpicker').config(['$translateProvider', function ($translateProvider) {
+	angular.module('lui.translate').config(['$translateProvider', function ($translateProvider) {
 		$translateProvider.translations('en', {
 			"LUIDUSERPICKER_FORMEREMPLOYEE":"Left on {{dtContractEnd | luifMoment : 'LL'}}",
 			"LUIDUSERPICKER_NORESULTS":"No results",

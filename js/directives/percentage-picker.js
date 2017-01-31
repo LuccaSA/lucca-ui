@@ -5,7 +5,7 @@
 	**  - none
 	**/
 
-	angular.module('lui.directives').directive('luidPercentage', function () {
+	angular.module('lui').directive('luidPercentage', function () {
 		function link(scope, element, attrs, ctrls) {
 
 			var ngModelCtrl = ctrls[1];

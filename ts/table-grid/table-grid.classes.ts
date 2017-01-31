@@ -1,30 +1,36 @@
 
-module Lui.Directives.TableGrid {
+module lui.tablegrid {
 	"use strict";
 
-	export class Tree {
-		public node: Header;
-		public children: Tree[];
+	export interface ITree {
+		node: IHeader;
+		children: ITree[];
 	}
 
-	export class Header {
-		public label: string;
-		public filterType: string;
-		public hidden: boolean;
-		public width: number;
-		public fixed: boolean;
-		public colspan: number;
-		public rowspan: number;
-		public textAlign: string;
-		public getValue: (object: any) => string;
-		public getOrderByValue: (object: any) => any;
-		public getFilterValue: (object: any) => any;
+	export interface IHeader {
+		label: string;
+		filterType?: FilterType;
+		hidden?: boolean;
+		width?: number;
+		fixed?: boolean;
+		colspan?: number;
+		rowspan?: number;
+		textAlign?: string;
+		getValue(object: any): string;
+		getOrderByValue?(object: any): any;
+		getFilterValue?(object: any): any;
 	}
 
-	export class BrowseResult {
-		public depth: number;
-		public subChildren: number;
-		public subDepth: number;
-		public tree: Tree;
+	export interface IBrowseResult {
+		depth?: number;
+		subChildren?: number;
+		subDepth?: number;
+		tree: ITree;
+	}
+	export enum FilterType {
+		NONE = 0,
+		TEXT = 1,
+		SELECT = 2,
+		MULTISELECT = 3,
 	}
 }

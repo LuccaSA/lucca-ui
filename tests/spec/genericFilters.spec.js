@@ -1,7 +1,7 @@
 describe('luif.timefilters', function(){
 	beforeEach(module('ngMock'));
 	beforeEach(module('lui'));
-	beforeEach(module('lui.filters'));
+	// beforeEach(module('lui.filters'));
 
 	var $filter;
 	beforeEach(inject(function (_$filter_) {
