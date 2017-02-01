@@ -97,11 +97,15 @@ module lui.iban {
 
 		private focusCountryInput(): void {
 			this.countryInput[0].focus();
+			/* tslint:disable */
 			this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 		private focusControlInput(): void {
 			this.controlInput[0].focus();
+			/* tslint:disable */
 			this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 	}
 

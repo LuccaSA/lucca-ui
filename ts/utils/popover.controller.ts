@@ -25,16 +25,17 @@ module lui.popover {
 			this.body = angular.element(document.getElementsByTagName("body")[0]);
 			this.$scope = $scope;
 			this.clickedOutside = clickedOutside;
+			let that = this;
 			function onClickedOutside($event?: ng.IAngularEvent): void {
-				if (!!this.clickedOutside) {
-					this.clickedOutside();
+				if (!!that.clickedOutside) {
+					that.clickedOutside();
 				} else {
-					this.close();
+					that.close();
 				}
 			}
 			function onBodyClicked(): void {
 				onClickedOutside();
-				this.$scope.$digest();
+				that.$scope.$digest();
 			}
 			function onEltClicked(otherEvent: JQueryEventObject): void {
 				otherEvent.stopPropagation();
