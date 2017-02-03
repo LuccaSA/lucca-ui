@@ -8,6 +8,7 @@
 			luid-image-picker#{$selector} {
 
 				height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+				max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 
 				.upload-overlay {
