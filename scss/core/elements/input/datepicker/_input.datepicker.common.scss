@@ -76,7 +76,7 @@
 		luid-date-picker-popup .lui.datepicker.input,
 		luid-daterange-picker .lui.daterange.input {
 			position: relative;
-			max-width: 100%;
+			width: 100%;
 			border-bottom: none !important;
 
 			> input, label {
@@ -137,9 +137,6 @@
 					}
 					&:last-of-type {
 						padding-left: 1em;
-					}
-					&:focus {
-						@extend %lui_input_focus_material;
 					}
 				}
 			}

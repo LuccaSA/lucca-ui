@@ -7,6 +7,10 @@
 					@extend %lui_quick_material_input;
 				}
 			}
+
+			luid-daterange-picker#{$selector} .inputs > input:focus {
+				@extend %lui_input_focus_material;
+			}
 		}
 	}
 }
