@@ -1,18 +1,18 @@
 module lui {
 	"use strict";
-	export interface IField extends AngularFormly.IFieldConfigurationObject {
+	export interface IField {
 		key: string;
 		type: string;
 		className?: string;
 		templateOptions?: ITemplateOptions;
 	}
-	export interface ITemplateOptions extends AngularFormly.ITemplateOptions {
+	export interface ITemplateOptions {
 		label?: string;
 		helper?: string;
 		required?: boolean;
 		disabled?: boolean;
 		display?: string;
-		placeholder?: string;
+		placeholder?: number | string;
 
 		// error messages
 		requiredError?: string;

@@ -147,19 +147,19 @@ declare module Lui.Filters {
 declare module Lui {
 }
 declare module lui {
-    interface IField extends AngularFormly.IFieldConfigurationObject {
+    interface IField {
         key: string;
         type: string;
         className?: string;
         templateOptions?: ITemplateOptions;
     }
-    interface ITemplateOptions extends AngularFormly.ITemplateOptions {
+    interface ITemplateOptions {
         label?: string;
         helper?: string;
         required?: boolean;
         disabled?: boolean;
         display?: string;
-        placeholder?: string;
+        placeholder?: number | string;
         requiredError?: string;
         emailError?: string;
         ibanError?: string;
@@ -174,6 +174,9 @@ declare module lui {
 declare module lui.apiselect {
 }
 declare module lui.iban {
+    interface IbanChecker {
+        isValid(value: string): boolean;
+    }
     class LuidIbanController {
         static IID: string;
         static $inject: Array<string>;
@@ -183,7 +186,7 @@ declare module lui.iban {
         private controlInput;
         private bbanInput;
         private ibanChecker;
-        constructor($scope: ILuidIbanScope, iban: IBANStatic);
+        constructor($scope: ILuidIbanScope, iban: IbanChecker);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
         setInputs(elt: ng.IAugmentedJQuery): void;
         private initScope();
