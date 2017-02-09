@@ -1,7 +1,10 @@
 module Lui {
 	"use strict";
+	interface IFormlyConfig {
+		setType(type: { name: string, templateUrl: string }): void
+	}
 	angular.module("lui.formly")
-	.config(["formlyConfigProvider", (formlyConfigProvider: AngularFormly.IFormlyConfig) => {
+	.config(["formlyConfigProvider", (formlyConfigProvider: IFormlyConfig) => {
 		formlyConfigProvider.setType({
 			name: "text",
 			templateUrl: "lui/templates/formly/fields/text.html",
