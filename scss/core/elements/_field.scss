@@ -123,8 +123,7 @@
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
 			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
-			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label,
-			#{$prefix}.field.#{$sizeName} .message {
+			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label {
 				min-width: 0;
 				width: $sizeEms;
 			}
@@ -135,7 +134,6 @@
 		#{$prefix}.fitting.field,
 		#{$prefix}.fitting.field > .input,
 		#{$prefix}.fitting.field > .input > label,
-		#{$prefix}.fitting.field .message,
 		#{$prefix}.fitting.input,
 		#{$prefix}.fitting.input > label {
 			width: 100% !important;
@@ -147,6 +145,16 @@
 			}
 		}
 
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+				#{$prefix}.fitting.field .material.input ~ .messages .message {
+					width: 100% !important;
+				}
+				#{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
+					min-width: 0;
+					width: $sizeEms;
+				}
+		}
 
 		// Inline style
 		// Fields are stacked on each line
