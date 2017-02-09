@@ -6,7 +6,7 @@ module lui.tablegrid {
 	export interface IDataGridScope extends angular.IScope {
 
 		//Enum
-		FilterTypeEnum: { 
+		FilterTypeEnum: {
 			NONE: FilterType,
 			TEXT: FilterType,
 			SELECT: FilterType,

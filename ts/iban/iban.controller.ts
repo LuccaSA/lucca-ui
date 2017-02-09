@@ -70,14 +70,14 @@ module lui.iban {
 				this.setTouched();
 			};
 
-			this.$scope.controlKeyMappings = { 
+			this.$scope.controlKeyMappings = {
 				8: () => { // backspace
 					if (!this.$scope.controlKey) {
 						this.focusCountryInput();
 					}
 				}
 			};
-			this.$scope.bbanMappings = { 
+			this.$scope.bbanMappings = {
 				8: () => { // backspace
 					if (!this.$scope.bban) {
 						this.focusControlInput();
@@ -101,11 +101,15 @@ module lui.iban {
 
 		private focusCountryInput(): void {
 			this.countryInput[0].focus();
+			/* tslint:disable */
 			this.countryInput[0]["selectionStart"] = this.countryInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 		private focusControlInput(): void {
 			this.controlInput[0].focus();
+			/* tslint:disable */
 			this.controlInput[0]["selectionStart"] = this.controlInput[0]["selectionEnd"];
+			/* tslint:enable */
 		}
 	}
 

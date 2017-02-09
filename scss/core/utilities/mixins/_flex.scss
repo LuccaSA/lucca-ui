@@ -6,11 +6,17 @@
 @mixin display-flex($inline: false) {
 	@if $inline {
 		html:not(.ie9) & {
+			display: -webkit-inline-box;
+			display: -moz-inline-box;
 			display: -ms-inline-flexbox;
+			display: -webkit-inline-flex;
 			display: inline-flex;
 		}
 	} @else {
+		display: -webkit-box;
+		display: -moz-box;
 		display: -ms-flexbox;
+		display: -webkit-flex;
 		display: flex;
 	}
 }
@@ -25,18 +31,34 @@
 
 @mixin flex-direction($direction: row, $reverse: false) {
 	@if $direction == row and not $reverse {
+		-moz-box-orient: horizontal;
+		-webkit-box-orient: horizontal;
+		-moz-box-direction: normal;
+		-webkit-box-direction: normal;
 		-ms-flex-direction: row;
 		flex-direction: row;
 
 	} @else if $direction == row and $reverse {
+		-moz-box-orient: horizontal;
+		-webkit-box-orient: horizontal;
+		-moz-box-direction: reverse;
+		-webkit-box-direction: reverse;
 		-ms-flex-direction: row-reverse;
 		flex-direction: row-reverse;
 
 	} @else if $direction == column and not $reverse {
+		-moz-box-orient: vertical;
+		-webkit-box-orient: vertical;
+		-moz-box-direction: normal;
+		-webkit-box-direction: normal;
 		-ms-flex-direction: column;
 		flex-direction: column;
 
 	} @else if $direction == column and $reverse {
+		-moz-box-orient: vertical;
+		-webkit-box-orient: vertical;
+		-moz-box-direction: reverse;
+		-webkit-box-direction: reverse;
 		-ms-flex-direction: column-reverse;
 		flex-direction: column-reverse;
 	}
@@ -47,6 +69,11 @@
 // ===================================
 
 @mixin flex-wrap($option) {
+	@if $option == nowrap {
+		-webkit-box-lines: single;
+	} @else {
+		-webkit-box-lines: multiple;
+	}
 	-ms-flex-wrap: $option;
 	flex-wrap: $option;
 }
@@ -57,11 +84,37 @@
 
 @mixin flex-justify-content($direction: center) {
 	// Internet Explorer
-	@if $direction == center { -ms-flex-pack: center; }
-	@else if $direction == space-between { -ms-flex-pack: justify; }
-	@else if $direction == space-around { -ms-flex-pack: distribute; }
-	@else if $direction == flex-start { -ms-flex-pack: start; }
-	@else if $direction == flex-end { -ms-flex-pack: end; }
+	@if $direction == center {
+		-moz-box-pack: center;
+		-webkit-box-pack: center;
+		-moz-flex-pack: center;
+		-webkit-flex-pack: center;
+		-ms-flex-pack: center;
+	}
+	@else if $direction == space-between {
+		-moz-box-pack: justify;
+		-webkit-box-pack: justify;
+		-moz-flex-pack: justify;
+		-webkit-flex-pack: justify;
+		-ms-flex-pack: justify;
+	}
+	@else if $direction == space-around {
+		-ms-flex-pack: distribute;
+	}
+	@else if $direction == flex-start {
+		-moz-box-pack: start;
+		-webkit-box-pack: start;
+		-moz-flex-pack: start;
+		-webkit-flex-pack: start;
+		-ms-flex-pack: start;
+	}
+	@else if $direction == flex-end {
+		-moz-box-pack: end;
+		-webkit-box-pack: end;
+		-moz-flex-pack: end;
+		-webkit-flex-pack: end;
+		-ms-flex-pack: end;
+	}
 	// Modern browsers
 	justify-content: $direction;
 }
@@ -71,10 +124,19 @@
 // ===================================
 
 @mixin flex-align-items($direction: flex-start) {
-	// Internet Explorer
-	-ms-flex-align: $direction;
-	@if $direction == flex-start { -ms-flex-align: start; }
-	@else if $direction == flex-end { -ms-flex-align: end; }
+	@if $direction == flex-start {
+		-moz-box-align: start;
+		-webkit-box-align: start;
+		-ms-flex-align: start;
+	} @else if $direction == flex-end {
+		-moz-box-align: end;
+		-webkit-box-align: end;
+		-ms-flex-align: end;
+	} @else {
+		-moz-box-align: $direction;
+		-webkit-box-align: $direction;
+		-ms-flex-align: $direction;
+	}
 
 	align-items: $direction;
 }
@@ -92,6 +154,8 @@
 // ===================================
 
 @mixin flex-order($order) {
+	-moz-box-ordinal-group: $order;
+	-webkit-box-ordinal-group: $order;
 	-ms-flex-order: $order;
 	order: $order;
 }
@@ -101,6 +165,8 @@
 // ===================================
 
 @mixin flex($grow: 0, $shrink: 1, $basis: auto) {
+	-moz-box-flex: $grow;
+	-webkit-box-flex: $grow;
 	-ms-flex: $grow $shrink $basis;
 	flex: $grow $shrink $basis;
 }
@@ -110,10 +176,14 @@
 // ===================================
 
 @mixin flex-align-self($direction: flex-start) {
-	// Internet Explorer
-	-ms-flex-item-align: $direction;
-	@if $direction == flex-start { -ms-flex-item-align: start; }
-	@else if $direction == flex-end { -ms-flex-item-align: end; }
+	@if $direction == flex-start {
+		-ms-flex-item-align: start;
+	}
+	@else if $direction == flex-end {
+		-ms-flex-item-align: end;
+	} @else {
+		-ms-flex-item-align: $direction;
+	}
 
 	align-self: $direction;
 }

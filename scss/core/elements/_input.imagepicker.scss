@@ -43,6 +43,12 @@
 						left: 0; right: 0;
 						padding: map-gets($vars, overlay, padding);
 					}
+					.cross {
+						position: absolute;
+						top: 0;
+						right: 0;
+						cursor: pointer;
+					}
 				}
 
 				input[type="file"] {

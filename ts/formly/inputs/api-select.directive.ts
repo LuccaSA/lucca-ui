@@ -26,7 +26,7 @@ module lui.apiselect {
 				} else {
 					element.removeClass("ng-open");
 				}
-			}
+			};
 		}
 	}
 	class ApiSelectMultiple implements angular.IDirective {
@@ -53,7 +53,7 @@ module lui.apiselect {
 				} else {
 					element.removeClass("ng-open");
 				}
-			}
+			};
 		}
 	}
 	interface IStandardApiResource {
@@ -73,7 +73,7 @@ module lui.apiselect {
 			let filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
 			return this.$http.get(api + "?" + filter + "&fields=id,name")
 			.then( (response: ng.IHttpPromiseCallbackArg<{data: { items: IStandardApiResource[] } } & { data: IStandardApiResource[] }>) => {
-				if (api.indexOf("/v3/") !== -1){
+				if (api.indexOf("/v3/") !== -1) {
 					return response.data.data.items;
 				} else {
 					return response.data.data;
