@@ -147,13 +147,15 @@
 
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
-				#{$prefix}.fitting.field .material.input ~ .messages .message {
-					width: 100% !important;
-				}
+			#{$prefix}.fitting.field .material.input ~ .messages .message {
+				width: 100% !important;
+			}
+			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
 				#{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
 					min-width: 0;
 					width: $sizeEms;
 				}
+			}
 		}
 
 		// Inline style
