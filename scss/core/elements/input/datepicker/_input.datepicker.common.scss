@@ -26,16 +26,6 @@
 			}
 		}
 
-
-
-		luid-date-picker-popup,
-		luid-daterange-picker {
-			&.ng-invalid.ng-touched > .lui.input > input,
-			&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
-				@extend %lui_input_invalid_input_material;
-			}
-		}
-
 		// Neutralize popover max-width
 		// ====
 		luid-date-picker-popup .popover-inner,

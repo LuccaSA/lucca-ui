@@ -2,7 +2,8 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
-			luid-date-picker-popup#{$selector} {
+			luid-date-picker-popup#{$selector},
+			luid-daterange-picker#{$selector} {
 				input {
 					@extend %lui_quick_material_input;
 				}
@@ -10,6 +11,14 @@
 
 			luid-daterange-picker#{$selector} .inputs > input:focus {
 				@extend %lui_input_focus_material;
+			}
+
+			luid-date-picker-popup#{$selector},
+			luid-daterange-picker#{$selector} {
+				&.ng-invalid.ng-touched > .lui.input > input,
+				&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
+					@extend %lui_input_invalid_input_material;
+				}
 			}
 		}
 	}
