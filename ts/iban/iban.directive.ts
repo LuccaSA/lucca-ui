@@ -7,6 +7,7 @@ module lui.iban {
 		public templateUrl = "lui/templates/iban/iban.view.html";
 		public require = [LuidIban.IID, "^ngModel"];
 		public controller: string = LuidIbanController.IID;
+		public scope = {};
 
 		public static factory(): angular.IDirectiveFactory {
 			let directive = () => {

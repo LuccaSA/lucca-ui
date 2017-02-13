@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui checkbox input">
+	<div class="lui checkbox {{::options.templateOptions.style}} input">
 		<input type="checkbox" name="{{::id}}" ng-model="model[options.key]" ng-disabled="options.templateOptions.disabled">
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
