@@ -1,0 +1,105 @@
+%lui_input_reset_compact {
+	@extend %lui_input_reset;
+
+	padding-left: luiTheme(element, field, input, compact, horizontal-padding);
+	padding-right: luiTheme(element, field, input, compact, horizontal-padding);
+
+	border-radius: luiTheme(element, field, input, compact, border-radius);
+	border: luiTheme(element, field, input, compact, border-width) solid luiTheme(element, field, input, compact, border-color);
+
+	background-color: luiTheme(element, field, input, compact, background-color);
+
+	transition-property: background-color;
+	transition-duration: luiTheme(element, field, input, transition, duration);
+	transition-timing-function: luiTheme(element, field, input, transition, easing);
+
+	&::selection {
+		background: luiTheme(element, field, input, compact, selection-background);
+		color: luiTheme(element, field, input, compact, selection-text);
+	}
+	&::-moz-selection {
+		background: luiTheme(element, field, input, compact, selection-color);
+		color: luiTheme(element, field, input, compact, selection-text);
+	}
+}
+
+%lui_input_focus_compact {
+	background-color: luiTheme(element, field, input, compact, focus, background-color);
+}
+
+%lui_input_invalid_input_compact {
+	background-color: mix(luiTheme(element, field, invalid-color), #FFF, 25%);
+	border-color: luiTheme(element, field, invalid-color);
+	color: luiTheme(element, field, invalid-color);
+}
+
+%lui_input_disabled_compact {
+	border-color: luiTheme(element, field, input, compact, background-color);
+	color: transparentize(luiTheme(element, typography, body, color), 0.25);
+}
+
+%lui_input_sizing_compact {
+	padding: luiTheme(element, field, input, compact, vertical-padding) luiTheme(element, field, input, compact, horizontal-padding);
+}
+
+%lui_quick_compact_input {
+	@extend %lui_input_reset_compact;
+	&:focus {
+		@extend %lui_input_focus_compact;
+	}
+}
+
+@if (luiTheme(element, field, enabled)) {
+	@if lui_input_style_enabled("compact") {
+		$selector: lui_input_get_style_selector("compact");
+
+		#{$prefix}.input#{$selector} {
+
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea,
+			> select,
+			.unit {
+				@extend %lui_input_sizing_compact;
+			}
+
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				@extend %lui_input_reset_compact;
+			}
+
+			> input:not([type="checkbox"]):not([type="radio"]):focus,
+			> textarea:focus,
+			&.focused > input:not([type="checkbox"]):not([type="radio"]),
+			&.focused > textarea {
+				@extend %lui_input_focus_compact;
+			}
+
+			// Disabled
+			// ====
+			& > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
+				@extend %lui_input_disabled_compact;
+			}
+
+			// Invalid
+			// ====
+			& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
+			& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
+			& > textarea.ng-invalid.ng-touched,
+			& > textarea.ng-not-empty.ng-pristine.ng-invalid {
+				@extend %lui_input_invalid_input_compact;
+			}
+
+			& > label {
+				@include flex-order(-1);
+			}
+		}
+	}
+}
+
+@import "datepicker/input.datepicker.compact",
+		"iban/input.iban.compact",
+		"imagepicker/input.imagepicker.compact",
+		"momentpicker/input.momentpicker.compact",
+		"tagged/input.tagged.compact",
+		"timespanpicker/input.timespanpicker.compact",
+		"ui-select/input.ui-select.compact";
