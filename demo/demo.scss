@@ -23,6 +23,11 @@ html, body {
 		height: 100%;
 	}
 
+	[ui-view="content"] {
+		display: block;
+		margin-left: $toc-width;
+	}
+
 	[ui-view="content"] > section > article:before {
 		content: "";
 		display:block;

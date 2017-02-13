@@ -1,0 +1,173 @@
+@function lui_input_style_enabled($styleName) {
+	@return list_contains(luiTheme(element, field, input, styles), $styleName);
+}
+
+@function lui_input_get_style_selector($styleName) {
+	@return if(luiTheme(element, field, input, styles) == unquote($styleName), "", ".#{$styleName}");
+}
+
+%lui_input_reset {
+	outline: 0;
+	outline: none;
+	background: transparent;
+	margin: 0;
+	padding: 0;
+
+	// Border
+	border: none;
+
+	color: luiTheme(element, typography, body, color);
+	text-align: left;
+
+	@include flex(0, 0, auto);
+}
+
+%lui_input_sizing {
+	box-sizing: border-box;
+	display: block;
+	vertical-align: baseline;
+
+	margin: 0;
+
+	&:not(textarea) {
+		height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+		line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+	}
+
+	font-size: luiTheme(element, field, input, font-size);
+}
+
+%lui_input_clear {
+	@extend %lui_field_input_inner_right_icon;
+
+	width: 1em;
+	height: 1em;
+	text-align: center;
+	border-radius: 50%;
+	color: luiTheme(element, typography, body, color);
+
+	&:before {
+		font-size: 1.5em;
+		line-height: 0.6em;
+		display: block;
+		content: "\00d7";
+		margin-left: -1px;
+	}
+
+	&:hover {
+		background-color: luiPalette(grey, color);
+		color: luiPalette(grey, text);
+	}
+}
+
+%lui_input_label {
+	font-size: luiTheme(element, field, input, font-size);
+	line-height: 1.2;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: pre;
+	text-overflow: ellipsis;
+	color: luiTheme(element, field, input, label, color);
+}
+
+%lui_field_input_inner_right_icon {
+	position: absolute;
+	bottom: lui_rem(luiTheme(element, field, input, vertical-padding) * (1 + luiTheme(element, field, input, font-size)));
+	right: 0;
+	line-height: 1;
+	transform: translate(-50%, 50%);
+	margin: 0 !important;
+	opacity: 0.5;
+
+	&.is-valid {
+		right: 1em;
+	}
+}
+
+%lui_searchable_input {
+	@include lui_make_icon("search", left);
+	> input {
+		padding-right: 1.5em;
+	}
+	&:before {
+		@extend %lui_field_input_inner_right_icon;
+	}
+}
+
+
+@if (luiTheme(element, field, enabled)) {
+	#{$prefix}.input {
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+
+		#{$prefix}.input {
+			margin-top: 0;
+		}
+
+		> input:not([type="checkbox"]):not([type="radio"]),
+		> textarea,
+		> select,
+		.unit {
+			@extend %lui_input_sizing;
+		}
+
+		> input:not([type="checkbox"]):not([type="radio"]),
+		> textarea {
+			&::-webkit-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+			&::-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+			&:-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+			&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+		}
+
+		// Textarea specifics
+		// ====
+		textarea {
+			resize: vertical;
+			height: auto;
+		}
+
+		// Label
+		// ====
+		& > label {
+			@extend %lui_input_label;
+		}
+
+		// Unit
+		// ====
+		.unit {
+			width: auto;
+			font-weight: 600;
+			margin-left: 0.5em;
+		}
+
+		// Searchable input
+		// Displays a magnifier icon
+		// ====
+		&.searchable {
+			@extend %lui_searchable_input;
+		}
+
+		// Empty button
+		// ====
+		i.empty {
+			@extend %lui_input_clear;
+
+			cursor: pointer;
+		}
+
+	}
+}
+
+@import "checkbox.radio/input.checkbox.radio.common",
+		"datepicker/input.datepicker.common",
+		"dropdown/input.dropdown.common",
+		"iban/input.iban.common",
+		"imagepicker/input.imagepicker.common",
+		"momentpicker/input.momentpicker.common",
+		"switch/input.switch.common",
+		"tagged/input.tagged.common",
+		"timespanpicker/input.timespanpicker.common",
+		"translations/input.translations.common",
+		"ui-select/input.ui-select.common",
+		"userpicker/input.userpicker.common";

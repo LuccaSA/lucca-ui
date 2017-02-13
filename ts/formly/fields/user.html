@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<luid-user-picker ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" name="{{::id}}" allow-clear="true"></luid-user-picker>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>

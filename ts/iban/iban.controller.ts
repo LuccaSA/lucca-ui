@@ -57,7 +57,7 @@ module lui.iban {
 			};
 
 			this.$scope.pasteIban = (event: ClipboardEvent): void => {
-				this.setViewValue(event.clipboardData.getData("text/plain"));
+				this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
 				this.ngModelCtrl.$render();
 				(<HTMLInputElement>event.target).blur();
 			};

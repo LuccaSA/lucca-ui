@@ -12,6 +12,7 @@ module lui {
 		required?: boolean;
 		disabled?: boolean;
 		display?: string;
+		style?: string;
 		placeholder?: number | string;
 
 		// error messages

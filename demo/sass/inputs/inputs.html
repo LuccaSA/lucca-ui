@@ -1,12 +1,226 @@
 
 <h2 class="lui divider below">Inputs</h2>
 
-<section class="lui red callout">
-	<p>
-		Inputs have been heavily refactored in version <span class="lui label">3.0</span>. Inputs definitions are now intertwined with AngularJS, as their styling
-		is based upon the ng classes <code>ng-invalid</code>, <code>ng-touched</code>, etc...
-	</p>
-	<p>
-		A demonstration of input can be seen in the <a ui-sref="formly">forms section</a>.
-	</p>
-</section>
+<h2>Material</h2>
+<!--text-->
+<div class="lui field">
+	<div class="lui material input">
+		<input id="tralala" type="text" ng-model="bidule" ng-required="true">
+		<label for="tralala">Trouloulou</label>
+	</div>
+	<div class="messages">
+		<small class="error message">trekljtrklejl</small>
+		<small class="helper message">trekljtrklejl</small>
+	</div>
+</div>
+<br>
+<!--iban-->
+<div class="lui input material">
+	<luid-iban id="miban" ng-model="miban"></luid-iban>
+	<label for="miban">IBAN</label>
+</div>
+<br>
+<!--checkbox-->
+<div class="lui checkbox input material">
+	<input type="checkbox" ng-model="checked" id="mcheckbox">
+	<label for="mcheckbox">Value</label>
+</div>
+<br>
+<!--radio-->
+<div class="lui field">
+	<div class="lui material input">
+		<div class="lui radio input material">
+			<input type="radio" ng-model="radio.value" id="mradio1" value="1">
+			<label for="mradio1">Value 1</label>
+		</div>
+		<div class="lui radio input material">
+			<input type="radio" ng-model="radio.value" id="mradio2" value="2">
+			<label for="mradio2">Value 2</label>
+		</div>
+		<div class="lui radio input material">
+			<input type="radio" ng-model="radio.value" id="mradio3" value="3">
+			<label for="mradio3">Value 3</label>
+		</div>
+		<label>Radios</label>
+	</div>
+</div>
+<br>
+<!--image picker-->
+<div class="lui field">
+	<div class="lui material input">
+		<luid-image-picker class="material" ng-model="image1" id="imagepicker1"></luid-image-picker>
+		<label for="imagepicker1">Image Picker</label>
+	</div>
+</div>
+<br>
+<!--moment picker-->
+<luid-moment class="material" ng-model="myValue" show-buttons="true"></luid-moment>
+<br>
+<!--tagged-->
+<div class="lui tagged material searchable input">
+	<span class="tags">
+		<span class="tag">Timmi</span>
+	</span>
+	<input type="search" ng-model="search" placeholder="coucou">
+</div>
+<br>
+<!--timespan-->
+<div class="lui field">
+	<div class="lui material input">
+		<luid-timespan ng-model="myTimespan" class="material"></luid-timespan>
+		<label>Timespan Picker</label>
+	</div>
+</div>
+<br>
+<!--ui-select-->
+<div ng-controller="uiselectCtrl">
+	<div class="lui input material">
+		<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+			<ui-select-match>{{$select.selected.name}}</ui-select-match>
+			<ui-select-choices repeat="person in people | filter: $select.search">
+				<span ng-bind-html="person.name | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+		<label for="">User</label>
+	</div>
+	<br>
+	<div class="lui input material">
+		<ui-select multiple ng-model="colors" ng-disabled="disabled">
+			<ui-select-match>{{$item}}</ui-select-match>
+			<ui-select-choices repeat="color in availableColors | filter:$select.search">
+				{{color}}
+			</ui-select-choices>
+		</ui-select>
+		<label for="">Colors</label>
+	</div>
+</div>
+<br>
+<!--datepicker-->
+<div ng-controller="datepickerCtrl">
+	<luid-date-picker-popup ng-model="dateMoment" class="material"></luid-date-picker-popup>
+</div>
+<br>
+<!--datepicker-->
+<div>
+	<luid-daterange-picker ng-model="period" class="material"></luid-daterange-picker>
+</div>
+
+
+
+
+
+<h2>Compact</h2>
+<!--text-->
+<div class="lui field">
+	<div class="lui compact input">
+		<input id="aze" type="text" ng-model="bidule" ng-required="true">
+		<label for="aze">azeazeaze</label>
+	</div>
+	<div class="messages">
+		<small class="error message">trekljtrklejl</small>
+		<small class="helper message">trekljtrklejl</small>
+	</div>
+</div>
+<br>
+<!--iban-->
+<div class="lui input compact">
+	<luid-iban id="ciban" ng-model="ciban"></luid-iban>
+	<label for="ciban">IBAN</label>
+</div>
+<br>
+<!--checkbox-->
+<div class="lui field">
+	<div class="lui checkbox compact input">
+		<input type="checkbox" ng-model="checked" id="mcheckbox">
+		<label for="mcheckbox">Value</label>
+	</div>
+</div>
+<br>
+<!--radio-->
+<div class="lui field">
+	<div class="lui compact input">
+		<div class="lui radio input compact">
+			<input type="radio" ng-model="radio.value" id="cradio1" value="1">
+			<label for="cradio1">Value 1</label>
+		</div>
+		<div class="lui radio input compact">
+			<input type="radio" ng-model="radio.value" id="cradio2" value="2">
+			<label for="cradio2">Value 2</label>
+		</div>
+		<div class="lui radio input compact">
+			<input type="radio" ng-model="radio.value" id="cradio3" value="3">
+			<label for="cradio3">Value 3</label>
+		</div>
+		<label>Radios</label>
+	</div>
+</div>
+<br>
+<!--image picker-->
+<div class="lui field">
+	<div class="lui compact input">
+		<luid-image-picker class="compact" ng-model="image2" id="imagepicker"></luid-image-picker>
+		<label for="imagepicker">Image Picker</label>
+	</div>
+</div>
+<br>
+<!--moment picker-->
+<div class="lui field">
+	<div class="lui compact input">
+		<luid-moment class="compact" ng-model="myValue"></luid-moment>
+		<luid-moment class="compact" ng-model="myValue" show-buttons="true"></luid-moment>
+		<label for="imagepicker">Moment Picker</label>
+	</div>
+</div>
+<br>
+<!--tagged-->
+<div class="lui tagged compact searchable input">
+	<div class="holder">
+		<span class="tags">
+			<span class="tag">Timmi <i class="lui icon cross"></i></span>
+			<span class="tag selected">Directory</span>
+		</span>
+		<input type="search" ng-model="search" id="search2" placeholder="coucou">
+	</div>
+	<label>Search with tags</label>
+</div>
+<br>
+<!--timespan-->
+<div class="lui field">
+	<div class="lui compact input">
+		<luid-timespan ng-model="myTimespan"placeholder="--m" class="compact"></luid-timespan>
+		<label>Timespan Picker</label>
+	</div>
+</div>
+<br>
+<!--ui-select-->
+<div ng-controller="uiselectCtrl">
+	<div class="lui input compact">
+		<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="true" class="lui">
+			<ui-select-match>{{$select.selected.name}}</ui-select-match>
+			<ui-select-choices repeat="person in people | filter: $select.search">
+				<span ng-bind-html="person.name | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+		<label for="">User</label>
+	</div>
+	<br>
+	<div class="lui input x-long compact">
+		<ui-select multiple ng-model="colors" ng-disabled="disabled">
+			<ui-select-match>{{$item}}</ui-select-match>
+			<ui-select-choices repeat="color in availableColors | filter:$select.search">
+				{{color}}
+			</ui-select-choices>
+		</ui-select>
+		<label for="">Colors</label>
+	</div>
+</div>
+<br>
+<!--datepicker-->
+<div ng-controller="datepickerCtrl">
+	<luid-date-picker-popup ng-model="dateMoment" class="compact"></luid-date-picker-popup>
+</div>
+<br>
+<!--datepicker-->
+<div>
+	<luid-daterange-picker ng-model="period" class="compact"></luid-daterange-picker>
+</div>
