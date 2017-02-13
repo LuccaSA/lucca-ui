@@ -6,6 +6,8 @@
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
 
+### Bug fixes
+ - [issue #358](https://github.com/LuccaSA/lucca-ui/issues/358) datepicker and daterangepicker popover position
 
 ## 3.0.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.10)
 
