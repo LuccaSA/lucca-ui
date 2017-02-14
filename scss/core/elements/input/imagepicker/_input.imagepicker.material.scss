@@ -37,6 +37,10 @@
 				luid-image-picker#{$selector} {
 					height: map-gets($vars, size) !important;
 				}
+
+				luid-image-picker#{$selector} + label {
+					@extend %lui_input_label_displaced;
+				}
 			}
 		}
 	}

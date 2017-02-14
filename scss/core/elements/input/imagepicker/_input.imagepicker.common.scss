@@ -120,10 +120,6 @@
 		// In a field
 		// ====
 		#{$prefix}.field {
-			luid-image-picker + label {
-				@extend %lui_input_label_displaced;
-			}
-
 			luid-image-picker {
 				margin-top: 0.5em;
 				width: map-gets($vars, size) !important;
