@@ -13,20 +13,31 @@
 	&:not(.inverted):not(.flat):not(.filling):not(.wired) {
 		background: map-get($scheme, color);
 		color: map-get($scheme, text);
-		&:hover { background: lighten(map-get($scheme, color), 5); }
-		&:active, &.active { background: darken(map-get($scheme, color), 5); }
+		&:hover,
+		&:focus { 
+			background: lighten(map-get($scheme, color), 5); 
+		}
+		&:active,
+		&.active { 
+			background: darken(map-get($scheme, color), 5); 
+		}
 	}
 
 	// Style - inverted
 	// ====
 	&.inverted:not(.flat) {
 		background: transparent;
-		&:hover {
+		&:hover, 
+		&:focus {
+			background: transparent;
 			box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
 			color: map-gets($scheme, color);
 		}
-		&.filling:hover {
-			color: map-gets($scheme, text);
+		&.filling{
+			&:hover,
+			&:focus{
+				color: map-gets($scheme, text);
+			}
 		}
 
 		&[class*="with addon"] > .addon {
@@ -37,7 +48,7 @@
 	// Style - filling
 	// ====
 	&.filling {
-		&:hover, &:active, &.active {
+		&:hover, &:focus, &:active, &.active {
 			background: map-gets($scheme, color);
 			color: map-gets($scheme, text);
 		}
@@ -48,6 +59,7 @@
 		background: transparent;
 
 		&:not(.inverted):hover,
+		&:not(.inverted):focus,
 		&:not(.inverted):active,
 		&:not(.inverted).active {
 			box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
@@ -125,7 +137,7 @@
 			@extend %lui_basic_button;
 		}
 		a#{$prefix}.button {
-			&, &:hover, &:active, &:visited {
+			&:hover, &:focus, &:active, &:visited {
 				color: map-gets($vars, defaultColoring, text);
 				text-decoration: none;
 			}
@@ -150,7 +162,7 @@
 		// ===================================
 
 		#{$prefix}.button:not(.wired) {
-			&:hover { box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset, unquote(map-gets($vars, hoverShadow)); }
+			&:hover, &:focus { box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset, unquote(map-gets($vars, hoverShadow)); }
 			&:active, &.active { box-shadow: 0 0 0 map-gets($vars, defaultBorderWidth) map-gets($vars, defaultBorderColor) inset,; }
 		}
 
@@ -167,7 +179,7 @@
 				> .addon {
 					background-color: transparent;
 				}
-				&:hover > .addon {
+				&:hover, &:focus > .addon {
 					border-width: map-gets($vars, wired, borderWidth);
 				}
 			}
@@ -185,14 +197,11 @@
 			text-decoration: map-gets($vars, flat, textDecoration);
 			box-shadow: none;
 
-			&:hover, &:active, &.active {
-				background: map-gets($vars, flat, activeBackground);
-				box-shadow: map-gets($vars, flat, activeShadow);
+			&:hover, &:focus, &:active, &.active {
+				border: none;
+				box-shadow: none;
+				color: darken(map-gets($vars, defaultColoring, text), 40);
 			}
-
-			&:hover { background: map-gets($vars, flat, hoverBackground); }
-
-			&:active { background: map-gets($vars, flat, activeBackground); }
 
 			&:before, &:after { text-decoration: none; }
 
@@ -205,7 +214,7 @@
 
 			&.inverted {
 				color: map-gets($vars, inverted, color);
-				&:hover { background: map-gets($vars, flat, invertedHoverBackground); }
+				&:hover, &:focus { background: map-gets($vars, flat, invertedHoverBackground); }
 
 				&:active { background: map-gets($vars, flat, invertedActiveBackground); }
 			}
@@ -244,9 +253,12 @@
 				margin: 0; margin-left: -1px;
 				@include flex-align-self(stretch !important);
 
-				&.wired:hover {
-					position: relative;
-					z-index: 2;
+				&.wired{
+					&:hover,
+					&:focus{
+						position: relative;
+						z-index: 2;
+					}
 				}
 				border-radius: 0;
 				&:first-of-type {
