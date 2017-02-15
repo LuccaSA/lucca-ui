@@ -3474,6 +3474,13 @@ html:not(.ie9) #demo .lui.input {
   padding: 1em;
 }
 
+#demo luid-image-picker .luid-image-picker-picture .input-overlay .cross {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
 #demo luid-image-picker .luid-image-picker-picture input[type="file"] {
   cursor: pointer;
   vertical-align: top;
