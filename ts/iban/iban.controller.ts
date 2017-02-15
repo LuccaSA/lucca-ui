@@ -1,6 +1,10 @@
 module lui.iban {
 	"use strict";
 
+	export interface IbanChecker {
+		isValid(value: string): boolean;
+	}
+
 	export class LuidIbanController {
 		public static IID: string = "luidIbanController";
 		public static $inject: Array<string> = ["$scope", "iban"];
@@ -10,9 +14,9 @@ module lui.iban {
 		private controlInput: ng.IAugmentedJQuery;
 		private bbanInput: ng.IAugmentedJQuery;
 
-		private ibanChecker: IBANStatic;
+		private ibanChecker: IbanChecker;
 
-		constructor($scope: ILuidIbanScope, iban: IBANStatic) {
+		constructor($scope: ILuidIbanScope, iban: IbanChecker) {
 			this.$scope = $scope;
 			this.ibanChecker = iban;
 			this.initScope();
@@ -21,7 +25,7 @@ module lui.iban {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			this.ngModelCtrl.$render = (): void => {
-				let iban = this.getViewValue();
+				let iban = this.getViewValue().replace(" ", "");
 				if (!!iban) {
 					this.$scope.countryCode = iban.substring(0, 2);
 					this.$scope.controlKey = iban.substring(2, 4);

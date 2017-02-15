@@ -1,10 +1,9 @@
 <div class="lui daterange fitting input"
 	 uib-popover-template="'lui/templates/date-picker/daterangepicker-popover.html'"
-	 popover-placement="bottom-left"
+	 popover-placement="auto bottom-left"
 	 popover-trigger="'none'" popover-is-open="popover.isOpen"
 	 popover-class="lui luid-daterangepicker"
 	 ng-click="togglePopover($event)">
-	<i class="empty" ng-click="clear($event)"></i>
 	<div class="inputs" ng-if="popover.isOpen">
 		<input type="text" auto-focus
 			   ng-readonly="disableKeyboardInput"
@@ -26,6 +25,7 @@
 			   placeholder="{{toLabel}}"
 			   luid-keydown mappings="closePopoverOnTab">
 	</div>
+	<i class="empty" ng-click="clear($event)"></i>
 	<!--ng-hide messes up the alignments, for some reasons... ng-class will be good enough -->
 	<input type="text" ng-readonly="disableKeyboardInput" ng-model="displayStr" placeholder="{{placeholder}}">
 </div>
