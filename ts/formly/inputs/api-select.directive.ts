@@ -60,7 +60,7 @@ module lui.apiselect {
 	interface IApiSelectScope extends ng.IScope {
 		api: string;
 		filter: string;
-		choices: IStandardApiResource[];
+		choices: (IStandardApiResource & { loading?: boolean })[];
 
 		onDropdownToggle(isOpen: boolean): void;
 		refresh(clue: string): void;
@@ -101,19 +101,22 @@ module lui.apiselect {
 				service.get(clue, $scope.api, $scope.filter, paging)
 				.then((choices) => {
 					$scope.choices = choices;
+					this.offset = $scope.choices.length;
 				});
 			};
 			let loadingPromise;
 			$scope.loadMore = (clue: string) => {
 				if (!loadingPromise) {
 					let paging = `${this.offset},${this.offset + MAGIC_PAGING}`;
-					this.offset += MAGIC_PAGING;
+					$scope.choices.push({ id: 0, loading: true, name: "" });
 					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging)
 					.then((nextChoices: IStandardApiResource[]) => {
 						$scope.choices = _.chain($scope.choices)
+						.reject(c => c.loading)
 						.union(nextChoices)
 						.uniq(c => c.id)
-						.value()
+						.value();
+						this.offset = $scope.choices.length;
 						loadingPromise = undefined;
 					}, () => {
 						loadingPromise = undefined;
