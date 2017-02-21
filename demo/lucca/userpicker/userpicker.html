@@ -28,34 +28,33 @@
 <div class="lui dashed divider">
 	<h4 class="lui underline">Demo</h4>
 </div>
-<div class="lui block round">
-	<nav class="lui primary dividing right menu">
-		<h5 class="lui item" ng-click="showMultipleUserPicker = false" ng-class="{'active': (showMultipleUserPicker === false)}">Simple user picker</h5>
-	</nav>
-	<div style="padding:1.2em;">
-		<luid-user-picker ng-if="!!globalConnected"
-							ng-model="$parent.firstModel"
-							homonyms-properties="homonymsProperties"
-							show-former-employees="includeFormerEmployees"
-							display-me-first="true"
-							on-select="onSelectFirstModel()"
-							on-remove="onRemoveFirstModel()"
-							custom-filter="customFilter"
-							custom-info="getCustomInfo"
-							custom-info-async="getCustomInfoAsync"
-							control-disabled="disableUserPicker"
-							app-id="appId"
-							operations="operations"
-							bypass-operations-for="bypassOperationsFor"
-							placeholder="Select a user">
+<article class="lui block round">
+	<h5>Simple user picker</h5>
+	<div class="lui field">
+		<span class="lui input">
+			<luid-user-picker ng-if="!!globalConnected"
+			ng-model="firstModel.selected"
+			homonyms-properties="homonymsProperties"
+			show-former-employees="includeFormerEmployees"
+			display-me-first="true"
+			on-select="onSelectFirstModel()"
+			on-remove="onRemoveFirstModel()"
+			custom-filter="customFilter"
+			custom-info="getCustomInfo"
+			custom-info-async="getCustomInfoAsync"
+			control-disabled="disableUserPicker"
+			app-id="appId"
+			operations="operations"
+			bypass-operations-for="bypassOperationsFor">
 		</luid-user-picker>
+		<label>Select a user</label>
+	</span>
 	</div>
 	<div class="lui dashed divider"></div>
-	<div style="margin-top: 3em;">
 		<p>
 			<p><code>ng-model:</code></p>
-			<p><code>{{ firstModel }}</code></p>
-			<button class="lui button" ng-click="clearFirstModel()" ng-disabled="firstModel === undefined">Clear the ng-model</button>
+			<p><code>{{ firstModel.selected }}</code></p>
+			<button class="lui button" ng-click="clearFirstModel()" ng-disabled="firstModel.selected === undefined">Clear the ng-model</button>
 		</p>
 		<div class="lui checkbox input">
 			<input type="checkbox" name="disable-user-picker" id="disable-user-picker" ng-model="disableUserPicker">
@@ -79,23 +78,19 @@
 				ng-click="resetAppIdAndOperations()">
 		</form>
 	</div>
-</div>
+</article>
 <br/><br/>
-<div class="lui block round">
-	<nav class="lui primary dividing right menu">
-		<h5 class="lui item" ng-click="showMultipleUserPicker = false" ng-class="{'active': (showMultipleUserPicker === false)}">Multiple user picker</h5>
-	</nav>
-	<div style="padding:1.2em;">
-		<luid-user-picker-multiple ng-if="!!globalConnected"
-								   ng-model="$parent.selectedUsers"
-								   placeholder="Select users">
+<article class="lui block round">
+	<h5>Multiple user picker</h5>
+	<div class="lui fitting field">
+		<span class="lui input">
+			<luid-user-picker-multiple ng-if="!!globalConnected"
+			ng-model="users.selected">
+			</luid-user-picker-multiple>
+			<label>Select users</label>
+		</span>
 	</div>
 	<div class="lui dashed divider"></div>
-	<div style="margin-top: 3em;">
-		<p>
-			<p><code>ng-model:</code></p>
-			<p><code>{{ selectedUsers }}</code></p>
-		</p>
-	</div>
-</div>
-<br><br><br><br><br><br><br><br><br>
+	<p><code>ng-model:</code></p>
+	<p><code>{{ users.selected }}</code></p>
+</article>
