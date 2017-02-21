@@ -5,7 +5,7 @@
 	on-remove="onSelectedUserRemoved()"
 	uis-open-close="onOpen(isOpen)">
 	<ui-select-match placeholder="{{placeholder}}" allow-clear="true">{{$item.lastName}} {{$item.firstName}}</ui-select-match>
-	<ui-select-choices repeat="user in users" refresh="find($select.search)" refresh-delay="0" on-scroll-bottom="loadMore()">
+	<ui-select-choices repeat="user in users" refresh="find($select.search)" refresh-delay="0" luid-on-scroll-bottom="loadMore()">
 		<div ng-if="user.id === myId" class="selected-first" ng-class="{'dividing': $index === 0}"
 			 ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'">
 		</div>
