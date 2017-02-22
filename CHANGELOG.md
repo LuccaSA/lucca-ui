@@ -11,6 +11,7 @@
  - [issue #377](https://github.com/LuccaSA/lucca-ui/issues/377) iban validity issue due to spaces in viewvalue
  - Tablegrid: table headers should share the same text-align than cells
  - added class `.clickable` for `.lui.table`
+ - z-index fix for modals & overlays
 
 ## 3.0.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.10)
 
