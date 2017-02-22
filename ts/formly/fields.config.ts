@@ -1,7 +1,7 @@
 module Lui {
 	"use strict";
 	interface IFormlyConfig {
-		setType(type: { name: string, templateUrl: string }): void
+		setType(type: { name: string, templateUrl: string }): void;
 	}
 	angular.module("lui.formly")
 	.config(["formlyConfigProvider", (formlyConfigProvider: IFormlyConfig) => {
