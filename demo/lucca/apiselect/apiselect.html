@@ -1,0 +1,59 @@
+<h2 class="lui divider below">luid-api-select</h2>
+<p>
+	an easy to use ui-select plugged to one of the many lucca's apis
+</p>
+<p>
+	implements a basic paging, it will load more results when you hit the bottom of the scroll
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Supported arguments</h4>
+</div>
+<p>
+	<ul class="lui unstyled">
+		<li><code><b>ng-model</b></code>: will have fields <code>id</code> and <code>name</code></li>
+		<li><code><b>api</b></code>: the api you wnat to hit</li>
+		<li><code><b>filter</b></code>: a filter you want applied to said api</li>
+	</ul>
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Demo</h4>
+</div>
+<article class="lui block round">
+	<div class="lui field">
+		<span class="lui long input">
+			<luid-api-select ng-if="!!globalConnected"
+			ng-model="internal.single"
+			api="api"
+			filter="filter"
+			>
+			</luid-api-select>
+			<label>single</label>
+		</span>
+		<small class="message helper">value: {{ internal.single }}</small>
+	</div>
+	<div class="lui fitting field">
+		<span class="lui input">
+			<luid-api-select-multiple ng-if="!!globalConnected"
+			ng-model="internal.multiple"
+			api="api"
+			filter="filter">
+			</luid-api-select-multiple>
+			<label>multiple</label>
+		</span>
+		<small class="message helper">values: {{ internal.multiple }}</small>
+	</div>
+	<div class="lui field">
+		<span class="lui input">
+		<input type="text" ng-model="api">
+			<label>api</label>
+		</span>
+	</div>
+	<div class="lui field">
+		<span class="lui input">
+		<input type="text" ng-model="filter">
+			<label>filter</label>
+		</span>
+	</div>
+</article>

@@ -72,5 +72,6 @@ module lui.userpicker {
 		// Specific to the luid-select-multiple
 		onSelectedUsersChanged(): void;
 		onSelectedUserRemoved(): void;
+		onOpen(isOpen: boolean): void;
 	}
 }

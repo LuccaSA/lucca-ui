@@ -134,7 +134,7 @@ module lui.userpicker {
 			};
 
 			this.$scope.loadMore = (): void => {
-				if (this.$scope.displayAllUsers === undefined || this.$scope.displayAllUsers === false) {
+				if (!this.$scope.displayAllUsers) {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
