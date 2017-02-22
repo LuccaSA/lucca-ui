@@ -1,14 +1,15 @@
 (function () {
 	'use strict';
 	angular.module("demoApp")
-		.controller("userPickerCtrl", ["$scope", "$httpBackend", "$http", "$q", function ($scope, $httpBackend, $http, $q) {
-			$scope.firstModel = undefined;
+		.controller("userPickerCtrl", ["$scope", "$httpBackend", "$http", "$q", "luisNotify", function ($scope, $httpBackend, $http, $q, luisNotify) {
+			$scope.firstModel = {};
+			$scope.users = {};
 			$scope.disableUserPicker = false;
-			$scope.onSelectFirstModel = () => { alert("onSelect()"); }
-			$scope.onRemoveFirstModel = () => { alert("onRemove()"); }
+			$scope.onSelectFirstModel = () => { luisNotify.success("onSelect()"); }
+			$scope.onRemoveFirstModel = () => { luisNotify.success("onRemove()"); }
 			$scope.clearFirstModel = () => {
-				console.log("firstModel = " + $scope.firstModel);
-				$scope.firstModel = undefined;
+				console.log("firstModel.selected = " + $scope.firstModel.selected);
+				$scope.firstModel = {};
 			}
 
 			// $scope.appId = 107;

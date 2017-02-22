@@ -15,7 +15,7 @@
 		color: map-get($scheme, text);
 		&:hover,
 		&:focus { 
-			background: lighten(map-get($scheme, color), 5); 
+			background: lighten(map-get($scheme, color), 5);
 		}
 		&:active,
 		&.active { 

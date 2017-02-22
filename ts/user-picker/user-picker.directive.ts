@@ -39,26 +39,15 @@ module lui.userpicker {
 			let ngModelCtrl = ctrls[0];
 			let userPickerCtrl = ctrls[1];
 			userPickerCtrl.setNgModelCtrl(ngModelCtrl);
+			scope.onOpen = (isOpen: boolean) => {
+				if (isOpen) {
+					element.addClass("ng-open");
+				} else {
+					element.removeClass("ng-open");
+				}
+			};
 		}
 	}
-	angular.module("lui").directive(LuidUserPicker.IID, LuidUserPicker.factory());
+	angular.module("lui.translate").directive(LuidUserPicker.IID, LuidUserPicker.factory());
 
-	/**
-	 * Directive used to call a custom function when the user scroll to the bottom of an element.
-	 * Usage: <element on-scroll-bottom="yourCallback()"></element>
-	 */
-	angular.module("lui").directive("onScrollBottom", () => {
-		return {
-			restrict: "A",
-			scope: { onScrollBottom: "&" },
-			link: ($scope: any, element: angular.IAugmentedJQuery): void => {
-				element.bind("scroll", (eventArg: JQueryEventObject) => {
-					let scrollbarHeight = eventArg.srcElement.scrollHeight - eventArg.srcElement.clientHeight;
-					if (Math.abs(scrollbarHeight - eventArg.srcElement.scrollTop) < 2 && !!$scope.onScrollBottom()) {
-						$scope.onScrollBottom();
-					}
-				});
-			}
-		};
-	});
 }
