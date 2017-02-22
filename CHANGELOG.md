@@ -9,6 +9,7 @@
 ### Bug fixes
  - [issue #358](https://github.com/LuccaSA/lucca-ui/issues/358) datepicker and daterangepicker popover position
  - [issue #377](https://github.com/LuccaSA/lucca-ui/issues/377) iban validity issue due to spaces in viewvalue
+- Tablegrid: table headers should share the same text-align than cells
 
 ## 3.0.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.10)
 
@@ -17,7 +18,6 @@
 
 ### Bug fixes
 - Modal: !important on z-index is conflicting with automatic z-index increment handled by angular-ui-bootstrap
-- Tablegrid: table headers should share the same text-align than cells
 
 
 ## 3.0.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.0.9)
