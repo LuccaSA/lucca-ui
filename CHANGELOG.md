@@ -8,7 +8,7 @@
 
 ### Changes (non-breaking)
  - added infinite scroll to `luid-api-select`
- - added `order` param to `luid-api-select`
+ - added `order-by` param to `luid-api-select`
 
 ### Bug fixes
  - [issue #358](https://github.com/LuccaSA/lucca-ui/issues/358) datepicker and daterangepicker popover position

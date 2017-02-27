@@ -8,7 +8,7 @@ module lui.apiselect {
 		public scope = {
 			api: "=",
 			filter: "=",
-			order: "=",
+			orderBy: "=",
 			placeholder: "@",
 		};
 		public controller = ApiSelectController.IID;
@@ -37,7 +37,7 @@ module lui.apiselect {
 		public scope = {
 			api: "=",
 			filter: "=",
-			order: "=",
+			orderBy: "=",
 			placeholder: "@",
 		};
 		public controller = ApiSelectController.IID;
@@ -62,7 +62,7 @@ module lui.apiselect {
 	interface IApiSelectScope extends ng.IScope {
 		api: string;
 		filter: string;
-		order: string;
+		orderBy: string;
 		choices: (IStandardApiResource & { loading?: boolean })[];
 
 		onDropdownToggle(isOpen: boolean): void;
@@ -104,7 +104,7 @@ module lui.apiselect {
 			$scope.refresh = (clue: string) => {
 				this.offset = 0;
 				let paging = `0,${MAGIC_PAGING}`;
-				service.get(clue, $scope.api, $scope.filter, paging, $scope.order)
+				service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
 				.then((choices) => {
 					$scope.choices = choices;
 					this.offset = $scope.choices.length;
