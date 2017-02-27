@@ -14,6 +14,7 @@
 		<li><code><b>ng-model</b></code>: will have fields <code>id</code> and <code>name</code></li>
 		<li><code><b>api</b></code>: the api you wnat to hit</li>
 		<li><code><b>filter</b></code>: a filter you want applied to said api</li>
+		<li><code><b>order-by</b></code>: the order you want applied to the result, must look like <code>name,asc</code> or <code>createdAt,desc</code></li>
 	</ul>
 </p>
 
@@ -27,6 +28,7 @@
 			ng-model="internal.single"
 			api="api"
 			filter="filter"
+			order="order"
 			>
 			</luid-api-select>
 			<label>single</label>
@@ -38,22 +40,32 @@
 			<luid-api-select-multiple ng-if="!!globalConnected"
 			ng-model="internal.multiple"
 			api="api"
-			filter="filter">
+			filter="filter"
+			order-by="order">
 			</luid-api-select-multiple>
 			<label>multiple</label>
 		</span>
 		<small class="message helper">values: {{ internal.multiple }}</small>
 	</div>
-	<div class="lui field">
-		<span class="lui input">
-		<input type="text" ng-model="api">
-			<label>api</label>
-		</span>
+	<div class="lui inline fields">
+		<div class="lui field">
+			<span class="lui input">
+				<input type="text" ng-model="api" ng-model-options="debounce">
+				<label>api</label>
+			</span>
+		</div>
+		<div class="lui field">
+			<span class="lui input">
+				<input type="text" ng-model="filter" ng-model-options="debounce">
+				<label>filter</label>
+			</span>
+		</div>
+		<div class="lui field">
+			<span class="lui input">
+				<input type="text" ng-model="order" ng-model-options="debounce">
+				<label>order</label>
+			</span>
+		</div>
 	</div>
-	<div class="lui field">
-		<span class="lui input">
-		<input type="text" ng-model="filter">
-			<label>filter</label>
-		</span>
-	</div>
+
 </article>

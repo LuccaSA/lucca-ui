@@ -12,11 +12,12 @@ module lui.apiselect {
 		constructor($http: angular.IHttpService) {
 			this.$http = $http;
 		}
-		public get(clue: string, api: string, additionalFilter?: string, paging?: string): ng.IPromise<IStandardApiResource[]> {
+		public get(clue: string, api: string, additionalFilter?: string, paging?: string, order?: string): ng.IPromise<IStandardApiResource[]> {
 			let clueFilter: string = !!clue ? "name=like," + clue : undefined;
 			let pagingFilter: string = paging ? `paging=${paging}` : undefined;
 			let fields = "fields=id,name";
-			let filter = _.reject([fields, clueFilter, pagingFilter, additionalFilter], i => !i).join("&");
+			let orderBy = !!order ? `orderBy=${order}` : undefined;
+			let filter = _.reject([fields, clueFilter, pagingFilter, additionalFilter, orderBy], i => !i).join("&");
 			return this.$http.get(api + "?" + filter)
 			.then( (response: ng.IHttpPromiseCallbackArg<{data: { items: IStandardApiResource[] } } & { data: IStandardApiResource[] }>) => {
 				if (api.indexOf("/v3/") !== -1) {
