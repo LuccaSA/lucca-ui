@@ -115,7 +115,7 @@ module lui.apiselect {
 				if (!loadingPromise) {
 					let paging = `${this.offset},${this.offset + MAGIC_PAGING}`;
 					$scope.choices.push({ id: 0, loading: true, name: "" });
-					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.order)
+					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
 					.then((nextChoices: IStandardApiResource[]) => {
 						$scope.choices = _.chain($scope.choices)
 						.reject(c => c.loading)
