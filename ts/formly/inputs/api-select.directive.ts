@@ -8,6 +8,7 @@ module lui.apiselect {
 		public scope = {
 			api: "=",
 			filter: "=",
+			order: "=",
 			placeholder: "@",
 		};
 		public controller = ApiSelectController.IID;
@@ -36,6 +37,7 @@ module lui.apiselect {
 		public scope = {
 			api: "=",
 			filter: "=",
+			order: "=",
 			placeholder: "@",
 		};
 		public controller = ApiSelectController.IID;
@@ -60,6 +62,7 @@ module lui.apiselect {
 	interface IApiSelectScope extends ng.IScope {
 		api: string;
 		filter: string;
+		order: string;
 		choices: (IStandardApiResource & { loading?: boolean })[];
 
 		onDropdownToggle(isOpen: boolean): void;
@@ -80,7 +83,7 @@ module lui.apiselect {
 			service: StandardApiService
 		) {
 			let delayedReset;
-			function resetResults() {
+			function resetResults(): void {
 				if (!!delayedReset) {
 					$timeout.cancel(delayedReset);
 				}
@@ -95,10 +98,13 @@ module lui.apiselect {
 			$scope.$watch("api", () => {
 				resetResults();
 			});
+			$scope.$watch("order", () => {
+				resetResults();
+			});
 			$scope.refresh = (clue: string) => {
 				this.offset = 0;
 				let paging = `0,${MAGIC_PAGING}`;
-				service.get(clue, $scope.api, $scope.filter, paging)
+				service.get(clue, $scope.api, $scope.filter, paging, $scope.order)
 				.then((choices) => {
 					$scope.choices = choices;
 					this.offset = $scope.choices.length;
@@ -109,7 +115,7 @@ module lui.apiselect {
 				if (!loadingPromise) {
 					let paging = `${this.offset},${this.offset + MAGIC_PAGING}`;
 					$scope.choices.push({ id: 0, loading: true, name: "" });
-					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging)
+					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.order)
 					.then((nextChoices: IStandardApiResource[]) => {
 						$scope.choices = _.chain($scope.choices)
 						.reject(c => c.loading)
