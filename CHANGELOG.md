@@ -6,6 +6,10 @@
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
 
+### Changes (non-breaking)
+ - added infinite scroll to `luid-api-select`
+ - added `order` param to `luid-api-select`
+
 ### Bug fixes
  - [issue #358](https://github.com/LuccaSA/lucca-ui/issues/358) datepicker and daterangepicker popover position
  - [issue #377](https://github.com/LuccaSA/lucca-ui/issues/377) iban validity issue due to spaces in viewvalue
