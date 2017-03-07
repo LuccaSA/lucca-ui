@@ -157,6 +157,15 @@
 		}
 
 	}
+
+	// Sizing
+	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+		#{$prefix}.input.#{$sizeName} > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
+		#{$prefix}.input.#{$sizeName}:not(.radio):not(.checkbox):not(.switch) > label {
+			min-width: 0;
+			width: $sizeEms;
+		}
+	}
 }
 
 @import "checkbox.radio/input.checkbox.radio.common",
