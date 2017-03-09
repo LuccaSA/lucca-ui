@@ -47,6 +47,9 @@
 					input.ui-select-search {
 						@extend %lui_input_reset;
 					}
+					.ui-select-match-item {
+						@extend %lui_tagged_input_tag_compact;
+					}
 				}
 			}
 		}
