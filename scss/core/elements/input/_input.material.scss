@@ -76,8 +76,6 @@
 		$selector: lui_input_get_style_selector("material");
 
 		#{$prefix}.input#{$selector} {
-			margin-top: 1.3em;
-
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea {
 				@extend %lui_input_reset_material;
