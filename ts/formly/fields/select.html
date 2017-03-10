@@ -9,5 +9,5 @@
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper }}</small>
-	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$dirty && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
 </div>
