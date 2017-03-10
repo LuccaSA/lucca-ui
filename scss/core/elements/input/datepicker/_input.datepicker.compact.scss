@@ -15,6 +15,7 @@
 
 			luid-date-picker-popup#{$selector},
 			luid-daterange-picker#{$selector} {
+				&.ng-invalid.ng-dirty > .lui.input > input,
 				&.ng-invalid.ng-touched > .lui.input > input,
 				&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
 					@extend %lui_input_invalid_input_compact;

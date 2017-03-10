@@ -82,8 +82,10 @@
 
 			// Invalid
 			// ====
+			& > input.ng-invalid.ng-dirty:not([type="checkbox"]):not([type="radio"]),
 			& > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
 			& > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
+			& > textarea.ng-invalid.ng-dirty,
 			& > textarea.ng-invalid.ng-touched,
 			& > textarea.ng-not-empty.ng-pristine.ng-invalid {
 				@extend %lui_input_invalid_input_compact;

@@ -18,6 +18,7 @@
 
 					// Invalid
 					// ====
+					&.ng-invalid.ng-dirty,
 					&.ng-invalid.ng-touched {
 						.ui-select-toggle,
 						.ui-select-search {
@@ -36,6 +37,7 @@
 
 					// Invalid
 					// ====
+					&.ng-invalid.ng-dirty,
 					&.ng-invalid.ng-touched > div {
 						@extend %lui_input_invalid_input_compact;
 					}
