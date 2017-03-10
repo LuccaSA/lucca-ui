@@ -227,6 +227,7 @@
 			width: 100%;
 
 			&.ng-invalid.ng-touched,
+			&.ng-invalid.ng-dirty,
 			&.ng-not-empty.ng-pristine.ng-invalid {
 				.ui-select-container .ui-select-toggle,
 				.ui-select-container .ui-select-search {
