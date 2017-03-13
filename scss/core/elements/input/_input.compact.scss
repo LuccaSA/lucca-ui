@@ -54,7 +54,6 @@
 		$selector: lui_input_get_style_selector("compact");
 
 		#{$prefix}.input#{$selector} {
-
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
 			> select,
@@ -94,6 +93,25 @@
 			& > label {
 				@include flex-order(-1);
 			}
+
+			& > #{$prefix}.input#{$selector} {
+				margin-right: 0;
+			}
+		}
+
+		// Sizing
+		@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+			#{$prefix}.input.#{$sizeName}#{$selector} > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]) {
+				min-width: 0;
+				width: $sizeEms;
+			}
+		}
+
+		#{$prefix}.input#{$selector}:not(.radio):not(.checkbox):not(.switch) > label {
+			width: 7em !important;
+			white-space: inherit;
+			word-break: break-word;
+			margin-right: 1em;
 		}
 	}
 }
