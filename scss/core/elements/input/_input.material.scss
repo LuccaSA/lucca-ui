@@ -136,6 +136,15 @@
 				margin-bottom: luiTheme(element, field, input, material, default-border-width);
 			}
 		}
+
+		// Sizing
+		@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+			#{$prefix}.input.#{$sizeName}#{$selector} > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
+			#{$prefix}.input.#{$sizeName}#{$selector}:not(.radio):not(.checkbox):not(.switch) > label {
+				min-width: 0;
+				width: $sizeEms;
+			}
+		}
 	}
 }
 
@@ -147,4 +156,3 @@
 		"tagged/input.tagged.material",
 		"timespanpicker/input.timespanpicker.material",
 		"ui-select/input.ui-select.material";
-
