@@ -73,7 +73,8 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 		"core/elements/popover",
 		"core/elements/pagination",
 		"core/elements/modal",
-		"core/elements/notify";
+		"core/elements/notify",
+		"core/elements/dragdrop";
 
 
 
