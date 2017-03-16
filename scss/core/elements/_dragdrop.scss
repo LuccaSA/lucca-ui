@@ -1,0 +1,106 @@
+@if luiTheme(element, divider, enabled) {
+	@at-root #{$namespace} {
+
+    .as-sortable-item, .as-sortable-placeholder {
+        display: block;
+    }
+
+    .as-sortable-item {
+        -ms-touch-action: none;
+        touch-action: none;
+        /* to disable context menu on iOS devices */
+        -webkit-touch-callout: none;
+    }
+
+    .as-sortable-item-handle {
+        cursor: move;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+    }
+
+    .as-sortable-placeholder {
+    }
+
+    .as-sortable-drag {
+        position: absolute;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    .as-sortable-hidden {
+        display: none !important;
+    }
+
+    .as-sortable-un-selectable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+
+    .as-sortable-item {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+		#{$prefix}.sortable {
+			table.as-sortable-dragging {
+				display: table;
+				> tr {
+					display: table-row;
+					> td {
+						display: table-cell;
+					}
+				}
+			}
+		}
+		#{$prefix}.sortable.sortable--handle {
+			> .as-sortable-item {
+        > .as-sortable-item-handle {
+          display: block;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          opacity: 0;
+          @include lui_transition(opacity);
+          &::before{
+            position: relative;
+            top: 50%;
+						@include lui_transform(translate3d(0,-50%,0));
+          }
+        }
+        &:hover {
+          .as-sortable-item-handle {
+            opacity: 1;
+          }
+        }
+      }
+			.as-sortable-dragging {
+				.as-sortable-item-handle {
+					opacity: 1;
+				}
+			}
+		}
+
+		#{$prefix}.sortable.sortable--handle.sortable--right-handle {
+			.as-sortable-item  > .as-sortable-item-handle {
+          right: 1em;
+        }
+		}
+
+		#{$prefix}.sortable.sortable--handle.sortable--left-handle {
+			.as-sortable-item {
+        padding-left: 3em !important;
+        .as-sortable-item-handle {
+          left: 1em;
+        }
+      }
+		}
+
+  }
+}

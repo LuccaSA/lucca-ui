@@ -1,0 +1,162 @@
+<h2 class="lui divider below">Drag & Drop</h2>
+
+<p>
+	implementation of ng-sortable
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Features</h4>
+</div>
+<p>There is 3 different styles for ng-sortable: full-width sort items, right aligned handle, left aligned handle</p>
+
+<h5>full-width sortable items</h5>
+<p>Used to make your list draggable without any specific area for the interaction</p>
+<p>
+	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot;&gt;
+&lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;&lt;div as-sortable-item-handle&gt;Your content&lt;/div&gt;&lt;/a&gt;
+&lt;/div&gt;</pre>
+</p>
+<div id="sortable-properties-1" ng-init="users=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width:15em;" class="lui vertical primary right dividing menu" as-sortable="{containment: '#sortable-properties-1'}" ng-model="users">
+	<a ng-repeat="u in users" class="item" ng-class="$first?'active':''" as-sortable-item><div as-sortable-item-handle>{{ u }}</div></a>
+</div>
+
+<h5>Right aligned handle</h5>
+<p>Used to make your list draggable with a handle align on the right side</p>
+<p>
+	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--handle sortable--right-handle&quot;&gt;
+&lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;Your content&lt;i class=&quot;lui icon drag2&quot; as-sortable-item-handle&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;/div&gt;</pre>
+</p>
+<div id="sortable-properties-2" ng-init="users2=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--handle sortable--right-handle" as-sortable="{containment: '#sortable-properties-2'}" ng-model="users2">
+	<a ng-repeat="u in users2" class="item" ng-class="$first?'active':''" as-sortable-item>{{ u }}<i class="lui icon drag2" as-sortable-item-handle></i></a>
+</div>
+
+<h5>Left aligned handle</h5>
+<p>Used to make your list draggable with a handle align on the left side, pushing your content to the right</p>
+<p>
+	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--handle sortable--left-handle&quot;&gt;
+&nbsp;&nbsp;&lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;Your content&lt;i class=&quot;lui icon drag2&quot; as-sortable-item-handle&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;/div&gt;</pre>
+</p>
+<div id="sortable-properties-3" style="width: 15em;" ng-init="users3=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--handle sortable--left-handle" as-sortable="{containment: '#sortable-properties-3'}" ng-model="users3">
+	<a ng-repeat="u in users3" class="item" ng-class="$first?'active':''" as-sortable-item>{{ u }}<i class="lui icon drag2" as-sortable-item-handle></i></a>
+</div>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+
+<h5>The DOM Structure</h5>
+<p> Using ng-sortable requires 3 DOM element: a container, a set of items and a handle for each item.</p>
+<pre hljs no-escape language="html">&lt;container id=&quot;yourID&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable&quot; as-sortable=&quot;{containment: '#yourID'}&quot;&gt;
+&nbsp;&nbsp;&lt;item ng-repeat as-sortable-item&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;content/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;handle as-sortable-item-handle/&gt;
+&nbsp;&nbsp;&lt;/item&gt;
+&lt;/container&gt;</pre>
+<h5>1- The container</h5>
+<p>The DOM element that wraps your sortable elements</p>
+<table class="lui table">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td width="10%">attributes</td>
+			<td>
+				<ul class="lui unstyled">
+					<li><b>id *</b> - an ID is required</li>
+					<li><b>ng-model *</b> - the model of data being sorted</li>
+					<li><b>as-sortable *</b> - a configuration object that must contains a key "containment" set to the wrapper ID. <a href="https://github.com/a5hik/ng-sortable">Other keys are visible here</a></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td width="10%">class</td>
+			<td>
+				<ul class="lui unstyled">
+					<li><b>.sortable *</b> - base class for a sortable list</li>
+					<li>
+						<b>.sortable--handle</b> - optionnal class to separate content and dragging handle
+						<ul class="lui unstyled" style="padding-left: 1.5em">
+							<li>&gt;&nbsp;<b>.sortable--right-handle</b> - align the handles on the right side of the items</li>
+							<li>&gt;&nbsp;<b>.sortable--left-handle</b> - align the handles on the left side of the items</li>
+						</ul>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<em>* required</em>
+
+<h5>2- The item</h5>
+<p>The DOM element that can be dragged around (mostly your ng-repeat item)</p>
+<table class="lui table">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td width="10%">attributes</td>
+			<td>
+				<ul class="lui unstyled">
+					<li><b>as-sortable-item *</b></li>
+				</ul>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<em>* required</em>
+
+<h5>3- The handle</h5>
+<p>The DOM element that will be clicked on to start dragging. Can be the whole content or a isolated element.
+It must be distinct and included in the item itself</p>
+<table class="lui table">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td width="10%">attributes</td>
+			<td>
+				<ul class="lui unstyled">
+					<li><b>as-sortable-item-handle *</b></li>
+				</ul>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<em>* required</em>
+<!-- DEMO DRAG&DROP -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Demo</h4>
+</div>
+
+<table id="sortable-properties" class="lui table sortable" as-sortable="sortableOptions" ng-model="people">
+	<thead>
+		<tr>
+			<th></th>
+			<th>#</th>
+			<th>Name</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="p in people" as-sortable-item>
+			<td><i class="lui icon drag2" as-sortable-item-handle></i></td>
+			<td>{{p.id}}</td>
+			<td>{{p.name}}</td>
+			<td>{{p.mail}}</td>
+		</tr>
+	</tbody>
+</table>
