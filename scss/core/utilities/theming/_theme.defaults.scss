@@ -456,3 +456,16 @@
 	@import "core/elements/pagination.overrides";
 	$luiTheme: luiSetTheme(element, pagination, $myTheme);
 }
+
+// Sortable
+// ===================================
+
+@at-root {
+	// Defaults
+	$myTheme: () !default;
+	@import "../../../themes/default/core/elements/sortable.defaults";
+
+	// Theme overrides
+	@import "core/elements/sortable.overrides";
+	$luiTheme: luiSetTheme(element, pagination, $myTheme);
+}
