@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 	angular.module('demoApp')
-	.controller('dragdropCtrl', ['$scope', function ($scope) {
+	.controller('sortableCtrl', ['$scope', function ($scope) {
 		$scope.sortableOptions = {
 				containment: "#sortable-properties"
 			};
