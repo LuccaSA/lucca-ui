@@ -16,29 +16,29 @@
 &lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;&lt;div as-sortable-item-handle&gt;Your content&lt;/div&gt;&lt;/a&gt;
 &lt;/div&gt;</pre>
 </p>
-<div id="sortable-properties-1" ng-init="users=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width:15em;" class="lui vertical primary right dividing menu" as-sortable="{containment: '#sortable-properties-1'}" ng-model="users">
+<div id="sortable-properties-1" ng-init="users=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width:15em;" class="lui vertical primary right dividing menu sortable" as-sortable="{containment: '#sortable-properties-1'}" ng-model="users">
 	<a ng-repeat="u in users" class="item" ng-class="$first?'active':''" as-sortable-item><div as-sortable-item-handle>{{ u }}</div></a>
 </div>
 
 <h5>Right aligned handle</h5>
 <p>Used to make your list draggable with a handle align on the right side</p>
 <p>
-	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--handle sortable--right-handle&quot;&gt;
+	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--whandle sortable--whandle-right&quot;&gt;
 &lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;Your content&lt;i class=&quot;lui icon drag2&quot; as-sortable-item-handle&gt;&lt;/i&gt;&lt;/a&gt;
 &lt;/div&gt;</pre>
 </p>
-<div id="sortable-properties-2" ng-init="users2=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--handle sortable--right-handle" as-sortable="{containment: '#sortable-properties-2'}" ng-model="users2">
+<div id="sortable-properties-2" ng-init="users2=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--whandle sortable--whandle-right" as-sortable="{containment: '#sortable-properties-2'}" ng-model="users2">
 	<a ng-repeat="u in users2" class="item" ng-class="$first?'active':''" as-sortable-item>{{ u }}<i class="lui icon drag2" as-sortable-item-handle></i></a>
 </div>
 
 <h5>Left aligned handle</h5>
 <p>Used to make your list draggable with a handle align on the left side, pushing your content to the right</p>
 <p>
-	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--handle sortable--left-handle&quot;&gt;
+	<pre hljs no-escape language="html">&lt;div id=&quot;yourID&quot; as-sortable=&quot;{containment: '#yourID'}&quot; ng-model=&quot;yourModel&quot; class=&quot;sortable sortable--whandle sortable--whandle-left&quot;&gt;
 &nbsp;&nbsp;&lt;a ng-repeat=&quot;item in yourModel&quot; as-sortable-item&gt;Your content&lt;i class=&quot;lui icon drag2&quot; as-sortable-item-handle&gt;&lt;/i&gt;&lt;/a&gt;
 &lt;/div&gt;</pre>
 </p>
-<div id="sortable-properties-3" style="width: 15em;" ng-init="users3=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--handle sortable--left-handle" as-sortable="{containment: '#sortable-properties-3'}" ng-model="users3">
+<div id="sortable-properties-3" style="width: 15em;" ng-init="users3=['John Cena','Hubert Robert','George Monck','Marie Pogz', 'Obi Wan Kenobi']" style="width: 15em;" class="lui vertical primary right dividing menu sortable sortable--whandle sortable--whandle-left" as-sortable="{containment: '#sortable-properties-3'}" ng-model="users3">
 	<a ng-repeat="u in users3" class="item" ng-class="$first?'active':''" as-sortable-item>{{ u }}<i class="lui icon drag2" as-sortable-item-handle></i></a>
 </div>
 
@@ -68,9 +68,9 @@
 			<td width="10%">attributes</td>
 			<td>
 				<ul class="lui unstyled">
-					<li><b>id *</b> - an ID is required</li>
-					<li><b>ng-model *</b> - the model of data being sorted</li>
-					<li><b>as-sortable *</b> - a configuration object that must contains a key "containment" set to the wrapper ID. <a href="https://github.com/a5hik/ng-sortable">Other keys are visible here</a></li>
+					<li><code>id *</code> - an ID is required</li>
+					<li><code>ng-model *</code> - the model of data being sorted</li>
+					<li><code>as-sortable *</code> - a configuration object that must contains a key "containment" set to the wrapper ID. <a href="https://github.com/a5hik/ng-sortable">Other keys are visible here</a></li>
 				</ul>
 			</td>
 		</tr>
@@ -78,12 +78,12 @@
 			<td width="10%">class</td>
 			<td>
 				<ul class="lui unstyled">
-					<li><b>.sortable *</b> - base class for a sortable list</li>
+					<li><code>.sortable *</code> - base class for a sortable list</li>
 					<li>
-						<b>.sortable--handle</b> - optionnal class to separate content and dragging handle
+						<code>.sortable--whandle</code> - optionnal class to separate content and dragging handle
 						<ul class="lui unstyled" style="padding-left: 1.5em">
-							<li>&gt;&nbsp;<b>.sortable--right-handle</b> - align the handles on the right side of the items</li>
-							<li>&gt;&nbsp;<b>.sortable--left-handle</b> - align the handles on the left side of the items</li>
+							<li>&gt;&nbsp;<code>.sortable--whandle-right</code> - align the handles on the right side of the items</li>
+							<li>&gt;&nbsp;<code>.sortable--whandle-left</code> - align the handles on the left side of the items</li>
 						</ul>
 					</li>
 				</ul>
@@ -107,7 +107,7 @@
 			<td width="10%">attributes</td>
 			<td>
 				<ul class="lui unstyled">
-					<li><b>as-sortable-item *</b></li>
+					<li><code>as-sortable-item *</code></li>
 				</ul>
 			</td>
 		</tr>
@@ -130,7 +130,7 @@ It must be distinct and included in the item itself</p>
 			<td width="10%">attributes</td>
 			<td>
 				<ul class="lui unstyled">
-					<li><b>as-sortable-item-handle *</b></li>
+					<li><code>as-sortable-item-handle *</code></li>
 				</ul>
 			</td>
 		</tr>
