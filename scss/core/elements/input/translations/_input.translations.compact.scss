@@ -1,0 +1,20 @@
+@if luiTheme(element, field, momentpicker, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("compact") {
+			$selector: lui_input_get_style_selector("compact");
+			luid-translations#{$selector} {
+				.lui.input {
+					& > .unit {
+						@include flex-order(-1);
+						display: inline-block;
+						width: 1.5em;
+						margin-left: 0;
+					}
+					input {
+						@extend %lui_quick_compact_input;
+					}
+				}
+			}
+		}
+	}
+}
