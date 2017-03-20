@@ -56,7 +56,8 @@ $field: (
 			hover-color: 			luiPalette(light, color, dark),
 
 			focus: (
-				background-color: 	#fafafa
+				background-color: 	#fafafa,
+				border-color: luiPalette(grey, color)
 			)
 		)
 	),
