@@ -47,7 +47,6 @@ html, body {
 
 	.dark {
 		background-color: #333;
-		padding: 1em;
 		&.inline {
 			display: inline-block;
 		}
@@ -93,6 +92,20 @@ html, body {
 		color: #333;
 		background: #f8f8f8;
 		-webkit-text-size-adjust: none;
+		* {
+			font-family: monospace !important;
+		}
+	}
+
+	code.code-label {
+		display: block;
+		text-align: center;
+		color: #d14;
+	}
+
+	.lui.menu.spaced *{
+		margin: 0 15px;
+		text-align: center;
 	}
 
 	#lui-icon .icon-list {
