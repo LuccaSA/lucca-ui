@@ -1,9 +1,45 @@
-
 <h2 class="lui divider below">Progress</h2>
+<p>
+	Progress bar comes in two variations: normal or slim. To create a progress bar, you need a DOM element with the classes <code style="color: #d14">lui progressing progress</code>
+	and a child DOM element with 3 attributes :
+	<ul style="list-style-type: circle">
+		<li>the class <code style="color: #d14">indicator</code></li>
+		<li>an integer <code>data-percentage</code> which will be used as the value displayed</li>
+		<li>the inline style <code style="color: #d14">width: XX%</code></li>
+	</ul>
+</p>
+
+<h5>Examples</h5>
 
 <div class="lui progressing progress">
 	<div class="indicator" data-percentage="75" style="width: 75%;"></div>
 </div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui progressing progress&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;indicator&quot; data-percentage=&quot;75&quot; style=&quot;width: 75%;&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</pre><p>
+
 <div class="lui slim secondary progressing progress">
 	<div class="indicator" data-percentage="45" style="width: 45%;"></div>
 </div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui slim progressing progress&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;indicator&quot; data-percentage=&quot;45&quot; style=&quot;width: 45%;&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</pre><p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Callout with progress</h4>
+</div>
+<p>
+	You can attach a progress to a callout by adding the class <code style="color: #d14">attached</code> to the progress bar element.
+</p>
+<div class="lui up callout">
+	<div class="lui attached slim secondary progressing progress">
+		<div class="indicator" data-percentage="45" style="width: 45%;"></div>
+	</div>
+	<h4>You can attach a progress to a callout</h4>
+</div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui up callout&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui attached slim secondary progressing progress&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;indicator&quot; data-percentage=&quot;45&quot; style=&quot;width: 45%;&quot;&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;/div&gt;
+&nbsp;&nbsp;&lt;h4&gt;You can attach a progress to a callout&lt;/h4&gt;
+&lt;/div&gt;</pre><p>
