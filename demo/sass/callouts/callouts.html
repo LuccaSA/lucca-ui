@@ -1,39 +1,59 @@
 
 <h2 class="lui divider below">Callouts</h2>
+<p>Callouts help you putting en emphasis on a piece of information or notify the user of something. It can take two aspects :</p>
+
 <div class="lui callout">
-	<p>
-		<b>Default</b> - This is just a regular callout. <a class="lui fancy link" href="#/" class="lui button flat">Learn more</a>
-	</p>
+		Default - This is just a regular callout.
 </div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui callout&quot;&gt;
+&nbsp;&nbsp;Default - This is just a regular callout.
+&lt;/div&gt;</pre></p>
+
 <div class="lui callout filled red">
-	<p>
-		<b>Filled</b> - This is a 'filled' style callout
-	</p>
+	Filled- This is a 'filled' style callout
 </div>
 
-<p>
-	Callouts can be listed in a `.lui.callouts` parent element:
-</p>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui callout filled color&quot;&gt;
+&nbsp;&nbsp;Filled - This is just a filled style callout
+&lt;/div&gt;</pre></p>
 
-<div class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
-	<div class="lui filled red callout">
-		<h4 class="header">Error!</h4>
-		<p>
-			Something went terribly wrong
-		</p>
-		<div class="footer actions">
-			<button class="lui button flat">Dismiss</button>
-		</div>
+<p>The content of your callout can be as complex as you desire</p>
+<div class="lui filled red callout">
+	<h4 class="header">Error!</h4>
+	<p>
+		Something went terribly wrong
+	</p>
+	<div class="footer actions">
+		<button class="lui button flat">Dismiss</button>
 	</div>
+</div>
+
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui callouts&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui filled red callout&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4 class=&quot;header&quot;&gt;Error!&lt;/h4&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Something went terribly wrong
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;footer actions&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class=&quot;lui button flat&quot;&gt;Dismiss&lt;/button&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+&nbsp;&nbsp;&lt;/div&gt;
+&lt;/div&gt;</pre><p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Callout lists</h4>
+</div>
+<p>Callouts can be groupped into a parent with the classes <code style="color: #d14">lui callouts</code></p>
+<div class="lui callouts" style="width: 50%;margin-left: auto;margin-right: auto;">
+	<span class="lui filled red callout">Error<button class="lui button flat">Dismiss</button></span>
 	<span class="lui filled green callout">Success<button class="lui button flat">Dismiss</button></span>
 	<span class="lui filled orange callout">Achtung!<button class="lui button flat">Dismiss</button></span>
 	<span class="lui filled callout">Fair enough...<button class="lui button flat">Dismiss</button></span>
 </div>
 
-<div class="lui up callout">
-	<div class="lui attached slim secondary progressing progress">
-		<div class="indicator" data-percentage="45" style="width: 45%;"></div>
-	</div>
-
-	<h4>You can attach a progress to a callout</h4>
-</div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui callouts&quot;&gt;
+&nbsp;&nbsp;&lt;span class=&quot;lui filled red callout&quot;&gt;Error&lt;button class=&quot;lui button flat&quot;&gt;Dismiss&lt;/button&gt;&lt;/span&gt;
+&nbsp;&nbsp;&lt;span class=&quot;lui filled green callout&quot;&gt;Success&lt;button class=&quot;lui button flat&quot;&gt;Dismiss&lt;/button&gt;&lt;/span&gt;
+&nbsp;&nbsp;&lt;span class=&quot;lui filled orange callout&quot;&gt;Achtung!&lt;button class=&quot;lui button flat&quot;&gt;Dismiss&lt;/button&gt;&lt;/span&gt;
+&nbsp;&nbsp;&lt;span class=&quot;lui filled callout&quot;&gt;Fair enough...&lt;button class=&quot;lui button flat&quot;&gt;Dismiss&lt;/button&gt;&lt;/span&gt;
+&lt;/div&gt;</pre><p>
