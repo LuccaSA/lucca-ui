@@ -58,6 +58,7 @@
 		$httpBackend.whenGET(/lucca\//).passThrough();
 		$httpBackend.whenGET(/nguibs\//).passThrough();
 		$httpBackend.whenGET(/sass\//).passThrough();
+		$httpBackend.whenGET(/grid\//).passThrough();
 
 
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});
