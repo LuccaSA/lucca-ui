@@ -60,15 +60,12 @@ html, body {
 
 	#grid .column {
 		p {
-			height: 2em;
-			margin: 0.5em 0;
-			border-radius: 2em;
-		}
-		&:nth-child(2n) p {
-			background: grey;
-		}
-		&:nth-child(2n+1) p {
-			background: black;
+			height: 3em;
+			margin: 0.5em 0.1em;
+			box-sizing: border-box;
+			padding: 1em;
+			border-radius: 4px;
+			background-color: rgba(200, 200, 200, 1);
 		}
 	}
 
