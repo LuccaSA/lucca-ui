@@ -1,0 +1,132 @@
+<h2 class="lui divider below">The grid</h2>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	By default, the lucca grid is 12 columns based. This can be overriden.
+</p>
+<p>
+	Container should have the <code style="color:#d14">lui container</code> classes. Columns must be given the <code style="color:#d14">lui column</code> classes.
+</p>
+<p>
+	To define the size of a grid element for different devices, x being the number of columns, use
+	<ul class="lui unstyled">
+		<li><code style="color:#d14">lui column mobile-x</code> for mobiles phones</li>
+		<li><code style="color:#d14">lui column tablet-x</code> for tablets</li>
+		<li><code style="color:#d14">lui column desktop-x</code> for desktops</li>
+		<li><code style="color:#d14">lui column large-x</code> for large screens</li>
+	</ul>
+</p>
+<p>
+	CSS rules are overwritten by the largest display specified. If there are no rules specified for a smaller device, it will default to a full width column.
+</p>
+
+<div class="lui container">
+	<div class="lui column tablet-6 desktop-10"><p>desktop-10 tablet-6</p></div>
+	<div class="lui column tablet-3 desktop-2"><p>desktop-2 tablet-3</p></div>
+	<div class="lui column tablet-3"><p>tablet-3</p></div>
+
+	<div class="lui column tablet-4 mobile-6 large-2"><p>tablet-4 mobile-6 large-2</p></div>
+	<div class="lui column tablet-4 large-12"><p>tablet-4 large-12</p></div>
+</div>
+
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui container&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column tablet-6 desktop-10&quot;&gt;&lt;p&gt;desktop-10 tablet-6&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column tablet-3 desktop-2&quot;&gt;&lt;p&gt;desktop-2 tablet-3&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column tablet-3&quot;&gt;&lt;p&gt;tablet-3&lt;/p&gt;&lt;/div&gt;
+
+&nbsp;&nbsp;&lt;div class=&quot;lui column tablet-4 mobile-6 large-2&quot;&gt;&lt;p&gt;tablet-4 mobile-6 large-2&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column tablet-4 large-12&quot;&gt;&lt;p&gt;tablet-4 large-12&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Add a gutter</h4>
+</div>
+<p>You can add a gutter between your columns by adding the class <code style="color:#d14">spaced</code> to your container</p>
+<p>
+	Wrap <code>.lui.column</code> elements in a <code>.lui.columns</code> element to neutralise gutter space around the container.
+</p>
+<div class="lui container spaced">
+	<div class="lui columns">
+		<div class="lui column mobile-6"><p>&nbsp;</p></div>
+		<div class="lui column mobile-6"><p>&nbsp;</p></div>
+
+		<div class="lui column mobile-4"><p>&nbsp;</p></div>
+		<div class="lui column mobile-4"><p>&nbsp;</p></div>
+		<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	</div>
+</div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui container spaced&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui columns&quot;&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-6&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-6&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;/div&gt;
+&lt;/div&gt;</pre></p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Offsets, push and pull</h4>
+</div>
+<p>
+	Use the <code>{device}-offset-x</code> class to offset a specific grid child.
+</p>
+<p>
+	Use the <code>{device}-push-x</code> and <code>{device}-pull-x</code> classes to reorder children elements.
+</p>
+<div class="lui container">
+	<div class="lui column mobile-push-3 mobile-6"><p style="background-color:black; color: white">mobile-push-3</p></div>
+	<div class="lui column mobile-pull-6 mobile-3"><p style="background-color:black; color: white">mobile-pull-6</p></div>
+	<div class="lui column mobile-3"><p>&nbsp;</p></div>
+
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	<div class="lui column mobile-offset-2 mobile-2"><p style="background-color:black; color: white">mobile-offset-2</p></div>
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+</div>
+
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui container&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-push-3 mobile-6&quot;&gt;&lt;p style=&quot;background-color:black; color: white&quot;&gt;mobile-push-3&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-pull-6 mobile-3&quot;&gt;&lt;p style=&quot;background-color:black; color: white&quot;&gt;mobile-pull-6&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-3&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-offset-2 mobile-2&quot;&gt;&lt;p style=&quot;background-color:black; color: white&quot;&gt;mobile-offset-2&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre></p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Fitting container</h4>
+</div>
+<p>If you want to remove the margins on your container, add the class <code style="color: #d14">fitting</code> to your container</p>
+
+<h5>Without fitting</h5>
+<div class="lui container">
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+
+	<div class="lui column mobile-3"><p>&nbsp;</p></div>
+	<div class="lui column mobile-9"><p>&nbsp;</p></div>
+</div>
+
+<h5>With fitting</h5>
+<div class="lui container fitting">
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+	<div class="lui column mobile-4"><p>&nbsp;</p></div>
+
+	<div class="lui column mobile-3"><p>&nbsp;</p></div>
+	<div class="lui column mobile-9"><p>&nbsp;</p></div>
+</div>
+<p><pre hljs no-escape language="html">&lt;div class=&quot;lui container fitting&quot;&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-4&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-3&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&nbsp;&nbsp;&lt;div class=&quot;lui column mobile-9&quot;&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></p>
