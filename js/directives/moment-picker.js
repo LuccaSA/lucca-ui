@@ -227,10 +227,6 @@
 			$scope.hoursFocused = !isMinute;
 		}
 
-		function changeInput(field, validator) {
-			updateWithoutRender(getInputedTime());
-		}
-
 		function blurEvent(timeout, isFocused){
 			timeout = $timeout(function(){
 					timeout = false;
@@ -277,7 +273,6 @@
 
 		$scope.changeMins = function() {
 			updateWithoutRender(getInputedTime());
-			// changeInput($scope.mins, function(){});
 		};
 
 		// display stuff
