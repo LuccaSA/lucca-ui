@@ -228,6 +228,7 @@
 		}
 
 		function blurEvent(timeout, isFocused){
+			updateWithoutRender(getInputedTime());
 			timeout = $timeout(function(){
 					timeout = false;
 					correctValue();
@@ -272,7 +273,11 @@
 		};
 
 		$scope.changeMins = function() {
-			updateWithoutRender(getInputedTime());
+			if (!$scope.mins || $scope.mins.length < 2) {
+				$scope.ngModelCtrl.$setValidity("minutes", false);
+			} else {
+				updateWithoutRender(getInputedTime());
+			}
 		};
 
 		// display stuff
@@ -291,6 +296,8 @@
 				} else {
 					$scope.mins = "00";
 				}
+			} else if ($scope.mins.length < 2) {
+				$scope.mins = "0" + $scope.mins;
 			}
 			blurEvent(minsFocusTimeout, $scope.minsFocused);
 		};
