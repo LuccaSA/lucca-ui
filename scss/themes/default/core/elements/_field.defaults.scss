@@ -49,7 +49,7 @@ $field: (
 			border-radius: 			luiTheme(adjective, rounded, radius),
 			background-color: 		#FFFFFF,
 			selection-color: 		#FFF,
-			selection-background: 	#A3C1DA,
+			selection-background: 	transparentize(luiPalette(primary, color), 0.5),
 			vertical-padding: 		0em,
 			horizontal-padding: 	0.5em,
 
