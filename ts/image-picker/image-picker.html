@@ -3,7 +3,7 @@
 	<div class="input-overlay">
 		<span class="lui capitalized sentence" translate="LUIIMGPICKER_UPLOAD_IMAGE"></span>
 		<input accept="image/*" type="file" ng-model="file" class="fileInput" file-model="image" luid-image-cropper on-cropped="onCropped" on-cancelled="onCancelled" cropping-disabled="croppingDisabled" cropping-ratio="croppingRatio"/>
-		<i ng-if="deleteEnabled" class="lui icon cross primary" ng-click="onDelete()"></i>
+		<i ng-if="deleteEnabled" class="empty" ng-click="onDelete()"></i>
 	</div>
 	<div class="upload-overlay">
 		<div class="lui inverted x-large loader"></div>

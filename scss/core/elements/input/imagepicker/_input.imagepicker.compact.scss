@@ -27,7 +27,7 @@
 
 				&:hover {
 					.luid-image-picker-picture {
-						background-color: #EFEFEF;
+						background-color: luiTheme(element, field, input, compact, focus, background-color);
 						color: #666;
 						border-color: #A6A6A6;
 					}
@@ -38,7 +38,7 @@
 					background-position: 0 0;
 					background-repeat: no-repeat;
 					background-size: contain;
-					background-color: #FAFAFA;
+					background-color: luiTheme(element, field, input, compact, background-color);
 					border: 1px dashed #DAE0E4;
 					border-radius: luiTheme(element, field, input, compact, border-radius);
 				}
