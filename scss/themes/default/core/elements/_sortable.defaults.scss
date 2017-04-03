@@ -1,0 +1,26 @@
+
+// Sortable
+// ===================================
+
+$sortable: (
+	enabled: 					true,
+
+	background:					#fff,
+
+	transition: (
+		timing-function: ease-out,
+		duration: 0.25s
+	),
+
+	dragging: (
+		opacity:				0.6,
+		raise:				1
+	),
+
+	placeholder: (
+		background: rgba(200, 200, 200, 0.1),
+		border: 1px dashed rgba(102, 102, 102, 0.1)
+	)
+
+);
+$luiTheme: luiSetTheme(element, sortable, $sortable);
