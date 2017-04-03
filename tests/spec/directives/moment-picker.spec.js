@@ -399,7 +399,8 @@ describe('luidMoment', function(){
 			});
 			it("should be valid when minutes is and int between 0 ad 60", function() {
 				_.each(_.range(60), function(i){
-					isolateScope.mins = "" + i;
+					var mins = (i < 10 ? "0" : "") + i;
+					isolateScope.mins = mins;
 					isolateScope.changeMins();
 					expect(isolateScope.ngModelCtrl.$error.minutes).not.toBeTruthy();
 				});

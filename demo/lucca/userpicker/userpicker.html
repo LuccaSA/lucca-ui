@@ -1,259 +1,96 @@
 <h2 class="lui divider below">luid-user-picker</h2>
-<p>
-	An input to have a ui-select plugged to <code>/api/v3/users/find</code> with a more powerful search and very amazing features.
-</p>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Features</h4>
-</div>
-<p>
-	Supports up and down key events to select a value.
-</p>
-<p>
-	Detects and handles homonyms. When homonyms are detected, specific user informations are displayed in order to easily differentiate them. These informations are not initially retrieved by the query to <code>/api/v3/users/find</code> but they will be fetched with a single query to <code>/api/v3/users</code> with the ids of the homonyms. By default, the list of properties to display is <code>department.name, legalEntity.name, employeeNumber, mail</code>. The two first properties that differentiate the homonyms will be displayed. A couple of properties is considered as differentiating if at least one property value is different from the others and each couple of properties is unique among all homonyms. For example, if you have two users 'Lucien Bertin' whose properties are:
-	<ul class="lui unstyled">
-		<li><code>{ id: 1, name: 'Lucien Bertin', legalEntity: { name: 'Lucca' }, department: { name: 'BU Timmi/Lucca' }, employeeNumber: 58, mail: 'no-reply@lucca.fr' }</code></li>
-		<li><code>{ id: 2, name: 'Lucien Bertin', legalEntity: { name: 'Lucca' }, department: { name: 'Sales' }, employeeNumber: 72, mail: 'no-reply@lucca.fr' }</code></li>
-	</ul>
-	The differentiating properties are <code>deparment.name</code> and <code>employeeNumber</code>. <code>legalEntity.name</code> is not differentiating because all values are the same among homonyms.
-</p>
-<p>
-	You can choose to fetch former employees. By default, only users who are still in the company are displayed. If you want to display former employees, their date of contract end will be displayed below their name.
-</p>
-<p>
-	Handles pagination. By default, only 5 users are displayed in the dropdown menu. If more users match the query, a message is displayed at the end of the list indicating that there are more results, encouraging the user to specify his search.
-</p>
-<p>
-	Handles custom filtering. You can let the directive call the api to get all pertinent users for the search, then filter them to display only the ones you want. Let's take the example of cleemy/expenses, you might want to see in the user-picker only users who have some expenses. This filter is specific to cleemy and used in one page only so implementing it server side is not recommended.<br />
-	This function should respect the following signature: <code>function(user){ return boolean; }</code>.
-</p>
-<p>
-	Displays the selected user first. When the currently selected user is in the set of results, he is displayed as first result.
-</p>
-<div class="lui dashed divider">
-	<h4 class="lui underline">Advanced features</h4>
-</div>
-<p>
-	Supports a list of custom properties to handle homonyms. If homonyms are detected, the differentiating properties will be displayed from that list.
-	The properties are objects with a <code>name</code>, a <code>label</code> and an <code>icon</code> (optional).<br />
-	The name is the entire name of the property to retrieve. This name will be inserted into the request. <b>Warning:</b> there is no control executed to check that given properties exist in <code>user</code> object. If the properties do not exist, the server will send back an error and no properties will be displayed. Go to <a class="lui fancy link" href="https://lucca.ilucca.net/apihelp#/users">apiHelp/users</a> to see the different properties that are supported. <br />
-</p>
-<p>
-	Supports an application id and a scope of operations. This feature allows you to only fetch users that have access to the specified application, with the given set of operations for that application. For example, for cleemy/expenses, I will want to limit to users for whom I can consult expenses. <b>Warning:</b> Both arguments have to be declared in order to be taken into account. If you declare only one argument, it will have no impact on the request.
-</p>
-<p>
-	Displays a custom information next to each user. For example, in Timmi, you might want to display the number of timesheets pending approval next to each user. This feature can take either a synchronous or an asynchronous function to fetch the information to display.
-</p>
-<p>
-	Displays the connected user as first result when he appears in the set of results.
-</p>
-<p>
-	Displays the option "All users". This option is displayed when the search input is empty.
-</p>
-<p>
-	Bypasses <code>operations</code> filter for some users. It will always display given users if they belong to the set of results, even if they doesn't have access to the operations.
-</p>
+<p>An enhanced version of the original luid-user-picker, based on the luid-select directive.</p>
+
 <div class="lui dashed divider">
 	<h4 class="lui underline">Supported arguments</h4>
 </div>
 <p>
 	<ul class="lui unstyled">
-		<li><code>ng-model</code>: the variable to bind to</li>
-		<li><code>size</code>: the size of the input, supports <code>x-small</code>, <code>small</code>, <code>long</code>, <code>x-long</code>, <code>fitting</code></li>
-		<li><code>on-select</code>: function to execute when an item is selected</li>
-		<li><code>on-remove</code>: function to execute when an item is removed (multi-select or emptying the input)</li>
-		<li><code>control-disabled</code>: boolean indicating if you want the control to be disabled</li>
-		<li><code>allow-clear</code>: boolean indicating if you can clear the current value (default: false)</li>
-		<li><code>show-former-employees</code>: boolean indicating if you want to fetch former employees or not (default:false)</li>
-		<li><code>homonyms-properties</code>: list of properties you want to display in case of homonyms</li>
-		<li><code>custom-filter</code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
-		<li><code>app-id</code>: the set of results should have access to the application matching this id</li>
-		<li><code>operations</code>: list of operations that the set of results should support for the given application</li>
-		<li><code>custom-info</code>: function that will return the information to display next to each user. It should respect the following signature : <code>function(user) { return string; }</code></li>
-		<li><code>custom-info-async</code>: same as <code>custom-info</code> except it takes an asynchronous function with the following signature: <code>function(user) { return promise; }</code></li>
-		<li><code>display-me-first</code>: boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
-		<li><code>display-all-users</code>: boolean indication if you want to display the option "All users" when the search input is empty</li>
-		<li><code>bypass-operations-for</code>: list of user ids to display even if they does not have access to operations in <code>operations</code> attribute</li>
+		<li><code><b>ng-model</b></code>: the selected user. If you are using the <code>luid-user-picker-multiple</code> directive, the ng-model is an array which contains the selected users.</li>
+		<li><code><b>on-select</b></code>: function which will be called when an item is selected (default: nothing)</li>
+		<li><code><b>on-remove</b></code>: function which will be called when an item is removed (multi-select or emptying the input) (default: nothing)</li>
+		<li><code><b>control-disabled</b></code>: boolean indicating if you want the control to be disabled (default: false)</li>
+		<li><code><b>allow-clear</b></code>: boolean indicating if you can clear the current value (default: false)</li>
+		<li><code><b>show-former-employees</b></code>: boolean indicating if you want to fetch former employees or not (default: false)</li>
+		<li><code><b>homonyms-properties</b></code>: list of properties you want to display in case of homonyms</li>
+		<li><code><b>custom-filter</b></code>: function that filters users. For a given user, it returns if he should be kept in the set of results or not. This function should respect the following signature: <code>function(user){ return boolean; }</code></li>
+		<li><code><b>app-id</b></code>: the set of results should have access to the application matching this id</li>
+		<li><code><b>operations</b></code>: list of operations that the set of results should support for the given application</li>
+		<li><code><b>custom-info</b></code>: function that will return the information to display next to each user. It should respect the following signature : <code>function(user) { return string; }</code></li>
+		<li><code><b>custom-info-async</b></code>: Same idea than <code>custom-info</code>, except that the information is fetched asynchronously. It has to be a function with the following signature: <code>function(user) { return promise; }</code></li>
+		<li><code><b>display-me-first</b></code>: boolean indicating if you want to display the connected user as first result if he belongs to the set of results</li>
+		<li><code><b>display-all-users</b></code>: boolean used to force the directive to disable paging and display all the users (default: false)</li>
+		<li><code><b>bypass-operations-for</b></code>: list of user ids to display even if they does not have
+			access to operations in <code>operations</code> attribute. Warning: if the current user can't see one of the users, it will not be displayed and a 404 error will occur</li>
 	</ul>
 </p>
+
 <div class="lui dashed divider">
-	<h4 class="lui underline">Usage</h4>
+	<h4 class="lui underline">Demo</h4>
 </div>
-<p>
-	<pre hljs no-escape language="html">&lt;luid-user-picker ng-model="myUser"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" show-former-employees="true"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-filter="myFilterFunction"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-info="myInfoFunction"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" custom-info-async="myInfoAsyncFunction"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" display-me-first="true"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker ng-model="myUser" display-all-users="true"&gt;&lt;/luid-user-picker&gt;
-&lt;luid-user-picker-multiple ng-model="myUsers"&gt;&lt;/luid-user-picker-multiple&gt;</pre>
-</p>
-
-<div class="lui bottom dashed divider menu" id="demoBlock">
-	<div class="lui header vertical menu">
-		<h4 class="lui underline">Demo</h4>
+<article class="lui block round">
+	<h5>Simple user picker</h5>
+	<div class="lui field">
+		<span class="lui input">
+			<luid-user-picker ng-if="!!globalConnected"
+			ng-model="firstModel.selected"
+			homonyms-properties="homonymsProperties"
+			show-former-employees="includeFormerEmployees"
+			display-me-first="true"
+			on-select="onSelectFirstModel()"
+			on-remove="onRemoveFirstModel()"
+			custom-filter="customFilter"
+			custom-info="getCustomInfo"
+			custom-info-async="getCustomInfoAsync"
+			control-disabled="disableUserPicker"
+			app-id="appId"
+			operations="operations"
+			bypass-operations-for="bypassOperationsFor">
+		</luid-user-picker>
+		<label>Select a user</label>
+	</span>
 	</div>
-	<div class="lui right item">
-		<a class="lui button primary" href="http://plnkr.co/edit/vHYpzHzRlQdKurlLYaae?p=preview">
-			<i class="lui icon edit"></i>Edit in Plunker
-		</a>
-	</div>
-</div>
-<div class="lui block round">
-	<div class="lui dividing menu">
-		<div class="lui menu left">
-			Reroute all calls to
-			<span class="lui input with addon">
-				<span class="lui addon">https://</span>
-				<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
-			</span>
-			<span class="lui button" ng-click="auth()" ng-show="!authToken">authenticate</span>
-			<span class="lui green label with addon"ng-show="!!authToken"><i class="lui addon icon check"></i>authenticated</span>
-			<span class="lui red label with addon"ng-show="!authToken"><i class="lui addon icon warning"></i>authenticate to display the user pickers</span>
+	<div class="lui dashed divider"></div>
+		<p>
+			<p><code>ng-model:</code></p>
+			<p><code>{{ firstModel.selected }}</code></p>
+			<button class="lui button" ng-click="clearFirstModel()" ng-disabled="firstModel.selected === undefined">Clear the ng-model</button>
+		</p>
+		<div class="lui checkbox input">
+			<input type="checkbox" name="disable-user-picker" id="disable-user-picker" ng-model="disableUserPicker">
+			<label for="disable-user-picker">Disable</label>
 		</div>
-
-		<nav class="lui primary dividing right menu">
-			<a class="lui item" ng-click="showMultipleUserPicker = false" ng-class="{'active': (showMultipleUserPicker === false)}">Simple user picker</a>
-			<a class="lui item" ng-click="showMultipleUserPicker = true" ng-class="{'active': (showMultipleUserPicker === true)}">Multiple user picker</a>
-		</nav>
-	</div>
-
-	<!-- SIMPLE USER PICKER -->
-	<div ng-if="!showMultipleUserPicker">
-		<h5>Basic usage</h5>
-		<p>
-			<luid-user-picker ng-model="myUser.selected" show-former-employees="isChecked" ng-if="!!authToken"></luid-user-picker>
-			<div class="lui checkbox">
-				<input type="checkbox" ng-model="isChecked">
-			</div>
-			<span class="lui checkbox">
-				<input type="checkbox"  ng-model="isChecked"/>
-				<label></label>
-			</span>
-			Show former employees
-		</p>
-		<p>
-			Selected user: <code>{{myUser.selected.firstName}} {{myUser.selected.lastName}}</code>
-		</p>
-		<hr />
-		<h5>Custom filtering</h5>
-		<p>
-			Filters the list of users normally displayed with a function you can define, for example the first filter is defined this way in the controller.
-		</p>
-		<pre hljs no-escape language="js">$scope.hasShortName = function(user) {
-	return user.firstName.length &lt;= 6;
-};</pre>
-		<p>
-			Select a filter:
-		</p>
-		<p>
-			<span class="lui buttons">
-				<button class="lui button" ng-model="customFilter" btn-radio="'hasShortName'">Users with short firstname (less than 6 letters)</button>
-				<button class="lui button" ng-model="customFilter" btn-radio="'beginsWithConsonant'">Users with a consonant as first letter in their first name</button>
-				<button class="lui button" ng-model="customFilter" btn-radio="'nameContainsT'">Users with a 't' in their name</button>
-			</span>
-		</p>
-		<p>
-			Set of users with the selected filter applied:
-			<luid-user-picker ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUser.filtered" custom-filter="hasShortName"></luid-user-picker>
-			<luid-user-picker ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUser.filtered" custom-filter="beginsWithConsonant"></luid-user-picker>
-			<luid-user-picker ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUser.filtered" custom-filter="nameContainsT"></luid-user-picker>
-		</p>
-		<hr />
-		<h5>Custom info</h5>
-		<p>
-			Number of letters in their first name:
-			<luid-user-picker ng-model="myUser.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker>, this info is computed synchronously
-		</p>
-		<p>
-			Year of contract start: <luid-user-picker ng-model="myUser.customInfoAsync" custom-info-async="yearOfArrivalAsync" ng-if="!!authToken"></luid-user-picker>, this info needs an ajax call for each displayed user
-		</p>
-		<pre hljs no-escape language="js">$scope.firstNameLength = function(user) { return user.firstName.length; };
-$scope.yearOfArrivalAsync = function(user){
-	var dfd = $q.defer();
-	$http.get("/api/v3/users/" + user.id + "?fields=dtContractStart")
-	.success(function(response){
-		var year = moment(response.data.dtContractStart).year();
-		dfd.resolve(year);
-	})
-	return dfd.promise;
-};</pre>
-		<hr />
-		<h5>Option "All users"</h5>
-		<p>
-			This option is displayed when the search input is empty.
-		</p>
-		<p>
-			<luid-user-picker ng-model="myUser.withAllUsers" display-all-users="true" ng-if="!!authToken"></luid-user-picker>
-		</p>
+		<div class="lui checkbox input">
+			<input type="checkbox" name="include-former-employees" id="include-former-employees" ng-model="includeFormerEmployees">
+			<label for="include-former-employees">Include former employees</label>
 		</div>
-
-		<!-- MULTIPLE USER PICKER -->
-		<div ng-if="showMultipleUserPicker">
-		<h5>Basic usage</h5>
-		<p>
-			<!-- <span class="lui long input"> -->
-				<luid-user-picker-multiple size="x-long" ng-model="myUsers" show-former-employees="isChecked" ng-if="!!authToken"></luid-user-picker-multiple>
-			<!-- </span> -->
-			<div class="lui checkbox">
-				<input type="checkbox" ng-model="isChecked">
+		<form name="userPickerForm" style="margin-top: 3em;">
+			<p>Only display the users who have access to this application and have these permissions :</p>
+			<div class="lui input">
+				<input type="text" placeholder="App Id" ng-required="true" ng-model="appIdTmp">
 			</div>
-			<span class="lui checkbox">
-				<input type="checkbox"  ng-model="isChecked"/>
-				<label></label>
-			</span>
-			Show former employees
-		</p>
-		<p>
-			Selected users: <code ng-repeat="user in myUsers">{{user.firstName}} {{user.lastName}} </code>
-		</p>
-		<hr />
-		<h5>Custom filtering</h5>
-		<p>
-			Filters the list of users normally displayed with a function you can define, for example the first filter is defined this way in the controller.
-		</p>
-		<pre hljs no-escape language="js">$scope.hasShortName = function(user) {
-			return user.firstName.length &lt;= 6;
-		};</pre>
-		<p>
-			Select a filter:
-		</p>
-		<p>
-			<span class="lui buttons">
-				<button class="lui button" ng-model="customFilter" btn-radio="'hasShortName'">Users with short firstname (less than 6 letters)</button>
-				<button class="lui button" ng-model="customFilter" btn-radio="'beginsWithConsonant'">Users with a consonant as first letter in their first name</button>
-				<button class="lui button" ng-model="customFilter" btn-radio="'nameContainsT'">Users with a 't' in their name</button>
-			</span>
-		</p>
-		<p>
-			Set of users with the selected filter applied:
-			<luid-user-picker-multiple ng-if="customFilter === 'hasShortName' && !!authToken" ng-model="myUsers.filtered" custom-filter="hasShortName"></luid-user-picker-multiple>
-			<luid-user-picker-multiple ng-if="customFilter === 'beginsWithConsonant' && !!authToken" ng-model="myUsers.filtered" custom-filter="beginsWithConsonant"></luid-user-picker-multiple>
-			<luid-user-picker-multiple ng-if="customFilter === 'nameContainsT' && !!authToken" ng-model="myUsers.filtered" custom-filter="nameContainsT"></luid-user-picker-multiple>
-		</p>
-		<hr />
-		<h5>Custom info</h5>
-		<p>
-			Number of letters in their first name:
-			<luid-user-picker-multiple ng-model="myUsers.customInfo" custom-info="firstNameLength" ng-if="!!authToken"></luid-user-picker-multiple>, this info is computed synchronously
-		</p>
-		<p>
-			Year of contract start: <luid-user-picker-multiple ng-model="myUsers.customInfoAsync" custom-info-async="yearOfArrivalAsync" ng-if="!!authToken"></luid-user-picker-multiple>, this info needs an ajax call for each displayed user
-		</p>
-		<pre hljs no-escape language="js">$scope.firstNameLength = function(user) { return user.firstName.length; };
-$scope.yearOfArrivalAsync = function(user){
-	var dfd = $q.defer();
-	$http.get("/api/v3/users/" + user.id + "?fields=dtContractStart")
-	.success(function(response){
-		var year = moment(response.data.dtContractStart).year();
-		dfd.resolve(year);
-	})
-	return dfd.promise;
-};</pre>
-		<hr />
-		<h5>Option "All users"</h5>
-		<p>
-			<code>luid-user-picker</code> doesn't implement this option.
-		</p>
+			<div class="lui input">
+				<input type="text" ng-pattern="'((\\d+,)*(\\d+))$'" placeholder="Operations id (separated with ',')" ng-required="true" ng-model="operationsIdTmp">
+			</div>
+			<input type="submit" class="lui primary button" ng-disabled="!userPickerForm.$valid"
+				ng-click="setAppIdAndOperations(appIdTmp,operationsIdTmp)">
+			<input type="reset" class="lui button"
+				ng-click="resetAppIdAndOperations()">
+		</form>
 	</div>
-</div>
+</article>
+<br/><br/>
+<article class="lui block round">
+	<h5>Multiple user picker</h5>
+	<div class="lui fitting field">
+		<span class="lui input">
+			<luid-user-picker-multiple ng-if="!!globalConnected"
+			ng-model="users.selected">
+			</luid-user-picker-multiple>
+			<label>Select users</label>
+		</span>
+	</div>
+	<div class="lui dashed divider"></div>
+	<p><code>ng-model:</code></p>
+	<p><code>{{ users.selected }}</code></p>
+</article>

@@ -31,7 +31,6 @@
 		// =====
 		button#{$prefix}.unstyled {
 			cursor: pointer;
-			outline: none;
 			border: none;
 			text-decoration: none;
 			font-style: normal;
@@ -40,9 +39,6 @@
 			background-color: transparent;
 			border-radius: 0;
 			@extend %lui_user_select_none;
-			&:active, &:focus {	outline: none; outline: 0; }
-
-			-webkit-appearance: none;
 		}
 	}
 }

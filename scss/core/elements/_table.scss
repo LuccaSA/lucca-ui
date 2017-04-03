@@ -66,6 +66,19 @@
 				}
 			}
 
+			// Clickable table 
+			// ====
+			&.clickable {
+				> tbody > tr, .tbody > .tr {
+					cursor: pointer;
+					@include lui_transition(background-color, 150ms);
+
+					&:hover{
+						background: darken(map-gets($vars, background), 10);
+					}
+				}
+			}
+
 			// Verticaly aligned
 			// ====
 			&[class*="vertically aligned table"] {

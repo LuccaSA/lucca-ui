@@ -3,7 +3,7 @@
 		<tr role="row" ng-repeat="row in ::headerRows track by $index" ng-if="$index !== 0">
 			<th ng-if="isSelectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1"></th>
 			<th role="columnheader" class="sortable" ng-repeat="header in ::row track by $index" ng-click="updateOrderedRows(header)" ng-class="{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}"
-			ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em'}" rowspan="{{ header.rowspan }}" colspan="{{ header.colspan }}">{{ header.label }}</th>
+			ng-style="{'max-width': header.width + 'em', 'min-width': header.width + 'em', 'text-align': header.textAlign}" rowspan="{{ header.rowspan }}" colspan="{{ header.colspan }}">{{ header.label }}</th>
 		</tr>
 		<tr role="row">
 			<th ng-if="isSelectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1">

@@ -10,6 +10,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="demo.min.css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-sortable/1.3.2/ng-sortable.min.css"/>
 </head>
 
 
@@ -55,6 +56,7 @@
 <!-- Other libs -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ng-sortable/1.3.7/ng-sortable.min.js"></script>
 
 <!-- Common lib -->
 <script type="text/javascript" src="../dist/lucca-ui.js"></script>
@@ -81,6 +83,7 @@
 <script type="text/javascript" src="nguibs/pagination/pagination.js"></script>
 <script type="text/javascript" src="nguibs/popover/popover.js"></script>
 <script type="text/javascript" src="nguibs/uiselect/uiselect.js"></script>
+<script type="text/javascript" src="nguibs/sortable/sortable.js"></script>
 
 <!-- /filters -->
 <script type="text/javascript" src="filters/calendar/calendar.js"></script>
@@ -104,6 +107,9 @@
 <script type="text/javascript" src="directives/progressbar/progressbar.js"></script>
 
 <!-- /lucca -->
+<!-- /!\ important: catches all the requests to lucca.local.dev to add the authToken -->
+<script type="text/javascript" src="lucca/redirect-requests/redirect-requests.js"></script>
+<script type="text/javascript" src="lucca/apiselect/apiselect.js"></script>
 <script type="text/javascript" src="lucca/imagepicker/imagepicker.js"></script>
 <script type="text/javascript" src="lucca/notify/notify.js"></script>
 <script type="text/javascript" src="lucca/tablegrid/tablegrid.js"></script>

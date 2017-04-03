@@ -5,10 +5,10 @@
 		luid-user-picker,
 		luid-user-picker-multiple {
 			display: block;
-
-			.selected-first {
-				font-weight: 600;
+			.ui-select-highlight {
+				background: luiPalette(primary, color);
 			}
+			.selected-first { font-weight: 600; }
 			.dividing {
 				position: relative;
 				&:after {
