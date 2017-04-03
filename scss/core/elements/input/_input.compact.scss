@@ -18,7 +18,7 @@
 		color: luiTheme(element, field, input, compact, selection-text);
 	}
 	&::-moz-selection {
-		background: luiTheme(element, field, input, compact, selection-color);
+		background: luiTheme(element, field, input, compact, selection-background);
 		color: luiTheme(element, field, input, compact, selection-text);
 	}
 }

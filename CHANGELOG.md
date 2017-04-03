@@ -1,10 +1,11 @@
 # Change log
 
-## 4.0.0
-- New compact inputs (breaking change for all inputs)
+## 3.1.1
+### Bug fixes
 
-## 3.1.0
+## 3.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.0)
 ### BREAKING CHANGES
+- New compact inputs (breaking change for all inputs)
  - refactored the way the angular modules are defined, so now each module has a fixed number of dependencies. allows you to use lucca-ui without having to9 add `ng-crop-extended` or `formly` to your list of dependencies
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
