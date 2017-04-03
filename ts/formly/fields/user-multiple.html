@@ -1,8 +1,8 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<luid-user-picker-multiple ng-model="model[options.key]" ng-required="{{::options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" name="{{::id}}"></luid-user-picker-multiple>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper }}</small>
-	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$dirty && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
 </div>

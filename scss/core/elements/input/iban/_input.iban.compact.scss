@@ -1,0 +1,39 @@
+@if luiTheme(element, field, iban, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("compact") {
+			$selector: lui_input_get_style_selector("compact");
+			#{$prefix}.input#{$selector} {
+				luid-iban {
+					// Styling
+					// ====
+					> input {
+						@extend %lui_input_reset_compact;
+
+						&:focus {
+							@extend %lui_input_focus_compact;
+						}
+					}
+					> input:not(:last-of-type) {
+						border-right: 0px;
+						border-top-right-radius: 0px;
+						border-bottom-right-radius: 0px;
+					}
+					> input:not(:first-of-type) {
+						border-top-left-radius: 0px;
+						border-bottom-left-radius: 0px;
+					}
+
+					// Invalid style
+					&.ng-invalid.ng-dirty,
+					&.ng-invalid.ng-touched,
+					&.ng-not-empty.ng-pristine.ng-invalid {
+						box-shadow: none !important;
+						input {
+							@extend %lui_input_invalid_input_compact;
+						}
+					}
+				}
+			}
+		}
+	}
+}

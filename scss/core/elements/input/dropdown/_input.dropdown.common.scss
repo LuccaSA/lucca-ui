@@ -1,0 +1,142 @@
+%lui_dropdown_base {
+	position: relative;
+	margin: 0;
+}
+%lui_dropdown_sizing {
+	max-width: 100%;
+
+	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
+		&.#{$sizeName} {
+			width: $sizeEms !important;
+		}
+	}
+}
+%lui_dropdown_list {
+	@extend %lui_unstyled_list;
+	@include lui_raised(2);
+	position: absolute;
+	z-index: luiTheme(element, field, dropdown, z-index);
+	top: 100%;
+	left: 0;
+
+	min-width: 100%;
+
+	background-color: #FFF;
+	color: luiTheme(element, typography, body, color);
+	text-align: left;
+
+	opacity: 0;
+	transform: scale(0);
+	transform-origin: top center;
+	transition-property: opacity, transform;
+	transition-duration: luiTheme(element, field, input, transition, duration);
+	transition-timing-function: luiTheme(element, field, input, transition, easing);
+
+	max-height: 20em;
+	overflow: auto;
+}
+%lui_dropdown_list_dropped {
+	transform: scale(1);
+	opacity: 1;
+}
+%lui_dropdown_list_item {
+	cursor: pointer;
+	position: relative;
+	padding: 0;
+
+	> * {
+		display: block;
+		font-size: luiTheme(element, field, input, font-size);
+		color: luiTheme(element, typography, body, color);
+		padding: luiTheme(element, field, input, vertical-padding) 1em;
+		text-decoration: none;
+	}
+	&.disabled > * {
+		cursor: default;
+		color: rgba(0, 0, 0, 0.26);
+	}
+	&.active > *,
+	&:not(.disabled) > *:hover {
+		opacity: 1;
+		background-color: luiPalette(light, color, light);
+	}
+	&.dividing:after {
+		display: block;
+		content: '';
+		position: absolute;
+		z-index: 1;
+		top: 100%;
+		left: 0; right: 0;
+		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+	}
+
+	.label {
+		float: right;
+		margin-right: 0;
+		font-size: lui_rem(0.9);
+		font-weight: 600;
+	}
+}
+
+%lui_dropdown_list_group {
+	border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+}
+
+%lui_dropdown_list_group_header {
+	font-size: luiTheme(element, field, input, font-size);
+	font-weight: 600;
+	color: luiTheme(element, typography, body, color);
+	padding: luiTheme(element, field, input, vertical-padding) 1em;
+	border-bottom: 1px dotted luiTheme(element, field, field, default-border-color);
+}
+
+@if luiTheme(element, field, dropdown, enabled) {
+	@at-root #{$namespace} {
+
+		// Angular UI dropdown
+		// ====
+		.dropdown {
+			@extend %lui_dropdown_base;
+
+			.dropdown-menu {
+				@extend %lui_dropdown_list;
+			}
+			&.open {
+				.dropdown-menu {
+					@extend %lui_dropdown_list_dropped;
+				}
+			}
+
+			.dropdown-header {
+				@extend %lui_dropdown_list_group_header;
+			}
+		}
+		[uib-dropdown] {
+			@extend %lui_dropdown_sizing;
+
+			#{$prefix}.button {
+				margin: 0;
+			}
+			[uib-dropdown-toggle] {
+				@include lui_make_icon("south chevron", right);
+				&:after {
+					font-size: 0.5em;
+				}
+			}
+			&.open #{$prefix}.button {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			.button + .dropdown-menu {
+				margin-top: 0.5em;
+				left: 1px;
+			}
+			ul li {
+				@extend %lui_dropdown_list_item;
+				a {
+					font-size: 1em;
+				}
+			}
+		}
+	}
+}

@@ -11,14 +11,11 @@
 			> div { height: 100%; }
 
 			.luid-image-picker-picture {
+				background-color: map-gets($vars, default-background-color); // Pick a neutral grey color for white transparent images
 				text-align: center;
 				position: relative;
 				width: 100%;
 				height: 100%;
-				background-color: map-gets($vars, default-background-color); // Pick a neutral grey color for white transparent images
-				background-position: map-gets($vars, background-position);
-				background-repeat: map-gets($vars, background-repeat);
-				background-size: map-gets($vars, background-size);
 				border-image-width: 0;
 
 				.input-overlay,
@@ -27,10 +24,8 @@
 					left: 0;
 					bottom: 0;
 					right: 0;
-					height: 0;
 					overflow: hidden;
 					opacity: map-gets($vars, overlay, opacity);
-					background-color: map-gets($vars, overlay, bg-color);
 					color: map-gets($vars, overlay, color);
 					transition: map-gets($vars, overlay, transition);
 				}
@@ -41,7 +36,6 @@
 					> span {
 						position: absolute;
 						left: 0; right: 0;
-						padding: map-gets($vars, overlay, padding);
 					}
 					.cross {
 						position: absolute;
@@ -60,12 +54,6 @@
 					opacity: 0;
 					cursor: pointer;
 					text-indent: -100%;
-				}
-
-				&:hover {
-					.input-overlay {
-						height: map-gets($vars, overlay, height);
-					}
 				}
 
 				.loader {
@@ -132,14 +120,9 @@
 		// In a field
 		// ====
 		#{$prefix}.field {
-			luid-image-picker + label {
-				@extend %lui_input_label_displaced;
-			}
-
 			luid-image-picker {
 				margin-top: 0.5em;
 				width: map-gets($vars, size) !important;
-				height: map-gets($vars, size) !important;
 
 				border-bottom: luiTheme(element, field, field, focus-border-width) solid transparent;
 				margin-bottom: -#{luiTheme(element, field, field, focus-border-width)};

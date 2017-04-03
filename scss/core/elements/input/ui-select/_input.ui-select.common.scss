@@ -39,7 +39,6 @@
 			.ui-select-match .ui-select-toggle,
 			.ui-select-search {
 				@extend %lui_input_sizing;
-				@extend %lui_input_reset;
 
 				padding-right: 1.5em !important;
 
@@ -78,14 +77,9 @@
 			}
 
 			.ui-select-placeholder {
-				@include lui_input_placeholder;
+				color: luiTheme(element, field, input, placeholder-color);
 			}
 
-			&.open .ui-select-search,
-			.ui-select-search:focus,
-			.ui-select-match.btn-default-focus .ui-select-toggle {
-				@extend %lui_input_focus;
-			}
 			&:not(.ui-select-multiple) .ui-select-search {
 				width: 100% !important;
 			}
@@ -147,20 +141,8 @@
 
 				.ui-select-toggle {
 					cursor: default;
-					
-					@extend %lui_input_disabled_input;
 				}
 			}
-
-			// Invalid
-			// ====
-			&.ng-invalid.ng-touched {
-				.ui-select-toggle,
-				.ui-select-search {
-					@extend %lui_input_invalid_input;
-				}
-			}
-
 
 			// Multiselect
 			// ====
@@ -188,9 +170,6 @@
 				}
 				.close {
 					@extend %lui_tagged_input_close;
-				}
-				.btn-primary, .btn-primary:hover {
-					@extend %lui_tagged_input_tag_active;
 				}
 			}
 		}

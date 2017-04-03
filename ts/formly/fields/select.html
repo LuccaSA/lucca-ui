@@ -1,5 +1,5 @@
 <div class="lui {{::options.templateOptions.display}} field">
-	<div class="lui input">
+	<div class="lui {{::options.templateOptions.style}} input">
 		<ui-select ng-model="model[options.key]" ng-required="{{options.templateOptions.required}}" ng-disabled="options.templateOptions.disabled" name="{{::id}}" focus-on="{{::id}}">
 			<ui-select-match placeholder="{{::options.templateOptions.placeholder}}" allow-clear="true">{{$select.selected.label}}</ui-select-match>
 			<ui-select-choices repeat="choice in options.templateOptions.choices | filter : $select.search">
@@ -9,5 +9,5 @@
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>
 	<small class="message helper">{{ options.templateOptions.helper }}</small>
-	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$touched && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
+	<small class="message error lui animated up fade in" ng-show="form.{{::id}}.$dirty && form.{{::id}}.$error.required">{{::options.templateOptions.requiredError}}</small>
 </div>

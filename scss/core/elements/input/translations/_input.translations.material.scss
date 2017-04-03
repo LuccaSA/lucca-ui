@@ -1,0 +1,16 @@
+@if luiTheme(element, field, momentpicker, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			luid-translations#{$selector} {
+				input {
+					@extend %lui_input_reset_material;
+
+					&:focus {
+						@extend %lui_input_focus_material;
+					}
+				}
+			}
+		}
+	}
+}

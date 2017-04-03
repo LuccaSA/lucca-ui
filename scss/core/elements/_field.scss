@@ -1,288 +1,3 @@
-%lui_input_reset {
-	outline: 0;
-	outline: none;
-	background: transparent;
-	margin: 0;
-	padding: 0;
-
-	// Border
-	border: none;
-	border-bottom-width: luiTheme(element, field, field, default-border-width);
-	border-bottom-style: solid;
-	border-bottom-color: luiTheme(element, field, field, default-border-color);
-
-	// Transitions
-	transition-property: border-bottom-color, box-shadow;
-	transition-duration: luiTheme(element, field, transition, duration);
-	transition-timing-function: luiTheme(element, field, transition, easing);
-
-	color: luiTheme(element, typography, body, color);
-	text-align: left;
-
-	@include flex(0, 0, auto);
-
-	&::selection {
-		background: luiTheme(element, field, input, selection-background);
-		color: luiTheme(element, field, input, selection-text);
-	}
-	&::-moz-selection {
-		background: luiTheme(element, field, input, selection-background);
-		color: luiTheme(element, field, input, selection-text);
-	}
-}
-
-%lui_input_focus {
-	// Focused state
-	border-bottom-color: luiTheme(element, field, field, focus-border-color) !important;
-	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, field, focus-border-color);
-
-	& > ~ label {
-		color: luiTheme(element, field, field, focus-border-color);
-	}
-}
-
-@mixin lui_input_placeholder {
-	color: luiTheme(element, field, input, placeholder-color);
-}
-
-%lui_input_sizing {
-	box-sizing: border-box;
-	display: block;
-	vertical-align: baseline;
-
-	margin: 0;
-	padding: luiTheme(element, field, input, vertical-padding) 0;
-
-	&:not(textarea) {
-		padding: 0;
-		height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-		line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-	}
-
-	font-size: luiTheme(element, field, input, font-size);
-}
-
-%lui_input_clear {
-	@extend %lui_field_input_inner_right_icon;
-	width: 1em;
-	height: 1em;
-	text-align: center;
-	border-radius: 50%;
-	color: luiTheme(element, typography, body, color);
-
-	&:before {
-		font-size: 1.5em;
-		line-height: 0.6em;
-		display: block;
-		content: "\00d7";
-		margin-left: -1px;
-	}
-
-	&:hover {
-		background-color: luiPalette(grey, color);
-		color: luiPalette(grey, text);
-	}
-}
-
-%lui_input_label {
-	font-size: luiTheme(element, field, input, font-size);
-	line-height: 1.2;
-	box-sizing: border-box;
-	overflow: hidden;
-	white-space: pre;
-	text-overflow: ellipsis;
-	color: luiTheme(element, field, label, color);
-}
-
-%lui_input_label_displacable {
-	position: absolute;
-	pointer-events: none;
-	top: luiTheme(element, field, input, vertical-padding);
-	left: 0;
-
-	transition-property: top, font-size, color;
-	transition-duration: luiTheme(element, field, transition, duration);
-	transition-timing-function: luiTheme(element, field, transition, easing);
-}
-
-%lui_input_label_displaced {
-	top: -(2.5 - luiTheme(element, field, label, displaced-font-size)) !important;
-	font-size: luiTheme(element, field, label, displaced-font-size);
-}
-
-%lui_input_invalid_input {
-	border-bottom-color: luiTheme(element, field, invalid-color) !important;
-	box-shadow: 0 (luiTheme(element, field, field, focus-border-width) - luiTheme(element, field, field, default-border-width)) 0 0 luiTheme(element, field, invalid-color);;
-}
-
-%lui_input_invalid_label {
-	color: luiTheme(element, field, invalid-color);
-}
-
-%lui_input_disabled_input {
-	border-bottom-width: 1px;
-	border-bottom-style: dotted;
-	color: transparentize(luiTheme(element, typography, body, color), 0.2);
-}
-
-%lui_field_input_inner_right_icon {
-	position: absolute;
-	bottom: lui_rem(luiTheme(element, field, input, vertical-padding) * (1 + luiTheme(element, field, input, font-size)));
-	right: 0;
-	line-height: 1;
-	transform: translate(-50%, 50%);
-	margin: 0 !important;
-	opacity: 0.5;
-
-	&.is-valid {
-		right: 1em;
-	}
-}
-
-%lui_searchable_input {
-	@include lui_make_icon("search", left);
-	> input {
-		padding-right: 1.5em;
-	}
-	&:before {
-		@extend %lui_field_input_inner_right_icon;
-	}
-}
-
-%lui_tagged_input {
-	@include display-flex();
-	@include flex-direction(row);
-	@include flex-wrap(wrap);
-}
-%lui_tagged_input_tag {
-	display: inline-block;
-	background-color: luiPalette(light, color, light);
-	color: luiPalette(light, text);
-	border-radius: 2em;
-	padding: 0.25em 0.5em;
-	margin: 0.1em 0.5em 0.1em 0;
-
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-
-	&:hover {
-		background-color: luiPalette(grey, color);
-		color: luiPalette(grey, text);
-	}
-}
-%lui_tagged_input_tag_active {
-	background-color: luiPalette(primary, color);
-	color: luiPalette(primary, text);
-}
-%lui_tagged_input_input {
-	min-width: 10em;
-	@include flex(1, 0, auto);
-}
-%lui_tagged_input_close {
-	float: right;
-	font-size: lui_rem(1.5);
-	opacity: 0.5;
-	margin-left: 0.25em;
-	color: inherit;
-	&:hover {
-		opacity: 1;
-	}
-}
-
-%lui_dropdown_base {
-	position: relative;
-	margin: 0;
-}
-%lui_dropdown_sizing {
-	max-width: 100%;
-
-	@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
-		&.#{$sizeName} {
-			width: $sizeEms !important;
-		}
-	}
-}
-%lui_dropdown_list {
-	@extend %lui_unstyled_list;
-	@include lui_raised(2);
-	position: absolute;
-	z-index: luiTheme(element, field, dropdown, z-index);
-	top: 100%;
-	left: 0;
-
-	min-width: 100%;
-
-	background-color: #FFF;
-	color: luiTheme(element, typography, body, color);
-	text-align: left;
-
-	opacity: 0;
-	transform: scale(0);
-	transform-origin: top center;
-	transition-property: opacity, transform;
-	transition-duration: luiTheme(element, field, transition, duration);
-	transition-timing-function: luiTheme(element, field, transition, easing);
-
-	max-height: 20em;
-	overflow: auto;
-}
-%lui_dropdown_list_dropped {
-	transform: scale(1);
-	opacity: 1;
-}
-%lui_dropdown_list_item {
-	cursor: pointer;
-	position: relative;
-	padding: 0;
-
-	> * {
-		display: block;
-		font-size: luiTheme(element, field, input, font-size);
-		color: luiTheme(element, typography, body, color);
-		padding: luiTheme(element, field, input, vertical-padding) 1em;
-		text-decoration: none;
-	}
-	&.disabled > * {
-		cursor: default;
-		color: rgba(0, 0, 0, 0.26);
-	}
-	&.active > *,
-	&:not(.disabled) > *:hover {
-		opacity: 1;
-		background-color: luiPalette(light, color, light);
-	}
-	&.dividing:after {
-		display: block;
-		content: '';
-		position: absolute;
-		z-index: 1;
-		top: 100%;
-		left: 0; right: 0;
-		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
-	}
-
-	.label {
-		float: right;
-		margin-right: 0;
-		font-size: lui_rem(0.9);
-		font-weight: 600;
-	}
-}
-
-%lui_dropdown_list_group {
-	border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
-}
-
-%lui_dropdown_list_group_header {
-	font-size: luiTheme(element, field, input, font-size);
-	font-weight: 600;
-	color: luiTheme(element, typography, body, color);
-	padding: luiTheme(element, field, input, vertical-padding) 1em;
-	border-bottom: 1px dotted luiTheme(element, field, field, default-border-color);
-}
-
 @if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
 
@@ -311,8 +26,12 @@
 
 		// Fields are a label coupled with an input and a potential validation message
 		// =====================================================================
-		#{$prefix}.field,
-		#{$prefix}.fieldset .field {
+		#{$prefix}.field {
+			@include display-flex();
+			@include flex-direction(row);
+			@include flex-wrap(wrap);
+			@include flex-align-items(flex-start);
+
 			margin: map-gets($vars, vertical-margin) 0;
 
 			@include lui_clearfix(); // Prevent margin-collapse
@@ -325,11 +44,15 @@
 
 			// Messages
 			// ====
+			.messages {
+				margin-left: 1em;
+			}
 			.message {
 				display: block;
 				font-size: map-gets($vars, message, font-size);
 				line-height: normal;
 				margin-top: 0.5em;
+				margin-right: 0.5em;
 			}
 
 			// Helper
@@ -345,111 +68,9 @@
 			}
 		}
 
-		// Input
-		// =====================================================================
-		#{$prefix}.input {
-			display: inline-block;
-			vertical-align: middle;
-			position: relative;
-
-			#{$prefix}.input {
-				margin-top: 0;
-			}
-
-			> input:not([type="checkbox"]):not([type="radio"]),
-			> textarea,
-			> select,
-			.unit {
-				@extend %lui_input_sizing;
-			}
-
-			> input:not([type="checkbox"]):not([type="radio"]),
-			> textarea {
-				@extend %lui_input_reset;
-
-				&::-webkit-input-placeholder {
-					@include lui_input_placeholder;
-				}
-				&::-moz-placeholder {
-					@include lui_input_placeholder;
-				}
-				&::-ms-input-placeholder {
-					@include lui_input_placeholder;
-				}
-				&:-moz-placeholder {
-					@include lui_input_placeholder;
-				}
-			}
-
-			> input:not([type="checkbox"]):not([type="radio"]):focus,
-			> textarea:focus,
-			&.focused > input:not([type="checkbox"]):not([type="radio"]),
-			&.focused > textarea {
-				@extend %lui_input_focus;
-			}
-
-			// Textarea specifics
-			// ====
-			textarea {
-				resize: vertical;
-				height: auto;
-			}
-
-			// label
-			// ====
-			&:not(.radio):not(.checkbox):not(.switch) > label {
-				@extend %lui_input_label_displacable;
-			}
-
-			& > label {
-				@extend %lui_input_label;
-			}
-
-			// Unit
-			// ====
-			.unit {
-				width: auto;
-				font-weight: 600;
-				margin-left: 0.5em;
-				margin-bottom: map-gets($vars, input, default-border-width);
-			}
-
-			// Label displacement when focused or filled
-			// ====
-			& > *[ng-model][placeholder]:not([placeholder=""]) ~ label,
-			& > *[ng-model][placeholder]:not([placeholder=""]) > * ~ label,
-			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]).ng-not-empty ~ label,
-			& > *[ng-model].ng-open ~ label,
-			& > *[ng-model].dropdown.open ~ label,
-			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]):focus ~ label {
-				@extend %lui_input_label_displaced;
-				width: auto !important;
-				min-width: 100%;
-			}
-
-			// Searchable input
-			// Displays a magnifier icon
-			// ====
-			&.searchable {
-				@extend %lui_searchable_input;
-			}
-
-			// Empty button
-			// ====
-			i.empty {
-				@extend %lui_input_clear;
-
-				cursor: pointer;
-			}
-		}
-
 		#{$prefix}.field > .input {
 			@include display-flex();
 			@include flex-align-items(center);
-		}
-		#{$prefix}.field > .input,
-		#{$prefix}.input.labelled {
-			margin-top: 1.3em;
 		}
 
 		#{$prefix}.input {
@@ -472,28 +93,9 @@
 			color: luiPalette(red, color);
 		}
 
-
-		// Disabled
-		// =====================================================================
-		#{$prefix}.input > *[ng-model][disabled]:not([type="checkbox"]):not([type="radio"]) {
-			@extend %lui_input_disabled_input;
-		}
-
-
-		// Invalid
-		// =====================================================================
-		#{$prefix}.input > *.ng-touched.ng-invalid ~ label,
-		#{$prefix}.input > *.ng-not-empty.ng-pristine.ng-invalid ~ label,
 		#{$prefix}.field .error {
-			@extend %lui_input_invalid_label;
+			color: map-gets($vars, invalid-color);
 		}
-		#{$prefix}.input > input.ng-invalid.ng-touched:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > input.ng-not-empty.ng-pristine.ng-invalid:not([type="checkbox"]):not([type="radio"]),
-		#{$prefix}.input > textarea.ng-invalid.ng-touched,
-		#{$prefix}.input > textarea.ng-not-empty.ng-pristine.ng-invalid {
-			@extend %lui_input_invalid_input;
-		}
-
 
 		// Valid
 		// !!! This class goes on the .input div itself !!!
@@ -521,9 +123,8 @@
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not[size],
-			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label,
-			#{$prefix}.field.#{$sizeName} .message {
+			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
+			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label {
 				min-width: 0;
 				width: $sizeEms;
 			}
@@ -534,7 +135,6 @@
 		#{$prefix}.fitting.field,
 		#{$prefix}.fitting.field > .input,
 		#{$prefix}.fitting.field > .input > label,
-		#{$prefix}.fitting.field .message,
 		#{$prefix}.fitting.input,
 		#{$prefix}.fitting.input > label {
 			width: 100% !important;
@@ -546,6 +146,18 @@
 			}
 		}
 
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			#{$prefix}.fitting.field .material.input ~ .messages .message {
+				width: 100% !important;
+			}
+			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+				#{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
+					min-width: 0;
+					width: $sizeEms;
+				}
+			}
+		}
 
 		// Inline style
 		// Fields are stacked on each line
@@ -616,26 +228,17 @@
 			width: 100%;
 
 			&.ng-invalid.ng-touched,
+			&.ng-invalid.ng-dirty,
 			&.ng-not-empty.ng-pristine.ng-invalid {
 				.ui-select-container .ui-select-toggle,
 				.ui-select-container .ui-select-search {
-					@extend %lui_input_invalid_input;
+					@extend %lui_input_invalid_input_material;
 				}
 			}
 		}
 	}
 }
 
-
-@import "input.checkbox.radio",
-		"input.switch",
-		"input.tagged",
-		"input.dropdown",
-		"input.ui-select",
-		"input.translations",
-		"input.imagepicker",
-		"input.datepicker",
-		"input.userpicker",
-		"input.timespanpicker",
-		"input.momentpicker",
-		"input.iban";
+@import "input/input.common",
+		"input/input.material",
+		"input/input.compact";

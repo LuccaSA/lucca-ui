@@ -1,0 +1,53 @@
+%lui_tagged_input {
+	@include display-flex();
+	@include flex-direction(row);
+	@include flex-wrap(wrap);
+}
+%lui_tagged_input_tag {
+	display: inline-block;
+	border-radius: 2em;
+	padding: 0.25em 0.5em;
+	margin: 0.1em 0.5em 0.1em 0;
+
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+%lui_tagged_input_input {
+	min-width: 10em;
+	@include flex(1, 0, auto);
+}
+%lui_tagged_input_close {
+	float: right;
+	font-size: lui_rem(1.5);
+	opacity: 0.5;
+	margin-left: 0.25em;
+	color: inherit;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+@if luiTheme(element, field, tagged, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, tagged);
+
+		#{$prefix}.tagged.input {
+			@extend %lui_tagged_input;
+			.tag {
+				@extend %lui_tagged_input_tag;
+			}
+			.close {
+				text-decoration: none;
+				@extend %lui_tagged_input_close;
+				&:after {
+					content: "\00d7";
+				}
+			}
+			input {
+				@extend %lui_tagged_input_input;
+			}
+		}
+	}
+}

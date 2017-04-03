@@ -1,0 +1,49 @@
+@if luiTheme(element, field, ui-select, enabled) {
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
+		@at-root #{$namespace} {
+			#{$prefix}.input#{$selector} .ui-select-container, #{$prefix}.input .ui-select-container#{$selector} {
+
+				.ui-select-match .ui-select-toggle,
+				.ui-select-search {
+					@extend %lui_input_reset_material;
+				}
+
+				&.open .ui-select-search,
+				.ui-select-search:focus,
+				.ui-select-match.btn-default-focus .ui-select-toggle {
+					@extend %lui_input_focus_material;
+				}
+
+				// Disabled
+				// ====
+				&[disabled="disabled"] {
+					.ui-select-toggle {
+						@extend %lui_input_disabled_input_material;
+					}
+				}
+
+				// Invalid
+				// ====
+				&.ng-invalid.ng-touched {
+					.ui-select-toggle,
+					.ui-select-search {
+						@extend %lui_input_invalid_input_material;
+					}
+				}
+
+
+				// Multiselect
+				// ====
+				&.ui-select-multiple {
+					.btn-primary, .btn-primary:hover {
+						@extend %lui_tagged_input_tag_active_material;
+					}
+					.ui-select-match-item {
+						@extend %lui_tagged_input_tag_material;
+					}
+				}
+			}
+		}
+	}
+}
