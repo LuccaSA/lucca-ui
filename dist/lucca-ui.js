@@ -1261,7 +1261,7 @@ var lui;
     var apiselect;
     (function (apiselect) {
         "use strict";
-        var MAGIC_PAGING = "0,100";
+        var MAGIC_PAGING = 25;
         var ApiSelect = (function () {
             function ApiSelect() {
                 this.restrict = "AE";
@@ -1269,6 +1269,7 @@ var lui;
                 this.scope = {
                     api: "=",
                     filter: "=",
+                    orderBy: "=",
                     placeholder: "@",
                 };
                 this.controller = ApiSelectController.IID;
@@ -1299,6 +1300,7 @@ var lui;
                 this.scope = {
                     api: "=",
                     filter: "=",
+                    orderBy: "=",
                     placeholder: "@",
                 };
                 this.controller = ApiSelectController.IID;
@@ -1322,14 +1324,87 @@ var lui;
             ApiSelectMultiple.IID = "luidApiSelectMultiple";
             return ApiSelectMultiple;
         }());
+        var ApiSelectController = (function () {
+            function ApiSelectController($scope, $timeout, service) {
+                var _this = this;
+                this.offset = 0;
+                var delayedReset;
+                function resetResults() {
+                    if (!!delayedReset) {
+                        $timeout.cancel(delayedReset);
+                    }
+                    delayedReset = $timeout(function () {
+                        $scope.refresh("");
+                        delayedReset = undefined;
+                    }, 250);
+                }
+                $scope.$watch("filter", function () {
+                    resetResults();
+                });
+                $scope.$watch("api", function () {
+                    resetResults();
+                });
+                $scope.$watch("order", function () {
+                    resetResults();
+                });
+                $scope.refresh = function (clue) {
+                    _this.offset = 0;
+                    var paging = "0," + MAGIC_PAGING;
+                    service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
+                        .then(function (choices) {
+                        $scope.choices = choices;
+                        _this.offset = $scope.choices.length;
+                    });
+                };
+                var loadingPromise;
+                $scope.loadMore = function (clue) {
+                    if (!loadingPromise) {
+                        var paging = _this.offset + "," + (_this.offset + MAGIC_PAGING);
+                        $scope.choices.push({ id: 0, loading: true, name: "" });
+                        loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
+                            .then(function (nextChoices) {
+                            $scope.choices = _.chain($scope.choices)
+                                .reject(function (c) { return c.loading; })
+                                .union(nextChoices)
+                                .uniq(function (c) { return c.id; })
+                                .value();
+                            _this.offset = $scope.choices.length;
+                            loadingPromise = undefined;
+                        }, function () {
+                            loadingPromise = undefined;
+                        });
+                    }
+                };
+            }
+            ApiSelectController.IID = "luidApiSelectController";
+            ApiSelectController.$inject = [
+                "$scope",
+                "$timeout",
+                "luisStandardApiService",
+            ];
+            return ApiSelectController;
+        }());
+        angular.module("lui").controller(ApiSelectController.IID, ApiSelectController);
+        angular.module("lui").directive(ApiSelect.IID, ApiSelect.factory());
+        angular.module("lui").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
+    })(apiselect = lui.apiselect || (lui.apiselect = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var apiselect;
+    (function (apiselect) {
+        "use strict";
         var StandardApiService = (function () {
             function StandardApiService($http) {
                 this.$http = $http;
             }
-            StandardApiService.prototype.get = function (clue, api, additionalFilter) {
-                var clueFilter = !!clue ? "name=like," + clue : "paging=" + MAGIC_PAGING;
-                var filter = clueFilter + (!!additionalFilter ? "&" + additionalFilter : "");
-                return this.$http.get(api + "?" + filter + "&fields=id,name")
+            StandardApiService.prototype.get = function (clue, api, additionalFilter, paging, order) {
+                var clueFilter = !!clue ? "name=like," + clue : undefined;
+                var pagingFilter = paging ? "paging=" + paging : undefined;
+                var fields = "fields=id,name";
+                var orderBy = !!order ? "orderBy=" + order : undefined;
+                var filter = _.reject([fields, clueFilter, pagingFilter, additionalFilter, orderBy], function (i) { return !i; }).join("&");
+                return this.$http.get(api + "?" + filter)
                     .then(function (response) {
                     if (api.indexOf("/v3/") !== -1) {
                         return response.data.data.items;
@@ -1343,25 +1418,7 @@ var lui;
             StandardApiService.$inject = ["$http"];
             return StandardApiService;
         }());
-        var ApiSelectController = (function () {
-            function ApiSelectController($scope, service) {
-                $scope.refresh = function (clue) {
-                    service.get(clue, $scope.api, $scope.filter)
-                        .then(function (choices) {
-                        $scope.choices = choices;
-                    });
-                };
-            }
-            ApiSelectController.IID = "luidApiSelectController";
-            ApiSelectController.$inject = [
-                "$scope",
-                StandardApiService.IID,
-            ];
-            return ApiSelectController;
-        }());
-        angular.module("lui").controller(ApiSelectController.IID, ApiSelectController);
-        angular.module("lui").directive(ApiSelect.IID, ApiSelect.factory());
-        angular.module("lui").directive(ApiSelectMultiple.IID, ApiSelectMultiple.factory());
+        apiselect.StandardApiService = StandardApiService;
         angular.module("lui").service(StandardApiService.IID, StandardApiService);
     })(apiselect = lui.apiselect || (lui.apiselect = {}));
 })(lui || (lui = {}));
@@ -1380,7 +1437,7 @@ var lui;
                 var _this = this;
                 this.ngModelCtrl = ngModelCtrl;
                 this.ngModelCtrl.$render = function () {
-                    var iban = _this.getViewValue();
+                    var iban = _this.getViewValue().replace(" ", "");
                     if (!!iban) {
                         _this.$scope.countryCode = iban.substring(0, 2);
                         _this.$scope.controlKey = iban.substring(2, 4);
@@ -1411,7 +1468,7 @@ var lui;
                     _this.setViewValue(_this.$scope.countryCode.toUpperCase() + _this.$scope.controlKey.toUpperCase() + _this.$scope.bban.toUpperCase());
                 };
                 this.$scope.pasteIban = function (event) {
-                    _this.setViewValue(event.clipboardData.getData("text/plain"));
+                    _this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
                     _this.ngModelCtrl.$render();
                     event.target.blur();
                 };
@@ -1473,6 +1530,7 @@ var lui;
                 this.templateUrl = "lui/templates/iban/iban.view.html";
                 this.require = [LuidIban.IID, "^ngModel"];
                 this.controller = iban.LuidIbanController.IID;
+                this.scope = {};
             }
             LuidIban.factory = function () {
                 var directive = function () {
@@ -2680,6 +2738,546 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+        var DEFAULT_HOMONYMS_PROPERTIES = [
+            { translationKey: "LUIDUSERPICKER_DEPARTMENT", name: "department.name", icon: "location" },
+            { translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" },
+            { translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email" },
+        ];
+        var MAGIC_PAGING = 15;
+        var MAX_SEARCH_LIMIT = 10000;
+        var LuidUserPickerController = (function () {
+            function LuidUserPickerController($scope, $q, userPickerService) {
+                var _this = this;
+                this.$scope = $scope;
+                this.$q = $q;
+                this.userPickerService = userPickerService;
+                this.userPickerService.setCustomHttpService($scope.customHttpService);
+                this.$scope.lastPagingOffset = 0;
+                this.$scope.users = new Array();
+                this.userPickerService.getMyId().then(function (id) {
+                    _this.$scope.myId = id;
+                    _this.refresh().then(function (users) {
+                        _this.initializeScope();
+                    });
+                });
+            }
+            LuidUserPickerController.prototype.setNgModelCtrl = function (ngModelCtrl, multiple) {
+                var _this = this;
+                if (multiple === void 0) { multiple = false; }
+                this.multiple = true;
+                this.ngModelCtrl = ngModelCtrl;
+                ngModelCtrl.$render = function () {
+                    if (_this.multiple) {
+                        _this.$scope.selectedUsers = _this.getViewValue();
+                    }
+                    else {
+                        _this.$scope.selectedUser = _this.getViewValue();
+                    }
+                };
+            };
+            LuidUserPickerController.prototype.getViewValue = function () { return this.ngModelCtrl.$viewValue; };
+            LuidUserPickerController.prototype.setViewValue = function (value) {
+                this.ngModelCtrl.$setViewValue(angular.copy(value));
+                this.ngModelCtrl.$setTouched();
+            };
+            LuidUserPickerController.prototype.initializeScope = function () {
+                var _this = this;
+                this.$scope.$watch("displayMeFirst", function (newValue, oldValue) {
+                    if (_this.$scope.displayMeFirst) {
+                        if (newValue) {
+                            var myIndex = _.findIndex(_this.$scope.users, function (user) { return user.id === _this.$scope.myId; });
+                            if (myIndex !== -1) {
+                                var me = _this.$scope.users[myIndex];
+                                _this.$scope.users.splice(myIndex, 1);
+                                _this.$scope.users.unshift(me);
+                            }
+                            else {
+                                _this.userPickerService.getMe().then(function (me) {
+                                    _this.tidyUp([me]).then(function (meComplete) {
+                                        _this.$scope.users.unshift(meComplete[0]);
+                                    });
+                                });
+                            }
+                        }
+                    }
+                });
+                this.$scope.$watch("showFormerEmployees", function (newValue, oldValue) {
+                    if (!!_this.$scope.showFormerEmployees && newValue !== oldValue) {
+                        _this.resetUsers();
+                        _this.refresh();
+                    }
+                });
+                this.$scope.$watchCollection("bypassOperationsFor", function (newValue, oldValue) {
+                    if (newValue !== undefined) {
+                        _this.userPickerService.getUsersByIds(newValue).then(function (bypassedUsers) {
+                            _this.tidyUp(bypassedUsers).then(function (completedByPassedUsers) {
+                                _.each(completedByPassedUsers, function (byPassedUser) {
+                                    if (_.find(_this.$scope.users, function (user) { return user.id === byPassedUser.id; }) === undefined) {
+                                        _this.$scope.users.push(byPassedUser);
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                this.$scope.$watchGroup(["appId", "operations"], function (newValue, oldValue) {
+                    if (angular.isDefined(newValue) && angular.isDefined(newValue[0]) &&
+                        angular.isDefined(newValue[1]) && newValue[1].length > 0 &&
+                        newValue[0] !== oldValue[0] && !_.isEqual(newValue[1], oldValue[1])) {
+                        _this.resetUsers();
+                        _this.refresh();
+                    }
+                });
+                this.$scope.find = function (search) {
+                    _this.resetUsers();
+                    _this.refresh(search);
+                };
+                this.$scope.loadMore = function () {
+                    if (!_this.$scope.displayAllUsers) {
+                        _this.$scope.lastPagingOffset += MAGIC_PAGING;
+                        _this.$scope.loadingMore = true;
+                        _this.refresh().then(function () { _this.$scope.loadingMore = false; });
+                    }
+                };
+                this.$scope.onSelectedUserChanged = function (user) {
+                    _this.setViewValue(user);
+                    if (!!_this.$scope.onSelect()) {
+                        _this.$scope.onSelect();
+                    }
+                };
+                this.$scope.onSelectedUsersChanged = function () {
+                    _this.setViewValue(_this.$scope.selectedUsers);
+                    if (!!_this.$scope.onSelect()) {
+                        _this.$scope.onSelect();
+                    }
+                };
+                this.$scope.onSelectedUserRemoved = function () {
+                    _this.setViewValue(_this.$scope.selectedUsers);
+                    if (!!_this.$scope.onRemove()) {
+                        _this.$scope.onRemove();
+                    }
+                };
+            };
+            LuidUserPickerController.prototype.tidyUp = function (users) {
+                var _this = this;
+                var promises = new Array();
+                var customInfoDico = {};
+                var homonymsDico = {};
+                _.each(users, function (user) {
+                    user.hasLeft = !!user.dtContractEnd && moment(user.dtContractEnd).isBefore(moment().startOf("day"));
+                });
+                if (!!this.$scope.customFilter) {
+                    users = _.filter(users, function (user) { return _this.$scope.customFilter(user); });
+                }
+                if (!!this.$scope.customInfo) {
+                    _.each(users, function (user) {
+                        user.info = _this.$scope.customInfo(user);
+                    });
+                }
+                if (!!this.$scope.customInfoAsync) {
+                    _.each(users, function (user) {
+                        customInfoDico[user.id.toString()] = promises.push(_this.$scope.customInfoAsync(user)) - 1;
+                    });
+                }
+                var homonyms = this.userPickerService.getHomonyms(users);
+                if (!!homonyms && homonyms.length > 0) {
+                    var properties_1 = !!this.$scope.homonymsProperties && this.$scope.homonymsProperties.length > 0 ?
+                        this.$scope.homonymsProperties : DEFAULT_HOMONYMS_PROPERTIES;
+                    _.each(homonyms, function (user) {
+                        homonymsDico[user.id] = promises.push(_this.userPickerService.getAdditionalProperties(user, properties_1)) - 1;
+                    });
+                }
+                return this.$q.all(promises).then(function (values) {
+                    if (!!homonyms && homonyms.length > 0) {
+                        _.each(users, function (user) {
+                            if (angular.isDefined(homonymsDico[user.id])) {
+                                user.additionalProperties = values[homonymsDico[user.id.toString()]];
+                                user.hasHomonyms = true;
+                            }
+                        });
+                        users = _this.userPickerService.reduceAdditionalProperties(users);
+                    }
+                    if (!!_this.$scope.customInfoAsync) {
+                        _.each(users, function (user) {
+                            var indexInValuesArray = customInfoDico[user.id.toString()];
+                            if (angular.isDefined(user.info) && user.info !== "") {
+                                user.info = user.info + " " + values[indexInValuesArray];
+                            }
+                            else {
+                                user.info = values[indexInValuesArray];
+                            }
+                        });
+                    }
+                    return users;
+                });
+            };
+            LuidUserPickerController.prototype.refresh = function (clue) {
+                var _this = this;
+                if (clue === void 0) { clue = ""; }
+                return this.userPickerService.getUsers(this.getFilter(clue))
+                    .then(function (allUsers) {
+                    if (!clue && _this.$scope.displayMeFirst && !!_this.$scope.users &&
+                        _this.$scope.users.length > 1 && _this.$scope.users[0].id !== _this.$scope.myId) {
+                        var myIndex = _.findIndex(allUsers, function (user) { return user.id === _this.$scope.myId; });
+                        if (myIndex !== -1) {
+                            var me = allUsers[myIndex];
+                            allUsers.splice(myIndex, 1);
+                            allUsers.unshift(me);
+                        }
+                        else {
+                            return _this.userPickerService.getMe().then(function (me) {
+                                allUsers.unshift(me);
+                                return _this.tidyUpAndAssign(allUsers, clue);
+                            });
+                        }
+                    }
+                    return _this.tidyUpAndAssign(allUsers, clue);
+                });
+            };
+            LuidUserPickerController.prototype.tidyUpAndAssign = function (allUsers, clue) {
+                var _this = this;
+                return this.tidyUp(allUsers)
+                    .then(function (neatUsers) {
+                    if (!!clue && clue !== "") {
+                        _this.$scope.users = neatUsers;
+                    }
+                    else {
+                        (_a = _this.$scope.users).push.apply(_a, neatUsers);
+                    }
+                    return _this.$scope.users;
+                    var _a;
+                });
+            };
+            LuidUserPickerController.prototype.resetUsers = function () {
+                this.$scope.users.splice(0, this.$scope.users.length);
+                this.$scope.lastPagingOffset = 0;
+            };
+            LuidUserPickerController.prototype.getFilter = function (clue) {
+                var s = this.$scope;
+                var filter = "formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
+                    (!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
+                    (!!clue ? "&clue=" + clue : "") +
+                    (!!clue || s.displayAllUsers ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+                return filter;
+            };
+            LuidUserPickerController.IID = "luidUserPickerController";
+            LuidUserPickerController.$inject = ["$scope", "$q", "userPickerService"];
+            return LuidUserPickerController;
+        }());
+        userpicker.LuidUserPickerController = LuidUserPickerController;
+        angular.module("lui").controller(LuidUserPickerController.IID, LuidUserPickerController);
+        angular.module("lui").filter("luifHighlight", ["$filter", "$translate",
+            function ($filter, $translate) {
+                return function (_input, _clue, _info, _key) {
+                    var highlight = $filter("highlight");
+                    return (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "") + (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + "<span>" + highlight(_input, _clue) + "</span>";
+                };
+            }]);
+        angular.module("lui.translate").config(["$translateProvider", function ($translateProvider) {
+                $translateProvider.translations("en", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Left on {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "No results",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Error while loading users",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} displayed results of {{all}}",
+                    "LUIDUSERPICKER_DEPARTMENT": "Department",
+                    "LUIDUSERPICKER_LEGALENTITY": "Legal entity",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Employee number",
+                    "LUIDUSERPICKER_MAIL": "Email",
+                    "LUIDUSERPICKER_ME": "Me:",
+                    "LUIDUSERPICKER_ALL": "All users",
+                });
+                $translateProvider.translations("de", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Verließ die {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Keine Ergebnisse",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Fehler",
+                    "LUIDUSERPICKER_OVERFLOW": "Es werden {{cnt}} auf {{all}} Benutzernamen",
+                    "LUIDUSERPICKER_DEPARTMENT": "Abteilung",
+                    "LUIDUSERPICKER_LEGALENTITY": "Rechtsträger",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Betriebsnummer",
+                    "LUIDUSERPICKER_MAIL": "E-mail",
+                    "LUIDUSERPICKER_ME": "Mir:",
+                    "LUIDUSERPICKER_ALL": "Alle Benutzer",
+                });
+                $translateProvider.translations("fr", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Parti(e) le {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Aucun résultat",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Erreur lors de la récupération des utilisateurs",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} résultats affichés sur {{all}}",
+                    "LUIDUSERPICKER_DEPARTMENT": "Service",
+                    "LUIDUSERPICKER_LEGALENTITY": "Entité légale",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Matricule",
+                    "LUIDUSERPICKER_MAIL": "Email",
+                    "LUIDUSERPICKER_ME": "Moi :",
+                    "LUIDUSERPICKER_ALL": "Tous les utilisateurs",
+                });
+            }]);
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+        var LuidUserPicker = (function () {
+            function LuidUserPicker() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/user-picker/user-picker.html";
+                this.require = ["ngModel", LuidUserPicker.IID];
+                this.scope = {
+                    placeholder: "@",
+                    onSelect: "&",
+                    onRemove: "&",
+                    controlDisabled: "=",
+                    showFormerEmployees: "=",
+                    homonymsProperties: "=",
+                    customFilter: "=",
+                    appId: "=",
+                    operations: "=",
+                    customInfo: "=",
+                    customInfoAsync: "=",
+                    displayMeFirst: "=",
+                    displayAllUsers: "=",
+                    customHttpService: "=",
+                    bypassOperationsFor: "=",
+                };
+                this.controller = userpicker.LuidUserPickerController.IID;
+            }
+            LuidUserPicker.factory = function () { return function () { return new LuidUserPicker(); }; };
+            LuidUserPicker.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var userPickerCtrl = ctrls[1];
+                userPickerCtrl.setNgModelCtrl(ngModelCtrl);
+                scope.onOpen = function (isOpen) {
+                    if (isOpen) {
+                        element.addClass("ng-open");
+                    }
+                    else {
+                        element.removeClass("ng-open");
+                    }
+                };
+            };
+            LuidUserPicker.IID = "luidUserPicker";
+            return LuidUserPicker;
+        }());
+        angular.module("lui.translate").directive(LuidUserPicker.IID, LuidUserPicker.factory());
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+        var LuidUserPickerMultiple = (function () {
+            function LuidUserPickerMultiple() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/user-picker/user-picker.multiple.html";
+                this.require = ["ngModel", LuidUserPickerMultiple.IID];
+                this.scope = {
+                    placeholder: "@",
+                    onSelect: "&",
+                    onRemove: "&",
+                    controlDisabled: "=",
+                    showFormerEmployees: "=",
+                    homonymsProperties: "=",
+                    customFilter: "=",
+                    appId: "=",
+                    operations: "=",
+                    customInfo: "=",
+                    customInfoAsync: "=",
+                    displayMeFirst: "=",
+                    displayAllUsers: "=",
+                    customHttpService: "=",
+                    bypassOperationsFor: "=",
+                };
+                this.controller = userpicker.LuidUserPickerController.IID;
+            }
+            LuidUserPickerMultiple.factory = function () { return function () { return new LuidUserPickerMultiple(); }; };
+            LuidUserPickerMultiple.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var userPickerCtrl = ctrls[1];
+                userPickerCtrl.setNgModelCtrl(ngModelCtrl, true);
+                scope.onOpen = function (isOpen) {
+                    if (isOpen) {
+                        element.addClass("ng-open");
+                    }
+                    else {
+                        element.removeClass("ng-open");
+                    }
+                };
+            };
+            LuidUserPickerMultiple.IID = "luidUserPickerMultiple";
+            return LuidUserPickerMultiple;
+        }());
+        angular.module("lui.translate").directive(LuidUserPickerMultiple.IID, LuidUserPickerMultiple.factory());
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
+        var UserPickerService = (function () {
+            function UserPickerService($http, $q, $filter) {
+                this.meApiUrl = "/api/v3/users/me";
+                this.userLookUpApiUrl = "/api/v3/users/find";
+                this.userApiUrl = "/api/v3/users/";
+                this.userLookupFields = "fields=Id,firstName,lastName,dtContractEnd";
+                this.$http = $http;
+                this.defaultHttpService = $http;
+                this.$q = $q;
+                this.stripAccents = $filter("luifStripAccents");
+            }
+            UserPickerService.prototype.getMyId = function () {
+                var _this = this;
+                if (this.myIdCache !== undefined) {
+                    var dfd = this.$q.defer();
+                    dfd.resolve(this.myIdCache);
+                    return dfd.promise;
+                }
+                return this.$http.get(this.meApiUrl + "?fields=id")
+                    .then(function (response) {
+                    _this.myIdCache = response.data.data.id;
+                    return _this.myIdCache;
+                }).catch(function (reason) {
+                    return undefined;
+                });
+            };
+            UserPickerService.prototype.getMe = function () {
+                var _this = this;
+                if (this.meCache !== undefined) {
+                    var dfd = this.$q.defer();
+                    dfd.resolve(this.meCache);
+                    return dfd.promise;
+                }
+                return this.$http.get(this.meApiUrl + "?" + this.userLookupFields)
+                    .then(function (response) {
+                    _this.meCache = response.data.data;
+                    return _this.meCache;
+                }).catch(function (reason) {
+                    return undefined;
+                });
+            };
+            UserPickerService.prototype.getHomonyms = function (users) {
+                var _this = this;
+                return _.chain(users)
+                    .groupBy(function (user) { return _this.concatName(user); })
+                    .filter(function (groups) { return groups.length > 1; })
+                    .flatten()
+                    .value();
+            };
+            UserPickerService.prototype.getUsers = function (filters) {
+                return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + this.userLookupFields)
+                    .then(function (response) {
+                    return response.data.data.items;
+                });
+            };
+            UserPickerService.prototype.getUserById = function (id) {
+                return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
+                    .then(function (response) {
+                    return response.data.data;
+                });
+            };
+            UserPickerService.prototype.getUsersByIds = function (ids) {
+                var _this = this;
+                var promises = new Array();
+                _.each(ids, function (id) {
+                    promises.push(_this.getUserById(id));
+                });
+                return this.$q.all(promises);
+            };
+            UserPickerService.prototype.getAdditionalProperties = function (user, properties) {
+                var _this = this;
+                var fields = _.map(properties, function (prop) { return prop.name; }).join(",");
+                return this.$http.get("/api/v3/users/" + user.id.toString() + "?fields=" + fields)
+                    .then(function (response) {
+                    var result = new Array();
+                    _.each(properties, function (property) {
+                        var value = _this.getProperty(response.data.data, property.name);
+                        if (!!value) {
+                            result.push({
+                                translationKey: property.translationKey,
+                                name: property.name,
+                                icon: property.icon,
+                                value: value
+                            });
+                        }
+                    });
+                    return result;
+                });
+            };
+            UserPickerService.prototype.reduceAdditionalProperties = function (users) {
+                var _this = this;
+                var groupedHomonyms = _.chain(users)
+                    .groupBy(function (user) { return _this.concatName(user); })
+                    .filter(function (groups) { return groups.length > 1; })
+                    .value();
+                if (groupedHomonyms.length === 0) {
+                    return users;
+                }
+                _.each(groupedHomonyms, function (homonyms) {
+                    var reducableProperties = new Array();
+                    var groupedProperties = _.chain(homonyms)
+                        .map(function (user) { return user.additionalProperties; })
+                        .flatten()
+                        .groupBy(function (property) { return property.name; })
+                        .value();
+                    _.each(groupedProperties, function (propertyGroup) {
+                        var uniq = _.uniq(propertyGroup, function (property) { return property.value; });
+                        if (uniq.length === 1) {
+                            reducableProperties.push(propertyGroup[0].name);
+                        }
+                    });
+                    _.each(reducableProperties, function (propertyName) {
+                        _.each(homonyms, function (user) {
+                            var propIndex = _.findIndex(user.additionalProperties, function (property) { return property.name === propertyName; });
+                            user.additionalProperties.splice(propIndex, 1);
+                        });
+                    });
+                });
+                return users;
+            };
+            UserPickerService.prototype.setCustomHttpService = function (httpService) {
+                this.$http = !!httpService ? httpService : this.defaultHttpService;
+            };
+            UserPickerService.prototype.getProperty = function (object, prop) {
+                var splitted = prop.split(".");
+                var curObject = object;
+                _.each(splitted, function (propName) {
+                    curObject = !!curObject && !!curObject[propName] ? curObject[propName] : undefined;
+                });
+                return curObject;
+            };
+            UserPickerService.prototype.concatName = function (user) {
+                return this.stripAccents(user.firstName.toLowerCase()) + this.stripAccents(user.lastName.toLowerCase());
+            };
+            UserPickerService.IID = "userPickerService";
+            UserPickerService.$inject = [
+                "$http", "$q", "$filter"
+            ];
+            return UserPickerService;
+        }());
+        angular.module("lui").service(UserPickerService.IID, UserPickerService);
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     "use strict";
 })(lui || (lui = {}));
 var lui;
@@ -2790,6 +3388,27 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
+    var scroll;
+    (function (scroll) {
+        "use strict";
+        angular.module("lui").directive("luidOnScrollBottom", function () {
+            return {
+                restrict: "A",
+                scope: { luidOnScrollBottom: "&" },
+                link: function ($scope, element) {
+                    element.bind("scroll", function (eventArg) {
+                        var scrollbarHeight = eventArg.srcElement.scrollHeight - eventArg.srcElement.clientHeight;
+                        if (Math.abs(scrollbarHeight - eventArg.srcElement.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {
+                            $scope.luidOnScrollBottom();
+                        }
+                    });
+                }
+            };
+        });
+    })(scroll = lui.scroll || (lui.scroll = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     "use strict";
 })(lui || (lui = {}));
 var lui;
@@ -2886,7 +3505,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=\"bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" ng-change=\"onDisplayStrChanged($event)\" ng-focus=\"openPopover($event)\" luid-keydown mappings=\"closePopoverOnTab\" placeholder=\"{{placeholder}}\"> <i class=\"empty\" ng-click=\"clear($event)\"></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" ng-change=\"onDisplayStrChanged($event)\" ng-focus=\"openPopover($event)\" luid-keydown mappings=\"closePopoverOnTab\" placeholder=\"{{placeholder}}\"> <i class=\"empty\" ng-click=\"clear($event)\"></i></div>"
   );
 
 
@@ -2896,97 +3515,97 @@ var lui;
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<div class=\"lui daterange fitting input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=\"bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-daterangepicker\" ng-click=\"togglePopover($event)\"><i class=\"empty\" ng-click=\"clear($event)\"></i><div class=\"inputs\" ng-if=\"popover.isOpen\"><input auto-focus ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-click=\"editStart($event)\" ng-model=\"internal.startDisplayStr\" ng-change=\"onStartDisplayStrChanged($event)\" placeholder=\"{{fromLabel}}\" luid-keydown mappings=\"focusEndInputOnTab\"> <i class=\"lui east arrow icon\"></i> <input ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-model=\"internal.endDisplayStr\" ng-click=\"editEnd($event)\" ng-change=\"onEndDisplayStrChanged($event)\" placeholder=\"{{toLabel}}\" luid-keydown mappings=\"closePopoverOnTab\"></div><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" placeholder=\"{{placeholder}}\"></div>"
+    "<div class=\"lui daterange fitting input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-daterangepicker\" ng-click=\"togglePopover($event)\"><div class=\"inputs\" ng-if=\"popover.isOpen\"><input auto-focus ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-click=\"editStart($event)\" ng-model=\"internal.startDisplayStr\" ng-change=\"onStartDisplayStrChanged($event)\" placeholder=\"{{fromLabel}}\" luid-keydown mappings=\"focusEndInputOnTab\"> <i class=\"lui east arrow icon\"></i> <input ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-model=\"internal.endDisplayStr\" ng-click=\"editEnd($event)\" ng-change=\"onEndDisplayStrChanged($event)\" placeholder=\"{{toLabel}}\" luid-keydown mappings=\"closePopoverOnTab\"></div><i class=\"empty\" ng-click=\"clear($event)\"></i><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" placeholder=\"{{placeholder}}\"></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select-multiple api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-api-select-multiple api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/api-select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-api-select api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-api-select api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/checkbox.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox input\"><input type=\"checkbox\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox {{::options.templateOptions.style}} input\"><input type=\"checkbox\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/date.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-date-picker-popup ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-date-picker-popup><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-date-picker-popup class=\"{{::options.templateOptions.style}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-date-picker-popup><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/daterange.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-daterange-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-daterange-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-daterange-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-daterange-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/email.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"email\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"email\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/iban.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-iban ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-iban><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-iban ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-iban><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/number.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"number\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"number\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/picture.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-image-picker ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" class=\"{{::options.templateOptions.size}}\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-image-picker class=\"{{::options.templateOptions.size}} {{::options.templateOptions.style}}\" ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/portrait.html',
-    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><div class=\"lui input\"><luid-image-picker ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" class=\"{{::options.templateOptions.size}}\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} portrait field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-image-picker class=\"{{::options.templateOptions.size}} {{::options.templateOptions.style}}\" ng-model=\"model[options.key]\" name=\"{{::id}}\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" class=\"{{::options.templateOptions.size}}\" delete-enabled=\"true\" cropping-ratio=\"options.templateOptions.ratio\"></luid-image-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/radio.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><ui-select ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" focus-on=\"{{::id}}\"><ui-select-match placeholder=\"{{::options.templateOptions.placeholder}}\" allow-clear=\"true\">{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><ui-select ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" focus-on=\"{{::id}}\"><ui-select-match placeholder=\"{{::options.templateOptions.placeholder}}\" allow-clear=\"true\">{{$select.selected.label}}</ui-select-match><ui-select-choices repeat=\"choice in options.templateOptions.choices | filter : $select.search\"><div ng-bind-html=\"choice.label | highlight: $select.search\"></div></ui-select-choices></ui-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/text.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/textarea.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" rows=\"{{::options.templateOptions.rows }}\"></textarea><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" rows=\"{{::options.templateOptions.rows }}\"></textarea><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user-multiple.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker-multiple ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-user-picker-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-user-picker-multiple ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-user-picker-multiple><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/user.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui input\"><luid-user-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" allow-clear=\"true\"></luid-user-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$touched && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-user-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\" allow-clear=\"true\"></luid-user-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select-multiple.html',
-    "<ui-select multiple><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select multiple><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select.html',
-    "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\" ng-hide=\"$last &&!!choice.loading\"></div><div ng-show=\"$last &&!!choice.loading\" class=\"lui loader\"></div></ui-select-choices></ui-select>"
   );
 
 
@@ -3001,7 +3620,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"><div ng-if=\"deleteEnabled\" class=\"lui icon cross\" ng-click=\"onDelete()\"></div></div><div class=\"upload-overlay\"><div class=\"lui inverted x-large loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted x-large loader\"></div></div></div>"
   );
 
 
@@ -3041,7 +3660,17 @@ var lui;
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=\"row\" ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"></th><th role=\"columnheader\" class=\"sortable\" ng-repeat=\"header in ::row track by $index\" ng-click=\"updateOrderedRows(header)\" ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=\"row\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input ng-class=\"masterCheckBoxCssClass\" type=\"checkbox\" ng-model=\"allChecked.value\" ng-change=\"onMasterCheckBoxChange()\" ng-value=\"true\"><label>&nbsp;</label></div></th><th role=\"columnheader\" ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=\"1\" rowspan=\"1\" class=\"filtering\"><div class=\"lui fitting searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=\"updateFilteredRows()\" ng-model=\"filters[$index].currentValues[0]\" ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\"><ui-select multiple ng-model=\"filters[$index].currentValues\" reset-search-input=\"true\" on-remove=\"updateFilteredRows()\" on-select=\"updateFilteredRows()\"><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select ng-model=\"filters[$index].currentValues[0]\" reset-search-input=\"true\" on-select=\"updateFilteredRows()\" allow-clear><ui-select-match allow-clear=\"true\" placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=\"row\" ng-repeat=\"row in visibleRows\" ng-style=\"row.styles\" ng-click=\"internalRowClick($event, row);\"><td ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input type=\"checkbox\" ng-change=\"onCheckBoxChange()\" ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=\"cell\" ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=\"cell.getValue(row)\" ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=\"row\" ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"></th><th role=\"columnheader\" class=\"sortable\" ng-repeat=\"header in ::row track by $index\" ng-click=\"updateOrderedRows(header)\" ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em', 'text-align': header.textAlign}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=\"row\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input ng-class=\"masterCheckBoxCssClass\" type=\"checkbox\" ng-model=\"allChecked.value\" ng-change=\"onMasterCheckBoxChange()\" ng-value=\"true\"><label>&nbsp;</label></div></th><th role=\"columnheader\" ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=\"1\" rowspan=\"1\" class=\"filtering\"><div class=\"lui fitting searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=\"updateFilteredRows()\" ng-model=\"filters[$index].currentValues[0]\" ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\"><ui-select multiple ng-model=\"filters[$index].currentValues\" reset-search-input=\"true\" on-remove=\"updateFilteredRows()\" on-select=\"updateFilteredRows()\"><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select ng-model=\"filters[$index].currentValues[0]\" reset-search-input=\"true\" on-select=\"updateFilteredRows()\" allow-clear><ui-select-match allow-clear=\"true\" placeholder=\"{{ 'SELECT_ITEM' | translate }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=\"row\" ng-repeat=\"row in visibleRows\" ng-style=\"row.styles\" ng-click=\"internalRowClick($event, row);\"><td ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input type=\"checkbox\" ng-change=\"onCheckBoxChange()\" ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=\"cell\" ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}\" ng-bind-html=\"cell.getValue(row)\" ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+  );
+
+
+  $templateCache.put('lui/templates/user-picker/user-picker.html',
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"true\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+  );
+
+
+  $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"true\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);
@@ -3353,902 +3982,6 @@ var lui;
 	'use strict';
 	/**
 	** DEPENDENCIES
-	**  - moment - for tagging former employees
-	**  - underscore
-	**  - ui.select
-	**  - ngSanitize as a result of the dependency to ui.select
-	**/
-
-	var MAX_COUNT = 15; // MAGIC_NUMBER
-	var MAGIC_NUMBER_maxUsers = 10000; // Number of users to retrieve when using a user-picker-multiple or custom filter
-	var DEFAULT_HOMONYMS_PROPERTIES = [{
-		"label": "LUIDUSERPICKER_DEPARTMENT",
-		"name": "department.name",
-		"icon": "location"
-	}, {
-		"label": "LUIDUSERPICKER_LEGALENTITY",
-		"name": "legalEntity.name",
-		"icon": "tree list"
-	}, {
-		"label": "LUIDUSERPICKER_EMPLOYEENUMBER",
-		"name": "employeeNumber",
-		"icon": "user"
-	}, {
-		"label": "LUIDUSERPICKER_MAIL",
-		"name": "mail",
-		"icon": "email"
-	}]; // MAGIC LIST OF PROPERTIES
-
-	var uiSelectChoicesTemplate = "<ui-select-choices position=\"down\" repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" ui-disable-choice=\"!!user.overflow\">" +
-	"<div ng-class=\"{dividing: user.isDisplayedFirst}\">" +
-		"<div class=\"selected-first\" ng-if=\"!!user.isSelected\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div>" +
-		"<div ng-if=\"!!user.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</div>" +
-		"<div ng-if=\"!!user.isMe\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div>" +
-		"<div ng-if=\"!user.isDisplayedFirst\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div>" +
-		"<small ng-if=\"!user.overflow && user.hasHomonyms && getProperty(user, property.name)\" ng-repeat=\"property in displayedProperties\"><i class=\"lui icon {{property.icon}}\"></i> <b>{{property.label | translate}}</b> {{getProperty(user, property.name)}}<br/></small>" +
-		"<small ng-if=\"showFormerEmployees && user.isFormerEmployee\" translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
-	"</div>" +
-	"<small ng-if=\"user.overflow\" translate translate-values=\"{cnt:user.cnt, all:user.all}\">{{user.overflow}}</small>" +
-	"</ui-select-choices>";
-
-	var userPickerTemplate = "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\" " +
-	"class=\"lui {{size}} \" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\">" +
-	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">" +
-		"<span ng-if=\"!$select.selected.isAll\">{{$select.selected.lastName}} {{ $select.selected.firstName }}</span>" +
-		"<span ng-if=\"$select.selected.isAll\">{{ 'LUIDUSERPICKER_ALL' | translate }}</span>" +
-	"</ui-select-match>" +
-	uiSelectChoicesTemplate +
-	"</ui-select>";
-
-	var userPickerMultipleTemplate = "<ui-select multiple uis-open-close=\"onDropdownToggle(isOpen)\" " +
-	"class=\"lui {{size}} input\" on-select=\"onSelect()\" on-remove=\"onRemove()\" ng-disabled=\"controlDisabled\" close-on-select=\"false\">" +
-	"<ui-select-match placeholder=\"{{ placeholder }}\" allow-clear=\"{{allowClear}}\">{{$item.lastName}} {{$item.firstName}}" +
-		"<small ng-if=\"$item.hasHomonyms && getProperty($item, property.name)\" ng-repeat=\"property in displayedProperties\"><b>{{property.label | translate}}</b> {{getProperty($item, property.name)}} </small>" +
-		"<small ng-if=\"$item.isFormerEmployee\" translate  translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small>" +
-	"</ui-select-match>" +
-	uiSelectChoicesTemplate +
-	"</ui-select>";
-
-
-	angular.module('lui.translate')
-	.directive('luidUserPicker', function () {
-		return {
-			restrict: 'E',
-			controller: "luidUserPickerController",
-			template: userPickerTemplate,
-			require: ["luidUserPicker","^ngModel"],
-			scope: {
-				/*** STANDARD ***/
-				// size: "@", // x-short, short, long, x-long
-				placeholder: "@",
-				onSelect: "&",
-				onRemove: "&",
-				controlDisabled: "=",
-				allowClear: "@",
-				/*** FORMER EMPLOYEES ***/
-				showFormerEmployees: "=", // boolean
-				/*** HOMONYMS ***/
-				homonymsProperties: "=", // list of properties to handle homonyms
-				/*** CUSTOM FILTER ***/
-				customFilter: "=", // should be a function with this signature: function(user){ return boolean; }
-				/*** OPERATION SCOPE ***/
-				appId: "=", // id of the application that users should have access
-				operations: "=", // list of operation ids that users should have access
-				/*** CUSTOM COUNT ***/
-				// Display a custom info in a label next to each user
-				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
-				// If you need to use a sync and an async functions, use 'customInfoAsync'
-				customInfo: "=", // should be a function with this signature: function(user) { return string; }
-				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
-				/*** DISPLAY ME FIRST ***/
-				displayMeFirst: "=", // boolean
-				/*** DISPLAY ALL USERS ***/
-				displayAllUsers: "=", // boolean
-				/*** CUSTOM HTTP SERVICE ***/
-				customHttpService: "=", // Custom $http
-				/*** BYPASS OPERATIONS FOR ***/
-				bypassOperationsFor: "=", // Display these users if they does not have access to the operations but are in the results set
-			},
-			link: function (scope, elt, attrs, ctrls) {
-				var upCtrl = ctrls[0];
-				var ngModelCtrl = ctrls[1];
-				upCtrl.isMultipleSelect = false;
-				upCtrl.asyncPagination = false;
-				upCtrl.useCustomFilter = !!attrs.customFilter;
-				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
-				scope.allowClear = !!attrs.allowClear ? scope.allowClear : false;
-
-				scope.$watch(function() {
-					return (ngModelCtrl.$viewValue || {}).id;
-				}, function() {
-					scope.reorderUsers();
-				});
-
-				upCtrl.getSelectedUsers = function() {
-					if (!!ngModelCtrl.$viewValue) {
-						return [ngModelCtrl.$viewValue];
-					}
-					return [];
-				};
-				upCtrl.getSelectedUserIds = function() {
-					if(!!ngModelCtrl.$viewValue) {
-						return [ngModelCtrl.$viewValue.id];
-					}
-					return [];
-				};
-				scope.onDropdownToggle = function(isOpen) {
-					if (isOpen) {
-						elt.addClass("ng-open");
-					} else {
-						elt.removeClass("ng-open");
-					}
-				};
-			}
-		};
-	})
-
-	.directive('luidUserPickerMultiple', function () {
-		return {
-			restrict: 'E',
-			controller: "luidUserPickerController",
-			template: userPickerMultipleTemplate,
-			require: ["luidUserPickerMultiple", "^ngModel"],
-			scope: {
-				/*** STANDARD ***/
-				// size: "@", // x-small, small, long, x-long
-				placeholder: "@",
-				onSelect: "&",
-				onRemove: "&",
-				controlDisabled: "=",
-				allowClear: "@",
-				/*** FORMER EMPLOYEES ***/
-				showFormerEmployees: "=", // boolean
-				/*** HOMONYMS ***/
-				homonymsProperties: "=", // list of properties to handle homonyms
-				/*** CUSTOM FILTER ***/
-				customFilter: "=", // should be a function with this signature: function(user){ return boolean; }
-				/*** OPERATION SCOPE ***/
-				appId: "=", // id of the application that users should have access
-				operations: "=", // list of operation ids that users should have access
-				/*** CUSTOM COUNT ***/
-				// Display a custom info in a label next to each user
-				// You should only set one of these two attributes, otherwise it will only be 'customInfoAsync' that will be displayed
-				// If you need to use a sync and an async functions, use 'customInfoAsync'
-				customInfo: "=", // should be a function with this signature: function(user) { return string; }
-				customInfoAsync: "=", // should be a function with this signature: function(user) { return promise; }
-				/*** DISPLAY ME FIRST ***/
-				displayMeFirst: "=", // boolean
-				/*** CUSTOM HTTP SERVICE ***/
-				customHttpService: "=", // Custom $http
-				/*** BYPASS OPERATIONS FOR ***/
-				bypassOperationsFor: "=" // Display these users if they does not have access to the operations but are in the results set
-			},
-			link: function (scope, elt, attrs, ctrls) {
-				var upCtrl = ctrls[0];
-				var ngModelCtrl = ctrls[1];
-				upCtrl.isMultipleSelect = true;
-				upCtrl.asyncPagination = false;
-				upCtrl.useCustomFilter = !!attrs.customFilter;
-				upCtrl.displayCustomInfo = !!attrs.customInfo || !!attrs.customInfoAsync;
-				scope.allowClear = !!attrs.allowClear ? scope.allowClear : false;
-
-				scope.$watchCollection(function() {
-					return ngModelCtrl.$viewValue;
-				}, function() {
-					scope.reorderUsers();
-				});
-
-				upCtrl.getSelectedUsers = function() {
-					return (ngModelCtrl.$viewValue || []);
-				};
-				upCtrl.getSelectedUserIds = function() {
-					if(!!ngModelCtrl.$viewValue){
-						return _.pluck(ngModelCtrl.$viewValue, "id");
-					}
-					return [];
-				};
-			}
-		};
-	})
-
-	.controller("luidUserPickerController", ['$scope', '$http', 'moment', '$timeout', '$q', function ($scope, $http, moment, $timeout, $q) {
-		var ctrl = this;
-		// Only used for UserPickerMultiple
-		var selectedUsersCount = 0;
-		// Only used for asynchronous pagination
-		var timeout = {}; // object that handles timeouts - timeout.count will store the id of the timeout related to the count query
-		var initConnectedUser = true; // boolean to initialise the connected user
-		var myId; // used for 'display me first' feature
-		var isInitialised = false;
-
-		/** HttpService **/
-		var getHttpMethod = function(method){
-			if($scope.customHttpService &&  $scope.customHttpService[method]){
-				return $scope.customHttpService[method];
-			}
-			return $http[method];
-		};
-
-		// Reset list of displayed users when showFormerEmployees attribute changes
-		$scope.$watch(function() {
-			return $scope.showFormerEmployees;
-		}, function(newValue, oldValue) {
-			// To avoid 2 calls when view is loaded
-			if (newValue !== oldValue && isInitialised) {
-				$scope.find();
-			}
-		});
-
-		/****************/
-		/***** FIND *****/
-		/****************/
-		var filteredUsers;
-		var indexedUsers; // fetched users with their original position
-
-		$scope.find = function (clue) {
-			reinit();
-			// Should only be executed once --> fetch 'me'
-			initMe();
-			getUsersAsync(clue)
-			.then(function(results) {
-				isInitialised = true;
-
-				if (results.length > 0) {
-					var users = results;
-					filteredUsers = filterResults(users) || [];
-
-					// If no clue, add 'all users' to the set of results
-					if (!!$scope.displayAllUsers && (!clue || !clue.length)) {
-						filteredUsers.push({ id: -1, isAll: true });
-					}
-
-					// Useful with user-picker-multiple
-					// Store original position of fetched users to handle unselected users and replace them at their original position
-					indexedUsers = filteredUsers;
-					originalOrder(indexedUsers);
-
-					// Save the order we got from the api
-					// Set first users if they belong to the set of results
-					// Handle pagination
-					$scope.reorderUsers();
-
-					/***** POST FILTERS *****/
-					// Execute post filters on indexedUsers to include selected users if it is a user-picker-multiple
-					if (hasFormerEmployees(indexedUsers)) {
-						handleFormerEmployees(indexedUsers);
-					}
-
-					if (hasHomonyms(indexedUsers)) {
-						tagHomonyms(indexedUsers);
-						handleHomonymsAsync(indexedUsers).then(
-							function(usersWithHomonymsProperties) {
-								indexedUsers = usersWithHomonymsProperties;
-							},
-							function(message) {
-								errorHandler("GET_HOMONYMS_PROPERTIES", message);
-							});
-					}
-				} else {
-					$scope.users = [{overflow: "LUIDUSERPICKER_NORESULTS", id:-1}];
-				}
-			}, function(message) {
-				errorHandler("GET_USERS", message);
-			});
-		};
-
-		var getUsersPromise; // store the current get request to fetch users
-		var reinit = function() {
-			reinitTimeout();
-
-			// Reinitialise promise
-			// Happen when the user starts typing a name, then waits enough to call the api and continues typing
-			// We do not want to treat the result of the previous request since they are now obsolete
-			if (getUsersPromise) {
-				getUsersPromise.then(function(response) {}); // do nothing with the results
-			}
-		};
-
-		/*******************/
-		/***** FILTERS *****/
-		/*******************/
-
-		var filterResults = function(users) {
-			var filteredUsers = users;
-
-			// Used when a custom filtering function is given
-			if (ctrl.useCustomFilter) {
-				filteredUsers = _.filter(users, function(user){ return $scope.customFilter(angular.copy(user)); });
-			}
-			return filteredUsers;
-		};
-
-		/*******************/
-		/***** TIMEOUT *****/
-		/*******************/
-
-		var reinitTimeout = function() {
-			// Cancel previous timeout
-			if (timeout.count) {
-				$timeout.cancel(timeout.count);
-			}
-		};
-
-		/*****************/
-		/***** USERS *****/
-		/*****************/
-
-		var getLimit = function() {
-			var limit = MAGIC_NUMBER_maxUsers;
-
-			if (ctrl.asyncPagination) {
-				limit = MAX_COUNT + 1;
-			}
-			return limit;
-		};
-
-		var getUsersPromises = function(input) {
-			var formerEmployees = "formerEmployees=" + ($scope.showFormerEmployees ? "true" : "false");
-			var limit = "&limit=" + getLimit();
-			var clue = "clue=" + input;
-			var operations = "";
-			var appInstanceId = "";
-			var query = "/api/v3/users/find?" + (input ? (clue + "&") : "") + formerEmployees + limit;
-			var promises = [];
-
-			// Both attributes should be defined
-			if ($scope.appId && $scope.operations && $scope.operations.length) {
-				appInstanceId = "&appinstanceid=" + $scope.appId;
-				operations = "&operations=" + $scope.operations.join(',');
-			}
-
-			promises.push(getHttpMethod("get")(query + appInstanceId + operations));
-			// Send query without operations filter if both bypassOperationsFor and operations are defined
-			if (!!$scope.bypassOperationsFor && !!$scope.bypassOperationsFor.length && !!$scope.operations && !!$scope.operations.length) {
-				promises.push(getHttpMethod("get")(query));
-			}
-
-			return promises;
-		};
-
-		var getUsersAsync = function(input) {
-			var deferred = $q.defer();
-
-			$q.all(getUsersPromises(input))
-			.then(function(responses) {
-				var users = responses[0].data.data.items;
-				if (!!responses[1]) {
-					// For each user to bypass, if he belongs to the set of results without operations filter, add it to the results
-					_.each($scope.bypassOperationsFor, function(userId) {
-						var userToAdd = _.find(responses[1].data.data.items, function(user) { return user.id === userId; });
-						if (!!userToAdd) {
-							users.push(userToAdd);
-						}
-					});
-					users = _.chain(users)
-					.uniq(function(user) {
-						return user.id;
-					})
-					.sortBy(function(user) {
-						return user.lastName;
-					})
-					.value();
-				}
-				deferred.resolve(users);
-			}, function(response) {
-				deferred.reject(response.data.Message);
-			});
-			return deferred.promise;
-		};
-
-		/**********************/
-		/***** PAGINATION *****/
-		/**********************/
-
-		var hasPagination = function(users) {
-			return !!users && users.length > MAX_COUNT;
-		};
-
-		var handlePagination = function(users) {
-			if (!ctrl.asyncPagination) {
-				$scope.count = users.length;
-			}
-			else {
-				$scope.count = "...";
-			}
-			$scope.users = _.first(users, MAX_COUNT);
-			handleOverflowMessage();
-		};
-
-		// asyncPagination feature, not yet implemented
-		// var handlePaginationAsync = function(input, users) {
-		// 	var delay = 2500; // default delay is 2,5s
-		// 	var deferred = $q.defer();
-
-		// 	reinitTimeout();
-		// 	// Only select the X first users and display a message to the user to indicate that there are more results
-		// 	handlePagination(users);
-
-		// 	// launch new timeout
-		// 	timeout.count = $timeout(function() {
-		// 		getCountAsync(input).then(
-		// 			function(count) {
-		// 				$scope.count = count;
-		// 				handleOverflowMessage();
-		// 				deferred.resolve(count);
-		// 			},
-		// 			function(message) {
-		// 				deferred.reject(message);
-		// 			}
-		// 		);
-		// 	}, delay);
-		// 	return deferred.promise;
-		// };
-
-		// asyncPagination feature, not yet implemented
-		// var getCountAsync = function(input) {
-		// 	var deferred = $q.defer();
-		// 	var dtContractEnd = "&dtcontractend=since," + moment().format("YYYY-MM-DD") + ",null";
-		// 	var query = "/api/v3/users?name=like," + input + "&fields=collection.count" + ($scope.showFormerEmployees ? "" : dtContractEnd); // query for count
-
-		// 	delete timeout.count;
-		// 	getHttpMethod("get")(query).then(
-		// 		function(response) {
-		// 			deferred.resolve(response.data.data.count);
-		// 		},
-		// 		function(message) {
-		// 			deferred.reject(message);
-		// 		}
-		// 	);
-		// 	return deferred.promise;
-		// };
-
-		var handleOverflowMessage = function() {
-			$scope.users.push({ overflow: "LUIDUSERPICKER_OVERFLOW", cnt:MAX_COUNT, all:$scope.count,  id:-1 });
-		};
-
-		/********************/
-		/***** HOMONYMS *****/
-		/********************/
-
-		var hasHomonyms = function(users) {
-			// Should latinise names and take into account composite names
-			var usersWithoutHomonyms = _.uniq(users, function(user) {
-				if (user.firstName && user.lastName) {
-					return (user.firstName.toLowerCase() + user.lastName.toLowerCase());
-				}
-			});
-			if (usersWithoutHomonyms.length < users.length) {
-				return true;
-			}
-			return false;
-		};
-
-		var handleHomonymsAsync = function(users) {
-			var homonyms = _.where(users, { hasHomonyms: true });
-			var found = false; // indicate if we have found two properties allowing to differentiate homonyms
-			var deferred = $q.defer();
-			var propertiesArray; // Will contain each couple of properties to compare
-			var properties; // Object containing the couple of properties to compare
-			var emergencyProperty; // used if NO couple of differentiating properties are found. In this case, only one property will be displayed
-			var props; // List of properties that will be fetched in case of homonyms
-			$scope.displayedProperties = []; // Will contain the name of the properties to display for homonyms
-
-			// Define properties to fetch for homonyms
-			if (!!$scope.homonymsProperties && $scope.homonymsProperties.length) {
-				props = $scope.homonymsProperties;
-			} else {
-				props = DEFAULT_HOMONYMS_PROPERTIES;
-			}
-			getHomonymsPropertiesAsync(homonyms, props)
-			.then(function(homonymsArray) {
-					// Add fetched properties to the homonyms
-					_.each(homonyms, function(user) {
-						// Get the user returned by the api
-						var userWithProps = _.find(homonymsArray, function(homonym) {
-							return (user.id === homonym.id);
-						});
-
-						// Add each property to the user
-						_.each(props, function(prop) {
-							var newProp = prop.name.split('.')[0];
-							if (!!userWithProps && !!userWithProps[newProp]) {
-								user[newProp] = userWithProps[newProp];
-							}
-						});
-					});
-
-					// Compare properties between homonyms
-					_.each(props, function (prop1, propIndex1) {
-						if (!found) {
-							// Compare prop1 with the rest of the properties array
-							var propRest = _.rest(props, propIndex1 + 1);
-							_.each(propRest, function (prop2, index) {
-								if (!found) {
-									// Build array with the two properties
-									// Each element of the array is an object with the properties that we want to compare
-									propertiesArray = [];
-									_.each(homonymsArray, function(item) {
-										var valueProp1 = $scope.getProperty(item, prop1.name);
-										var valueProp2 = $scope.getProperty(item, prop2.name);
-										properties = {};
-										properties[prop1.name] = valueProp1;
-										properties[prop2.name] = valueProp2;
-										propertiesArray.push(properties);
-									});
-
-									// Used to check that all values for prop1 are not equal
-									var prop1Values = _.chain(propertiesArray)
-									.pluck(prop1.name)
-									.uniq()
-									.value();
-									// Used to check that all values for prop2 are not equal
-									var prop2Values = _.chain(propertiesArray)
-									.pluck(prop2.name)
-									.uniq()
-									.value();
-
-									// prop1 is a differentiating property: each homonym has a different value for this property
-									// if we do not find a couple of differentiating properties, we will at least display this one
-									if ((!emergencyProperty) && (prop1Values.length === homonyms.length)) {
-										emergencyProperty = prop1;
-									}
-
-									// All values for both properties must not be equal
-									// There must be at least two different values
-									if ((prop1Values.length > 1) && (prop2Values.length > 1)) {
-										// Check that each couple of values is different from the other couples
-										var withoutDuplicates = _.uniq(propertiesArray, function(item) { return (item[prop1.name] + item[prop2.name]); });
-										// If the arrays have the same length, each couple of values is different
-										if (withoutDuplicates.length === propertiesArray.length) {
-											found = true;
-											$scope.displayedProperties.push(prop1);
-											$scope.displayedProperties.push(prop2);
-										}
-									}
-								}
-							});
-						}
-					});
-
-					// If no couple of properties are differentiating, we will display the first differentiating property (values are different for all homonyms)
-					if (!found && emergencyProperty) {
-						$scope.displayedProperties.push(emergencyProperty);
-					}
-					deferred.resolve(users);
-			}, function(message) {
-				deferred.reject(message);
-			});
-			return deferred.promise;
-		};
-
-		var tagHomonyms = function(users) {
-			_.each(users, function(user, index) {
-				if (user.firstName && user.lastName) {
-					var rest = _.rest(users, index + 1);
-					_.each(rest, function(otherUser) {
-						if (otherUser.firstName && otherUser.lastName) {
-							// Should latinise names and take into account composite names
-							if ((user.firstName.toLowerCase() === otherUser.firstName.toLowerCase()) && (user.lastName.toLowerCase() === otherUser.lastName.toLowerCase())) {
-								user.hasHomonyms = true;
-								otherUser.hasHomonyms = true;
-							}
-						}
-					});
-				}
-			});
-		};
-
-		/*******************************/
-		/***** HOMONYMS PROPERTIES *****/
-		/*******************************/
-
-		var getHomonymsPropertiesAsync = function(homonyms, properties) {
-			var urlCalls = [];
-			var query = "/api/v3/users?id=";
-			var fields = "&fields=id,firstname,lastname";
-			var deferred = $q.defer();
-
-			// WARNING: Do not check if the properties exist!
-			// WARNING: If they do not exist, the request will fail
-			_.each(properties, function(prop) {
-				fields += "," + prop.name;
-			});
-
-			_.each(homonyms, function(user) {
-				if (user !== _.last(homonyms)) {
-					query += (user.id + ',');
-				}
-				else {
-					query += (user.id + fields);
-				}
-			});
-
-			getHttpMethod("get")(query)
-			.then(function(response) {
-				deferred.resolve(response.data.data.items);
-			}, function(response) {
-				deferred.reject(response.data.Message);
-			});
-			return deferred.promise;
-		};
-
-		$scope.getProperty = function(user, prop) {
-			var propList = prop.split('.');
-			var value = user[_.first(propList)];
-
-			_.each(propList, function(item) {
-				if (value && (item !== _.first(propList))) {
-					value = value[item];
-				}
-			});
-			return value;
-		};
-
-		/****************************/
-		/***** FORMER EMPLOYEES *****/
-		/****************************/
-
-		var hasFormerEmployees = function(users) {
-			var formerEmployee = _.find(users, function(user) {
-				return (moment(user.dtContractEnd).isBefore(moment()));
-			});
-
-			if (formerEmployee) {
-				return true;
-			}
-			return false;
-		};
-
-		var handleFormerEmployees = function(users) {
-			_.each(users, function(user) {
-				if (user.id !== -1) {
-					if (moment(user.dtContractEnd).isBefore(moment())) {
-						user.isFormerEmployee = true;
-					}
-				}
-			});
-		};
-
-		/***********************/
-		/***** CUSTOM INFO *****/
-		/***********************/
-
-		var addInfoToUsers = function() {
-			if ($scope.customInfo) {
-				_.each($scope.users, function(user) {
-					// We do not want customInfo to be called with overflow message or 'all users'
-					// And we do not call customInfo if an info is already displayed
-					if (user.id !== -1 && !user.info) {
-						user.info = $scope.customInfo(angular.copy(user));
-					}
-				});
-			}
-			if ($scope.customInfoAsync) {
-				_.each($scope.users, function(user) {
-					// We do not want customInfoAsync to be called with overflow message or 'all users'
-					// And we do not call customInfo if an info is already displayed
-					if (user.id !== -1 && !user.info) {
-						$scope.customInfoAsync(angular.copy(user))
-						.then(function(info) {
-							user.info = info;
-						}, function(message) {
-							errorHandler("GET_CUSTOM_INFO", message);
-						});
-					}
-				});
-			}
-		};
-
-		/**************/
-		/***** ME *****/
-		/**************/
-
-		var initMe = function() {
-			if (initConnectedUser && !!$scope.displayMeFirst) {
-				getMeAsync().then(function(id) {
-					myId = id;
-				}, function(message) {
-					errorHandler("GET_ME", message);
-				});
-				initConnectedUser = false;
-			}
-		};
-
-		var getMeAsync = function() {
-			var query = "/api/v3/users/me?fields=id";
-			var dfd = $q.defer();
-			getHttpMethod("get")(query)
-			.then(function(response) {
-				dfd.resolve(response.data.data.id);
-			}, function(response) {
-				dfd.reject(response.data.Message);
-			});
-			return dfd.promise;
-		};
-
-		/*************************/
-		/***** DISPLAY USERS *****/
-		/*************************/
-
-		var originalOrder = function(users){
-			if (!users || users.length === 0) { return users; }
-			// do the users have an original order
-			// this is in case we select different choices without calling find()
-			if (users[0].originalPosition !== undefined) {
-				// if so reorder them first
-				users = _.sortBy(users, 'originalPosition');
-			} else {
-				// this is the original order we have to save
-				_.each(users, function(u, index){ u.originalPosition = index; });
-			}
-			return users;
-		};
-
-		var displaySomeUsersFirst = function(users) {
-			var sortedUsers = users;
-			var selectedUser = !ctrl.isMultipleSelect ? _.find(users, function(user) { return user.id === ctrl.getSelectedUserIds()[0]; }) : null;
-			var me = _.find(users, function(user) { return user.id === myId; });
-			var all = _.findWhere(users, { isAll: true });
-
-			// Display me first
-			// Only if it is not a multiple user picker
-			if (!!me && (!selectedUser || me.id !== selectedUser.id)) {
-				me.isMe = true;
-				sortedUsers = displayThisUserFirst(me, sortedUsers);
-			}
-			// Display "all users" first
-			if (!!all) {
-				sortedUsers = displayThisUserFirst(all, sortedUsers);
-			}
-			// Display selected user first
-			if (!!selectedUser && (!all || selectedUser.id !== all.id)) {
-				selectedUser.isSelected = true;
-				sortedUsers = displayThisUserFirst(selectedUser, sortedUsers);
-			}
-			return sortedUsers;
-		};
-
-		// Display the user first
-		var displayThisUserFirst = function(user, users) {
-			var sortedUsers = users;
-			if(!users || !users.length){ return; }
-			// do the users have an original order
-			// this is in case we select different choices without calling find()
-
-			var partitions = _.partition(users, function(u) { return (u.id === user.id); }); // [[user], [rest]]
-
-			// Sort users with 'user' as first result
-			sortedUsers = _.union(partitions[0], partitions[1]);
-			sortedUsers[0].isDisplayedFirst = true;
-
-			return sortedUsers;
-		};
-
-		var removeDisplayProperties = function(users) {
-			// Set display properties to false
-			_.each(users, function(user) {
-				user.isDisplayedFirst = false;
-				user.isSelected = false;
-				user.isMe = false;
-			});
-		};
-
-		// this function is called when the filter results must be reordered for some reason
-		// when the selected user changes for example, he has to be displayed as first result
-		$scope.reorderUsers = function() {
-			if (ctrl.isMultipleSelect) {
-				// Compute ids to display from indexedUsers in order to handle unselected users
-				var idsToDisplay = _.difference(_.pluck(indexedUsers, "id"), ctrl.getSelectedUserIds());
-				filteredUsers = _.filter(indexedUsers, function(user) {
-					return _.contains(idsToDisplay, user.id);
-				});
-			}
-
-			// reorder them to their original order
-			filteredUsers = originalOrder(filteredUsers);
-			removeDisplayProperties(filteredUsers);
-			// display some users first
-			filteredUsers = displaySomeUsersFirst(filteredUsers);
-			// Handle pagination
-			if (hasPagination(filteredUsers)) {
-				handlePagination(filteredUsers);
-			} else {
-				$scope.users = filteredUsers;
-				$scope.count = ($scope.users||[]).length;
-			}
-
-			if (ctrl.displayCustomInfo) {
-				addInfoToUsers();
-			}
-		};
-
-		/**************************/
-		/***** ERROR HANDLING *****/
-		/**************************/
-
-		var errorHandler = function(cause, message) {
-			switch (cause) {
-				case "GET_USERS": // error while trying to get the users matching the query
-					$scope.users = [];
-					$scope.users.push({ overflow: "LUIDUSERPICKER_ERR_GET_USERS", id:-1 });
-					console.log({cause:cause, message:message});
-					break;
-				case "GET_COUNT": // error while trying to get the total number of users matching the query
-				case "GET_HOMONYMS_PROPERTIES":  // error while trying to get the distinctive properties for homonyms
-				case "GET_CUSTOM_INFO": // error while executing the customInfoAsync() function
-				case "GET_ME": // error while trying to get the connected user
-					console.log({cause:cause, message:message});
-					break;
-			}
-		};
-	}])
-
-	// Filter to display custom info next to each user
-	// Highlight the search in the name of the user and display a label next to each user
-	.filter('luifHighlight', ['$filter', '$translate', function($filter, $translate) {
-		return function(_input, _clue, _info, _key) {
-			return (!!_info ? "<span class=\"lui label\">" + _info + "</span>" : "") + (!!_key ? "<i>" + $translate.instant(_key) + "</i> " : "") + "<span>" + $filter('highlight')(_input, _clue) + "</span>";
-		};
-	}]);
-
-	/**************************/
-	/***** TRANSLATIONS   *****/
-	/**************************/
-	angular.module('lui.translate').config(['$translateProvider', function ($translateProvider) {
-		$translateProvider.translations('en', {
-			"LUIDUSERPICKER_FORMEREMPLOYEE":"Left on {{dtContractEnd | luifMoment : 'LL'}}",
-			"LUIDUSERPICKER_NORESULTS":"No results",
-			"LUIDUSERPICKER_ERR_GET_USERS":"Error while loading users",
-			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} displayed results of {{all}}",
-			// "LUIDUSERPICKER_PLACEHOLDER":"Type a last name or first name...",
-			"LUIDUSERPICKER_DEPARTMENT":"Department",
-			"LUIDUSERPICKER_LEGALENTITY":"Legal entity",
-			"LUIDUSERPICKER_EMPLOYEENUMBER":"Employee number",
-			"LUIDUSERPICKER_MAIL":"Email",
-			"LUIDUSERPICKER_ME":"Me:",
-			"LUIDUSERPICKER_ALL":"All users",
-		});
-		$translateProvider.translations('de', {
-			"LUIDUSERPICKER_FORMEREMPLOYEE":"Verließ die {{dtContractEnd | luifMoment : 'LL'}}",
-			"LUIDUSERPICKER_NORESULTS":"Keine Ergebnisse",
-			"LUIDUSERPICKER_ERR_GET_USERS":"Fehler",
-			"LUIDUSERPICKER_OVERFLOW":"Es werden {{cnt}} auf {{all}} Benutzernamen",
-			// "LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
-			"LUIDUSERPICKER_DEPARTMENT":"Abteilung",
-			"LUIDUSERPICKER_LEGALENTITY":"Rechtsträger",
-			"LUIDUSERPICKER_EMPLOYEENUMBER":"Betriebsnummer",
-			"LUIDUSERPICKER_MAIL":"E-mail",
-			"LUIDUSERPICKER_ME":"Mir:",
-			"LUIDUSERPICKER_ALL":"Alle Benutzer",
-		});
-		$translateProvider.translations('es', {
-
-		});
-		$translateProvider.translations('fr', {
-			"LUIDUSERPICKER_FORMEREMPLOYEE":"Parti(e) le {{dtContractEnd | luifMoment : 'LL'}}",
-			"LUIDUSERPICKER_NORESULTS":"Aucun résultat",
-			"LUIDUSERPICKER_ERR_GET_USERS":"Erreur lors de la récupération des utilisateurs",
-			"LUIDUSERPICKER_OVERFLOW":"{{cnt}} résultats affichés sur {{all}}",
-			// "LUIDUSERPICKER_PLACEHOLDER":"Saisissez un nom, prénom...",
-			"LUIDUSERPICKER_DEPARTMENT":"Service",
-			"LUIDUSERPICKER_LEGALENTITY":"Entité légale",
-			"LUIDUSERPICKER_EMPLOYEENUMBER":"Matricule",
-			"LUIDUSERPICKER_MAIL":"Email",
-			"LUIDUSERPICKER_ME":"Moi :",
-			"LUIDUSERPICKER_ALL":"Tous les utilisateurs",
-		});
-		$translateProvider.translations('it', {
-
-		});
-		$translateProvider.translations('nl', {
-
-		});
-	}]);
-})();
-;(function(){
-	'use strict';
-	/**
-	** DEPENDENCIES
 	**  - moment
 	**/
 
@@ -4474,11 +4207,8 @@ var lui;
 			$scope.hoursFocused = !isMinute;
 		}
 
-		function changeInput(field, validator) {
-			updateWithoutRender(getInputedTime());
-		}
-
 		function blurEvent(timeout, isFocused){
+			updateWithoutRender(getInputedTime());
 			timeout = $timeout(function(){
 					timeout = false;
 					correctValue();
@@ -4523,8 +4253,11 @@ var lui;
 		};
 
 		$scope.changeMins = function() {
-			updateWithoutRender(getInputedTime());
-			// changeInput($scope.mins, function(){});
+			if (!$scope.mins || $scope.mins.length < 2) {
+				$scope.ngModelCtrl.$setValidity("minutes", false);
+			} else {
+				updateWithoutRender(getInputedTime());
+			}
 		};
 
 		// display stuff
@@ -4543,6 +4276,8 @@ var lui;
 				} else {
 					$scope.mins = "00";
 				}
+			} else if ($scope.mins.length < 2) {
+				$scope.mins = "0" + $scope.mins;
 			}
 			blurEvent(minsFocusTimeout, $scope.minsFocused);
 		};

@@ -160,6 +160,7 @@ declare module lui {
         disabled?: boolean;
         display?: string;
         placeholder?: number | string;
+        style?: string;
         requiredError?: string;
         emailError?: string;
         ibanError?: string;
@@ -172,6 +173,19 @@ declare module lui {
     }
 }
 declare module lui.apiselect {
+}
+declare module lui.apiselect {
+    interface IStandardApiResource {
+        id: string | number;
+        name: string;
+    }
+    class StandardApiService {
+        static IID: string;
+        static $inject: Array<string>;
+        private $http;
+        constructor($http: angular.IHttpService);
+        get(clue: string, api: string, additionalFilter?: string, paging?: string, order?: string): ng.IPromise<IStandardApiResource[]>;
+    }
 }
 declare module lui.iban {
     interface IbanChecker {
@@ -204,6 +218,7 @@ declare module lui.iban {
         templateUrl: string;
         require: string[];
         controller: string;
+        scope: {};
         static factory(): angular.IDirectiveFactory;
         link(scope: ILuidIbanScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes & {
             isRequired: boolean;
@@ -432,6 +447,94 @@ declare module lui.tablegrid {
         updateViewAfterOrderBy: () => void;
     }
 }
+declare module lui.userpicker {
+    interface IUserLookup {
+        id: number;
+        firstName: string;
+        lastName: string;
+        dtContractEnd: string;
+        hasLeft: boolean;
+        info: string;
+        hasHomonyms: boolean;
+        additionalProperties: IHomonymProperty[];
+    }
+    interface IHomonymProperty {
+        translationKey: string;
+        name: string;
+        icon: string;
+        value?: string;
+    }
+}
+declare module lui.userpicker {
+    class LuidUserPickerController {
+        static IID: string;
+        static $inject: Array<string>;
+        private $scope;
+        private $q;
+        private userPickerService;
+        private ngModelCtrl;
+        private multiple;
+        constructor($scope: ILuidUserPickerScope, $q: ng.IQService, userPickerService: IUserPickerService);
+        setNgModelCtrl(ngModelCtrl: ng.INgModelController, multiple?: boolean): void;
+        private getViewValue();
+        private setViewValue(value);
+        private initializeScope();
+        private tidyUp(users);
+        private refresh(clue?);
+        private tidyUpAndAssign(allUsers, clue);
+        private resetUsers();
+        private getFilter(clue);
+    }
+}
+declare module lui.userpicker {
+}
+declare module lui.userpicker {
+}
+declare module lui.userpicker {
+    interface ILuidUserPickerScope extends ng.IScope {
+        placeholder: string;
+        showFormerEmployees: boolean;
+        displayMeFirst: boolean;
+        controlDisabled: boolean;
+        homonymsProperties: IHomonymProperty[];
+        customHttpService: ng.IHttpService;
+        appId: number;
+        operations: string[];
+        bypassOperationsFor: number[];
+        displayAllUsers: boolean;
+        onSelect: () => any;
+        onRemove: () => any;
+        customFilter: (user: IUserLookup) => boolean;
+        customInfo: (user: IUserLookup) => string;
+        customInfoAsync: (user: IUserLookup) => ng.IPromise<string>;
+        users: IUserLookup[];
+        lastPagingOffset: number;
+        myId: number;
+        apiUrl: string;
+        selectedUser: IUserLookup;
+        loadingMore: boolean;
+        selectedUsers: IUserLookup[];
+        onSelectedUserChanged(user: IUserLookup): void;
+        find(search: string): void;
+        loadMore(): void;
+        onSelectedUsersChanged(): void;
+        onSelectedUserRemoved(): void;
+        onOpen(isOpen: boolean): void;
+    }
+}
+declare module lui.userpicker {
+    interface IUserPickerService {
+        getMyId(): ng.IPromise<number>;
+        getMe(): ng.IPromise<IUserLookup>;
+        getHomonyms(users: IUserLookup[]): IUserLookup[];
+        getUsers(filters: string): ng.IPromise<IUserLookup[]>;
+        getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]>;
+        getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]>;
+        getUserById(id: number): ng.IPromise<IUserLookup>;
+        reduceAdditionalProperties(users: IUserLookup[]): IUserLookup[];
+        setCustomHttpService(httpService: ng.IHttpService): void;
+    }
+}
 declare module lui {
     interface IFormatter<T> {
         parseValue(value: any): T;
@@ -473,6 +576,8 @@ declare module lui.popover {
         constructor(elt: angular.IAugmentedJQuery, $scope: IClickoutsideTriggerScope, clickedOutside?: () => void);
         toggle($event?: ng.IAngularEvent): void;
     }
+}
+declare module lui.scroll {
 }
 declare module lui {
     interface IUploaderService {
