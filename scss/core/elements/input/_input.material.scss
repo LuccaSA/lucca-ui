@@ -90,7 +90,8 @@
 
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
-			> select {
+			> select,
+			.unit {
 				@extend %lui_input_sizing_material;
 			}
 
@@ -135,6 +136,7 @@
 			}
 
 			.unit {
+				padding: 0;
 				margin-bottom: luiTheme(element, field, input, material, default-border-width);
 			}
 		}
