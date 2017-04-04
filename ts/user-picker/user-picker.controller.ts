@@ -231,19 +231,23 @@ module lui.userpicker {
 		// gets the users according to clue, also adds me and all if needed
 		// handles paging and customfilter
 		private getUsers(clue: string = ""): ng.IPromise<IUserLookup[]> {
-			let paging = this.$scope.lastPagingOffset + MAGIC_PAGING;
+			let paging = MAGIC_PAGING;
+			let offset = this.$scope.lastPagingOffset;
 			// only use paging if no customfilter
-			let cntTofetch = paging;
+			let fetchPaging = paging;
+			let fetchOffset = offset;
 			if (!!this.$scope.customFilter) {
-				cntTofetch = MAX_SEARCH_LIMIT;
+				fetchPaging = MAX_SEARCH_LIMIT;
+				fetchOffset = 0;
 			}
 
 			let get = () => {
-				return this.userPickerService.getUsers(this.getFilter(clue), cntTofetch)
+				return this.userPickerService.getUsers(this.getFilter(clue), fetchPaging, fetchOffset)
 				.then(users => {
 					if (!!this.$scope.customFilter) {
 						return _.chain(users)
 						.filter(u => this.$scope.customFilter(u))
+						.rest(offset)
 						.first(paging)
 						.value();
 					}
@@ -257,16 +261,18 @@ module lui.userpicker {
 			]).then((datas: [IUserLookup[], IUserLookup]) => {
 					let allUsers = datas[0];
 					let me = datas[1];
-					if (!clue && this.$scope.displayAllUsers) {
-						let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
-						allUsers.unshift(all);
-					}
-					if (!clue && this.$scope.displayMeFirst) {
-						let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
-						if (myIndex !== -1) {
-							allUsers.splice(myIndex, 1);
+					if (!offset) {
+						if (!clue && this.$scope.displayAllUsers) {
+							let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
+							allUsers.unshift(all);
 						}
-						allUsers.unshift(me);
+						if (!clue && this.$scope.displayMeFirst) {
+							let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
+							if (myIndex !== -1) {
+								allUsers.splice(myIndex, 1);
+							}
+							allUsers.unshift(me);
+						}
 					}
 					return allUsers;
 				});
@@ -275,7 +281,8 @@ module lui.userpicker {
 		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<any> {
 			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
-					this.$scope.users = neatUsers;
+					this.$scope.users = this.$scope.users || [];
+					this.$scope.users.push(...neatUsers);
 					return undefined;
 				});
 		}
@@ -284,7 +291,7 @@ module lui.userpicker {
 		 * Clean $scope.users and reset the last paging offset.
 		 */
 		private resetUsers(): void {
-			this.$scope.users.splice(0, this.$scope.users.length);
+			this.$scope.users = [];
 			this.$scope.lastPagingOffset = 0;
 		}
 
