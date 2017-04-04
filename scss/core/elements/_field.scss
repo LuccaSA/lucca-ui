@@ -148,7 +148,10 @@
 
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
-			#{$prefix}.fitting.field .material.input ~ .messages .message {
+			#{$prefix}.field #{$selector}.input {
+				margin-top: 1.3em;
+			}
+			#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
 				width: 100% !important;
 			}
 			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
