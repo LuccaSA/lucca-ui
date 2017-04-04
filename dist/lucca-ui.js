@@ -2755,8 +2755,8 @@ var lui;
             { translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" },
             { translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email" },
         ];
-        var MAGIC_PAGING = 15;
-        var MAX_SEARCH_LIMIT = 10000;
+        userpicker.MAGIC_PAGING = 15;
+        userpicker.MAX_SEARCH_LIMIT = 10000;
         var LuidUserPickerController = (function () {
             function LuidUserPickerController($scope, $q, userPickerService) {
                 var _this = this;
@@ -2845,11 +2845,9 @@ var lui;
                     _this.refresh(search);
                 };
                 this.$scope.loadMore = function () {
-                    if (!_this.$scope.disablePaging) {
-                        _this.$scope.lastPagingOffset += MAGIC_PAGING;
-                        _this.$scope.loadingMore = true;
-                        _this.refresh().then(function () { _this.$scope.loadingMore = false; });
-                    }
+                    _this.$scope.lastPagingOffset += userpicker.MAGIC_PAGING;
+                    _this.$scope.loadingMore = true;
+                    _this.refresh().then(function () { _this.$scope.loadingMore = false; });
                 };
                 this.$scope.onSelectedUserChanged = function (user) {
                     _this.setViewValue(user);
@@ -2870,17 +2868,15 @@ var lui;
                     }
                 };
             };
-            LuidUserPickerController.prototype.tidyUp = function (users) {
+            LuidUserPickerController.prototype.tidyUp = function (users, clue) {
                 var _this = this;
+                if (clue === void 0) { clue = ""; }
                 var promises = new Array();
                 var customInfoDico = {};
                 var homonymsDico = {};
                 _.each(users, function (user) {
                     user.hasLeft = !!user.dtContractEnd && moment(user.dtContractEnd).isBefore(moment().startOf("day"));
                 });
-                if (!!this.$scope.customFilter) {
-                    users = _.filter(users, function (user) { return _this.$scope.customFilter(user); });
-                }
                 if (!!this.$scope.customInfo) {
                     _.each(users, function (user) {
                         user.info = _this.$scope.customInfo(user);
@@ -2926,8 +2922,30 @@ var lui;
             LuidUserPickerController.prototype.refresh = function (clue) {
                 var _this = this;
                 if (clue === void 0) { clue = ""; }
+                return this.getUsers(clue).then(function (users) { return _this.tidyUpAndAssign(users, clue); });
+            };
+            LuidUserPickerController.prototype.getUsers = function (clue) {
+                var _this = this;
+                if (clue === void 0) { clue = ""; }
+                var paging = this.$scope.lastPagingOffset + userpicker.MAGIC_PAGING;
+                var cntTofetch = paging;
+                if (!!this.$scope.customFilter) {
+                    cntTofetch = userpicker.MAX_SEARCH_LIMIT;
+                }
+                var get = function () {
+                    return _this.userPickerService.getUsers(_this.getFilter(clue), cntTofetch)
+                        .then(function (users) {
+                        if (!!_this.$scope.customFilter) {
+                            return _.chain(users)
+                                .filter(function (u) { return _this.$scope.customFilter(u); })
+                                .first(paging)
+                                .value();
+                        }
+                        return users;
+                    });
+                };
                 return this.$q.all([
-                    this.userPickerService.getUsers(this.getFilter(clue)),
+                    get(),
                     this.userPickerService.getMe(),
                 ]).then(function (datas) {
                     var allUsers = datas[0];
@@ -2943,21 +2961,15 @@ var lui;
                         }
                         allUsers.unshift(me);
                     }
-                    return _this.tidyUpAndAssign(allUsers, clue);
+                    return allUsers;
                 });
             };
             LuidUserPickerController.prototype.tidyUpAndAssign = function (allUsers, clue) {
                 var _this = this;
-                return this.tidyUp(allUsers)
+                return this.tidyUp(allUsers, clue)
                     .then(function (neatUsers) {
-                    if (!!clue && clue !== "") {
-                        _this.$scope.users = neatUsers;
-                    }
-                    else {
-                        (_a = _this.$scope.users).push.apply(_a, neatUsers);
-                    }
-                    return _this.$scope.users;
-                    var _a;
+                    _this.$scope.users = neatUsers;
+                    return undefined;
                 });
             };
             LuidUserPickerController.prototype.resetUsers = function () {
@@ -2968,8 +2980,7 @@ var lui;
                 var s = this.$scope;
                 var filter = "formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
                     (!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
-                    (!!clue ? "&clue=" + clue : "") +
-                    (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+                    (!!clue ? "&clue=" + clue : "");
                 return filter;
             };
             LuidUserPickerController.IID = "luidUserPickerController";
@@ -3049,7 +3060,6 @@ var lui;
                     customInfoAsync: "=",
                     displayMeFirst: "=",
                     displayAllUsers: "=",
-                    disablePaging: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
                 };
@@ -3098,7 +3108,6 @@ var lui;
                     customInfo: "=",
                     customInfoAsync: "=",
                     displayMeFirst: "=",
-                    disablePaging: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
                 };
@@ -3173,8 +3182,10 @@ var lui;
                     .flatten()
                     .value();
             };
-            UserPickerService.prototype.getUsers = function (filters) {
-                return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + this.userLookupFields)
+            UserPickerService.prototype.getUsers = function (filters, paging) {
+                if (paging === void 0) { paging = userpicker.MAGIC_PAGING; }
+                var pagingfilter = "paging=" + [0, paging].join(",");
+                return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + pagingfilter + "&" + this.userLookupFields)
                     .then(function (response) {
                     return response.data.data.items;
                 });
