@@ -1,3 +1,11 @@
+@function lui_input_style_enabled($styleName) {
+	@return list_contains(luiTheme(element, field, input, styles), $styleName);
+}
+
+@function lui_input_get_style_selector($styleName) {
+	@return if(luiTheme(element, field, input, styles) == unquote($styleName), "", ".#{$styleName}");
+}
+
 @if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
 
@@ -148,7 +156,10 @@
 
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
-			#{$prefix}.fitting.field .material.input ~ .messages .message {
+			#{$prefix}.field #{$selector}.input {
+				margin-top: 1.3em;
+			}
+			#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
 				width: 100% !important;
 			}
 			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
