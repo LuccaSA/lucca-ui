@@ -2845,9 +2845,11 @@ var lui;
                     _this.refresh(search);
                 };
                 this.$scope.loadMore = function () {
-                    _this.$scope.lastPagingOffset += userpicker.MAGIC_PAGING;
-                    _this.$scope.loadingMore = true;
-                    _this.refresh().then(function () { _this.$scope.loadingMore = false; });
+                    if (!_this.$scope.loadingMore) {
+                        _this.$scope.lastPagingOffset += userpicker.MAGIC_PAGING;
+                        _this.$scope.loadingMore = true;
+                        _this.refresh().then(function () { _this.$scope.loadingMore = false; });
+                    }
                 };
                 this.$scope.onSelectedUserChanged = function (user) {
                     _this.setViewValue(user);
@@ -2927,17 +2929,21 @@ var lui;
             LuidUserPickerController.prototype.getUsers = function (clue) {
                 var _this = this;
                 if (clue === void 0) { clue = ""; }
-                var paging = this.$scope.lastPagingOffset + userpicker.MAGIC_PAGING;
-                var cntTofetch = paging;
+                var paging = userpicker.MAGIC_PAGING;
+                var offset = this.$scope.lastPagingOffset;
+                var fetchPaging = paging;
+                var fetchOffset = offset;
                 if (!!this.$scope.customFilter) {
-                    cntTofetch = userpicker.MAX_SEARCH_LIMIT;
+                    fetchPaging = userpicker.MAX_SEARCH_LIMIT;
+                    fetchOffset = 0;
                 }
                 var get = function () {
-                    return _this.userPickerService.getUsers(_this.getFilter(clue), cntTofetch)
+                    return _this.userPickerService.getUsers(_this.getFilter(clue), fetchPaging, fetchOffset)
                         .then(function (users) {
                         if (!!_this.$scope.customFilter) {
                             return _.chain(users)
                                 .filter(function (u) { return _this.$scope.customFilter(u); })
+                                .rest(offset)
                                 .first(paging)
                                 .value();
                         }
@@ -2950,16 +2956,18 @@ var lui;
                 ]).then(function (datas) {
                     var allUsers = datas[0];
                     var me = datas[1];
-                    if (!clue && _this.$scope.displayAllUsers) {
-                        var all = { id: -1, firstName: "", lastName: "" };
-                        allUsers.unshift(all);
-                    }
-                    if (!clue && _this.$scope.displayMeFirst) {
-                        var myIndex = _.findIndex(allUsers, function (user) { return user.id === _this.$scope.myId; });
-                        if (myIndex !== -1) {
-                            allUsers.splice(myIndex, 1);
+                    if (!offset) {
+                        if (!clue && _this.$scope.displayAllUsers) {
+                            var all = { id: -1, firstName: "", lastName: "" };
+                            allUsers.unshift(all);
                         }
-                        allUsers.unshift(me);
+                        if (!clue && _this.$scope.displayMeFirst) {
+                            var myIndex = _.findIndex(allUsers, function (user) { return user.id === _this.$scope.myId; });
+                            if (myIndex !== -1) {
+                                allUsers.splice(myIndex, 1);
+                            }
+                            allUsers.unshift(me);
+                        }
                     }
                     return allUsers;
                 });
@@ -2968,12 +2976,14 @@ var lui;
                 var _this = this;
                 return this.tidyUp(allUsers, clue)
                     .then(function (neatUsers) {
-                    _this.$scope.users = neatUsers;
+                    _this.$scope.users = _this.$scope.users || [];
+                    (_a = _this.$scope.users).push.apply(_a, neatUsers);
                     return undefined;
+                    var _a;
                 });
             };
             LuidUserPickerController.prototype.resetUsers = function () {
-                this.$scope.users.splice(0, this.$scope.users.length);
+                this.$scope.users = [];
                 this.$scope.lastPagingOffset = 0;
             };
             LuidUserPickerController.prototype.getFilter = function (clue) {
@@ -3050,6 +3060,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
+                    allowClear: "=",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3099,6 +3110,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
+                    allowClear: "=",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3182,9 +3194,10 @@ var lui;
                     .flatten()
                     .value();
             };
-            UserPickerService.prototype.getUsers = function (filters, paging) {
+            UserPickerService.prototype.getUsers = function (filters, paging, offset) {
                 if (paging === void 0) { paging = userpicker.MAGIC_PAGING; }
-                var pagingfilter = "paging=" + [0, paging].join(",");
+                if (offset === void 0) { offset = 0; }
+                var pagingfilter = "paging=" + [offset, paging].join(",");
                 return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + pagingfilter + "&" + this.userLookupFields)
                     .then(function (response) {
                     return response.data.data.items;
@@ -3667,12 +3680,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"true\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"true\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);

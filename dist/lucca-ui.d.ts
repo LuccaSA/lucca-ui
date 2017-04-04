@@ -530,7 +530,7 @@ declare module lui.userpicker {
         getMyId(): ng.IPromise<number>;
         getMe(): ng.IPromise<IUserLookup>;
         getHomonyms(users: IUserLookup[]): IUserLookup[];
-        getUsers(filters: string, paging?: number): ng.IPromise<IUserLookup[]>;
+        getUsers(filters: string, paging?: number, offset?: number): ng.IPromise<IUserLookup[]>;
         getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]>;
         getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]>;
         getUserById(id: number): ng.IPromise<IUserLookup>;

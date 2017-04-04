@@ -1,7 +1,11 @@
 # Change log
 
-## 3.1.3
+## 3.1.4
 ### Bug fixes
+
+## 3.1.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.3)
+### Bug fixes
+ - user-picker - add attribute allow-clear
 
 ## 3.1.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.2)
 ### Bug fixes
