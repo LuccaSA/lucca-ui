@@ -275,12 +275,7 @@ module lui.userpicker {
 		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<any> {
 			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
-					// if (!!clue && clue !== "") {
-						this.$scope.users = neatUsers;
-					// } else {
-					// 	this.$scope.users.push(...neatUsers);
-					// }
-					// return this.$scope.users;
+					this.$scope.users = neatUsers;
 					return undefined;
 				});
 		}
