@@ -90,8 +90,7 @@
 
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
-			> select,
-			.unit {
+			> select {
 				@extend %lui_input_sizing_material;
 			}
 
