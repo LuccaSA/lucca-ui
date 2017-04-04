@@ -70,7 +70,7 @@ module lui.userpicker.Test {
 			it("should call the right API and return exactly what the API returns", () => {
 				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&paging=0,15&fields=Id,firstName,lastName,dtContractEnd*/i)
 					.respond(200, { data: { items: { fakeUsers } } });
-				service.getUsers("formerEmployees=false", 0).then((users: IUserLookup[]) => {
+				service.getUsers("formerEmployees=false").then((users: IUserLookup[]) => {
 					expect(_.intersection(users, fakeUsers).length).toBe(0);
 				});
 				expect($httpBackend.flush).not.toThrow();

@@ -134,11 +134,11 @@ module lui.userpicker {
 			};
 
 			this.$scope.loadMore = (): void => {
-				if (!this.$scope.disablePaging) {
+				// if (!this.$scope.disablePaging) {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
-				}
+				// }
 			};
 
 			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
@@ -176,9 +176,9 @@ module lui.userpicker {
 				user.hasLeft = !!user.dtContractEnd && moment(user.dtContractEnd).isBefore(moment().startOf("day"));
 			});
 
-			if (!!this.$scope.customFilter) {
-				users = _.filter(users, (user: IUserLookup) => { return this.$scope.customFilter(user); });
-			}
+			// if (!!this.$scope.customFilter) {
+			// 	users = _.filter(users, (user: IUserLookup) => { return this.$scope.customFilter(user); });
+			// }
 			if (!!this.$scope.customInfo) {
 				_.each(users, (user: IUserLookup) => {
 					user.info = this.$scope.customInfo(user);
@@ -224,13 +224,35 @@ module lui.userpicker {
 			});
 		}
 
-		private loadMoreToFilter(targetPaging: number): ng.IPromise<IUserLookup[]> {
-			return undefined;
+		private refresh(clue: string = ""): ng.IPromise<any> {
+			return this.getUsers(clue).then(users => this.tidyUpAndAssign(users, clue));
 		}
 
-		private refresh(clue: string = ""): ng.IPromise<IUserLookup[]> {
+		// gets the users according to clue, also adds me and all if needed
+		// handles paging and customfilter
+		private getUsers(clue: string = ""): ng.IPromise<IUserLookup[]> {
+			let paging = this.$scope.lastPagingOffset + MAGIC_PAGING;
+			// only use paging if no customfilter
+			let cntTofetch = paging;
+			if (!!this.$scope.customFilter) {
+				cntTofetch = MAX_SEARCH_LIMIT;
+			}
+
+			let get = () => {
+				return this.userPickerService.getUsers(this.getFilter(clue), cntTofetch)
+				.then(users => {
+					if (!!this.$scope.customFilter) {
+						return _.chain(users)
+						.filter(u => this.$scope.customFilter(u))
+						.first(paging)
+						.value();
+					}
+					return users;
+				});
+			};
+
 			return this.$q.all([
-				this.userPickerService.getUsers(this.getFilter(clue), this.$scope.disablePaging ? undefined : this.$scope.lastPagingOffset),
+				get(),
 				this.userPickerService.getMe(),
 			]).then((datas: [IUserLookup[], IUserLookup]) => {
 					let allUsers = datas[0];
@@ -246,19 +268,20 @@ module lui.userpicker {
 						}
 						allUsers.unshift(me);
 					}
-					return this.tidyUpAndAssign(allUsers, clue);
+					return allUsers;
 				});
 		}
 
-		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<IUserLookup[]> {
+		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<any> {
 			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
-					if (!!clue && clue !== "") {
+					// if (!!clue && clue !== "") {
 						this.$scope.users = neatUsers;
-					} else {
-						this.$scope.users.push(...neatUsers);
-					}
-					return this.$scope.users;
+					// } else {
+					// 	this.$scope.users.push(...neatUsers);
+					// }
+					// return this.$scope.users;
+					return undefined;
 				});
 		}
 

@@ -94,8 +94,8 @@ module lui.userpicker {
 				.value();
 		}
 
-		public getUsers(filters: string, paging?: number): ng.IPromise<IUserLookup[]> {
-			let pagingfilter = "paging=" + (paging !== undefined ? [paging, MAGIC_PAGING].join(",") : [0, MAX_SEARCH_LIMIT].join(","));
+		public getUsers(filters: string, paging: number = MAGIC_PAGING): ng.IPromise<IUserLookup[]> {
+			let pagingfilter = "paging=" + [0, paging].join(",");
 			return this.$http.get(`${this.userLookUpApiUrl}?${filters}&${pagingfilter}&${this.userLookupFields}`)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: { items: IUserLookup[] } }>) => {
 					return response.data.data.items;

@@ -31,9 +31,6 @@ module lui.userpicker {
 		/** If true, adds an option `all users` with id = -1 */
 		displayAllUsers: boolean;
 
-		/** If true, disables paging and display all the users at once */
-		disablePaging: boolean;
-
 		/** Callback called when a user is selected */
 		onSelect: () => any;
 
