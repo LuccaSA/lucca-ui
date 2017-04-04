@@ -134,11 +134,11 @@ module lui.userpicker {
 			};
 
 			this.$scope.loadMore = (): void => {
-				// if (!this.$scope.disablePaging) {
+				if (!this.$scope.loadingMore) {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
-				// }
+				}
 			};
 
 			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
