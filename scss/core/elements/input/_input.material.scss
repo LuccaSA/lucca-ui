@@ -100,6 +100,9 @@
 			&:not(.radio):not(.checkbox):not(.switch) > label {
 				@extend %lui_input_label_displacable;
 			}
+			&.labelled {
+				margin-top: 1.3em;
+			}
 
 			// Label displacement when focused or filled
 			& > *[ng-model][placeholder]:not([placeholder=""]) ~ label,
