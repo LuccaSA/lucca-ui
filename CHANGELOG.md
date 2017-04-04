@@ -1,7 +1,11 @@
 # Change log
 
-## 3.1.1
+## 3.1.2
 ### Bug fixes
+
+## 3.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.1)
+### Bug fixes
+ - user-picker - fix the attr display-all-users was used in to disable the paging and created BC for when it is used for its normal function - added attr `disable-paging` instead
 
 ## 3.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.0)
 ### BREAKING CHANGES

@@ -9,6 +9,7 @@
 		<div ng-if="user.id === myId" class="selected-first" ng-class="{'dividing': $index === 0}"
 			 ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'">
 		</div>
+		<div ng-if="user.id === -1" translate>LUIDUSERPICKER_ALL</div>
 		<div ng-if="user.id !== myId" ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info"></div>
 		<div ng-if="user.hasLeft">
 			<small translate translate-values="{dtContractEnd:user.dtContractEnd}">LUIDUSERPICKER_FORMEREMPLOYEE</small>
