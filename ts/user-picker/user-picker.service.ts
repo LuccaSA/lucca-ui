@@ -57,7 +57,6 @@ module lui.userpicker {
 
 		private meCache: IUserLookup;
 
-		private myIdCache: number;
 		private stripAccents: (str: string) => string;
 
 		constructor($http: ng.IHttpService, $q: ng.IQService, $filter: ng.IFilterService) {
