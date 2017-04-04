@@ -2843,7 +2843,7 @@ var lui;
                     _this.refresh(search);
                 };
                 this.$scope.loadMore = function () {
-                    if (!_this.$scope.displayAllUsers) {
+                    if (!_this.$scope.disablePaging) {
                         _this.$scope.lastPagingOffset += MAGIC_PAGING;
                         _this.$scope.loadingMore = true;
                         _this.refresh().then(function () { _this.$scope.loadingMore = false; });
@@ -2967,7 +2967,7 @@ var lui;
                 var filter = "formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
                     (!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
                     (!!clue ? "&clue=" + clue : "") +
-                    (!!clue || s.displayAllUsers ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+                    (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
                 return filter;
             };
             LuidUserPickerController.IID = "luidUserPickerController";
@@ -3047,6 +3047,7 @@ var lui;
                     customInfoAsync: "=",
                     displayMeFirst: "=",
                     displayAllUsers: "=",
+                    disablePaging: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
                 };
@@ -3096,6 +3097,7 @@ var lui;
                     customInfoAsync: "=",
                     displayMeFirst: "=",
                     displayAllUsers: "=",
+                    disablePaging: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
                 };

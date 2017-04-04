@@ -502,6 +502,7 @@ declare module lui.userpicker {
         operations: string[];
         bypassOperationsFor: number[];
         displayAllUsers: boolean;
+        disablePaging: boolean;
         onSelect: () => any;
         onRemove: () => any;
         customFilter: (user: IUserLookup) => boolean;
