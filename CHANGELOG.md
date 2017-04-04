@@ -1,7 +1,12 @@
 # Change log
 
-## 3.1.2
+## 3.1.3
 ### Bug fixes
+
+## 3.1.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.2)
+### Bug fixes
+ - user-picker - rem attribute `disable-paging` to prevent you from trashing your DOM
+ - user-picker - fixed paging + custom filter interactions
 
 ## 3.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.1)
 ### Bug fixes
