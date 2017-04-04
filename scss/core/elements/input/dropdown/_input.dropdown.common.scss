@@ -79,7 +79,9 @@
 }
 
 %lui_dropdown_list_group {
-	border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+	&:not(:only-child) {
+		border-top: 1px solid luiTheme(element, input, material, default-border-color);
+	}
 }
 
 %lui_dropdown_list_group_header {
