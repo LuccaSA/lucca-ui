@@ -1,3 +1,11 @@
+@function lui_input_style_enabled($styleName) {
+	@return list_contains(luiTheme(element, field, input, styles), $styleName);
+}
+
+@function lui_input_get_style_selector($styleName) {
+	@return if(luiTheme(element, field, input, styles) == unquote($styleName), "", ".#{$styleName}");
+}
+
 @if luiTheme(element, field, enabled) {
 	@at-root #{$namespace} {
 
