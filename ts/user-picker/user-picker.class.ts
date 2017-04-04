@@ -4,16 +4,16 @@ module lui.userpicker {
 		id: number;
 		firstName: string;
 		lastName: string;
-		dtContractEnd: string;
+		dtContractEnd?: string;
 
 		/** Indicates if dtContractEnd < today */
-		hasLeft: boolean;
+		hasLeft?: boolean;
 		/** String containing potential additional information about the user. Can be empty */
-		info: string;
+		info?: string;
 		/** Indicates if the user has homonyms */
-		hasHomonyms: boolean;
+		hasHomonyms?: boolean;
 		/** Array containing the properties used to differentiate the users who have homonyms. Can be empty. */
-		additionalProperties: IHomonymProperty[];
+		additionalProperties?: IHomonymProperty[];
 	}
 
 	/**

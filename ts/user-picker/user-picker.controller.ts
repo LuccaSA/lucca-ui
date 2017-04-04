@@ -242,6 +242,10 @@ module lui.userpicker {
 							});
 						}
 					}
+					if (!clue && this.$scope.displayAllUsers) {
+						let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
+						allUsers.unshift(all);
+					}
 					return this.tidyUpAndAssign(allUsers, clue);
 				});
 		}
