@@ -177,6 +177,8 @@
 		// Natural style
 		// ===============================================================
 		#{$prefix}.natural.form .ui-select-container {
+			width: auto !important;
+
 			.ui-select-choices {
 				min-width: 15em;
 				width: 100%;
