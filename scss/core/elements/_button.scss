@@ -98,7 +98,7 @@
 		$vars: luiTheme(element, button);
 
 		// Normalize-css override
-		[type=submit], [type=reset], button, html [type=button] {
+		[type=submit], [type=reset], button, [type=button] {
 			-webkit-appearance: none;
 		}
 
