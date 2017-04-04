@@ -262,7 +262,7 @@ module lui.datepicker {
 		}
 
 		private getDisplayStr(date: moment.Moment): string {
-			return !!date ? date.format(this.displayFormat) : undefined;
+			return !!date ? date.format(this.displayFormat || "L") : undefined;
 		}
 	}
 

@@ -125,9 +125,10 @@ module lui.datepicker {
 
 			$scope.onStartDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
 				let displayStr = $scope.internal.startDisplayStr;
+				let format = $scope.displayFormat || "L";
 				let dateFromStr;
-				if (moment(displayStr, $scope.displayFormat).isValid()) {
-					dateFromStr = moment(displayStr, $scope.displayFormat);
+				if (moment(displayStr, format).isValid()) {
+					dateFromStr = moment(displayStr, format);
 				} else if (moment(displayStr, $scope.format).isValid()) {
 					dateFromStr = moment(displayStr, $scope.format);
 				} else {
@@ -142,9 +143,10 @@ module lui.datepicker {
 
 			$scope.onEndDisplayStrChanged = ($event?: ng.IAngularEvent): void => {
 				let displayStr = $scope.internal.endDisplayStr;
+				let format = $scope.displayFormat || "L";
 				let dateFromStr;
-				if (moment(displayStr, $scope.displayFormat).isValid()) {
-					dateFromStr = moment(displayStr, $scope.displayFormat);
+				if (moment(displayStr, format).isValid()) {
+					dateFromStr = moment(displayStr, format);
 				} else if (moment(displayStr, $scope.format).isValid()) {
 					dateFromStr = moment(displayStr, $scope.format);
 				} else {
