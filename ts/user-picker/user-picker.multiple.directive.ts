@@ -23,7 +23,6 @@ module lui.userpicker {
 			customInfo: "=", // (User) => string
 			customInfoAsync: "=", // (User) => ng.IPromise<string>
 			displayMeFirst: "=",
-			displayAllUsers: "=", // boolean, default false
 			disablePaging: "=", // boolean, default false
 
 			customHttpService: "=", // $http
