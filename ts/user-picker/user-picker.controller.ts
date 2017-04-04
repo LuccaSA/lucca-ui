@@ -18,8 +18,8 @@ module lui.userpicker {
 	 * **Warning**: if the value is to low, the scrollbar will not show up
 	 * in the user picker, and the user will not be able to load more users.
 	 */
-	const MAGIC_PAGING = 15;
-	const MAX_SEARCH_LIMIT = 10000;
+	export const MAGIC_PAGING = 15;
+	export const MAX_SEARCH_LIMIT = 10000;
 
 	/**
 	 * Controller of the luid-user-picker directive as well as the luid-user-picker-multiple directive.
@@ -167,7 +167,7 @@ module lui.userpicker {
 		 * Fetches most of the additional properties given in the attributes of the directive (custom-info, customInfoAsync, etc).
 		 * Also handles homonyms.
 		 */
-		private tidyUp(users: IUserLookup[]): ng.IPromise<IUserLookup[]> {
+		private tidyUp(users: IUserLookup[], clue: string = ""): ng.IPromise<IUserLookup[]> {
 			let promises = new Array<ng.IPromise<any>>();
 			let customInfoDico: { [userId: number]: ng.IPromise<string> } = {};
 			let homonymsDico: { [userId: number]: number } = {};
@@ -224,9 +224,13 @@ module lui.userpicker {
 			});
 		}
 
+		private loadMoreToFilter(targetPaging: number): ng.IPromise<IUserLookup[]> {
+			return undefined;
+		}
+
 		private refresh(clue: string = ""): ng.IPromise<IUserLookup[]> {
 			return this.$q.all([
-				this.userPickerService.getUsers(this.getFilter(clue)),
+				this.userPickerService.getUsers(this.getFilter(clue), this.$scope.disablePaging ? undefined : this.$scope.lastPagingOffset),
 				this.userPickerService.getMe(),
 			]).then((datas: [IUserLookup[], IUserLookup]) => {
 					let allUsers = datas[0];
@@ -247,7 +251,7 @@ module lui.userpicker {
 		}
 
 		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<IUserLookup[]> {
-			return this.tidyUp(allUsers)
+			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
 					if (!!clue && clue !== "") {
 						this.$scope.users = neatUsers;
@@ -275,8 +279,8 @@ module lui.userpicker {
 			let filter =
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
-				(!!clue ? "&clue=" + clue : "") +
-				(!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+				(!!clue ? "&clue=" + clue : "");
+				// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
 	}
