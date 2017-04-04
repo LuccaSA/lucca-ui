@@ -68,19 +68,7 @@ module lui.userpicker {
 		}
 
 		public getMyId(): ng.IPromise<number> {
-			if (this.myIdCache !== undefined) {
-				let dfd = this.$q.defer();
-				dfd.resolve(this.myIdCache);
-				return dfd.promise;
-			}
-
-			return this.$http.get(this.meApiUrl + "?fields=id")
-				.then((response: ng.IHttpPromiseCallbackArg<{ data: { id: number } }>) => {
-					this.myIdCache = response.data.data.id;
-					return this.myIdCache;
-				}).catch((reason: any) => {
-					return undefined;
-				});
+			return this.getMe().then(me => me.id);
 		}
 
 		public getMe(): ng.IPromise<IUserLookup> {

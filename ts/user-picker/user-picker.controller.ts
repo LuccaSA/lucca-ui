@@ -225,26 +225,22 @@ module lui.userpicker {
 		}
 
 		private refresh(clue: string = ""): ng.IPromise<IUserLookup[]> {
-			return this.userPickerService.getUsers(this.getFilter(clue))
-				.then((allUsers: IUserLookup[]) => {
-					if (!clue && this.$scope.displayMeFirst && !!this.$scope.users &&
-						this.$scope.users.length > 1 && this.$scope.users[0].id !== this.$scope.myId) {
-
-						let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
-						if (myIndex !== -1) {
-							let me = allUsers[myIndex];
-							allUsers.splice(myIndex, 1);
-							allUsers.unshift(me);
-						} else {
-							return this.userPickerService.getMe().then((me: IUserLookup) => {
-								allUsers.unshift(me);
-								return this.tidyUpAndAssign(allUsers, clue);
-							});
-						}
-					}
+			return this.$q.all([
+				this.userPickerService.getUsers(this.getFilter(clue)),
+				this.userPickerService.getMe(),
+			]).then((datas: [IUserLookup[], IUserLookup]) => {
+					let allUsers = datas[0];
+					let me = datas[1];
 					if (!clue && this.$scope.displayAllUsers) {
 						let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
 						allUsers.unshift(all);
+					}
+					if (!clue && this.$scope.displayMeFirst) {
+						let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
+						if (myIndex !== -1) {
+							allUsers.splice(myIndex, 1);
+						}
+						allUsers.unshift(me);
 					}
 					return this.tidyUpAndAssign(allUsers, clue);
 				});

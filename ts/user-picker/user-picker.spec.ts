@@ -41,7 +41,7 @@ module lui.userpicker.Test {
 
 		describe("service relationship", () => {
 			it("should call the services methods getMyId and getUsers only once", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: me.id } });
+				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=.*/i).respond(200, { data: { id: me.id } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i).respond(200, { data: { items: users } }); spyOn(service, "getMyId").and.callThrough();
 				spyOn(service, "getUsers").and.callThrough();
 
@@ -53,7 +53,7 @@ module lui.userpicker.Test {
 				expect(service.getUsers).toHaveBeenCalledTimes(1);
 			});
 			it("should try to handle homonyms", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: me.id } });
+				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=.*/i).respond(200, { data: { id: me.id } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i).respond(200, { data: { items: users } });
 				spyOn(service, "getHomonyms");
 
@@ -171,7 +171,7 @@ module lui.userpicker.Test {
 			});
 
 			it("should display the principal user first if the 'displayMeFirst' attribute is set to True", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id/i).respond(200, { data: { id: me.id } });
+				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=/i).respond(200, { data: { id: me.id, firstName: "bob", lastName: "builder" } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i)
 					.respond(200, { data: { items: [user2, user3, user4, me, user5, user6] } });
 				let scope = <ILuidUserPickerScope>$rootScope.$new();
