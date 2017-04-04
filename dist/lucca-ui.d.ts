@@ -452,11 +452,11 @@ declare module lui.userpicker {
         id: number;
         firstName: string;
         lastName: string;
-        dtContractEnd: string;
-        hasLeft: boolean;
-        info: string;
-        hasHomonyms: boolean;
-        additionalProperties: IHomonymProperty[];
+        dtContractEnd?: string;
+        hasLeft?: boolean;
+        info?: string;
+        hasHomonyms?: boolean;
+        additionalProperties?: IHomonymProperty[];
     }
     interface IHomonymProperty {
         translationKey: string;
