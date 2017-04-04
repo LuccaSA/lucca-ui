@@ -67,7 +67,7 @@
 		z-index: 1;
 		top: 100%;
 		left: 0; right: 0;
-		border-bottom: 1px solid luiTheme(element, field, field, default-border-color);
+		border-bottom: 1px solid luiTheme(element, input, material, default-border-color);
 	}
 
 	.label {
@@ -89,7 +89,7 @@
 	font-weight: 600;
 	color: luiTheme(element, typography, body, color);
 	padding: luiTheme(element, field, input, vertical-padding) 1em;
-	border-bottom: 1px dotted luiTheme(element, field, field, default-border-color);
+	border-bottom: 1px dotted luiTheme(element, input, material, default-border-color);
 }
 
 @if luiTheme(element, field, dropdown, enabled) {
