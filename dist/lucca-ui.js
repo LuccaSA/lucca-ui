@@ -698,7 +698,7 @@ var lui;
                 }
             };
             LuidDatePickerController.prototype.getDisplayStr = function (date) {
-                return !!date ? date.format(this.displayFormat) : undefined;
+                return !!date ? date.format(this.displayFormat || "L") : undefined;
             };
             LuidDatePickerController.IID = "luidDatePickerController";
             LuidDatePickerController.$inject = ["$scope", "$log", "$timeout"];
@@ -786,9 +786,10 @@ var lui;
                 };
                 $scope.onStartDisplayStrChanged = function ($event) {
                     var displayStr = $scope.internal.startDisplayStr;
+                    var format = $scope.displayFormat || "L";
                     var dateFromStr;
-                    if (moment(displayStr, $scope.displayFormat).isValid()) {
-                        dateFromStr = moment(displayStr, $scope.displayFormat);
+                    if (moment(displayStr, format).isValid()) {
+                        dateFromStr = moment(displayStr, format);
                     }
                     else if (moment(displayStr, $scope.format).isValid()) {
                         dateFromStr = moment(displayStr, $scope.format);
@@ -804,9 +805,10 @@ var lui;
                 };
                 $scope.onEndDisplayStrChanged = function ($event) {
                     var displayStr = $scope.internal.endDisplayStr;
+                    var format = $scope.displayFormat || "L";
                     var dateFromStr;
-                    if (moment(displayStr, $scope.displayFormat).isValid()) {
-                        dateFromStr = moment(displayStr, $scope.displayFormat);
+                    if (moment(displayStr, format).isValid()) {
+                        dateFromStr = moment(displayStr, format);
                     }
                     else if (moment(displayStr, $scope.format).isValid()) {
                         dateFromStr = moment(displayStr, $scope.format);
@@ -2924,26 +2926,22 @@ var lui;
             LuidUserPickerController.prototype.refresh = function (clue) {
                 var _this = this;
                 if (clue === void 0) { clue = ""; }
-                return this.userPickerService.getUsers(this.getFilter(clue))
-                    .then(function (allUsers) {
-                    if (!clue && _this.$scope.displayMeFirst && !!_this.$scope.users &&
-                        _this.$scope.users.length > 1 && _this.$scope.users[0].id !== _this.$scope.myId) {
-                        var myIndex = _.findIndex(allUsers, function (user) { return user.id === _this.$scope.myId; });
-                        if (myIndex !== -1) {
-                            var me = allUsers[myIndex];
-                            allUsers.splice(myIndex, 1);
-                            allUsers.unshift(me);
-                        }
-                        else {
-                            return _this.userPickerService.getMe().then(function (me) {
-                                allUsers.unshift(me);
-                                return _this.tidyUpAndAssign(allUsers, clue);
-                            });
-                        }
-                    }
+                return this.$q.all([
+                    this.userPickerService.getUsers(this.getFilter(clue)),
+                    this.userPickerService.getMe(),
+                ]).then(function (datas) {
+                    var allUsers = datas[0];
+                    var me = datas[1];
                     if (!clue && _this.$scope.displayAllUsers) {
                         var all = { id: -1, firstName: "", lastName: "" };
                         allUsers.unshift(all);
+                    }
+                    if (!clue && _this.$scope.displayMeFirst) {
+                        var myIndex = _.findIndex(allUsers, function (user) { return user.id === _this.$scope.myId; });
+                        if (myIndex !== -1) {
+                            allUsers.splice(myIndex, 1);
+                        }
+                        allUsers.unshift(me);
                     }
                     return _this.tidyUpAndAssign(allUsers, clue);
                 });
@@ -3100,7 +3098,6 @@ var lui;
                     customInfo: "=",
                     customInfoAsync: "=",
                     displayMeFirst: "=",
-                    displayAllUsers: "=",
                     disablePaging: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
@@ -3151,19 +3148,7 @@ var lui;
                 this.stripAccents = $filter("luifStripAccents");
             }
             UserPickerService.prototype.getMyId = function () {
-                var _this = this;
-                if (this.myIdCache !== undefined) {
-                    var dfd = this.$q.defer();
-                    dfd.resolve(this.myIdCache);
-                    return dfd.promise;
-                }
-                return this.$http.get(this.meApiUrl + "?fields=id")
-                    .then(function (response) {
-                    _this.myIdCache = response.data.data.id;
-                    return _this.myIdCache;
-                }).catch(function (reason) {
-                    return undefined;
-                });
+                return this.getMe().then(function (me) { return me.id; });
             };
             UserPickerService.prototype.getMe = function () {
                 var _this = this;
