@@ -466,6 +466,8 @@ declare module lui.userpicker {
     }
 }
 declare module lui.userpicker {
+    const MAGIC_PAGING: number;
+    const MAX_SEARCH_LIMIT: number;
     class LuidUserPickerController {
         static IID: string;
         static $inject: Array<string>;
@@ -479,8 +481,9 @@ declare module lui.userpicker {
         private getViewValue();
         private setViewValue(value);
         private initializeScope();
-        private tidyUp(users);
+        private tidyUp(users, clue?);
         private refresh(clue?);
+        private getUsers(clue?);
         private tidyUpAndAssign(allUsers, clue);
         private resetUsers();
         private getFilter(clue);
@@ -502,7 +505,6 @@ declare module lui.userpicker {
         operations: string[];
         bypassOperationsFor: number[];
         displayAllUsers: boolean;
-        disablePaging: boolean;
         onSelect: () => any;
         onRemove: () => any;
         customFilter: (user: IUserLookup) => boolean;
@@ -528,7 +530,7 @@ declare module lui.userpicker {
         getMyId(): ng.IPromise<number>;
         getMe(): ng.IPromise<IUserLookup>;
         getHomonyms(users: IUserLookup[]): IUserLookup[];
-        getUsers(filters: string): ng.IPromise<IUserLookup[]>;
+        getUsers(filters: string, paging?: number): ng.IPromise<IUserLookup[]>;
         getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]>;
         getUsersByIds(ids: number[]): ng.IPromise<IUserLookup[]>;
         getUserById(id: number): ng.IPromise<IUserLookup>;
