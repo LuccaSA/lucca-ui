@@ -134,7 +134,7 @@ module lui.userpicker {
 			};
 
 			this.$scope.loadMore = (): void => {
-				if (!this.$scope.displayAllUsers) {
+				if (!this.$scope.disablePaging) {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
@@ -276,7 +276,7 @@ module lui.userpicker {
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
 				(!!clue ? "&clue=" + clue : "") +
-				(!!clue || s.displayAllUsers ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+				(!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
 	}

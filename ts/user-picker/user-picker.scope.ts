@@ -28,8 +28,11 @@ module lui.userpicker {
 		/** List of users ids that must be displayed even if they shouldn't be because of the given appID and operations */
 		bypassOperationsFor: number[];
 
-		/** If true, disables paging and display all the users at once */
+		/** If true, adds an option `all users` with id = -1 */
 		displayAllUsers: boolean;
+
+		/** If true, disables paging and display all the users at once */
+		disablePaging: boolean;
 
 		/** Callback called when a user is selected */
 		onSelect: () => any;
