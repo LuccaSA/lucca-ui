@@ -18,7 +18,7 @@ module lui.userpicker {
 		 * Fetches all the users
 		 * @param {string} filters filter given to the API request
 		 */
-		getUsers(filters: string): ng.IPromise<IUserLookup[]>;
+		getUsers(filters: string, paging?: number): ng.IPromise<IUserLookup[]>;
 
 		/**
 		 * Fetches additional properties for the given user
@@ -94,8 +94,9 @@ module lui.userpicker {
 				.value();
 		}
 
-		public getUsers(filters: string): ng.IPromise<IUserLookup[]> {
-			return this.$http.get(this.userLookUpApiUrl + "?" + filters + "&" + this.userLookupFields)
+		public getUsers(filters: string, paging: number = MAGIC_PAGING): ng.IPromise<IUserLookup[]> {
+			let pagingfilter = "paging=" + [0, paging].join(",");
+			return this.$http.get(`${this.userLookUpApiUrl}?${filters}&${pagingfilter}&${this.userLookupFields}`)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: { items: IUserLookup[] } }>) => {
 					return response.data.data.items;
 				});

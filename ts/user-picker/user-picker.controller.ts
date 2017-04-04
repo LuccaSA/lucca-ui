@@ -18,8 +18,8 @@ module lui.userpicker {
 	 * **Warning**: if the value is to low, the scrollbar will not show up
 	 * in the user picker, and the user will not be able to load more users.
 	 */
-	const MAGIC_PAGING = 15;
-	const MAX_SEARCH_LIMIT = 10000;
+	export const MAGIC_PAGING = 15;
+	export const MAX_SEARCH_LIMIT = 10000;
 
 	/**
 	 * Controller of the luid-user-picker directive as well as the luid-user-picker-multiple directive.
@@ -134,11 +134,11 @@ module lui.userpicker {
 			};
 
 			this.$scope.loadMore = (): void => {
-				if (!this.$scope.disablePaging) {
+				// if (!this.$scope.disablePaging) {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
-				}
+				// }
 			};
 
 			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
@@ -167,7 +167,7 @@ module lui.userpicker {
 		 * Fetches most of the additional properties given in the attributes of the directive (custom-info, customInfoAsync, etc).
 		 * Also handles homonyms.
 		 */
-		private tidyUp(users: IUserLookup[]): ng.IPromise<IUserLookup[]> {
+		private tidyUp(users: IUserLookup[], clue: string = ""): ng.IPromise<IUserLookup[]> {
 			let promises = new Array<ng.IPromise<any>>();
 			let customInfoDico: { [userId: number]: ng.IPromise<string> } = {};
 			let homonymsDico: { [userId: number]: number } = {};
@@ -176,9 +176,9 @@ module lui.userpicker {
 				user.hasLeft = !!user.dtContractEnd && moment(user.dtContractEnd).isBefore(moment().startOf("day"));
 			});
 
-			if (!!this.$scope.customFilter) {
-				users = _.filter(users, (user: IUserLookup) => { return this.$scope.customFilter(user); });
-			}
+			// if (!!this.$scope.customFilter) {
+			// 	users = _.filter(users, (user: IUserLookup) => { return this.$scope.customFilter(user); });
+			// }
 			if (!!this.$scope.customInfo) {
 				_.each(users, (user: IUserLookup) => {
 					user.info = this.$scope.customInfo(user);
@@ -224,9 +224,35 @@ module lui.userpicker {
 			});
 		}
 
-		private refresh(clue: string = ""): ng.IPromise<IUserLookup[]> {
+		private refresh(clue: string = ""): ng.IPromise<any> {
+			return this.getUsers(clue).then(users => this.tidyUpAndAssign(users, clue));
+		}
+
+		// gets the users according to clue, also adds me and all if needed
+		// handles paging and customfilter
+		private getUsers(clue: string = ""): ng.IPromise<IUserLookup[]> {
+			let paging = this.$scope.lastPagingOffset + MAGIC_PAGING;
+			// only use paging if no customfilter
+			let cntTofetch = paging;
+			if (!!this.$scope.customFilter) {
+				cntTofetch = MAX_SEARCH_LIMIT;
+			}
+
+			let get = () => {
+				return this.userPickerService.getUsers(this.getFilter(clue), cntTofetch)
+				.then(users => {
+					if (!!this.$scope.customFilter) {
+						return _.chain(users)
+						.filter(u => this.$scope.customFilter(u))
+						.first(paging)
+						.value();
+					}
+					return users;
+				});
+			};
+
 			return this.$q.all([
-				this.userPickerService.getUsers(this.getFilter(clue)),
+				get(),
 				this.userPickerService.getMe(),
 			]).then((datas: [IUserLookup[], IUserLookup]) => {
 					let allUsers = datas[0];
@@ -242,19 +268,15 @@ module lui.userpicker {
 						}
 						allUsers.unshift(me);
 					}
-					return this.tidyUpAndAssign(allUsers, clue);
+					return allUsers;
 				});
 		}
 
-		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<IUserLookup[]> {
-			return this.tidyUp(allUsers)
+		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<any> {
+			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
-					if (!!clue && clue !== "") {
-						this.$scope.users = neatUsers;
-					} else {
-						this.$scope.users.push(...neatUsers);
-					}
-					return this.$scope.users;
+					this.$scope.users = neatUsers;
+					return undefined;
 				});
 		}
 
@@ -275,8 +297,8 @@ module lui.userpicker {
 			let filter =
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
-				(!!clue ? "&clue=" + clue : "") +
-				(!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+				(!!clue ? "&clue=" + clue : "");
+				// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
 	}
