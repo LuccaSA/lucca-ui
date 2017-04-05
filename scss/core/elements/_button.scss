@@ -48,6 +48,8 @@
 	// Style - filling
 	// ====
 	&.filling {
+		color: luiPalette(grey, color);
+
 		&:hover, &:focus, &:active, &.active {
 			background: map-gets($scheme, color);
 			color: map-gets($scheme, text);
@@ -57,7 +59,7 @@
 	// Style - Wired
 	&.wired {
 		background: transparent;
-		color: map-get($scheme, text);
+		color: luiPalette(grey, color);
 
 		&:not(.inverted):hover,
 		&:not(.inverted):focus,
@@ -99,7 +101,7 @@
 		$vars: luiTheme(element, button);
 
 		// Normalize-css override
-		[type=submit], [type=reset], button, html [type=button] {
+		[type=submit], [type=reset], button, [type=button] {
 			-webkit-appearance: none;
 		}
 
