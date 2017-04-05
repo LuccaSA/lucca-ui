@@ -57,6 +57,7 @@
 	// Style - Wired
 	&.wired {
 		background: transparent;
+		color: map-get($scheme, text);
 
 		&:not(.inverted):hover,
 		&:not(.inverted):focus,
