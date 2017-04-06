@@ -1,6 +1,9 @@
 # Change log
 
-## 3.1.4
+## 3.1.5
+### Bug fixes
+
+## 3.1.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.4)
 ### Bug fixes
  - daterange picker - fix startStr and endStr displayed when using moment format
 
