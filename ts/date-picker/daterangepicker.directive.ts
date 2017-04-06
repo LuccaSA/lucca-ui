@@ -218,11 +218,13 @@ module lui.datepicker {
 				if (ngModelCtrl.$viewValue) {
 					this.$scope.period = this.getViewValue();
 					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
-					this.$scope.internal.startDisplayStr = !!this.$scope.period && !!this.$scope.period[this.startProperty] ? this.formatter.formatValue(moment(this.$scope.period[this.startProperty])) : "";
-					this.$scope.internal.endDisplayStr = !!this.$scope.period && !!this.$scope.period[this.endProperty] ? this.formatter.formatValue(moment(this.$scope.period[this.endProperty])) : "";
+					this.$scope.internal.startDisplayStr = this.$scope.period.start ? this.$scope.period.start.format(this.$scope.displayFormat || "L") : "";
+					this.$scope.internal.endDisplayStr = this.$scope.period.end ? this.$scope.period.end.format(this.$scope.displayFormat || "L") : "";
 				} else {
 					this.$scope.period = undefined;
 					this.$scope.displayStr = undefined;
+					this.$scope.internal.startDisplayStr = undefined;
+					this.$scope.internal.endDisplayStr = undefined;
 				}
 			};
 			ngModelCtrl.$isEmpty = (value: any) => {
@@ -283,7 +285,7 @@ module lui.datepicker {
 			if (this.$scope.editingStart) {
 				this.$scope.period.start = date;
 				this.start = date;
-				if (updateDisplayStrs) { this.$scope.internal.startDisplayStr = date.format(this.$scope.displayFormat); }
+				if (updateDisplayStrs) { this.$scope.internal.startDisplayStr = date.format(this.$scope.displayFormat || "L"); }
 				if (goToNextState) { this.$scope.editEnd(); }
 
 				if (!!this.$scope.period.end && this.$scope.period.start.isAfter(this.$scope.period.end)) {
@@ -314,7 +316,7 @@ module lui.datepicker {
 		}
 
 		// ng-model logic
-		private setViewValue(value: IPeriod): void {
+		private setViewValue(value: Period): void {
 			let period: IPeriod = _.clone(<IPeriod>this.ngModelCtrl.$viewValue);
 			if (!value && !period) {
 				this.$scope.internal.startDisplayStr = "";
@@ -332,8 +334,8 @@ module lui.datepicker {
 				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
 				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
 
-				this.$scope.internal.startDisplayStr = period[this.startProperty];
-				this.$scope.internal.endDisplayStr = period[this.endProperty];
+				this.$scope.internal.startDisplayStr = !!value.start ? value.start.format(this.$scope.displayFormat || "L") : undefined;
+				this.$scope.internal.endDisplayStr = !!value.end ? value.end.format(this.$scope.displayFormat || "L") : undefined;
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
