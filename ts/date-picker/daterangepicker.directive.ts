@@ -334,8 +334,8 @@ module lui.datepicker {
 				period[this.startProperty] = !!value.start ? this.formatter.formatValue(moment(value.start)) : undefined;
 				period[this.endProperty] = !!value.end ? this.formatter.formatValue(this.excludeEnd ? moment(value.end).add(1, "day") : moment(value.end)) : undefined;
 
-				this.$scope.internal.startDisplayStr = value.start.format(this.$scope.displayFormat || "L");
-				this.$scope.internal.endDisplayStr = value.end.format(this.$scope.displayFormat || "L");
+				this.$scope.internal.startDisplayStr = !!value.start ? value.start.format(this.$scope.displayFormat || "L") : undefined;
+				this.$scope.internal.endDisplayStr = !!value.end ? value.end.format(this.$scope.displayFormat || "L") : undefined;
 			}
 			this.ngModelCtrl.$setViewValue(period);
 		}
