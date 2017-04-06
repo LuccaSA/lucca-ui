@@ -48,6 +48,11 @@
 	// Style - filling
 	// ====
 	&.filling {
+
+		&:not(.inverted){
+			color: luiPalette(grey, color);
+		}
+
 		&:hover, &:focus, &:active, &.active {
 			background: map-gets($scheme, color);
 			color: map-gets($scheme, text);
@@ -58,15 +63,19 @@
 	&.wired {
 		background: transparent;
 
-		&:not(.inverted):hover,
-		&:not(.inverted):focus,
-		&:not(.inverted):active,
-		&:not(.inverted).active {
-			box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
-			color: map-get($scheme, color);
+		&:not(.inverted){
+			color: luiPalette(grey, color);
 
-			&[class*="with addon"] > .addon {
-				border-color: map-get($scheme, color);
+			&:hover,
+			&:focus,
+			&:active,
+			&.active{
+				box-shadow: 0 0 0 luiTheme(element, button, wired, borderWidth) map-get($scheme, color) inset;
+				color: map-get($scheme, color);
+
+				&[class*="with addon"] > .addon {
+					border-color: map-get($scheme, color);
+				}
 			}
 		}
 	}
