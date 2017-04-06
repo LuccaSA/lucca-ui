@@ -6,6 +6,7 @@
 ## 3.1.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.4)
 ### Bug fixes
  - daterange picker - fix startStr and endStr displayed when using moment format
+ - fix `a.wired.button` style
 
 ## 3.1.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.3)
 ### Bug fixes
