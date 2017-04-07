@@ -92,12 +92,19 @@ html, body {
 		* {
 			font-family: monospace !important;
 		}
+		&.red {
+			color: #d14;
+		}
 	}
 
 	code.code-label {
 		display: block;
 		text-align: center;
 		color: #d14;
+	}
+
+	pre {
+		white-space: pre-wrap;
 	}
 
 	.lui.menu.spaced *{
@@ -141,5 +148,15 @@ html, body {
 
 	pre[hljs] * {
 		font-family: monospace !important;
+	}
+
+	.flex-container {
+		@include display-flex();
+		&.flex-row-container {
+			@include flex-direction(row);
+		}
+		&.flex-two-columns .flex-column {
+			@include flex(1, 1, 50%);
+		}
 	}
 }

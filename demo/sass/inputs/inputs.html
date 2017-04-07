@@ -1,252 +1,678 @@
 
 <h2 class="lui divider below">Inputs</h2>
+<p>
+	Inputs use a specific DOM tree to easily handle error messages. It uses a container div <code class="red">lui field</code> that will wrap around:
+	<ul style="list-style-type: circle">
+		<li>the input container <code class="red">lui input compact/material</code> which will contain your input and label. It must be either compact or material</li>
+		<li>the message div <code class="red">messages</code> which will contain your error or helper messages</li>
+	</ul>
+</p>
 
-<h2>Material</h2>
-<!--text-->
+<h5>Example</h5>
 <div class="lui field">
-	<div class="lui material input">
-		<input id="tralala" type="text" ng-model="bidule" ng-required="true">
-		<label for="tralala">Trouloulou</label>
+	<div class="lui compact input">
+		<input id="input-demo-0" type="text">
+		<label for="input-demo-0">Input label</label>
 	</div>
 	<div class="messages">
-		<small class="error message">trekljtrklejl</small>
-		<small class="helper message">trekljtrklejl</small>
+		<small class="error message">error message</small>
 	</div>
 </div>
-<br>
-<!--iban-->
-<div class="lui input material">
-	<luid-iban id="miban" ng-model="miban"></luid-iban>
-	<label for="miban">IBAN</label>
+
+<p><pre hljs language="html"><div class="lui field">
+	<div class="lui compact input">
+		<input id="input-demo-0" type="text">
+		<label for="input-demo-0">Input label</label>
+	</div>
+	<div class="messages">
+		<small class="error message">error message</small>
+	</div>
+</div></pre></p>
+
+<p>Each input comes in two themes: Material or compact. Theme must be specified as a class of the <code class="red">lui input compact/material</code></p>
+
+<!-- TEXT INPUT -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Text input</h4>
 </div>
-<br>
-<!--checkbox-->
-<div class="lui checkbox input material">
-	<input type="checkbox" ng-model="checked" id="mcheckbox">
-	<label for="mcheckbox">Value</label>
-</div>
-<br>
-<!--radio-->
-<div class="lui field">
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui material field">
+					<div class="lui material input">
+						<input id="input-demo-1" type="text" ng-model="minput1">
+						<label for="input-demo-1">Input label</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui compact field">
+					<div class="lui compact input">
+						<input id="input-demo-2" type="text" ng-model="cinput1">
+						<label for="input-demo-2">Input label</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode0 = !showCode0">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode0">
+	<div class="flex-column">
+				<pre hljs language="html">
+<div class="lui material field">
 	<div class="lui material input">
-		<div class="lui radio input material">
+		<input id="input-demo-1" type="text" ng-model="minput1">
+		<label for="input-demo-1">Input label</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui compact field">
+	<div class="lui compact input">
+		<input id="input-demo-2" type="text" ng-model="cinput1">
+		<label for="input-demo-2">Input label</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Checkbox -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Checkbox</h4>
+</div>
+<div class="lui callout primary">You must also add the class <code class="red">checkbox</code> to lui input</div>
+
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui material input checkbox">
+					<input id="mcheckbox" type="checkbox" ng-model="mchecked">
+					<label for="mcheckbox">Value</label>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui compact input checkbox">
+					<input id="ccheckbox" type="checkbox" ng-model="cchecked">
+					<label for="ccheckbox">Value</label>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode1 = !showCode1">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode1">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui material input checkbox">
+	<input id="mcheckbox" type="checkbox" ng-model="mchecked">
+	<label for="mcheckbox">Value</label>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui compact input checkbox">
+	<input id="ccheckbox" type="checkbox" ng-model="cchecked">
+	<label for="ccheckbox">Value</label>
+</div></pre>
+</div>
+</div>
+
+<!-- Radio buttons -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Radio buttons</h4>
+</div>
+<div class="lui callout primary">
+	Radio buttons must have the class <code class="red">radio</code> on their <code>.lui.input</code> element.
+	You can group them in a div with the classes <code class="red">lui input</code> to add a label to the group and handle error messages.
+</div>
+
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui input material">
+						<div class="lui input radio material">
+							<input type="radio" ng-model="radio.value" id="mradio1" value="1">
+							<label for="mradio1">Value 1</label>
+						</div>
+						<div class="lui input radio material">
+							<input type="radio" ng-model="radio.value" id="mradio2" value="2">
+							<label for="mradio2">Value 2</label>
+						</div>
+						<div class="lui input radio material">
+							<input type="radio" ng-model="radio.value" id="mradio3" value="3">
+							<label for="mradio3">Value 3</label>
+						</div>
+						<label>Label for radio group</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui input compact">
+						<div class="lui input radio compact">
+							<input type="radio" ng-model="radio.value" id="cradio1" value="1">
+							<label for="cradio1">Value 1</label>
+						</div>
+						<div class="lui input radio compact">
+							<input type="radio" ng-model="radio.value" id="cradio2" value="2">
+							<label for="cradio2">Value 2</label>
+						</div>
+						<div class="lui input radio compact">
+							<input type="radio" ng-model="radio.value" id="cradio3" value="3">
+							<label for="cradio3">Value 3</label>
+						</div>
+						<label>Label for radio group</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode2 = !showCode2">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode2">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input material">
+		<div class="lui input radio material">
 			<input type="radio" ng-model="radio.value" id="mradio1" value="1">
 			<label for="mradio1">Value 1</label>
 		</div>
-		<div class="lui radio input material">
-			<input type="radio" ng-model="radio.value" id="mradio2" value="2">
-			<label for="mradio2">Value 2</label>
-		</div>
-		<div class="lui radio input material">
-			<input type="radio" ng-model="radio.value" id="mradio3" value="3">
-			<label for="mradio3">Value 3</label>
-		</div>
-		<label>Radios</label>
+		[...]
+		<label>Label for radio group</label>
 	</div>
+</div></pre>
 </div>
-<br>
-<!--image picker-->
-<div class="lui field">
-	<div class="lui material input">
-		<luid-image-picker class="material" ng-model="image1" id="imagepicker1"></luid-image-picker>
-		<label for="imagepicker1">Image Picker</label>
-	</div>
-</div>
-<br>
-<!--moment picker-->
-<luid-moment class="material" ng-model="myValue" show-buttons="true"></luid-moment>
-<br>
-<!--tagged-->
-<div class="lui tagged material searchable input">
-	<span class="tags">
-		<span class="tag">Timmi</span>
-	</span>
-	<input type="search" ng-model="search" placeholder="coucou">
-</div>
-<br>
-<!--timespan-->
-<div class="lui field">
-	<div class="lui material input">
-		<luid-timespan ng-model="myTimespan" class="material"></luid-timespan>
-		<label>Timespan Picker</label>
-	</div>
-</div>
-<br>
-<!--ui-select-->
-<div ng-controller="uiselectCtrl">
-	<div class="lui input material">
-		<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
-			<ui-select-match>{{$select.selected.name}}</ui-select-match>
-			<ui-select-choices repeat="person in people | filter: $select.search">
-				<span ng-bind-html="person.name | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
-		<label for="">User</label>
-	</div>
-	<br>
-	<div class="lui input material">
-		<ui-select multiple ng-model="colors" ng-disabled="disabled">
-			<ui-select-match>{{$item}}</ui-select-match>
-			<ui-select-choices repeat="color in availableColors | filter:$select.search">
-				{{color}}
-			</ui-select-choices>
-		</ui-select>
-		<label for="">Colors</label>
-	</div>
-</div>
-<br>
-<!--datepicker-->
-<div ng-controller="datepickerCtrl">
-	<luid-date-picker-popup ng-model="dateMoment" class="material"></luid-date-picker-popup>
-</div>
-<br>
-<!--datepicker-->
-<div>
-	<luid-daterange-picker ng-model="period" class="material"></luid-daterange-picker>
-</div>
-<!--input sans field-->
-<div>
-	<div class="lui material long input">
-		<input type="text" ng-model="proute">
-	</div>
-</div>
-
-<!-- translations -->
-<div>
-	<luid-translations ng-model="translations" class="lui material"></luid-translations>
-</div>
-
-
-<h2>Compact</h2>
-<!--text-->
-<div class="lui field">
-	<div class="lui compact input">
-		<input id="aze" type="text" ng-model="bidule" ng-required="true">
-		<label for="aze">azeazeaze</label>
-	</div>
-	<div class="messages">
-		<small class="error message">trekljtrklejl</small>
-		<small class="helper message">trekljtrklejl</small>
-	</div>
-</div>
-<br>
-<!--iban-->
-<div class="lui input compact">
-	<luid-iban id="ciban" ng-model="ciban"></luid-iban>
-	<label for="ciban">IBAN</label>
-</div>
-<br>
-<!--checkbox-->
-<div class="lui field">
-	<div class="lui checkbox compact input">
-		<input type="checkbox" ng-model="checked" id="mcheckbox">
-		<label for="mcheckbox">Value</label>
-	</div>
-</div>
-<br>
-<!--radio-->
-<div class="lui field">
-	<div class="lui compact input">
-		<div class="lui radio input compact">
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input compact">
+		<div class="lui input radio compact">
 			<input type="radio" ng-model="radio.value" id="cradio1" value="1">
 			<label for="cradio1">Value 1</label>
 		</div>
-		<div class="lui radio input compact">
-			<input type="radio" ng-model="radio.value" id="cradio2" value="2">
-			<label for="cradio2">Value 2</label>
-		</div>
-		<div class="lui radio input compact">
-			<input type="radio" ng-model="radio.value" id="cradio3" value="3">
-			<label for="cradio3">Value 3</label>
-		</div>
-		<label>Radios</label>
+		[...]
+		<label>Label for radio group</label>
 	</div>
+</div></pre>
 </div>
-<br>
-<!--image picker-->
-<div class="lui field">
-	<div class="lui compact input">
-		<luid-image-picker class="compact" ng-model="image2" id="imagepicker"></luid-image-picker>
-		<label for="imagepicker">Image Picker</label>
-	</div>
-</div>
-<br>
-<div class="lui field">
-	<div class="lui compact input">
-		<luid-image-picker class="compact" ng-model="image3" id="imagepicker2" delete-enabled="true"></luid-image-picker>
-		<label for="imagepicker">Image Picker</label>
-	</div>
-</div>
-<br>
-<!--moment picker-->
-<div class="lui field">
-	<div class="lui compact input">
-		<luid-moment class="compact" ng-model="myValue"></luid-moment>
-		<luid-moment class="compact" ng-model="myValue" show-buttons="true"></luid-moment>
-		<label for="imagepicker">Moment Picker</label>
-	</div>
-</div>
-<br>
-<!--tagged-->
-<div class="lui tagged compact searchable input">
-	<div class="holder">
-		<span class="tags">
-			<span class="tag">Timmi <i class="lui icon cross"></i></span>
-			<span class="tag selected">Directory</span>
-		</span>
-		<input type="search" ng-model="search" id="search2" placeholder="coucou">
-	</div>
-	<label>Search with tags</label>
-</div>
-<br>
-<!--timespan-->
-<div class="lui field">
-	<div class="lui compact input">
-		<luid-timespan ng-model="myTimespan"placeholder="--m" class="compact"></luid-timespan>
-		<label>Timespan Picker</label>
-	</div>
-</div>
-<br>
-<!--ui-select-->
-<div ng-controller="uiselectCtrl">
-	<div class="lui input compact">
-		<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="true" class="lui">
-			<ui-select-match>{{$select.selected.name}}</ui-select-match>
-			<ui-select-choices repeat="person in people | filter: $select.search">
-				<span ng-bind-html="person.name | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
-		<label for="">User</label>
-	</div>
-	<br>
-	<div class="lui input x-long compact">
-		<ui-select multiple ng-model="colors" ng-disabled="disabled">
-			<ui-select-match>{{$item}}</ui-select-match>
-			<ui-select-choices repeat="color in availableColors | filter:$select.search">
-				{{color}}
-			</ui-select-choices>
-		</ui-select>
-		<label for="">Colors</label>
-	</div>
-</div>
-<br>
-<!--datepicker-->
-<div ng-controller="datepickerCtrl">
-	<luid-date-picker-popup ng-model="dateMoment" class="compact"></luid-date-picker-popup>
-</div>
-<br>
-<!--datepicker-->
-<div>
-	<luid-daterange-picker ng-model="period" class="compact"></luid-daterange-picker>
-</div>
-<!--input sans field-->
-<div>
-	<div class="lui compact long input">
-		<input type="text" ng-model="proute">
-	</div>
 </div>
 
-<!-- translations -->
-<div>
-	<luid-translations ng-model="translations" class="lui compact"></luid-translations>
+<!-- IBAN -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">IBAN</h4>
 </div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui material field">
+					<div class="lui material input">
+						<luid-iban id="miban" ng-model="miban"></luid-iban>
+						<label for="miban">IBAN</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui compact field">
+					<div class="lui compact input">
+						<luid-iban id="ciban" ng-model="ciban"></luid-iban>
+						<label for="ciban">IBAN</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode3 = !showCode3">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode3">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui material field">
+	<div class="lui material input">
+		<luid-iban id="miban" ng-model="miban"></luid-iban>
+		<label for="miban">IBAN</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui compact field">
+	<div class="lui compact input">
+		<luid-iban id="ciban" ng-model="ciban"></luid-iban>
+		<label for="ciban">IBAN</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Image Picker -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Image Picker</h4>
+</div>
+<div class="lui callout primary">You must also apply the class <code class="red">material/compact</code> to the <code>luid-image-picker</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui input material">
+						<luid-image-picker class="material" ng-model="mimage" id="mimagepicker"></luid-image-picker>
+						<label for="mimagepicker">Image Picker</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui input compact">
+						<luid-image-picker class="compact" ng-model="cimage" id="cimagepicker"></luid-image-picker>
+						<label for="cimagepicker">Image Picker</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode4 = !showCode4">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode4">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input material">
+		<luid-image-picker class="material" ng-model="mimage" id="mimagepicker"></luid-image-picker>
+		<label for="mimagepicker">Image Picker</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input compact">
+		<luid-image-picker class="compact" ng-model="cimage" id="cimagepicker"></luid-image-picker>
+		<label for="cimagepicker">Image Picker</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Moment Picker -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Moment Picker</h4>
+</div>
+<div class="lui callout primary">You must also apply the class <code class="red">material/compact</code> to the <code>luid-moment</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui input material">
+						<luid-moment class="material" ng-model="mMoment" name="mMoment" show-buttons="true"></luid-moment>
+						<label for="mMoment">Moment Picker</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui input compact">
+						<luid-moment class="compact" ng-model="cMoment" name="cMoment" show-buttons="true"></luid-moment>
+						<label for="cMoment">Moment Picker</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode5 = !showCode5">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode5">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input material">
+		<luid-moment class="material" ng-model="mMoment" name="mMoment" show-buttons="true"></luid-moment>
+		<label for="mMoment">Moment Picker</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui input compact">
+		<luid-moment class="compact" ng-model="cMoment" name="cMoment" show-buttons="true"></luid-moment>
+		<label for="cMoment">Moment Picker</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Input with tags -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Input with tags</h4>
+</div>
+<div class="lui callout primary">
+	Tags are grouped and styled in a DOM element with the class <code class="red">tags</code> and must bear the class <code class="red">tag</code>.
+</div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui tagged material searchable input">
+						<span class="tags">
+							<span class="tag">Tag</span>
+						</span>
+						<input type="search" ng-model="msearch" placeholder="Search for a tag">
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui tagged compact searchable input">
+						<span class="tags">
+							<span class="tag">Tag</span>
+						</span>
+						<input type="search" ng-model="csearch" placeholder="Search for a tag">
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode6 = !showCode6">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode6">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui tagged material searchable input">
+		<span class="tags">
+			<span class="tag">Tag</span>
+		</span>
+		<input type="search" ng-model="msearch" placeholder="Search for a tag">
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui tagged compact searchable input">
+		<span class="tags">
+			<span class="tag">Tag</span>
+		</span>
+		<input type="search" ng-model="csearch" placeholder="Search for a tag">
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Timespan -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Timespan</h4>
+</div>
+<div class="lui callout primary">You must apply the class <code class="red">material/compact</code> to the <code>luid-timespan</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui material input">
+						<luid-timespan ng-model="mTimespan" class="material"></luid-timespan>
+						<label>Timespan Picker</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui compact input">
+						<luid-timespan ng-model="cTimespan" class="compact"></luid-timespan>
+						<label>Timespan Picker</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode7 = !showCode7">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode7">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui material input">
+		<luid-timespan ng-model="mTimespan" class="material"></luid-timespan>
+		<label>Timespan Picker</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui compact input">
+		<luid-timespan ng-model="cTimespan" class="compact"></luid-timespan>
+		<label>Timespan Picker</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- UI-Select -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">UI-Select</h4>
+</div>
+<div class="lui callout primary"><a ng-href="#/nguibs#uiselect">More details on the UI-select directive are available here</a></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div ng-controller="uiselectCtrl">
+					<div class="lui field">
+						<div class="lui input material">
+							<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+								<ui-select-match>{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices repeat="person in people | filter: $select.search">
+									<span ng-bind-html="person.name | highlight: $select.search"></span>
+								</ui-select-choices>
+							</ui-select>
+							<label for="">User</label>
+						</div>
+					</div>
+					<div class="lui field">
+						<div class="lui input material">
+							<ui-select multiple ng-model="colors" ng-disabled="disabled">
+								<ui-select-match>{{$item}}</ui-select-match>
+								<ui-select-choices repeat="color in availableColors | filter:$select.search">
+									{{color}}
+								</ui-select-choices>
+							</ui-select>
+							<label for="">Colors</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div ng-controller="uiselectCtrl">
+					<div class="lui field">
+						<div class="lui input compact">
+							<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+								<ui-select-match>{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices repeat="person in people | filter: $select.search">
+									<span ng-bind-html="person.name | highlight: $select.search"></span>
+								</ui-select-choices>
+							</ui-select>
+							<label for="">User</label>
+						</div>
+					</div>
+					<div class="lui field">
+						<div class="lui input compact">
+							<ui-select multiple ng-model="colors" ng-disabled="disabled">
+								<ui-select-match>{{$item}}</ui-select-match>
+								<ui-select-choices repeat="color in availableColors | filter:$select.search">
+									{{color}}
+								</ui-select-choices>
+							</ui-select>
+							<label for="">Colors</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode8 = !showCode8">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode8">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui input material">
+	<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+		<ui-select-match>{{$select.selected.name}}</ui-select-match>
+		<ui-select-choices repeat="person in people | filter: $select.search">
+			<span ng-bind-html="person.name | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+	<label for="">User</label>
+</div>
+
+<div class="lui input material">
+	<ui-select multiple ng-model="colors" ng-disabled="disabled">
+		<ui-select-match>{{$item}}</ui-select-match>
+		<ui-select-choices repeat="color in availableColors | filter:$select.search">
+			{{color}}
+		</ui-select-choices>
+	</ui-select>
+	<label for="">Colors</label>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui input compact">
+	<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
+		<ui-select-match>{{$select.selected.name}}</ui-select-match>
+		<ui-select-choices repeat="person in people | filter: $select.search">
+			<span ng-bind-html="person.name | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+	<label for="">User</label>
+</div>
+
+<div class="lui input compact">
+	<ui-select multiple ng-model="colors" ng-disabled="disabled">
+		<ui-select-match>{{$item}}</ui-select-match>
+		<ui-select-choices repeat="color in availableColors | filter:$select.search">
+			{{color}}
+		</ui-select-choices>
+	</ui-select>
+	<label for="">Colors</label>
+</div></pre>
+</div>
+</div>
+
+<!-- Date Picker -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Date Picker</h4>
+</div>
+<div class="lui callout primary">You must apply the class <code class="red">material/compact</code> to the <code>luid-date-picker-popup</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui material input">
+						<luid-date-picker-popup ng-model="mdateMoment" class="material"></luid-date-picker-popup>
+						<label>Date Picker</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui compact input">
+						<luid-date-picker-popup ng-model="cdateMoment" class="compact"></luid-date-picker-popup>
+						<label>Date Picker</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode9 = !showCode9">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode9">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui material input">
+		<luid-date-picker-popup ng-model="mdateMoment" class="material"></luid-date-picker-popup>
+		<label>Date Picker</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui compact input">
+		<luid-date-picker-popup ng-model="cdateMoment" class="compact"></luid-date-picker-popup>
+		<label>Date Picker</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Daterange Picker -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Daterange Picker</h4>
+</div>
+<div class="lui callout primary">You must apply the class <code class="red">material/compact</code> to the <code>luid-daterange-picker</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<div class="lui material input">
+						<luid-daterange-picker ng-model="mperiod" class="material"></luid-daterange-picker>
+						<label>Daterange Picker</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<div class="lui compact input">
+						<luid-daterange-picker ng-model="cperiod" class="compact"></luid-daterange-picker>
+						<label>Daterange Picker</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode10 = !showCode10">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode10">
+	<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui material input">
+		<luid-daterange-picker ng-model="mperiod" class="material"></luid-daterange-picker>
+		<label>Daterange Picker</label>
+	</div>
+</div></pre>
+</div>
+<div class="flex-column">
+				<pre hljs language="html"><div class="lui field">
+	<div class="lui compact input">
+		<luid-daterange-picker ng-model="cperiod" class="compact"></luid-daterange-picker>
+		<label>Daterange Picker</label>
+	</div>
+</div></pre>
+</div>
+</div>
+
+<!-- Translations input -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Translations input</h4>
+</div>
+<div class="lui callout primary">You must apply the class <code class="red">lui material/compact</code> to the <code>luid-translations</code></div>
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+				<h5>Material</h5>
+				<div class="lui field">
+					<luid-translations ng-model="mtranslations" class="lui material"></luid-translations>
+				</div>
+			</div>
+			<div class="flex-column">
+				<h5>Compact</h5>
+				<div class="lui field">
+					<luid-translations ng-model="ctranslations" class="lui compact"></luid-translations>
+				</div>
+			</div>
+		</div>
+
+<a class="show-code-link" ng-click="showCode11 = !showCode11">Show code</a>
+
+<div class="flex-container flex-row-container flex-two-columns" ng-show="showCode11">
+	<div class="flex-column">
+				<pre hljs language="html"><luid-translations ng-model="mtranslations" class="lui material"></luid-translations></pre>
+			</div>
+			<div class="flex-column">
+				<pre hljs language="html"><luid-translations ng-model="ctranslations" class="lui compact"></luid-translations></pre>
+			</div>
+		</div>
