@@ -38,6 +38,12 @@
 			prefix: "lui",
 			canDismissConfirm: true,
 		});
+	})
+
+	.config(function(hljsServiceProvider){
+		hljsServiceProvider.setOptions({
+			tabReplace: '  '
+		});
 	});
 
 	angular.module('demoApp')
