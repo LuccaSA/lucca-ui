@@ -4001,6 +4001,7 @@ var lui;
 	** DEPENDENCIES
 	**  - moment
 	**/
+	var MAGIC_DELAY_BEFORE_WHEEL = 200;
 
 	angular.module('lui')
 	.directive('luidMoment', ['moment', function(moment){
@@ -4058,7 +4059,7 @@ var lui;
 			};
 
 			var inputs = element.querySelectorAll('.input');
-			mpCtrl.setupEvents(angular.element(inputs[0]), angular.element(inputs[1]));
+			mpCtrl.setupEvents(element, angular.element(inputs[0]), angular.element(inputs[1]));
 
 			// reexecute validators if min or max change
 			// will not be reexecuted if min is a moment and something like `min.add(3, 'h')` is called
@@ -4313,7 +4314,7 @@ var lui;
 		};
 
 		// events - mousewheel and arrowkeys
-		this.setupEvents = function(hoursField, minsField){
+		this.setupEvents = function(elt, hoursField, minsField){
 			var hoursInput = angular.element(hoursField.find('input')[0]),
 				minsInput = angular.element(minsField.find('input')[0]);
 
@@ -4342,17 +4343,29 @@ var lui;
 				minsInput.bind('keydown', function(e) { subscription(e, step); });
 			}
 
-			function setupMousewheelEvents(hoursField, minsField) {
+			function setupMousewheelEvents(elt, hoursField, minsField) {
 				function isScrollingUp(e) {
 					e = e.originalEvent ? e.originalEvent : e;
 					//pick correct delta variable depending on event
 					var delta = (e.wheelDelta) ? e.wheelDelta : -e.deltaY;
 					return (e.detail || delta > 0);
 				}
-
+				var enableMouseWheel = false;
+				var enableWheelTimeout;
+				elt.bind('mouseenter', function(e) {
+					enableWheelTimeout = setTimeout(function() {
+						enableMouseWheel = true;
+					}, MAGIC_DELAY_BEFORE_WHEEL);
+				});
+				elt.bind('mouseleave', function(e) {
+					if (!!enableWheelTimeout) {
+						clearTimeout(enableWheelTimeout);
+					}
+					enableMouseWheel = false;
+				});
 				function subscription(e, incrStep){
-					if(!$scope.disabled){
-						$scope.$apply( incr((isScrollingUp(e)) ? incrStep : -incrStep ));
+					if(!$scope.disabled && enableMouseWheel){
+						$scope.$apply(incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
 					}
 				}
@@ -4363,7 +4376,7 @@ var lui;
 			}
 
 			setupArrowkeyEvents( hoursInput, minsInput);
-			setupMousewheelEvents( hoursField, minsField);
+			setupMousewheelEvents(elt, hoursField, minsField);
 		};
 
 	}]);

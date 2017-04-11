@@ -1,7 +1,11 @@
 # Change log
 
-## 3.1.5
+## 3.1.6
 ### Bug fixes
+
+## 3.1.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.5)
+### Bug fixes
+ - `luid-moment` - adds a delay before we register the mousewheel event to avoid a scroll from the page being highjacked by a scroll inside the moment picker
 
 ## 3.1.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.4)
 ### Bug fixes
