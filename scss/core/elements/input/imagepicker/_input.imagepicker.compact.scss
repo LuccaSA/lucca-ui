@@ -5,7 +5,7 @@
 			$selector: lui_input_get_style_selector("compact");
 			$vars: luiTheme(element, field, image-picker);
 
-			luid-image-picker#{$selector} {
+			#{$prefix}.input#{$selector} luid-image-picker, luid-image-picker#{$selector} {
 
 				height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
