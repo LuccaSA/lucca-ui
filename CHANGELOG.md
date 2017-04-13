@@ -2,6 +2,7 @@
 
 ## 3.1.6
 ### Bug fixes
+ - `luid-moment` - fix support time on multiple days - when your min = today 8AM and max = tomorrow 2AM, it was impossible to have the time 1AM tomorrow even if it was a correct time - would automatically set it to today 1AM -> invalid-min
 
 ## 3.1.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.5)
 ### Bug fixes
