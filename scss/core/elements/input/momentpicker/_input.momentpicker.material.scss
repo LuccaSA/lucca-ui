@@ -2,7 +2,7 @@
 	@if lui_input_style_enabled("material") {
 		$selector: lui_input_get_style_selector("material");
 		@at-root #{$namespace} {
-			luid-moment#{$selector} {
+			#{$prefix}.input#{$selector} luid-moment, luid-moment#{$selector} {
 				> .moment.input {
 					width: luiTheme(element, field, momentpicker, width);
 					input {
