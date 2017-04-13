@@ -2,6 +2,7 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
+			#{$prefix}.input#{$selector} luid-translations,
 			luid-translations#{$selector} {
 				input {
 					@extend %lui_input_reset_material;
