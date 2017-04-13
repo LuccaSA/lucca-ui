@@ -16,12 +16,22 @@
 			if(!!attrs.format){ // allows to have a ng-model of type string, not moment
 				var format = scope.$eval(attrs.format);
 
-				ngModelCtrl.$render = function() {
-					var momentValue = moment(this.$viewValue, format);
-					var condition = this.$viewValue && momentValue.isValid();
+				ngModelCtrl.getValue = function() {
+					var vv = ngModelCtrl.$viewValue;
+					if (!vv) {
+						return undefined;
+					}
+					var momentVv = moment(vv, format);
+					if (!momentVv.isValid()) {
+						return undefined;
+					}
+					return momentVv;
+				};
 
-					scope.hours = condition ? momentValue.format('HH') : undefined;
-					scope.mins = condition ? momentValue.format('mm') : undefined;
+				ngModelCtrl.$render = function() {
+					var momentValue = ngModelCtrl.getValue();
+					scope.hours = !!momentValue ? momentValue.format('HH') : undefined;
+					scope.mins = !!momentValue ? momentValue.format('mm') : undefined;
 					ngModelCtrl.$validate();
 				};
 
@@ -35,10 +45,22 @@
 					return !viewValue || mpCtrl.checkMax(moment(modelValue, format));
 				};
 			} else {
+				ngModelCtrl.getValue = function() {
+					var vv = ngModelCtrl.$viewValue;
+					if (!vv) {
+						return undefined;
+					}
+					var momentVv = moment(vv);
+					if (!vv.isValid()) {
+						return undefined;
+					}
+					return momentVv;
+				};
 				ngModelCtrl.$render = function() {
-					var condition = this.$viewValue && !!this.$viewValue.isValid && this.$viewValue.isValid();
-					scope.hours = condition ? this.$viewValue.format('HH') : undefined;
-					scope.mins = condition ? this.$viewValue.format('mm') : undefined;
+					var vv = ngModelCtrl.getValue();
+					var condition = !!vv && vv.isValid();
+					scope.hours = condition ? vv.format('HH') : undefined;
+					scope.mins = condition ? vv.format('mm') : undefined;
 					ngModelCtrl.$validate();
 				};
 				ngModelCtrl.setValue = function(newMomentValue) {
@@ -95,7 +117,7 @@
 			},
 			templateUrl:"lui/directives/luidMoment.html",
 			restrict:'EA',
-			link:link
+			link: link,
 		};
 	}])
 	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment) {
@@ -229,6 +251,12 @@
 		}
 
 		function blurEvent(timeout, isFocused){
+			var inputedTime = getInputedTime();
+			var val = $scope.ngModelCtrl.getValue();
+			// same inputed time as the viewValue - we do nothing
+			if (!!val && val.isValid() && inputedTime.format("HH:mm") === val.format("HH:mm")) {
+				return;
+			}
 			updateWithoutRender(getInputedTime());
 			timeout = $timeout(function(){
 					timeout = false;
