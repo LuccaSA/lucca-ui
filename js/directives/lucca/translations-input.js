@@ -25,7 +25,8 @@
 			}
 			if(mode === 'dictionary' && ngModelCtrl.$viewValue !== undefined){
 				_.each(cultures, function(c){
-					scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
+					scope.$watch(function () { return !!ngModelCtrl.$viewValue ? ngModelCtrl.$viewValue[c] : ngModelCtrl.$viewValue; },
+					function () { ngModelCtrl.$render(); });
 				});
 			}
 
@@ -45,7 +46,8 @@
 				}
 			};
 
-			var parse = function(value){
+			var parse = function (value) {
+				if (value === undefined) { return undefined;}
 				switch(mode){
 					case "dictionary":
 						return parseDictionary(value);
@@ -56,7 +58,7 @@
 					case "brackets":
 						return parseBrackets(value);
 					default:
-						return {};
+						return undefined;
 				}
 			};
 
@@ -68,18 +70,18 @@
 				}, {});
 			};
 			var updateDictionary = function(value){
-				_.each(cultures, function(c){
-					ngModelCtrl.$viewValue[c] = value[c];
+				var allEmpty = true;
+				var viewValue = {};
+				_.each(cultures, function (culture) {
+					viewValue[culture] = value[culture];
+					allEmpty &= value[culture] === undefined || value[culture] === "";
 				});
-				ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+				ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
 				scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
 			};
 
 			// mode pipe
 			var parsePipe = function(value){
-				if(!value){
-					return {};
-				}
 				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
 				var translations = value.split("|");
 				var result = {};
@@ -90,14 +92,18 @@
 				});
 				return _.pick(result, cultures);
 			};
-			var updatePipe = function(value){
-				var newVal = _.map(cultures, function(c){
-					if(!!value[c]){
-						return c + ":" + value[c];
-					}
-					return c + ":";
-				}).join("|");
-				ngModelCtrl.$setViewValue(newVal);
+			var updatePipe = function(value) {
+				if (!_.find(cultures, function (culture) { return value[culture] !== undefined && value[culture] !== ""; })) {
+					ngModelCtrl.$setViewValue(undefined);
+				} else {
+					var newVal = _.map(cultures, function (c) {
+						if (!!value[c]) {
+							return c + ":" + value[c];
+						}
+						return c + ":";
+					}).join("|");
+					ngModelCtrl.$setViewValue(newVal);
+				}
 			};
 
 			// mode brackets
