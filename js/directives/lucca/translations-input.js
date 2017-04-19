@@ -13,17 +13,24 @@
 				var ngModelCtrl = ctrls[1];
 				var translateCtrl = ctrls[0];
 
-				// Available cultures
-				var cultures = ["en", "de", "es", "fr", "it", "nl"];
+				/** Associations language/code */
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
+				/** Associations code/language */
+				var codesToLanguages = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl" };
+				/* Fallback language (sorted) */
+				var fallbackLanguages = ["en", "fr", "de", "es", "it", "nl"];
+
+				/** List of all the available languages labels */
+				var cultures = _.keys(languagesToCodes);
 				scope.cultures = cultures;
 
-				scope.currentCulture = $translate.preferredLanguage() || "en";
+				scope.currentCulture = $translate.preferredLanguage() || fallbackLanguages[0];
 
 				var mode = !!attrs.mode ? attrs.mode : "dictionary";
 				if (mode === "dictionary" && ngModelCtrl.$viewValue !== undefined) {
-					_.each(cultures, function (c) {
+					_.each(cultures, function (culture) {
 						scope.$watch(
-							function () { return !!ngModelCtrl.$viewValue ? ngModelCtrl.$viewValue[c] : ngModelCtrl.$viewValue; },
+							function () { return !!ngModelCtrl.$viewValue ? ngModelCtrl.$viewValue[culture] : ngModelCtrl.$viewValue; },
 							function () { ngModelCtrl.$render(); }
 						);
 					});
@@ -37,6 +44,8 @@
 						case "|":
 						case "pipe":
 							return updatePipe(scope.internal);
+						case "lucca":
+							return updateLucca(scope.internal);
 					}
 				};
 
@@ -48,15 +57,40 @@
 						case "|":
 						case "pipe":
 							return parsePipe(value);
+						case "lucca":
+							return parseLucca(value);
 						default:
 							return undefined;
 					}
 				};
 
+				// Mode lucca
+				var parseLucca = function (value) {
+					return _.reduce(cultures, function (memo, culture) {
+						var targetLabel = _.findWhere(value, { cultureCode: languagesToCodes[culture] });
+						memo[culture] = !!targetLabel ? targetLabel.value : undefined;
+						// We need to keep the original id
+						memo[culture + "_id"] = !!targetLabel ? targetLabel.id : undefined;
+						return memo;
+					}, {});
+				};
+				var updateLucca = function (value) {
+					var allEmpty = true;
+					var viewValue = [];
+					_.each(cultures, function (culture) {
+						if (!!value[culture] && value[culture] !== "") {
+							viewValue.push({ id: value[culture + "_id"], cultureCode: languagesToCodes[culture], value: value[culture] });
+							allEmpty = false;
+						}
+					});
+					ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
+					scope.$parent.$eval(attrs.ngChange);
+				};
+
 				// Mode dictionary
 				var parseDictionary = function (value) {
-					return _.reduce(cultures, function (memo, c) {
-						memo[c] = value[c];
+					return _.reduce(cultures, function (memo, culture) {
+						memo[culture] = value[culture];
 						return memo;
 					}, {});
 				};
@@ -101,7 +135,7 @@
 				require: ['luidTranslations', '^ngModel'],
 				controller: 'luidTranslationsController',
 				scope: {
-					mode: '@', // allowed values: "|" "pipe", "dictionary"
+					mode: '@', // allowed values: "pipe" (or "|"), "dictionary", "lucca" (lucca proprietary format)
 					size: "@", // the size of the input (short, long, x-long, fitting)
 				},
 				templateUrl: "lui/directives/luidTranslations.html",
@@ -114,9 +148,7 @@
 			/******************
 			* UPDATE          *
 			******************/
-			$scope.update = function () {
-				ctrl.updateViewValue();
-			};
+			$scope.update = function () { ctrl.updateViewValue(); };
 
 			/******************
 			* FOCUS & BLUR    *
