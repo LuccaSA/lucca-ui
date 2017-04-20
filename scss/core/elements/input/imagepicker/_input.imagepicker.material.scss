@@ -5,6 +5,7 @@
 			$selector: lui_input_get_style_selector("material");
 			$vars: luiTheme(element, field, image-picker);
 
+			#{$prefix}.input#{$selector} luid-image-picker,
 			luid-image-picker#{$selector} {
 				.luid-image-picker-picture {
 					background-position: map-gets($vars, background-position);
@@ -34,10 +35,12 @@
 			// In a field
 			// ====
 			#{$prefix}.field {
+				#{$prefix}.input#{$selector} luid-image-picker,
 				luid-image-picker#{$selector} {
 					height: map-gets($vars, size) !important;
 				}
 
+				#{$prefix}.input#{$selector} luid-image-picker + label,
 				luid-image-picker#{$selector} + label {
 					@extend %lui_input_label_displaced;
 				}

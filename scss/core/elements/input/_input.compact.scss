@@ -58,7 +58,7 @@
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
 			> select,
-			.unit {
+			> .unit {
 				@extend %lui_input_sizing_compact;
 			}
 

@@ -2,7 +2,7 @@
 	@if lui_input_style_enabled("material") {
 		$selector: lui_input_get_style_selector("material");
 		@at-root #{$namespace} {
-			luid-timespan#{$selector} {
+			#{$prefix}.input#{$selector} luid-timespan, luid-timespan#{$selector} {
 				> .timespan.input {
 					input {
 						@extend %lui_quick_material_input;

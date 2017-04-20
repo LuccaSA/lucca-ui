@@ -2,7 +2,7 @@
 	@if lui_input_style_enabled("compact") {
 		$selector: lui_input_get_style_selector("compact");
 		@at-root #{$namespace} {
-			luid-moment#{$selector} {
+			#{$prefix}.input#{$selector} luid-moment, luid-moment#{$selector} {
 				> .moment.input {
 					width: 2.5em;
 					input {

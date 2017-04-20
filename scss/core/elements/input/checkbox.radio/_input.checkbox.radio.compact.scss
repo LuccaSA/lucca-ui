@@ -2,6 +2,8 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("compact") {
 			$selector: lui_input_get_style_selector("compact");
+			#{$prefix}.input#{$selector} .radio.input,
+			#{$prefix}.input#{$selector} .checkbox.input,
 			#{$prefix}.radio.input#{$selector},
 			#{$prefix}.checkbox.input#{$selector} {
 				label {
