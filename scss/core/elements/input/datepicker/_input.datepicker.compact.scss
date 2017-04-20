@@ -9,6 +9,16 @@
 				}
 			}
 
+			luid-daterange-picker#{$selector} .inputs {
+				.icon {
+					transform: translate(10%, -50%);
+				}
+
+				> input:last-of-type {
+					margin-left: 10px;
+				}
+			}
+
 			luid-daterange-picker#{$selector} .inputs > input:focus {
 				@extend %lui_input_focus_compact;
 			}
