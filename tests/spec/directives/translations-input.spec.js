@@ -4,7 +4,7 @@ describe('luidTranslations', function(){
 	beforeEach(module('lui'));
 	beforeEach(module('lui.translate'));
 
-	var moment, $scope, isolateScope, $compile, $filter, elt, input, ngModelCtrl;
+	var moment, $scope, isolateScope, $compile, $filter, elt, input, ngModelCtrl, _;
 	beforeEach(inject(function (_moment_, _$rootScope_, _$compile_, _$filter_) {
 		moment = _moment_;
 		$scope = _$rootScope_.$new();
@@ -83,4 +83,59 @@ describe('luidTranslations', function(){
 		});
 	});
 
+	describe("mode='lucca'", function () {
+		beforeEach(function () {
+			$scope.myTrads = [];
+			var tpl = angular.element('<luid-translations ng-model="myTrads" mode="lucca"></luid-translations>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+			ngModelCtrl = elt.controller("ngModel");
+		});
+		it("should be able to parse the lucca format", function () {
+			$scope.myTrads = [
+				{ id: 1, cultureCode: 1033, value: "stuff" },
+				{ id: 2, cultureCode: 1036, value: "truc" },
+				{ id: 3, cultureCode: 1034, value: "cosa" },
+			];
+			$scope.$digest();
+			expect(isolateScope.internal.en).toEqual("stuff");
+			expect(isolateScope.internal.fr).toEqual("truc");
+			expect(isolateScope.internal.es).toEqual("cosa");
+		});
+
+		it("should keep the original ids", function () {
+			$scope.myTrads = [
+				{ id: 1, cultureCode: 1033, value: "stuff" },
+				{ id: 2, cultureCode: 1036, value: "truc" },
+				{ id: 3, cultureCode: 1034, value: "cosa" },
+			];
+			$scope.$digest();
+			expect(isolateScope.internal.en_id).toEqual(1);
+			expect(isolateScope.internal.fr_id).toEqual(2);
+			expect(isolateScope.internal.es_id).toEqual(3);
+		});
+		it("should keep the original ids even after updating the viewModel", function(){
+			$scope.myTrads = [
+				{ id: 1, cultureCode: 1033, value: "stuff" },
+				{ id: 2, cultureCode: 1036, value: "truc" },
+				{ id: 3, cultureCode: 1034, value: "cosa" },
+			];
+			$scope.$digest();
+			isolateScope.internal.fr = "machin";
+			isolateScope.update();
+
+			// The model array is not always in the same order: loop required to find the french value
+			var found = false;
+			for (var i = 0; i < $scope.myTrads.length; i++) {
+				if ($scope.myTrads[i].cultureCode === 1036) {
+					found = true;
+					expect($scope.myTrads[i].value).toEqual("machin");
+					expect($scope.myTrads[i].id).toEqual(2);
+					break;
+				}
+			}
+			expect(found).toEqual(true);
+		});
+	});
 });
