@@ -15,16 +15,12 @@
 
 				/** Associations language/code */
 				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
-				/** Associations code/language */
-				var codesToLanguages = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl" };
-				/* Fallback language (sorted) */
-				var fallbackLanguages = ["en", "fr", "de", "es", "it", "nl"];
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
 				scope.cultures = cultures;
 
-				scope.currentCulture = $translate.preferredLanguage() || fallbackLanguages[0];
+				scope.currentCulture = $translate.preferredLanguage() || "en";
 
 				var mode = !!attrs.mode ? attrs.mode : "dictionary";
 				if (mode === "dictionary" && ngModelCtrl.$viewValue !== undefined) {
