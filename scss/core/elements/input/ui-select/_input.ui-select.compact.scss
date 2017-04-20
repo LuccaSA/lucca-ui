@@ -4,6 +4,14 @@
 		@at-root #{$namespace} {
 			#{$prefix}.input#{$selector} .ui-select-container, #{$prefix}.input .ui-select-container#{$selector} {
 
+				.ui-select-choices-row {
+					@extend %lui_dropdown_list_item_compact;
+				}
+
+				.ui-select-choices-group {
+					@extend %lui_dropdown_list_group_compact;
+				}
+
 				&:not(.ui-select-multiple) {
 					.ui-select-match .ui-select-toggle,
 					.ui-select-search {
