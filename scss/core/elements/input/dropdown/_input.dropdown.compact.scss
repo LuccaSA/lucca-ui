@@ -1,0 +1,33 @@
+%lui_dropdown_list_group_compact {
+	&:not(:only-child) {
+		border-top: 1px solid luiTheme(element, field, input, compact, border-color);
+	}
+}
+
+%lui_dropdown_list_group_header_compact {
+	border-bottom: 1px dotted luiTheme(element, field, input, compact, border-color);
+}
+
+%lui_dropdown_list_item_compact {
+	&.dividing:after {
+		border-bottom: 1px solid luiTheme(element, field, input, compact, border-color);
+	}
+}
+
+@if luiTheme(element, field, dropdown, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("compact") {
+			$selector: lui_input_get_style_selector("compact");
+			#{$prefix}#{$selector} {
+
+				&.dropdown .dropdown-header {
+					@extend %lui_dropdown_list_group_header_compact;
+				}
+
+				&[uib-dropdown] ul li {
+					@extend %lui_dropdown_list_item_compact;
+				}
+			}
+		}
+	}
+}
