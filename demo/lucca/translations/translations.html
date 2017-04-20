@@ -25,8 +25,7 @@
 	<ul class="lui unstyled">
 		<li><code>ng-model</code>: the variable to bind to</li>
 		<li><code>ng-change</code>: events to launch when the value is updated</li>
-		<!-- <li><code>ng-disabled</code>: </li> -->
-		<li><code>mode</code>: "dictionary", "|" or "pipe"</li>
+		<li><code>mode</code>: "dictionary", "|" (or "pipe"), "lucca" (for proprietary format)</li>
 	</ul>
 </p>
 <div class="lui dashed divider">
@@ -44,7 +43,7 @@
 <div class="lui block round">
 	<h5>Mode dictionary</h5>
 	<p>
-		<luid-translations ng-model="myTrads" ng-change="changed()"></luid-translations>
+		<luid-translations class="lui material" ng-model="myTrads" ng-change="changed()"></luid-translations>
 	</p>
 	<p>
 		myTrads: <code>{{myTrads}}</code>
@@ -52,11 +51,28 @@
 	<hr>
 	<h5>Mode pipe</h5>
 	<p>
-		<luid-translations ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
+		<luid-translations class="lui material" ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
 	</p>
 	<p>
 		myTradsPipe : <code>{{myTradsPipe}}</code>
 	</p>
+	<hr>
+	<h5>Mode Lucca (with ng-required=true)</h5>
+	<div class="lui columns">
+		<div class="lui column desktop-6">
+			<form name="translationform">
+				<luid-translations class="lui material" ng-model="requiredModel" ng-required="true" mode="lucca" ng-change="changed()" name="requiredtranslation"></luid-translations>
+				<small class="lui error message" ng-show="translationform.requiredtranslation.$touched && translationform.requiredtranslation.$error.required">
+					This field is required
+				</small>
+			</form>
+		</div>
+		<div class="lui column desktop-6">
+			<p><code>$error.required = {{!!translationform.requiredtranslation.$error.required ? translationform.requiredtranslation.$error.required : "undefined"}}</code></p>
+			<p><code>$valid = {{translationform.requiredtranslation.$valid}}</code></p>
+			<p><code>ng-model = {{requiredModel}}</code></p>
+		</div>
+	</div>
 	<hr>
 	<p>
 		Number of times <code>ng-change</code> has been called : <code>{{count}}</code>
