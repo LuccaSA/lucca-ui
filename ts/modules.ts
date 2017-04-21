@@ -13,5 +13,5 @@ module lui {
 	angular.module("lui.crop", ["lui", "lui.translate", "ngImgCrop"]);
 	angular.module("lui.iban", ["lui", "iban"]);
 	angular.module("lui.tablegrid", ["lui", "lui.translate"]);
-
+	angular.module("lui.translationslist", ["lui", "lui.translate"]);
 }

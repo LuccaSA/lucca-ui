@@ -1,0 +1,52 @@
+<!-- Description -->
+<h2 class="lui divider below">luid-translations-list</h2>
+<p>An input that display and edit of a list of values translated in multiple languages.</p>
+
+<!-- Features -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Features</h4>
+</div>
+<p>This directive also inherits from the ng-model controller and can be integrated to forms like any other input. Most directives frequently used conjointly with ng-model are also useable (such as ng-change, ng-required, etc)</p>
+
+<!-- Arguments -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Arguments</h4>
+</div>
+<p>
+	<ul class="lui unstyled">
+		<li><code>ng-model</code>: the variable to bind to</li>
+		<li><code>mode</code>: "lucca" for Lucca proprietary format (more formats will eventually be handled later on)
+	</ul>
+</p>
+
+<!-- Usage -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList"&gt;&lt;luid-translations-list&gt;</pre>
+	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList" ng-change="onListChanged()" ng-required="true" mode="lucca"&gt;&lt;luid-translations-list&gt;</pre>
+</p>
+
+<!-- Demo -->
+<div class="lui bottom dashed divider menu">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+</div>
+<div class="lui block round">
+	<div class="lui columns">
+		<div class="lui column desktop-6">
+			<p>
+				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca"></luid-translations-list>
+			</p>
+		</div>
+		<div class="lui column desktop-6" style="border-left: 1px solid rgba(50, 50, 50, 0.2)">
+			<p>&nbsp;&nbsp;<code>ng-model:</code></p>
+			<div style="height: 400px; overflow-y: scroll;">
+				<p><pre>{{ luccaTranslations | json }}</pre></p>
+			</div>
+			<p>Number of times <code>ng-change</code> has been called : <code>{{translationsListChangedCount}}</code></p>
+		</div>
+	</div>
+</div>
