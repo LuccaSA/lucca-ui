@@ -1,0 +1,21 @@
+<div>
+	<nav class="lui dividing primary menu">
+		<a class="lui item" ng-repeat="culture in cultures" ng-class="{ 'active': culture === selectedCulture }"
+		   ng-click="selectCulture(culture)" ng-bind-html="culture | uppercase"></a>
+	</nav>
+	<content>
+		<ul class="lui unstyled">
+			<li class="lui field container" ng-repeat="value in values[selectedCulture].values track by $index">
+				<div class="lui input animated up fade in">
+					<input type="text" ng-model="values[selectedCulture].values[$index].value"
+						placeholder="{{ values[currentCulture].values[$index].value || ( 'LUID_TRANSLATIONSLIST_INPUT_VALUE' | translate) }}">
+					<button class="lui flat button small icon cross close" ng-click="deleteValue($index)"></button>
+				</div>
+			</li>
+		</ul>
+	</content>
+	<footer>
+		<button class="lui flat button" ng-click="addValue()" ng-disabled="canAddValue()"
+				translate="LUID_TRANSLATIONSLIST_ADD_VALUE"></button>
+	</footer>
+</div>
