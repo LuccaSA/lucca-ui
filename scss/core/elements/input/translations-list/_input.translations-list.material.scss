@@ -4,7 +4,13 @@
 			$selector: lui_input_get_style_selector("material");
 			#{$prefix}.input#{$selector} luid-translations-list,
 			luid-translations-list#{$selector} {
-
+				> div {
+					box-shadow: 0 0 1px 0 rgba(0, 0, 0, .4);
+				}
+				#{$prefix}.menu.dividing:not(.vertical):not([class*="top dividing"]) > a.item::after {
+					top: auto;
+					bottom: -1px;
+				}
 				input {
 					@extend %lui_input_reset_material;
 
