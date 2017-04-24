@@ -1,0 +1,81 @@
+@if luiTheme(element, field, translations, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, translations-list);
+
+		luid-translations-list {
+
+			content {
+				display: block;
+				padding: 1em;
+				background-color: map-gets($vars, background-color);
+			}
+
+			#{$prefix}.input {
+				width: 100%;
+				padding: .2em 0;
+
+				> input[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations) {
+					width: auto;
+					@include flex(1);
+				}
+			}
+
+			#{$prefix}.icon.cross[class*="cross"]{
+				margin: -4px 0 0 0;
+				padding: 0;
+				height: 100%;
+
+				&:hover {
+					text-decoration: none;
+					&::before {
+						color: map-gets($vars, hover-color);
+					}
+				}
+				&::before {
+					content: "\00d7";
+					color: luiTheme(element, field, input, label, color);
+					font-size: 1.5em;
+				}
+
+				&:focus, &:active {
+					outline: none;
+				}
+			}
+
+			footer {
+				padding: .2em 0;
+				> button {
+					color: luiPalette(grey, color);
+					position: relative;
+					opacity: 1;
+					transition: opacity .15s ease-out;
+
+					&[disabled="disabled"] {
+						opacity: .4;
+						cursor: default !important;
+					}
+
+					&::after {
+						content: '';
+						position: absolute;
+						display: block;
+						left: 0;
+						right: 0;
+						bottom: -3px;
+						border-bottom: 1px solid luiPalette(grey, color);
+						opacity: 0;
+						transition: opacity .15s ease-out;
+					}
+
+					&:not[disabled="disabled"]:hover {
+						color: luiPalette(grey, color, x-dark);
+
+						&::after {
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+	}
+}
