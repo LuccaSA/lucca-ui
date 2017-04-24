@@ -60,11 +60,11 @@ module lui.translationslist {
 
 	angular.module("lui.translate").config(["$translateProvider", function ($translateProvider: ng.translate.ITranslateProvider): void {
 		$translateProvider.translations("en", {
-			"LUID_TRANSLATIONSLIST_ADD_VALUE": "New value",
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Add new value",
 			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Input a value"
 		});
 		$translateProvider.translations("fr", {
-			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Nouvelle valeur",
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
 			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
 		});
 	}]);
