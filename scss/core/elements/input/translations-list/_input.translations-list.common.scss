@@ -44,36 +44,8 @@
 
 			footer {
 				padding: .2em 0;
-				> button {
-					color: luiPalette(grey, color);
-					position: relative;
-					opacity: 1;
-					transition: opacity .15s ease-out;
-
-					&[disabled="disabled"] {
-						opacity: .4;
-						cursor: default !important;
-					}
-
-					&::after {
-						content: '';
-						position: absolute;
-						display: block;
-						left: 0;
-						right: 0;
-						bottom: -3px;
-						border-bottom: 1px solid luiPalette(grey, color);
-						opacity: 0;
-						transition: opacity .15s ease-out;
-					}
-
-					&:not[disabled="disabled"]:hover {
-						color: luiPalette(grey, color, x-dark);
-
-						&::after {
-							opacity: 1;
-						}
-					}
+				> button.lui.button {
+					margin-left: 0;
 				}
 			}
 		}
