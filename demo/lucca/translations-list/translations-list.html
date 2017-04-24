@@ -36,9 +36,18 @@
 </div>
 <div class="lui block round">
 	<div class="lui columns">
-		<div class="lui column desktop-6">
+		<div class="lui column desktop-6" style="padding-right: 1em">
 			<p>
-				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca"></luid-translations-list>
+				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" class="lui material"></luid-translations-list>
+			</p>
+			<p>
+				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" class="lui compact"></luid-translations-list>
+			</p>
+			<p>
+				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" can-edit="true" class="lui material"></luid-translations-list>
+			</p>
+			<p>
+				<luid-translations-list ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" can-edit="true" class="lui compact"></luid-translations-list>
 			</p>
 		</div>
 		<div class="lui column desktop-6" style="border-left: 1px solid rgba(50, 50, 50, 0.2)">
