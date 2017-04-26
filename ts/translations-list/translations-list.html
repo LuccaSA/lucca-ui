@@ -6,15 +6,15 @@
 	<content>
 		<ul class="lui unstyled field container">
 			<li class="lui input animated left fade in" ng-repeat="value in values[selectedCulture].values track by $index">
-				<input type="text" ng-model="values[selectedCulture].values[$index].value" ng-disabled="disabled" ng-paste="onPaste($event, $index)"
-					   placeholder="{{ values[currentCulture].values[$index].value || ( 'LUID_TRANSLATIONSLIST_INPUT_VALUE' | translate) }}"
+				<input type="text" ng-model="values[selectedCulture].values[$index].value" ng-disabled="isDisabled" ng-paste="onPaste($event, $index)"
+					   placeholder="{{ getPlaceholder(selectedCulture, $index) }}"
 					   luid-keydown mappings="addValueOnEnter" id="{{ $parent.selectedCulture + '_' + $index }}">
-				<!-- tabIndex = -1 ==> the element cannot be focused with tab -->
-				<button class="lui flat button icon cross close animated right fade in" ng-click="deleteValue($index)" ng-if="!disabled"
+				<!-- tabIndex = -1 : the element cannot be focused with tab -->
+				<button class="lui flat button icon cross close animated right fade in" ng-click="deleteValue($index)" ng-if="!isDisabled"
 						tabIndex="-1"></button>
 			</li>
 		</ul>
-		<footer ng-if="!disabled">
+		<footer ng-if="!isDisabled">
 			<button ng-click="addValue()" ng-hide="isAddValueDisabled()" class="lui button filled animated up fade in" translate="LUID_TRANSLATIONSLIST_ADD_VALUE"></button>
 		</footer>
 	</content>

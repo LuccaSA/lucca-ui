@@ -1,4 +1,4 @@
-module lui.translationslist {
+module lui.translate {
 	"use strict";
 
 	export class LuidTranslationsListController {
@@ -59,7 +59,7 @@ module lui.translationslist {
 
 			$scope.onPaste = (event: ClipboardEvent, index: number): void => {
 				// Don't do anything if the directive is disabled
-				if ($scope.disabled) { return; }
+				if ($scope.isDisabled) { return; }
 
 				let values = _.reject(event.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
 				if (values.length <= 1) { return; }
@@ -83,6 +83,7 @@ module lui.translationslist {
 
 				(<HTMLInputElement>event.target).blur();
 			};
+
 			$scope.addValueOnEnter = {
 				"13": ($event: any): void => {
 					// The index is stored in the target's id (not very pretty ikr)
@@ -104,9 +105,19 @@ module lui.translationslist {
 					}
 				}
 			};
+
+			$scope.getPlaceholder = (culture: string, index: number): string => {
+				let selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
+				if (!!selectedCultureValue) {
+					return selectedCultureValue;
+				}
+
+				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
+				return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+			};
 		}
 	}
-	angular.module("lui").controller(LuidTranslationsListController.IID, LuidTranslationsListController);
+	angular.module("lui.translate").controller(LuidTranslationsListController.IID, LuidTranslationsListController);
 
 	angular.module("lui.translate").config(["$translateProvider", function ($translateProvider: ng.translate.ITranslateProvider): void {
 		$translateProvider.translations("en", {

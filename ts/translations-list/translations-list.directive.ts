@@ -1,4 +1,4 @@
-module lui.translationslist {
+module lui.translate {
 	"use strict";
 
 	class LuidTranslationsList implements angular.IDirective {
@@ -9,7 +9,7 @@ module lui.translationslist {
 		public require: string[] = ["ngModel", LuidTranslationsList.IID];
 		public scope = {
 			mode: "@", // Allowed values: "lucca",
-			disabled: "=ngDisabled", // enable editing
+			isDisabled: "=ngDisabled", // enable editing
 		};
 
 		public controller: string = LuidTranslationsListController.IID;
@@ -135,5 +135,5 @@ module lui.translationslist {
 			}, true);
 		}
 	}
-	angular.module("lui.translationslist").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());
+	angular.module("lui.translate").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());
 }

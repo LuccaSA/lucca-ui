@@ -1,4 +1,4 @@
-module lui.translationslist {
+module lui.translate {
 	"use strict";
 
 	export interface ILuidTranslationsListScope extends ng.IScope {
@@ -11,19 +11,41 @@ module lui.translationslist {
 		/** ViewModel : Dictionary containing all the value which are currently displayed, ordered by culture */
 		values: _.Dictionary<CulturedList>;
 		/** Indicates if the user can modify the values */
-		disabled: boolean;
+		isDisabled: boolean;
 
+		/** Used to detect when the user presses the Enter key */
 		addValueOnEnter: { [key: number]: ($event: ng.IAngularEvent) => void };
 
-		/** Changes the active culture tab */
+		/**
+		 * Changes the active culture tab
+		 * @param {string} culture The culture which will become active
+		 */
 		selectCulture(culture: string): void;
+
 		/** Add a new value to each entry of the `values` dictionary */
 		addValue(): void;
-		/** Delete a value. The value is deleted in each entry of the `values` dictionary */
+
+		/**
+		 * Delete a value. The value is deleted in each entry of the `values` dictionary
+		 * @param {number} index The index of the value you want to delete
+		 */
 		deleteValue(index: number): void;
+
 		/** Indicates if the user can add a new value */
 		isAddValueDisabled(): boolean;
-		/** Called when the users paste something into an input */
+
+		/**
+		 * Called when the users paste something into an input
+		 * @param {ClipBoardEvent} event The copy/paste event
+		 * @param {number} index The index of the input where something was pasted
+		 */
 		onPaste(event: ClipboardEvent, index: number): void;
+
+		/**
+		 * Returns the placeholder for the input at the specified index, for the specified culture
+		 * @param {string} culture The culture for which you want a placeholder
+		 * @param {number} index The index of the input for which you want a placeholder
+		 */
+		getPlaceholder(culture: string, index: number): string;
 	}
 }

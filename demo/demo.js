@@ -17,7 +17,7 @@
 		"lui.tablegrid",
 		"lui.translate",
 		"as.sortable",
-		"lui.translationslist"
+		"lui.translate"
 	]);
 
 	angular.module('demoApp')

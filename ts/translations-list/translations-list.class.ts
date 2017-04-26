@@ -1,4 +1,4 @@
-module lui.translationslist {
+module lui.translate {
 	"use strict";
 
 	/** All the languages supported by the translation-list directive */
