@@ -57,11 +57,17 @@
 		myTradsPipe : <code>{{myTradsPipe}}</code>
 	</p>
 	<hr>
-	<h5>Mode Lucca (with ng-required=true)</h5>
+	<h5>Mode Lucca (with ng-required=true and compact style)</h5>
 	<div class="lui columns">
 		<div class="lui column desktop-6">
+			<div class="lui input switch">
+				<input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="translationDisabled" tooltip-class="lui" tooltip-placement="top" uib-tooltip="{{ listDisabled2 ? 'Disabled' : 'Enabled' }}">
+				<label for="translationDisabled"><span></span></label>
+			</div>
+			<br>
+			<br>
 			<form name="translationform">
-				<luid-translations class="lui material" ng-model="requiredModel" ng-required="true" mode="lucca" ng-change="changed()" name="requiredtranslation"></luid-translations>
+				<luid-translations class="lui compact" ng-model="requiredModel" ng-disabled="translationDisabled" ng-required="true" mode="lucca" ng-change="changed()" name="requiredtranslation"></luid-translations>
 				<small class="lui error message" ng-show="translationform.requiredtranslation.$touched && translationform.requiredtranslation.$error.required">
 					This field is required
 				</small>
