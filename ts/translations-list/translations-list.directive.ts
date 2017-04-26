@@ -8,7 +8,8 @@ module lui.translationslist {
 
 		public require: string[] = ["ngModel", LuidTranslationsList.IID];
 		public scope = {
-			mode: "@", // Allowed values: "lucca"
+			mode: "@", // Allowed values: "lucca",
+			disabled: "=ngDisabled", // enable editing
 		};
 
 		public controller: string = LuidTranslationsListController.IID;
@@ -20,11 +21,8 @@ module lui.translationslist {
 		private static toModel(viewModel: _.Dictionary<CulturedList>, mode: string): any {
 			let result: any;
 			switch (mode) {
-				case "lucca":
-					result = LuidTranslationsList.toLuccaModel(viewModel);
-					break;
-				default:
-					result = undefined;
+				case "lucca": result = LuidTranslationsList.toLuccaModel(viewModel); break;
+				default: result = undefined; break;
 			}
 			return result;
 		}
@@ -74,12 +72,8 @@ module lui.translationslist {
 		private static parse(value: any, mode: string): _.Dictionary<CulturedList> {
 			let result: _.Dictionary<CulturedList>;
 			switch (mode) {
-				case "lucca":
-					result = LuidTranslationsList.parseLucca(<ILuccaTranslation[]>value);
-					break;
-				default:
-					result = undefined;
-					break;
+				case "lucca": result = LuidTranslationsList.parseLucca(<ILuccaTranslation[]>value); break;
+				default: result = undefined; break;
 			}
 			return result;
 		}
@@ -114,16 +108,14 @@ module lui.translationslist {
 		/** Creates a new empty dictionary of CulturedList objects */
 		private static getEmptyCulturedLists(): _.Dictionary<CulturedList> {
 			let result: _.Dictionary<CulturedList> = {};
-			_.each(AVAILABLE_LANGUAGES, (culture: string) => {
-				result[culture] = new CulturedList(culture);
-			});
+			_.each(AVAILABLE_LANGUAGES, (culture: string) => { result[culture] = new CulturedList(culture); });
 			return result;
 		}
 
 		public link(
 			scope: ILuidTranslationsListScope,
 			element: angular.IAugmentedJQuery,
-			attrs: angular.IAttributes & { mode: string },
+			attrs: angular.IAttributes & { mode: string, ngDisabled: boolean },
 			ctrls: [ng.INgModelController, LuidTranslationsListController]): void {
 
 			let ngModelCtrl = ctrls[0];

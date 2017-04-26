@@ -8,8 +8,12 @@ module lui.translationslist {
 		currentCulture: string;
 		/** The selected culture */
 		selectedCulture: string;
-
+		/** ViewModel : Dictionary containing all the value which are currently displayed, ordered by culture */
 		values: _.Dictionary<CulturedList>;
+		/** Indicates if the user can modify the values */
+		disabled: boolean;
+
+		addValueOnEnter: { [key: number]: ($event: ng.IAngularEvent) => void };
 
 		/** Changes the active culture tab */
 		selectCulture(culture: string): void;
@@ -18,25 +22,8 @@ module lui.translationslist {
 		/** Delete a value. The value is deleted in each entry of the `values` dictionary */
 		deleteValue(index: number): void;
 		/** Indicates if the user can add a new value */
-		canAddValue(): boolean;
+		isAddValueDisabled(): boolean;
+		/** Called when the users paste something into an input */
+		onPaste(event: ClipboardEvent, index: number): void;
 	}
-
-	// export var luccaModelEx = [
-	// 	<LuccaTranslation>{
-	// 		id: 1,
-	// 		culturedLabels: [
-	// 			<LuccaCulturedLabel>{ id: 2, cultureCode: 1033, value: "stuff", translationId: 1 },
-	// 			<LuccaCulturedLabel>{ id: 3, cultureCode: 1033, value: "thing", translationId: 1 },
-	// 			<LuccaCulturedLabel>{ id: 4, cultureCode: 1033, value: "noice", translationId: 1 },
-	// 		]
-	// 	},
-	// 	<LuccaTranslation>{
-	// 		id: 1036,
-	// 		culturedLabels: [
-	// 			<LuccaCulturedLabel>{ id: 5, cultureCode: 1036, value: "truc", translationId: 2 },
-	// 			<LuccaCulturedLabel>{ id: 6, cultureCode: 1036, value: "bidule", translationId: 2 },
-	// 			<LuccaCulturedLabel>{ id: 7, cultureCode: 1036, value: "chouette", translationId: 2 },
-	// 		]
-	// 	},
-	// ];
 }
