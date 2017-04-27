@@ -2742,6 +2742,278 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl"];
+        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
+        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl" };
+        var CulturedList = (function () {
+            function CulturedList(culture) {
+                this.culture = culture;
+                this.originalId = undefined;
+                this.values = new Array();
+            }
+            return CulturedList;
+        }());
+        translate.CulturedList = CulturedList;
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        var LuidTranslationsListController = (function () {
+            function LuidTranslationsListController($scope, $translate, $timeout) {
+                var _this = this;
+                this.$scope = $scope;
+                $scope.currentCulture = $translate.preferredLanguage();
+                if (!$scope.currentCulture) {
+                    $scope.currentCulture = "en";
+                }
+                $scope.cultures = translate.AVAILABLE_LANGUAGES;
+                var currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
+                if (currentCultureIndex !== -1) {
+                    $scope.cultures.splice(currentCultureIndex, 1);
+                    $scope.cultures.unshift($scope.currentCulture);
+                }
+                $scope.selectedCulture = $scope.currentCulture;
+                $scope.values = {};
+                $scope.selectCulture = function (culture) { $scope.selectedCulture = culture; };
+                $scope.addValue = function () {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        $scope.values[culture].values.push({ value: "" });
+                    });
+                };
+                $scope.deleteValue = function (index) {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        $scope.values[culture].values.splice(index, 1);
+                    });
+                    if ($scope.values[translate.AVAILABLE_LANGUAGES[0]].values.length === 0) {
+                        _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                            $scope.values[culture].values.push({ value: "" });
+                        });
+                    }
+                };
+                $scope.isAddValueDisabled = function () {
+                    return !_.some(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        var current = _this.$scope.values[culture].values;
+                        return current[current.length - 1].value !== "";
+                    });
+                };
+                $scope.onPaste = function (event, index) {
+                    if ($scope.isDisabled) {
+                        return;
+                    }
+                    var values = _.reject(event.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
+                    if (values.length <= 1) {
+                        return;
+                    }
+                    if ($scope.values[$scope.selectedCulture].values[index] !== undefined) {
+                        $scope.values[$scope.selectedCulture].values[index].value += values[0];
+                        values.splice(0, 1);
+                        ++index;
+                    }
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        for (var i = 0; i < values.length; ++i) {
+                            if ($scope.values[culture].values[i + index] !== undefined) {
+                                $scope.values[culture].values[i + index].value = culture === $scope.selectedCulture ? values[i] : "";
+                            }
+                            else {
+                                $scope.values[culture].values.splice(i + index, 0, { value: culture === $scope.selectedCulture ? values[i] : "" });
+                            }
+                        }
+                    });
+                    event.target.blur();
+                };
+                $scope.addValueOnEnter = {
+                    "13": function ($event) {
+                        var index = Number($event.target.id.split("_")[1]);
+                        if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
+                            if (!$scope.isAddValueDisabled()) {
+                                index++;
+                                $scope.addValue();
+                                $scope.$apply();
+                                $timeout(function () {
+                                    document.getElementById($scope.selectedCulture + "_" + index).focus();
+                                });
+                            }
+                        }
+                        else {
+                            index++;
+                            document.getElementById($scope.selectedCulture + "_" + index).focus();
+                            $scope.$apply();
+                        }
+                    }
+                };
+                $scope.getPlaceholder = function (culture, index) {
+                    var selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
+                    if (!!selectedCultureValue) {
+                        return selectedCultureValue;
+                    }
+                    var currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
+                    return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+                };
+            }
+            LuidTranslationsListController.IID = "luidTranslationsList";
+            LuidTranslationsListController.$inject = [
+                "$scope",
+                "$translate",
+                "$timeout"
+            ];
+            return LuidTranslationsListController;
+        }());
+        translate.LuidTranslationsListController = LuidTranslationsListController;
+        angular.module("lui.translate").controller(LuidTranslationsListController.IID, LuidTranslationsListController);
+        angular.module("lui.translate").config(["$translateProvider", function ($translateProvider) {
+                $translateProvider.translations("en", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Add new value",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Input a value"
+                });
+                $translateProvider.translations("fr", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
+                });
+            }]);
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        var LuidTranslationsList = (function () {
+            function LuidTranslationsList() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/translations-list/translations-list.html";
+                this.require = ["ngModel", LuidTranslationsList.IID];
+                this.scope = {
+                    mode: "@",
+                    isDisabled: "=ngDisabled",
+                };
+                this.controller = translate.LuidTranslationsListController.IID;
+            }
+            LuidTranslationsList.factory = function () {
+                return function () { return new LuidTranslationsList(); };
+            };
+            LuidTranslationsList.toModel = function (viewModel, mode) {
+                var result;
+                switch (mode) {
+                    case "lucca":
+                        result = LuidTranslationsList.toLuccaModel(viewModel);
+                        break;
+                    default:
+                        result = undefined;
+                        break;
+                }
+                return result;
+            };
+            LuidTranslationsList.toLuccaModel = function (viewModel) {
+                var result = new Array();
+                var numberOfTranslations = -1;
+                var filledLanguages = _.filter(translate.AVAILABLE_LANGUAGES, function (language) {
+                    if (viewModel[language].values.length > numberOfTranslations) {
+                        numberOfTranslations = viewModel[language].values.length;
+                    }
+                    return _.some(viewModel[language].values, function (label) { return label.value !== ""; });
+                });
+                if (filledLanguages.length === 0) {
+                    return undefined;
+                }
+                for (var i = 0; i < numberOfTranslations; ++i) {
+                    result.push({ id: undefined, culturedLabels: new Array() });
+                }
+                var currentIndex = 0;
+                _.each(result, function (translation) {
+                    _.each(filledLanguages, function (language) {
+                        if (viewModel[language].values[currentIndex].value !== "") {
+                            var vmLabel = viewModel[language].values[currentIndex];
+                            translation.culturedLabels.push({
+                                id: vmLabel.originalLuccaCulturedLabelId, translationId: vmLabel.originalLuccaTranslationId,
+                                cultureCode: translate.LANGUAGES_TO_CODE[language],
+                                value: vmLabel.value
+                            });
+                            if (!translation.id && !!vmLabel.originalLuccaTranslationId) {
+                                translation.id = vmLabel.originalLuccaTranslationId;
+                            }
+                        }
+                    });
+                    ++currentIndex;
+                });
+                result = _.reject(result, function (translation) { return translation.culturedLabels.length === 0; });
+                return result;
+            };
+            LuidTranslationsList.parse = function (value, mode) {
+                var result;
+                switch (mode) {
+                    case "lucca":
+                        result = LuidTranslationsList.parseLucca(value);
+                        break;
+                    default:
+                        result = undefined;
+                        break;
+                }
+                return result;
+            };
+            LuidTranslationsList.parseLucca = function (value) {
+                var result = LuidTranslationsList.getEmptyCulturedLists();
+                _.each(value, function (translation) {
+                    _.each(translation.culturedLabels, function (label) {
+                        var language = translate.CODES_TO_LANGUAGES[label.cultureCode];
+                        result[language].values.push({
+                            value: label.value,
+                            originalLuccaCulturedLabelId: label.id,
+                            originalLuccaTranslationId: label.translationId
+                        });
+                    });
+                    if (translation.culturedLabels.length > 0) {
+                        var count_1 = result[translate.CODES_TO_LANGUAGES[translation.culturedLabels[0].cultureCode]].values.length;
+                        _.each(translate.AVAILABLE_LANGUAGES, function (language) {
+                            if (result[language].values.length !== count_1) {
+                                result[language].values.push({ value: "" });
+                            }
+                        });
+                    }
+                });
+                return result;
+            };
+            LuidTranslationsList.getEmptyCulturedLists = function () {
+                var result = {};
+                _.each(translate.AVAILABLE_LANGUAGES, function (culture) { result[culture] = new translate.CulturedList(culture); });
+                return result;
+            };
+            LuidTranslationsList.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var mode = attrs.mode;
+                if (!mode) {
+                    mode = "lucca";
+                }
+                ngModelCtrl.$render = function () {
+                    var viewModel = LuidTranslationsList.parse(ngModelCtrl.$viewValue, mode);
+                    if (!!viewModel) {
+                        scope.values = viewModel;
+                    }
+                };
+                scope.$watch("values", function () {
+                    ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+                }, true);
+            };
+            LuidTranslationsList.IID = "luidTranslationsList";
+            return LuidTranslationsList;
+        }());
+        angular.module("lui.translate").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     var userpicker;
     (function (userpicker) {
         "use strict";
@@ -3681,6 +3953,11 @@ var lui;
   );
 
 
+  $templateCache.put('lui/templates/translations-list/translations-list.html',
+    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ $parent.selectedCulture + '_' + $index }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValue()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
+  );
+
+
   $templateCache.put('lui/templates/user-picker/user-picker.html',
     "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
@@ -3817,182 +4094,194 @@ var lui;
 		};
 	});
 })();
-;(function(){
-	'use strict';
-		/**
-	** DEPENDENCIES
-	**  - angular translate
-	**  - underscore
-	**/
+;(function () {
+	"use strict";
 
-	angular.module('lui.translate')
-	.directive('luidTranslations', ['$translate', '_', '$filter', '$timeout', function($translate, _, $filter,  $timeout){
-		function link(scope, element, attrs, ctrls){
-			var ngModelCtrl = ctrls[1];
-			var translateCtrl = ctrls[0];
+	/**
+	 ** DEPENDENCIES
+	 **  - angular translate
+	 **  - underscore
+	 **/
 
-			var cultures = ['en', 'de', 'es', 'fr', 'it', 'nl'];
-			scope.cultures = cultures;
-			// need the current culture to
-			var currentCulture = $translate.preferredLanguage() || "en";
-			scope.currentCulture = currentCulture;
+	angular.module("lui.translate")
+		.directive("luidTranslations", ["$translate", "_", "$filter", "$timeout", function ($translate, _, $filter, $timeout) {
+			function link(scope, element, attrs, ctrls) {
+				var ngModelCtrl = ctrls[1];
+				var translateCtrl = ctrls[0];
 
-			// default mode is dictionary
-			var mode = 'dictionary';
-			if(!!attrs.mode){
-				mode = scope.mode;
-			}
-			if(mode === 'dictionary' && ngModelCtrl.$viewValue !== undefined){
-				_.each(cultures, function(c){
-					scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
-				});
-			}
+				/** Associations language/code */
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
 
-			ngModelCtrl.$render = function(){
-				scope.internal = parse(ngModelCtrl.$viewValue);
-			};
-			translateCtrl.updateViewValue = function(){
-				switch(mode){
-					case "dictionary":
-						return updateDictionary(scope.internal);
-					case "|":
-					case "pipe":
-						return updatePipe(scope.internal);
-					case "[]":
-					case "brackets":
-						return updateBrackets(scope.internal);
+				/** List of all the available languages labels */
+				var cultures = _.keys(languagesToCodes);
+				scope.cultures = cultures;
+
+				scope.currentCulture = $translate.preferredLanguage() || "en";
+
+				var mode = !!attrs.mode ? attrs.mode : "dictionary";
+				if (mode === "dictionary" && ngModelCtrl.$viewValue !== undefined) {
+					_.each(cultures, function (culture) {
+						scope.$watch(
+							function () { return !!ngModelCtrl.$viewValue ? ngModelCtrl.$viewValue[culture] : ngModelCtrl.$viewValue; },
+							function () { ngModelCtrl.$render(); }
+						);
+					});
 				}
-			};
 
-			var parse = function(value){
-				switch(mode){
-					case "dictionary":
-						return parseDictionary(value);
-					case "|":
-					case "pipe":
-						return parsePipe(value);
-					case "[]":
-					case "brackets":
-						return parseBrackets(value);
-					default:
-						return {};
-				}
-			};
-
-			// mode dictionary
-			var parseDictionary = function(value){
-				return _.reduce(cultures, function(memo, c){
-					memo[c] = value[c];
-					return memo;
-				}, {});
-			};
-			var updateDictionary = function(value){
-				_.each(cultures, function(c){
-					ngModelCtrl.$viewValue[c] = value[c];
-				});
-				ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-				scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
-			};
-
-			// mode pipe
-			var parsePipe = function(value){
-				if(!value){
-					return {};
-				}
-				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
-				var translations = value.split("|");
-				var result = {};
-				_.each(translations, function(t){
-					var key = t.substring(0,2);
-					var val = t.substring(3);
-					result[key] = val;
-				});
-				return _.pick(result, cultures);
-			};
-			var updatePipe = function(value){
-				var newVal = _.map(cultures, function(c){
-					if(!!value[c]){
-						return c + ":" + value[c];
+				ngModelCtrl.$render = function () { scope.internal = parse(ngModelCtrl.$viewValue); };
+				translateCtrl.updateViewValue = function () {
+					switch (mode) {
+						case "dictionary":
+							return updateDictionary(scope.internal);
+						case "|":
+						case "pipe":
+							return updatePipe(scope.internal);
+						case "lucca":
+							return updateLucca(scope.internal);
 					}
-					return c + ":";
-				}).join("|");
-				ngModelCtrl.$setViewValue(newVal);
-			};
+				};
 
-			// mode brackets
-			var parseBrackets = function(value){
-				return {};
-			};
+				var parse = function (value) {
+					if (value === undefined) { return undefined; }
+					switch (mode) {
+						case "dictionary":
+							return parseDictionary(value);
+						case "|":
+						case "pipe":
+							return parsePipe(value);
+						case "lucca":
+							return parseLucca(value);
+						default:
+							return undefined;
+					}
+				};
 
-		}
-		return{
-			require:['luidTranslations','^ngModel'],
-			controller:'luidTranslationsController',
-			scope: {
-				// disabled:'=',
+				// Mode lucca
+				var parseLucca = function (value) {
+					return _.reduce(cultures, function (memo, culture) {
+						var targetLabel = _.findWhere(value, { cultureCode: languagesToCodes[culture] });
+						memo[culture] = !!targetLabel ? targetLabel.value : undefined;
+						// We need to keep the original id
+						memo[culture + "_id"] = !!targetLabel ? targetLabel.id : undefined;
+						return memo;
+					}, {});
+				};
+				var updateLucca = function (value) {
+					var allEmpty = true;
+					var viewValue = [];
+					_.each(cultures, function (culture) {
+						if (!!value[culture] && value[culture] !== "") {
+							viewValue.push({ id: value[culture + "_id"], cultureCode: languagesToCodes[culture], value: value[culture] });
+							allEmpty = false;
+						}
+					});
+					ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
+					scope.$parent.$eval(attrs.ngChange);
+				};
 
-				mode:'@', // allowed values: "|" "pipe", "[]" "brackets", "dictionary"
+				// Mode dictionary
+				var parseDictionary = function (value) {
+					return _.reduce(cultures, function (memo, culture) {
+						memo[culture] = value[culture];
+						return memo;
+					}, {});
+				};
+				var updateDictionary = function (value) {
+					var allEmpty = true;
+					var viewValue = {};
+					_.each(cultures, function (culture) {
+						viewValue[culture] = value[culture];
+						allEmpty &= value[culture] === undefined || value[culture] === "";
+					});
+					ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
+					scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
+				};
 
-				size:"@", // the size of the input (short, long, x-long, fitting)
-			},
-			templateUrl:"lui/directives/luidTranslations.html",
-			restrict:'EA',
-			link:link
-		};
-	}])
-	.controller('luidTranslationsController', ['$scope', '$translate', '$timeout', function($scope, $filter, $timeout){
-		var ctrl = this;
-		/******************
-		* UPDATE          *
-		******************/
-		$scope.update = function(){
-			ctrl.updateViewValue();
-		};
-
-
-		/******************
-		* FOCUS & BLUR    *
-		******************/
-		var blurTimeout;
-		$scope.focusInput = function(){
-			if(!!blurTimeout){
-				$timeout.cancel(blurTimeout);
-				blurTimeout = undefined;
+				// Mode pipe
+				var parsePipe = function (value) {
+					// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
+					var translations = value.split("|");
+					var result = {};
+					_.each(translations, function (t) {
+						var key = t.substring(0, 2);
+						var val = t.substring(3);
+						result[key] = val;
+					});
+					return _.pick(result, cultures);
+				};
+				var updatePipe = function (value) {
+					if (!_.find(cultures, function (culture) { return value[culture] !== undefined && value[culture] !== ""; })) {
+						ngModelCtrl.$setViewValue(undefined);
+					} else {
+						var newVal = _.map(cultures, function (c) {
+							if (!!value[c]) {
+								return c + ":" + value[c];
+							}
+							return c + ":";
+						}).join("|");
+						ngModelCtrl.$setViewValue(newVal);
+					}
+				};
 			}
-			$scope.focused = true;
-		};
-		$scope.blurInput = function(){
-			blurTimeout = $timeout(function(){
-				$scope.focused = false;
-			}, 500);
-		};
+			return {
+				require: ['luidTranslations', '^ngModel'],
+				controller: 'luidTranslationsController',
+				scope: {
+					mode: '@', // allowed values: "pipe" (or "|"), "dictionary", "lucca" (lucca proprietary format)
+					size: "@", // the size of the input (short, long, x-long, fitting)
+					isDisabled: "=ngDisabled"
+				},
+				templateUrl: "lui/directives/luidTranslations.html",
+				restrict: 'EA',
+				link: link
+			};
+		}])
+		.controller('luidTranslationsController', ['$scope', '$translate', '$timeout', function ($scope, $filter, $timeout) {
+			var ctrl = this;
+			/******************
+			* UPDATE          *
+			******************/
+			$scope.update = function () { ctrl.updateViewValue(); };
 
-	}]);
+			/******************
+			* FOCUS & BLUR    *
+			******************/
+			var blurTimeout;
+			$scope.focusInput = function () {
+				if (!!blurTimeout) {
+					$timeout.cancel(blurTimeout);
+					blurTimeout = undefined;
+				}
+				$scope.focused = true;
+			};
+			$scope.blurInput = function () {
+				blurTimeout = $timeout(function () {
+					$scope.focused = false;
+				}, 500);
+			};
 
+		}]);
 
 	/**************************/
-	/***** TEMPLATEs      *****/
+	/***** TEMPLATES      *****/
 	/**************************/
-	angular.module("lui").run(["$templateCache", function($templateCache) {
+	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
 			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +
-			// "		<hr>" +
-			// "		<div class=\"lui button right pulled\" ng-click=\"close()\">Ok</div>" +
 			"	</div>" +
 			"</div>" +
-		"");
-
+			"");
 	}]);
 })();
 ;(function(){
