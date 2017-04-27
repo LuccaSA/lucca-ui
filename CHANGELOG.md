@@ -1,7 +1,9 @@
 # Change log
 
-## 3.1.7
+## in dev
 ### Bug fixes
+
+## 3.1.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.7)
 ### Changes (non-breaking)
  - `luid-translations` now supports ng-required: ng-model.$viewValue is set to undefined when all the multilingual variables are empty
  - `luid-translations` now supports ng-disabled
