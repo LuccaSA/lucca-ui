@@ -447,6 +447,74 @@ declare module lui.tablegrid {
         updateViewAfterOrderBy: () => void;
     }
 }
+declare module lui.translate {
+    const AVAILABLE_LANGUAGES: string[];
+    const LANGUAGES_TO_CODE: {
+        en: number;
+        de: number;
+        es: number;
+        fr: number;
+        it: number;
+        nl: number;
+    };
+    const CODES_TO_LANGUAGES: {
+        1031: string;
+        1033: string;
+        1034: string;
+        1036: string;
+        1040: string;
+        2067: string;
+    };
+    class CulturedList {
+        culture: string;
+        originalId: number;
+        values: ICulturedValue[];
+        constructor(culture: string);
+    }
+    interface ICulturedValue {
+        value: string;
+        originalLuccaCulturedLabelId?: number;
+        originalLuccaTranslationId?: number;
+    }
+    interface ILuccaTranslation {
+        id: number;
+        culturedLabels: ILuccaCulturedLabel[];
+    }
+    interface ILuccaCulturedLabel {
+        id: number;
+        cultureCode: number;
+        value: string;
+        translationId: number;
+    }
+}
+declare module lui.translate {
+    class LuidTranslationsListController {
+        static IID: string;
+        static $inject: string[];
+        private $scope;
+        constructor($scope: ILuidTranslationsListScope, $translate: ng.translate.ITranslateService, $timeout: ng.ITimeoutService);
+    }
+}
+declare module lui.translate {
+}
+declare module lui.translate {
+    interface ILuidTranslationsListScope extends ng.IScope {
+        cultures: string[];
+        currentCulture: string;
+        selectedCulture: string;
+        values: _.Dictionary<CulturedList>;
+        isDisabled: boolean;
+        addValueOnEnter: {
+            [key: number]: ($event: ng.IAngularEvent) => void;
+        };
+        selectCulture(culture: string): void;
+        addValue(): void;
+        deleteValue(index: number): void;
+        isAddValueDisabled(): boolean;
+        onPaste(event: ClipboardEvent, index: number): void;
+        getPlaceholder(culture: string, index: number): string;
+    }
+}
 declare module lui.userpicker {
     interface IUserLookup {
         id: number;
