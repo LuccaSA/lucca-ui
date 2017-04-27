@@ -16,8 +16,7 @@
 		"lui.notify",
 		"lui.tablegrid",
 		"lui.translate",
-		"as.sortable",
-		"lui.translate"
+		"as.sortable"
 	]);
 
 	angular.module('demoApp')
