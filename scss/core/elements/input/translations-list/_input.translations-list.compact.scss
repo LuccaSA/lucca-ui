@@ -1,0 +1,39 @@
+@if luiTheme(element, field, enabled) {
+
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, translations-list);
+		@if lui_input_style_enabled("compact") {
+			$selector: lui_input_get_style_selector("compact");
+
+			#{$prefix}.input#{$selector} luid-translations-list,
+			luid-translations-list#{$selector} {
+
+				// Adapt menu style for compact
+				#{$prefix}.menu.dividing:not(.vertical):not([class*="top dividing"]) {
+					border: 0;
+					padding: 0 1.5em;
+					overflow-y: hidden;
+					background-color: map-gets($vars, menu-bg-color);
+
+					> a.item.active {
+						box-shadow: map-gets($vars, box-shadow);
+						background-color: map-gets($vars, background-color);
+					}
+					
+					> a.item::after {
+						bottom: auto;
+						top: 0;
+					}
+				}
+
+				content {
+					box-shadow: map-gets($vars, box-shadow);
+				}
+
+				input {
+					@extend %lui_quick_compact_input;
+				}
+			}
+		}
+	}
+}

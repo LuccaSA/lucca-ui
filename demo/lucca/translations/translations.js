@@ -12,6 +12,8 @@
 			{ id: 3, cultureCode: 1034, value: "cosa" },
 		];
 
+		$scope.translationDisabled = false;
+
 		$scope.changed = function(){
 			$scope.count++;
 		}

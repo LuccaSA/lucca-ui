@@ -133,6 +133,7 @@
 				scope: {
 					mode: '@', // allowed values: "pipe" (or "|"), "dictionary", "lucca" (lucca proprietary format)
 					size: "@", // the size of the input (short, long, x-long, fitting)
+					isDisabled: "=ngDisabled"
 				},
 				templateUrl: "lui/directives/luidTranslations.html",
 				restrict: 'EA',
@@ -172,13 +173,13 @@
 		$templateCache.put("lui/directives/luidTranslations.html",
 			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +

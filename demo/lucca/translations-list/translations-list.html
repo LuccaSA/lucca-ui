@@ -1,0 +1,74 @@
+<!-- Description -->
+<h2 class="lui divider below">luid-translations-list</h2>
+<p>An input that display and edit of a list of values translated in multiple languages.</p>
+
+<!-- Features -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Features</h4>
+</div>
+<p>This directive also inherits from the ng-model controller and can be integrated to forms like any other input. Most directives frequently used conjointly with ng-model are also useable (such as ng-change, ng-required, ng-disabled, etc)</p>
+<p>This directive is also designed to be power-user friendly: you can navigate through the values by using the Tab key and add new values with the Enter key. You can also paste values separated by line breaks. Give it a try !</p>
+
+<!-- Arguments -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Arguments</h4>
+</div>
+<p>
+	<ul class="lui unstyled">
+		<li><code>ng-model</code>: the variable to bind to</li>
+		<li><code>mode</code>: "lucca" for Lucca proprietary format (more formats will eventually be handled later on)
+	</ul>
+</p>
+
+<!-- Usage -->
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList"&gt;&lt;luid-translations-list&gt;</pre>
+	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList" ng-change="onListChanged()" ng-required="true" mode="lucca"&gt;&lt;luid-translations-list&gt;</pre>
+</p>
+
+<!-- Demo -->
+<div class="lui bottom dashed divider menu">
+	<div class="lui header vertical menu">
+		<h4 class="lui underline">Demo</h4>
+	</div>
+</div>
+<div class="lui block round">
+	<div class="lui columns">
+		<div class="lui column desktop-6" style="padding-right: 1em">
+			<div class="lui input switch">
+				<input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="listDisabled" tooltip-class="lui" tooltip-placement="top"  uib-tooltip="{{ listDisabled ? 'Disabled' : 'Enabled' }}">
+				<label for="listDisabled"><span></span></label>
+			</div>
+			<h5>Material mode</h5>
+			<p>
+				<luid-translations-list ng-disabled="listDisabled" ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" class="lui material"></luid-translations-list>
+			</p>
+			<hr>
+			<p>&nbsp;&nbsp;<code>ng-model:</code></p>
+			<div style="height: 400px; overflow-y: scroll;">
+				<p><pre>{{ luccaTranslations | json }}</pre></p>
+			</div>
+			<p>Number of times <code>ng-change</code> has been called : <code>{{translationsListChangedCount}}</code></p>
+		</div>
+
+		<div class="lui column desktop-6">
+			<div class="lui input switch">
+				<input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="listDisabled2" tooltip-class="lui" tooltip-placement="top" uib-tooltip="{{ listDisabled2 ? 'Disabled' : 'Enabled' }}">
+				<label for="listDisabled2"><span></span></label>
+			</div>
+			<h5>Compact mode</h5>
+			<p>
+				<luid-translations-list ng-disabled="listDisabled2" ng-model="luccaTranslations2" ng-change="translationsListChanged2()" mode="lucca" class="lui compact"></luid-translations-list>
+			</p>
+			<hr>
+			<p>&nbsp;&nbsp;<code>ng-model:</code></p>
+			<div style="height: 400px; overflow-y: scroll;">
+				<p><pre>{{ luccaTranslations2 | json }}</pre></p>
+			</div>
+			<p>Number of times <code>ng-change</code> has been called : <code>{{translationsListChangedCount2}}</code></p>
+		</div>
+	</div>
+</div>
