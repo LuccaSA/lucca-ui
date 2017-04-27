@@ -4,6 +4,10 @@
 			$selector: lui_input_get_style_selector("material");
 			#{$prefix}.input#{$selector} luid-translations,
 			luid-translations#{$selector} {
+				&.ng-invalid.ng-dirty .lui.input > input,
+				&.ng-invalid.ng-touched .lui.input > input {
+					@extend %lui_input_invalid_input_material;
+				}
 				input {
 					@extend %lui_input_reset_material;
 
