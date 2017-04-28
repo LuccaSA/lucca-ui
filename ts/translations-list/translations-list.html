@@ -8,7 +8,7 @@
 			<li class="lui input animated left fade in" ng-repeat="value in values[selectedCulture].values track by $index">
 				<input type="text" ng-model="values[selectedCulture].values[$index].value" ng-disabled="isDisabled" ng-paste="onPaste($event, $index)"
 					   placeholder="{{ getPlaceholder(selectedCulture, $index) }}" ng-change="onInputValueChanged()"
-					   luid-keydown mappings="addValueOnEnter" id="{{ $parent.selectedCulture + '_' + $index }}">
+					   luid-keydown mappings="addValueOnEnter" id="{{ getUniqueId($parent.selectedCulture, $index) }}">
 				<!-- tabIndex = -1 : the element cannot be focused with tab -->
 				<button class="lui flat button icon cross close animated right fade in" ng-click="deleteValue($index)" ng-if="!isDisabled"
 						tabIndex="-1"></button>

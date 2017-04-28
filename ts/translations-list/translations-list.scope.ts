@@ -16,6 +16,9 @@ module lui.translate {
 		/** Used to detect when the user presses the Enter key */
 		addValueOnEnter: { [key: number]: ($event: JQueryEventObject) => void };
 
+		/** Identifier used to add unique Ids to the inputs of the directive */
+		uniqueId: string;
+
 		/**
 		 * Changes the active culture tab
 		 * @param {string} culture The culture which will become active
@@ -50,5 +53,8 @@ module lui.translate {
 
 		/** Called when the users changes the text of an input. This method is set inside the directive file and calls ngModelCtrl.$setViewValue() */
 		onInputValueChanged(): void;
+
+		/** Generates a unique identifier for the inputs displayed in the directive */
+		getUniqueId(culture: string, index: number): string;
 	}
 }

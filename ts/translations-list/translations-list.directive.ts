@@ -130,6 +130,9 @@ module lui.translate {
 			let mode = attrs.mode;
 			if (!mode) { mode = "lucca"; }
 
+			// Unique identifier
+			scope.uniqueId = (Math.floor(Math.random() * 9000) + 1).toString();
+
 			scope.onInputValueChanged = (): void => {
 				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
 			};

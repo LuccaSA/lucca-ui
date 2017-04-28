@@ -92,7 +92,7 @@ module lui.translate {
 			$scope.addValueOnEnter = {
 				"13": ($event: JQueryEventObject): void => {
 					// The index is stored in the target's id (not very pretty ikr)
-					let index = Number($event.target.id.split("_")[1]);
+					let index = Number($event.target.id.split("_")[2]);
 					if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
 						if (!$scope.isAddValueDisabled()) {
 							// Add a value
@@ -100,12 +100,12 @@ module lui.translate {
 							$scope.addValue();
 							$scope.$apply();
 							$timeout(() => {
-								document.getElementById($scope.selectedCulture + "_" + index).focus();
+								document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
 							});
 						}
 					} else {
 						index++;
-						document.getElementById($scope.selectedCulture + "_" + index).focus();
+						document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
 						$scope.$apply();
 					}
 
@@ -121,6 +121,10 @@ module lui.translate {
 
 				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
 				return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+			};
+
+			$scope.getUniqueId = (culture: string, index: number): string => {
+				return `${culture}_${$scope.uniqueId}_${index}`;
 			};
 		}
 	}
