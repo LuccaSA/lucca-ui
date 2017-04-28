@@ -57,11 +57,13 @@ module lui.translate {
 				});
 			};
 
-			$scope.onPaste = (event: ClipboardEvent, index: number): void => {
+			$scope.onPaste = (event: ClipboardEvent | JQueryEventObject, index: number): void => {
 				// Don't do anything if the directive is disabled
 				if ($scope.isDisabled) { return; }
 
-				let values = _.reject(event.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+				let originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
+				let values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+
 				if (values.length <= 1) { return; }
 
 				// If the first item in the selectedCulture isn't empty, simply paste the first value inside it
@@ -81,7 +83,7 @@ module lui.translate {
 					}
 				});
 
-				(<HTMLInputElement>event.target).blur();
+				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
 			$scope.addValueOnEnter = {

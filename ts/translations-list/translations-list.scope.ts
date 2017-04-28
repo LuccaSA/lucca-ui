@@ -39,7 +39,7 @@ module lui.translate {
 		 * @param {ClipBoardEvent} event The copy/paste event
 		 * @param {number} index The index of the input where something was pasted
 		 */
-		onPaste(event: ClipboardEvent, index: number): void;
+		onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;
 
 		/**
 		 * Returns the placeholder for the input at the specified index, for the specified culture
