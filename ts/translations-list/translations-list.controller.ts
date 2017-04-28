@@ -48,6 +48,7 @@ module lui.translate {
 						$scope.values[culture].values.push(<ICulturedValue>{ value: "" });
 					});
 				}
+				$scope.onInputValueChanged();
 			};
 
 			$scope.isAddValueDisabled = (): boolean => {
@@ -83,11 +84,13 @@ module lui.translate {
 					}
 				});
 
+				$scope.onInputValueChanged();
+
 				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
 			$scope.addValueOnEnter = {
-				"13": ($event: any): void => {
+				"13": ($event: JQueryEventObject): void => {
 					// The index is stored in the target's id (not very pretty ikr)
 					let index = Number($event.target.id.split("_")[1]);
 					if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
@@ -105,6 +108,8 @@ module lui.translate {
 						document.getElementById($scope.selectedCulture + "_" + index).focus();
 						$scope.$apply();
 					}
+
+					$event.preventDefault();
 				}
 			};
 

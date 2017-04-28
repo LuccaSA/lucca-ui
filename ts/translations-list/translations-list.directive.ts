@@ -123,16 +123,16 @@ module lui.translate {
 			let mode = attrs.mode;
 			if (!mode) { mode = "lucca"; }
 
+			scope.onInputValueChanged = (): void => {
+				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+			};
+
 			ngModelCtrl.$render = (): void => {
 				let viewModel = LuidTranslationsList.parse(ngModelCtrl.$viewValue, mode);
 				if (!!viewModel) {
 					scope.values = viewModel;
 				}
 			};
-
-			scope.$watch("values", (): void => {
-				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
-			}, true);
 		}
 	}
 	angular.module("lui.translate").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());

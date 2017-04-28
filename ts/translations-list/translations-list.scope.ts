@@ -14,7 +14,7 @@ module lui.translate {
 		isDisabled: boolean;
 
 		/** Used to detect when the user presses the Enter key */
-		addValueOnEnter: { [key: number]: ($event: ng.IAngularEvent) => void };
+		addValueOnEnter: { [key: number]: ($event: JQueryEventObject) => void };
 
 		/**
 		 * Changes the active culture tab
@@ -47,5 +47,8 @@ module lui.translate {
 		 * @param {number} index The index of the input for which you want a placeholder
 		 */
 		getPlaceholder(culture: string, index: number): string;
+
+		/** Called when the users changes the text of an input. This method is set inside the directive file and calls ngModelCtrl.$setViewValue() */
+		onInputValueChanged(): void;
 	}
 }
