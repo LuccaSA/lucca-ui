@@ -135,6 +135,7 @@ module lui.translate {
 
 			scope.onInputValueChanged = (): void => {
 				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+				ngModelCtrl.$setTouched();
 			};
 
 			ngModelCtrl.$render = (): void => {
