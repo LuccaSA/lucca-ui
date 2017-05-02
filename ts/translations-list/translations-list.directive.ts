@@ -82,7 +82,7 @@ module lui.translate {
 		private static parseLucca(value: ILuccaTranslation[]): _.Dictionary<CulturedList> {
 			let result: _.Dictionary<CulturedList> = LuidTranslationsList.getEmptyCulturedLists();
 
-			if (!value.length) {
+			if (value === undefined || value === null || !value.length) {
 				_.each(AVAILABLE_LANGUAGES, (culture: string) => {
 					result[culture].values.push(<ICulturedValue>{ value: "" });
 				});
