@@ -48,6 +48,7 @@ module lui.translate {
 						$scope.values[culture].values.push(<ICulturedValue>{ value: "" });
 					});
 				}
+				$scope.onInputValueChanged();
 			};
 
 			$scope.isAddValueDisabled = (): boolean => {
@@ -57,11 +58,13 @@ module lui.translate {
 				});
 			};
 
-			$scope.onPaste = (event: ClipboardEvent, index: number): void => {
+			$scope.onPaste = (event: ClipboardEvent | JQueryEventObject, index: number): void => {
 				// Don't do anything if the directive is disabled
 				if ($scope.isDisabled) { return; }
 
-				let values = _.reject(event.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+				let originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
+				let values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+
 				if (values.length <= 1) { return; }
 
 				// If the first item in the selectedCulture isn't empty, simply paste the first value inside it
@@ -81,13 +84,15 @@ module lui.translate {
 					}
 				});
 
-				(<HTMLInputElement>event.target).blur();
+				$scope.onInputValueChanged();
+
+				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
 			$scope.addValueOnEnter = {
-				"13": ($event: any): void => {
+				"13": ($event: JQueryEventObject): void => {
 					// The index is stored in the target's id (not very pretty ikr)
-					let index = Number($event.target.id.split("_")[1]);
+					let index = Number($event.target.id.split("_")[2]);
 					if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
 						if (!$scope.isAddValueDisabled()) {
 							// Add a value
@@ -95,14 +100,16 @@ module lui.translate {
 							$scope.addValue();
 							$scope.$apply();
 							$timeout(() => {
-								document.getElementById($scope.selectedCulture + "_" + index).focus();
+								document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
 							});
 						}
 					} else {
 						index++;
-						document.getElementById($scope.selectedCulture + "_" + index).focus();
+						document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
 						$scope.$apply();
 					}
+
+					$event.preventDefault();
 				}
 			};
 
@@ -114,6 +121,10 @@ module lui.translate {
 
 				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
 				return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+			};
+
+			$scope.getUniqueId = (culture: string, index: number): string => {
+				return `${culture}_${$scope.uniqueId}_${index}`;
 			};
 		}
 	}

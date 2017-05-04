@@ -56,10 +56,11 @@ module lui.iban {
 				this.setViewValue(this.$scope.countryCode.toUpperCase() + this.$scope.controlKey.toUpperCase() + this.$scope.bban.toUpperCase());
 			};
 
-			this.$scope.pasteIban = (event: ClipboardEvent): void => {
-				this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
+			this.$scope.pasteIban = (event: ClipboardEvent | JQueryEventObject): void => {
+				let originalEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
+				this.setViewValue(originalEvent.clipboardData.getData("text/plain").replace(/ /g, ""));
 				this.ngModelCtrl.$render();
-				(<HTMLInputElement>event.target).blur();
+				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
 			this.$scope.selectInput = (event: JQueryEventObject): void => {

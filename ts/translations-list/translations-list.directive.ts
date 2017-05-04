@@ -82,6 +82,13 @@ module lui.translate {
 		private static parseLucca(value: ILuccaTranslation[]): _.Dictionary<CulturedList> {
 			let result: _.Dictionary<CulturedList> = LuidTranslationsList.getEmptyCulturedLists();
 
+			if (value === undefined || value === null || !value.length) {
+				_.each(AVAILABLE_LANGUAGES, (culture: string) => {
+					result[culture].values.push(<ICulturedValue>{ value: "" });
+				});
+				return result;
+			}
+
 			_.each(value, (translation: ILuccaTranslation) => {
 				_.each(translation.culturedLabels, (label: ILuccaCulturedLabel) => {
 					let language = CODES_TO_LANGUAGES[label.cultureCode];
@@ -123,16 +130,20 @@ module lui.translate {
 			let mode = attrs.mode;
 			if (!mode) { mode = "lucca"; }
 
+			// Unique identifier
+			scope.uniqueId = (Math.floor(Math.random() * 9000) + 1).toString();
+
+			scope.onInputValueChanged = (): void => {
+				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+				ngModelCtrl.$setTouched();
+			};
+
 			ngModelCtrl.$render = (): void => {
 				let viewModel = LuidTranslationsList.parse(ngModelCtrl.$viewValue, mode);
 				if (!!viewModel) {
 					scope.values = viewModel;
 				}
 			};
-
-			scope.$watch("values", (): void => {
-				ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
-			}, true);
 		}
 	}
 	angular.module("lui.translate").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());

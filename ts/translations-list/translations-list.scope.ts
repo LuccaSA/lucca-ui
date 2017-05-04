@@ -14,7 +14,10 @@ module lui.translate {
 		isDisabled: boolean;
 
 		/** Used to detect when the user presses the Enter key */
-		addValueOnEnter: { [key: number]: ($event: ng.IAngularEvent) => void };
+		addValueOnEnter: { [key: number]: ($event: JQueryEventObject) => void };
+
+		/** Identifier used to add unique Ids to the inputs of the directive */
+		uniqueId: string;
 
 		/**
 		 * Changes the active culture tab
@@ -39,7 +42,7 @@ module lui.translate {
 		 * @param {ClipBoardEvent} event The copy/paste event
 		 * @param {number} index The index of the input where something was pasted
 		 */
-		onPaste(event: ClipboardEvent, index: number): void;
+		onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;
 
 		/**
 		 * Returns the placeholder for the input at the specified index, for the specified culture
@@ -47,5 +50,11 @@ module lui.translate {
 		 * @param {number} index The index of the input for which you want a placeholder
 		 */
 		getPlaceholder(culture: string, index: number): string;
+
+		/** Called when the users changes the text of an input. This method is set inside the directive file and calls ngModelCtrl.$setViewValue() */
+		onInputValueChanged(): void;
+
+		/** Generates a unique identifier for the inputs displayed in the directive */
+		getUniqueId(culture: string, index: number): string;
 	}
 }

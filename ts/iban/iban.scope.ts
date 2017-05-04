@@ -10,7 +10,7 @@ module lui.iban {
 		controlKeyMappings: { [key: number]: ($event: ng.IAngularEvent) => void; };
 
 		updateValue(): void;
-		pasteIban(event: ClipboardEvent): void;
+		pasteIban(event: ClipboardEvent | JQueryEventObject): void;
 		selectInput(event: JQueryEventObject): void;
 		setTouched(): void;
 	}
