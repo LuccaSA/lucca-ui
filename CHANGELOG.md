@@ -3,6 +3,13 @@
 ## in dev
 ### Bug fixes
 
+## 3.1.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.8)
+### Changes (non-breaking)
+- `luid-translations-list` - added unique identifiers for inputs, to display the directive multiple times in the same page
+ - `luid-translations-list` - added ng-invalid handling
+ - `luid-translations-list` - fixed issue which happened when ng-model was empty or undefined
+ - `luid-translations-list` & `luid-iban` - fixed issue with ng-paste when JQuery was loaded before Angular
+
 ## 3.1.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.7)
 ### Changes (non-breaking)
  - `luid-translations` now supports ng-required: ng-model.$viewValue is set to undefined when all the multilingual variables are empty

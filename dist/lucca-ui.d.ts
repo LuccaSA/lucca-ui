@@ -237,7 +237,7 @@ declare module lui.iban {
             [key: number]: ($event: ng.IAngularEvent) => void;
         };
         updateValue(): void;
-        pasteIban(event: ClipboardEvent): void;
+        pasteIban(event: ClipboardEvent | JQueryEventObject): void;
         selectInput(event: JQueryEventObject): void;
         setTouched(): void;
     }
@@ -505,14 +505,17 @@ declare module lui.translate {
         values: _.Dictionary<CulturedList>;
         isDisabled: boolean;
         addValueOnEnter: {
-            [key: number]: ($event: ng.IAngularEvent) => void;
+            [key: number]: ($event: JQueryEventObject) => void;
         };
+        uniqueId: string;
         selectCulture(culture: string): void;
         addValue(): void;
         deleteValue(index: number): void;
         isAddValueDisabled(): boolean;
-        onPaste(event: ClipboardEvent, index: number): void;
+        onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;
         getPlaceholder(culture: string, index: number): string;
+        onInputValueChanged(): void;
+        getUniqueId(culture: string, index: number): string;
     }
 }
 declare module lui.userpicker {

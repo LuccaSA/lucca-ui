@@ -1472,9 +1472,10 @@ var lui;
                     _this.setViewValue(_this.$scope.countryCode.toUpperCase() + _this.$scope.controlKey.toUpperCase() + _this.$scope.bban.toUpperCase());
                 };
                 this.$scope.pasteIban = function (event) {
-                    _this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
+                    var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
+                    _this.setViewValue(originalEvent.clipboardData.getData("text/plain").replace(/ /g, ""));
                     _this.ngModelCtrl.$render();
-                    event.target.blur();
+                    originalEvent.target.blur();
                 };
                 this.$scope.selectInput = function (event) {
                     event.target.select();
@@ -2795,6 +2796,7 @@ var lui;
                             $scope.values[culture].values.push({ value: "" });
                         });
                     }
+                    $scope.onInputValueChanged();
                 };
                 $scope.isAddValueDisabled = function () {
                     return !_.some(translate.AVAILABLE_LANGUAGES, function (culture) {
@@ -2806,7 +2808,8 @@ var lui;
                     if ($scope.isDisabled) {
                         return;
                     }
-                    var values = _.reject(event.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
+                    var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
+                    var values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
                     if (values.length <= 1) {
                         return;
                     }
@@ -2825,26 +2828,28 @@ var lui;
                             }
                         }
                     });
-                    event.target.blur();
+                    $scope.onInputValueChanged();
+                    originalEvent.target.blur();
                 };
                 $scope.addValueOnEnter = {
                     "13": function ($event) {
-                        var index = Number($event.target.id.split("_")[1]);
+                        var index = Number($event.target.id.split("_")[2]);
                         if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
                             if (!$scope.isAddValueDisabled()) {
                                 index++;
                                 $scope.addValue();
                                 $scope.$apply();
                                 $timeout(function () {
-                                    document.getElementById($scope.selectedCulture + "_" + index).focus();
+                                    document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
                                 });
                             }
                         }
                         else {
                             index++;
-                            document.getElementById($scope.selectedCulture + "_" + index).focus();
+                            document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
                             $scope.$apply();
                         }
+                        $event.preventDefault();
                     }
                 };
                 $scope.getPlaceholder = function (culture, index) {
@@ -2854,6 +2859,9 @@ var lui;
                     }
                     var currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
                     return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+                };
+                $scope.getUniqueId = function (culture, index) {
+                    return culture + "_" + $scope.uniqueId + "_" + index;
                 };
             }
             LuidTranslationsListController.IID = "luidTranslationsList";
@@ -2958,6 +2966,12 @@ var lui;
             };
             LuidTranslationsList.parseLucca = function (value) {
                 var result = LuidTranslationsList.getEmptyCulturedLists();
+                if (value === undefined || value === null || !value.length) {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        result[culture].values.push({ value: "" });
+                    });
+                    return result;
+                }
                 _.each(value, function (translation) {
                     _.each(translation.culturedLabels, function (label) {
                         var language = translate.CODES_TO_LANGUAGES[label.cultureCode];
@@ -2989,15 +3003,17 @@ var lui;
                 if (!mode) {
                     mode = "lucca";
                 }
+                scope.uniqueId = (Math.floor(Math.random() * 9000) + 1).toString();
+                scope.onInputValueChanged = function () {
+                    ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+                    ngModelCtrl.$setTouched();
+                };
                 ngModelCtrl.$render = function () {
                     var viewModel = LuidTranslationsList.parse(ngModelCtrl.$viewValue, mode);
                     if (!!viewModel) {
                         scope.values = viewModel;
                     }
                 };
-                scope.$watch("values", function () {
-                    ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
-                }, true);
             };
             LuidTranslationsList.IID = "luidTranslationsList";
             return LuidTranslationsList;
@@ -3954,7 +3970,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/translations-list/translations-list.html',
-    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ $parent.selectedCulture + '_' + $index }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValue()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
+    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" ng-change=\"onInputValueChanged()\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ getUniqueId($parent.selectedCulture, $index) }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValue()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
   );
 
 
