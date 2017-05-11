@@ -153,15 +153,6 @@ module lui.tablegrid {
 			};
 
 			$scope.updateFilteredRows = () => {
-				//Management of checkboxes if tablegrid is selectable
-				if ($scope.isSelectable) {
-					$scope.allChecked.value = false;
-					_.each($scope.filteredAndOrderedRows, (row: any) => {
-						row._luiTableGridRow.isChecked = false;
-					});
-					$scope.masterCheckBoxCssClass = getCheckboxState();
-				}
-
 				let temp = _.chain($scope.datas)
 					.each((row: any) => {
 						row._luiTableGridRow.isInFilteredDataset = false;
@@ -197,6 +188,11 @@ module lui.tablegrid {
 				$scope.filteredAndOrderedRows = temp.value();
 				$scope.orderBySelectedHeader();
 				$scope.updateViewAfterFiltering();
+
+				//Management of checkboxes if tablegrid is selectable
+				if ($scope.isSelectable) {
+					$scope.masterCheckBoxCssClass = getCheckboxState();
+				}
 			};
 
 			$scope.orderBySelectedHeader = () => {
