@@ -70,80 +70,6 @@
 &lt;button class=&quot;lui button x-large&quot;&gt;X-large&lt;/button&gt;</pre></p>
 
 <div class="lui dashed divider">
-	<h4 class="lui underline">Icon support</h4>
-</div>
-<h5>Icon in buttons</h5>
-<p>You can add icons into your buttons in two ways. Either by adding <code class="red">icon iconName</code> to the button, replacing the content by the chosen icon.
-Or by adding an icon <code><span class="hljs-tag">&lt;i <span class="hljs-attribute">class</span>=<span class="hljs-value">"lui icon iconName"</span>&gt;&lt;/i&gt;</span></code> into the button content.
-<br><code>iconName</code> values are from <a href="#/icons">lucca-icons</a></p>
-<table style="width: 100%">
-	<tbody>
-		<tr>
-			<td style="width: 100px">Icon only</td>
-			<td style="width: 100px">
-				<button class="lui button icon add user"></button>
-			</td>
-			<td>
-				<pre hljs no-escape language="html">&lt;button class=&quot;lui button icon iconname&quot;&gt;&lt;/button&gt;</pre>
-			</td>
-		</tr>
-		<tr>
-			<td style="width: 100px">Right Icon + text</td>
-			<td style="width: 100px">
-				<button class="lui button">Add user<i class="lui icon right add user"></i></button>
-			</td>
-			<td>
-				<pre hljs no-escape language="html">&lt;button class=&quot;lui button&quot;&gt;
-&nbsp;&nbsp;Button text
-&nbsp;&nbsp;&lt;i class=&quot;lui icon right iconname&quot;&gt;&lt;/i&gt;
-&lt;/button&gt;</pre>
-			</td>
-		</tr>
-		<tr>
-			<td style="width: 100px">Left Icon + text</td>
-			<td style="width: 100px">
-				<button class="lui button"><i class="lui icon add user"></i>Add user</button>
-			</td>
-			<td>
-				<pre hljs no-escape language="html">&lt;button class=&quot;lui button&quot;&gt;
-&nbsp;&nbsp;&lt;i class=&quot;lui icon iconname&quot;&gt;&lt;/i&gt;
-&nbsp;&nbsp;Button text
-&lt;/button&gt;</pre>
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-<h5>Icon addon</h5>
-<p>
-	Add an icon with a separation to your button by adding <code class="red">&quot;with addon&quot;</code> to its classes
-</p>
-<p>
-	<table style="width: 100%">
-		<tbody>
-			<tr>
-				<td style="width: 100px">
-					<button class="lui button with addon"><i class="lui addon icon send"></i>Send message</button>
-				</td>
-				<td>
-					<pre hljs no-escape language="html">&lt;button class=&quot;lui button with addon&quot;&gt;&lt;i class=&quot;lui addon icon iconname&quot;&gt;&lt;/i&gt;Button text&lt;/button&gt;</pre>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</p>
-
-<h5>More examples with icons</h5>
-<button class="lui button flat"><i class="lui icon analytics"></i>Flat</button>
-<button class="lui button primary"><i class="lui icon lock"></i>Unlock me!</button>
-<button class="lui button wired secondary">Take a picture<i class="lui right icon camera"></i></button>
-<button class="lui button red disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
-<p><pre hljs no-escape language="html">&lt;button class=&quot;lui button flat&quot;&gt;&lt;i class=&quot;lui icon analytics&quot;&gt;&lt;/i&gt;Flat&lt;/button&gt;
-&lt;button class=&quot;lui button primary&quot;&gt;&lt;i class=&quot;lui icon lock&quot;&gt;&lt;/i&gt;Unlock me!&lt;/button&gt;
-&lt;button class=&quot;lui button wired secondary&quot;&gt;Take a picture&lt;i class=&quot;lui right icon camera&quot;&gt;&lt;/i&gt;&lt;/button&gt;
-&lt;button class=&quot;lui button red disabled&quot;&gt;&lt;i class=&quot;lui icon forbidden&quot;&gt;&lt;/i&gt;I'm disabled!&lt;/button&gt;</pre></p>
-
-<div class="lui dashed divider">
 	<h4 class="lui underline">Button status</h4>
 </div>
 <p>
@@ -206,24 +132,6 @@ Or by adding an icon <code><span class="hljs-tag">&lt;i <span class="hljs-attrib
 	<tbody>
 		<tr>
 			<td style="width: 200px">
-				<nav class="lui buttons">
-					<button class="lui button icon add user"></button>
-					<button class="lui button icon comment"></button>
-					<button class="lui button">Help ?</button>
-					<button class="lui button icon refresh"></button>
-				</nav>
-			</td>
-			<td>
-				<p><pre hljs no-escape language="html">&lt;nav class=&quot;lui buttons&quot;&gt;
-&nbsp;&nbsp;&lt;button class=&quot;lui button icon add user&quot;&gt;&lt;/button&gt;
-&nbsp;&nbsp;&lt;button class=&quot;lui button icon comment&quot;&gt;&lt;/button&gt;
-&nbsp;&nbsp;&lt;button class=&quot;lui button&quot;&gt;Help ?&lt;/button&gt;
-&nbsp;&nbsp;&lt;button class=&quot;lui button icon refresh&quot;&gt;&lt;/button&gt;
-&lt;/nav&gt;</pre></p>
-			</td>
-		</tr>
-		<tr>
-			<td>
 				<nav class="lui buttons dark">
 					<button class="lui button wired primary inverted">01</button>
 					<button class="lui button wired primary inverted">02</button>
