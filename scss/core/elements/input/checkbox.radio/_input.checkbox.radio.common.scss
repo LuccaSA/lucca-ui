@@ -43,6 +43,8 @@
 				&:after {
 					position: absolute;
 					top: 1px;
+					top: 50%;
+					transform: translateY(-50%);
 					left: 0;
 					display: inline-block;
 					width: 1.1em;

@@ -4,7 +4,7 @@
 		@at-root #{$namespace} {
 			#{$prefix}.input#{$selector} .ui-select-container, #{$prefix}.input .ui-select-container#{$selector} {
 				~ label {
-					align-self: flex-start;
+					@include flex-align-items(flex-start);
 				}
 				.ui-select-choices-row {
 					@extend %lui_dropdown_list_item_compact;
