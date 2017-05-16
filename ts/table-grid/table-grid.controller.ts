@@ -191,7 +191,7 @@ module lui.tablegrid {
 
 				//Management of checkboxes if tablegrid is selectable
 				if ($scope.isSelectable) {
-					$scope.masterCheckBoxCssClass = getCheckboxState();
+					$scope.onCheckBoxChange();
 				}
 			};
 
