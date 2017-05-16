@@ -1,7 +1,8 @@
 # Change log
 
 ## in dev
-### Bug fixes
+### Changes (non-breaking)
+- `luid-table-grid` - do not uncheck checked items when filtering
 
 ## 3.1.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.8)
 ### Changes (non-breaking)
