@@ -7,8 +7,8 @@
 		</tr>
 		<tr role="row">
 			<th ng-if="isSelectable" style="width: 3.5em" class="locked" role="columnheader" colspan="1" rowspan="1">
-				<div class="lui solo checkbox input">
-					<input ng-class="masterCheckBoxCssClass" type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"
+				<div class="lui solo checkbox input" ng-class="masterCheckBoxCssClass">
+					<input type="checkbox" ng-model="allChecked.value" ng-change="onMasterCheckBoxChange()" ng-value="true"
 					/>
 					<label>&nbsp;</label>
 				</div>
