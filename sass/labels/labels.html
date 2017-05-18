@@ -1,12 +1,27 @@
 <h2 class="lui divider below">Labels</h2>
 
-<span class="lui label">Default</span>
-<span class="lui label primary">Primary</span>
-<span class="lui label secondary">Secondary</span>
-<span class="lui label"><i class="lui icon edit"></i>With icon</span>
+<p>
+	Create labels by adding the classed <code class="red">lui label</code> to your span :
+	<ul class="lui menu pills spaced">
+		<li><span class="lui label">Default</span><code class="code-label">-</code></li>
+		<li><span class="lui label primary">Primary</span><code class="code-label">primary</code></li>
+		<li><span class="lui label secondary">Secondary</span><code class="code-label">secondary</code></li>
+		<li><span class="lui label"><i class="lui icon edit"></i>With icon</span><code class="code-label">-</code></li>
+	</ul>
+</p>
+
+<h5>With addons</h5>
+<p>Add the class <code class="red">with addon</code> to the span classes and put your addon in a span with the classes <code class="red">lui addon</code></p>
 <span class="lui label with addon green">
 	<span class="lui addon">Users:</span> 128 <i class="lui right addon icon user"></i>
 </span>
+<pre hljs language="html"><span class="lui label with addon green">
+	<span class="lui addon">Users:</span> 128 <i class="lui right addon icon user"></i>
+</span></pre>
+
+<h5>Embedded labels</h5>
+<p>Labels can be embeded into a DOM element with the class <code class="red">lui labels</code>. Modifier classes applied to this parent element
+are repercuted on all labels.</p>
 
 <span class="lui large primary labels">
 	<span class="lui label">A labels</span>
@@ -15,3 +30,9 @@
 	<span class="lui label">multiple</span>
 	<span class="lui label">label elements</span>
 </span>
+
+<pre hljs language="html"><span class="lui large primary labels">
+	<span class="lui label">label #1</span>
+	<span class="lui label">label #2</span>
+	[...]
+</span></pre>

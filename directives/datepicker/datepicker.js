@@ -31,5 +31,9 @@
 		{ label: "this monday", date: moment().startOf("week") },
 		{ label: "next monday", date: moment().add(1, "week").startOf("week") },],
 		];
+
+		$scope.keyboardInputDisabled = false;
+		$scope.keyboardDemoMin = moment().add(-20, "year").format("DD/MM/YYYY");
+		$scope.keyboardDemoMax = moment().add(20, "year").format("DD/MM/YYYY");
 	}]);
 })();

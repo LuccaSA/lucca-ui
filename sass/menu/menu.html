@@ -6,17 +6,64 @@
 	Add the <code>vertical</code> class to change this.
 </p>
 
-<div class="lui bordered menu">
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+		<div class="lui bordered menu" style="width: 300px;">
+			<a href="#/" class="item">Item 1</a>
+			<a href="#/" class="item">Item 2</a>
+			<a href="#/" class="item">Item 3</a>
+		</div>
+	</div>
+	<div class="flex-column">
+		<div class="lui bordered vertical menu" style="width: 300px;">
+			<a href="#/" class="item">Item 1</a>
+			<a href="#/" class="item">Item 2</a>
+			<a href="#/" class="item">Item 3</a>
+		</div>
+	</div>
+</div>
+
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+		<pre hljs language="html"><div class="lui bordered menu">
 	<a href="#/" class="item">Item 1</a>
 	<a href="#/" class="item">Item 2</a>
 	<a href="#/" class="item">Item 3</a>
+</div></pre>
+	</div>
+	<div class="flex-column">
+		<pre hljs language="html"><div class="lui bordered vertical menu">
+	<a href="#/" class="item">Item 1</a>
+	<a href="#/" class="item">Item 2</a>
+	<a href="#/" class="item">Item 3</a>
+</div></pre>
+	</div>
 </div>
+
+
+
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Right / Left sections</h4>
 </div>
-
+<p>
+	You can add the classes <code class="red">left</code> or <code class="red">right</code> to align your container to the left or right side.
+</p>
 <div class="lui raised bordered menu">
+	<div class="lui menu left">
+		<a href="#/" class="item">I have</a>
+		<a href="#/" class="item">items here</a>
+		<a href="#/" class="item">on the left</a>
+	</div>
+
+	<div class="lui right menu">
+			<a href="#/" class="item">I have</a>
+			<a href="#/" class="item">items here</a>
+			<a href="#/" class="item">on the right</a>
+	</div>
+</div>
+
+<pre hljs language="html"><div class="lui raised menu">
 	<div class="lui menu left">
 		<a href="#/" class="item">I have</a>
 		<a href="#/" class="item">items here</a>
@@ -33,6 +80,7 @@
 		<button class="lui button primary with addon">Save<i class="lui right addon icon check"></i></button>
 	</div>
 </div>
+</pre>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Dividing style</h4>
@@ -40,6 +88,9 @@
 <p>
 	Add the <code>dividing</code> class to show a border below/over/right/left of the menu.
 	Add a color class to change the color of the active border.
+</p>
+<p>
+	You can use an DOM element with the class <code class="red">item header</code> to put a title to your menu.
 </p>
 <div class="lui menu green dividing center aligned">
 	<div class="item header">Dividing style</div>
@@ -54,19 +105,58 @@
 	</div>
 </div>
 
-<div class="lui vertical primary right dividing menu" style="float:left;">
+<pre hljs language="html"><div class="lui menu green dividing center aligned">
+	<div class="item header">Item #1</div>
+	<a class="item active" href="#/">Item #2</a>
+	<a class="item" href="#/">Item #3</a>
+	<a class="item" href="#/">Item #4</a>
+
+	<div class="lui right item">
+		<div class="lui input search fit">
+			<input type="search" name="name" placeholder="Search..." value="">
+		</div>
+	</div>
+</div></pre>
+
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+		<div class="lui vertical primary right dividing menu" style="width: 150px">
+			<div class="item header">Vertical right</div>
+			<a class="item active" href="#/">Item 01</a>
+			<a class="item" href="#/">Item 02</a>
+			<a class="item" href="#/">Item 03</a>
+		</div>
+	</div>
+	<div class="flex-column">
+		<div class="lui vertical dividing menu" style="width: 150px">
+			<div class="item header">Vertical (left)</div>
+			<a class="item active" href="#/">Item 01 <span class="lui label">2</span></a>
+			<a class="item" href="#/">Item 02</a>
+			<a class="item" href="#/">Item 03</a>
+		</div>
+	</div>
+</div>
+
+
+<div class="flex-container flex-row-container flex-two-columns">
+	<div class="flex-column">
+		<pre hljs language="html"><div class="lui vertical primary right dividing menu">
 	<div class="item header">Vertical right</div>
 	<a class="item active" href="#/">Item 01</a>
 	<a class="item" href="#/">Item 02</a>
 	<a class="item" href="#/">Item 03</a>
-</div>
-<div class="lui vertical dividing menu" style="float:right;">
+</div></pre>
+	</div>
+	<div class="flex-column">
+		<pre hljs language="html"><div class="lui vertical dividing menu">
 	<div class="item header">Vertical (left)</div>
 	<a class="item active" href="#/">Item 01 <span class="lui label">2</span></a>
 	<a class="item" href="#/">Item 02</a>
 	<a class="item" href="#/">Item 03</a>
+</div></pre>
+	</div>
 </div>
-<div class="lui clear"></div>
+
 <div class="lui menu top dividing justify">
 	<div class="lui top dividing left menu">
 		<div class="item header">Justified</div>
@@ -75,21 +165,28 @@
 		<a class="item" href="#/">justified</a>
 		<a class="item" href="#/">(with flex)</a>
 	</div>
-
-	<div class="lui menu right">
-		<div class="lui buttons">
-			<button class="lui button icon edit"></button>
-			<button class="lui button icon files"></button>
-			<button class="lui button icon trash"></button>
-		</div>
-
-		<button class="lui button primary with addon">Save<i class="lui right addon icon check"></i></button>
 	</div>
 </div>
+
+<pre hljs language="html"><div class="lui menu top dividing justify">
+	<div class="lui top dividing left menu">
+		<div class="item header">Justified</div>
+
+		<a class="item active" href="#/">I am</a>
+		<a class="item" href="#/">justified</a>
+		<a class="item" href="#/">(with flex)</a>
+	</div>
+	</div>
+</div></pre>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Pills style</h4>
 </div>
+<p>Add the class <code class="red">pills</code> to your menu container to use the pills style</p>
+<p>
+	You can use an DOM element with the class <code class="red">item header</code> to put a title to your menu.
+</p>
+
 <div class="lui menu pills justify">
 	<div class="item header">Pills style</div>
 	<a class="item active" href="#/">Item 01</a>
@@ -97,29 +194,46 @@
 	<a class="item" href="#/">Item 03</a>
 </div>
 
+<pre hljs language="html"><div class="lui menu pills justify">
+	<div class="item header">Pills style</div>
+	<a class="item active" href="#/">Item 01</a>
+	<a class="item" href="#/">Item 02</a>
+	<a class="item" href="#/">Item 03</a>
+</div></pre>
+
 <div class="lui dashed divider">
 	<h4 class="lui underline">Imbricated menus</h4>
 </div>
+<p>You can embed a menu container inside another menu container to build imbricated menus</p>
 
 <nav class="lui squared pills vertical menu">
 	<a class="lui item" href="#/">LEVEL 1.A</a>
 	<nav class="lui left dividing vertical menu">
-		<a class="lui item" href="#/">LEVEL 2.A</a>
-		<a class="lui item" href="#/">LEVEL 2.B</a>
-		<a class="lui item" href="#/">LEVEL 2.C</a>
+		<a class="lui item" href="#/">LEVEL 1.A.1</a>
+		<a class="lui item" href="#/">LEVEL 1.A.2</a>
+		<a class="lui item" href="#/">LEVEL 1.A.3</a>
 	</nav>
 
 	<a class="lui item" href="#/">LEVEL 1.B</a>
 	<nav class="lui left dividing vertical menu">
-		<a class="lui item" href="#/">LEVEL 2.A</a>
-		<a class="lui item" href="#/">LEVEL 2.B</a>
-		<a class="lui item" href="#/">LEVEL 2.C</a>
-	</nav>
-
-	<a class="lui item" href="#/">LEVEL 1.C</a>
-	<nav class="lui left dividing vertical menu">
-		<a class="lui item" href="#/">LEVEL 2.A</a>
-		<a class="lui item" href="#/">LEVEL 2.B</a>
-		<a class="lui item" href="#/">LEVEL 2.C</a>
+		<a class="lui item" href="#/">LEVEL 1.B.1</a>
+		<a class="lui item" href="#/">LEVEL 1.B.2</a>
+		<a class="lui item" href="#/">LEVEL 1.B.3</a>
 	</nav>
 </nav>
+
+<pre hljs language="html"><nav class="lui squared pills vertical menu">
+	<a class="lui item" href="#/">LEVEL 1.A</a>
+	<nav class="lui left dividing vertical menu">
+		<a class="lui item" href="#/">LEVEL 1.A.1</a>
+		<a class="lui item" href="#/">LEVEL 1.A.2</a>
+		<a class="lui item" href="#/">LEVEL 1.A.3</a>
+	</nav>
+	<a class="lui item" href="#/">LEVEL 1.B</a>
+	<nav class="lui left dividing vertical menu">
+		<a class="lui item" href="#/">LEVEL 1.B.1</a>
+		<a class="lui item" href="#/">LEVEL 1.B.2</a>
+		<a class="lui item" href="#/">LEVEL 1.B.3</a>
+	</nav>
+	[...]
+</nav></pre>

@@ -5,12 +5,18 @@
 	angular.module("demoApp",[
 		"demoApp.router",
 		"lui",
-		"ui.bootstrap",
-		"ngSanitize",
-		"ui.select",
+		// "ui.bootstrap",
+		// "ngSanitize",
+		// "ui.select",
 		"ngMockE2E",
 		"hljs",
-		"lui.formlytemplates",
+		"lui.crop",
+		"lui.formly",
+		"lui.iban",
+		"lui.notify",
+		"lui.tablegrid",
+		"lui.translate",
+		"as.sortable"
 	]);
 
 	angular.module('demoApp')
@@ -32,6 +38,12 @@
 			prefix: "lui",
 			canDismissConfirm: true,
 		});
+	})
+
+	.config(function(hljsServiceProvider){
+		hljsServiceProvider.setOptions({
+			tabReplace: '  '
+		});
 	});
 
 	angular.module('demoApp')
@@ -52,6 +64,7 @@
 		$httpBackend.whenGET(/lucca\//).passThrough();
 		$httpBackend.whenGET(/nguibs\//).passThrough();
 		$httpBackend.whenGET(/sass\//).passThrough();
+		$httpBackend.whenGET(/grid\//).passThrough();
 
 
 		$httpBackend.whenGET('/bogus-progress').respond(200, {});

@@ -4,121 +4,170 @@
 <div class="lui dashed divider">
 	<h4 class="lui underline">4 button styles</h4>
 </div>
-<button class="lui button">Default</button>
-<button class="lui button flat">Flat</button>
-<button class="lui button wired primary">Wired</button>
-<button class="lui button filling primary">Filling</button>
-<div class="dark inline">
-	<button class="lui button inverted">Inverted</button>
-</div>
 
-<div class="lui dashed divider">
-	<h4 class="lui underline">Icon support</h4>
-</div>
 <p>
-	Icon only: <button class="lui button icon add user"></button>
-	Left Icon + text: <button class="lui button"><i class="lui icon add user"></i>Add user</button>
-	Right Icon + text: <button class="lui button">Add user<i class="lui icon right add user"></i></button>
-</p>
-<p>
-	<b>Icon addon:</b> <button class="lui button with addon"><i class="lui addon icon send"></i>Send message</button>
-	<button class="lui button wired primary with addon"><i class="lui addon icon send"></i>Send message</button>
-	<button class="lui button filling secondary with addon">Add user<i class="lui right addon icon add user"></i></button>
+	Stylize your button by adding the classes <code>lui button</code> to it. There are 5 variations :
+	<ul class="lui menu pills spaced">
+		<li><button class="lui button">Default</button><code class="code-label">-</code></li>
+		<li><button class="lui button flat">Flat</button><code class="code-label">flat</code></li>
+		<li><button class="lui button wired primary">Wired</button><code class="code-label">wired</code></li>
+		<li><button class="lui button filling primary">Filling</button><code class="code-label">filling</code></li>
+		<li><div class="dark inline">
+			<button class="lui button inverted">Inverted</button>
+		</div><code class="code-label">inverted</code></li>
+	</ul>
 </p>
 
-<b>With different styles:</b>
-<button class="lui button flat"><i class="lui icon analytics"></i>Flat</button>
-<button class="lui button primary"><i class="lui icon lock"></i>Unlock me!</button>
-<button class="lui button wired secondary">Take a picture<i class="lui right icon camera"></i></button>
-<button class="lui button red disabled"><i class="lui icon forbidden"></i>I'm disabled!</button>
+<p><pre hljs no-escape language="html">&lt;button class=&quot;lui button&quot;&gt;Default&lt;/button&gt;
+&lt;button class=&quot;lui button flat&quot;&gt;Flat&lt;/button&gt;
+&lt;button class=&quot;lui button wired primary&quot;&gt;Wired&lt;/button&gt;
+&lt;button class=&quot;lui button filling primary&quot;&gt;Filling&lt;/button&gt;
+&lt;button class=&quot;lui button inverted&quot;&gt;Inverted&lt;/button&gt;</pre></p>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Button colors</h4>
 </div>
-<button class="lui button primary">Primary</button>
-<button class="lui button secondary">Secondary</button>
-<button class="lui button yellow">Yellow (Lucca's color)</button>
-<button class="lui button grey">Grey</button>
-<button class="lui button light">Light</button>
-<button class="lui button red">Red</button>
-<button class="lui button orange">Orange</button>
-<button class="lui button green">Green</button>
 
-<div class="lui dashed divider">
-	<h4 class="lui underline">Various button examples</h4>
-</div>
-<button class="lui button wired green">Wired - Green</button>
-<button class="lui button filling green">Filling - green</button>
+<p>
+	Add color to your button by adding a color class to it. There are 8 variations :
+	<ul class="lui menu pills spaced">
+		<li><button class="lui button primary">Primary</button><code class="code-label">primary</code></li>
+		<li><button class="lui button secondary">Secondary</button><code class="code-label">secondary</code></li>
+		<li><button class="lui button yellow">Yellow (Lucca's color)</button><code class="code-label">yellow</code></li>
+		<li><button class="lui button grey">Grey</button><code class="code-label">grey</code></li>
+		<li><button class="lui button light">Light</button><code class="code-label">light</code></li>
+		<li><button class="lui button red">Red</button><code class="code-label">red</code></li>
+		<li><button class="lui button orange">Orange</button><code class="code-label">orange</code></li>
+		<li><button class="lui button green">Green</button><code class="code-label">green</code></li>
+	</ul>
+</p>
 
-<div class="dark">
-	<button class="lui button inverted">Inverted - Default</button>
-	<button class="lui button inverted filling green">Inverted - Filling - Green</button>
-	<button class="lui button wired inverted light">Inverted - Wired - Light</button>
-</div>
+<p><pre hljs no-escape language="html">&lt;button class=&quot;lui button primary&quot;&gt;Primary&lt;/button&gt;
+&lt;button class=&quot;lui button secondary&quot;&gt;Secondary&lt;/button&gt;
+&lt;button class=&quot;lui button yellow&quot;&gt;Yellow (Lucca's color)&lt;/button&gt;
+&lt;button class=&quot;lui button grey&quot;&gt;Grey&lt;/button&gt;
+&lt;button class=&quot;lui button light&quot;&gt;Light&lt;/button&gt;
+&lt;button class=&quot;lui button red&quot;&gt;Red&lt;/button&gt;
+&lt;button class=&quot;lui button orange&quot;&gt;Orange&lt;/button&gt;
+&lt;button class=&quot;lui button green&quot;&gt;Green&lt;/button&gt;</pre></p>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Button sizes</h4>
 </div>
-<button class="lui button small">Small</button>
-<button class="lui button">Default</button>
-<button class="lui button large">Large</button>
-<button class="lui button x-large">X-large</button>
+
+<p>
+	Your button can take 4 different sizes :
+	<ul class="lui menu pills spaced">
+		<li><button class="lui button small">Small</button><code class="code-label">small</code></li>
+		<li><button class="lui button">Default</button><code class="code-label">-</code></li>
+		<li><button class="lui button large">Large</button><code class="code-label">large</code></li>
+		<li><button class="lui button x-large">X-large</button><code class="code-label">x-large</code></li>
+	</ul>
+</p>
+<p><pre hljs no-escape language="html">&lt;button class=&quot;lui button small&quot;&gt;Small&lt;/button&gt;
+&lt;button class=&quot;lui button&quot;&gt;Default&lt;/button&gt;
+&lt;button class=&quot;lui button large&quot;&gt;Large&lt;/button&gt;
+&lt;button class=&quot;lui button x-large&quot;&gt;X-large&lt;/button&gt;</pre></p>
 
 <div class="lui dashed divider">
 	<h4 class="lui underline">Button status</h4>
 </div>
 <p>
-
+	You can easily show the status of the action triggered by the button by adding <code style="#d14">status statusName</code> to your button's classes.
+	There are 3 statusName :
+	<ul class="lui menu pills spaced">
+		<li><button class="lui button large status loading">Send</button><code class="code-label">loading</code></li>
+		<li><button class="lui button large status ok">Send</button><code class="code-label">ok</code></li>
+		<li><button class="lui button large status failure">Send</button><code class="code-label">failure</code></li>
+	</ul>
 </p>
-<button class="lui button large status loading">Loading</button>
-<button class="lui button large with addon status loading"><i class="lui addon icon send"></i>Loading</button>
-<button class="lui button large status ok">OK</button>
-<button class="lui button large with addon status ok"><i class="lui addon icon send"></i>OK</button>
-<button class="lui button large status failure">Argh!</button>
-<button class="lui button large with addon status failure"><i class="lui addon icon send"></i>Argh!</button>
-<button class="lui button large icon status loading icon save"></button>
+
+<h5>Examples</h5>
+<button class="lui button large status loading">Send</button>
+<button class="lui button large with addon status loading"><i class="lui addon icon send"></i>Send</button>
+<button class="lui button large status ok">Send</button>
+<button class="lui button large with addon status ok"><i class="lui addon icon send"></i>Send</button>
+<button class="lui button large status failure">Send</button>
+<button class="lui button large with addon status failure"><i class="lui addon icon send"></i>Send</button>
+<p><pre hljs no-escape language="html">&lt;button class=&quot;lui button large status loading&quot;&gt;Send&lt;/button&gt;
+&lt;button class=&quot;lui button large with addon status loading&quot;&gt;&lt;i class=&quot;lui addon icon send&quot;&gt;&lt;/i&gt;Send&lt;/button&gt;
+&lt;button class=&quot;lui button large status ok&quot;&gt;Send&lt;/button&gt;
+&lt;button class=&quot;lui button large with addon status ok&quot;&gt;&lt;i class=&quot;lui addon icon send&quot;&gt;&lt;/i&gt;Send&lt;/button&gt;
+&lt;button class=&quot;lui button large status failure&quot;&gt;Send&lt;/button&gt;
+&lt;button class=&quot;lui button large with addon status failure&quot;&gt;&lt;i class=&quot;lui addon icon send&quot;&gt;&lt;/i&gt;Send&lt;/button&gt;</pre></p>
+
 <div class="lui dashed divider">
 	<h4 class="lui underline">Buttons - button groups!</h4>
 </div>
-<nav class="lui buttons">
-	<button class="lui button icon add user"></button>
-	<button class="lui button icon comment"></button>
-	<button class="lui button">Help ?</button>
-	<button class="lui button icon refresh"></button>
-</nav>
+<p>
+	Buttons can be groupped into button groups by embedding them into a <code><span class="hljs-tag">&lt;nav <span class="hljs-attribute">class</span>=<span class="hljs-value">"lui buttons"</span>&gt;&lt;/nav&gt;</span></code>.
+</p>
+<table style="width: 100%">
+	<tbody>
+		<tr>
+			<td style="width: 200px">
+				<nav class="lui buttons">
+					<button class="lui button">01</button>
+					<button class="lui button">02</button>
+					<button class="lui button">03</button>
+					<button class="lui button">04</button>
+				</nav>
+			</td>
+			<td>
+				<pre hljs no-escape language="html">&lt;nav class=&quot;lui buttons&quot;&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button&quot;&gt;01&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button&quot;&gt;02&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button&quot;&gt;03&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button&quot;&gt;04&lt;/button&gt;
+&lt;/nav&gt;</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
-<nav class="lui buttons">
-	<button class="lui button filling primary">01</button>
-	<button class="lui button filling secondary">02</button>
-	<button class="lui button filling grey">03</button>
-	<button class="lui button filling green">04</button>
-</nav>
+<p></p>
 
-<nav class="lui buttons dark">
-	<button class="lui button wired primary inverted">01</button>
-	<button class="lui button wired primary inverted">02</button>
-	<button class="lui button wired primary inverted">03</button>
-	<button class="lui button wired primary inverted">04</button>
-</nav>
+<h5>Other examples</h5>
+<table style="width: 100%">
+	<tbody>
+		<tr>
+			<td style="width: 200px">
+				<nav class="lui buttons dark">
+					<button class="lui button wired primary inverted">01</button>
+					<button class="lui button wired primary inverted">02</button>
+					<button class="lui button wired primary inverted">03</button>
+					<button class="lui button wired primary inverted">04</button>
+				</nav>
+			</td>
+			<td>
+				<pre hljs no-escape language="html">&lt;nav class=&quot;lui buttons dark&quot;&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button wired primary inverted&quot;&gt;01&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button wired primary inverted&quot;&gt;02&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button wired primary inverted&quot;&gt;03&lt;/button&gt;
+&nbsp;&nbsp;&lt;button class=&quot;lui button wired primary inverted&quot;&gt;04&lt;/button&gt;
+&lt;/nav&gt;</pre>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<nav class="lui vertical buttons">
+					<a class="lui button filling primary">These are</a>
+					<a class="lui button filling primary">vertical</a>
+					<a class="lui button filling primary">buttons</a>
+				</nav>
+			</td>
+			<td>
+				<pre hljs no-escape language="html">&lt;nav class=&quot;lui vertical buttons&quot;&gt;
+&nbsp;&nbsp;&lt;a class=&quot;lui button filling primary&quot;&gt;These are&lt;/a&gt;
+&nbsp;&nbsp;&lt;a class=&quot;lui button filling primary&quot;&gt;vertical&lt;/a&gt;
+&nbsp;&nbsp;&lt;a class=&quot;lui button filling primary&quot;&gt;buttons&lt;/a&gt;
+&lt;/nav&gt;</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
-<nav class="lui buttons dark">
-	<button class="lui button filling primary inverted">01</button>
-	<button class="lui button filling primary inverted">02</button>
-	<button class="lui button filling primary inverted">03</button>
-	<button class="lui button filling primary inverted">04</button>
-</nav>
-
-<nav class="lui buttons justify large">
-	<a class="lui button filling primary">01</a>
-	<a class="lui button filling primary">02</a>
-	<a class="lui button filling primary">03</a>
-	<a class="lui button filling primary">04</a>
-</nav>
-<nav class="lui vertical buttons" style="width: 10em;">
-	<a class="lui button filling primary">These are</a>
-	<a class="lui button filling primary">vertical</a>
-	<a class="lui button filling primary">buttons</a>
-</nav>
+<p></p>
 <!-- <section class="lui column desktop-4 spaced">
 	<div class="lui dashed divider">
 		<h4 class="lui underline">Try it</h4>
