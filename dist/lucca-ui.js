@@ -3350,7 +3350,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
-                    allowClear: "=",
+                    allowClear: "=?",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3400,7 +3400,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
-                    allowClear: "=",
+                    allowClear: "=?",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3975,12 +3975,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);

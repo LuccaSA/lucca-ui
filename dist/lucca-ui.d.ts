@@ -567,6 +567,7 @@ declare module lui.userpicker {
 declare module lui.userpicker {
     interface ILuidUserPickerScope extends ng.IScope {
         placeholder: string;
+        allowClear: boolean;
         showFormerEmployees: boolean;
         displayMeFirst: boolean;
         controlDisabled: boolean;
