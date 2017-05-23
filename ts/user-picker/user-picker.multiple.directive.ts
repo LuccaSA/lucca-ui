@@ -33,9 +33,8 @@ module lui.userpicker {
 		public link(
 			scope: ILuidUserPickerScope,
 			element: angular.IAugmentedJQuery,
-			attrs: angular.IAttributes & { allowClear?: boolean },
+			attrs: angular.IAttributes,
 			ctrls: [ng.INgModelController, LuidUserPickerController]): void {
-			scope.allowClear = !!attrs.allowClear ? scope.allowClear : false;
 
 			let ngModelCtrl = ctrls[0];
 			let userPickerCtrl = ctrls[1];
