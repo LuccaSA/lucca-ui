@@ -2,6 +2,8 @@
 
 ## in dev
 ### Bug fixes
+## 3.1.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.9)
+### Bug fixes
 - `luid-user-picker`: `allow-clear` attribute
 
 ## 3.1.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.8)
