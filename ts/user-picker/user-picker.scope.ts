@@ -4,6 +4,8 @@ module lui.userpicker {
 	export interface ILuidUserPickerScope extends ng.IScope {
 		placeholder: string;
 
+		allowClear: boolean;
+
 		/** Indicates if the user-picker has to display the former employees */
 		showFormerEmployees: boolean;
 

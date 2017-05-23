@@ -9,7 +9,7 @@ module lui.userpicker {
 			placeholder: "@",
 			onSelect: "&",
 			onRemove: "&",
-			allowClear: "=",
+			allowClear: "=?",
 			controlDisabled: "=", // BG: pas '@', sinon cast en string
 
 			showFormerEmployees: "=", // bool, default false
@@ -33,8 +33,9 @@ module lui.userpicker {
 		public link(
 			scope: ILuidUserPickerScope,
 			element: angular.IAugmentedJQuery,
-			attrs: angular.IAttributes,
+			attrs: angular.IAttributes & { allowClear?: boolean },
 			ctrls: [ng.INgModelController, LuidUserPickerController]): void {
+			scope.allowClear = !!attrs.allowClear ? scope.allowClear : false;
 
 			let ngModelCtrl = ctrls[0];
 			let userPickerCtrl = ctrls[1];
