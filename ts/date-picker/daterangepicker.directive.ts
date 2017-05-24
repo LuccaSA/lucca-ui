@@ -14,6 +14,7 @@ module lui.datepicker {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
+			rangeFormat: "@",
 			minMode: "@",
 			min: "=",
 			max: "=",
@@ -72,6 +73,7 @@ module lui.datepicker {
 
 		displayStr: string;
 		displayFormat: string;
+		rangeFormat: any;
 		momentFormat: string;
 		fromLabel: string;
 		toLabel: string;
@@ -118,7 +120,7 @@ module lui.datepicker {
 
 			$scope.selectShortcut = (shortcut: Shortcut) => {
 				$scope.period = this.toPeriod(shortcut);
-				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.$scope.rangeFormat);
 				this.setViewValue($scope.period);
 				this.closePopover();
 			};
@@ -217,7 +219,7 @@ module lui.datepicker {
 			ngModelCtrl.$render = () => {
 				if (ngModelCtrl.$viewValue) {
 					this.$scope.period = this.getViewValue();
-					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.$scope.rangeFormat);
 					this.$scope.internal.startDisplayStr = this.$scope.period.start ? this.$scope.period.start.format(this.$scope.displayFormat || "L") : "";
 					this.$scope.internal.endDisplayStr = this.$scope.period.end ? this.$scope.period.end.format(this.$scope.displayFormat || "L") : "";
 				} else {
@@ -372,7 +374,7 @@ module lui.datepicker {
 			}
 			this.$scope.direction = "";
 			this.setViewValue(this.$scope.period);
-			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.$scope.rangeFormat);
 			this.element.removeClass("ng-open");
 			this.popoverController.close();
 		}
