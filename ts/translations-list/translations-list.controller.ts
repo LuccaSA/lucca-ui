@@ -89,6 +89,14 @@ module lui.translate {
 				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
+			$scope.addValueAndFocus = (): void => {
+				let maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
+				$scope.addValue();
+				$timeout(() => {
+					document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
+				});
+			};
+
 			$scope.addValueOnEnter = {
 				"13": ($event: JQueryEventObject): void => {
 					// The index is stored in the target's id (not very pretty ikr)
