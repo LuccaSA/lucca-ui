@@ -150,18 +150,45 @@
 			/******************
 			* FOCUS & BLUR    *
 			******************/
-			var blurTimeout;
+			var hoverTimeout;
+			$scope.enterDelayedHover = function () {
+				if(!!hoverTimeout) {
+					$timeout.cancel(hoverTimeout);
+					hoverTimeout = undefined;
+				}
+				hoverTimeout = $timeout(function () {
+					$scope.hovered = true;
+				}, 800);
+			};
+
+			$scope.exitDelayedHover = function () {
+				if(!!hoverTimeout) {
+					$timeout.cancel(hoverTimeout);
+					hoverTimeout = undefined;
+				}
+				hoverTimeout = $timeout(function () {
+					$scope.hovered = false;
+				}, 200);
+			};
+
 			$scope.focusInput = function () {
-				if (!!blurTimeout) {
-					$timeout.cancel(blurTimeout);
-					blurTimeout = undefined;
+				if(!!hoverTimeout) {
+					$timeout.cancel(hoverTimeout);
+					hoverTimeout = undefined;
 				}
 				$scope.focused = true;
 			};
 			$scope.blurInput = function () {
-				blurTimeout = $timeout(function () {
-					$scope.focused = false;
-				}, 500);
+				if(!!hoverTimeout) {
+					$timeout.cancel(hoverTimeout);
+					hoverTimeout = undefined;
+				}
+				$scope.focused = false;
+				$scope.hovered = false;
+			};
+
+			$scope.blurOnEnter = function($event) {
+				$event.target.blur();
 			};
 
 		}]);
@@ -171,15 +198,15 @@
 	/**************************/
 	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"enterDelayedHover()\" ng-mouseleave=\"exitDelayedHover()\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +
