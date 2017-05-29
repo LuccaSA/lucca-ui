@@ -1,7 +1,7 @@
 <ui-select ng-model="internal.selectedDepartment" ng-disabled="controlDisabled" search-enabled="true" on-select="selectDepartment()" uis-open-close="onDropdownToggle(isOpen)">
 	<ui-select-match placeholder="{{ $select.selected.name }}" allow-clear="true">{{ $select.selected.name }}</ui-select-match>
 	<ui-select-choices repeat="department in departmentsToDisplay | filter: $select.search" luid-on-scroll-bottom="loadMore()">
-		<div ng-bind-html="department.name | highlight: $select.search"></div>
+		<div><b ng-bind-html="department.name | highlight: $select.search"></b></div>
 		<small><i ng-bind="department.ancestorsLabel"></i></small>
 	</ui-select-choices>
 </ui-select>
