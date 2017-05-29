@@ -5,7 +5,7 @@ module lui.departmentpicker {
 
 	export class LuidDepartmentPickerController {
 		public static IID: string = "luidDepartmentPickerController";
-		public static $inject: Array<string> = ["$scope", "departmentService"];
+		public static $inject: Array<string> = ["$scope", "departmentPickerService"];
 
 		private $scope: ILuidDepartmentPickerScope;
 		private departmentPickerService: IDepartmentPickerService;
