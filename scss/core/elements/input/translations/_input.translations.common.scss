@@ -42,6 +42,10 @@
 				.input {
 					z-index: luiTheme(element, popover, z-index) + 1;
 				}
+
+				~ .tooltip {
+					display: none;
+				}
 			}
 		}
 	}

@@ -32,7 +32,11 @@
 					});
 				}
 
-				ngModelCtrl.$render = function () { scope.internal = parse(ngModelCtrl.$viewValue); };
+				ngModelCtrl.$render = function () {
+					scope.internal = parse(ngModelCtrl.$viewValue);
+					translateCtrl.updateTooltip();
+				};
+
 				translateCtrl.updateViewValue = function () {
 					switch (mode) {
 						case "dictionary":
@@ -43,6 +47,23 @@
 						case "lucca":
 							return updateLucca(scope.internal);
 					}
+				};
+
+				translateCtrl.updateTooltip = function () {
+					var tooltipText = "";
+					if(!!!scope.internal) {
+						scope.tooltipText = undefined;
+						return;
+					}
+					for(var i = 0; i < scope.cultures.length; i++) {
+						if(!!scope.internal[scope.cultures[i]]) {
+							tooltipText += "[" + scope.cultures[i].toUpperCase() + "]";
+							tooltipText += " : ";
+							tooltipText += scope.internal[scope.cultures[i]];
+							tooltipText += "\n";
+						}
+					}
+					scope.tooltipText = tooltipText;
 				};
 
 				var parse = function (value) {
@@ -145,53 +166,23 @@
 			/******************
 			* UPDATE          *
 			******************/
-			$scope.update = function () { ctrl.updateViewValue(); };
+			$scope.update = function () { ctrl.updateViewValue(); ctrl.updateTooltip(); };
 
 			/******************
 			* FOCUS & BLUR    *
 			******************/
-			var hoverTimeout;
-			$scope.enterDelayedHover = function () {
-				if(!!hoverTimeout) {
-					$timeout.cancel(hoverTimeout);
-					hoverTimeout = undefined;
-				}
-				hoverTimeout = $timeout(function () {
-					$scope.hovered = true;
-				}, 800);
-			};
-
-			$scope.exitDelayedHover = function () {
-				if(!!hoverTimeout) {
-					$timeout.cancel(hoverTimeout);
-					hoverTimeout = undefined;
-				}
-				hoverTimeout = $timeout(function () {
-					$scope.hovered = false;
-				}, 200);
-			};
 
 			$scope.focusInput = function () {
-				if(!!hoverTimeout) {
-					$timeout.cancel(hoverTimeout);
-					hoverTimeout = undefined;
-				}
 				$scope.focused = true;
 			};
 			$scope.blurInput = function () {
-				if(!!hoverTimeout) {
-					$timeout.cancel(hoverTimeout);
-					hoverTimeout = undefined;
-				}
 				$scope.focused = false;
-				$scope.hovered = false;
 			};
 
 			$scope.blurOnEnter = function($event) {
 				$event.target.blur();
 				$event.preventDefault();
 			};
-
 		}]);
 
 	/**************************/
@@ -199,7 +190,7 @@
 	/**************************/
 	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"enterDelayedHover()\" ng-mouseleave=\"exitDelayedHover()\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused}\" tooltip-class=\"lui\" tooltip-placement=\"top\"  uib-tooltip=\"{{tooltipText}}\">" +
 			"	<div class=\"lui input\">" +
 			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
