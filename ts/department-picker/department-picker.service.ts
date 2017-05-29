@@ -6,15 +6,13 @@ module lui.departmentpicker {
 	}
 
 	class DepartmentPickerService implements IDepartmentPickerService {
-		public static IID: string = "departmentService";
-		public static $inject: Array<string> = ["$http", "$q"];
+		public static IID: string = "departmentPickerService";
+		public static $inject: Array<string> = ["$http"];
 
 		private $http: ng.IHttpService;
-		private $q: ng.IQService;
 
-		constructor($http: ng.IHttpService, $q: ng.IQService) {
+		constructor($http: ng.IHttpService) {
 			this.$http = $http;
-			this.$q = $q;
 		}
 
 		public getDepartments(): ng.IPromise<IDepartment[]> {
