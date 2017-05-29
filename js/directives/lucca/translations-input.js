@@ -189,6 +189,7 @@
 
 			$scope.blurOnEnter = function($event) {
 				$event.target.blur();
+				$event.preventDefault();
 			};
 
 		}]);

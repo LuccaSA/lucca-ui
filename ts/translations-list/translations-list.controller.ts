@@ -128,7 +128,19 @@ module lui.translate {
 				}
 
 				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
-				return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+				if (!!currentCultureValue) {
+					return $scope.isDisabled ? "" : currentCultureValue;
+				}
+
+				for(let i = 0; i < $scope.cultures.length; i++) {
+					let currentLanguage = $scope.cultures[i];
+					let cultureValue = $scope.values[currentLanguage].values[index].value;
+					if (!!cultureValue) {
+						return $scope.isDisabled ? "" : cultureValue;
+					}
+				}
+
+				return $scope.isDisabled ? "" : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE");
 			};
 
 			$scope.getUniqueId = (culture: string, index: number): string => {
