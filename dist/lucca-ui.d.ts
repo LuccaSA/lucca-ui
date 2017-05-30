@@ -124,7 +124,7 @@ declare module lui {
     interface IFilterService extends ng.IFilterService {
         (name: "luifDuration"): (input: any, showSign?: boolean, unit?: string, precision?: string) => string;
         (name: "luifPlaceholder"): (input: any, placeholder: string) => string;
-        (name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean) => string;
+        (name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean, trads?: Object) => string;
         (name: "luifDefaultCode"): (input: string) => string;
         (name: "luifStripAccents"): (input: string) => string;
     }

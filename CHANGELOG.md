@@ -2,6 +2,8 @@
 
 ## in dev
 ### Bug fixes
+
+## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
 ### Changes (non-breaking)
  - `luid-daterange-picker`: add `range-format` attribute
 
