@@ -25,6 +25,10 @@
 					}
 				}
 
+				.upload-overlay .loader{
+					font-size: 3em;
+				}
+
 				&:hover {
 					.input-overlay {
 						height: map-gets($vars, overlay, height);
