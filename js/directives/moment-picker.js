@@ -105,7 +105,7 @@
 				max:'=', // idem for max
 				step:'=', // the number of minutes to add/subtract when clicking the addMins button or scrolling on the add in input
 				referenceDate:'=', // when entering a time, the date to set it, also used to count the number of days between the ngModel and this date, if unavailable, will use min then max then today
-				disabled:'=',
+				isDisabled:'=',
 				showButtons:'=', // forces the buttons to be displayed even if neither inputs is focused
 				enforceValid:'=', // prevents entering an ng-invalid input by correcting the value when losing focus
 
@@ -136,7 +136,7 @@
 				return newValue;
 			}
 
-			if ($scope.disabled) { return; }
+			if ($scope.isDisabled) { return; }
 			// $scope.ngModelCtrl.$setValidity('pattern', true);
 
 			update(calculateNewValue(), true);
@@ -395,7 +395,7 @@
 					enableMouseWheel = false;
 				});
 				function subscription(e, incrStep){
-					if(!$scope.disabled && enableMouseWheel){
+					if(!$scope.isDisabled && enableMouseWheel){
 						$scope.$apply(incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
 					}
@@ -414,16 +414,16 @@
 
 	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
-			"<div class='lui hours moment input' ng-class='{disabled:disabled}'>" +
-			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"<div class='lui hours moment input' ng-class='{disabled: isDisabled}'>" +
+			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled: maxed}'></i>" +
+			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"<span class='separator'>:</span>" +
-			"<div class='lui minutes moment input' ng-class='{disabled:disabled}'>" +
-			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"<div class='lui minutes moment input' ng-class='{disabled: isDisabled}'>" +
+			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled: maxed}'></i>" +
+			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"");
 	}]);
