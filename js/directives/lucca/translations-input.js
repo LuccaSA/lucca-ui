@@ -57,10 +57,7 @@
 					}
 					for(var i = 0; i < scope.cultures.length; i++) {
 						if(!!scope.internal[scope.cultures[i]]) {
-							tooltipText += "[" + scope.cultures[i].toUpperCase() + "]";
-							tooltipText += " : ";
-							tooltipText += scope.internal[scope.cultures[i]];
-							tooltipText += "\n";
+							tooltipText += "["+scope.cultures[i].toUpperCase()+"] : "+ scope.internal[scope.cultures[i]] + "\n";
 						}
 					}
 					scope.tooltipText = tooltipText;
