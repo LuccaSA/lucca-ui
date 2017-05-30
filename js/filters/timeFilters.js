@@ -66,7 +66,7 @@
 			if (!!trads && !!trads[locale] && !!trads[locale][fallbackKey]) {
 				return trads[locale][fallbackKey];
 			}
-			// fallback opn english in providsed translations
+			// fallback on english in provided translations
 			var fallbackLocale = "en";
 			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][key]) {
 				return trads[fallbackLocale][key];
@@ -74,12 +74,8 @@
 			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][fallbackKey]) {
 				return trads[fallbackLocale][fallbackKey];
 			}
-			// using range format property when start date and end date are valid
-			if (!!trads && fallbackKey === "other") {
-				return trads;
-			}
 
-			// fallback on standard translmations if i couldnt find zhat i need in provided trads
+			// fallback on standard translations if I couldnt find what I need in provided trads
 			var fallbackTrads = translations;
 			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][key]) {
 				return fallbackTrads[locale][key];
@@ -87,7 +83,7 @@
 			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][fallbackKey]) {
 				return fallbackTrads[locale][fallbackKey];
 			}
-			// fallback opn english in providsed translations
+			// fallback on english in provided translations
 			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][key]) {
 				return fallbackTrads[fallbackLocale][key];
 			}

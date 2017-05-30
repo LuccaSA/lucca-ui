@@ -725,6 +725,7 @@ var lui;
                 this.scope = {
                     format: "@",
                     displayFormat: "@",
+                    rangeFormat: "@",
                     minMode: "@",
                     min: "=",
                     max: "=",
@@ -774,13 +775,18 @@ var lui;
                         $scope.toLabel = "To";
                         break;
                 }
+                this.rangeFormatDictionary = {
+                    en: {
+                        other: $scope.rangeFormat
+                    }
+                };
                 $scope.internal.startDisplayStr = "";
                 $scope.internal.endDisplayStr = "";
                 $scope.focusEndInputOnTab = { 9: function ($event) { _this.$scope.editEnd($event); } };
                 $scope.closePopoverOnTab = { 9: function ($event) { _this.closePopover(); _this.$scope.$apply(); } };
                 $scope.selectShortcut = function (shortcut) {
                     $scope.period = _this.toPeriod(shortcut);
-                    $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                    $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period, false, _this.rangeFormatDictionary);
                     _this.setViewValue($scope.period);
                     _this.closePopover();
                 };
@@ -874,7 +880,7 @@ var lui;
                 ngModelCtrl.$render = function () {
                     if (ngModelCtrl.$viewValue) {
                         _this.$scope.period = _this.getViewValue();
-                        _this.$scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                        _this.$scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period, false, _this.rangeFormatDictionary);
                         _this.$scope.internal.startDisplayStr = _this.$scope.period.start ? _this.$scope.period.start.format(_this.$scope.displayFormat || "L") : "";
                         _this.$scope.internal.endDisplayStr = _this.$scope.period.end ? _this.$scope.period.end.format(_this.$scope.displayFormat || "L") : "";
                     }
@@ -1036,7 +1042,7 @@ var lui;
                 }
                 this.$scope.direction = "";
                 this.setViewValue(this.$scope.period);
-                this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+                this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.rangeFormatDictionary);
                 this.element.removeClass("ng-open");
                 this.popoverController.close();
             };
@@ -3975,12 +3981,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);
@@ -5209,6 +5215,7 @@ var lui;
 				startOnlyThisYear: 'date(dddd, MMMM Do) onwards',
 				endOnly: 'until date(dddd, LL)',
 				endOnlyThisYear: 'until date(dddd, MMMM Do)',
+				date: 'date(LL)',
 				sameDay: 'start(dddd, LL)',
 				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
@@ -5222,6 +5229,7 @@ var lui;
 				startOnlyThisYear: 'à partir du date(dddd Do MMMM)',
 				endOnly: 'jusqu\'au date(dddd LL)',
 				endOnlyThisYear: 'jusqu\'au date(dddd Do MMMM)',
+				date: 'date(LL)',
 				sameDay: 'le start(dddd LL)',
 				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
@@ -5232,11 +5240,11 @@ var lui;
 			},
 			'de': {
 
-				// startOnly: 'start(dddd, LL) onwards',
-				// startOnlyThisYear: 'start(dddd, MMMM Do) onwards',
-				// endOnly: 'until end(dddd, LL)',
-				// endOnlyThisYear: 'until end(dddd, MMMM Do)',
-
+				startOnly: 'von date(Do MMMM)',
+				startOnlyThisYear: 'von date(LL)',
+				endOnly: 'bis date(Do MMMM)',
+				endOnlyThisYear: 'bis date(LL)',
+				date: 'date(LL)',
 				sameDay: 'der start(dddd LL)',
 				sameDayThisYear: 'der start(dddd Do MMMM)',
 				sameMonth: 'von start(Do) bis end(LL)',
@@ -5246,7 +5254,39 @@ var lui;
 				other: 'von start(LL) bis end(LL)'
 			}
 		};
-		return function (_block, _excludeEnd, _ampm, _translations) {
+		function getTrad(trads, locale, key, fallbackKey) {
+			if (!!trads && !!trads[locale] && !!trads[locale][key]) {
+				return trads[locale][key];
+			}
+			if (!!trads && !!trads[locale] && !!trads[locale][fallbackKey]) {
+				return trads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			var fallbackLocale = "en";
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][key]) {
+				return trads[fallbackLocale][key];
+			}
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][fallbackKey]) {
+				return trads[fallbackLocale][fallbackKey];
+			}
+
+			// fallback on standard translations if I couldnt find what I need in provided trads
+			var fallbackTrads = translations;
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][key]) {
+				return fallbackTrads[locale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][fallbackKey]) {
+				return fallbackTrads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][key]) {
+				return fallbackTrads[fallbackLocale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][fallbackKey]) {
+				return fallbackTrads[fallbackLocale][fallbackKey];
+			}
+		}
+		return function (_block, _excludeEnd, _translations) {
 			if(!_block){ return; }
 			var start = _block.start || _block.startsAt || _block.startsOn || _block.startDate;
 			var end = _block.end || _block.endsAt || _block.endsOn || _block.endDate;
@@ -5258,7 +5298,7 @@ var lui;
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || translations.en;
+			var trad;
 			var format;
 			var regex;
 			if (!!start && !!end) {
@@ -5266,16 +5306,18 @@ var lui;
 				if(moment().year() === start.year() && moment().year() === end.year()){
 					format += "ThisYear";
 				}
-				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-				return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+				trad = getTrad(_translations, moment.locale(), format, "other");
+				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trad);
+				return trad.replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
 			}
 			format = !!start ? "startOnly" : "endOnly";
 			var date = start || end;
 			if(moment().year() === date.year()){
 				format += "ThisYear";
 			}
-			regex = /(date\((.*?)\))/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], date.format(regex[2]));
+			trad = getTrad(_translations, moment.locale(), format, "date");
+			regex = /(date\((.*?)\))/gi.exec(trad);
+			return trad.replace(regex[1], date.format(regex[2]));
 		};
 	})
 	.filter('luifMoment', function () {
