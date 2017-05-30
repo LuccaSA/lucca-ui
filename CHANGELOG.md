@@ -2,6 +2,9 @@
 
 ## in dev
 ### Bug fixes
+
+## 3.1.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.10)
+### Bug fixes
 - `luid-moment`: `disabled` attribute is now `is-disabled` for IE support
 
 ## 3.1.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.9)
