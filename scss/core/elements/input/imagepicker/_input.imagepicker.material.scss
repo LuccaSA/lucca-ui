@@ -26,7 +26,7 @@
 				}
 
 				.upload-overlay .loader{
-					font-size: 3em;
+					font-size: map-gets($vars, material, loader-size);
 				}
 
 				&:hover {
