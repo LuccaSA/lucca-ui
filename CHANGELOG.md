@@ -1,6 +1,8 @@
 # Change log
 
 ## in dev
+### Changes (non-breaking)
+- Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
 ### Bug fixes
 
 ## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)

@@ -100,7 +100,7 @@
 			}
 		}
 
-		#main-navigation.with-active-arrow a.item {
+		#main-navigation.with-navigation-arrow a.item {
 			&:after {
 				right: -#{lui_rem(1)};
 				opacity: 1;
@@ -109,7 +109,7 @@
 				transition-delay: 150ms;
 				transition-timing-function: ease-out;
 			}
-			
+
 			&.active {
 				&:after {
 					@include lui_points_towards(left, map-gets($vars, appBackground), lui_rem(0.75));
