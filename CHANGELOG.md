@@ -2,6 +2,7 @@
 
 ## in dev
 ### Bug fixes
+- `luid-image-picker`: fixed issue with loading states not showing
 
 ## 3.1.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.10)
 ### Bug fixes
