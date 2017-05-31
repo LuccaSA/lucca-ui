@@ -46,6 +46,10 @@ module lui.departmentpicker {
 					this.$scope.$apply();
 				}
 			};
+
+			this.$scope.getLevel = (department: IDepartment): Array<{}> => {
+				return new Array(department.level);
+			};
 		}
 
 		private initDepartments(): void {
