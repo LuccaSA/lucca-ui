@@ -44,6 +44,10 @@ module lui.departmentpicker {
 		}
 
 		private setAncestorsLabel(department: IDepartment, departmentTrees: IDepartmentTree[]): void {
+			if (department.level === undefined) {
+				department.level = 0;
+			}
+
 			_.each(departmentTrees, (departmentTree: IDepartmentTree) => {
 				if (!departmentTree.node.ancestorsLabel) {
 					departmentTree.node.ancestorsLabel = "";
@@ -51,6 +55,8 @@ module lui.departmentpicker {
 					departmentTree.node.ancestorsLabel += " > ";
 				}
 				departmentTree.node.ancestorsLabel += department.name;
+
+				departmentTree.node.level = department.level + 1;
 
 				this.setAncestorsLabel(department, departmentTree.children);
 			});
