@@ -2,6 +2,7 @@
 
 ## in dev
 ### Bug fixes
+- `luid-on-scroll-bottom`: infinite scroll did not work on browsers like FireFox
 
 ## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
 ### Changes (non-breaking)
