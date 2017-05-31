@@ -1,0 +1,32 @@
+@if luiTheme(element, field, departmentpicker, enabled) {
+	@at-root #{$namespace} {
+		$vars: luiTheme(element, field, departmentpicker);
+
+		luid-department-picker{
+			display: inline-block;
+
+			.departmentpicker-label {
+				font-weight: 700;
+			}
+
+			.departmentpicker-tree-level {
+				margin-right: 1em;
+				&::before {
+					content: '';
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					border-right: 1px dotted #CCC;
+				}
+				&::after {
+					content: '';
+					position: absolute;
+					width: 10px;
+					top: 50%;
+					height: 1px;
+					border-bottom: 1px dotted #CCC;
+				}
+			}
+		}
+	}
+}
