@@ -11,11 +11,6 @@
 				max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 
-				.upload-overlay {
-					height: 0;
-					background-color: black;
-				}
-
 				.input-overlay {
 					height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				}

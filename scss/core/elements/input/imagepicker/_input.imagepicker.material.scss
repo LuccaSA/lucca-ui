@@ -13,13 +13,10 @@
 					background-size: map-gets($vars, background-size);
 				}
 
-				.input-overlay,
-				.upload-overlay {
+				.input-overlay {
 					height: 0;
 					background-color: map-gets($vars, overlay, bg-color);
-				}
 
-				.input-overlay {
 					> span {
 						padding: map-gets($vars, overlay, padding);
 					}

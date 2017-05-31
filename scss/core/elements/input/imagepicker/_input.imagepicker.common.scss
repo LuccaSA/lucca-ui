@@ -30,6 +30,11 @@
 					transition: map-gets($vars, overlay, transition);
 				}
 
+				.upload-overlay {
+					height: 0;
+					background-color: map-gets($vars, overlay, bg-color);
+				}
+
 				.input-overlay {
 					font-size: lui_rem(1);
 					text-align: center;
