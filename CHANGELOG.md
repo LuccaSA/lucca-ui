@@ -2,6 +2,7 @@
 
 ## in dev
 ### Bug fixes
+- `luid-user-picker`: fixed a bug where user were duplicated
 
 ## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
 ### Changes (non-breaking)
