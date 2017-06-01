@@ -278,12 +278,13 @@ module lui.userpicker {
 				});
 		}
 
-		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<any> {
+		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<IUserLookup[]> {
 			return this.tidyUp(allUsers, clue)
 				.then((neatUsers: IUserLookup[]) => {
 					this.$scope.users = this.$scope.users || [];
-					this.$scope.users.push(...neatUsers);
-					return undefined;
+					// No duplication
+					this.$scope.users.push(..._.filter(neatUsers, (neatUser: IUserLookup) => { return !_.any(this.$scope.users, (user: IUserLookup) => { return user.id === neatUser.id; }); }));
+					return this.$scope.users;
 				});
 		}
 
