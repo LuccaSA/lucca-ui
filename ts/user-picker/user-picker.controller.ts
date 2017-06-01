@@ -243,39 +243,39 @@ module lui.userpicker {
 
 			let get = () => {
 				return this.userPickerService.getUsers(this.getFilter(clue), fetchPaging, fetchOffset)
-				.then(users => {
-					if (!!this.$scope.customFilter) {
-						return _.chain(users)
-						.filter(u => this.$scope.customFilter(u))
-						.rest(offset)
-						.first(paging)
-						.value();
-					}
-					return users;
-				});
+					.then(users => {
+						if (!!this.$scope.customFilter) {
+							return _.chain(users)
+								.filter(u => this.$scope.customFilter(u))
+								.rest(offset)
+								.first(paging)
+								.value();
+						}
+						return users;
+					});
 			};
 
 			return this.$q.all([
 				get(),
 				this.userPickerService.getMe(),
 			]).then((datas: [IUserLookup[], IUserLookup]) => {
-					let allUsers = datas[0];
-					let me = datas[1];
-					if (!offset) {
-						if (!clue && this.$scope.displayAllUsers) {
-							let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
-							allUsers.unshift(all);
-						}
-						if (!clue && this.$scope.displayMeFirst) {
-							let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
-							if (myIndex !== -1) {
-								allUsers.splice(myIndex, 1);
-							}
-							allUsers.unshift(me);
-						}
+				let allUsers = datas[0];
+				let me = datas[1];
+				if (!offset) {
+					if (!clue && this.$scope.displayAllUsers) {
+						let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
+						allUsers.unshift(all);
 					}
-					return allUsers;
-				});
+					if (!clue && this.$scope.displayMeFirst) {
+						let myIndex = _.findIndex(allUsers, (user: IUserLookup) => { return user.id === this.$scope.myId; });
+						if (myIndex !== -1) {
+							allUsers.splice(myIndex, 1);
+						}
+						allUsers.unshift(me);
+					}
+				}
+				return allUsers;
+			});
 		}
 
 		private tidyUpAndAssign(allUsers: IUserLookup[], clue: string): ng.IPromise<IUserLookup[]> {
@@ -306,7 +306,7 @@ module lui.userpicker {
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
 				(!!clue ? "&clue=" + clue : "");
-				// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
+			// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
 	}
