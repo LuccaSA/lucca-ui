@@ -50,55 +50,65 @@
 </div>
 <div class="lui block round">
 	<form name="myForm">
+		<p>myValue in luid-moment (required) :</p>
+			<div class="lui field">
+				<div class="lui compact input">
+					<luid-moment ng-model="myValue" name="myInput" ng-change="hasChanged()" show-buttons="true" required></luid-moment>
+				</div>
+				<div class="messages">
+					<small class="message error" ng-repeat="(key, value) in myForm.myInput.$error">ng-invalid-{{key}}</small>
+				</div>
+			</div>
 		<p>
-			myValue in luid-moment (required) :
-			<luid-moment ng-model="myValue" name="myInput" ng-change="hasChanged()" show-buttons="true" required></luid-moment>
-			<span class="lui red label" ng-repeat="(key, value) in myForm.myInput.$error">ng-invalid-{{key}}</span>
-		</p>
-		<p>
-			myValue as it is in $scope :
-			<span class="lui long input">
-				<input name="myTextInput" type="text" ng-model="myValue" readonly="readonly">
-			</span>
+			myValue as it is in $scope : <code>{{myValue}}</code>
 		</p>
 		<p>
 			Number of time ng-change on the luid-moment has been called : <code>{{updateCnt}}</code>
 		</p>
 		<hr>
 		<p>
-			myStr in luid-moment with format="'HH:mm:ss'" :
-			<luid-moment ng-model="myStr" format="'HH:mm:ss'" name="myInputStr" min="'08:00:00'"></luid-moment>
-			<span class="lui red label" ng-repeat="(key, value) in myForm.myInputStr.$error">ng-invalid-{{key}}</span>
+			<p>myStr in luid-moment with format="'HH:mm:ss'" :</p>
+			<div class="lui field">
+				<div class="lui compact input">
+					<luid-moment ng-model="myStr" format="'HH:mm:ss'" name="myInputStr" min="'08:00:00'"></luid-moment>
+				</div>
+				<div class="messages">
+					<small class="message error" ng-repeat="(key, value) in myForm.myInputStr.$error">ng-invalid-{{key}}</small>
+				</div>
+			</div>
 		</p>
 		<p>
-			myStr as it is in $scope:
-			<span class="lui input">
-				<input type="text" ng-model="myStr">
-			</span>
-		</p>
-		<hr>
-		<p>
-			myValue2 bounded between "08:00" and "22:00" :
-			<luid-moment ng-model="myValue2" min="'08:00:00'" max="'22:00:00'" name="myInput2"></luid-moment>
-			<span class="lui red label" ng-repeat="(key, value) in myForm.myInput2.$error">ng-invalid-{{key}}</span>
-		</p>
-		<p>
-			myValue2 as it is in $scope :
-			<span class="lui long input">
-				<input type="text" ng-model="myValue2" readonly="readonly">
-			</span>
+			myStr as it is in $scope: <code>{{myStr}}</code>
 		</p>
 		<hr>
 		<p>
-			myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM) :
-			<luid-moment ng-model="myValue3" min="min" max="max" name="myInput3"></luid-moment>
-			<span class="lui red label" ng-repeat="(key, value) in myForm.myInput3.$error">ng-invalid-{{key}}</span>
+			<p>myValue2 bounded between "08:00" and "22:00" :</p>
+			<div class="lui field">
+				<div class="lui compact input">
+					<luid-moment class="lui compact" ng-model="myValue2" min="'08:00:00'" max="'22:00:00'" name="myInput2"></luid-moment>
+				</div>
+				<div class="messages">
+					<small class="message error" ng-repeat="(key, value) in myForm.myInput2.$error">ng-invalid-{{key}}</small>
+				</div>
+			</div>
 		</p>
 		<p>
-			myValue2 as it is in $scope :
-			<span class="lui long input">
-				<input type="text" ng-model="myValue3" readonly="readonly">
-			</span>
+			myValue2 as it is in $scope : <code>{{myValue2}}</code>
+		</p>
+		<hr>
+		<p>
+			<p>myValue3 bounded between $scope.min (today 8 AM) and $scope.max (tomorrow 2 AM) :</p>
+			<div class="lui field">
+				<div class="lui compact input">
+					<luid-moment class="lui compact" ng-model="myValue3" min="min" max="max" name="myInput3"></luid-moment>
+				</div>
+				<div class="messages">
+					<small class="message error" ng-repeat="(key, value) in myForm.myInput3.$error">ng-invalid-{{key}}</small>
+				</div>
+			</div>
+		</p>
+		<p>
+			myValue3 as it is in $scope : <code>{{myValue3}}</code>
 		</p>
 	</form>
 </div>

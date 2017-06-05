@@ -43,13 +43,15 @@
 	</div>
 </div>
 <div class="lui block round">
-	<p>
-		myValue :
-		<span class="lui input">
+	<div class="lui field">
+		<span class="lui compact input">
 			<input type="text" ng-model="myValue">
+			<label for="myValue">myValue</label>
 		</span>
-		(enter '1.11:30:00' or 'PT35H30M' or such like)
-	</p>
+		<div class="messages">
+			<small class="message">(enter '1.11:30:00' or 'PT35H30M' or such like)</small>
+		</div>
+	</div>
 	<p>
 		Set myValue to
 		<span class="lui button" ng-click="myValue='PT35H'">35h</span>
