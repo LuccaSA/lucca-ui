@@ -44,7 +44,7 @@
 <div class="lui block round">
 	<p>basic usage</p>
 	<p>
-		<div class="lui material input">
+		<div class="lui compact input">
 			<luid-daterange-picker ng-model="myDaterange" grouped-shortcuts="groupedShortcuts"
 				id="myDateRangeInput" name="myDateRangeInput"></luid-daterange-picker>
 			<label for="myDateRangeInput">Pick a period</label>
@@ -54,7 +54,7 @@
 	<hr class="lui dashed divider">
 	<p>with end excluded and weekend disabled</p>
 	<p>
-		<div class="lui material input">
+		<div class="lui compact input">
 			<luid-daterange-picker ng-model="myDaterange2" exclude-end="true" id="myDaterange2" display-format="l" custom-class="disableWeekends"
 				shortcuts="shortcuts"></luid-daterange-picker>
 			<label for="myDaterange2">Pick a period</label>
@@ -64,7 +64,7 @@
 	<hr class="lui dashed divider">
 	<p>with custom start and end properties (foo and bar), an exotic format, a different display format, a min and a max</p>
 	<p>
-		<div class="lui material input">
+		<div class="lui compact input">
 			<luid-daterange-picker ng-model="myDaterange3" id="myDaterange3" start-property="foo" end-property="bar"
 				format="YYYYMMDD" display-format="ddd Do MMM" min="'20160520'" max="'20160610'"></luid-daterange-picker>
 			<label for="myDaterange3">Pick a period</label>
@@ -74,7 +74,7 @@
 	<hr class="lui dashed divider">
 	<p>With keyboard input enabled</p>
 	<p>
-		<div class="lui material input">
+		<div class="lui compact input">
 			<luid-daterange-picker ng-model="myDateRange4" display-format="DD/MM/YYYY" format="DD/MM/YYYY" grouped-shortcuts="groupedShortcuts"
 				id="myDateRangeInput4" name="myDateRangeInput4"></luid-daterange-picker>
 			<label for="myDateRangeInput4">Pick a period</label>

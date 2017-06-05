@@ -63,15 +63,6 @@
 				margin-left: 0;
 			}
 
-			&:after {
-				right: -#{lui_rem(1)};
-				opacity: 1;
-				transition-property: right, opacity;
-				transition-duration: 200ms;
-				transition-delay: 150ms;
-				transition-timing-function: ease-out;
-			}
-
 			// Hover and active states
 			&:hover, &:active {
 				background: darken(map-gets($vars, navigation, background), 1);
@@ -81,13 +72,6 @@
 			&.active {
 				background: luiPalette(primary, color);
 				color: luiPalette(primary, text);
-
-				&:after {
-					@include lui_points_towards(left, map-gets($vars, appBackground), lui_rem(0.75));
-					right: 0;
-					top: 50%;
-					transform: translateY(-50%);
-				}
 			}
 			// Item icon
 			> i.icon {
@@ -113,6 +97,26 @@
 			}
 			&.has-updates span.item-updates {
 				display: block;
+			}
+		}
+
+		#main-navigation.with-navigation-arrow a.item {
+			&:after {
+				right: -#{lui_rem(1)};
+				opacity: 1;
+				transition-property: right, opacity;
+				transition-duration: 200ms;
+				transition-delay: 150ms;
+				transition-timing-function: ease-out;
+			}
+
+			&.active {
+				&:after {
+					@include lui_points_towards(left, map-gets($vars, appBackground), lui_rem(0.75));
+					right: 0;
+					top: 50%;
+					transform: translateY(-50%);
+				}
 			}
 		}
 
