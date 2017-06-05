@@ -63,11 +63,13 @@
 	<form name="myForm">
 		<p>
 			myValue in luid-percentage :
-			<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
+			<div class="lui material input">
+				<luid-percentage name="myTimespan" ng-model="myValue" ng-change="hasChanged()"></luid-percentage>
+			</div>
 		</p>
 		<p>
 			myValue as it is in $scope :
-			<span class="lui input">
+			<span class="lui compact input">
 				<input name="myTextInput" type="text" ng-model="myValue">
 			</span>
 		</p>
@@ -77,7 +79,7 @@
 		<hr>
 		<p>
 			myPrice :
-			<span class="lui short input with addon">
+			<span class="lui short compact input with addon">
 				<span class="lui addon">$</span>
 			<input type="number" ng-model="myPrice">
 			</span>

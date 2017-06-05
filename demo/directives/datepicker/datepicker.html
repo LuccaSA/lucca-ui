@@ -58,19 +58,14 @@
 			<p>
 				<luid-date-picker ng-model="dateStr" format="YYYY-MM-DD"></luid-date-picker>
 			</p>
-			<p>
-				<span class="lui input">
-					<input type="text" ng-model="dateStr">
-					<label>My date</label>
-				</span>
-			</p>
+			<p>My date: <code>{{ dateStr }}</code></p>
 		</div>
 		<div class="lui desktop-3 tablet-6 column">
 			<p>Linked to a <code>date</code></p>
 			<p>
 				<luid-date-picker ng-model="dateDate" format="date"></luid-date-picker>
 			</p>
-			<p>My date: {{ dateDate }}</p>
+			<p>My date: <code>{{ dateDate }}</code></p>
 		</div>
 	</section>
 
@@ -78,11 +73,11 @@
 
 	<p>In a popup, to be easily incorporated in a form</p>
 	<p>
-		<luid-date-picker-popup ng-model="datePopup1" disable-keyboard-input="true"></luid-date-picker-popup>
+		<luid-date-picker-popup class="lui compact" ng-model="datePopup1" disable-keyboard-input="true"></luid-date-picker-popup>
 	</p>
 	<p>displaying the date with the <code>LL</code> format but binded to a string with the <code>L</code> format</p>
 	<p>
-		<luid-date-picker-popup ng-model="datePopup2" display-format="LL" format="L" disable-keyboard-input="true"></luid-date-picker-popup>
+		<luid-date-picker-popup class="lui compact" ng-model="datePopup2" display-format="LL" format="L" disable-keyboard-input="true"></luid-date-picker-popup>
 	</p>
 	<p>value in my $scope: <code>{{ datePopup2 }}</code></p>
 
@@ -90,27 +85,29 @@
 
 	<p>with min/max</p>
 	<p ng-form="myForm">
-		<span class="lui field">
-			<span class="lui input">
+		<div class="lui field">
+			<span class="lui compact input">
 				<luid-date-picker-popup name="withMinMax" ng-model="dateMoment" min="min" max="max" disable-keyboard-input="true"></luid-date-picker-popup>
 				<label>With dynamic min and max</label>
 			</span>
-		<span class="message helper">Select a min and max in the inputs below</span>
-		</span>
+			<div class="messages">
+				<span class="message helper">Select a min and max in the inputs below</span>
+			</div>
+	</div>
 	</p>
 	<p>
-		<span class="lui inline field">
-			<span class="lui input">
+		<div class="lui inline field">
+			<span class="lui compact input">
 				<luid-date-picker-popup ng-model="min" display-format="LL" shortcuts="shortcuts" disable-keyboard-input="true"></luid-date-picker-popup>
 				<label>Min</label>
 			</span>
-		</span>
-		<span class="lui inline field">
-			<span class="lui input">
+		</div>
+		<div class="lui inline field">
+			<span class="lui compact input">
 				<luid-date-picker-popup ng-model="max" display-format="LL" grouped-shortcuts="groupedShortcuts" disable-keyboard-input="true"></luid-date-picker-popup>
 				<label>Max</label>
 			</span>
-		</span>
+		</div>
 	</p>
 	<p>
 		<!-- <code>{{myForm.withMinMax}}</code> -->
@@ -123,10 +120,10 @@
 
 	<p>with custom classes</p>
 	<p ng-form="datepickerForm">this one applies the class <code>disabled</code> to weekends
-		<luid-date-picker-popup ng-model="customClasses" custom-class="disableWeekends" disable-keyboard-input="true"></luid-date-picker-popup>
+		<luid-date-picker-popup class="lui compact" ng-model="customClasses" custom-class="disableWeekends" disable-keyboard-input="true"></luid-date-picker-popup>
 	</p>
 	<p ng-form="datepickerForm">this one highlights the current week
-		<luid-date-picker-popup ng-model="customClasses" custom-class="highlightThisWeek" disable-keyboard-input="true"></luid-date-picker-popup>
+		<luid-date-picker-popup class="lui compact" ng-model="customClasses" custom-class="highlightThisWeek" disable-keyboard-input="true"></luid-date-picker-popup>
 	</p>
 
 	<hr class="lui dashed divider">
@@ -134,36 +131,35 @@
 	<p>In a popup, with keyboard input enabled</p>
 	<p>
 		<luid-date-picker-popup ng-model="keyboardPopup" min="keyboardDemoMin" max="keyboardDemoMax" format="DD/MM/YYYY" disable-keyboard-input="keyboardInputDisabled"
-			display-format="DD/MM/YYYY" custom-class="disableWeekends" shortcuts="shortcuts">
+			display-format="DD/MM/YYYY" custom-class="disableWeekends" shortcuts="shortcuts" class="lui compact" >
 		</luid-date-picker-popup>
-		<div class="lui checkbox input">
+		<div class="lui compact checkbox input">
 			<input type="checkbox" name="keyboardInputDisabledCheckbox" id="keyboardInputDisabledCheckbox" ng-model="keyboardInputDisabled">
 			<label for="keyboardInputDisabledCheckbox">Disable keyboard input</label>
 		</div>
 	</p>
-	<br/>
 	<p>
-		<span class="lui input">
+		<span class="lui compact input">
 			<luid-date-picker-popup ng-model="keyboardDemoMin" format="DD/MM/YYYY"></luid-date-picker-popup>
 			<label>Min</label>
 		</span>
-		<span class="lui input">
+		<span class="lui compact input">
 			<luid-date-picker-popup ng-model="keyboardDemoMax" format="DD/MM/YYYY"></luid-date-picker-popup>
 			<label>Max</label>
 		</span>
-		<span>selected date = {{keyboardPopup}}</span>
+		<div>selected date = {{keyboardPopup}}</div>
 	</p>
 	<hr class="lui dashed divider">
 
 	<p>With multiple months displayed at once</p>
 	<p>
-		<luid-date-picker ng-model="dateMoment" displayed-calendars="2"></luid-date-picker>
+		<luid-date-picker class="lui compact" ng-model="dateMoment" displayed-calendars="2"></luid-date-picker>
 	</p>
 	<p>
-		<luid-date-picker ng-model="dateMoment" displayed-calendars="3"></luid-date-picker>
+		<luid-date-picker class="lui compact" ng-model="dateMoment" displayed-calendars="3"></luid-date-picker>
 	</p>
 	<p>With multiple months displayed at once in a popup</p>
 	<p>
-		<luid-date-picker-popup ng-model="dateMoment" displayed-calendars="2"></luid-date-picker-popup>
+		<luid-date-picker-popup class="lui compact" ng-model="dateMoment" displayed-calendars="2"></luid-date-picker-popup>
 	</p>
 </div>

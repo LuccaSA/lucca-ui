@@ -27,24 +27,28 @@
 	</div>
 </div>
 <div class="lui block round">
-	<p>
-		myValue :
-		<span class="lui long input">
+	<div class="lui field">
+		<span class="lui compact input">
 			<input type="text" ng-model="myValue">
+			<label for="myValue">myValue</label>
 		</span>
-		(enter '2015-01-01' or such like, or try something that is not parsable by moment)
-	</p>
+		<div class="messages">
+			<small class="message">
+				enter '1.11:30:00' or 'PT35H30M' or such like
+			</small>
+		</div>
+	</div>
 	<p>
-		Set myValue to : 
+		Set myValue to :
 		<span class="lui button" ng-click="setToDate()">new Date()</span>
 		<span class="lui button" ng-click="setToMoment()">moment().startOf('week')</span>
 	</p>
-	<p>
-		MyFormat :
-		<span class="lui long input">
-			<input type="text" ng-model="myFormat">
+	<div class="lui field">
+		<span class="lui compact input">
+			<input type="text" ng-model="myValue">
+			<label for="myValue">Format</label>
 		</span>
-	</p>
+	</div>
 	<p>
 		Formatted MyValue  : <code>{{ myValue | luifMoment : myFormat }}</code>
 	</p>
