@@ -1,6 +1,8 @@
 # Change log
 
 ## in dev
+### Changes (non-breaking)
+- Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
 ### Bug fixes
 - `luid-image-picker`: fixed issue with loading states not showing
 
