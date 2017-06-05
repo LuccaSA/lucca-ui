@@ -4,6 +4,7 @@
 ### Changes (non-breaking)
 - Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
 ### Bug fixes
+- `luid-user-picker`: fixed a bug where user were duplicated
 - `luid-image-picker`: fixed issue with loading states not showing
 
 ## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
