@@ -1,7 +1,30 @@
 # Change log
 
 ## in dev
+### Changes (non-breaking)
+- Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
+- `luid-translations` now only opens on focus
+- `luid-translations` shows translations in a tooltip on hover
+- `luid-translations-list` shows a placeholder value if defined in any language
+- `luid-translations-list` focus on the new input when adding a value
+- `ui-select` label is now aligned to the top in compact mode
+
 ### Bug fixes
+- `luid-on-scroll-bottom`: infinite scroll did not work on browsers like FireFox
+- `luid-user-picker`: fixed a bug where user were duplicated
+- `luid-image-picker`: fixed issue with loading states not showing
+
+## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
+### Changes (non-breaking)
+ - `luid-daterange-picker`: add `range-format` attribute
+
+## 3.1.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.10)
+### Bug fixes
+- `luid-moment`: `disabled` attribute is now `is-disabled` for IE support
+
+## 3.1.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.9)
+### Bug fixes
+- `luid-user-picker`: `allow-clear` attribute
 
 ## 3.1.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.8)
 ### Changes (non-breaking)
