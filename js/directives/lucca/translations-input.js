@@ -32,7 +32,11 @@
 					});
 				}
 
-				ngModelCtrl.$render = function () { scope.internal = parse(ngModelCtrl.$viewValue); };
+				ngModelCtrl.$render = function () {
+					scope.internal = parse(ngModelCtrl.$viewValue);
+					translateCtrl.updateTooltip();
+				};
+
 				translateCtrl.updateViewValue = function () {
 					switch (mode) {
 						case "dictionary":
@@ -43,6 +47,20 @@
 						case "lucca":
 							return updateLucca(scope.internal);
 					}
+				};
+
+				translateCtrl.updateTooltip = function () {
+					var tooltipText = "";
+					if(!!!scope.internal) {
+						scope.tooltipText = undefined;
+						return;
+					}
+					for(var i = 0; i < scope.cultures.length; i++) {
+						if(!!scope.internal[scope.cultures[i]]) {
+							tooltipText += "["+scope.cultures[i].toUpperCase()+"] : "+ scope.internal[scope.cultures[i]] + "\n";
+						}
+					}
+					scope.tooltipText = tooltipText;
 				};
 
 				var parse = function (value) {
@@ -145,25 +163,23 @@
 			/******************
 			* UPDATE          *
 			******************/
-			$scope.update = function () { ctrl.updateViewValue(); };
+			$scope.update = function () { ctrl.updateViewValue(); ctrl.updateTooltip(); };
 
 			/******************
 			* FOCUS & BLUR    *
 			******************/
-			var blurTimeout;
+
 			$scope.focusInput = function () {
-				if (!!blurTimeout) {
-					$timeout.cancel(blurTimeout);
-					blurTimeout = undefined;
-				}
 				$scope.focused = true;
 			};
 			$scope.blurInput = function () {
-				blurTimeout = $timeout(function () {
-					$scope.focused = false;
-				}, 500);
+				$scope.focused = false;
 			};
 
+			$scope.blurOnEnter = function($event) {
+				$event.target.blur();
+				$event.preventDefault();
+			};
 		}]);
 
 	/**************************/
@@ -171,15 +187,15 @@
 	/**************************/
 	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused}\" tooltip-class=\"lui\" tooltip-placement=\"top\"  uib-tooltip=\"{{tooltipText}}\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +

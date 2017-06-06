@@ -28,6 +28,9 @@ module lui.translate {
 		/** Add a new value to each entry of the `values` dictionary */
 		addValue(): void;
 
+		/** Add a new value to each entry of the `values` dictionary and focus on the current culture new input */
+		addValueAndFocus(): void;
+
 		/**
 		 * Delete a value. The value is deleted in each entry of the `values` dictionary
 		 * @param {number} index The index of the value you want to delete
