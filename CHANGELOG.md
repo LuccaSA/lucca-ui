@@ -7,6 +7,7 @@
 - `luid-translations` shows translations in a tooltip on hover
 - `luid-translations-list` shows a placeholder value if defined in any language
 - `luid-translations-list` focus on the new input when adding a value
+- `ui-select` label is now aligned to the top in compact mode
 
 ### Bug fixes
 - `luid-on-scroll-bottom`: infinite scroll did not work on browsers like FireFox
