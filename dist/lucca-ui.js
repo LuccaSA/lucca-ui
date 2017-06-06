@@ -2837,6 +2837,13 @@ var lui;
                     $scope.onInputValueChanged();
                     originalEvent.target.blur();
                 };
+                $scope.addValueAndFocus = function () {
+                    var maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
+                    $scope.addValue();
+                    $timeout(function () {
+                        document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
+                    });
+                };
                 $scope.addValueOnEnter = {
                     "13": function ($event) {
                         var index = Number($event.target.id.split("_")[2]);
@@ -2864,7 +2871,17 @@ var lui;
                         return selectedCultureValue;
                     }
                     var currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
-                    return $scope.isDisabled ? "" : (!!currentCultureValue ? currentCultureValue : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE"));
+                    if (!!currentCultureValue) {
+                        return $scope.isDisabled ? "" : currentCultureValue;
+                    }
+                    for (var i = 0; i < $scope.cultures.length; i++) {
+                        var currentLanguage = $scope.cultures[i];
+                        var cultureValue = $scope.values[currentLanguage].values[index].value;
+                        if (!!cultureValue) {
+                            return $scope.isDisabled ? "" : cultureValue;
+                        }
+                    }
+                    return $scope.isDisabled ? "" : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE");
                 };
                 $scope.getUniqueId = function (culture, index) {
                     return culture + "_" + $scope.uniqueId + "_" + index;
@@ -3273,8 +3290,8 @@ var lui;
                 return this.tidyUp(allUsers, clue)
                     .then(function (neatUsers) {
                     _this.$scope.users = _this.$scope.users || [];
-                    (_a = _this.$scope.users).push.apply(_a, neatUsers);
-                    return undefined;
+                    (_a = _this.$scope.users).push.apply(_a, _.filter(neatUsers, function (neatUser) { return !_.any(_this.$scope.users, function (user) { return user.id === neatUser.id; }); }));
+                    return _this.$scope.users;
                     var _a;
                 });
             };
@@ -3708,8 +3725,9 @@ var lui;
                 scope: { luidOnScrollBottom: "&" },
                 link: function ($scope, element) {
                     element.bind("scroll", function (eventArg) {
-                        var scrollbarHeight = eventArg.srcElement.scrollHeight - eventArg.srcElement.clientHeight;
-                        if (Math.abs(scrollbarHeight - eventArg.srcElement.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {
+                        var target = eventArg.target || event.srcElement;
+                        var scrollbarHeight = target.scrollHeight - target.clientHeight;
+                        if (Math.abs(scrollbarHeight - target.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {
                             $scope.luidOnScrollBottom();
                         }
                     });
@@ -3931,7 +3949,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted x-large loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div></div>"
   );
 
 
@@ -3976,7 +3994,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/translations-list/translations-list.html',
-    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" ng-change=\"onInputValueChanged()\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ getUniqueId($parent.selectedCulture, $index) }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValue()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
+    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" ng-change=\"onInputValueChanged()\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ getUniqueId($parent.selectedCulture, $index) }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValueAndFocus()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
   );
 
 
@@ -4150,7 +4168,11 @@ var lui;
 					});
 				}
 
-				ngModelCtrl.$render = function () { scope.internal = parse(ngModelCtrl.$viewValue); };
+				ngModelCtrl.$render = function () {
+					scope.internal = parse(ngModelCtrl.$viewValue);
+					translateCtrl.updateTooltip();
+				};
+
 				translateCtrl.updateViewValue = function () {
 					switch (mode) {
 						case "dictionary":
@@ -4161,6 +4183,20 @@ var lui;
 						case "lucca":
 							return updateLucca(scope.internal);
 					}
+				};
+
+				translateCtrl.updateTooltip = function () {
+					var tooltipText = "";
+					if(!!!scope.internal) {
+						scope.tooltipText = undefined;
+						return;
+					}
+					for(var i = 0; i < scope.cultures.length; i++) {
+						if(!!scope.internal[scope.cultures[i]]) {
+							tooltipText += "["+scope.cultures[i].toUpperCase()+"] : "+ scope.internal[scope.cultures[i]] + "\n";
+						}
+					}
+					scope.tooltipText = tooltipText;
 				};
 
 				var parse = function (value) {
@@ -4263,25 +4299,23 @@ var lui;
 			/******************
 			* UPDATE          *
 			******************/
-			$scope.update = function () { ctrl.updateViewValue(); };
+			$scope.update = function () { ctrl.updateViewValue(); ctrl.updateTooltip(); };
 
 			/******************
 			* FOCUS & BLUR    *
 			******************/
-			var blurTimeout;
+
 			$scope.focusInput = function () {
-				if (!!blurTimeout) {
-					$timeout.cancel(blurTimeout);
-					blurTimeout = undefined;
-				}
 				$scope.focused = true;
 			};
 			$scope.blurInput = function () {
-				blurTimeout = $timeout(function () {
-					$scope.focused = false;
-				}, 500);
+				$scope.focused = false;
 			};
 
+			$scope.blurOnEnter = function($event) {
+				$event.target.blur();
+				$event.preventDefault();
+			};
 		}]);
 
 	/**************************/
@@ -4289,15 +4323,15 @@ var lui;
 	/**************************/
 	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused}\" tooltip-class=\"lui\" tooltip-placement=\"top\"  uib-tooltip=\"{{tooltipText}}\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +
