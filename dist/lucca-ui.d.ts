@@ -510,6 +510,7 @@ declare module lui.translate {
         uniqueId: string;
         selectCulture(culture: string): void;
         addValue(): void;
+        addValueAndFocus(): void;
         deleteValue(index: number): void;
         isAddValueDisabled(): boolean;
         onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;
