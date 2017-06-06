@@ -42,7 +42,7 @@
 <div class="lui block round">
 	<p>
 		Reroute all calls to
-		<span class="lui input with addon">
+		<span class="lui compact input with addon">
 			<span class="lui addon">https://</span>
 			<input type="text" class="lui input" ng-model="local" ng-change="authToken = ''">
 		</span>
@@ -55,10 +55,10 @@
 		Basic use: the containing div of the second one is way larger. The second one is disabled and has a different placeholder.
 	</p>
 	<p>
-		<div class="imagepicker-container">
+		<div class="lui input material imagepicker-container">
 			<luid-image-picker ng-model="image"></luid-image-picker>
 		</div>
-		<div class="imagepicker-container" style="width:600px">
+		<div class="lui input material imagepicker-container" style="width:600px">
 			<luid-image-picker ng-model="image" ng-disabled="true" placeholder-url="http://www.lucienbertin.com/img/uni.png"></luid-image-picker>
 		</div>
 	</p>
@@ -67,7 +67,7 @@
 		Cropping disabled and ng-change
 	</p>
 	<p>
-		<div class="imagepicker-container">
+		<div class="lui input material imagepicker-container">
 			<luid-image-picker ng-model="image2" cropping-disabled="true" ng-change="changed()"></luid-image-picker>
 		</div>
 		ng-change has been called {{ changeCnt }} times.
@@ -77,7 +77,7 @@
 		With a cropping ratio
 	</p>
 	<p>
-		<div class="imagepicker-container">
+		<div class="lui input material imagepicker-container">
 			<luid-image-picker ng-model="image3" cropping-ratio=".75"></luid-image-picker>
 		</div>
 	</p>

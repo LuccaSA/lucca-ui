@@ -7,11 +7,11 @@
 - `luid-translations` shows translations in a tooltip on hover
 - `luid-translations-list` shows a placeholder value if defined in any language
 - `luid-translations-list` focus on the new input when adding a value
+
 ### Bug fixes
 - `luid-on-scroll-bottom`: infinite scroll did not work on browsers like FireFox
 - `luid-user-picker`: fixed a bug where user were duplicated
 - `luid-image-picker`: fixed issue with loading states not showing
-
 
 ## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
 ### Changes (non-breaking)

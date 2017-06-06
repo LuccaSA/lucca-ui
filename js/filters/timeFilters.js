@@ -20,6 +20,7 @@
 				startOnlyThisYear: 'date(dddd, MMMM Do) onwards',
 				endOnly: 'until date(dddd, LL)',
 				endOnlyThisYear: 'until date(dddd, MMMM Do)',
+				date: 'date(LL)',
 				sameDay: 'start(dddd, LL)',
 				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
@@ -33,6 +34,7 @@
 				startOnlyThisYear: 'à partir du date(dddd Do MMMM)',
 				endOnly: 'jusqu\'au date(dddd LL)',
 				endOnlyThisYear: 'jusqu\'au date(dddd Do MMMM)',
+				date: 'date(LL)',
 				sameDay: 'le start(dddd LL)',
 				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
@@ -43,11 +45,11 @@
 			},
 			'de': {
 
-				// startOnly: 'start(dddd, LL) onwards',
-				// startOnlyThisYear: 'start(dddd, MMMM Do) onwards',
-				// endOnly: 'until end(dddd, LL)',
-				// endOnlyThisYear: 'until end(dddd, MMMM Do)',
-
+				startOnly: 'von date(Do MMMM)',
+				startOnlyThisYear: 'von date(LL)',
+				endOnly: 'bis date(Do MMMM)',
+				endOnlyThisYear: 'bis date(LL)',
+				date: 'date(LL)',
 				sameDay: 'der start(dddd LL)',
 				sameDayThisYear: 'der start(dddd Do MMMM)',
 				sameMonth: 'von start(Do) bis end(LL)',
@@ -57,7 +59,39 @@
 				other: 'von start(LL) bis end(LL)'
 			}
 		};
-		return function (_block, _excludeEnd, _ampm, _translations) {
+		function getTrad(trads, locale, key, fallbackKey) {
+			if (!!trads && !!trads[locale] && !!trads[locale][key]) {
+				return trads[locale][key];
+			}
+			if (!!trads && !!trads[locale] && !!trads[locale][fallbackKey]) {
+				return trads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			var fallbackLocale = "en";
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][key]) {
+				return trads[fallbackLocale][key];
+			}
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][fallbackKey]) {
+				return trads[fallbackLocale][fallbackKey];
+			}
+
+			// fallback on standard translations if I couldnt find what I need in provided trads
+			var fallbackTrads = translations;
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][key]) {
+				return fallbackTrads[locale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][fallbackKey]) {
+				return fallbackTrads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][key]) {
+				return fallbackTrads[fallbackLocale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][fallbackKey]) {
+				return fallbackTrads[fallbackLocale][fallbackKey];
+			}
+		}
+		return function (_block, _excludeEnd, _translations) {
 			if(!_block){ return; }
 			var start = _block.start || _block.startsAt || _block.startsOn || _block.startDate;
 			var end = _block.end || _block.endsAt || _block.endsOn || _block.endDate;
@@ -69,7 +103,7 @@
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || translations.en;
+			var trad;
 			var format;
 			var regex;
 			if (!!start && !!end) {
@@ -77,16 +111,18 @@
 				if(moment().year() === start.year() && moment().year() === end.year()){
 					format += "ThisYear";
 				}
-				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-				return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+				trad = getTrad(_translations, moment.locale(), format, "other");
+				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trad);
+				return trad.replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
 			}
 			format = !!start ? "startOnly" : "endOnly";
 			var date = start || end;
 			if(moment().year() === date.year()){
 				format += "ThisYear";
 			}
-			regex = /(date\((.*?)\))/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], date.format(regex[2]));
+			trad = getTrad(_translations, moment.locale(), format, "date");
+			regex = /(date\((.*?)\))/gi.exec(trad);
+			return trad.replace(regex[1], date.format(regex[2]));
 		};
 	})
 	.filter('luifMoment', function () {

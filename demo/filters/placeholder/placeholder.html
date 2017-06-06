@@ -20,19 +20,21 @@
 	</div>
 </div>
 <div class="lui block round">
-	<p>
-		<span class="lui input">
+	<div class="lui field">
+		<span class="lui compact input">
 			<input type="text" ng-model="myValue">
-			<label>Value</label>
+			<label for="myValue">Value</label>
 		</span>
-		<button class="lui flat button" ng-click="myValue='';">clear</button>
-	</p>
-	<p>
-		<span class="lui input">
+		<div class="messages">
+			<button class="lui flat button message" ng-click="myValue='';">clear</button>
+		</div>
+	</div>
+	<div class="lui field">
+		<span class="lui compact input">
 			<input type="text" ng-model="myPlaceholder">
 			<label>Dynamic placeholder</label>
 		</span>
-	</p>
+	</div>
 	<p>
 		MyValue : <code>{{myValue}}</code>
 	</p>
