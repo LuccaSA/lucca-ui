@@ -30,6 +30,11 @@
 					transition: map-gets($vars, overlay, transition);
 				}
 
+				.upload-overlay {
+					height: 0;
+					background-color: map-gets($vars, overlay, bg-color);
+				}
+
 				.input-overlay {
 					font-size: lui_rem(1);
 					text-align: center;
@@ -56,9 +61,10 @@
 					text-indent: -100%;
 				}
 
-				.loader {
+				.lui.loader.inverted {
 					position: absolute;
-					top: 50%; left: 50%;
+					top: 50%;
+					left: 50%;
 					transform: translate(-50%, -50%);
 				}
 			}
@@ -69,9 +75,9 @@
 				}
 			}
 
-			&.uploading {
-				.input-overlay { display: none; }
-				.upload-overlay { height: 100%; }
+			.lui.image-picker.uploading .luid-image-picker-picture {
+				> .input-overlay { display: none; }
+				> .upload-overlay { height: 100%; }
 			}
 			&.round {
 				.luid-image-picker-picture {

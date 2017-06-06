@@ -56,12 +56,20 @@
 	<form name="myForm">
 		<p>
 			myValue in luid-timespan (required) :
-			<luid-timespan name="myTimespan" ng-model="myTimespan" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
-			<span class="lui label red" ng-show="myForm.myTimespan.$error.required">the value is required</span>
+			<div class="lui field">
+				<div class="lui compact input">
+					<luid-timespan name="myTimespan" ng-model="myTimespan" ng-change="hasChanged()" placeholder="--m" required></luid-timespan>
+				</div>
+				<div class="messages">
+					<small class="message error" ng-show="myForm.myTimespan.$error.required">the value is required</small>
+				</div>
+			</div>
+
+
 		</p>
 		<p>
 			myValue as it is in $scope :
-			<span class="lui input">
+			<span class="lui compact input">
 			<input name="myTextInput" type="text" ng-model="myTimespan">
 		</span>
 		</p>
@@ -72,20 +80,22 @@
 		<p>
 			With <code>mode="moment.duration"</code>
 		</p>
-		<p>
+		<div class="lui compact input">
 			<luid-timespan ng-model="myDuration" mode="moment.duration"></luid-timespan>
-		</p>
+		</div>
 		<p>
 			myDuration in the $scope : {{myDuration}} and with a <a href="#/filters#luifDuration" class="lui fancy link">luifDuration</a>						filter : {{myDuration | luifDuration}}
 		</p>
 		<hr>
 		<p>
 			myValue2 bounded between "10m" and "11h" :
-			<luid-timespan ng-model="myTimespan2" placeholder="--m" min="min" max="max"></luid-timespan>
+			<div class="lui compact input">
+				<luid-timespan ng-model="myTimespan2" placeholder="--m" min="min" max="max"></luid-timespan>
+			</div>
 		</p>
 		<p>
 			myValue2 as it is in $scope :
-			<span class="lui input">
+			<span class="lui compact input">
 			<input type="text" ng-model="myTimespan2">
 		</span>
 		</p>
