@@ -2,6 +2,7 @@
 
 ## in dev
 ### Bug fixes
+- `luid-daterange-picker`: fixed an issue with focus styling
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
