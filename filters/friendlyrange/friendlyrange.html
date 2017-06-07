@@ -33,22 +33,20 @@
 	</div>
 </div>
 <div class="lui block round">
-	<p>
-		<div class="lui inline fields">
-			<div class="lui field">
-				<span class="lui long input">
-					<input type="text" ng-model="myBlock.start">
-					<label>Start</label>
-				</span>
-			</div>
-			<div class="lui field">
-				<span class="lui long input">
-					<input type="text" ng-model="myBlock.end">
-					<label>End</label>
-				</span>
-			</div>
+	<div class="lui inline fields">
+		<div class="lui field">
+			<span class="lui long compact input">
+				<input type="text" ng-model="myBlock.start">
+				<label>Start</label>
+			</span>
 		</div>
-	</p>
+		<div class="lui field">
+			<span class="lui long compact input">
+				<input type="text" ng-model="myBlock.end">
+				<label>End</label>
+			</span>
+		</div>
+	</div>
 	<p>
 		myBlock : <code>{{ myBlock | luifFriendlyRange }}</code>
 	</p>

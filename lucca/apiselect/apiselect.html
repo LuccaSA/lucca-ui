@@ -23,7 +23,7 @@
 </div>
 <article class="lui block round">
 	<div class="lui field">
-		<span class="lui long input">
+		<div class="lui compact long input">
 			<luid-api-select ng-if="!!globalConnected"
 			ng-model="internal.single"
 			api="api"
@@ -32,11 +32,13 @@
 			>
 			</luid-api-select>
 			<label>single</label>
-		</span>
-		<small class="message helper">value: {{ internal.single }}</small>
+		</div>
+		<div class="messages">
+			<small class="message helper">value: {{ internal.single }}</small>
+		</div>
 	</div>
-	<div class="lui fitting field">
-		<span class="lui input">
+	<div class="lui long field">
+		<div class="lui compact input">
 			<luid-api-select-multiple ng-if="!!globalConnected"
 			ng-model="internal.multiple"
 			api="api"
@@ -44,24 +46,26 @@
 			order-by="order">
 			</luid-api-select-multiple>
 			<label>multiple</label>
-		</span>
-		<small class="message helper">values: {{ internal.multiple }}</small>
+		</div>
+		<div class="messages">
+			<small class="message helper">values: {{ internal.multiple }}</small>
+		</div>
 	</div>
 	<div class="lui inline fields">
 		<div class="lui field">
-			<span class="lui input">
+			<span class="lui compact input">
 				<input type="text" ng-model="api" ng-model-options="debounce">
 				<label>api</label>
 			</span>
 		</div>
 		<div class="lui field">
-			<span class="lui input">
+			<span class="lui compact input">
 				<input type="text" ng-model="filter" ng-model-options="debounce">
 				<label>filter</label>
 			</span>
 		</div>
 		<div class="lui field">
-			<span class="lui input">
+			<span class="lui compact input">
 				<input type="text" ng-model="order" ng-model-options="debounce">
 				<label>order</label>
 			</span>

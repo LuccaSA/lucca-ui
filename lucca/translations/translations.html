@@ -43,7 +43,7 @@
 <div class="lui block round">
 	<h5>Mode dictionary</h5>
 	<p>
-		<luid-translations class="lui material" ng-model="myTrads" ng-change="changed()"></luid-translations>
+		<luid-translations class="lui compact" ng-model="myTrads" ng-change="changed()"></luid-translations>
 	</p>
 	<p>
 		myTrads: <code>{{myTrads}}</code>
@@ -51,7 +51,7 @@
 	<hr>
 	<h5>Mode pipe</h5>
 	<p>
-		<luid-translations class="lui material" ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
+		<luid-translations class="lui compact" ng-model="myTradsPipe" mode="|" size="x-long" ng-change="changed()"></luid-translations>
 	</p>
 	<p>
 		myTradsPipe : <code>{{myTradsPipe}}</code>
@@ -60,17 +60,23 @@
 	<h5>Mode Lucca (with ng-required=true and compact style)</h5>
 	<div class="lui columns">
 		<div class="lui column desktop-6">
-			<div class="lui input switch">
+			<div class="lui compact input switch">
 				<input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="translationDisabled" tooltip-class="lui" tooltip-placement="top" uib-tooltip="{{ listDisabled2 ? 'Disabled' : 'Enabled' }}">
 				<label for="translationDisabled"><span></span></label>
 			</div>
 			<br>
 			<br>
 			<form name="translationform">
-				<luid-translations class="lui compact" ng-model="requiredModel" ng-disabled="translationDisabled" ng-required="true" mode="lucca" ng-change="changed()" name="requiredtranslation"></luid-translations>
-				<small class="lui error message" ng-show="translationform.requiredtranslation.$touched && translationform.requiredtranslation.$error.required">
-					This field is required
-				</small>
+				<div class="lui field">
+					<div class="lui input compact">
+						<luid-translations ng-model="requiredModel" ng-disabled="translationDisabled" ng-required="true" mode="lucca" ng-change="changed()" name="requiredtranslation"></luid-translations>
+					</div>
+					<div class="messages">
+						<small class="lui error message" ng-show="translationform.requiredtranslation.$touched && translationform.requiredtranslation.$error.required">
+							This field is required
+						</small>
+					</div>
+				</div>
 			</form>
 		</div>
 		<div class="lui column desktop-6">

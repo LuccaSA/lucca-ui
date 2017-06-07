@@ -31,7 +31,7 @@
 <article class="lui block round">
 	<h5>Simple user picker</h5>
 	<div class="lui field">
-		<span class="lui material input">
+		<span class="lui compact input">
 			<luid-user-picker ng-if="!!globalConnected"
 			ng-model="firstModel.selected"
 			homonyms-properties="homonymsProperties"
@@ -56,20 +56,20 @@
 			<p><code>{{ firstModel.selected }}</code></p>
 			<button class="lui button" ng-click="clearFirstModel()" ng-disabled="firstModel.selected === undefined">Clear the ng-model</button>
 		</p>
-		<div class="lui checkbox input">
+		<div class="lui compact checkbox input">
 			<input type="checkbox" name="disable-user-picker" id="disable-user-picker" ng-model="disableUserPicker">
 			<label for="disable-user-picker">Disable</label>
 		</div>
-		<div class="lui checkbox input">
+		<div class="lui compact checkbox input">
 			<input type="checkbox" name="include-former-employees" id="include-former-employees" ng-model="includeFormerEmployees">
 			<label for="include-former-employees">Include former employees</label>
 		</div>
 		<form name="userPickerForm" style="margin-top: 3em;">
 			<p>Only display the users who have access to this application and have these permissions :</p>
-			<div class="lui input">
+			<div class="lui compact input">
 				<input type="text" placeholder="App Id" ng-required="true" ng-model="appIdTmp">
 			</div>
-			<div class="lui input">
+			<div class="lui compact input">
 				<input type="text" ng-pattern="'((\\d+,)*(\\d+))$'" placeholder="Operations id (separated with ',')" ng-required="true" ng-model="operationsIdTmp">
 			</div>
 			<input type="submit" class="lui primary button" ng-disabled="!userPickerForm.$valid"
@@ -83,7 +83,7 @@
 <article class="lui block round">
 	<h5>Multiple user picker</h5>
 	<div class="lui fitting field">
-		<span class="lui material input">
+		<span class="lui compact input">
 			<luid-user-picker-multiple ng-if="!!globalConnected"
 			ng-model="users.selected">
 			</luid-user-picker-multiple>

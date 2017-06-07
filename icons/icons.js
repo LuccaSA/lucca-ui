@@ -5,16 +5,20 @@
 	.controller('iconsCtrl', ['$scope', function($scope){
 		$scope.contextSensIcons = [
 			['plus', 'minus', 'check', 'cross', 'forbidden'],
-			['error','warning','help'],
-			["ellipsis", "list", "tree list", "blocks", "filter"],
+			['thin plus', 'thin cross'],
+			['error','warning','help', 'help outline', 'rejected', "completion pie", "flag"],
+			["ellipsis", "list", "tree list", "mosaic", "nine tiles", "tiles", "org chart", "blocks", "filter", "fullscreen", "fullscreen exit"],
 			['lock', 'unlock'],
 		];
 
 		$scope.contextInsensIcons = [
-			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "sliders", "gallery","calendar", "clock", "timer", "pin", "location", "comment", "branch", "analytics"],
-			["edit", "edit frame", "edit mini", "download", "upload", "outside", "send", "search", "trash", "refresh", "printer"],
-			["user", "add user", "remove user", "to user"],
+			['attachment', 'files', "email", "phone", "notification", "camera", "settings", "sliders", "gallery", "calendar", "key", "simple key", "history", "clock", "timer", "pin", "location", "comment", "branch", "analytics"],
+			["edit", "edit frame", "edit mini", "customize", "download", "upload", "outside", "send", "search", "trash", "refresh", "printer"],
+			["pristine imported item", "imported item", "synchronization"],
+			["user", "add user", "remove user", "to user", "group", "roles"],
+			["flash"],
 			["bookmark", "add bookmark", "remove bookmark"],
+			["watch", "unwatch"],
 		];
 
 		$scope.mouseIcons = [
@@ -24,17 +28,19 @@
 
 		$scope.arrowIcons = [
 			['north chevron','east chevron','south chevron','west chevron'],
-			['north arrow','east arrow','south arrow','west arrow']
+			['north arrow','east arrow','south arrow','west arrow'],
+			['thin north arrow','thin east arrow','thin south arrow','thin west arrow']
 		];
 
 		$scope.speIcons = [
-			["breakfast", "coffee", "meal", "lunch", "diner", "drink"],
+			["breakfast", "coffee", "meal", "birthday", "lunch", "diner", "drink", "snack"],
 			["car", "clean car", "taxi", "bus", "subway", "truck", "train", "plane"],
 			["euro toll", "dollar toll", "parking", "milestone", "mileage", "gasoline"],
 			["journey", "luggage", "hotel", "postage"],
-			["euro", "dollar", "quantity", "piggy bank", "bank card", "pricetag", "payment"],
-			["computer", "computer mouse", "database"],
-			["tools", "tiles", "iron", "roles", "jumping cc"]
+			["euro", "dollar", "quantity", "piggy bank", "bank card", "pricetag", "payment", "import cb"],
+			["heart", "broken heart", "star"],
+			["computer", "computer mouse", "headphones", "database"],
+			["tools", "iron", "jumping cc"],
 		];
 	}]);
 })();
