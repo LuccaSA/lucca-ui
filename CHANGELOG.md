@@ -75,6 +75,7 @@
  - refactored the way the angular modules are defined, so now each module has a fixed number of dependencies. allows you to use lucca-ui without having to9 add `ng-crop-extended` or `formly` to your list of dependencies
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
+ - `dist/custom/`doesn't exist anymore. Include directly `dist/lucca-ui.min.js`
 
 ### Changes (non-breaking)
  - added infinite scroll to `luid-api-select`
