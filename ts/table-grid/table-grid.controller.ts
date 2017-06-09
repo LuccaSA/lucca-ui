@@ -73,9 +73,9 @@ module lui.tablegrid {
 						}
 						if (header.filterType === FilterType.SELECT
 								|| header.filterType === FilterType.MULTISELECT) {
-							let value = header.getValue(row);
+							let value = header.getValue(row) + "";
 							if (!!header.getFilterValue) {
-								value = header.getFilterValue(row);
+								value = header.getFilterValue(row) + "";
 							}
 
 							let valuesToCheck = value.split("|");
@@ -174,7 +174,7 @@ module lui.tablegrid {
 									&& filter.currentValues[0] !== "") {
 								let propValue = (filter.header.getValue(row) + "").toLowerCase();
 								if (!!filter.header.getFilterValue) {
-									propValue = filter.header.getFilterValue(row).toLowerCase();
+									propValue = (filter.header.getFilterValue(row) + "").toLowerCase();
 								}
 								let containsProp = _.some(filter.currentValues, (value: string) => {
 									//For select filter types, if test value doesn't contain "|" character, we have to test exact value
