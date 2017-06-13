@@ -7,9 +7,27 @@
 
 			.departmentpicker-label {
 				font-weight: 700;
+				position: relative;
 			}
 
-			.departmentpicker-tree-level {
+			.departmentpicker-tree-level ~ .departmentpicker-label {
+				font-weight: 400;
+			}
+			.ui-select-choices-row-inner > div {
+				@include display-flex;
+				&.has-child .departmentpicker-label {
+					padding-left: .8em;
+					font-weight: 700;
+					&::before {
+						@include lui_points_towards(bottom, grey, 5px);
+						position: absolute;
+						top: 50%;
+						left: 0;
+						transform: translate(-50%, 0);
+					}
+				}
+			}
+			.ui-select-choices-row-inner > div em{
 				margin-right: 1em;
 				&::before {
 					content: '';
@@ -18,13 +36,16 @@
 					bottom: 0;
 					border-right: 1px dotted #CCC;
 				}
-				&::after {
-					content: '';
-					position: absolute;
-					width: 10px;
-					top: 50%;
-					height: 1px;
-					border-bottom: 1px dotted #CCC;
+				&:last-of-type {
+
+					&::after {
+						content: '';
+						position: absolute;
+						width: 8px;
+						top: 50%;
+						height: 1px;
+						border-bottom: 1px dotted #CCC;
+					}
 				}
 			}
 		}

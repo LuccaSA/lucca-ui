@@ -1,9 +1,9 @@
 <ui-select ng-model="internal.selectedDepartment" ng-disabled="controlDisabled" search-enabled="true" on-select="selectDepartment()" uis-open-close="onDropdownToggle(isOpen)">
 	<ui-select-match placeholder="{{ $select.selected.name }}" allow-clear="true">{{ $select.selected.name }}</ui-select-match>
-	<ui-select-choices repeat="department in departmentsToDisplay | filter: $select.search track by $index" luid-on-scroll-bottom="loadMore()">
-		<div>
-			<span ng-if="!$select.search" class="departmentpicker-tree-level" ng-repeat="level in getLevel(department) track by $index">
-			</span>
+	<ui-select-choices repeat="department in departmentsToDisplay | filter: $select.search track by $index" luid-on-scroll-bottom="loadMore()" >
+		<div ng-class="{'has-child': !!department.hasChild}" >
+			<em ng-if="!$select.search" class="departmentpicker-tree-level" ng-repeat="level in getLevel(department) track by $index">
+			</em>
 			<span class="departmentpicker-label" ng-bind-html="department.name | highlight: $select.search"></span>
 		</div>
 		<small ng-if="!!$select.search"><i ng-bind="department.ancestorsLabel"></i></small>

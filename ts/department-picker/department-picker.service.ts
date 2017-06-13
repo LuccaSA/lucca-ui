@@ -47,7 +47,9 @@ module lui.departmentpicker {
 			if (department.level === undefined) {
 				department.level = 0;
 			}
-
+			if (departmentTrees.length> 0) {
+				department.hasChild = true;
+			}
 			_.each(departmentTrees, (departmentTree: IDepartmentTree) => {
 				if (!departmentTree.node.ancestorsLabel) {
 					departmentTree.node.ancestorsLabel = "";

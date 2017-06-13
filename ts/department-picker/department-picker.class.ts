@@ -6,6 +6,7 @@ module lui.departmentpicker {
 		name: string;
 		ancestorsLabel?: string;
 		level?: number;
+		hasChild?: boolean;
 	}
 
 	export interface ITree<T> {
