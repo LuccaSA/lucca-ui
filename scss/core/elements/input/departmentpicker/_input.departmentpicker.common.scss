@@ -19,11 +19,11 @@
 					padding-left: .8em;
 					font-weight: 700;
 					&::before {
-						@include lui_points_towards(bottom, grey, 5px);
+						@include lui_points_towards(right, grey, 5px);
 						position: absolute;
 						top: 50%;
 						left: 0;
-						transform: translate(-50%, 0);
+						transform: translate(0, -50%);
 					}
 				}
 			}
