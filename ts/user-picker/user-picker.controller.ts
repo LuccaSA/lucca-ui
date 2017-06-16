@@ -99,7 +99,8 @@ module lui.userpicker {
 			});
 
 			this.$scope.$watch("showFormerEmployees", (newValue: boolean, oldValue: boolean) => {
-				if (!!this.$scope.showFormerEmployees && newValue !== oldValue) {
+				if (newValue !== oldValue) {
+					this.$scope.$broadcast("toggleFormerEmployees");
 					this.resetUsers();
 					this.refresh();
 				}
