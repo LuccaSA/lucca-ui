@@ -36,6 +36,7 @@ module lui.userpicker {
 
 		/** Indicates if the controller controls a user-picker or a user-picker-multiple directive */
 		private multiple: boolean;
+		private clue: string;
 
 		constructor(
 			$scope: ILuidUserPickerScope,
@@ -79,7 +80,7 @@ module lui.userpicker {
 		 * Initialize the functions of the scope.
 		 */
 		private initializeScope(): void {
-			this.$scope.$watch("displayMeFirst", (newValue: boolean, oldValue) => {
+			this.$scope.$watch("displayMeFirst", (newValue: boolean, oldValue: boolean) => {
 				if (this.$scope.displayMeFirst) {
 					if (newValue) {
 						let myIndex = _.findIndex(this.$scope.users, (user: IUserLookup) => { return user.id === this.$scope.myId; });
@@ -99,9 +100,10 @@ module lui.userpicker {
 			});
 
 			this.$scope.$watch("showFormerEmployees", (newValue: boolean, oldValue: boolean) => {
-				if (!!this.$scope.showFormerEmployees && newValue !== oldValue) {
+				if (newValue !== oldValue) {
+					this.$scope.$broadcast("toggleFormerEmployees");
 					this.resetUsers();
-					this.refresh();
+					this.refresh(this.clue);
 				}
 			});
 
@@ -129,6 +131,7 @@ module lui.userpicker {
 			});
 
 			this.$scope.find = (search: string): void => {
+				this.clue = search;
 				this.resetUsers();
 				this.refresh(search);
 			};
