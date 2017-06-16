@@ -35,7 +35,7 @@ module lui.departmentpicker {
 			let departments: IDepartment[] = [];
 			if (!!departmentTrees) {
 				_.each(departmentTrees, (departmentTree: IDepartmentTree) => {
-					this.setAncestorsLabel(departmentTree.node, departmentTree.children);
+					this.setAncestry(departmentTree.node, departmentTree.children);
 					departments.push(departmentTree.node);
 					departments = _.flatten([departments, this.buildDepartmentsArrayRecursively(departmentTree.children)]);
 				});
@@ -43,11 +43,11 @@ module lui.departmentpicker {
 			return departments;
 		}
 
-		private setAncestorsLabel(department: IDepartment, departmentTrees: IDepartmentTree[]): void {
+		private setAncestry(department: IDepartment, departmentTrees: IDepartmentTree[]): void {
 			if (department.level === undefined) {
 				department.level = 0;
 			}
-			if (departmentTrees.length> 0) {
+			if (departmentTrees.length > 0) {
 				department.hasChild = true;
 			}
 			_.each(departmentTrees, (departmentTree: IDepartmentTree) => {
@@ -57,10 +57,8 @@ module lui.departmentpicker {
 					departmentTree.node.ancestorsLabel += " > ";
 				}
 				departmentTree.node.ancestorsLabel += department.name;
-
 				departmentTree.node.level = department.level + 1;
-
-				this.setAncestorsLabel(department, departmentTree.children);
+				this.setAncestry(department, departmentTree.children);
 			});
 		}
 	}

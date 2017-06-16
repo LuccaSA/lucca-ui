@@ -158,16 +158,27 @@ module lui.departmentpicker.Test {
 				service.getDepartments()
 				.then((departments: IDepartment[]) => {
 					expect(departments[0].ancestorsLabel).toBeUndefined();
+					expect(departments[0].level).toBe(0);
 					expect(departments[1].ancestorsLabel).toBe("IXBLUE");
+					expect(departments[1].level).toBe(1);
 					expect(departments[2].ancestorsLabel).toBe("IXBLUE > Holding");
+					expect(departments[2].level).toBe(2);
 					expect(departments[5].ancestorsLabel).toBe("IXBLUE > Holding > Direction Administrative et Financière");
+					expect(departments[5].level).toBe(3);
 					expect(departments[8].ancestorsLabel).toBe("IXBLUE > Holding > Ressources Humaines > Recrutement et Mobilité");
+					expect(departments[8].level).toBe(4);
 					expect(departments[9].ancestorsLabel).toBe("IXBLUE > Holding");
+					expect(departments[9].level).toBe(2);
 					expect(departments[12].ancestorsLabel).toBe("IXBLUE > BU Chantier naval");
+					expect(departments[12].level).toBe(2);
 					expect(departments[14].ancestorsLabel).toBeUndefined();
+					expect(departments[14].level).toBe(0);
 					expect(departments[17].ancestorsLabel).toBe("IXCORE > IXcore - Holding");
+					expect(departments[17].level).toBe(2);
 					expect(departments[18].ancestorsLabel).toBe("IXCORE > IXcore - Holding > IXcore - Diretion Administrative et Financière");
+					expect(departments[18].level).toBe(3);
 					expect(departments[19].ancestorsLabel).toBe("IXCORE > IXcore - Holding > IXcore - Diretion Administrative et Financière");
+					expect(departments[19].level).toBe(3);
 				});
 				$httpBackend.flush();
 			});
