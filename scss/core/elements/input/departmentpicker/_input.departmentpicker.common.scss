@@ -15,7 +15,7 @@
 					font-size: 1em;
 				}
 			}
-			
+
 			.departmentpicker-label {
 				font-weight: 700;
 				position: relative;
@@ -26,7 +26,9 @@
 			}
 			.ui-select-choices-row-inner > div {
 				@include display-flex;
-				&.has-child .departmentpicker-label {
+			}
+			.ui-select-container:not(.is-searching) {
+				.ui-select-choices-row-inner > div.has-child .departmentpicker-label {
 					padding-left: .8em;
 					font-weight: 700;
 					&::before {
