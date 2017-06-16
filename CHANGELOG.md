@@ -4,6 +4,9 @@
 ### Bug fixes
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
 
+### New features
+- `luid-department-picker` to display departments tree
+
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
 - Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
