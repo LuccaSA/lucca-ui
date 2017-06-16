@@ -2,7 +2,12 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("compact") {
 			$selector: lui_input_get_style_selector("compact");
+			#{$prefix}.input#{$selector} luid-translations,
 			luid-translations#{$selector} {
+				&.ng-invalid.ng-dirty .lui.input > input,
+				&.ng-invalid.ng-touched .lui.input > input {
+					@extend %lui_input_invalid_input_compact;
+				}
 				.lui.input {
 					& > .unit {
 						@include flex-order(-1);

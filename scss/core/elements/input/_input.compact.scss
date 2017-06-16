@@ -58,7 +58,7 @@
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
 			> select,
-			.unit {
+			> .unit {
 				@extend %lui_input_sizing_compact;
 			}
 
@@ -118,6 +118,7 @@
 }
 
 @import "datepicker/input.datepicker.compact",
+		"dropdown/input.dropdown.compact",
 		"iban/input.iban.compact",
 		"imagepicker/input.imagepicker.compact",
 		"checkbox.radio/input.checkbox.radio.compact",
@@ -125,4 +126,5 @@
 		"tagged/input.tagged.compact",
 		"timespanpicker/input.timespanpicker.compact",
 		"translations/input.translations.compact",
+		"translations-list/input.translations-list.compact",
 		"ui-select/input.ui-select.compact";

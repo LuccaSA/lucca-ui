@@ -1,0 +1,21 @@
+<div>
+	<nav class="lui dividing justified primary menu">
+		<a class="lui item" ng-repeat="culture in cultures" ng-class="{ 'active': culture === selectedCulture }"
+		   ng-click="selectCulture(culture)" ng-bind-html="culture | uppercase"></a>
+	</nav>
+	<content>
+		<ul class="lui unstyled field container">
+			<li class="lui input animated left fade in" ng-repeat="value in values[selectedCulture].values track by $index">
+				<input type="text" ng-model="values[selectedCulture].values[$index].value" ng-disabled="isDisabled" ng-paste="onPaste($event, $index)"
+					   placeholder="{{ getPlaceholder(selectedCulture, $index) }}" ng-change="onInputValueChanged()"
+					   luid-keydown mappings="addValueOnEnter" id="{{ getUniqueId($parent.selectedCulture, $index) }}">
+				<!-- tabIndex = -1 : the element cannot be focused with tab -->
+				<button class="lui flat button icon cross close animated right fade in" ng-click="deleteValue($index)" ng-if="!isDisabled"
+						tabIndex="-1"></button>
+			</li>
+		</ul>
+		<footer ng-if="!isDisabled">
+			<button ng-click="addValueAndFocus()" ng-hide="isAddValueDisabled()" class="lui button filled animated up fade in" translate="LUID_TRANSLATIONSLIST_ADD_VALUE"></button>
+		</footer>
+	</content>
+</div>

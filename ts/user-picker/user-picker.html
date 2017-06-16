@@ -4,8 +4,11 @@
 	on-select="onSelectedUserChanged($select.selected)"
 	on-remove="onRemove()"
 	uis-open-close="onOpen(isOpen)">
-	<ui-select-match placeholder="{{placeholder}}" allow-clear="allowClear">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match>
-	<ui-select-choices repeat="user in users track by user.id" refresh="find($select.search)" refresh-delay="0" luid-on-scroll-bottom="loadMore()">
+	<ui-select-match placeholder="{{placeholder}}" allow-clear="{{!!allowClear}}">
+		<span ng-if="$select.selected.id === -1" translate>LUIDUSERPICKER_ALL</span>
+		<span ng-if="$select.selected.id !== -1" ng-bind-html="$select.selected.lastName + ' ' + $select.selected.firstName"></span>
+	</ui-select-match>
+	<ui-select-choices repeat="user in users track by $index" refresh="find($select.search)" refresh-delay="0" luid-on-scroll-bottom="loadMore()">
 		<div ng-if="user.id === myId" class="selected-first" ng-class="{'dividing': $index === 0}"
 			 ng-bind-html="user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'">
 		</div>

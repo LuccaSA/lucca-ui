@@ -2,24 +2,36 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("compact") {
 			$selector: lui_input_get_style_selector("compact");
+
+			#{$prefix}.input#{$selector} luid-date-picker-popup,
+			#{$prefix}.input#{$selector} luid-daterange-picker,
 			luid-date-picker-popup#{$selector},
 			luid-daterange-picker#{$selector} {
-				input {
-					@extend %lui_quick_compact_input;
-				}
-			}
 
-			luid-daterange-picker#{$selector} .inputs > input:focus {
-				@extend %lui_input_focus_compact;
-			}
-
-			luid-date-picker-popup#{$selector},
-			luid-daterange-picker#{$selector} {
 				&.ng-invalid.ng-dirty > .lui.input > input,
 				&.ng-invalid.ng-touched > .lui.input > input,
 				&.ng-not-empty.ng-pristine.ng-invalid > .lui.input > input {
 					@extend %lui_input_invalid_input_compact;
 				}
+
+				input {
+					@extend %lui_quick_compact_input;
+				}
+			}
+      
+      #{$prefix}.input#{$selector} luid-daterange-picker .inputs,
+			luid-daterange-picker#{$selector} .inputs {
+				.icon {
+					transform: translate(10%, -50%);
+				}
+
+				> input:last-of-type {
+					margin-left: 10px;
+				}
+        
+        > input:focus {
+          @extend %lui_input_focus_compact;
+        }
 			}
 		}
 	}

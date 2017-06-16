@@ -123,7 +123,9 @@ $field: (
 			bg-color: 			luiPalette(light, color),
 			height: 			40em,
 		),
-
+		material: (
+			loader-size: 			3em,
+		)
 	),
 
 	momentpicker: (
@@ -141,6 +143,13 @@ $field: (
 
 	translations: (
 		enabled:				true
+	),
+
+	translations-list: (
+		hover-color:				#000,
+		menu-bg-color:				#FAFAFA,
+		background-color:				#FFF,
+		box-shadow:				0 0 3px 0 rgba(0,0,0, .2)
 	),
 
 	dropdown: (

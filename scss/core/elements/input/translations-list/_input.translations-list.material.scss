@@ -1,0 +1,28 @@
+@if luiTheme(element, field, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			#{$prefix}.input#{$selector} luid-translations-list,
+			luid-translations-list#{$selector} {
+				&.ng-invalid.ng-dirty .lui.input > input,
+				&.ng-invalid.ng-touched .lui.input > input {
+					@extend %lui_input_invalid_input_material;
+				}
+				> div {
+					box-shadow: 0 0 1px 0 rgba(0, 0, 0, .4);
+				}
+				#{$prefix}.menu.dividing:not(.vertical):not([class*="top dividing"]) > a.item::after {
+					top: auto;
+					bottom: -1px;
+				}
+				input {
+					@extend %lui_input_reset_material;
+
+					&:focus {
+						@extend %lui_input_focus_material;
+					}
+				}
+			}
+		}
+	}
+}

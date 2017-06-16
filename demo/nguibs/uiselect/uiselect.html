@@ -7,16 +7,18 @@
 	<h4 class="lui underline">Simple select</h4>
 </div>
 <div class="lui field">
-	<ui-select ng-model="person.selected" ng-disabled="disabled" placeholder="Test" class="lui">
-		<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
-		<ui-select-choices repeat="person in people | filter: $select.search">
-			<span ng-bind-html="person.name | highlight: $select.search"></span>
-		</ui-select-choices>
-	</ui-select>
-	<label for="">User</label>
+	<div class="lui material input">
+		<ui-select ng-model="person.selected" ng-disabled="disabled" placeholder="Test" class="lui">
+			<ui-select-match allow-clear="true">{{$select.selected.name}}</ui-select-match>
+			<ui-select-choices repeat="person in people | filter: $select.search">
+				<span ng-bind-html="person.name | highlight: $select.search"></span>
+			</ui-select-choices>
+		</ui-select>
+		<label for="">User</label>
+	</div>
 </div>
 
-<div class="lui input">
+<div class="lui compact input">
 	<ui-select ng-model="person.selected" ng-disabled="disabled" search-enabled="false" class="lui">
 		<ui-select-match>{{$select.selected.name}}</ui-select-match>
 		<ui-select-choices repeat="person in people | filter: $select.search">
@@ -26,19 +28,17 @@
 	<label for="">User</label>
 </div>
 
-<div class="lui long input">
-	<input type="text" name="name" placeholder="This is a lui long input">
-</div>
-
 <div class="lui dashed divider">
 	<h4 class="lui underline">Multi-select</h4>
 </div>
-<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
-	<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
-	<ui-select-choices repeat="color in availableColors | filter:$select.search">
-		{{color}}
-	</ui-select-choices>
-</ui-select>
+<div class="lui input material">
+	<ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long">
+		<ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+		<ui-select-choices repeat="color in availableColors | filter:$select.search">
+			{{color}}
+		</ui-select-choices>
+	</ui-select>
+</div>
 
 <p class="lui natural form">
 	<span>I seriously want to hire</span>
@@ -55,19 +55,14 @@
 </div>
 <p>
 	<pre hljs no-escape language="html">
-&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
-	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
-	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
-		{{color}}
-	&lt;/ui-select-choices&gt;
-&lt;/ui-select&gt;
-...
-&lt;ui-select multiple ng-model="colors" ng-disabled="disabled" class="lui long"&gt;
-	&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
-	&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
-		{{color}}
-	&lt;/ui-select-choices&gt;
-&lt;/ui-select&gt;
+&lt;div class="lui material compact"&gt;
+	&lt;ui-select multiple ng-model="colors" ng-disabled="disabled"&gt;
+		&lt;ui-select-match placeholder="Select colors...">{{$item}}&lt;/ui-select-match&gt;
+		&lt;ui-select-choices repeat="color in availableColors | filter:$select.search"&gt;
+			{{color}}
+		&lt;/ui-select-choices&gt;
+	&lt;/ui-select&gt;
+&lt;/div&gt;
 ...
 &lt;div class="lui natural form"&gt;
 	&lt;span&gt;I seriously want to hire&lt;/span&gt;

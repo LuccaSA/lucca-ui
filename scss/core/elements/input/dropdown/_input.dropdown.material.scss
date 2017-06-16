@@ -1,0 +1,33 @@
+%lui_dropdown_list_group_material {
+	&:not(:only-child) {
+		border-top: 1px solid luiTheme(element, field, input, material, default-border-color);
+	}
+}
+
+%lui_dropdown_list_group_header_material {
+	border-bottom: 1px dotted luiTheme(element, field, input, material, default-border-color);
+}
+
+%lui_dropdown_list_item_material {
+	&.dividing:after {
+		border-bottom: 1px solid luiTheme(element, field, input, material, default-border-color);
+	}
+}
+
+@if luiTheme(element, field, dropdown, enabled) {
+	@at-root #{$namespace} {
+		@if lui_input_style_enabled("material") {
+			$selector: lui_input_get_style_selector("material");
+			#{$prefix}#{$selector} {
+
+				&.dropdown .dropdown-header {
+					@extend %lui_dropdown_list_group_header_material;
+				}
+
+				&[uib-dropdown] ul li {
+					@extend %lui_dropdown_list_item_material;
+				}
+			}
+		}
+	}
+}

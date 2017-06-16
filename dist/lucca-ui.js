@@ -725,6 +725,7 @@ var lui;
                 this.scope = {
                     format: "@",
                     displayFormat: "@",
+                    rangeFormat: "@",
                     minMode: "@",
                     min: "=",
                     max: "=",
@@ -774,13 +775,18 @@ var lui;
                         $scope.toLabel = "To";
                         break;
                 }
+                this.rangeFormatDictionary = {
+                    en: {
+                        other: $scope.rangeFormat
+                    }
+                };
                 $scope.internal.startDisplayStr = "";
                 $scope.internal.endDisplayStr = "";
                 $scope.focusEndInputOnTab = { 9: function ($event) { _this.$scope.editEnd($event); } };
                 $scope.closePopoverOnTab = { 9: function ($event) { _this.closePopover(); _this.$scope.$apply(); } };
                 $scope.selectShortcut = function (shortcut) {
                     $scope.period = _this.toPeriod(shortcut);
-                    $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                    $scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period, false, _this.rangeFormatDictionary);
                     _this.setViewValue($scope.period);
                     _this.closePopover();
                 };
@@ -874,7 +880,7 @@ var lui;
                 ngModelCtrl.$render = function () {
                     if (ngModelCtrl.$viewValue) {
                         _this.$scope.period = _this.getViewValue();
-                        _this.$scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period);
+                        _this.$scope.displayStr = _this.$filter("luifFriendlyRange")(_this.$scope.period, false, _this.rangeFormatDictionary);
                         _this.$scope.internal.startDisplayStr = _this.$scope.period.start ? _this.$scope.period.start.format(_this.$scope.displayFormat || "L") : "";
                         _this.$scope.internal.endDisplayStr = _this.$scope.period.end ? _this.$scope.period.end.format(_this.$scope.displayFormat || "L") : "";
                     }
@@ -1036,7 +1042,7 @@ var lui;
                 }
                 this.$scope.direction = "";
                 this.setViewValue(this.$scope.period);
-                this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+                this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.rangeFormatDictionary);
                 this.element.removeClass("ng-open");
                 this.popoverController.close();
             };
@@ -1472,9 +1478,10 @@ var lui;
                     _this.setViewValue(_this.$scope.countryCode.toUpperCase() + _this.$scope.controlKey.toUpperCase() + _this.$scope.bban.toUpperCase());
                 };
                 this.$scope.pasteIban = function (event) {
-                    _this.setViewValue(event.clipboardData.getData("text/plain").replace(/ /g, ""));
+                    var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
+                    _this.setViewValue(originalEvent.clipboardData.getData("text/plain").replace(/ /g, ""));
                     _this.ngModelCtrl.$render();
-                    event.target.blur();
+                    originalEvent.target.blur();
                 };
                 this.$scope.selectInput = function (event) {
                     event.target.select();
@@ -2742,6 +2749,310 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl"];
+        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
+        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl" };
+        var CulturedList = (function () {
+            function CulturedList(culture) {
+                this.culture = culture;
+                this.originalId = undefined;
+                this.values = new Array();
+            }
+            return CulturedList;
+        }());
+        translate.CulturedList = CulturedList;
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        var LuidTranslationsListController = (function () {
+            function LuidTranslationsListController($scope, $translate, $timeout) {
+                var _this = this;
+                this.$scope = $scope;
+                $scope.currentCulture = $translate.preferredLanguage();
+                if (!$scope.currentCulture) {
+                    $scope.currentCulture = "en";
+                }
+                $scope.cultures = translate.AVAILABLE_LANGUAGES;
+                var currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
+                if (currentCultureIndex !== -1) {
+                    $scope.cultures.splice(currentCultureIndex, 1);
+                    $scope.cultures.unshift($scope.currentCulture);
+                }
+                $scope.selectedCulture = $scope.currentCulture;
+                $scope.values = {};
+                $scope.selectCulture = function (culture) { $scope.selectedCulture = culture; };
+                $scope.addValue = function () {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        $scope.values[culture].values.push({ value: "" });
+                    });
+                };
+                $scope.deleteValue = function (index) {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        $scope.values[culture].values.splice(index, 1);
+                    });
+                    if ($scope.values[translate.AVAILABLE_LANGUAGES[0]].values.length === 0) {
+                        _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                            $scope.values[culture].values.push({ value: "" });
+                        });
+                    }
+                    $scope.onInputValueChanged();
+                };
+                $scope.isAddValueDisabled = function () {
+                    return !_.some(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        var current = _this.$scope.values[culture].values;
+                        return current[current.length - 1].value !== "";
+                    });
+                };
+                $scope.onPaste = function (event, index) {
+                    if ($scope.isDisabled) {
+                        return;
+                    }
+                    var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
+                    var values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
+                    if (values.length <= 1) {
+                        return;
+                    }
+                    if ($scope.values[$scope.selectedCulture].values[index] !== undefined) {
+                        $scope.values[$scope.selectedCulture].values[index].value += values[0];
+                        values.splice(0, 1);
+                        ++index;
+                    }
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        for (var i = 0; i < values.length; ++i) {
+                            if ($scope.values[culture].values[i + index] !== undefined) {
+                                $scope.values[culture].values[i + index].value = culture === $scope.selectedCulture ? values[i] : "";
+                            }
+                            else {
+                                $scope.values[culture].values.splice(i + index, 0, { value: culture === $scope.selectedCulture ? values[i] : "" });
+                            }
+                        }
+                    });
+                    $scope.onInputValueChanged();
+                    originalEvent.target.blur();
+                };
+                $scope.addValueAndFocus = function () {
+                    var maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
+                    $scope.addValue();
+                    $timeout(function () {
+                        document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
+                    });
+                };
+                $scope.addValueOnEnter = {
+                    "13": function ($event) {
+                        var index = Number($event.target.id.split("_")[2]);
+                        if (index === $scope.values[$scope.selectedCulture].values.length - 1) {
+                            if (!$scope.isAddValueDisabled()) {
+                                index++;
+                                $scope.addValue();
+                                $scope.$apply();
+                                $timeout(function () {
+                                    document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
+                                });
+                            }
+                        }
+                        else {
+                            index++;
+                            document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
+                            $scope.$apply();
+                        }
+                        $event.preventDefault();
+                    }
+                };
+                $scope.getPlaceholder = function (culture, index) {
+                    var selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
+                    if (!!selectedCultureValue) {
+                        return selectedCultureValue;
+                    }
+                    var currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
+                    if (!!currentCultureValue) {
+                        return $scope.isDisabled ? "" : currentCultureValue;
+                    }
+                    for (var i = 0; i < $scope.cultures.length; i++) {
+                        var currentLanguage = $scope.cultures[i];
+                        var cultureValue = $scope.values[currentLanguage].values[index].value;
+                        if (!!cultureValue) {
+                            return $scope.isDisabled ? "" : cultureValue;
+                        }
+                    }
+                    return $scope.isDisabled ? "" : $translate.instant("LUID_TRANSLATIONSLIST_INPUT_VALUE");
+                };
+                $scope.getUniqueId = function (culture, index) {
+                    return culture + "_" + $scope.uniqueId + "_" + index;
+                };
+            }
+            LuidTranslationsListController.IID = "luidTranslationsList";
+            LuidTranslationsListController.$inject = [
+                "$scope",
+                "$translate",
+                "$timeout"
+            ];
+            return LuidTranslationsListController;
+        }());
+        translate.LuidTranslationsListController = LuidTranslationsListController;
+        angular.module("lui.translate").controller(LuidTranslationsListController.IID, LuidTranslationsListController);
+        angular.module("lui.translate").config(["$translateProvider", function ($translateProvider) {
+                $translateProvider.translations("en", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Add new value",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Input a value"
+                });
+                $translateProvider.translations("fr", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
+                });
+            }]);
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+        var LuidTranslationsList = (function () {
+            function LuidTranslationsList() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/translations-list/translations-list.html";
+                this.require = ["ngModel", LuidTranslationsList.IID];
+                this.scope = {
+                    mode: "@",
+                    isDisabled: "=ngDisabled",
+                };
+                this.controller = translate.LuidTranslationsListController.IID;
+            }
+            LuidTranslationsList.factory = function () {
+                return function () { return new LuidTranslationsList(); };
+            };
+            LuidTranslationsList.toModel = function (viewModel, mode) {
+                var result;
+                switch (mode) {
+                    case "lucca":
+                        result = LuidTranslationsList.toLuccaModel(viewModel);
+                        break;
+                    default:
+                        result = undefined;
+                        break;
+                }
+                return result;
+            };
+            LuidTranslationsList.toLuccaModel = function (viewModel) {
+                var result = new Array();
+                var numberOfTranslations = -1;
+                var filledLanguages = _.filter(translate.AVAILABLE_LANGUAGES, function (language) {
+                    if (viewModel[language].values.length > numberOfTranslations) {
+                        numberOfTranslations = viewModel[language].values.length;
+                    }
+                    return _.some(viewModel[language].values, function (label) { return label.value !== ""; });
+                });
+                if (filledLanguages.length === 0) {
+                    return undefined;
+                }
+                for (var i = 0; i < numberOfTranslations; ++i) {
+                    result.push({ id: undefined, culturedLabels: new Array() });
+                }
+                var currentIndex = 0;
+                _.each(result, function (translation) {
+                    _.each(filledLanguages, function (language) {
+                        if (viewModel[language].values[currentIndex].value !== "") {
+                            var vmLabel = viewModel[language].values[currentIndex];
+                            translation.culturedLabels.push({
+                                id: vmLabel.originalLuccaCulturedLabelId, translationId: vmLabel.originalLuccaTranslationId,
+                                cultureCode: translate.LANGUAGES_TO_CODE[language],
+                                value: vmLabel.value
+                            });
+                            if (!translation.id && !!vmLabel.originalLuccaTranslationId) {
+                                translation.id = vmLabel.originalLuccaTranslationId;
+                            }
+                        }
+                    });
+                    ++currentIndex;
+                });
+                result = _.reject(result, function (translation) { return translation.culturedLabels.length === 0; });
+                return result;
+            };
+            LuidTranslationsList.parse = function (value, mode) {
+                var result;
+                switch (mode) {
+                    case "lucca":
+                        result = LuidTranslationsList.parseLucca(value);
+                        break;
+                    default:
+                        result = undefined;
+                        break;
+                }
+                return result;
+            };
+            LuidTranslationsList.parseLucca = function (value) {
+                var result = LuidTranslationsList.getEmptyCulturedLists();
+                if (value === undefined || value === null || !value.length) {
+                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
+                        result[culture].values.push({ value: "" });
+                    });
+                    return result;
+                }
+                _.each(value, function (translation) {
+                    _.each(translation.culturedLabels, function (label) {
+                        var language = translate.CODES_TO_LANGUAGES[label.cultureCode];
+                        result[language].values.push({
+                            value: label.value,
+                            originalLuccaCulturedLabelId: label.id,
+                            originalLuccaTranslationId: label.translationId
+                        });
+                    });
+                    if (translation.culturedLabels.length > 0) {
+                        var count_1 = result[translate.CODES_TO_LANGUAGES[translation.culturedLabels[0].cultureCode]].values.length;
+                        _.each(translate.AVAILABLE_LANGUAGES, function (language) {
+                            if (result[language].values.length !== count_1) {
+                                result[language].values.push({ value: "" });
+                            }
+                        });
+                    }
+                });
+                return result;
+            };
+            LuidTranslationsList.getEmptyCulturedLists = function () {
+                var result = {};
+                _.each(translate.AVAILABLE_LANGUAGES, function (culture) { result[culture] = new translate.CulturedList(culture); });
+                return result;
+            };
+            LuidTranslationsList.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var mode = attrs.mode;
+                if (!mode) {
+                    mode = "lucca";
+                }
+                scope.uniqueId = (Math.floor(Math.random() * 9000) + 1).toString();
+                scope.onInputValueChanged = function () {
+                    ngModelCtrl.$setViewValue(LuidTranslationsList.toModel(scope.values, mode));
+                    ngModelCtrl.$setTouched();
+                };
+                ngModelCtrl.$render = function () {
+                    var viewModel = LuidTranslationsList.parse(ngModelCtrl.$viewValue, mode);
+                    if (!!viewModel) {
+                        scope.values = viewModel;
+                    }
+                };
+            };
+            LuidTranslationsList.IID = "luidTranslationsList";
+            return LuidTranslationsList;
+        }());
+        angular.module("lui.translate").directive(LuidTranslationsList.IID, LuidTranslationsList.factory());
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var translate;
+    (function (translate) {
+        "use strict";
+    })(translate = lui.translate || (lui.translate = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     var userpicker;
     (function (userpicker) {
         "use strict";
@@ -2979,8 +3290,8 @@ var lui;
                 return this.tidyUp(allUsers, clue)
                     .then(function (neatUsers) {
                     _this.$scope.users = _this.$scope.users || [];
-                    (_a = _this.$scope.users).push.apply(_a, neatUsers);
-                    return undefined;
+                    (_a = _this.$scope.users).push.apply(_a, _.filter(neatUsers, function (neatUser) { return !_.any(_this.$scope.users, function (user) { return user.id === neatUser.id; }); }));
+                    return _this.$scope.users;
                     var _a;
                 });
             };
@@ -3062,7 +3373,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
-                    allowClear: "=",
+                    allowClear: "=?",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3112,7 +3423,7 @@ var lui;
                     placeholder: "@",
                     onSelect: "&",
                     onRemove: "&",
-                    allowClear: "=",
+                    allowClear: "=?",
                     controlDisabled: "=",
                     showFormerEmployees: "=",
                     homonymsProperties: "=",
@@ -3414,8 +3725,9 @@ var lui;
                 scope: { luidOnScrollBottom: "&" },
                 link: function ($scope, element) {
                     element.bind("scroll", function (eventArg) {
-                        var scrollbarHeight = eventArg.srcElement.scrollHeight - eventArg.srcElement.clientHeight;
-                        if (Math.abs(scrollbarHeight - eventArg.srcElement.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {
+                        var target = eventArg.target || event.srcElement;
+                        var scrollbarHeight = target.scrollHeight - target.clientHeight;
+                        if (Math.abs(scrollbarHeight - target.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {
                             $scope.luidOnScrollBottom();
                         }
                     });
@@ -3637,7 +3949,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted x-large loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div></div>"
   );
 
 
@@ -3681,13 +3993,18 @@ var lui;
   );
 
 
+  $templateCache.put('lui/templates/translations-list/translations-list.html',
+    "<div><nav class=\"lui dividing justified primary menu\"><a class=\"lui item\" ng-repeat=\"culture in cultures\" ng-class=\"{ 'active': culture === selectedCulture }\" ng-click=\"selectCulture(culture)\" ng-bind-html=\"culture | uppercase\"></a></nav><content><ul class=\"lui unstyled field container\"><li class=\"lui input animated left fade in\" ng-repeat=\"value in values[selectedCulture].values track by $index\"><input ng-model=\"values[selectedCulture].values[$index].value\" ng-disabled=\"isDisabled\" ng-paste=\"onPaste($event, $index)\" placeholder=\"{{ getPlaceholder(selectedCulture, $index) }}\" ng-change=\"onInputValueChanged()\" luid-keydown mappings=\"addValueOnEnter\" id=\"{{ getUniqueId($parent.selectedCulture, $index) }}\"> <button class=\"lui flat button icon cross close animated right fade in\" ng-click=\"deleteValue($index)\" ng-if=\"!isDisabled\" tabindex=\"-1\"></button></li></ul><footer ng-if=\"!isDisabled\"><button ng-click=\"addValueAndFocus()\" ng-hide=\"isAddValueDisabled()\" class=\"lui button filled animated up fade in\" translate=\"LUID_TRANSLATIONSLIST_ADD_VALUE\"></button></footer></content></div>"
+  );
+
+
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$select.selected.lastName}} {{$select.selected.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"allowClear\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by user.id\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);
@@ -3817,182 +4134,210 @@ var lui;
 		};
 	});
 })();
-;(function(){
-	'use strict';
-		/**
-	** DEPENDENCIES
-	**  - angular translate
-	**  - underscore
-	**/
+;(function () {
+	"use strict";
 
-	angular.module('lui.translate')
-	.directive('luidTranslations', ['$translate', '_', '$filter', '$timeout', function($translate, _, $filter,  $timeout){
-		function link(scope, element, attrs, ctrls){
-			var ngModelCtrl = ctrls[1];
-			var translateCtrl = ctrls[0];
+	/**
+	 ** DEPENDENCIES
+	 **  - angular translate
+	 **  - underscore
+	 **/
 
-			var cultures = ['en', 'de', 'es', 'fr', 'it', 'nl'];
-			scope.cultures = cultures;
-			// need the current culture to
-			var currentCulture = $translate.preferredLanguage() || "en";
-			scope.currentCulture = currentCulture;
+	angular.module("lui.translate")
+		.directive("luidTranslations", ["$translate", "_", "$filter", "$timeout", function ($translate, _, $filter, $timeout) {
+			function link(scope, element, attrs, ctrls) {
+				var ngModelCtrl = ctrls[1];
+				var translateCtrl = ctrls[0];
 
-			// default mode is dictionary
-			var mode = 'dictionary';
-			if(!!attrs.mode){
-				mode = scope.mode;
-			}
-			if(mode === 'dictionary' && ngModelCtrl.$viewValue !== undefined){
-				_.each(cultures, function(c){
-					scope.$watch(function(){ return ngModelCtrl.$viewValue[c]; }, function(){ ngModelCtrl.$render(); });
-				});
-			}
+				/** Associations language/code */
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
 
-			ngModelCtrl.$render = function(){
-				scope.internal = parse(ngModelCtrl.$viewValue);
-			};
-			translateCtrl.updateViewValue = function(){
-				switch(mode){
-					case "dictionary":
-						return updateDictionary(scope.internal);
-					case "|":
-					case "pipe":
-						return updatePipe(scope.internal);
-					case "[]":
-					case "brackets":
-						return updateBrackets(scope.internal);
+				/** List of all the available languages labels */
+				var cultures = _.keys(languagesToCodes);
+				scope.cultures = cultures;
+
+				scope.currentCulture = $translate.preferredLanguage() || "en";
+
+				var mode = !!attrs.mode ? attrs.mode : "dictionary";
+				if (mode === "dictionary" && ngModelCtrl.$viewValue !== undefined) {
+					_.each(cultures, function (culture) {
+						scope.$watch(
+							function () { return !!ngModelCtrl.$viewValue ? ngModelCtrl.$viewValue[culture] : ngModelCtrl.$viewValue; },
+							function () { ngModelCtrl.$render(); }
+						);
+					});
 				}
-			};
 
-			var parse = function(value){
-				switch(mode){
-					case "dictionary":
-						return parseDictionary(value);
-					case "|":
-					case "pipe":
-						return parsePipe(value);
-					case "[]":
-					case "brackets":
-						return parseBrackets(value);
-					default:
-						return {};
-				}
-			};
+				ngModelCtrl.$render = function () {
+					scope.internal = parse(ngModelCtrl.$viewValue);
+					translateCtrl.updateTooltip();
+				};
 
-			// mode dictionary
-			var parseDictionary = function(value){
-				return _.reduce(cultures, function(memo, c){
-					memo[c] = value[c];
-					return memo;
-				}, {});
-			};
-			var updateDictionary = function(value){
-				_.each(cultures, function(c){
-					ngModelCtrl.$viewValue[c] = value[c];
-				});
-				ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-				scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
-			};
-
-			// mode pipe
-			var parsePipe = function(value){
-				if(!value){
-					return {};
-				}
-				// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
-				var translations = value.split("|");
-				var result = {};
-				_.each(translations, function(t){
-					var key = t.substring(0,2);
-					var val = t.substring(3);
-					result[key] = val;
-				});
-				return _.pick(result, cultures);
-			};
-			var updatePipe = function(value){
-				var newVal = _.map(cultures, function(c){
-					if(!!value[c]){
-						return c + ":" + value[c];
+				translateCtrl.updateViewValue = function () {
+					switch (mode) {
+						case "dictionary":
+							return updateDictionary(scope.internal);
+						case "|":
+						case "pipe":
+							return updatePipe(scope.internal);
+						case "lucca":
+							return updateLucca(scope.internal);
 					}
-					return c + ":";
-				}).join("|");
-				ngModelCtrl.$setViewValue(newVal);
-			};
+				};
 
-			// mode brackets
-			var parseBrackets = function(value){
-				return {};
-			};
+				translateCtrl.updateTooltip = function () {
+					var tooltipText = "";
+					if(!!!scope.internal) {
+						scope.tooltipText = undefined;
+						return;
+					}
+					for(var i = 0; i < scope.cultures.length; i++) {
+						if(!!scope.internal[scope.cultures[i]]) {
+							tooltipText += "["+scope.cultures[i].toUpperCase()+"] : "+ scope.internal[scope.cultures[i]] + "\n";
+						}
+					}
+					scope.tooltipText = tooltipText;
+				};
 
-		}
-		return{
-			require:['luidTranslations','^ngModel'],
-			controller:'luidTranslationsController',
-			scope: {
-				// disabled:'=',
+				var parse = function (value) {
+					if (value === undefined) { return undefined; }
+					switch (mode) {
+						case "dictionary":
+							return parseDictionary(value);
+						case "|":
+						case "pipe":
+							return parsePipe(value);
+						case "lucca":
+							return parseLucca(value);
+						default:
+							return undefined;
+					}
+				};
 
-				mode:'@', // allowed values: "|" "pipe", "[]" "brackets", "dictionary"
+				// Mode lucca
+				var parseLucca = function (value) {
+					return _.reduce(cultures, function (memo, culture) {
+						var targetLabel = _.findWhere(value, { cultureCode: languagesToCodes[culture] });
+						memo[culture] = !!targetLabel ? targetLabel.value : undefined;
+						// We need to keep the original id
+						memo[culture + "_id"] = !!targetLabel ? targetLabel.id : undefined;
+						return memo;
+					}, {});
+				};
+				var updateLucca = function (value) {
+					var allEmpty = true;
+					var viewValue = [];
+					_.each(cultures, function (culture) {
+						if (!!value[culture] && value[culture] !== "") {
+							viewValue.push({ id: value[culture + "_id"], cultureCode: languagesToCodes[culture], value: value[culture] });
+							allEmpty = false;
+						}
+					});
+					ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
+					scope.$parent.$eval(attrs.ngChange);
+				};
 
-				size:"@", // the size of the input (short, long, x-long, fitting)
-			},
-			templateUrl:"lui/directives/luidTranslations.html",
-			restrict:'EA',
-			link:link
-		};
-	}])
-	.controller('luidTranslationsController', ['$scope', '$translate', '$timeout', function($scope, $filter, $timeout){
-		var ctrl = this;
-		/******************
-		* UPDATE          *
-		******************/
-		$scope.update = function(){
-			ctrl.updateViewValue();
-		};
+				// Mode dictionary
+				var parseDictionary = function (value) {
+					return _.reduce(cultures, function (memo, culture) {
+						memo[culture] = value[culture];
+						return memo;
+					}, {});
+				};
+				var updateDictionary = function (value) {
+					var allEmpty = true;
+					var viewValue = {};
+					_.each(cultures, function (culture) {
+						viewValue[culture] = value[culture];
+						allEmpty &= value[culture] === undefined || value[culture] === "";
+					});
+					ngModelCtrl.$setViewValue(allEmpty ? undefined : viewValue);
+					scope.$parent.$eval(attrs.ngChange); // needs to be called manually cuz the object ref of the $viewValue didn't change
+				};
 
-
-		/******************
-		* FOCUS & BLUR    *
-		******************/
-		var blurTimeout;
-		$scope.focusInput = function(){
-			if(!!blurTimeout){
-				$timeout.cancel(blurTimeout);
-				blurTimeout = undefined;
+				// Mode pipe
+				var parsePipe = function (value) {
+					// value looks like this "en:some stuff|de:|nl:|fr:des bidules|it:|es:"
+					var translations = value.split("|");
+					var result = {};
+					_.each(translations, function (t) {
+						var key = t.substring(0, 2);
+						var val = t.substring(3);
+						result[key] = val;
+					});
+					return _.pick(result, cultures);
+				};
+				var updatePipe = function (value) {
+					if (!_.find(cultures, function (culture) { return value[culture] !== undefined && value[culture] !== ""; })) {
+						ngModelCtrl.$setViewValue(undefined);
+					} else {
+						var newVal = _.map(cultures, function (c) {
+							if (!!value[c]) {
+								return c + ":" + value[c];
+							}
+							return c + ":";
+						}).join("|");
+						ngModelCtrl.$setViewValue(newVal);
+					}
+				};
 			}
-			$scope.focused = true;
-		};
-		$scope.blurInput = function(){
-			blurTimeout = $timeout(function(){
+			return {
+				require: ['luidTranslations', '^ngModel'],
+				controller: 'luidTranslationsController',
+				scope: {
+					mode: '@', // allowed values: "pipe" (or "|"), "dictionary", "lucca" (lucca proprietary format)
+					size: "@", // the size of the input (short, long, x-long, fitting)
+					isDisabled: "=ngDisabled"
+				},
+				templateUrl: "lui/directives/luidTranslations.html",
+				restrict: 'EA',
+				link: link
+			};
+		}])
+		.controller('luidTranslationsController', ['$scope', '$translate', '$timeout', function ($scope, $filter, $timeout) {
+			var ctrl = this;
+			/******************
+			* UPDATE          *
+			******************/
+			$scope.update = function () { ctrl.updateViewValue(); ctrl.updateTooltip(); };
+
+			/******************
+			* FOCUS & BLUR    *
+			******************/
+
+			$scope.focusInput = function () {
+				$scope.focused = true;
+			};
+			$scope.blurInput = function () {
 				$scope.focused = false;
-			}, 500);
-		};
+			};
 
-	}]);
-
+			$scope.blurOnEnter = function($event) {
+				$event.target.blur();
+				$event.preventDefault();
+			};
+		}]);
 
 	/**************************/
-	/***** TEMPLATEs      *****/
+	/***** TEMPLATES      *****/
 	/**************************/
-	angular.module("lui").run(["$templateCache", function($templateCache) {
+	angular.module("lui").run(["$templateCache", function ($templateCache) {
 		$templateCache.put("lui/directives/luidTranslations.html",
-			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused || hovered}\" ng-mouseenter=\"hovered=true\" ng-mouseleave=\"hovered=false\">" +
+			"<div class=\"lui dropdown {{size}} field\" ng-class=\"{open:focused}\" tooltip-class=\"lui\" tooltip-placement=\"top\"  uib-tooltip=\"{{tooltipText}}\">" +
 			"	<div class=\"lui input\">" +
-			"		<input type=\"text\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"		<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[currentCulture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"		<span class=\"unit\">{{currentCulture}}</span>" +
 			"	</div>" +
 			"	<div class=\"dropdown-menu\">" +
 			"		<div class=\"lui {{size}} field\" ng-repeat=\"culture in cultures\" ng-if=\"culture !== currentCulture\">" +
 			"			<div class=\"lui input\">" +
-			"				<input type=\"text\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-change=\"update()\">" +
+			"				<input type=\"text\" ng-disabled=\"isDisabled\" ng-model=\"internal[culture]\" ng-focus=\"focusInput()\" ng-blur=\"blurInput()\" ng-keypress=\"$event.keyCode === 13 && blurOnEnter($event)\" ng-change=\"update()\">" +
 			"				<span class=\"unit addon\">{{culture}}</span>" +
 			"			</div>" +
 			"		</div>" +
-			// "		<hr>" +
-			// "		<div class=\"lui button right pulled\" ng-click=\"close()\">Ok</div>" +
 			"	</div>" +
 			"</div>" +
-		"");
-
+			"");
 	}]);
 })();
 ;(function(){
@@ -4102,7 +4447,7 @@ var lui;
 				max:'=', // idem for max
 				step:'=', // the number of minutes to add/subtract when clicking the addMins button or scrolling on the add in input
 				referenceDate:'=', // when entering a time, the date to set it, also used to count the number of days between the ngModel and this date, if unavailable, will use min then max then today
-				disabled:'=',
+				isDisabled:'=',
 				showButtons:'=', // forces the buttons to be displayed even if neither inputs is focused
 				enforceValid:'=', // prevents entering an ng-invalid input by correcting the value when losing focus
 
@@ -4133,7 +4478,7 @@ var lui;
 				return newValue;
 			}
 
-			if ($scope.disabled) { return; }
+			if ($scope.isDisabled) { return; }
 			// $scope.ngModelCtrl.$setValidity('pattern', true);
 
 			update(calculateNewValue(), true);
@@ -4392,7 +4737,7 @@ var lui;
 					enableMouseWheel = false;
 				});
 				function subscription(e, incrStep){
-					if(!$scope.disabled && enableMouseWheel){
+					if(!$scope.isDisabled && enableMouseWheel){
 						$scope.$apply(incr((isScrollingUp(e)) ? incrStep : -incrStep ));
 						e.preventDefault();
 					}
@@ -4411,16 +4756,16 @@ var lui;
 
 	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
-			"<div class='lui hours moment input' ng-class='{disabled:disabled}'>" +
-			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"<div class='lui hours moment input' ng-class='{disabled: isDisabled}'>" +
+			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled: maxed}'></i>" +
+			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"<span class='separator'>:</span>" +
-			"<div class='lui minutes moment input' ng-class='{disabled:disabled}'>" +
-			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='disabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
-			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled:maxed}'></i>" +
-			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled:mined}'></i>" +
+			"<div class='lui minutes moment input' ng-class='{disabled: isDisabled}'>" +
+			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled: maxed}'></i>" +
+			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"");
 	}]);
@@ -4904,6 +5249,7 @@ var lui;
 				startOnlyThisYear: 'date(dddd, MMMM Do) onwards',
 				endOnly: 'until date(dddd, LL)',
 				endOnlyThisYear: 'until date(dddd, MMMM Do)',
+				date: 'date(LL)',
 				sameDay: 'start(dddd, LL)',
 				sameDayThisYear: 'start(dddd, MMMM Do)',
 				sameMonth: 'start(MMMM Do) - end(Do\, YYYY)',
@@ -4917,6 +5263,7 @@ var lui;
 				startOnlyThisYear: 'à partir du date(dddd Do MMMM)',
 				endOnly: 'jusqu\'au date(dddd LL)',
 				endOnlyThisYear: 'jusqu\'au date(dddd Do MMMM)',
+				date: 'date(LL)',
 				sameDay: 'le start(dddd LL)',
 				sameDayThisYear: 'le start(dddd Do MMMM)',
 				sameMonth: 'du start(Do) au end(LL)',
@@ -4927,11 +5274,11 @@ var lui;
 			},
 			'de': {
 
-				// startOnly: 'start(dddd, LL) onwards',
-				// startOnlyThisYear: 'start(dddd, MMMM Do) onwards',
-				// endOnly: 'until end(dddd, LL)',
-				// endOnlyThisYear: 'until end(dddd, MMMM Do)',
-
+				startOnly: 'von date(Do MMMM)',
+				startOnlyThisYear: 'von date(LL)',
+				endOnly: 'bis date(Do MMMM)',
+				endOnlyThisYear: 'bis date(LL)',
+				date: 'date(LL)',
 				sameDay: 'der start(dddd LL)',
 				sameDayThisYear: 'der start(dddd Do MMMM)',
 				sameMonth: 'von start(Do) bis end(LL)',
@@ -4941,7 +5288,39 @@ var lui;
 				other: 'von start(LL) bis end(LL)'
 			}
 		};
-		return function (_block, _excludeEnd, _ampm, _translations) {
+		function getTrad(trads, locale, key, fallbackKey) {
+			if (!!trads && !!trads[locale] && !!trads[locale][key]) {
+				return trads[locale][key];
+			}
+			if (!!trads && !!trads[locale] && !!trads[locale][fallbackKey]) {
+				return trads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			var fallbackLocale = "en";
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][key]) {
+				return trads[fallbackLocale][key];
+			}
+			if (!!trads && !!trads[fallbackLocale] && !!trads[fallbackLocale][fallbackKey]) {
+				return trads[fallbackLocale][fallbackKey];
+			}
+
+			// fallback on standard translations if I couldnt find what I need in provided trads
+			var fallbackTrads = translations;
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][key]) {
+				return fallbackTrads[locale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[locale] && !!fallbackTrads[locale][fallbackKey]) {
+				return fallbackTrads[locale][fallbackKey];
+			}
+			// fallback on english in provided translations
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][key]) {
+				return fallbackTrads[fallbackLocale][key];
+			}
+			if (!!fallbackTrads && !!fallbackTrads[fallbackLocale] && !!fallbackTrads[fallbackLocale][fallbackKey]) {
+				return fallbackTrads[fallbackLocale][fallbackKey];
+			}
+		}
+		return function (_block, _excludeEnd, _translations) {
 			if(!_block){ return; }
 			var start = _block.start || _block.startsAt || _block.startsOn || _block.startDate;
 			var end = _block.end || _block.endsAt || _block.endsOn || _block.endDate;
@@ -4953,7 +5332,7 @@ var lui;
 			if(_excludeEnd){
 				end.add(-1,'minutes');
 			}
-			var trads = translations[moment.locale()] || translations.en;
+			var trad;
 			var format;
 			var regex;
 			if (!!start && !!end) {
@@ -4961,16 +5340,18 @@ var lui;
 				if(moment().year() === start.year() && moment().year() === end.year()){
 					format += "ThisYear";
 				}
-				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trads[format]);
-				return trads[format].replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
+				trad = getTrad(_translations, moment.locale(), format, "other");
+				regex = /(start\((.*?)\))(.*(end\((.*?)\))){0,1}/gi.exec(trad);
+				return trad.replace(regex[1], start.format(regex[2])).replace(regex[4], end.format(regex[5]));
 			}
 			format = !!start ? "startOnly" : "endOnly";
 			var date = start || end;
 			if(moment().year() === date.year()){
 				format += "ThisYear";
 			}
-			regex = /(date\((.*?)\))/gi.exec(trads[format]);
-			return trads[format].replace(regex[1], date.format(regex[2]));
+			trad = getTrad(_translations, moment.locale(), format, "date");
+			regex = /(date\((.*?)\))/gi.exec(trad);
+			return trad.replace(regex[1], date.format(regex[2]));
 		};
 	})
 	.filter('luifMoment', function () {

@@ -124,7 +124,7 @@ declare module lui {
     interface IFilterService extends ng.IFilterService {
         (name: "luifDuration"): (input: any, showSign?: boolean, unit?: string, precision?: string) => string;
         (name: "luifPlaceholder"): (input: any, placeholder: string) => string;
-        (name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean) => string;
+        (name: "luifFriendlyRange"): (input: IPeriod, excludeEnd?: boolean, trads?: Object) => string;
         (name: "luifDefaultCode"): (input: string) => string;
         (name: "luifStripAccents"): (input: string) => string;
     }
@@ -237,7 +237,7 @@ declare module lui.iban {
             [key: number]: ($event: ng.IAngularEvent) => void;
         };
         updateValue(): void;
-        pasteIban(event: ClipboardEvent): void;
+        pasteIban(event: ClipboardEvent | JQueryEventObject): void;
         selectInput(event: JQueryEventObject): void;
         setTouched(): void;
     }
@@ -447,6 +447,78 @@ declare module lui.tablegrid {
         updateViewAfterOrderBy: () => void;
     }
 }
+declare module lui.translate {
+    const AVAILABLE_LANGUAGES: string[];
+    const LANGUAGES_TO_CODE: {
+        en: number;
+        de: number;
+        es: number;
+        fr: number;
+        it: number;
+        nl: number;
+    };
+    const CODES_TO_LANGUAGES: {
+        1031: string;
+        1033: string;
+        1034: string;
+        1036: string;
+        1040: string;
+        2067: string;
+    };
+    class CulturedList {
+        culture: string;
+        originalId: number;
+        values: ICulturedValue[];
+        constructor(culture: string);
+    }
+    interface ICulturedValue {
+        value: string;
+        originalLuccaCulturedLabelId?: number;
+        originalLuccaTranslationId?: number;
+    }
+    interface ILuccaTranslation {
+        id: number;
+        culturedLabels: ILuccaCulturedLabel[];
+    }
+    interface ILuccaCulturedLabel {
+        id: number;
+        cultureCode: number;
+        value: string;
+        translationId: number;
+    }
+}
+declare module lui.translate {
+    class LuidTranslationsListController {
+        static IID: string;
+        static $inject: string[];
+        private $scope;
+        constructor($scope: ILuidTranslationsListScope, $translate: ng.translate.ITranslateService, $timeout: ng.ITimeoutService);
+    }
+}
+declare module lui.translate {
+}
+declare module lui.translate {
+    interface ILuidTranslationsListScope extends ng.IScope {
+        cultures: string[];
+        currentCulture: string;
+        selectedCulture: string;
+        values: _.Dictionary<CulturedList>;
+        isDisabled: boolean;
+        addValueOnEnter: {
+            [key: number]: ($event: JQueryEventObject) => void;
+        };
+        uniqueId: string;
+        selectCulture(culture: string): void;
+        addValue(): void;
+        addValueAndFocus(): void;
+        deleteValue(index: number): void;
+        isAddValueDisabled(): boolean;
+        onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;
+        getPlaceholder(culture: string, index: number): string;
+        onInputValueChanged(): void;
+        getUniqueId(culture: string, index: number): string;
+    }
+}
 declare module lui.userpicker {
     interface IUserLookup {
         id: number;
@@ -496,6 +568,7 @@ declare module lui.userpicker {
 declare module lui.userpicker {
     interface ILuidUserPickerScope extends ng.IScope {
         placeholder: string;
+        allowClear: boolean;
         showFormerEmployees: boolean;
         displayMeFirst: boolean;
         controlDisabled: boolean;

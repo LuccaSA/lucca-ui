@@ -123,7 +123,7 @@
 		// Field length (horizontal sizing)
 		// =====================================================================
 		// Defaults to medium
-		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
+		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations),
 		#{$prefix}.input:not(.radio):not(.checkbox):not(.switch) > label {
 			max-width: 100%;
 			width: map-gets($vars, lengths, medium);

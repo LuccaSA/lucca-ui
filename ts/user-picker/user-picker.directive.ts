@@ -9,7 +9,7 @@ module lui.userpicker {
 			placeholder: "@",
 			onSelect: "&",
 			onRemove: "&",
-			allowClear: "=",
+			allowClear: "=?",
 			controlDisabled: "=", // BG: pas '@', sinon cast en string
 
 			showFormerEmployees: "=", // bool, default false

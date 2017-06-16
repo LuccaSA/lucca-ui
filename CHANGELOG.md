@@ -1,7 +1,48 @@
 # Change log
 
-## 3.1.7
+## in dev
 ### Bug fixes
+- `luid-table-grid` fix issue when datas attribut contains numeric values.
+
+## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
+### Changes (non-breaking)
+- Applayout navigation arrow is now optionnal by adding `.with-navigation-arrow` to the #main-navigation
+- `luid-translations` now only opens on focus
+- `luid-translations` shows translations in a tooltip on hover
+- `luid-translations-list` shows a placeholder value if defined in any language
+- `luid-translations-list` focus on the new input when adding a value
+- `ui-select` label is now aligned to the top in compact mode
+
+### Bug fixes
+- `luid-on-scroll-bottom`: infinite scroll did not work on browsers like FireFox
+- `luid-user-picker`: fixed a bug where user were duplicated
+- `luid-image-picker`: fixed issue with loading states not showing
+
+## 3.1.11 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.11)
+### Changes (non-breaking)
+ - `luid-daterange-picker`: add `range-format` attribute
+
+## 3.1.10 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.10)
+### Bug fixes
+- `luid-moment`: `disabled` attribute is now `is-disabled` for IE support
+
+## 3.1.9 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.9)
+### Bug fixes
+- `luid-user-picker`: `allow-clear` attribute
+
+## 3.1.8 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.8)
+### Changes (non-breaking)
+- `luid-translations-list` - added unique identifiers for inputs, to display the directive multiple times in the same page
+ - `luid-translations-list` - added ng-invalid handling
+ - `luid-translations-list` - fixed issue which happened when ng-model was empty or undefined
+ - `luid-translations-list` & `luid-iban` - fixed issue with ng-paste when JQuery was loaded before Angular
+
+## 3.1.7 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.7)
+### Changes (non-breaking)
+ - `luid-translations` now supports ng-required: ng-model.$viewValue is set to undefined when all the multilingual variables are empty
+ - `luid-translations` now supports ng-disabled
+ - `luid-translations` now supports Lucca proprietary format
+ - Added `luid-translations-list`, a directive to input multilingual lists
 
 ## 3.1.6 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.6)
 ### Bug fixes
@@ -35,6 +76,7 @@
  - refactored the way the angular modules are defined, so now each module has a fixed number of dependencies. allows you to use lucca-ui without having to9 add `ng-crop-extended` or `formly` to your list of dependencies
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
+ - `dist/custom/`doesn't exist anymore. Include directly `dist/lucca-ui.min.js`
 
 ### Changes (non-breaking)
  - added infinite scroll to `luid-api-select`

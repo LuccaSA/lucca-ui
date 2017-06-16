@@ -14,6 +14,7 @@ module lui.datepicker {
 		public scope = {
 			format: "@",
 			displayFormat: "@",
+			rangeFormat: "@",
 			minMode: "@",
 			min: "=",
 			max: "=",
@@ -72,6 +73,7 @@ module lui.datepicker {
 
 		displayStr: string;
 		displayFormat: string;
+		rangeFormat: string;
 		momentFormat: string;
 		fromLabel: string;
 		toLabel: string;
@@ -92,6 +94,7 @@ module lui.datepicker {
 		private startProperty: string;
 		private endProperty: string;
 		private element: ng.IAugmentedJQuery;
+		private rangeFormatDictionary: Object;
 
 		constructor($scope: IDaterangePickerScope, $filter: IFilterService, $log: ng.ILogService) {
 			super($scope, $log);
@@ -110,6 +113,12 @@ module lui.datepicker {
 					break;
 			}
 
+			this.rangeFormatDictionary = {
+				en: {
+					other: $scope.rangeFormat
+				}
+			};
+
 			$scope.internal.startDisplayStr = "";
 			$scope.internal.endDisplayStr = "";
 
@@ -118,7 +127,7 @@ module lui.datepicker {
 
 			$scope.selectShortcut = (shortcut: Shortcut) => {
 				$scope.period = this.toPeriod(shortcut);
-				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+				$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.rangeFormatDictionary);
 				this.setViewValue($scope.period);
 				this.closePopover();
 			};
@@ -217,7 +226,7 @@ module lui.datepicker {
 			ngModelCtrl.$render = () => {
 				if (ngModelCtrl.$viewValue) {
 					this.$scope.period = this.getViewValue();
-					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+					this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.rangeFormatDictionary);
 					this.$scope.internal.startDisplayStr = this.$scope.period.start ? this.$scope.period.start.format(this.$scope.displayFormat || "L") : "";
 					this.$scope.internal.endDisplayStr = this.$scope.period.end ? this.$scope.period.end.format(this.$scope.displayFormat || "L") : "";
 				} else {
@@ -372,7 +381,7 @@ module lui.datepicker {
 			}
 			this.$scope.direction = "";
 			this.setViewValue(this.$scope.period);
-			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period);
+			this.$scope.displayStr = this.$filter("luifFriendlyRange")(this.$scope.period, false, this.rangeFormatDictionary);
 			this.element.removeClass("ng-open");
 			this.popoverController.close();
 		}
