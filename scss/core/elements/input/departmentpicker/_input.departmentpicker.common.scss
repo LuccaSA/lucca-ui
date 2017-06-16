@@ -4,7 +4,18 @@
 
 		luid-department-picker{
 			display: inline-block;
+			.ui-select-highlight {
+				background: luiTheme(element, field, input, selection-background);
+				color: luiTheme(element, field, input, selection-text);
+			}
 
+			.ui-select-container input.ui-select-search {
+				@include stylePlaceholder() {
+					color: map-get($vars, placeholder-color);
+					font-size: 1em;
+				}
+			}
+			
 			.departmentpicker-label {
 				font-weight: 700;
 				position: relative;

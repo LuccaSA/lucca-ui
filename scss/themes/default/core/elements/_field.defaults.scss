@@ -149,7 +149,8 @@ $field: (
 		hover-color:				luiPalette(light, color)
 	),
 	departmentpicker: (
-		enabled:				true
+		enabled:				true,
+		placeholder-color:				luiTheme(element, typography, body, color)
 	),
 	ui-select: (
 		enabled:				true
