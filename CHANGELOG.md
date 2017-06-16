@@ -3,6 +3,10 @@
 ## in dev
 ### Bug fixes
 - `luid-daterange-picker`: fixed an issue with focus styling
+- `luid-table-grid` fix issue when datas attribut contains numeric values.
+
+### Enhancements
+- `luid-user-picker` does not close dropdown when `include-former-employees` attribute changes
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
@@ -76,6 +80,7 @@
  - refactored the way the angular modules are defined, so now each module has a fixed number of dependencies. allows you to use lucca-ui without having to9 add `ng-crop-extended` or `formly` to your list of dependencies
  - refactored the definitions that will apprear in `lucca-ui.d.ts`, all definitions you need should be under `lui`, ex: `lui.IFilterService`, `lui.IProgressBarService`, `lui.IConfig`
  - except for the tablegrid, its under `lui.tablegrid`, ex: `lui.tablegrid.IHeader`, `lui.tablegrid.FilterType.SELECT`
+ - `dist/custom/`doesn't exist anymore. Include directly `dist/lucca-ui.min.js`
 
 ### Changes (non-breaking)
  - added infinite scroll to `luid-api-select`
