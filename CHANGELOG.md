@@ -1,11 +1,15 @@
 # Change log
 
 ## in dev
+
+### Changes (non-breaking)
+- `ui-select dropdown` - added contrast to background-color of hover/active elements. Can be customized in themes `elements.field.dropdown.hover-color`
+
 ### Bug fixes
-- `luid-table-grid` fix issue when datas attribut contains numeric values.
+- `luid-table-grid` - fix issue when data attributes contains numeric values.
 
 ### New features
-- `luid-department-picker` to display departments tree
+- `luid-department-picker` - to display departments tree
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
