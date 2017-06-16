@@ -58,7 +58,7 @@
 	&.active > *,
 	&:not(.disabled) > *:hover {
 		opacity: 1;
-		background-color: luiPalette(light, color, light);
+		background-color: luiTheme(element, field, dropdown, hover-color);
 	}
 	&.dividing:after {
 		display: block;
