@@ -7,7 +7,8 @@
 			display: inline-block;
 			width: 100%;
 			height: 100%;
-
+			cursor: pointer;
+			
 			> div { height: 100%; }
 
 			.luid-image-picker-picture {
@@ -70,7 +71,7 @@
 			}
 			&[disabled="disabled"] {
 				color: red;
-				.input-overlay {
+				.input-overlay, input {
 					display: none !important;
 				}
 			}
@@ -82,6 +83,32 @@
 			&.round {
 				.luid-image-picker-picture {
 					border-radius: 50%;
+				}
+			}
+		}
+
+		.luid-image-picker-popup.lui.popover {
+			height: auto;
+			.popover-inner {
+				padding: 0;
+				margin-top: 0 !important;
+				background: white;
+				.image-picker-menu {
+					margin: 0;
+					padding: 0;
+
+					li {
+						padding: .5em 1em;
+						cursor: pointer;
+						transition: all .15s ease-out;
+						& + li {
+							border-top: 1px solid grey;
+						}
+
+						&:hover {
+							background: darken(white, 10%);
+						}
+					}
 				}
 			}
 		}
