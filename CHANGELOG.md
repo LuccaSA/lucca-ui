@@ -5,9 +5,11 @@
 - `luid-daterange-picker`: fixed an issue with focus styling
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
 - `luid-user-picker` fixed issue where former employees were still displayed even though `show-former-employees` was set to false
+- `compact` fixed issues where `fitting` was not taking label size in account.
 
 ### Enhancements
 - `luid-user-picker` does not close dropdown when `include-former-employees` attribute changes
+- `compact` you can change label width using classes `label-{sizename}`
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
