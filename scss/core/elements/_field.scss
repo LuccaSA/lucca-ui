@@ -149,7 +149,7 @@
 		}
 		#{$prefix}.fitting.field > .input,
 		#{$prefix}.fitting.input {
-			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]) {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
 				width: 100%;
 			}
 		}
