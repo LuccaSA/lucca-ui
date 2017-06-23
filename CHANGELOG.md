@@ -1,6 +1,9 @@
 # Change log
 
 ## in dev
+### Changes (non-breaking)
+- `luid-date-picker` selects input text when editing a non-empty input
+- `luid-date-picker` can be closed with the "ENTER" key
 ### Bug fixes
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
 
