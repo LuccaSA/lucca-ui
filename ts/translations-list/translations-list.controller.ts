@@ -132,7 +132,7 @@ module lui.translate {
 					return $scope.isDisabled ? "" : currentCultureValue;
 				}
 
-				for(let i = 0; i < $scope.cultures.length; i++) {
+				for (let i = 0; i < $scope.cultures.length; i++) {
 					let currentLanguage = $scope.cultures[i];
 					let cultureValue = $scope.values[currentLanguage].values[index].value;
 					if (!!cultureValue) {
