@@ -132,7 +132,7 @@
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
 			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
-			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch) > label {
+			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch):not(.compact) > label {
 				min-width: 0;
 				width: $sizeEms;
 			}
@@ -142,13 +142,13 @@
 		// =====================================================================
 		#{$prefix}.fitting.field,
 		#{$prefix}.fitting.field > .input,
-		#{$prefix}.fitting.field > .input > label,
+		#{$prefix}.fitting.field > .input:not(.compact) > label,
 		#{$prefix}.fitting.input,
-		#{$prefix}.fitting.input > label {
+		#{$prefix}.fitting.input:not(.compact) > label {
 			width: 100% !important;
 		}
-		#{$prefix}.fitting.field > .input,
-		#{$prefix}.fitting.input {
+		#{$prefix}.fitting.field > .input:not(.compact),
+		#{$prefix}.fitting.input:not(.compact) {
 			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
 				width: 100%;
 			}
