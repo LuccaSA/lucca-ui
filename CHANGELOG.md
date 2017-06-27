@@ -1,6 +1,9 @@
 # Change log
 
 ## in dev
+### Changes (non-breaking)
+- `luid-image-picker`: displays a popover when a file as been uploaded and deleteEnabled is true
+- `luid-image-picker`: material design now shows an edit icon by default. It can be disabled by setting the attribute `hide-edit-hint` to true
 ### Bug fixes
 - `luid-daterange-picker`: fixed an issue with focus styling
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
