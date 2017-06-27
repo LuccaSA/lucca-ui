@@ -10,6 +10,7 @@ module lui.imagepicker {
 			croppingRatio: "=",
 			croppingDisabled: "=",
 			deleteEnabled: "=",
+			hideEditHint: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {

@@ -32,6 +32,9 @@
 					opacity: .4;
 					transition: all .15s ease-out;
 					transform-origin: bottom right;
+					&.hide-editable {
+						opacity: 0;
+					}
 
 					> .overlay-content {
 						position: absolute;
@@ -60,7 +63,7 @@
 				}
 
 				&:hover {
-					.input-overlay {
+					.input-overlay, .input-overlay.hide-editable {
 						width: 100%;
 						height: 100%;
 						bottom: 0;
