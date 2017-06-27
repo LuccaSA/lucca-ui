@@ -54,7 +54,6 @@ module lui.imagepicker {
 		private placeholder: string;
 		private popoverController: popover.IPopoverController;
 		private inputElement: HTMLElement;
-		private deleteEnabled: boolean;
 
 		constructor($scope: IImagepickerScope, uploaderService: IUploaderService, $timeout: ng.ITimeoutService) {
 			this.$scope = $scope;
@@ -112,7 +111,6 @@ module lui.imagepicker {
 				this.closePopover();
 			};
 			this.popoverController = new popover.ClickoutsideTrigger(elt, scope, onClosing);
-			this.deleteEnabled = scope.deleteEnabled || false;
 			scope.popover = { isOpen: false };
 			scope.togglePopover = ($event: ng.IAngularEvent) => {
 				$event.preventDefault();
