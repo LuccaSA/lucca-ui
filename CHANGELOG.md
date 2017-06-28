@@ -3,6 +3,8 @@
 ## in dev
 
 ### Changes (non-breaking)
+- `luid-date-picker` selects input text when editing a non-empty input
+- `luid-date-picker` can be closed with the "ENTER" key
 - `ui-select dropdown` - added contrast to background-color of hover/active elements. Can be customized in themes `elements.field.dropdown.hover-color`
 - `luid-image-picker`: displays a popover when a file as been uploaded and deleteEnabled is true
 - `luid-image-picker`: material design now shows an edit icon by default. It can be disabled by setting the attribute `hide-edit-hint` to true

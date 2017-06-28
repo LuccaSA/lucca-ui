@@ -73,7 +73,7 @@ module lui.datepicker {
 		displayStr: string;
 		displayFormat: string;
 
-		closePopoverOnTab: { [key: number]: ($event: ng.IAngularEvent) => void };
+		closePopoverOnKeyPress: { [key: number]: ($event: ng.IAngularEvent) => void };
 
 		disableKeyboardInput: boolean;
 
@@ -104,7 +104,10 @@ module lui.datepicker {
 				this.openPopover($event);
 			};
 
-			$scope.closePopoverOnTab = { 9: ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); } };
+			$scope.closePopoverOnKeyPress = {
+				9 : ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); },
+				13 :  ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); this.element.find('input')[0].blur(); }
+			};
 
 			$scope.$watch("min", (): void => {
 				// revalidate
@@ -257,7 +260,8 @@ module lui.datepicker {
 				this.popoverController.open($event);
 			}
 			if (!this.$scope.disableKeyboardInput) {
-				this.$scope.displayStr = "";
+				let input = this.element.children().children()[0] as HTMLInputElement;
+				input.select();
 			}
 		}
 
