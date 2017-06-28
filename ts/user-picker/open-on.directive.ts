@@ -7,16 +7,16 @@ module lui.userpicker {
 		public require = ["uiSelect"];
 		private $timeout: ng.ITimeoutService;
 
-		constructor($timeout: ng.ITimeoutService) {
-			this.$timeout = $timeout;
-		}
-
 		public static factory(): angular.IDirectiveFactory {
 			let directive = ($timeout: ng.ITimeoutService) => {
 				return new OpenOn($timeout);
 			};
 			directive.$inject = ["$timeout"];
 			return directive;
+		}
+
+		constructor($timeout: ng.ITimeoutService) {
+			this.$timeout = $timeout;
 		}
 
 		public link(scope: ng.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes & { openOn: string }, ctrls: [any]): void {
