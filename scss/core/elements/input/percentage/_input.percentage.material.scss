@@ -1,0 +1,12 @@
+@if luiTheme(element, field, percentage, enabled) {
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
+		@at-root #{$namespace} {
+			#{$prefix}.input#{$selector} luid-percentage, luid-percentage#{$selector} {
+				> .input input{
+						@extend %lui_quick_material_input;
+				}
+			}
+		}
+	}
+}
