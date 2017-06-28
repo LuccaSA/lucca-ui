@@ -120,6 +120,58 @@ declare module lui.datepicker {
 }
 declare module lui.datepicker {
 }
+declare module lui.departmentpicker {
+    function DepartmentFilter(): ((departments: IDepartment[], clue: string) => IDepartment[]);
+}
+declare module lui.departmentpicker {
+    interface IDepartment {
+        id: number;
+        name: string;
+        ancestorsLabel?: string;
+        level?: number;
+        hasChild?: boolean;
+    }
+    interface ITree<T> {
+        node: IDepartment;
+        children: ITree<T>[];
+    }
+    type IDepartmentTree = ITree<IDepartment>;
+}
+declare module lui.departmentpicker {
+    const MAGIC_PAGING: number;
+    class LuidDepartmentPickerController {
+        static IID: string;
+        static $inject: Array<string>;
+        private $scope;
+        private departmentPickerService;
+        private ngModelCtrl;
+        private departments;
+        constructor($scope: ILuidDepartmentPickerScope, departmentPickerService: IDepartmentPickerService);
+        setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
+        private initScope();
+        private initDepartments();
+        private setViewValue(department);
+    }
+}
+declare module lui.departmentpicker {
+}
+declare module lui.departmentpicker {
+    interface ILuidDepartmentPickerScope extends ng.IScope {
+        internal: {
+            selectedDepartment: IDepartment;
+        };
+        departmentsToDisplay: IDepartment[];
+        onDropdownToggle(isOpen: boolean): void;
+        selectDepartment(): void;
+        loadMore(): void;
+        getLevel(department: IDepartment): Array<{}>;
+    }
+}
+declare module lui.departmentpicker {
+    interface IDepartmentPickerService {
+        getDepartments(): ng.IPromise<IDepartment[]>;
+    }
+}
 declare module lui {
     interface IFilterService extends ng.IFilterService {
         (name: "luifDuration"): (input: any, showSign?: boolean, unit?: string, precision?: string) => string;
@@ -520,6 +572,8 @@ declare module lui.translate {
     }
 }
 declare module lui.userpicker {
+}
+declare module lui.userpicker {
     interface IUserLookup {
         id: number;
         firstName: string;
@@ -548,6 +602,7 @@ declare module lui.userpicker {
         private userPickerService;
         private ngModelCtrl;
         private multiple;
+        private clue;
         constructor($scope: ILuidUserPickerScope, $q: ng.IQService, userPickerService: IUserPickerService);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController, multiple?: boolean): void;
         private getViewValue();

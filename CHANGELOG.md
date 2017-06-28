@@ -2,6 +2,7 @@
 
 ## in dev
 
+## 3.1.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.13)
 ### Changes (non-breaking)
 - `luid-date-picker` selects input text when editing a non-empty input
 - `luid-date-picker` can be closed with the "ENTER" key
