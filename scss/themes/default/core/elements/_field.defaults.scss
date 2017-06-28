@@ -58,6 +58,16 @@ $field: (
 			focus: (
 				background-color: 	#fafafa,
 				border-color: luiPalette(grey, color)
+			),
+
+			label-right-padding: 1em,
+
+			label-lengths: (
+				x-short: 3em,
+				short: 5em,
+				medium: 7em,
+				large: 9em,
+				x-large: 11em
 			)
 		)
 	),
@@ -97,6 +107,11 @@ $field: (
 
 	iban: (
 		enabled:				true
+	),
+
+	percentage: (
+		enabled:				true,
+		width:				2.5em,
 	),
 
 	userpicker: (
@@ -159,9 +174,13 @@ $field: (
 
 	dropdown: (
 		enabled:				true,
-		z-index:				10
+		z-index:				10,
+		hover-color:				luiPalette(light, color)
 	),
-
+	departmentpicker: (
+		enabled:				true,
+		placeholder-color:				luiTheme(element, typography, body, color)
+	),
 	ui-select: (
 		enabled:				true
 	),

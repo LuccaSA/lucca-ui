@@ -69,5 +69,9 @@ module Lui {
 			name: "iban",
 			templateUrl: "lui/templates/formly/fields/iban.html",
 		});
+		formlyConfigProvider.setType({
+			name: "department",
+			templateUrl: "lui/templates/formly/fields/department.html",
+		});
 	}]);
 }

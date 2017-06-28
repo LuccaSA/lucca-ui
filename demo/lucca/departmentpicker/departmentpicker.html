@@ -1,0 +1,34 @@
+<h2 class="lui divider below">luid-department-picker</h2>
+<p>A select menu to display the departments tree.</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Supported arguments</h4>
+</div>
+<p>
+	<ul class="lui unstyled">
+		<li><code><b>ng-model</b></code>: the selected department</li>
+	</ul>
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Usage</h4>
+</div>
+<p>
+	<pre hljs no-escape language="html">&lt;luid-department-picker ng-model="internal.selectedDepartment"&gt;&lt;/luid-department-picker&gt;</pre>
+</p>
+
+<div class="lui dashed divider">
+	<h4 class="lui underline">Demo</h4>
+</div>
+<article class="lui block round">
+	<div class="lui x-long field">
+		<span class="lui material input">
+			<luid-department-picker ng-if="!!globalConnected"
+			ng-model="internal.selectedDepartment">
+			</luid-department-picker>
+		<label>Select a department</label>
+	</span>
+	</div>
+	<p><code>ng-model:</code></p>
+	<p><code>{{ internal.selectedDepartment }}</code></p>
+</article>
