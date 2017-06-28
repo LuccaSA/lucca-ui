@@ -18,9 +18,12 @@
 				}
 			}
 
-			#{$prefix}.input#{$selector} luid-daterange-picker .inputs > input:focus,
-			luid-daterange-picker#{$selector} .inputs > input:focus {
-				@extend %lui_input_focus_material;
+			#{$prefix}.input#{$selector} luid-daterange-picker .inputs,
+			luid-daterange-picker#{$selector} .inputs{
+				> input:focus,
+				> input.focus {
+					@extend %lui_input_focus_material;
+				}
 			}
 
 		}

@@ -7,7 +7,7 @@
 	<div class="inputs" ng-if="popover.isOpen">
 		<input type="text" auto-focus
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ 'clickable': disableKeyboardInput}"
+			   ng-class="{ 'clickable': disableKeyboardInput, 'focus': !!editingStart}"
 			   ng-click="editStart($event)"
 			   ng-model="internal.startDisplayStr"
 			   ng-change="onStartDisplayStrChanged($event)"
@@ -18,7 +18,7 @@
 
 		<input type="text"
 			   ng-readonly="disableKeyboardInput"
-			   ng-class="{ 'clickable': disableKeyboardInput}"
+			   ng-class="{ 'clickable': disableKeyboardInput, 'focus': !editingStart}"
 			   ng-model="internal.endDisplayStr"
 			   ng-click="editEnd($event)"
 			   ng-change="onEndDisplayStrChanged($event)"

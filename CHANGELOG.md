@@ -7,9 +7,16 @@
 
 ### Bug fixes
 - `luid-table-grid` - fix issue when data attributes contains numeric values.
+- `luid-daterange-picker`: fixed an issue with focus styling
+- `luid-table-grid` fix issue when datas attribut contains numeric values.
+- `luid-user-picker` fixed issue where former employees were still displayed even though `show-former-employees` was set to false
 
 ### New features
 - `luid-department-picker` - to display departments tree
+
+### Enhancements
+- `luid-user-picker` does not close dropdown when `include-former-employees` attribute changes
+
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
