@@ -25,7 +25,7 @@ module lui.iban {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			this.ngModelCtrl.$render = (): void => {
-				let iban = this.getViewValue().replace(" ", "");
+				let iban = this.getViewValue() ? this.getViewValue().replace(" ", "") : null ;
 				if (!!iban) {
 					this.$scope.countryCode = iban.substring(0, 2);
 					this.$scope.controlKey = iban.substring(2, 4);
