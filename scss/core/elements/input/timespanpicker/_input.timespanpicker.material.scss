@@ -1,4 +1,4 @@
-@if luiTheme(element, field, momentpicker, enabled) {
+@if luiTheme(element, field, timespanpicker, enabled) {
 	@if lui_input_style_enabled("material") {
 		$selector: lui_input_get_style_selector("material");
 		@at-root #{$namespace} {

@@ -123,6 +123,10 @@ $field: (
 			bg-color: 			luiPalette(light, color),
 			height: 			40em,
 		),
+		popover: (
+			bg-color: white,
+			hover-color: luiPalette(light, color, light),
+		),
 		material: (
 			loader-size: 			3em,
 		)
@@ -146,6 +150,7 @@ $field: (
 	),
 
 	translations-list: (
+		enabled:				true,
 		hover-color:				#000,
 		menu-bg-color:				#FAFAFA,
 		background-color:				#FFF,

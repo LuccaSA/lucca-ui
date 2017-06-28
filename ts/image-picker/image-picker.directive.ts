@@ -10,6 +10,7 @@ module lui.imagepicker {
 			croppingRatio: "=",
 			croppingDisabled: "=",
 			deleteEnabled: "=",
+			hideEditHint: "=",
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -23,32 +24,49 @@ module lui.imagepicker {
 			let imgPickerCtrl = <LuidImagePickerController>ctrls[1];
 			imgPickerCtrl.setNgModelCtrl(ngModelCtrl);
 			imgPickerCtrl.setPlaceholder(scope.placeholderUrl);
+			imgPickerCtrl.setPopoverTrigger(element, scope);
+			imgPickerCtrl.setElements(element);
 		}
 	}
 
-	interface IImagepickerScope extends ng.IScope {
+	interface IImagepickerScope extends ng.IScope, popover.IClickoutsideTriggerScope {
 		pictureStyle: { "background-image": string };
 		placeholderUrl: string;
 		uploading: boolean;
+		deleteEnabled: boolean;
 		file: any;
 		onCropped(cropped: string): void;
 		onCancelled(): void;
+		onClick(event: ng.IAngularEvent): void;
 		onDelete(): void;
 		setTouched(): void;
+		uploadNewImage($event: ng.IAngularEvent): void;
+		togglePopover($event: ng.IAngularEvent): void;
+		openPopover($event: ng.IAngularEvent): void;
 	}
 
 
 	class LuidImagePickerController {
 		public static IID: string = "luidImagePickerController";
-		public static $inject: Array<string> = ["$scope", "uploaderService"];
+		public static $inject: Array<string> = ["$scope", "uploaderService", "$timeout"];
 		private $scope: IImagepickerScope;
 		private ngModelCtrl: ng.INgModelController;
 		private placeholder: string;
+		private popoverController: popover.IPopoverController;
+		private inputElement: HTMLElement;
 
-		constructor($scope: IImagepickerScope, uploaderService: IUploaderService) {
+		constructor($scope: IImagepickerScope, uploaderService: IUploaderService, $timeout: ng.ITimeoutService) {
 			this.$scope = $scope;
 			$scope.setTouched = () => {
 				this.ngModelCtrl.$setTouched();
+			};
+
+			$scope.uploadNewImage = ($event: ng.IAngularEvent): void => {
+				// Necessary to wait for a new cycle and avoid $apply issues
+				$timeout(() => {
+					this.inputElement.click();
+					this.closePopover();
+				});
 			};
 			$scope.onCropped = (cropped) => {
 				$scope.uploading = true;
@@ -69,6 +87,7 @@ module lui.imagepicker {
 			$scope.onDelete = () => {
 				this.setViewValue(undefined);
 				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
+				this.closePopover();
 			};
 		}
 		// set stuff - is called in the linq function
@@ -85,6 +104,45 @@ module lui.imagepicker {
 		}
 		public setPlaceholder(placeholder: string): void {
 			this.placeholder = placeholder || "/static/common/images/placeholder-pp.png";
+		}
+
+		public setPopoverTrigger(elt: angular.IAugmentedJQuery, scope: IImagepickerScope): void {
+			let onClosing = (): void => {
+				this.closePopover();
+			};
+			this.popoverController = new popover.ClickoutsideTrigger(elt, scope, onClosing);
+			scope.popover = { isOpen: false };
+			scope.togglePopover = ($event: ng.IAngularEvent) => {
+				$event.preventDefault();
+				if (!!scope.file && !!scope.deleteEnabled) {
+					this.togglePopover($event);
+				} else {
+					this.$scope.uploadNewImage($event);
+				}
+			};
+		}
+
+		public setElements(elt: angular.IAugmentedJQuery): void {
+			this.inputElement = elt.find("input")[0];
+		}
+		private togglePopover($event: ng.IAngularEvent): void {
+			if (this.$scope.popover.isOpen) {
+				this.closePopover();
+			} else {
+				this.openPopover($event);
+			}
+		}
+
+		private closePopover(): void {
+			if (!!this.popoverController) {
+				this.popoverController.close();
+			}
+		}
+
+		private openPopover($event: ng.IAngularEvent): void {
+			if (!!this.popoverController) {
+				this.popoverController.open($event);
+			}
 		}
 
 		private getViewValue(): IFile {

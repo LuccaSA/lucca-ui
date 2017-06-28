@@ -7,19 +7,55 @@
 
 			#{$prefix}.input#{$selector} luid-image-picker,
 			luid-image-picker#{$selector} {
+				position: relative;
 				.luid-image-picker-picture {
 					background-position: map-gets($vars, background-position);
 					background-repeat: map-gets($vars, background-repeat);
 					background-size: map-gets($vars, background-size);
+					overflow: hidden;
+				}
+
+				.luid-image-picker-popup.lui.popover {
+					top: 50% !important;
+					left: 50% !important;
+					transform: translate(-50%, -40%) scale(1) !important;
 				}
 
 				.input-overlay {
-					height: 0;
 					background-color: map-gets($vars, overlay, bg-color);
-
-					> span {
-						padding: map-gets($vars, overlay, padding);
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					left: auto;
+					width: 2em;
+					height: 2em;
+					opacity: .4;
+					transition: all .15s ease-out;
+					transform-origin: bottom right;
+					&.hide-editable {
+						opacity: 0;
 					}
+
+					> .overlay-content {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						transform: translate(0, 0);
+						transition: all .15s ease-out;
+						> i {
+							line-height: 2em;
+							margin-top: 0;
+							display: block;
+						}
+						> span {
+							text-align: center;
+							display: none;
+							padding: map-gets($vars, overlay, padding);
+							padding-top: 0;
+						}
+					}
+
 				}
 
 				.upload-overlay .loader{
@@ -27,8 +63,23 @@
 				}
 
 				&:hover {
-					.input-overlay {
-						height: map-gets($vars, overlay, height);
+					.input-overlay, .input-overlay.hide-editable {
+						width: 100%;
+						height: 100%;
+						bottom: 0;
+						right: 0;
+						opacity: .8;
+						> .overlay-content {
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							> i {
+								font-size: 1.8em;
+							}
+							> span {
+								display: block;
+							}
+						}
 					}
 				}
 			}
