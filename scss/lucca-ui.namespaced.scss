@@ -30,7 +30,8 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 		"core/utilities/mixins/supports-sizing",
 		"core/utilities/mixins/supports-text-coloring",
 		"core/utilities/mixins/loader",
-		"core/utilities/mixins/points-towards";
+		"core/utilities/mixins/points-towards",
+		"core/utilities/mixins/placeholders";
 
 
 
