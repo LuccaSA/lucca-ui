@@ -1,4 +1,4 @@
-@if luiTheme(element, field, momentpicker, enabled) {
+@if luiTheme(element, field, datepicker, enabled) {
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("material") {
 			$selector: lui_input_get_style_selector("material");
@@ -18,9 +18,12 @@
 				}
 			}
 
-			#{$prefix}.input#{$selector} luid-daterange-picker .inputs > input:focus,
-			luid-daterange-picker#{$selector} .inputs > input:focus {
-				@extend %lui_input_focus_material;
+			#{$prefix}.input#{$selector} luid-daterange-picker .inputs,
+			luid-daterange-picker#{$selector} .inputs{
+				> input:focus,
+				> input.focus {
+					@extend %lui_input_focus_material;
+				}
 			}
 
 		}

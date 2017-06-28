@@ -6,7 +6,7 @@
 			$vars: luiTheme(element, field, image-picker);
 
 			#{$prefix}.input#{$selector} luid-image-picker, luid-image-picker#{$selector} {
-
+				position: relative;
 				height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 				line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
@@ -16,9 +16,18 @@
 				}
 
 				.input-overlay {
-					> span {
+					.overlay-content {
 						color: #A6A6A6;
+						> i {
+							display: none;
+						}
 					}
+				}
+
+				.luid-image-picker-popup.lui.popover {
+					top: 100% !important;
+					left: 0 !important;
+					line-height: 1.4em;
 				}
 
 				&:hover {
@@ -30,13 +39,17 @@
 				}
 
 				.luid-image-picker-picture {
-					padding-left: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 					background-position: 0 0;
 					background-repeat: no-repeat;
 					background-size: contain;
 					background-color: luiTheme(element, field, input, compact, background-color);
 					border: 1px dashed #DAE0E4;
 					border-radius: luiTheme(element, field, input, compact, border-radius);
+
+					.input-overlay,
+					.output-overlay {
+						padding-left: 1em;
+					}
 				}
 			}
 		}

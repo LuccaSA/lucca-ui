@@ -1,4 +1,4 @@
-@if luiTheme(element, field, momentpicker, enabled) {
+@if luiTheme(element, field, datepicker, enabled) {
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("compact") {
 			$selector: lui_input_get_style_selector("compact");
@@ -18,18 +18,22 @@
 					@extend %lui_quick_compact_input;
 				}
 			}
-      
-      #{$prefix}.input#{$selector} luid-daterange-picker .inputs,
+
+			#{$prefix}.input#{$selector} luid-daterange-picker .inputs,
 			luid-daterange-picker#{$selector} .inputs {
+				> input {
+					width: calc(50% - 5px) !important;
+				}
 				.icon {
 					transform: translate(10%, -50%);
+					left: calc(50% - 5px);
 				}
 
 				> input:last-of-type {
 					margin-left: 10px;
 				}
-        
-        > input:focus {
+
+        > input:focus, input.focus {
           @extend %lui_input_focus_compact;
         }
 			}

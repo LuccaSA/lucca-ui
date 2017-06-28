@@ -4,8 +4,16 @@
 ### Changes (non-breaking)
 - `luid-date-picker` selects input text when editing a non-empty input
 - `luid-date-picker` can be closed with the "ENTER" key
+- `luid-image-picker`: displays a popover when a file as been uploaded and deleteEnabled is true
+- `luid-image-picker`: material design now shows an edit icon by default. It can be disabled by setting the attribute `hide-edit-hint` to true
 ### Bug fixes
+- `luid-daterange-picker`: fixed an issue with focus styling
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
+- `luid-user-picker` fixed issue where former employees were still displayed even though `show-former-employees` was set to false
+- `luid-daterange-picker` - fixed style where the two inputs where larger than the main input
+
+### Enhancements
+- `luid-user-picker` does not close dropdown when `include-former-employees` attribute changes
 
 ## 3.1.12 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.12)
 ### Changes (non-breaking)
