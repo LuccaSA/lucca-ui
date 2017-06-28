@@ -1,4 +1,4 @@
-@if luiTheme(element, field, enabled) {
+@if luiTheme(element, field, translations-list, enabled) {
 
 	@at-root #{$namespace} {
 		$vars: luiTheme(element, field, translations-list);
@@ -22,7 +22,7 @@
 						box-shadow: map-gets($vars, box-shadow);
 						background-color: map-gets($vars, background-color);
 					}
-					
+
 					> a.item::after {
 						bottom: auto;
 						top: 0;

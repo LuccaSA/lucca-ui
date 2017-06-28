@@ -1,4 +1,4 @@
-@if luiTheme(element, field, translations, enabled) {
+@if luiTheme(element, field, translations-list, enabled) {
 	@at-root #{$namespace} {
 		$vars: luiTheme(element, field, translations-list);
 

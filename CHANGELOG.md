@@ -6,6 +6,7 @@
 - `luid-table-grid` fix issue when datas attribut contains numeric values.
 - `luid-user-picker` fixed issue where former employees were still displayed even though `show-former-employees` was set to false
 - `luid-percentage` fix styling issue with compact/material modes.
+- `luid-daterange-picker` - fixed style where the two inputs where larger than the main input
 
 ### Enhancements
 - `luid-user-picker` does not close dropdown when `include-former-employees` attribute changes
