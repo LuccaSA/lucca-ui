@@ -53,7 +53,7 @@
 @if (luiTheme(element, field, enabled)) {
 	@if lui_input_style_enabled("compact") {
 		$selector: lui_input_get_style_selector("compact");
-
+		$vars: luiTheme(element, field, input, compact);
 		#{$prefix}.input#{$selector} {
 			> input:not([type="checkbox"]):not([type="radio"]),
 			> textarea,
@@ -99,7 +99,6 @@
 				margin-right: 0;
 			}
 		}
-
 		// Sizing
 		@each $sizeName, $sizeEms in luiTheme(element, field, lengths) {
 			#{$prefix}.input.#{$sizeName}#{$selector} > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]) {
@@ -108,12 +107,36 @@
 			}
 		}
 
+		#{$prefix}.fitting.field > .input#{$selector},
+		#{$prefix}.fitting.field#{$selector} > .input,
+		#{$prefix}.fitting.input#{$selector} {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
+				width: calc(100% - #{map-gets($vars, label-lengths, medium)} - #{map-gets($vars, label-right-padding)});
+			}
+		}
+
 		#{$prefix}.input#{$selector}:not(.radio):not(.checkbox):not(.switch) > label {
-			width: 7em !important;
+			width: map-gets($vars, label-lengths, medium);
 			white-space: inherit;
 			word-break: break-word;
-			margin-right: 1em;
+			margin-right: map-gets($vars, label-right-padding);
 		}
+
+
+		@each $sizeName, $sizeEms in map-gets($vars, label-lengths) {
+			#{$prefix}.input#{$selector}.label-#{$sizeName}:not(.radio):not(.checkbox):not(.switch) > label {
+				width: $sizeEms;
+			}
+			#{$prefix}.fitting.field > .input#{$selector},
+			#{$prefix}.fitting.field#{$selector} > .input.label-#{$sizeName},
+			#{$prefix}.fitting.input#{$selector}.label-#{$sizeName} {
+				& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
+					width: calc(100% - #{$sizeEms} - #{map-gets($vars, label-right-padding)});
+				}
+			}
+		}
+
+
 	}
 }
 

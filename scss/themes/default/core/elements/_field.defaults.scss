@@ -58,6 +58,16 @@ $field: (
 			focus: (
 				background-color: 	#fafafa,
 				border-color: luiPalette(grey, color)
+			),
+
+			label-right-padding: 1em,
+
+			label-lengths: (
+				x-short: 3em,
+				short: 5em,
+				medium: 7em,
+				large: 9em,
+				x-large: 11em
 			)
 		)
 	),
