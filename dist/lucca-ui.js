@@ -545,7 +545,10 @@ var lui;
                 $scope.openPopover = function ($event) {
                     _this.openPopover($event);
                 };
-                $scope.closePopoverOnTab = { 9: function ($event) { _this.closePopover(); _this.$scope.$apply(); } };
+                $scope.closePopoverOnKeyPress = {
+                    9: function ($event) { _this.closePopover(); _this.$scope.$apply(); },
+                    13: function ($event) { _this.closePopover(); _this.$scope.$apply(); _this.element.find('input')[0].blur(); }
+                };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
                     _this.validate();
@@ -694,7 +697,8 @@ var lui;
                     this.popoverController.open($event);
                 }
                 if (!this.$scope.disableKeyboardInput) {
-                    this.$scope.displayStr = "";
+                    var input = this.element.children().children()[0];
+                    input.select();
                 }
             };
             LuidDatePickerController.prototype.getDisplayStr = function (date) {
@@ -1074,6 +1078,205 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+        function DepartmentFilter() {
+            return function (departments, clue) {
+                var loweredClue = clue.toLowerCase();
+                var matching = _.filter(departments, function (department) {
+                    return department.name.toLowerCase().indexOf(loweredClue) === 0;
+                });
+                var containing = _.chain(departments)
+                    .difference(matching)
+                    .filter(function (department) {
+                    return department.name.toLowerCase().indexOf(loweredClue) > -1;
+                })
+                    .value();
+                var childDepartments = _.filter(departments, function (department) {
+                    return department.name.toLowerCase().indexOf(loweredClue) === -1
+                        && !!department.ancestorsLabel
+                        && department.ancestorsLabel.toLowerCase().indexOf(loweredClue) > -1;
+                });
+                return _.union(matching, containing, childDepartments);
+            };
+        }
+        departmentpicker.DepartmentFilter = DepartmentFilter;
+        angular.module("lui").filter("departmentFilter", DepartmentFilter);
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+        departmentpicker.MAGIC_PAGING = 15;
+        var LuidDepartmentPickerController = (function () {
+            function LuidDepartmentPickerController($scope, departmentPickerService) {
+                this.$scope = $scope;
+                this.departmentPickerService = departmentPickerService;
+                this.initDepartments();
+                this.initScope();
+            }
+            LuidDepartmentPickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
+                var _this = this;
+                this.ngModelCtrl = ngModelCtrl;
+                this.ngModelCtrl.$render = function () {
+                    if (!!_this.ngModelCtrl.$modelValue) {
+                        _this.$scope.internal.selectedDepartment = _this.ngModelCtrl.$modelValue;
+                    }
+                };
+            };
+            LuidDepartmentPickerController.prototype.initScope = function () {
+                var _this = this;
+                this.$scope.internal = { selectedDepartment: undefined };
+                this.$scope.selectDepartment = function () {
+                    _this.setViewValue(_this.$scope.internal.selectedDepartment);
+                };
+                this.$scope.loadMore = function () {
+                    if (_this.$scope.departmentsToDisplay.length < _this.departments.length) {
+                        _this.$scope.departmentsToDisplay = _.first(_this.departments, _this.$scope.departmentsToDisplay.length + departmentpicker.MAGIC_PAGING);
+                        _this.$scope.$apply();
+                    }
+                };
+                this.$scope.getLevel = function (department) {
+                    return new Array(department.level);
+                };
+            };
+            LuidDepartmentPickerController.prototype.initDepartments = function () {
+                var _this = this;
+                this.$scope.departmentsToDisplay = [];
+                this.departmentPickerService.getDepartments()
+                    .then(function (departments) {
+                    _this.departments = departments;
+                    _this.$scope.departmentsToDisplay = _.first(_this.departments, departmentpicker.MAGIC_PAGING);
+                });
+            };
+            LuidDepartmentPickerController.prototype.setViewValue = function (department) {
+                this.ngModelCtrl.$setViewValue(angular.copy(department));
+            };
+            LuidDepartmentPickerController.IID = "luidDepartmentPickerController";
+            LuidDepartmentPickerController.$inject = ["$scope", "departmentPickerService"];
+            return LuidDepartmentPickerController;
+        }());
+        departmentpicker.LuidDepartmentPickerController = LuidDepartmentPickerController;
+        angular.module("lui").controller(LuidDepartmentPickerController.IID, LuidDepartmentPickerController);
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+        var LuidDepartmentPicker = (function () {
+            function LuidDepartmentPicker() {
+                this.restrict = "E";
+                this.templateUrl = "lui/templates/department-picker/department-picker.html";
+                this.require = ["^ngModel", LuidDepartmentPicker.IID];
+                this.scope = {};
+                this.controller = departmentpicker.LuidDepartmentPickerController.IID;
+            }
+            LuidDepartmentPicker.factory = function () {
+                return function () { return new LuidDepartmentPicker(); };
+            };
+            LuidDepartmentPicker.prototype.link = function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
+                var departmentPickerCtrl = ctrls[1];
+                departmentPickerCtrl.setNgModelCtrl(ngModelCtrl);
+                scope.onDropdownToggle = function (isOpen) {
+                    if (isOpen) {
+                        element.addClass("ng-open");
+                    }
+                    else {
+                        element.removeClass("ng-open");
+                    }
+                };
+            };
+            LuidDepartmentPicker.IID = "luidDepartmentPicker";
+            return LuidDepartmentPicker;
+        }());
+        angular.module("lui.translate").directive(LuidDepartmentPicker.IID, LuidDepartmentPicker.factory());
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var departmentpicker;
+    (function (departmentpicker) {
+        "use strict";
+        var DepartmentPickerService = (function () {
+            function DepartmentPickerService($http) {
+                this.$http = $http;
+            }
+            DepartmentPickerService.prototype.getDepartments = function () {
+                var _this = this;
+                return this.getDepartmentsTree()
+                    .then(function (tree) {
+                    var departmentTrees = tree.children;
+                    var departments = _this.buildDepartmentsArrayRecursively(departmentTrees);
+                    return departments;
+                });
+            };
+            DepartmentPickerService.prototype.getDepartmentsTree = function () {
+                return this.$http.get("/api/v3/departments/tree?fields=id,name")
+                    .then(function (response) {
+                    return response.data.data;
+                });
+            };
+            DepartmentPickerService.prototype.buildDepartmentsArrayRecursively = function (departmentTrees) {
+                var _this = this;
+                var departments = [];
+                if (!!departmentTrees) {
+                    _.each(departmentTrees, function (departmentTree) {
+                        _this.setAncestry(departmentTree.node, departmentTree.children);
+                        departments.push(departmentTree.node);
+                        departments = _.flatten([departments, _this.buildDepartmentsArrayRecursively(departmentTree.children)]);
+                    });
+                }
+                return departments;
+            };
+            DepartmentPickerService.prototype.setAncestry = function (department, departmentTrees) {
+                var _this = this;
+                if (department.level === undefined) {
+                    department.level = 0;
+                }
+                if (departmentTrees.length > 0) {
+                    department.hasChild = true;
+                }
+                _.each(departmentTrees, function (departmentTree) {
+                    if (!departmentTree.node.ancestorsLabel) {
+                        departmentTree.node.ancestorsLabel = "";
+                    }
+                    else {
+                        departmentTree.node.ancestorsLabel += " > ";
+                    }
+                    departmentTree.node.ancestorsLabel += department.name;
+                    departmentTree.node.level = department.level + 1;
+                    _this.setAncestry(department, departmentTree.children);
+                });
+            };
+            DepartmentPickerService.IID = "departmentPickerService";
+            DepartmentPickerService.$inject = ["$http"];
+            return DepartmentPickerService;
+        }());
+        angular.module("lui").service(DepartmentPickerService.IID, DepartmentPickerService);
+    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     "use strict";
     var Period = (function () {
         function Period(unformatted, formatter) {
@@ -1259,6 +1462,10 @@ var Lui;
             formlyConfigProvider.setType({
                 name: "iban",
                 templateUrl: "lui/templates/formly/fields/iban.html",
+            });
+            formlyConfigProvider.setType({
+                name: "department",
+                templateUrl: "lui/templates/formly/fields/department.html",
             });
         }]);
 })(Lui || (Lui = {}));
@@ -1447,7 +1654,7 @@ var lui;
                 var _this = this;
                 this.ngModelCtrl = ngModelCtrl;
                 this.ngModelCtrl.$render = function () {
-                    var iban = _this.getViewValue().replace(" ", "");
+                    var iban = _this.getViewValue() ? _this.getViewValue().replace(" ", "") : null;
                     if (!!iban) {
                         _this.$scope.countryCode = iban.substring(0, 2);
                         _this.$scope.controlKey = iban.substring(2, 4);
@@ -1742,6 +1949,7 @@ var lui;
                     croppingRatio: "=",
                     croppingDisabled: "=",
                     deleteEnabled: "=",
+                    hideEditHint: "=",
                 };
                 this.controller = LuidImagePickerController.IID;
             }
@@ -1756,16 +1964,24 @@ var lui;
                 var imgPickerCtrl = ctrls[1];
                 imgPickerCtrl.setNgModelCtrl(ngModelCtrl);
                 imgPickerCtrl.setPlaceholder(scope.placeholderUrl);
+                imgPickerCtrl.setPopoverTrigger(element, scope);
+                imgPickerCtrl.setElements(element);
             };
             LuidImagePicker.IID = "luidImagePicker";
             return LuidImagePicker;
         }());
         var LuidImagePickerController = (function () {
-            function LuidImagePickerController($scope, uploaderService) {
+            function LuidImagePickerController($scope, uploaderService, $timeout) {
                 var _this = this;
                 this.$scope = $scope;
                 $scope.setTouched = function () {
                     _this.ngModelCtrl.$setTouched();
+                };
+                $scope.uploadNewImage = function ($event) {
+                    $timeout(function () {
+                        _this.inputElement.click();
+                        _this.closePopover();
+                    });
                 };
                 $scope.onCropped = function (cropped) {
                     $scope.uploading = true;
@@ -1786,6 +2002,7 @@ var lui;
                 $scope.onDelete = function () {
                     _this.setViewValue(undefined);
                     _this.$scope.pictureStyle = { "background-image": "url('" + _this.placeholder + "')" };
+                    _this.closePopover();
                 };
             }
             LuidImagePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
@@ -1804,6 +2021,44 @@ var lui;
             LuidImagePickerController.prototype.setPlaceholder = function (placeholder) {
                 this.placeholder = placeholder || "/static/common/images/placeholder-pp.png";
             };
+            LuidImagePickerController.prototype.setPopoverTrigger = function (elt, scope) {
+                var _this = this;
+                var onClosing = function () {
+                    _this.closePopover();
+                };
+                this.popoverController = new lui.popover.ClickoutsideTrigger(elt, scope, onClosing);
+                scope.popover = { isOpen: false };
+                scope.togglePopover = function ($event) {
+                    $event.preventDefault();
+                    if (!!scope.file && !!scope.deleteEnabled) {
+                        _this.togglePopover($event);
+                    }
+                    else {
+                        _this.$scope.uploadNewImage($event);
+                    }
+                };
+            };
+            LuidImagePickerController.prototype.setElements = function (elt) {
+                this.inputElement = elt.find("input")[0];
+            };
+            LuidImagePickerController.prototype.togglePopover = function ($event) {
+                if (this.$scope.popover.isOpen) {
+                    this.closePopover();
+                }
+                else {
+                    this.openPopover($event);
+                }
+            };
+            LuidImagePickerController.prototype.closePopover = function () {
+                if (!!this.popoverController) {
+                    this.popoverController.close();
+                }
+            };
+            LuidImagePickerController.prototype.openPopover = function ($event) {
+                if (!!this.popoverController) {
+                    this.popoverController.open($event);
+                }
+            };
             LuidImagePickerController.prototype.getViewValue = function () {
                 return this.ngModelCtrl.$viewValue;
             };
@@ -1812,7 +2067,7 @@ var lui;
                 this.ngModelCtrl.$setViewValue(file);
             };
             LuidImagePickerController.IID = "luidImagePickerController";
-            LuidImagePickerController.$inject = ["$scope", "uploaderService"];
+            LuidImagePickerController.$inject = ["$scope", "uploaderService", "$timeout"];
             return LuidImagePickerController;
         }());
         angular.module("lui.crop").directive(LuidImagePicker.IID, LuidImagePicker.factory());
@@ -1827,6 +2082,8 @@ var lui;
         angular.module("lui.crop").config(["$translateProvider", function ($translateProvider) {
                 $translateProvider.translations("en", {
                     "LUIIMGPICKER_UPLOAD_IMAGE": "change picture",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "modify picture",
+                    "LUIIMGPICKER_DELETE_IMAGE": "delete picture",
                     "LUIIMGCROPPER_CROP": "Crop",
                     "LUIIMGCROPPER_DO_NOT_CROP": "Do not crop",
                 });
@@ -1834,6 +2091,8 @@ var lui;
                 $translateProvider.translations("es", {});
                 $translateProvider.translations("fr", {
                     "LUIIMGPICKER_UPLOAD_IMAGE": "changer l'image",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "modifier l'image",
+                    "LUIIMGPICKER_DELETE_IMAGE": "supprimer l'image",
                     "LUIIMGCROPPER_CROP": "Recadrer",
                     "LUIIMGCROPPER_DO_NOT_CROP": "Ne pas recadrer",
                 });
@@ -2329,9 +2588,9 @@ var lui;
                             }
                             if (header.filterType === tablegrid.FilterType.SELECT
                                 || header.filterType === tablegrid.FilterType.MULTISELECT) {
-                                var value = header.getValue(row);
+                                var value = header.getValue(row) + "";
                                 if (!!header.getFilterValue) {
-                                    value = header.getFilterValue(row);
+                                    value = header.getFilterValue(row) + "";
                                 }
                                 var valuesToCheck = value.split("|");
                                 _.each(valuesToCheck, function (val) {
@@ -2414,7 +2673,7 @@ var lui;
                                 && filter.currentValues[0] !== "") {
                                 var propValue_1 = (filter.header.getValue(row) + "").toLowerCase();
                                 if (!!filter.header.getFilterValue) {
-                                    propValue_1 = filter.header.getFilterValue(row).toLowerCase();
+                                    propValue_1 = (filter.header.getFilterValue(row) + "").toLowerCase();
                                 }
                                 var containsProp = _.some(filter.currentValues, function (value) {
                                     if (filter.header.filterType === tablegrid.FilterType.SELECT || filter.header.filterType === tablegrid.FilterType.MULTISELECT) {
@@ -3056,6 +3315,42 @@ var lui;
     var userpicker;
     (function (userpicker) {
         "use strict";
+        var OpenOn = (function () {
+            function OpenOn($timeout) {
+                this.restrict = "A";
+                this.require = ["uiSelect"];
+                this.$timeout = $timeout;
+            }
+            OpenOn.factory = function () {
+                var directive = function ($timeout) {
+                    return new OpenOn($timeout);
+                };
+                directive.$inject = ["$timeout"];
+                return directive;
+            };
+            OpenOn.prototype.link = function (scope, element, attrs, ctrls) {
+                var _this = this;
+                var uiSelectCtrl = ctrls[0];
+                if (!!attrs.openOn) {
+                    scope.$on(attrs.openOn, function () {
+                        _this.$timeout(function () {
+                            uiSelectCtrl.activate();
+                        });
+                    });
+                }
+            };
+            ;
+            OpenOn.IID = "openOn";
+            return OpenOn;
+        }());
+        angular.module("lui.translate").directive(OpenOn.IID, OpenOn.factory());
+    })(userpicker = lui.userpicker || (lui.userpicker = {}));
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
+    var userpicker;
+    (function (userpicker) {
+        "use strict";
     })(userpicker = lui.userpicker || (lui.userpicker = {}));
 })(lui || (lui = {}));
 var lui;
@@ -3127,9 +3422,10 @@ var lui;
                     }
                 });
                 this.$scope.$watch("showFormerEmployees", function (newValue, oldValue) {
-                    if (!!_this.$scope.showFormerEmployees && newValue !== oldValue) {
+                    if (_this.$scope.showFormerEmployees !== undefined && newValue !== oldValue) {
+                        _this.$scope.$broadcast("toggleFormerEmployees");
                         _this.resetUsers();
-                        _this.refresh();
+                        _this.refresh(_this.clue);
                     }
                 });
                 this.$scope.$watchCollection("bypassOperationsFor", function (newValue, oldValue) {
@@ -3154,6 +3450,7 @@ var lui;
                     }
                 });
                 this.$scope.find = function (search) {
+                    _this.clue = search;
                     _this.resetUsers();
                     _this.refresh(search);
                 };
@@ -3834,7 +4131,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/date-picker/datepicker-popup.html',
-    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" ng-change=\"onDisplayStrChanged($event)\" ng-focus=\"openPopover($event)\" luid-keydown mappings=\"closePopoverOnTab\" placeholder=\"{{placeholder}}\"> <i class=\"empty\" ng-click=\"clear($event)\"></i></div>"
+    "<div uib-popover-template=\"'lui/templates/date-picker/datepicker-inline.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-datepicker\" class=\"lui datepicker input\"><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" ng-change=\"onDisplayStrChanged($event)\" ng-focus=\"openPopover($event)\" luid-keydown mappings=\"closePopoverOnKeyPress\" placeholder=\"{{placeholder}}\"> <i class=\"empty\" ng-click=\"clear($event)\"></i></div>"
   );
 
 
@@ -3844,7 +4141,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/date-picker/daterangepicker.html',
-    "<div class=\"lui daterange fitting input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-daterangepicker\" ng-click=\"togglePopover($event)\"><div class=\"inputs\" ng-if=\"popover.isOpen\"><input auto-focus ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-click=\"editStart($event)\" ng-model=\"internal.startDisplayStr\" ng-change=\"onStartDisplayStrChanged($event)\" placeholder=\"{{fromLabel}}\" luid-keydown mappings=\"focusEndInputOnTab\"> <i class=\"lui east arrow icon\"></i> <input ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput}\" ng-model=\"internal.endDisplayStr\" ng-click=\"editEnd($event)\" ng-change=\"onEndDisplayStrChanged($event)\" placeholder=\"{{toLabel}}\" luid-keydown mappings=\"closePopoverOnTab\"></div><i class=\"empty\" ng-click=\"clear($event)\"></i><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" placeholder=\"{{placeholder}}\"></div>"
+    "<div class=\"lui daterange fitting input\" uib-popover-template=\"'lui/templates/date-picker/daterangepicker-popover.html'\" popover-placement=\"auto bottom-left\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-daterangepicker\" ng-click=\"togglePopover($event)\"><div class=\"inputs\" ng-if=\"popover.isOpen\"><input auto-focus ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput, 'focus': !!editingStart}\" ng-click=\"editStart($event)\" ng-model=\"internal.startDisplayStr\" ng-change=\"onStartDisplayStrChanged($event)\" placeholder=\"{{fromLabel}}\" luid-keydown mappings=\"focusEndInputOnTab\"> <i class=\"lui east arrow icon\"></i> <input ng-readonly=\"disableKeyboardInput\" ng-class=\"{ 'clickable': disableKeyboardInput, 'focus': !editingStart}\" ng-model=\"internal.endDisplayStr\" ng-click=\"editEnd($event)\" ng-change=\"onEndDisplayStrChanged($event)\" placeholder=\"{{toLabel}}\" luid-keydown mappings=\"closePopoverOnTab\"></div><i class=\"empty\" ng-click=\"clear($event)\"></i><input ng-readonly=\"disableKeyboardInput\" ng-model=\"displayStr\" placeholder=\"{{placeholder}}\"></div>"
+  );
+
+
+  $templateCache.put('lui/templates/department-picker/department-picker.html',
+    "<ui-select ng-class=\"{'is-searching': !!$select.search}\" ng-model=\"internal.selectedDepartment\" ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"selectDepartment()\" uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{ $select.selected.name }}\" allow-clear=\"true\">{{ $select.selected.name }}</ui-select-match><ui-select-choices repeat=\"department in departmentsToDisplay | departmentFilter: $select.search track by $index\" luid-on-scroll-bottom=\"loadMore()\"><div ng-class=\"{'has-child': !!department.hasChild}\"><em ng-if=\"!$select.search\" class=\"departmentpicker-tree-level\" ng-repeat=\"level in getLevel(department) track by $index\"></em> <span class=\"departmentpicker-label\" ng-bind-html=\"department.name | highlight: $select.search\"></span></div><small ng-if=\"!!$select.search\"><i ng-bind-html=\"department.ancestorsLabel | highlight: $select.search\"></i></small></ui-select-choices></ui-select>"
   );
 
 
@@ -3870,6 +4172,11 @@ var lui;
 
   $templateCache.put('lui/templates/formly/fields/daterange.html',
     "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-daterange-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-daterange-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+  );
+
+
+  $templateCache.put('lui/templates/formly/fields/department.html',
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-department-picker ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" name=\"{{::id}}\"></luid-department-picker><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -3948,8 +4255,13 @@ var lui;
   );
 
 
+  $templateCache.put('lui/templates/image-picker/image-picker-popovermenu.html',
+    "<ul class=\"image-picker-menu\"><li class=\"image-picker-menu-item\" ng-click=\"uploadNewImage($event)\" translate=\"LUIIMGPICKER_MODIFY_IMAGE\"></li><li class=\"image-picker-menu-item\" ng-click=\"onDelete()\" translate=\"LUIIMGPICKER_DELETE_IMAGE\"></li></ul>"
+  );
+
+
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><div class=\"input-overlay\"><span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span> <input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\"> <i ng-if=\"deleteEnabled\" class=\"empty\" ng-click=\"onDelete()\"></i></div><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\" uib-popover-template=\"'lui/templates/image-picker/image-picker-popovermenu.html'\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-image-picker-popup\" ng-click=\"togglePopover($event)\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\" onclick=\"event.stopPropagation()\"><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div><div class=\"input-overlay\" ng-class=\"{'hide-editable': hideEditHint}\"><div class=\"overlay-content\"><i class=\"lui icon edit\"></i> <span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span></div></div></div>"
   );
 
 
@@ -3999,12 +4311,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);
