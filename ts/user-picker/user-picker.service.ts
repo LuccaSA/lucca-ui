@@ -52,7 +52,7 @@ module lui.userpicker {
 
 		private meApiUrl = "/api/v3/users/me";
 		private userLookUpApiUrl = "/api/v3/users/find";
-		private userApiUrl = "/api/v3/users/";
+		private userApiUrl = "/api/v3/users";
 		private userLookupFields = "fields=Id,firstName,lastName,dtContractEnd";
 
 		private meCache: IUserLookup;
@@ -103,9 +103,14 @@ module lui.userpicker {
 		}
 
 		public getUserById(id: number): ng.IPromise<IUserLookup> {
-			return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
-				.then((response: ng.IHttpPromiseCallbackArg<{ data: IUserLookup }>) => {
-					return response.data.data;
+			return this.$http.get(`${this.userApiUrl}?id=${id.toString()}&${this.userLookupFields}`)
+				.then((response: ng.IHttpPromiseCallbackArg<{ data: any }>) => {
+					let users = response.data.data.items;
+					// Response can be empty if principal doesn't have the right to see this user
+					if (!users || users.length === 0) {
+						return undefined;
+					}
+					return users[0]; // Only one user in the array
 				});
 		}
 
@@ -119,20 +124,26 @@ module lui.userpicker {
 
 		public getAdditionalProperties(user: IUserLookup, properties: IHomonymProperty[]): ng.IPromise<IHomonymProperty[]> {
 			let fields = _.map(properties, (prop: IHomonymProperty) => { return prop.name; }).join(",");
-			return this.$http.get("/api/v3/users/" + user.id.toString() + "?fields=" + fields)
+			return this.$http.get(`${this.userApiUrl}?id=${user.id.toString()}&fields=${fields}`)
 				.then((response: ng.IHttpPromiseCallbackArg<{ data: any }>) => {
+					let users = response.data.data.items;
 					let result = new Array<IHomonymProperty>();
-					_.each(properties, (property: IHomonymProperty) => {
-						let value = <string>this.getProperty(response.data.data, property.name);
-						if (!!value) {
-							result.push(<IHomonymProperty>{
-								translationKey: property.translationKey,
-								name: property.name,
-								icon: property.icon,
-								value: value
-							});
-						}
-					});
+
+					// Response can be empty if principal doesn't have the right to see this user
+					if (!!users && !!users.length) {
+						let usersProperties = users[0]; // Only one user in the array
+						_.each(properties, (property: IHomonymProperty) => {
+							let value = <string>this.getProperty(usersProperties, property.name);
+							if (!!value) {
+								result.push(<IHomonymProperty>{
+									translationKey: property.translationKey,
+									name: property.name,
+									icon: property.icon,
+									value: value
+								});
+							}
+						});
+					}
 					return result;
 				});
 		}
