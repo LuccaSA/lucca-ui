@@ -71,6 +71,7 @@
 			}
 			&[disabled="disabled"] {
 				color: red;
+				pointer-events: none;
 				.input-overlay, input {
 					display: none !important;
 				}
