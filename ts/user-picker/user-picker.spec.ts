@@ -67,10 +67,10 @@ module lui.userpicker.Test {
 				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: me.id } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i).respond(200, { data: { items: usersWithHomonyms } });
 
-				$httpBackend.expectGET(/api\/v3\/users\/7\?fields=department.name,legalEntity.name,mail.*/i)
-					.respond({ data: { department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe1@mail.com" } });
-				$httpBackend.expectGET(/api\/v3\/users\/8\?fields=department.name,legalEntity.name,mail.*/i)
-					.respond({ data: { department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe2@mail.com" } });
+				$httpBackend.expectGET(/api\/v3\/users\?id=7\&fields=department.name,legalEntity.name,mail.*/i)
+					.respond({ data: { items: [{ department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe1@mail.com" }]}});
+				$httpBackend.expectGET(/api\/v3\/users\?id=8\&fields=department.name,legalEntity.name,mail.*/i)
+					.respond({ data: { items: [{ department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe2@mail.com" }]}});
 
 				let homonymsCount = service.getHomonyms(usersWithHomonyms).length;
 				spyOn(service, "getAdditionalProperties").and.callThrough();
@@ -84,10 +84,10 @@ module lui.userpicker.Test {
 				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: me.id } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i).respond(200, { data: { items: usersWithHomonyms } });
 
-				$httpBackend.expectGET(/api\/v3\/users\/7\?fields=department.name,legalEntity.name,mail.*/i)
-					.respond({ data: { department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe1@mail.com" } });
-				$httpBackend.expectGET(/api\/v3\/users\/8\?fields=department.name,legalEntity.name,mail.*/i)
-					.respond({ data: { department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe2@mail.com" } });
+				$httpBackend.expectGET(/api\/v3\/users\?id=7\&fields=department.name,legalEntity.name,mail.*/i)
+					.respond({ data: { items: [{ department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe1@mail.com" }]}});
+				$httpBackend.expectGET(/api\/v3\/users\?id=8\&fields=department.name,legalEntity.name,mail.*/i)
+					.respond({ data: { items: [{ department: { name: "BU" }, legalEntity: { name: "LE" }, mail: "john.doe2@mail.com" }]}});
 
 				let homonymsCount = service.getHomonyms(usersWithHomonyms).length;
 				let scope = <ILuidUserPickerScope>$rootScope.$new();
@@ -147,7 +147,7 @@ module lui.userpicker.Test {
 				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: me.id } });
 				$httpBackend.expectGET(/api\/v3\/users\/find\?.*/i).respond(200, { data: { items: users } });
 
-				$httpBackend.expectGET(/api\/v3\/users\/7\?fields=.*/i).respond(200, { data: user7 });
+				$httpBackend.expectGET(/api\/v3\/users\?id=7\&fields=.*/i).respond(200, { data: { items: [user7] }});
 
 				let scope = <ILuidUserPickerScope>$rootScope.$new();
 				scope.bypassOperationsFor = [7];

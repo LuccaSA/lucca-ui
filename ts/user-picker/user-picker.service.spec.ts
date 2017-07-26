@@ -79,8 +79,8 @@ module lui.userpicker.Test {
 
 		describe("getUserById()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/42+\?fields=Id,firstName,lastName,dtContractEnd*/i)
-					.respond(200, { data: fakeUser1 });
+				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractEnd*/i)
+					.respond(200, { data: { items: [fakeUser1] }});
 				service.getUserById(42).then((user: IUserLookup) => {
 					expect(user.id).toBe(fakeUser1.id);
 				});
@@ -90,12 +90,12 @@ module lui.userpicker.Test {
 
 		describe("getUsersByIds()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/42\?fields=Id,firstName,lastName,dtContractEnd*/i)
-					.respond(200, { data: fakeUser1 });
-				$httpBackend.expectGET(/api\/v3\/users\/43\?fields=Id,firstName,lastName,dtContractEnd*/i)
-					.respond(200, { data: fakeUser2 });
-				$httpBackend.expectGET(/api\/v3\/users\/44\?fields=Id,firstName,lastName,dtContractEnd*/i)
-					.respond(200, { data: fakeUser3 });
+				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractEnd*/i)
+					.respond(200, { data: { items: [fakeUser1] }});
+				$httpBackend.expectGET(/api\/v3\/users\?id=43\&fields=Id,firstName,lastName,dtContractEnd*/i)
+					.respond(200, { data: { items: [fakeUser2] }});
+				$httpBackend.expectGET(/api\/v3\/users\?id=44\&fields=Id,firstName,lastName,dtContractEnd*/i)
+					.respond(200, { data: { items: [fakeUser3] }});
 				service.getUsersByIds([42, 43, 44]).then((users: IUserLookup[]) => {
 					expect(users.length).toBe(3);
 					expect(_.filter(users, (h: IUserLookup) => { return h.id == fakeUser1.id }).length).toBe(1);
@@ -113,8 +113,8 @@ module lui.userpicker.Test {
 					<IHomonymProperty>{ translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" }
 				];
 
-				$httpBackend.expectGET(/api\/v3\/users\/45\?fields=mail,legalEntity.name*/i)
-					.respond(200, { data: { mail: "fakeuser@gmail.com", legalEntity: { name: "TotoEntity" } } });
+				$httpBackend.expectGET(/api\/v3\/users\?id=45\&fields=mail,legalEntity.name*/i)
+					.respond(200, { data: { items: [{ mail: "fakeuser@gmail.com", legalEntity: { name: "TotoEntity" } }]}});
 
 				service.getAdditionalProperties(fakeUser4, properties)
 					.then((props: IHomonymProperty[]) => {
