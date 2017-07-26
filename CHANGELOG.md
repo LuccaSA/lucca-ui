@@ -1,6 +1,8 @@
 # Change log
 
 ## in dev
+### Bug fixes
+- `luid-user-picker` - safe call to `/api/v3/users` when fetching additional properties (for homonyms and bypassed users)
 
 ## 3.1.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.13)
 ### Changes (non-breaking)
