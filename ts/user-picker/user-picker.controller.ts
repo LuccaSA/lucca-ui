@@ -32,10 +32,7 @@ module lui.userpicker {
 		private $q: ng.IQService;
 		private userPickerService: IUserPickerService;
 
-		private ngModelCtrl: ng.INgModelController;
-
 		/** Indicates if the controller controls a user-picker or a user-picker-multiple directive */
-		private multiple: boolean;
 		private clue: string;
 
 		constructor(
@@ -57,23 +54,6 @@ module lui.userpicker {
 					this.initializeScope();
 				});
 			});
-		}
-
-		public setNgModelCtrl(ngModelCtrl: ng.INgModelController, multiple: boolean = false): void {
-			this.multiple = true;
-			this.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$render = () => {
-				if (this.multiple) {
-					this.$scope.selectedUsers = <IUserLookup[]>this.getViewValue();
-				} else {
-					this.$scope.selectedUser = <IUserLookup>this.getViewValue();
-				}
-			};
-		}
-		private getViewValue(): IUserLookup | IUserLookup[] { return this.ngModelCtrl.$viewValue; }
-		private setViewValue(value: IUserLookup | IUserLookup[]): void {
-			this.ngModelCtrl.$setViewValue(angular.copy(value));
-			this.ngModelCtrl.$setTouched();
 		}
 
 		/**
@@ -141,27 +121,6 @@ module lui.userpicker {
 					this.$scope.lastPagingOffset += MAGIC_PAGING;
 					this.$scope.loadingMore = true;
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
-				}
-			};
-
-			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
-				this.setViewValue(user);
-				if (!!this.$scope.onSelect()) {
-					this.$scope.onSelect();
-				}
-			};
-
-			this.$scope.onSelectedUsersChanged = (): void => {
-				this.setViewValue(this.$scope.selectedUsers);
-				if (!!this.$scope.onSelect()) {
-					this.$scope.onSelect();
-				}
-			};
-
-			this.$scope.onSelectedUserRemoved = (): void => {
-				this.setViewValue(this.$scope.selectedUsers);
-				if (!!this.$scope.onRemove()) {
-					this.$scope.onRemove();
 				}
 			};
 		}
