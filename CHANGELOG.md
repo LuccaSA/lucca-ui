@@ -2,7 +2,7 @@
 
 ## in dev
 ### Bug fixes
-- `luid-image-picker`: `disabled` attribute is now properly applied.
+- `luid-image-picker`: `is-disabled` attribute disables the directive.
 
 ## 3.1.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.13)
 ### Changes (non-breaking)
