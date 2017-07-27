@@ -600,13 +600,8 @@ declare module lui.userpicker {
         private $scope;
         private $q;
         private userPickerService;
-        private ngModelCtrl;
-        private multiple;
         private clue;
         constructor($scope: ILuidUserPickerScope, $q: ng.IQService, userPickerService: IUserPickerService);
-        setNgModelCtrl(ngModelCtrl: ng.INgModelController, multiple?: boolean): void;
-        private getViewValue();
-        private setViewValue(value);
         private initializeScope();
         private tidyUp(users, clue?);
         private refresh(clue?);
@@ -645,11 +640,8 @@ declare module lui.userpicker {
         selectedUser: IUserLookup;
         loadingMore: boolean;
         selectedUsers: IUserLookup[];
-        onSelectedUserChanged(user: IUserLookup): void;
         find(search: string): void;
         loadMore(): void;
-        onSelectedUsersChanged(): void;
-        onSelectedUserRemoved(): void;
         onOpen(isOpen: boolean): void;
     }
 }

@@ -1950,6 +1950,7 @@ var lui;
                     croppingDisabled: "=",
                     deleteEnabled: "=",
                     hideEditHint: "=",
+                    isDisabled: "="
                 };
                 this.controller = LuidImagePickerController.IID;
             }
@@ -3381,25 +3382,6 @@ var lui;
                     });
                 });
             }
-            LuidUserPickerController.prototype.setNgModelCtrl = function (ngModelCtrl, multiple) {
-                var _this = this;
-                if (multiple === void 0) { multiple = false; }
-                this.multiple = true;
-                this.ngModelCtrl = ngModelCtrl;
-                ngModelCtrl.$render = function () {
-                    if (_this.multiple) {
-                        _this.$scope.selectedUsers = _this.getViewValue();
-                    }
-                    else {
-                        _this.$scope.selectedUser = _this.getViewValue();
-                    }
-                };
-            };
-            LuidUserPickerController.prototype.getViewValue = function () { return this.ngModelCtrl.$viewValue; };
-            LuidUserPickerController.prototype.setViewValue = function (value) {
-                this.ngModelCtrl.$setViewValue(angular.copy(value));
-                this.ngModelCtrl.$setTouched();
-            };
             LuidUserPickerController.prototype.initializeScope = function () {
                 var _this = this;
                 this.$scope.$watch("displayMeFirst", function (newValue, oldValue) {
@@ -3461,24 +3443,6 @@ var lui;
                         _this.refresh().then(function () { _this.$scope.loadingMore = false; });
                     }
                 };
-                this.$scope.onSelectedUserChanged = function (user) {
-                    _this.setViewValue(user);
-                    if (!!_this.$scope.onSelect()) {
-                        _this.$scope.onSelect();
-                    }
-                };
-                this.$scope.onSelectedUsersChanged = function () {
-                    _this.setViewValue(_this.$scope.selectedUsers);
-                    if (!!_this.$scope.onSelect()) {
-                        _this.$scope.onSelect();
-                    }
-                };
-                this.$scope.onSelectedUserRemoved = function () {
-                    _this.setViewValue(_this.$scope.selectedUsers);
-                    if (!!_this.$scope.onRemove()) {
-                        _this.$scope.onRemove();
-                    }
-                };
             };
             LuidUserPickerController.prototype.tidyUp = function (users, clue) {
                 var _this = this;
@@ -3534,7 +3498,10 @@ var lui;
             LuidUserPickerController.prototype.refresh = function (clue) {
                 var _this = this;
                 if (clue === void 0) { clue = ""; }
-                return this.getUsers(clue).then(function (users) { return _this.tidyUpAndAssign(users, clue); });
+                return this.getUsers(clue)
+                    .then(function (users) {
+                    _this.tidyUpAndAssign(users, clue);
+                });
             };
             LuidUserPickerController.prototype.getUsers = function (clue) {
                 var _this = this;
@@ -3688,9 +3655,6 @@ var lui;
             }
             LuidUserPicker.factory = function () { return function () { return new LuidUserPicker(); }; };
             LuidUserPicker.prototype.link = function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
-                var userPickerCtrl = ctrls[1];
-                userPickerCtrl.setNgModelCtrl(ngModelCtrl);
                 scope.onOpen = function (isOpen) {
                     if (isOpen) {
                         element.addClass("ng-open");
@@ -3737,9 +3701,6 @@ var lui;
             }
             LuidUserPickerMultiple.factory = function () { return function () { return new LuidUserPickerMultiple(); }; };
             LuidUserPickerMultiple.prototype.link = function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
-                var userPickerCtrl = ctrls[1];
-                userPickerCtrl.setNgModelCtrl(ngModelCtrl, true);
                 scope.onOpen = function (isOpen) {
                     if (isOpen) {
                         element.addClass("ng-open");
@@ -3771,7 +3732,7 @@ var lui;
             function UserPickerService($http, $q, $filter) {
                 this.meApiUrl = "/api/v3/users/me";
                 this.userLookUpApiUrl = "/api/v3/users/find";
-                this.userApiUrl = "/api/v3/users/";
+                this.userApiUrl = "/api/v3/users";
                 this.userLookupFields = "fields=Id,firstName,lastName,dtContractEnd";
                 this.$http = $http;
                 this.defaultHttpService = $http;
@@ -3779,7 +3740,10 @@ var lui;
                 this.stripAccents = $filter("luifStripAccents");
             }
             UserPickerService.prototype.getMyId = function () {
-                return this.getMe().then(function (me) { return me.id; });
+                return this.getMe()
+                    .then(function (me) {
+                    return me.id;
+                });
             };
             UserPickerService.prototype.getMe = function () {
                 var _this = this;
@@ -3814,9 +3778,13 @@ var lui;
                 });
             };
             UserPickerService.prototype.getUserById = function (id) {
-                return this.$http.get(this.userApiUrl + id.toString() + "?" + this.userLookupFields)
+                return this.$http.get(this.userApiUrl + "?id=" + id.toString() + "&" + this.userLookupFields)
                     .then(function (response) {
-                    return response.data.data;
+                    var users = response.data.data.items;
+                    if (!users || users.length === 0) {
+                        return undefined;
+                    }
+                    return users[0];
                 });
             };
             UserPickerService.prototype.getUsersByIds = function (ids) {
@@ -3830,20 +3798,24 @@ var lui;
             UserPickerService.prototype.getAdditionalProperties = function (user, properties) {
                 var _this = this;
                 var fields = _.map(properties, function (prop) { return prop.name; }).join(",");
-                return this.$http.get("/api/v3/users/" + user.id.toString() + "?fields=" + fields)
+                return this.$http.get(this.userApiUrl + "?id=" + user.id.toString() + "&fields=" + fields)
                     .then(function (response) {
+                    var users = response.data.data.items;
                     var result = new Array();
-                    _.each(properties, function (property) {
-                        var value = _this.getProperty(response.data.data, property.name);
-                        if (!!value) {
-                            result.push({
-                                translationKey: property.translationKey,
-                                name: property.name,
-                                icon: property.icon,
-                                value: value
-                            });
-                        }
-                    });
+                    if (!!users && !!users.length) {
+                        var usersProperties_1 = users[0];
+                        _.each(properties, function (property) {
+                            var value = _this.getProperty(usersProperties_1, property.name);
+                            if (!!value) {
+                                result.push({
+                                    translationKey: property.translationKey,
+                                    name: property.name,
+                                    icon: property.icon,
+                                    value: value
+                                });
+                            }
+                        });
+                    }
                     return result;
                 });
             };
@@ -4261,7 +4233,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-picker.html',
-    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading }\" uib-popover-template=\"'lui/templates/image-picker/image-picker-popovermenu.html'\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-image-picker-popup\" ng-click=\"togglePopover($event)\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><input accept=\"image/*\" type=\"file\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\" onclick=\"event.stopPropagation()\"><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div><div class=\"input-overlay\" ng-class=\"{'hide-editable': hideEditHint}\"><div class=\"overlay-content\"><i class=\"lui icon edit\"></i> <span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span></div></div></div>"
+    "<div class=\"lui image-picker\" ng-class=\"{ uploading: uploading, 'is-disabled': isDisabled }\" uib-popover-template=\"'lui/templates/image-picker/image-picker-popovermenu.html'\" popover-trigger=\"'none'\" popover-is-open=\"popover.isOpen\" popover-class=\"lui luid-image-picker-popup\" ng-click=\"togglePopover($event)\"><div class=\"luid-image-picker-picture\" ng-style=\"pictureStyle\"><input accept=\"image/*\" type=\"file\" ng-disabled=\"!!isDisabled\" ng-model=\"file\" class=\"fileInput\" file-model=\"image\" luid-image-cropper on-cropped=\"onCropped\" on-cancelled=\"onCancelled\" cropping-disabled=\"croppingDisabled\" cropping-ratio=\"croppingRatio\" onclick=\"event.stopPropagation()\"><div class=\"upload-overlay\"><div class=\"lui inverted loader\"></div></div><div class=\"input-overlay\" ng-class=\"{'hide-editable': hideEditHint}\"><div class=\"overlay-content\"><i class=\"lui icon edit\"></i> <span class=\"lui capitalized sentence\" translate=\"LUIIMGPICKER_UPLOAD_IMAGE\"></span></div></div></div>"
   );
 
 
@@ -4311,12 +4283,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.html',
-    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUserChanged($select.selected)\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelect()\" on-remove=\"onRemove()\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\"><span ng-if=\"$select.selected.id === -1\" translate>LUIDUSERPICKER_ALL</span> <span ng-if=\"$select.selected.id !== -1\" ng-bind-html=\"$select.selected.lastName + ' ' + $select.selected.firstName\"></span></ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/user-picker/user-picker.multiple.html',
-    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelectedUsersChanged()\" on-remove=\"onSelectedUserRemoved()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
+    "<ui-select multiple ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"onSelect()\" on-remove=\"onRemove()\" close-on-select=\"false\" reset-search-input=\"true\" uis-open-close=\"onOpen(isOpen)\" open-on=\"toggleFormerEmployees\"><ui-select-match placeholder=\"{{placeholder}}\" allow-clear=\"{{!!allowClear}}\">{{$item.lastName}} {{$item.firstName}}</ui-select-match><ui-select-choices repeat=\"user in users track by $index\" refresh=\"find($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore()\"><div ng-if=\"user.id === myId\" class=\"selected-first\" ng-class=\"{'dividing': $index === 0}\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info : 'LUIDUSERPICKER_ME'\"></div><div ng-if=\"user.id === -1\" translate>LUIDUSERPICKER_ALL</div><div ng-if=\"user.id !== myId\" ng-bind-html=\"user.lastName + ' ' + user.firstName | luifHighlight : $select.search : user.info\"></div><div ng-if=\"user.hasLeft\"><small translate translate-values=\"{dtContractEnd:user.dtContractEnd}\">LUIDUSERPICKER_FORMEREMPLOYEE</small></div><div ng-if=\"user.hasHomonyms\" ng-repeat=\"property in user.additionalProperties\"><small><i class=\"lui icon {{property.icon}}\"></i> <b data-ng-bind-html=\"property.translationKey | translate\"></b> <span data-ng-bind-html=\"property.value\"></span></small></div></ui-select-choices></ui-select>"
   );
 
 }]);

@@ -2,8 +2,12 @@
 
 ## in dev
 ### Bug fixes
+
+## 3.1.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.14)
+### Bug fixes
 - `luid-image-picker`: `is-disabled` attribute disables the directive.
 - `luid-user-picker` - safe call to `/api/v3/users` when fetching additional properties (for homonyms and bypassed users)
+- `luid-user-picker` - fixed user picker multiple
 
 ## 3.1.13 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.13)
 ### Changes (non-breaking)
