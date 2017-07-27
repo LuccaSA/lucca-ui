@@ -32,10 +32,7 @@ module lui.userpicker {
 		private $q: ng.IQService;
 		private userPickerService: IUserPickerService;
 
-		private ngModelCtrl: ng.INgModelController;
-
 		/** Indicates if the controller controls a user-picker or a user-picker-multiple directive */
-		private multiple: boolean;
 		private clue: string;
 
 		constructor(
@@ -57,23 +54,6 @@ module lui.userpicker {
 					this.initializeScope();
 				});
 			});
-		}
-
-		public setNgModelCtrl(ngModelCtrl: ng.INgModelController, multiple: boolean = false): void {
-			this.multiple = true;
-			this.ngModelCtrl = ngModelCtrl;
-			ngModelCtrl.$render = () => {
-				if (this.multiple) {
-					this.$scope.selectedUsers = <IUserLookup[]>this.getViewValue();
-				} else {
-					this.$scope.selectedUser = <IUserLookup>this.getViewValue();
-				}
-			};
-		}
-		private getViewValue(): IUserLookup | IUserLookup[] { return this.ngModelCtrl.$viewValue; }
-		private setViewValue(value: IUserLookup | IUserLookup[]): void {
-			this.ngModelCtrl.$setViewValue(angular.copy(value));
-			this.ngModelCtrl.$setTouched();
 		}
 
 		/**
@@ -143,27 +123,6 @@ module lui.userpicker {
 					this.refresh().then(() => { this.$scope.loadingMore = false; });
 				}
 			};
-
-			this.$scope.onSelectedUserChanged = (user: IUserLookup): void => {
-				this.setViewValue(user);
-				if (!!this.$scope.onSelect()) {
-					this.$scope.onSelect();
-				}
-			};
-
-			this.$scope.onSelectedUsersChanged = (): void => {
-				this.setViewValue(this.$scope.selectedUsers);
-				if (!!this.$scope.onSelect()) {
-					this.$scope.onSelect();
-				}
-			};
-
-			this.$scope.onSelectedUserRemoved = (): void => {
-				this.setViewValue(this.$scope.selectedUsers);
-				if (!!this.$scope.onRemove()) {
-					this.$scope.onRemove();
-				}
-			};
 		}
 
 		/**
@@ -228,7 +187,10 @@ module lui.userpicker {
 		}
 
 		private refresh(clue: string = ""): ng.IPromise<any> {
-			return this.getUsers(clue).then(users => this.tidyUpAndAssign(users, clue));
+			return this.getUsers(clue)
+			.then((users: IUserLookup[]) => {
+				this.tidyUpAndAssign(users, clue);
+			});
 		}
 
 		// gets the users according to clue, also adds me and all if needed
@@ -246,7 +208,7 @@ module lui.userpicker {
 
 			let get = () => {
 				return this.userPickerService.getUsers(this.getFilter(clue), fetchPaging, fetchOffset)
-					.then(users => {
+					.then((users: IUserLookup[]) => {
 						if (!!this.$scope.customFilter) {
 							return _.chain(users)
 								.filter(u => this.$scope.customFilter(u))

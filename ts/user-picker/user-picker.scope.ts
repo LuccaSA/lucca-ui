@@ -67,13 +67,8 @@ module lui.userpicker {
 		selectedUser: IUserLookup;
 		loadingMore: boolean;
 		selectedUsers: IUserLookup[];
-		onSelectedUserChanged(user: IUserLookup): void;
 		find(search: string): void;
 		loadMore(): void;
-
-		// Specific to the luid-select-multiple
-		onSelectedUsersChanged(): void;
-		onSelectedUserRemoved(): void;
 		onOpen(isOpen: boolean): void;
 	}
 }
