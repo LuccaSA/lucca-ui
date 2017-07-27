@@ -21,7 +21,7 @@
 	<ul class="lui unstyled">
 		<li><code>ng-model</code>: self explanatory</li>
 		<li><code>ng-change</code>: self explanatory</li>
-		<li><code>ng-disabled</code>: if true, will display the picture but not allow uploading/cropping of a new one</li>
+		<li><code>is-disabled</code>: if true, will display the picture but not allow uploading/cropping of a new one</li>
 		<li><code>cropping-ratio</code>: the ratio to use in the cropping modal</li>
 		<li><code>cropping-disabled</code>: will not display the cropping modal</li>
 		<li><code>placeholder-url</code>: the image to display if the model is undefined, if none is defined, will use <code>/static/common/images/placeholder-pp.png</code></li>
@@ -32,7 +32,7 @@
 </div>
 <p>
 	<pre hljs no-escape language="html">&lt;luid-image-picker ng-model="image"&gt;&lt;/luid-image-picker&gt;
-&lt;luid-image-picker ng-model="image" ng-disabled="disabled" ng-change="changed()"&gt;&lt;/luid-image-picker&gt;</pre>
+&lt;luid-image-picker ng-model="image" is-disabled="true" ng-change="changed()"&gt;&lt;/luid-image-picker&gt;</pre>
 </p>
 <div class="lui bottom dashed divider menu" id="demoBlock">
 	<div class="lui header vertical menu">
@@ -59,7 +59,7 @@
 			<luid-image-picker ng-model="image"></luid-image-picker>
 		</div>
 		<div class="lui input material imagepicker-container" style="width:600px">
-			<luid-image-picker ng-model="image" ng-disabled="true" placeholder-url="http://www.lucienbertin.com/img/uni.png"></luid-image-picker>
+			<luid-image-picker ng-model="image" is-disabled="true" placeholder-url="http://www.lucienbertin.com/img/uni.png"></luid-image-picker>
 		</div>
 	</p>
 	<hr class="lui divider">

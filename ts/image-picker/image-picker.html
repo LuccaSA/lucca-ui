@@ -1,11 +1,11 @@
-<div class="lui image-picker"  ng-class="{ uploading: uploading }"
+<div class="lui image-picker"  ng-class="{ uploading: uploading, 'is-disabled': isDisabled }"
 		uib-popover-template="'lui/templates/image-picker/image-picker-popovermenu.html'"
 		popover-trigger="'none'"
 		popover-is-open="popover.isOpen"
 		popover-class="lui luid-image-picker-popup"
 		ng-click="togglePopover($event)">
 	<div class="luid-image-picker-picture" ng-style="pictureStyle"/>
-	<input accept="image/*" type="file" ng-model="file" class="fileInput" file-model="image" luid-image-cropper on-cropped="onCropped" on-cancelled="onCancelled" cropping-disabled="croppingDisabled" cropping-ratio="croppingRatio" onclick="event.stopPropagation()"/>
+	<input accept="image/*" type="file" ng-disabled="!!isDisabled" ng-model="file" class="fileInput" file-model="image" luid-image-cropper on-cropped="onCropped" on-cancelled="onCancelled" cropping-disabled="croppingDisabled" cropping-ratio="croppingRatio" onclick="event.stopPropagation()"/>
 	<div class="upload-overlay">
 		<div class="lui inverted loader"></div>
 	</div>

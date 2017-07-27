@@ -30,7 +30,7 @@
 					line-height: 1.4em;
 				}
 
-				&:hover {
+				&:hover .image-picker:not(.is-disabled) {
 					.luid-image-picker-picture {
 						background-color: luiTheme(element, field, input, compact, focus, background-color);
 						color: #666;

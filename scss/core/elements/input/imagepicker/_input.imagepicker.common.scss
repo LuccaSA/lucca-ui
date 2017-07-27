@@ -69,8 +69,9 @@
 					transform: translate(-50%, -50%);
 				}
 			}
-			&[disabled="disabled"] {
+			&[disabled="disabled"], .image-picker.is-disabled {
 				color: red;
+				cursor: default;
 				.input-overlay, input {
 					display: none !important;
 				}
