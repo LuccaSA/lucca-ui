@@ -67,7 +67,10 @@ module lui.userpicker {
 		}
 
 		public getMyId(): ng.IPromise<number> {
-			return this.getMe().then(me => me.id);
+			return this.getMe()
+			.then((me: IUserLookup) => {
+				return me.id;
+			});
 		}
 
 		public getMe(): ng.IPromise<IUserLookup> {
@@ -153,7 +156,7 @@ module lui.userpicker {
 					.flatten()
 					.groupBy((property: IHomonymProperty) => { return property.name; })
 					.value();
-				_.each(groupedProperties, propertyGroup => {
+				_.each(groupedProperties, (propertyGroup: IHomonymProperty[]) => {
 					let uniq = _.uniq(propertyGroup, (property: IHomonymProperty) => { return property.value; });
 					if (uniq.length === 1) {
 						// this property can be removed

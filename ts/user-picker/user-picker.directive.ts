@@ -36,9 +36,6 @@ module lui.userpicker {
 			element: angular.IAugmentedJQuery,
 			attrs: angular.IAttributes,
 			ctrls: [ng.INgModelController, LuidUserPickerController]): void {
-
-			let ngModelCtrl = ctrls[0];
-			let userPickerCtrl = ctrls[1];
 			scope.onOpen = (isOpen: boolean) => {
 				if (isOpen) {
 					element.addClass("ng-open");

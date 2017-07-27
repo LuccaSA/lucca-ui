@@ -187,7 +187,10 @@ module lui.userpicker {
 		}
 
 		private refresh(clue: string = ""): ng.IPromise<any> {
-			return this.getUsers(clue).then(users => this.tidyUpAndAssign(users, clue));
+			return this.getUsers(clue)
+			.then((users: IUserLookup[]) => {
+				this.tidyUpAndAssign(users, clue);
+			});
 		}
 
 		// gets the users according to clue, also adds me and all if needed
@@ -205,7 +208,7 @@ module lui.userpicker {
 
 			let get = () => {
 				return this.userPickerService.getUsers(this.getFilter(clue), fetchPaging, fetchOffset)
-					.then(users => {
+					.then((users: IUserLookup[]) => {
 						if (!!this.$scope.customFilter) {
 							return _.chain(users)
 								.filter(u => this.$scope.customFilter(u))
