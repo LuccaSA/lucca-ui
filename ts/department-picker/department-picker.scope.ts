@@ -7,7 +7,8 @@ module lui.departmentpicker {
 
 		onDropdownToggle(isOpen: boolean): void;
 		selectDepartment(): void;
-		loadMore(): void;
 		getLevel(department: IDepartment): Array<{}>;
+		loadMore(clue: string): void;
+		search(clue: string): void;
 	}
 }
