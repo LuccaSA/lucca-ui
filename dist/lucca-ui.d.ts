@@ -121,6 +121,9 @@ declare module lui.datepicker {
 declare module lui.datepicker {
 }
 declare module lui.departmentpicker {
+    interface IDepartmentPickerFilters extends ng.IFilterService {
+        (name: "departmentFilter"): (departments: IDepartment[], clue: string) => IDepartment[];
+    }
     function DepartmentFilter(): ((departments: IDepartment[], clue: string) => IDepartment[]);
 }
 declare module lui.departmentpicker {
@@ -143,13 +146,15 @@ declare module lui.departmentpicker {
         static IID: string;
         static $inject: Array<string>;
         private $scope;
+        private $filter;
         private departmentPickerService;
         private ngModelCtrl;
         private departments;
-        constructor($scope: ILuidDepartmentPickerScope, departmentPickerService: IDepartmentPickerService);
+        constructor($scope: ILuidDepartmentPickerScope, $filter: IDepartmentPickerFilters, departmentPickerService: IDepartmentPickerService);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
         private initScope();
         private initDepartments();
+        private filterDepartments(clue?);
         private setViewValue(department);
     }
 }
@@ -163,8 +168,9 @@ declare module lui.departmentpicker {
         departmentsToDisplay: IDepartment[];
         onDropdownToggle(isOpen: boolean): void;
         selectDepartment(): void;
-        loadMore(): void;
         getLevel(department: IDepartment): Array<{}>;
+        loadMore(clue: string): void;
+        search(clue: string): void;
     }
 }
 declare module lui.departmentpicker {
