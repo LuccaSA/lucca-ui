@@ -1119,8 +1119,9 @@ var lui;
         "use strict";
         departmentpicker.MAGIC_PAGING = 15;
         var LuidDepartmentPickerController = (function () {
-            function LuidDepartmentPickerController($scope, departmentPickerService) {
+            function LuidDepartmentPickerController($scope, $filter, departmentPickerService) {
                 this.$scope = $scope;
+                this.$filter = $filter;
                 this.departmentPickerService = departmentPickerService;
                 this.initDepartments();
                 this.initScope();
@@ -1140,14 +1141,19 @@ var lui;
                 this.$scope.selectDepartment = function () {
                     _this.setViewValue(_this.$scope.internal.selectedDepartment);
                 };
-                this.$scope.loadMore = function () {
+                this.$scope.loadMore = function (clue) {
                     if (_this.$scope.departmentsToDisplay.length < _this.departments.length) {
-                        _this.$scope.departmentsToDisplay = _.first(_this.departments, _this.$scope.departmentsToDisplay.length + departmentpicker.MAGIC_PAGING);
+                        _this.filterDepartments(clue);
                         _this.$scope.$apply();
                     }
                 };
                 this.$scope.getLevel = function (department) {
                     return new Array(department.level);
+                };
+                this.$scope.search = function (clue) {
+                    _this.$scope.departmentsToDisplay = [];
+                    _this.$scope.$apply();
+                    _this.filterDepartments(clue);
                 };
             };
             LuidDepartmentPickerController.prototype.initDepartments = function () {
@@ -1156,14 +1162,19 @@ var lui;
                 this.departmentPickerService.getDepartments()
                     .then(function (departments) {
                     _this.departments = departments;
-                    _this.$scope.departmentsToDisplay = _.first(_this.departments, departmentpicker.MAGIC_PAGING);
+                    _this.filterDepartments();
                 });
+            };
+            LuidDepartmentPickerController.prototype.filterDepartments = function (clue) {
+                if (clue === void 0) { clue = ""; }
+                var filteredDepartments = this.$filter("departmentFilter")(this.departments, clue);
+                this.$scope.departmentsToDisplay = _.first(filteredDepartments, this.$scope.departmentsToDisplay.length + departmentpicker.MAGIC_PAGING);
             };
             LuidDepartmentPickerController.prototype.setViewValue = function (department) {
                 this.ngModelCtrl.$setViewValue(angular.copy(department));
             };
             LuidDepartmentPickerController.IID = "luidDepartmentPickerController";
-            LuidDepartmentPickerController.$inject = ["$scope", "departmentPickerService"];
+            LuidDepartmentPickerController.$inject = ["$scope", "$filter", "departmentPickerService"];
             return LuidDepartmentPickerController;
         }());
         departmentpicker.LuidDepartmentPickerController = LuidDepartmentPickerController;
@@ -4118,7 +4129,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/department-picker/department-picker.html',
-    "<ui-select ng-class=\"{'is-searching': !!$select.search}\" ng-model=\"internal.selectedDepartment\" ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"selectDepartment()\" uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{ $select.selected.name }}\" allow-clear=\"true\">{{ $select.selected.name }}</ui-select-match><ui-select-choices repeat=\"department in departmentsToDisplay | departmentFilter: $select.search track by $index\" luid-on-scroll-bottom=\"loadMore()\"><div ng-class=\"{'has-child': !!department.hasChild}\"><em ng-if=\"!$select.search\" class=\"departmentpicker-tree-level\" ng-repeat=\"level in getLevel(department) track by $index\"></em> <span class=\"departmentpicker-label\" ng-bind-html=\"department.name | highlight: $select.search\"></span></div><small ng-if=\"!!$select.search\"><i ng-bind-html=\"department.ancestorsLabel | highlight: $select.search\"></i></small></ui-select-choices></ui-select>"
+    "<ui-select ng-class=\"{'is-searching': !!$select.search}\" ng-model=\"internal.selectedDepartment\" ng-disabled=\"controlDisabled\" search-enabled=\"true\" on-select=\"selectDepartment()\" uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{ $select.selected.name }}\" allow-clear=\"true\">{{ $select.selected.name }}</ui-select-match><ui-select-choices repeat=\"department in departmentsToDisplay track by $index\" luid-on-scroll-bottom=\"loadMore($select.search)\" refresh=\"search($select.search)\" refresh-delay=\"0\"><div ng-class=\"{'has-child': !!department.hasChild}\"><em ng-if=\"!$select.search\" class=\"departmentpicker-tree-level\" ng-repeat=\"level in getLevel(department) track by $index\"></em> <span class=\"departmentpicker-label\" ng-bind-html=\"department.name | highlight: $select.search\"></span></div><small ng-if=\"!!$select.search\"><i ng-bind-html=\"department.ancestorsLabel | highlight: $select.search\"></i></small></ui-select-choices></ui-select>"
   );
 
 
