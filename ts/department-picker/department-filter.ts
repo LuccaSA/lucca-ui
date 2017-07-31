@@ -1,6 +1,10 @@
 module lui.departmentpicker {
 	"use strict";
 
+	export interface IDepartmentPickerFilters extends ng.IFilterService {
+		(name: "departmentFilter"): (departments: IDepartment[], clue: string) => IDepartment[];
+	}
+
 	export function DepartmentFilter(): ((departments: IDepartment[], clue: string) => IDepartment[]) {
 		return function(departments: IDepartment[], clue: string): IDepartment[] {
 			let loweredClue = clue.toLowerCase();

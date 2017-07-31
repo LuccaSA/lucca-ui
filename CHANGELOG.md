@@ -2,6 +2,7 @@
 
 ## in dev
 ### Bug fixes
+- `luid-department-picker`: fix research
 
 ## 3.1.14 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.14)
 ### Bug fixes

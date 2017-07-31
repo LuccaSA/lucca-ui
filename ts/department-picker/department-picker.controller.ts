@@ -5,9 +5,10 @@ module lui.departmentpicker {
 
 	export class LuidDepartmentPickerController {
 		public static IID: string = "luidDepartmentPickerController";
-		public static $inject: Array<string> = ["$scope", "departmentPickerService"];
+		public static $inject: Array<string> = ["$scope", "$filter", "departmentPickerService"];
 
 		private $scope: ILuidDepartmentPickerScope;
+		private $filter: IDepartmentPickerFilters;
 		private departmentPickerService: IDepartmentPickerService;
 
 		private ngModelCtrl: ng.INgModelController;
@@ -15,9 +16,11 @@ module lui.departmentpicker {
 
 		constructor(
 			$scope: ILuidDepartmentPickerScope,
+			$filter: IDepartmentPickerFilters,
 			departmentPickerService: IDepartmentPickerService) {
 
 			this.$scope = $scope;
+			this.$filter = $filter;
 			this.departmentPickerService = departmentPickerService;
 
 			this.initDepartments();
@@ -40,15 +43,21 @@ module lui.departmentpicker {
 				this.setViewValue(this.$scope.internal.selectedDepartment);
 			};
 
-			this.$scope.loadMore = (): void => {
+			this.$scope.loadMore = (clue: string): void => {
 				if (this.$scope.departmentsToDisplay.length < this.departments.length) {
-					this.$scope.departmentsToDisplay = _.first(this.departments, this.$scope.departmentsToDisplay.length + MAGIC_PAGING);
+					this.filterDepartments(clue);
 					this.$scope.$apply();
 				}
 			};
 
 			this.$scope.getLevel = (department: IDepartment): Array<{}> => {
 				return new Array(department.level);
+			};
+
+			this.$scope.search = (clue: string): void => {
+				this.$scope.departmentsToDisplay = []; // Reset list of departments to display
+				this.$scope.$apply(); // HACK to scroll to the top of the list
+				this.filterDepartments(clue);
 			};
 		}
 
@@ -57,8 +66,13 @@ module lui.departmentpicker {
 			this.departmentPickerService.getDepartments()
 			.then((departments: IDepartment[]) => {
 				this.departments = departments;
-				this.$scope.departmentsToDisplay = _.first(this.departments, MAGIC_PAGING);
+				this.filterDepartments();
 			});
+		}
+
+		private filterDepartments(clue: string = ""): void {
+			let filteredDepartments = this.$filter("departmentFilter")(this.departments, clue);
+			this.$scope.departmentsToDisplay = _.first(filteredDepartments, this.$scope.departmentsToDisplay.length + MAGIC_PAGING);
 		}
 
 		private setViewValue(department: IDepartment): void {

@@ -1,6 +1,9 @@
 <ui-select ng-class="{'is-searching': !!$select.search}" ng-model="internal.selectedDepartment" ng-disabled="controlDisabled" search-enabled="true" on-select="selectDepartment()" uis-open-close="onDropdownToggle(isOpen)">
 	<ui-select-match placeholder="{{ $select.selected.name }}" allow-clear="true">{{ $select.selected.name }}</ui-select-match>
-	<ui-select-choices repeat="department in departmentsToDisplay | departmentFilter: $select.search track by $index" luid-on-scroll-bottom="loadMore()" >
+	<ui-select-choices repeat="department in departmentsToDisplay track by $index"
+		luid-on-scroll-bottom="loadMore($select.search)"
+		refresh="search($select.search)"
+		refresh-delay="0">
 		<div ng-class="{'has-child': !!department.hasChild}" >
 			<em ng-if="!$select.search" class="departmentpicker-tree-level" ng-repeat="level in getLevel(department) track by $index">
 			</em>
