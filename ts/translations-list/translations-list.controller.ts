@@ -15,8 +15,8 @@ module lui.translate {
 		constructor(
 			$scope: ILuidTranslationsListScope,
 			$translate: ng.translate.ITranslateService,
-			$timeout: ng.ITimeoutService) {
-
+			$timeout: ng.ITimeoutService
+		) {
 			this.$scope = $scope;
 			$scope.currentCulture = $translate.preferredLanguage();
 			if (!$scope.currentCulture) { $scope.currentCulture = "en"; }
@@ -62,30 +62,26 @@ module lui.translate {
 				// Don't do anything if the directive is disabled
 				if ($scope.isDisabled) { return; }
 
-				let originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
-				let values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+				const originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
+				const values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
 
-				if (values.length <= 1) { return; }
+				if (values.length === 1) { return; }
 
-				// If the first item in the selectedCulture isn't empty, simply paste the first value inside it
-				if ($scope.values[$scope.selectedCulture].values[index] !== undefined) {
-					$scope.values[$scope.selectedCulture].values[index].value += values[0];
-					values.splice(0, 1);
-					++index;
+				for (let i = 0; i < values.length; ++i, ++index) {
+					$scope.values[$scope.selectedCulture].values[index] = <ICulturedValue>{ value: values[i] };
 				}
-
-				_.each(AVAILABLE_LANGUAGES, (culture: string) => {
-					for (let i = 0; i < values.length; ++i) {
-						if ($scope.values[culture].values[i + index] !== undefined) {
-							$scope.values[culture].values[i + index].value = culture === $scope.selectedCulture ? values[i] : "";
-						} else {
-							$scope.values[culture].values.splice(i + index, 0, <ICulturedValue>{ value: culture === $scope.selectedCulture ? values[i] : "" });
+				const currentLength = $scope.values[$scope.selectedCulture].values.length;
+				_.chain(AVAILABLE_LANGUAGES)
+					.reject(lang => lang === $scope.selectedCulture)
+					.filter(lang => $scope.values[lang].values.length < currentLength)
+					.each(lang => {
+						for (let i = $scope.values[lang].values.length; i < currentLength; ++i) {
+							$scope.values[lang].values.push(<ICulturedValue>{ value: "" });
 						}
-					}
-				});
+					});
 
 				$scope.onInputValueChanged();
-
+				event.preventDefault();
 				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
