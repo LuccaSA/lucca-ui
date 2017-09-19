@@ -22,7 +22,7 @@ module lui.translate {
 			if (!$scope.currentCulture) { $scope.currentCulture = "en"; }
 
 			$scope.cultures = AVAILABLE_LANGUAGES;
-			let currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
+			const currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
 			if (currentCultureIndex !== -1) {
 				$scope.cultures.splice(currentCultureIndex, 1);
 				$scope.cultures.unshift($scope.currentCulture);
@@ -53,7 +53,7 @@ module lui.translate {
 
 			$scope.isAddValueDisabled = (): boolean => {
 				return !_.some(AVAILABLE_LANGUAGES, (culture: string) => {
-					let current = this.$scope.values[culture].values;
+					const current = this.$scope.values[culture].values;
 					return current[current.length - 1].value !== "";
 				});
 			};
@@ -86,11 +86,9 @@ module lui.translate {
 			};
 
 			$scope.addValueAndFocus = (): void => {
-				let maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
+				const maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
 				$scope.addValue();
-				$timeout(() => {
-					document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
-				});
+				$timeout(() => document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus());
 			};
 
 			$scope.addValueOnEnter = {
@@ -103,9 +101,7 @@ module lui.translate {
 							index++;
 							$scope.addValue();
 							$scope.$apply();
-							$timeout(() => {
-								document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
-							});
+							$timeout(() => document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus());
 						}
 					} else {
 						index++;
@@ -118,19 +114,19 @@ module lui.translate {
 			};
 
 			$scope.getPlaceholder = (culture: string, index: number): string => {
-				let selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
+				const selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
 				if (!!selectedCultureValue) {
 					return selectedCultureValue;
 				}
 
-				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
+				const currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
 				if (!!currentCultureValue) {
 					return $scope.isDisabled ? "" : currentCultureValue;
 				}
 
 				for (let i = 0; i < $scope.cultures.length; i++) {
-					let currentLanguage = $scope.cultures[i];
-					let cultureValue = $scope.values[currentLanguage].values[index].value;
+					const currentLanguage = $scope.cultures[i];
+					const cultureValue = $scope.values[currentLanguage].values[index].value;
 					if (!!cultureValue) {
 						return $scope.isDisabled ? "" : cultureValue;
 					}
