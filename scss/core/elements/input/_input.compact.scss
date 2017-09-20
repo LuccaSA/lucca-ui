@@ -110,7 +110,7 @@
 		#{$prefix}.fitting.field > .input#{$selector},
 		#{$prefix}.fitting.field#{$selector} > .input,
 		#{$prefix}.fitting.input#{$selector} {
-			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations), & > input:not([type="checkbox"]):not([type="radio"]) {
 				width: calc(100% - #{map-gets($vars, label-lengths, medium)} - #{map-gets($vars, label-right-padding)});
 			}
 		}
