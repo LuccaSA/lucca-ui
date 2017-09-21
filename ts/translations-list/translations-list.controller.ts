@@ -15,14 +15,14 @@ module lui.translate {
 		constructor(
 			$scope: ILuidTranslationsListScope,
 			$translate: ng.translate.ITranslateService,
-			$timeout: ng.ITimeoutService) {
-
+			$timeout: ng.ITimeoutService
+		) {
 			this.$scope = $scope;
 			$scope.currentCulture = $translate.preferredLanguage();
 			if (!$scope.currentCulture) { $scope.currentCulture = "en"; }
 
 			$scope.cultures = AVAILABLE_LANGUAGES;
-			let currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
+			const currentCultureIndex = _.indexOf($scope.cultures, $scope.currentCulture);
 			if (currentCultureIndex !== -1) {
 				$scope.cultures.splice(currentCultureIndex, 1);
 				$scope.cultures.unshift($scope.currentCulture);
@@ -53,7 +53,7 @@ module lui.translate {
 
 			$scope.isAddValueDisabled = (): boolean => {
 				return !_.some(AVAILABLE_LANGUAGES, (culture: string) => {
-					let current = this.$scope.values[culture].values;
+					const current = this.$scope.values[culture].values;
 					return current[current.length - 1].value !== "";
 				});
 			};
@@ -62,39 +62,33 @@ module lui.translate {
 				// Don't do anything if the directive is disabled
 				if ($scope.isDisabled) { return; }
 
-				let originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
-				let values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+				const originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
+				const values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
 
-				if (values.length <= 1) { return; }
+				if (values.length === 1) { return; }
 
-				// If the first item in the selectedCulture isn't empty, simply paste the first value inside it
-				if ($scope.values[$scope.selectedCulture].values[index] !== undefined) {
-					$scope.values[$scope.selectedCulture].values[index].value += values[0];
-					values.splice(0, 1);
-					++index;
+				for (let i = 0; i < values.length; ++i, ++index) {
+					$scope.values[$scope.selectedCulture].values[index] = <ICulturedValue>{ value: values[i] };
 				}
-
-				_.each(AVAILABLE_LANGUAGES, (culture: string) => {
-					for (let i = 0; i < values.length; ++i) {
-						if ($scope.values[culture].values[i + index] !== undefined) {
-							$scope.values[culture].values[i + index].value = culture === $scope.selectedCulture ? values[i] : "";
-						} else {
-							$scope.values[culture].values.splice(i + index, 0, <ICulturedValue>{ value: culture === $scope.selectedCulture ? values[i] : "" });
+				const currentLength = $scope.values[$scope.selectedCulture].values.length;
+				_.chain(AVAILABLE_LANGUAGES)
+					.reject(lang => lang === $scope.selectedCulture)
+					.filter(lang => $scope.values[lang].values.length < currentLength)
+					.each(lang => {
+						for (let i = $scope.values[lang].values.length; i < currentLength; ++i) {
+							$scope.values[lang].values.push(<ICulturedValue>{ value: "" });
 						}
-					}
-				});
+					});
 
 				$scope.onInputValueChanged();
-
+				event.preventDefault();
 				(<HTMLInputElement>originalEvent.target).blur();
 			};
 
 			$scope.addValueAndFocus = (): void => {
-				let maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
+				const maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
 				$scope.addValue();
-				$timeout(() => {
-					document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
-				});
+				$timeout(() => document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus());
 			};
 
 			$scope.addValueOnEnter = {
@@ -107,9 +101,7 @@ module lui.translate {
 							index++;
 							$scope.addValue();
 							$scope.$apply();
-							$timeout(() => {
-								document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
-							});
+							$timeout(() => document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus());
 						}
 					} else {
 						index++;
@@ -122,19 +114,19 @@ module lui.translate {
 			};
 
 			$scope.getPlaceholder = (culture: string, index: number): string => {
-				let selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
+				const selectedCultureValue = $scope.values[$scope.selectedCulture].values[index].value;
 				if (!!selectedCultureValue) {
 					return selectedCultureValue;
 				}
 
-				let currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
+				const currentCultureValue = $scope.values[$scope.currentCulture].values[index].value;
 				if (!!currentCultureValue) {
 					return $scope.isDisabled ? "" : currentCultureValue;
 				}
 
 				for (let i = 0; i < $scope.cultures.length; i++) {
-					let currentLanguage = $scope.cultures[i];
-					let cultureValue = $scope.values[currentLanguage].values[index].value;
+					const currentLanguage = $scope.cultures[i];
+					const cultureValue = $scope.values[currentLanguage].values[index].value;
 					if (!!cultureValue) {
 						return $scope.isDisabled ? "" : cultureValue;
 					}

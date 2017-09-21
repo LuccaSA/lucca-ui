@@ -3,6 +3,10 @@
 ## in dev
 ### Bug fixes
 
+## 3.1.16 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.16)
+### Bug fixes
+- `luid-translations-list`: fix pasting of multiple values
+
 ## 3.1.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.15)
 ### Bug fixes
 - `luid-department-picker`: fix research
