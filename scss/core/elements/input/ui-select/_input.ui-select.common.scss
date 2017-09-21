@@ -176,7 +176,7 @@
 
 		// Natural style
 		// ===============================================================
-		#{$prefix}.natural.form .ui-select-container {
+		#{$prefix}.natural.form .ui-select-container, #{$prefix}.natural.input .ui-select-container {
 			width: auto !important;
 
 			.ui-select-choices {
@@ -190,6 +190,7 @@
 
 			.ui-select-toggle {
 				width: auto;
+				text-overflow: initial;
 				padding-right: 0 !important;
 				&:after { display: none; }
 			}
