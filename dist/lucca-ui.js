@@ -3087,33 +3087,29 @@ var lui;
                     }
                     var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
                     var values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
-                    if (values.length <= 1) {
+                    if (values.length === 1) {
                         return;
                     }
-                    if ($scope.values[$scope.selectedCulture].values[index] !== undefined) {
-                        $scope.values[$scope.selectedCulture].values[index].value += values[0];
-                        values.splice(0, 1);
-                        ++index;
+                    for (var i = 0; i < values.length; ++i, ++index) {
+                        $scope.values[$scope.selectedCulture].values[index] = { value: values[i] };
                     }
-                    _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
-                        for (var i = 0; i < values.length; ++i) {
-                            if ($scope.values[culture].values[i + index] !== undefined) {
-                                $scope.values[culture].values[i + index].value = culture === $scope.selectedCulture ? values[i] : "";
-                            }
-                            else {
-                                $scope.values[culture].values.splice(i + index, 0, { value: culture === $scope.selectedCulture ? values[i] : "" });
-                            }
+                    var currentLength = $scope.values[$scope.selectedCulture].values.length;
+                    _.chain(translate.AVAILABLE_LANGUAGES)
+                        .reject(function (lang) { return lang === $scope.selectedCulture; })
+                        .filter(function (lang) { return $scope.values[lang].values.length < currentLength; })
+                        .each(function (lang) {
+                        for (var i = $scope.values[lang].values.length; i < currentLength; ++i) {
+                            $scope.values[lang].values.push({ value: "" });
                         }
                     });
                     $scope.onInputValueChanged();
+                    event.preventDefault();
                     originalEvent.target.blur();
                 };
                 $scope.addValueAndFocus = function () {
                     var maxIndex = $scope.values[$scope.selectedCulture].values.length - 1;
                     $scope.addValue();
-                    $timeout(function () {
-                        document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus();
-                    });
+                    $timeout(function () { return document.getElementById($scope.getUniqueId($scope.selectedCulture, maxIndex + 1)).focus(); });
                 };
                 $scope.addValueOnEnter = {
                     "13": function ($event) {
@@ -3123,9 +3119,7 @@ var lui;
                                 index++;
                                 $scope.addValue();
                                 $scope.$apply();
-                                $timeout(function () {
-                                    document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus();
-                                });
+                                $timeout(function () { return document.getElementById($scope.getUniqueId($scope.selectedCulture, index)).focus(); });
                             }
                         }
                         else {
