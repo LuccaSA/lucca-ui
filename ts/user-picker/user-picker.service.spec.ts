@@ -24,11 +24,11 @@ module lui.userpicker.Test {
 			$q = _$q_;
 			service = userPickerService;
 
-			fakeUser1 = <IUserLookup>{ id: 42, firstName: "Robert", lastName: "Vincent", dtContractEnd: null };
-			fakeUser2 = <IUserLookup>{ id: 43, firstName: "Roger", lastName: "Thomas", dtContractEnd: null };
-			fakeUser3 = <IUserLookup>{ id: 44, firstName: "Albert", lastName: "Rick", dtContractEnd: null };
-			fakeUser4 = <IUserLookup>{ id: 45, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null };
-			fakeUser5 = <IUserLookup>{ id: 46, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null };
+			fakeUser1 = <IUserLookup>{ id: 42, firstName: "Robert", lastName: "Vincent", dtContractEnd: null, employeeNumber: "3003" };
+			fakeUser2 = <IUserLookup>{ id: 43, firstName: "Roger", lastName: "Thomas", dtContractEnd: null, employeeNumber: "3013" };
+			fakeUser3 = <IUserLookup>{ id: 44, firstName: "Albert", lastName: "Rick", dtContractEnd: null, employeeNumber: "3133" };
+			fakeUser4 = <IUserLookup>{ id: 45, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null, employeeNumber: "3313" };
+			fakeUser5 = <IUserLookup>{ id: 46, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null, employeeNumber: "3103" };
 
 			fakeUsers = new Array<IUserLookup>(fakeUser1, fakeUser2, fakeUser3, fakeUser4, fakeUser5);
 		}));

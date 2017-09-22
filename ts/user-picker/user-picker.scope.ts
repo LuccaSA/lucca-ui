@@ -9,6 +9,9 @@ module lui.userpicker {
 		/** Indicates if the user-picker has to display the former employees */
 		showFormerEmployees: boolean;
 
+		/** Indicates if the user-picker has to filter also by employee number */
+		searchByEmployeeNumber: boolean;
+
 		/** Indicates if the connected user has to displayed first in the dropdown */
 		displayMeFirst: boolean;
 

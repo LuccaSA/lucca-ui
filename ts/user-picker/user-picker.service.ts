@@ -53,7 +53,7 @@ module lui.userpicker {
 		private meApiUrl = "/api/v3/users/me";
 		private userLookUpApiUrl = "/api/v3/users/find";
 		private userApiUrl = "/api/v3/users";
-		private userLookupFields = "fields=Id,firstName,lastName,dtContractEnd";
+		private userLookupFields = "fields=Id,firstName,lastName,dtContractEnd,employeeNumber";
 
 		private meCache: IUserLookup;
 
@@ -75,9 +75,7 @@ module lui.userpicker {
 
 		public getMe(): ng.IPromise<IUserLookup> {
 			if (this.meCache !== undefined) {
-				let dfd = this.$q.defer();
-				dfd.resolve(this.meCache);
-				return dfd.promise;
+				return this.$q.resolve(this.meCache);
 			}
 
 			return this.$http.get(this.meApiUrl + "?" + this.userLookupFields)
