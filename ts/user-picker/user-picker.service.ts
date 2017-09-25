@@ -75,7 +75,7 @@ module lui.userpicker {
 
 		public getMe(): ng.IPromise<IUserLookup> {
 			if (this.meCache !== undefined) {
-				return this.$q.resolve(this.meCache);
+				return this.$q.resolve<IUserLookup>(this.meCache);
 			}
 
 			return this.$http.get(this.meApiUrl + "?" + this.userLookupFields)
