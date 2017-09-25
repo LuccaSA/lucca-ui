@@ -1,6 +1,7 @@
 # Change log
 
 ## in dev
+- `luid-user-picker` - allows to search a user by his employee number
 ### Bug fixes
 
 ## 3.1.15 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.15)
