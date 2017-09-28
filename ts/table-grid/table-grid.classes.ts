@@ -16,6 +16,7 @@ module lui.tablegrid {
 		colspan?: number;
 		rowspan?: number;
 		textAlign?: string;
+		preserveLineBreaks?: boolean;
 		getValue(object: any): string;
 		getOrderByValue?(object: any): any;
 		getFilterValue?(object: any): any;

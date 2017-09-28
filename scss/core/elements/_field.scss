@@ -131,8 +131,7 @@
 
 		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]),
-			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch):not(.compact) > label {
+			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]) {
 				min-width: 0;
 				width: $sizeEms;
 			}
@@ -142,16 +141,8 @@
 		// =====================================================================
 		#{$prefix}.fitting.field,
 		#{$prefix}.fitting.field > .input,
-		#{$prefix}.fitting.field > .input:not(.compact) > label,
-		#{$prefix}.fitting.input,
-		#{$prefix}.fitting.input:not(.compact) > label {
+		#{$prefix}.fitting.input {
 			width: 100% !important;
-		}
-		#{$prefix}.fitting.field > .input:not(.compact),
-		#{$prefix}.fitting.input:not(.compact) {
-			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
-				width: 100%;
-			}
 		}
 
 		@if lui_input_style_enabled("material") {
@@ -162,8 +153,19 @@
 			#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
 				width: 100% !important;
 			}
+			#{$prefix}.fitting.field > .input > label,
+			#{$prefix}.fitting.input#{$selector} > label {
+				width: 100% !important;
+			}
+
+			#{$prefix}.fitting.field > .input#{$selector},
+			#{$prefix}.fitting.input#{$selector} {
+				& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
+					width: 100%;
+				}
+			}
 			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-				#{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
+				#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch):not(.compact) > label, #{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
 					min-width: 0;
 					width: $sizeEms;
 				}

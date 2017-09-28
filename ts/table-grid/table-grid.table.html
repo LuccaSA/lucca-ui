@@ -41,7 +41,7 @@
 					<label>&nbsp;</label>
 				</div>
 			</td>
-			<td role="cell" ng-repeat="cell in ::colDefinitions track by $index" ng-style="{'max-width': cell.width + 'em', 'min-width': cell.width + 'em'}"
+			<td role="cell" ng-repeat="cell in ::colDefinitions track by $index" ng-style="{'max-width': cell.width + 'em', 'min-width': cell.width + 'em', 'white-space': cell.preserveLineBreaks ? 'pre-line' : 'normal'}"
 			ng-bind-html="cell.getValue(row)" ng-class="{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}"></td>
 		</tr>
 	</tbody>
