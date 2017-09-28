@@ -28,6 +28,8 @@ module lui.userpicker {
 
 			customHttpService: "=", // $http
 			bypassOperationsFor: "=", // List of users that should be displayed even if they don't have access to the operations
+
+			searchByEmployeeNumber: "=", // bool, default false
 		};
 		public controller: string = LuidUserPickerController.IID;
 		public static factory(): angular.IDirectiveFactory { return () => { return new LuidUserPicker(); }; }

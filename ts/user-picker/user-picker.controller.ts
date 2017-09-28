@@ -228,7 +228,7 @@ module lui.userpicker {
 				let me = datas[1];
 				if (!offset) {
 					if (!clue && this.$scope.displayAllUsers) {
-						let all: IUserLookup = { id: -1, firstName: "", lastName: "" };
+						let all: IUserLookup = { id: -1, firstName: "", lastName: "", employeeNumber: ""};
 						allUsers.unshift(all);
 					}
 					if (!clue && this.$scope.displayMeFirst) {
@@ -270,7 +270,8 @@ module lui.userpicker {
 			let filter =
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
-				(!!clue ? "&clue=" + clue : "");
+				(!!clue ? "&clue=" + clue : "") +
+				"&searchByEmployeeNumber=" + (!!s.searchByEmployeeNumber ? "true" : "false");
 			// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
