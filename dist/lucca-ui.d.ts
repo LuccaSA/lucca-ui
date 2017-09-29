@@ -400,6 +400,7 @@ declare module lui.tablegrid {
         colspan?: number;
         rowspan?: number;
         textAlign?: string;
+        preserveLineBreaks?: boolean;
         getValue(object: any): string;
         getOrderByValue?(object: any): any;
         getFilterValue?(object: any): any;
@@ -584,6 +585,7 @@ declare module lui.userpicker {
         id: number;
         firstName: string;
         lastName: string;
+        employeeNumber: string;
         dtContractEnd?: string;
         hasLeft?: boolean;
         info?: string;
@@ -626,6 +628,7 @@ declare module lui.userpicker {
         placeholder: string;
         allowClear: boolean;
         showFormerEmployees: boolean;
+        searchByEmployeeNumber: boolean;
         displayMeFirst: boolean;
         controlDisabled: boolean;
         homonymsProperties: IHomonymProperty[];
