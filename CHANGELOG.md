@@ -1,10 +1,11 @@
 # Change log
-
 ## in dev
+### Bug fixes
+
+## 3.1.17 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.17)
+### Changes (non-breaking)
 - `luid-user-picker` - allows to search a user by his employee number
 - `luid-table-grid`: adds support for columns whose content must preserve line-breaks
-
-### Bug fixes
 
 ## 3.1.16 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.16)
 ### Bug fixes
