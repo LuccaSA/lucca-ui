@@ -27,5 +27,6 @@ module lui {
 		// api-select field type
 		api?: string;
 		filter?: string;
+		disableClear?: boolean;
 	}
 }

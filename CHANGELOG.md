@@ -1,5 +1,6 @@
 # Change log
 ## in dev
+-	'luid-api-select': allows to hide the clear button to avoid empty select match
 ### Bug fixes
 
 ## 3.1.17 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.17)

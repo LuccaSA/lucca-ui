@@ -10,6 +10,7 @@ module lui.apiselect {
 			filter: "=",
 			orderBy: "=",
 			placeholder: "@",
+			disableClear: "="
 		};
 		public controller = ApiSelectController.IID;
 
