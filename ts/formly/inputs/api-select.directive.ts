@@ -42,8 +42,7 @@ module lui.apiselect {
 			api: "=",
 			filter: "=",
 			orderBy: "=",
-			placeholder: "@",
-			allowClear: "=?"
+			placeholder: "@"
 		};
 		public controller = ApiSelectController.IID;
 
@@ -54,10 +53,7 @@ module lui.apiselect {
 			return directive;
 		}
 
-		public link(scope: IApiSelectScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes & { allowClear: boolean }): void {
-			let allowClear = attrs.allowClear;
-			if (allowClear === undefined) { allowClear = true; }
-
+		public link(scope: IApiSelectScope, element: angular.IAugmentedJQuery): void {
 			scope.onDropdownToggle = (isOpen: boolean) => {
 				if (isOpen) {
 					element.addClass("ng-open");
