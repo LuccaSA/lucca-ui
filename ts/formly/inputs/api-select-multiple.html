@@ -1,5 +1,5 @@
 <ui-select multiple>
-	<ui-select-match placeholder="{{::placeholder}}" allow-clear="true">{{$item.name}}</ui-select-match>
+	<ui-select-match placeholder="{{::placeholder}}" allow-clear="{{allowClear}}">{{$item.name}}</ui-select-match>
 	<ui-select-choices repeat="choice in choices track by choice.id" refresh="refresh($select.search)" refresh-delay="0" luid-on-scroll-bottom="loadMore($select.search)">
 	<div ng-bind-html="choice.name | highlight: $select.search"></div>
 	</ui-select-choices>

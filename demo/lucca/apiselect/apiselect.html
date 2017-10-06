@@ -15,6 +15,7 @@
 		<li><code><b>api</b></code>: the api you wnat to hit</li>
 		<li><code><b>filter</b></code>: a filter you want applied to said api</li>
 		<li><code><b>order-by</b></code>: the order you want applied to the result, must look like <code>name,asc</code> or <code>createdAt,desc</code></li>
+		<li><code><b>allow-clear</b></code>: if not defined or truthy, will allow clearing, if falsy, it won't. It's not supported in 'multiple'</li>
 	</ul>
 </p>
 
@@ -28,9 +29,7 @@
 				ng-model="internal.single"
 				api="api"
 				filter="filter"
-				order="order"
-				disable-clear="false"
-			>
+				order="order">
 			</luid-api-select>
 			<label>single</label>
 		</div>
@@ -41,10 +40,10 @@
 	<div class="lui long field">
 		<div class="lui compact input">
 			<luid-api-select-multiple ng-if="!!globalConnected"
-			ng-model="internal.multiple"
-			api="api"
-			filter="filter"
-			order-by="order">
+				ng-model="internal.multiple"
+				api="api"
+				filter="filter"
+				order-by="order">
 			</luid-api-select-multiple>
 			<label>multiple</label>
 		</div>
