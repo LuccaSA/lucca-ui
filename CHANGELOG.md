@@ -1,6 +1,10 @@
 # Change log
 ## in dev
+### Changes (non-breaking)
+- `input material` - messages are located below the input
 ### Bug fixes
+- `luid-iban` - messages are properly pushed on the right side
+- `luid-iban` - now has a proper size
 
 ## 3.1.17 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.17)
 ### Changes (non-breaking)

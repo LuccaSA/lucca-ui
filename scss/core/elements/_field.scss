@@ -150,6 +150,12 @@
 			#{$prefix}.field #{$selector}.input {
 				margin-top: 1.3em;
 			}
+			#{$prefix}.field #{$selector}.input {
+				~ .messages, ~ .message {
+					width: 100%;
+					margin-left: 0;
+				}
+			}
 			#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
 				width: 100% !important;
 			}
