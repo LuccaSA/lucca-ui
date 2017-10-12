@@ -4,6 +4,7 @@
 			$selector: lui_input_get_style_selector("compact");
 			#{$prefix}.input#{$selector} {
 				luid-iban {
+					width: auto !important;
 					// Styling
 					// ====
 					> input {
