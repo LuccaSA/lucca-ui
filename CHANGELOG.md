@@ -1,5 +1,6 @@
 # Change log
-## in dev
+### Changes (breaking)
+- `luid-api-select` - allows to hide the clear button to avoid empty select match
 ### Changes (non-breaking)
 - `input material` - messages are located below the input
 ### Bug fixes

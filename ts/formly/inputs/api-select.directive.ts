@@ -10,6 +10,7 @@ module lui.apiselect {
 			filter: "=",
 			orderBy: "=",
 			placeholder: "@",
+			allowClear: "="
 		};
 		public controller = ApiSelectController.IID;
 
@@ -38,7 +39,7 @@ module lui.apiselect {
 			api: "=",
 			filter: "=",
 			orderBy: "=",
-			placeholder: "@",
+			placeholder: "@"
 		};
 		public controller = ApiSelectController.IID;
 
@@ -48,6 +49,7 @@ module lui.apiselect {
 			};
 			return directive;
 		}
+
 		public link(scope: IApiSelectScope, element: angular.IAugmentedJQuery): void {
 			scope.onDropdownToggle = (isOpen: boolean) => {
 				if (isOpen) {
