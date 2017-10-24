@@ -1499,6 +1499,7 @@ var lui;
                     filter: "=",
                     orderBy: "=",
                     placeholder: "@",
+                    allowClear: "="
                 };
                 this.controller = ApiSelectController.IID;
             }
@@ -1529,7 +1530,7 @@ var lui;
                     api: "=",
                     filter: "=",
                     orderBy: "=",
-                    placeholder: "@",
+                    placeholder: "@"
                 };
                 this.controller = ApiSelectController.IID;
             }
@@ -4133,7 +4134,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/api-select.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-api-select api=\"options.templateOptions.api\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-api-select api=\"options.templateOptions.api\" allow-clear=\"options.templateOptions.allowClear\" filter=\"options.templateOptions.filter\" placeholder=\"{{::options.templateOptions.placeholder}}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\"></luid-api-select><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -4213,17 +4214,17 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select-multiple.html',
-    "<ui-select multiple><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
+    "<ui-select multiple><ui-select-match placeholder=\"{{::placeholder}}\">{{$item.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/formly/inputs/api-select.html',
-    "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"true\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\" ng-hide=\"$last &&!!choice.loading\"></div><div ng-show=\"$last &&!!choice.loading\" class=\"lui loader\"></div></ui-select-choices></ui-select>"
+    "<ui-select uis-open-close=\"onDropdownToggle(isOpen)\"><ui-select-match placeholder=\"{{::placeholder}}\" allow-clear=\"{{allowClear}}\">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat=\"choice in choices track by choice.id\" refresh=\"refresh($select.search)\" refresh-delay=\"0\" luid-on-scroll-bottom=\"loadMore($select.search)\"><div ng-bind-html=\"choice.name | highlight: $select.search\" ng-hide=\"$last &&!!choice.loading\"></div><div ng-show=\"$last &&!!choice.loading\" class=\"lui loader\"></div></ui-select-choices></ui-select>"
   );
 
 
   $templateCache.put('lui/templates/iban/iban.view.html',
-    "<input id=\"countryCode\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"countryCode\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-paste=\"pasteIban($event)\" ng-focus=\"selectInput($event)\" luid-select-next ng-blur=\"setTouched()\"> <input id=\"controlKey\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"controlKey\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" luid-select-next ng-blur=\"setTouched()\" luid-keydown mappings=\"controlKeyMappings\"> <input id=\"bban\" class=\"upper-case\" maxlength=\"30\" ng-model=\"bban\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-blur=\"setTouched()\" luid-keydown mappings=\"bbanMappings\">"
+    "<input id=\"countryCode\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"countryCode\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-paste=\"pasteIban($event)\" ng-focus=\"selectInput($event)\" luid-select-next ng-blur=\"setTouched()\"> <input id=\"controlKey\" class=\"upper-case\" size=\"2\" maxlength=\"2\" ng-model=\"controlKey\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" luid-select-next ng-blur=\"setTouched()\" luid-keydown mappings=\"controlKeyMappings\"> <input id=\"bban\" class=\"upper-case\" size=\"22\" maxlength=\"30\" ng-model=\"bban\" ng-model-options=\"{ allowInvalid: true }\" ng-change=\"updateValue()\" ng-blur=\"setTouched()\" luid-keydown mappings=\"bbanMappings\">"
   );
 
 
