@@ -228,6 +228,7 @@ declare module lui {
         }[];
         api?: string;
         filter?: string;
+        allowClear?: boolean;
     }
 }
 declare module lui.apiselect {
