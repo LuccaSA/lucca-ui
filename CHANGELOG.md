@@ -2,8 +2,11 @@
 
 ## in dev
 ### Changes (non-breaking)
-- `luid-translations-list` - `deletion-callback` attribut called before a value deletion.
 ### Bug fixes
+
+## 3.1.19 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.19)
+### Changes (non-breaking)
+- `luid-translations-list` - `deletion-callback` attribut called before a value deletion.
 
 ## 3.1.18 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.18)
 ### Changes (breaking)
