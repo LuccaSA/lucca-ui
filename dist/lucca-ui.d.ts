@@ -571,6 +571,7 @@ declare module lui.translate {
         selectCulture(culture: string): void;
         addValue(): void;
         addValueAndFocus(): void;
+        deletionCallback(): ng.IPromise<boolean>;
         deleteValue(index: number): void;
         isAddValueDisabled(): boolean;
         onPaste(event: ClipboardEvent | JQueryEventObject, index: number): void;

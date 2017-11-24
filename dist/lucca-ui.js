@@ -3065,7 +3065,7 @@ var lui;
                         $scope.values[culture].values.push({ value: "" });
                     });
                 };
-                $scope.deleteValue = function (index) {
+                var removeAt = function (index) {
                     _.each(translate.AVAILABLE_LANGUAGES, function (culture) {
                         $scope.values[culture].values.splice(index, 1);
                     });
@@ -3075,6 +3075,17 @@ var lui;
                         });
                     }
                     $scope.onInputValueChanged();
+                };
+                $scope.deleteValue = function (index) {
+                    if ($scope.deletionCallback === undefined) {
+                        removeAt(index);
+                        return;
+                    }
+                    $scope.deletionCallback().then(function (response) {
+                        if (response) {
+                            removeAt(index);
+                        }
+                    });
                 };
                 $scope.isAddValueDisabled = function () {
                     return !_.some(translate.AVAILABLE_LANGUAGES, function (culture) {
@@ -3188,6 +3199,7 @@ var lui;
                 this.scope = {
                     mode: "@",
                     isDisabled: "=ngDisabled",
+                    deletionCallback: "&?",
                 };
                 this.controller = translate.LuidTranslationsListController.IID;
             }
