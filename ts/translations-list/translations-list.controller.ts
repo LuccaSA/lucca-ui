@@ -39,7 +39,7 @@ module lui.translate {
 				});
 			};
 
-			$scope.deleteValue = (index: number): void => {
+			const removeAt = (index: number) => {
 				_.each(AVAILABLE_LANGUAGES, (culture: string) => {
 					$scope.values[culture].values.splice(index, 1);
 				});
@@ -49,6 +49,16 @@ module lui.translate {
 					});
 				}
 				$scope.onInputValueChanged();
+			};
+
+			$scope.deleteValue = (index: number): void => {
+				if ($scope.deletionCallback === undefined) {
+					removeAt(index);
+					return;
+				}
+				$scope.deletionCallback().then(response => {
+					if (response) { removeAt(index); }
+				});
 			};
 
 			$scope.isAddValueDisabled = (): boolean => {

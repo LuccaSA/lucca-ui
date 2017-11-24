@@ -10,6 +10,7 @@ module lui.translate {
 		public scope = {
 			mode: "@", // Allowed values: "lucca",
 			isDisabled: "=ngDisabled", // enable editing
+			deletionCallback: "&?", // passing a method so that it will return delelation confirmation
 		};
 
 		public controller: string = LuidTranslationsListController.IID;
