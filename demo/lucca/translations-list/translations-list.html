@@ -26,7 +26,7 @@
 </div>
 <p>
 	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList"&gt;&lt;luid-translations-list&gt;</pre>
-	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList" ng-change="onListChanged()" ng-required="true" mode="lucca"&gt;&lt;luid-translations-list&gt;</pre>
+	<pre hljs no-escape language="html">&lt;luid-translations-list ng-model="myTranslatedList" ng-change="onListChanged()" ng-required="true" mode="lucca" deletion-callback="confirmDeletion()"&gt;&lt;luid-translations-list&gt;</pre>
 </p>
 
 <!-- Demo -->
@@ -44,7 +44,7 @@
 			</div>
 			<h5>Material mode</h5>
 			<p>
-				<luid-translations-list ng-disabled="listDisabled" ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" class="lui material"></luid-translations-list>
+				<luid-translations-list ng-disabled="listDisabled" ng-model="luccaTranslations" ng-change="translationsListChanged()" mode="lucca" deletion-callback="confirmDeletion()" class="lui material"></luid-translations-list>
 			</p>
 			<hr>
 			<p>&nbsp;&nbsp;<code>ng-model:</code></p>
@@ -61,7 +61,7 @@
 			</div>
 			<h5>Compact mode</h5>
 			<p>
-				<luid-translations-list ng-disabled="listDisabled2" ng-model="luccaTranslations2" ng-change="translationsListChanged2()" mode="lucca" class="lui compact"></luid-translations-list>
+				<luid-translations-list ng-disabled="listDisabled2" ng-model="luccaTranslations2" ng-change="translationsListChanged2()" mode="lucca" deletion-callback="confirmDeletion()" class="lui compact"></luid-translations-list>
 			</p>
 			<hr>
 			<p>&nbsp;&nbsp;<code>ng-model:</code></p>

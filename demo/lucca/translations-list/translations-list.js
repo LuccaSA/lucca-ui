@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 	angular.module("demoApp")
-		.controller("translationsListCtrl", ["$scope", function ($scope) {
+		.controller("translationsListCtrl", ["$scope", "luisNotify", function ($scope, luisNotify) {
 			$scope.translationsListChangedCount = 0;
 			$scope.listDisabled = false;
 			$scope.translationsListChanged = function () {
@@ -33,6 +33,10 @@
 					]
 				},
 			];
+
+			$scope.confirmDeletion = () => {
+				return luisNotify.confirm("Confirm deletion ?", "OK", "CANCEL");
+			}
 
 			$scope.translationsListChangedCount2 = 0;
 			$scope.listDisabled2 = false;

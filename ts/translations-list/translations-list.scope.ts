@@ -32,6 +32,11 @@ module lui.translate {
 		addValueAndFocus(): void;
 
 		/**
+		 * Call back method called before a value deletion
+		 */
+		deletionCallback(): ng.IPromise<boolean>;
+
+		/**
 		 * Delete a value. The value is deleted in each entry of the `values` dictionary
 		 * @param {number} index The index of the value you want to delete
 		 */
