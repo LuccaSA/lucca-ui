@@ -32,7 +32,7 @@
     "angular-notify": "~2.5.0",
     "angular-sanitize": "1.5.x",
     "angular-translate": "~2.12.0",
-    "iban": "^0.0.6",
+    "iban": "0.0.8",
     "lucca-icons": "~1.1.16",
     "moment": "~2.15.0",
     "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.5.0",
