@@ -73,7 +73,7 @@ module lui.translate {
 				if ($scope.isDisabled) { return; }
 
 				const originalEvent: ClipboardEvent = event instanceof ClipboardEvent ? <ClipboardEvent>event : (<ClipboardEvent>(<JQueryEventObject>event).originalEvent);
-				const values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), (value: string) => value === "");
+				const values = _.reject(originalEvent.clipboardData.getData("text/plain").split(/\r\n|\r|\n/g), (value: string) => value === "");
 
 				if (values.length === 1) { return; }
 
