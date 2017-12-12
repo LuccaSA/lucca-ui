@@ -120,7 +120,7 @@
 			link: link,
 		};
 	}])
-	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment) {
+	.controller('luidMomentController', ['$scope', '$timeout', 'moment', '$element', function($scope, $timeout, moment, $element) {
 		function incr(step) {
 			function calculateNewValue() {
 				function contains(array, value) { return array.indexOf(value) !== -1; }
@@ -158,8 +158,17 @@
 			}
 			var min = getMin();
 			var max = getMax();
-			if(autoCorrect){
-				newValue = correctedValue(newValue, min, max);
+
+			if (autoCorrect) {
+				var newCorrectedValue = correctedValue(newValue, min, max);
+				if (newCorrectedValue.format("HH:mm") !== newValue.format("HH:mm")) {
+					newValue = newCorrectedValue;
+
+					$element.addClass('autocorrect');
+					setTimeout(function() {
+						$element.removeClass('autocorrect');
+					}, 200);
+				}
 			}
 			$scope.maxed = newValue && max && max.diff(newValue) <= 0;
 			$scope.mined = newValue && min && min.diff(newValue) >= 0;
@@ -251,12 +260,6 @@
 		}
 
 		function blurEvent(timeout, isFocused){
-			var inputedTime = getInputedTime();
-			var val = $scope.ngModelCtrl.getValue();
-			// same inputed time as the viewValue - we do nothing
-			if (!!val && val.isValid() && inputedTime.format("HH:mm") === val.format("HH:mm")) {
-				return;
-			}
 			updateWithoutRender(getInputedTime());
 			timeout = $timeout(function(){
 					timeout = false;

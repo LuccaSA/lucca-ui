@@ -3,6 +3,7 @@
 ## in dev
 ### Changes (non-breaking)
 ### Bug fixes
+- `luid-moment`: fix `enforce-valid`
 
 ## 3.1.19 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.19)
 ### Changes (non-breaking)
