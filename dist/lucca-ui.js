@@ -3098,7 +3098,7 @@ var lui;
                         return;
                     }
                     var originalEvent = event instanceof ClipboardEvent ? event : event.originalEvent;
-                    var values = _.reject(originalEvent.clipboardData.getData("text/plain").split("\r\n"), function (value) { return value === ""; });
+                    var values = _.reject(originalEvent.clipboardData.getData("text/plain").split(/\r\n|\r|\n/g), function (value) { return value === ""; });
                     if (values.length === 1) {
                         return;
                     }
@@ -4764,7 +4764,7 @@ var lui;
 			link: link,
 		};
 	}])
-	.controller('luidMomentController', ['$scope', '$timeout', 'moment', function($scope, $timeout, moment) {
+	.controller('luidMomentController', ['$scope', '$timeout', 'moment', '$element', function($scope, $timeout, moment, $element) {
 		function incr(step) {
 			function calculateNewValue() {
 				function contains(array, value) { return array.indexOf(value) !== -1; }
@@ -4802,8 +4802,17 @@ var lui;
 			}
 			var min = getMin();
 			var max = getMax();
-			if(autoCorrect){
-				newValue = correctedValue(newValue, min, max);
+
+			if (autoCorrect) {
+				var newCorrectedValue = correctedValue(newValue, min, max);
+				if (newCorrectedValue.format("HH:mm") !== newValue.format("HH:mm")) {
+					newValue = newCorrectedValue;
+
+					$element.addClass('autocorrect');
+					setTimeout(function() {
+						$element.removeClass('autocorrect');
+					}, 200);
+				}
 			}
 			$scope.maxed = newValue && max && max.diff(newValue) <= 0;
 			$scope.mined = newValue && min && min.diff(newValue) >= 0;
@@ -4895,12 +4904,6 @@ var lui;
 		}
 
 		function blurEvent(timeout, isFocused){
-			var inputedTime = getInputedTime();
-			var val = $scope.ngModelCtrl.getValue();
-			// same inputed time as the viewValue - we do nothing
-			if (!!val && val.isValid() && inputedTime.format("HH:mm") === val.format("HH:mm")) {
-				return;
-			}
 			updateWithoutRender(getInputedTime());
 			timeout = $timeout(function(){
 					timeout = false;
