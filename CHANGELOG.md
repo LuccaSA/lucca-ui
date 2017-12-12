@@ -4,6 +4,8 @@
 ### Changes (non-breaking)
 ### Bug fixes
 - `luid-moment`: fix `enforce-valid`
+- `luid-translations-list` - copying/pasting did not work properly on some older browsers
+- `luid-iban` - updated iban.js to handle Costa Rica format
 
 ## 3.1.19 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.19)
 ### Changes (non-breaking)
