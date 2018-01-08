@@ -10,6 +10,7 @@ module lui.imagepicker {
 	"use strict";
 	interface IImageCropperScope extends angular.IScope {
 		image: string;
+		fileName: string;
 		cropped: string;
 		cancelLabel: string;
 		croppingRatio: number;
@@ -19,7 +20,7 @@ module lui.imagepicker {
 		donotcrop(): void;
 		openCropper(): void;
 
-		onCropped(cropped: string): void;
+		onCropped(cropped: string, fileName: string): void;
 		onCancelled(): void;
 	}
 	export class LuidImageCropper implements angular.IDirective {
@@ -54,10 +55,11 @@ module lui.imagepicker {
 				/* tslint:enable */
 					scope.$apply(($scope) => {
 						scope.image = event.target.result;
+						scope.fileName = file.name;
 						if (!scope.croppingDisabled) {
 							scope.openCropper();
 						} else {
-							scope.onCropped(scope.image);
+							scope.onCropped(scope.image, scope.fileName);
 						}
 					});
 				};
@@ -84,6 +86,9 @@ module lui.imagepicker {
 						image: (): string => {
 							return $scope.image;
 						},
+						fileName: (): string => {
+							return $scope.fileName;
+						},
 						croppingRatio: (): number => {
 							return $scope.croppingRatio;
 						},
@@ -93,9 +98,10 @@ module lui.imagepicker {
 					},
 				};
 				let modalInstance = $uibModal.open(modalOptions);
-				modalInstance.result.then((cropped: string) => {
-					$scope.cropped = cropped;
-					$scope.onCropped(cropped);
+				modalInstance.result.then(({image, cropped}: {image: string, cropped: boolean}) => {
+					$scope.cropped = image;
+					const tempFileName = cropped ? $scope.fileName.substr(0, $scope.fileName.lastIndexOf(".")) + ".png" : $scope.fileName;
+					$scope.onCropped(image, tempFileName);
 				}, () => {
 					if (!!$scope.onCancelled) {
 						$scope.onCancelled();
@@ -108,19 +114,20 @@ module lui.imagepicker {
 		public static IID: string = "luidImageCropperModalController";
 		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
 
-		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, croppingRatio: number, cancelLabel: string) {
+		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, fileName: string, croppingRatio: number, cancelLabel: string) {
 			let doClose: boolean = false;
 			$scope.image = image;
+			$scope.fileName = fileName;
 			$scope.cancelLabel = cancelLabel;
 			$scope.croppingRatio = croppingRatio;
 
 			$scope.crop = () => {
 				doClose = true;
-				$uibModalInstance.close($scope.cropped);
+				$uibModalInstance.close({image: $scope.cropped, cropped : true});
 			};
 			$scope.donotcrop = () => {
 				doClose = true;
-				$uibModalInstance.close($scope.image);
+				$uibModalInstance.close({image: $scope.image, cropped : false});
 			};
 			$scope.cancel = () => {
 				doClose = true;

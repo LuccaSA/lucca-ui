@@ -36,7 +36,7 @@ module lui.imagepicker {
 		uploading: boolean;
 		deleteEnabled: boolean;
 		file: any;
-		onCropped(cropped: string): void;
+		onCropped(cropped: string, fileName: string): void;
 		onCancelled(): void;
 		onClick(event: ng.IAngularEvent): void;
 		onDelete(): void;
@@ -69,9 +69,9 @@ module lui.imagepicker {
 					this.closePopover();
 				});
 			};
-			$scope.onCropped = (cropped) => {
+			$scope.onCropped = (cropped, fileName) => {
 				$scope.uploading = true;
-				uploaderService.postDataURI(cropped)
+				uploaderService.postDataURI(cropped, fileName)
 				.then( (file: IFile): void => {
 					$scope.uploading = false;
 					this.setViewValue(file);

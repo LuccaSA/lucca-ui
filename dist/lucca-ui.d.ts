@@ -715,9 +715,9 @@ declare module lui.scroll {
 }
 declare module lui {
     interface IUploaderService {
-        postFromUrl(url: string): ng.IPromise<IFile>;
-        postDataURI(dataURI: string): ng.IPromise<IFile>;
-        postBlob(blob: Blob): ng.IPromise<IFile>;
+        postFromUrl(url: string, fileName: string): ng.IPromise<IFile>;
+        postDataURI(dataURI: string, fileName: string): ng.IPromise<IFile>;
+        postBlob(blob: Blob, fileName: string): ng.IPromise<IFile>;
     }
 }
 declare module lui.upload {
