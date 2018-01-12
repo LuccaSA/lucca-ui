@@ -547,7 +547,7 @@ var lui;
                 };
                 $scope.closePopoverOnKeyPress = {
                     9: function ($event) { _this.closePopover(); _this.$scope.$apply(); },
-                    13: function ($event) { _this.closePopover(); _this.$scope.$apply(); _this.element.find('input')[0].blur(); }
+                    13: function ($event) { _this.closePopover(); _this.$scope.$apply(); _this.element.find("input")[0].blur(); }
                 };
                 $scope.$watch("min", function () {
                     _this.min = _this.formatter.parseValue($scope.min);
@@ -1853,11 +1853,12 @@ var lui;
                         reader.onload = function (event) {
                             scope.$apply(function ($scope) {
                                 scope.image = event.target.result;
+                                scope.fileName = file.name;
                                 if (!scope.croppingDisabled) {
                                     scope.openCropper();
                                 }
                                 else {
-                                    scope.onCropped(scope.image);
+                                    scope.onCropped(scope.image, scope.fileName);
                                 }
                             });
                         };
@@ -1890,6 +1891,9 @@ var lui;
                             image: function () {
                                 return $scope.image;
                             },
+                            fileName: function () {
+                                return $scope.fileName;
+                            },
                             croppingRatio: function () {
                                 return $scope.croppingRatio;
                             },
@@ -1899,9 +1903,11 @@ var lui;
                         },
                     };
                     var modalInstance = $uibModal.open(modalOptions);
-                    modalInstance.result.then(function (cropped) {
-                        $scope.cropped = cropped;
-                        $scope.onCropped(cropped);
+                    modalInstance.result.then(function (_a) {
+                        var image = _a.image, cropped = _a.cropped;
+                        $scope.cropped = image;
+                        var tempFileName = cropped ? $scope.fileName.substr(0, $scope.fileName.lastIndexOf(".")) + ".png" : $scope.fileName;
+                        $scope.onCropped(image, tempFileName);
                     }, function () {
                         if (!!$scope.onCancelled) {
                             $scope.onCancelled();
@@ -1914,18 +1920,19 @@ var lui;
             return LuidImageCropperController;
         }());
         var LuidImageCropperModalController = (function () {
-            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, croppingRatio, cancelLabel) {
+            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, fileName, croppingRatio, cancelLabel) {
                 var doClose = false;
                 $scope.image = image;
+                $scope.fileName = fileName;
                 $scope.cancelLabel = cancelLabel;
                 $scope.croppingRatio = croppingRatio;
                 $scope.crop = function () {
                     doClose = true;
-                    $uibModalInstance.close($scope.cropped);
+                    $uibModalInstance.close({ image: $scope.cropped, cropped: true });
                 };
                 $scope.donotcrop = function () {
                     doClose = true;
-                    $uibModalInstance.close($scope.image);
+                    $uibModalInstance.close({ image: $scope.image, cropped: false });
                 };
                 $scope.cancel = function () {
                     doClose = true;
@@ -1996,9 +2003,9 @@ var lui;
                         _this.closePopover();
                     });
                 };
-                $scope.onCropped = function (cropped) {
+                $scope.onCropped = function (cropped, fileName) {
                     $scope.uploading = true;
-                    uploaderService.postDataURI(cropped)
+                    uploaderService.postDataURI(cropped, fileName)
                         .then(function (file) {
                         $scope.uploading = false;
                         _this.setViewValue(file);
@@ -4040,7 +4047,7 @@ var lui;
                 this._ = _;
                 this.moment = moment;
             }
-            UploaderService.prototype.postFromUrl = function (url) {
+            UploaderService.prototype.postFromUrl = function (url, fileName) {
                 var _this = this;
                 var dfd = this.$q.defer();
                 var req = new XMLHttpRequest();
@@ -4048,7 +4055,7 @@ var lui;
                 req.responseType = "arraybuffer";
                 req.onload = function (event) {
                     var blob = new Blob([req.response], { type: "image/jpeg" });
-                    _this.postBlob(blob)
+                    _this.postBlob(blob, fileName)
                         .then(function (response) {
                         dfd.resolve(response);
                     }, function (response) {
@@ -4058,15 +4065,15 @@ var lui;
                 req.send();
                 return dfd.promise;
             };
-            UploaderService.prototype.postDataURI = function (dataURI) {
+            UploaderService.prototype.postDataURI = function (dataURI, fileName) {
                 var blob = this.dataURItoBlob(dataURI);
-                return this.postBlob(blob);
+                return this.postBlob(blob, fileName);
             };
-            UploaderService.prototype.postBlob = function (blob) {
+            UploaderService.prototype.postBlob = function (blob, fileName) {
                 var dfd = this.$q.defer();
                 var url = this.mainApiUrl;
                 var fd = new FormData();
-                fd.append("file", blob, "file.png");
+                fd.append(fileName.substring(0, fileName.lastIndexOf(".")), blob, fileName);
                 this.$http({
                     method: "POST",
                     url: url,

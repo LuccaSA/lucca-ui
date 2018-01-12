@@ -3,6 +3,7 @@
 ## in dev
 ### Changes (non-breaking)
 ### Bug fixes
+- `lui-image-picker`- use the name of the original image and use the right mimeType if the image is not cropped
 
 ## 3.1.20 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.20)
 ### Bug fixes

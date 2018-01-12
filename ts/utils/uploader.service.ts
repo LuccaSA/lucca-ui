@@ -1,9 +1,9 @@
 module lui {
 	"use strict";
 	export interface IUploaderService {
-		postFromUrl(url: string): ng.IPromise<IFile>;
-		postDataURI(dataURI: string): ng.IPromise<IFile>;
-		postBlob(blob: Blob): ng.IPromise<IFile>;
+		postFromUrl(url: string, fileName: string): ng.IPromise<IFile>;
+		postDataURI(dataURI: string, fileName: string): ng.IPromise<IFile>;
+		postBlob(blob: Blob, fileName: string): ng.IPromise<IFile>;
 	}
 }
 module lui.upload {
@@ -27,7 +27,7 @@ module lui.upload {
 			this.moment = moment;
 		}
 
-		public postFromUrl(url: string): ng.IPromise<IFile> {
+		public postFromUrl(url: string, fileName: string): ng.IPromise<IFile> {
 			let dfd = this.$q.defer();
 
 			let req = new XMLHttpRequest();
@@ -35,7 +35,7 @@ module lui.upload {
 			req.responseType = "arraybuffer";
 			req.onload = (event) => {
 				let blob = new Blob([req.response], {type: "image/jpeg"});
-				this.postBlob(blob)
+				this.postBlob(blob, fileName)
 				.then((response: ng.IHttpPromiseCallbackArg<ApiResponseItem<IFile>>) => {
 					dfd.resolve(response);
 				}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
@@ -47,16 +47,16 @@ module lui.upload {
 			return dfd.promise;
 		}
 
-		public postDataURI(dataURI: string): ng.IPromise<IFile> {
+		public postDataURI(dataURI: string, fileName: string): ng.IPromise<IFile> {
 			let blob = this.dataURItoBlob(dataURI);
-			return this.postBlob(blob);
+			return this.postBlob(blob, fileName);
 		}
 
-		public postBlob(blob: Blob): ng.IPromise<IFile> {
+		public postBlob(blob: Blob, fileName: string): ng.IPromise<IFile> {
 			let dfd = this.$q.defer();
 			let url = this.mainApiUrl;
 			let fd = new FormData();
-			fd.append("file", blob, "file.png");
+			fd.append(fileName.substring(0, fileName.lastIndexOf(".")), blob, fileName);
 			this.$http({
 				method: "POST",
 				url: url,

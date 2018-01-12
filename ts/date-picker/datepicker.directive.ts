@@ -106,7 +106,7 @@ module lui.datepicker {
 
 			$scope.closePopoverOnKeyPress = {
 				9 : ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); },
-				13 :  ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); this.element.find('input')[0].blur(); }
+				13 :  ($event: ng.IAngularEvent): void => { this.closePopover(); this.$scope.$apply(); this.element.find("input")[0].blur(); }
 			};
 
 			$scope.$watch("min", (): void => {
