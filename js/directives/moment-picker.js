@@ -260,7 +260,7 @@
 		}
 
 		function blurEvent(timeout, isFocused){
-			const model = $scope.ngModelCtrl.$modelValue;
+			var model = $scope.ngModelCtrl.$modelValue;
 			updateWithoutRender(model);
 			timeout = $timeout(function(){
 					timeout = false;
