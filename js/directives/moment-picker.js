@@ -192,7 +192,37 @@
 			// if (intMinutes != intMinutes) { intMinutes = 0; } // intMins isNaN
 			if (intMinutes > 60) { intMinutes = 59; $scope.mins = "59"; }
 
-			return getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
+			var initialTime = getRefDate().hours(intHours).minutes(intMinutes).seconds(0);
+
+			// try to put time between min and max by adding some days while time < min and time !> max
+			var time = betweenMinAndMax(initialTime);
+
+			return time;
+		}
+
+		function betweenMinAndMax(refTime) {
+			var time = moment(refTime);
+			var minTime = moment(time), maxTime = moment(time);
+			var min = getMin(), max = getMax();
+			var dayCnt;
+			// time < min, add enough day to have it after min
+			if(!!min && minTime.isBefore(min)) {
+				dayCnt = min.diff(time, 'day') + 1;
+				minTime.add(dayCnt, 'day');
+			}
+			// time > max
+			if (!!max && time.isAfter(max)) {
+				dayCnt = max.diff(time, 'day') - 1;
+				maxTime.add(dayCnt, 'days');
+			}
+
+			if (!!max && minTime.isBefore(max)) {
+				return minTime;
+			}
+			if (!!min && maxTime.isAfter(min)) {
+				return maxTime;
+			}
+			return time;
 		}
 
 		function cancelTimeouts() {
