@@ -207,12 +207,14 @@
 			var dayCnt;
 			// time < min, add enough day to have it after min
 			if(!!min && time.isBefore(min)) {
-				dayCnt = min.diff(time, 'day') + 1;
+				// number of days between min and time, rounded to next integer
+				dayCnt = Math.ceil(min.diff(time, 'day', true));
 				minTime.add(dayCnt, 'day');
 			}
 			// time > max
 			if (!!max && time.isAfter(max)) {
-				dayCnt = max.diff(time, 'day') - 1;
+				// number of days between max and time, rounded to previous integer
+				dayCnt = Math.floor(max.diff(time, 'day', true));
 				maxTime.add(dayCnt, 'days');
 			}
 
