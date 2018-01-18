@@ -8,7 +8,7 @@
 		$scope.myValue2 = moment().startOf('day').add(14, 'hours');
 		$scope.myValue3 = moment().startOf('day').add(14, 'hours');
 		$scope.min = moment().startOf('day').add(8, 'hours');
-		$scope.max = moment().startOf('day').add(24, 'hours');
+		$scope.max = moment().startOf('day').add(26, 'hours');
 		$scope.updateCnt = 0;
 		$scope.hasChanged = function(){
 			$scope.updateCnt++;
