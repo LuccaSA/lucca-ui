@@ -206,7 +206,7 @@
 			var min = getMin(), max = getMax();
 			var dayCnt;
 			// time < min, add enough day to have it after min
-			if(!!min && minTime.isBefore(min)) {
+			if(!!min && time.isBefore(min)) {
 				dayCnt = min.diff(time, 'day') + 1;
 				minTime.add(dayCnt, 'day');
 			}
@@ -216,10 +216,10 @@
 				maxTime.add(dayCnt, 'days');
 			}
 
-			if (!!max && minTime.isBefore(max)) {
+			if (!!max && (minTime.isBefore(max) || minTime.isSame(max))) {
 				return minTime;
 			}
-			if (!!min && maxTime.isAfter(min)) {
+			if (!!min && (maxTime.isAfter(min) || maxTime.isSame(min))) {
 				return maxTime;
 			}
 			return time;
