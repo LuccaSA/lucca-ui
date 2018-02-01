@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 	grunt.initConfig(configs);
 
 	// this task updates all distributions - launch it once before each release
-	grunt.registerTask('dist', ["clean:dist", "ts:dist", "ngtemplates:dist", 'concat:standard', 'uglify:standard', 'sass:dist', "copy:tsdefinitions"]);
+	grunt.registerTask('dist', ["clean:dist", "ts:dist", "ngtemplates:dist", 'concat:standard', 'uglify:standard', 'sass:dist', "copy:tsdefinitions", "copy:demolibs"]);
 
 	// use this tasks when you are developping
 	grunt.registerTask('debug', ["dist", "sass:demo", "clean:tests", "ts:test", "connect:server", "concurrent:debug"]);
