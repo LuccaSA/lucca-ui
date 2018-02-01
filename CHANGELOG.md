@@ -1,6 +1,9 @@
 # Change log
 
 ## in dev
+### Breaking Changes
+- Move every bower dependencies to npm. You should update to the latest version and update your referencies.
+ 
 ### Changes (non-breaking)
 ### Bug fixes
 
