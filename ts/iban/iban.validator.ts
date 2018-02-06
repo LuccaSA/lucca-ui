@@ -3,5 +3,6 @@ module lui.iban {
 
 	export interface ILuidIbanValidators extends ng.IModelValidators {
 		iban: () => boolean;
+		maxlength: () => boolean;
 	}
 }

@@ -25,7 +25,7 @@ module lui.iban {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			this.ngModelCtrl.$render = (): void => {
-				let iban = this.getViewValue() ? this.getViewValue().replace(" ", "") : null ;
+				let iban = this.getViewValue() ? this.getViewValue().replace(" ", "") : null;
 				if (!!iban) {
 					this.$scope.countryCode = iban.substring(0, 2);
 					this.$scope.controlKey = iban.substring(2, 4);
@@ -39,6 +39,12 @@ module lui.iban {
 			(<ILuidIbanValidators>this.ngModelCtrl.$validators).iban = (): boolean => {
 				if (!!this.ngModelCtrl.$viewValue) {
 					return this.ibanChecker.isValid(ngModelCtrl.$viewValue);
+				}
+				return true;
+			};
+			(<ILuidIbanValidators>this.ngModelCtrl.$validators).maxlength = (): boolean => {
+				if (!!this.ngModelCtrl.$viewValue) {
+					return this.ngModelCtrl.$viewValue.length <= 34;
 				}
 				return true;
 			};
