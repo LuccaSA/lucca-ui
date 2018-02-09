@@ -13,7 +13,7 @@ var lui;
     angular.module("lui.translate", ["lui", "pascalprecht.translate"]);
     angular.module("lui.notify", ["lui", "cgNotify"]);
     angular.module("lui.formly", ["lui", "formly"]);
-    angular.module("lui.crop", ["lui", "lui.translate", "ngImgCrop"]);
+    angular.module("lui.crop", ["lui", "lui.translate", "uiCropper"]);
     angular.module("lui.iban", ["lui", "iban"]);
     angular.module("lui.tablegrid", ["lui", "lui.translate"]);
 })(lui || (lui = {}));
@@ -168,7 +168,7 @@ var lui;
                 this.initCalendarScopeMethods($scope);
                 this.setMinMode($scope.minMode);
                 this.$scope.mode = this.minMode;
-                $scope.direction = "init ";
+                $scope.direction = "init";
             }
             CalendarController.prototype.setCalendarCnt = function (cntStr, inAPopover) {
                 this.calendarCnt = parseInt(cntStr, 10) || 1;
@@ -4248,7 +4248,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-cropper.modal.html',
-    "<div class=\"luid-cropper\"><img-crop image=\"image\" result-image=\"cropped\" area-type=\"rectangle\" result-image-size=\"'max'\" aspect-ratio=\"croppingRatio\"></img-crop></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=\"crop()\">{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=\"donotcrop()\">{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=\"cancel()\">{{ cancelLabel }}</div></footer>"
+    "<div class=\"luid-cropper\"><ui-cropper image=\"image\" result-image=\"cropped\" area-type=\"rectangle\" result-image-size=\"'max'\" aspect-ratio=\"croppingRatio\"></ui-cropper></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=\"crop()\">{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=\"donotcrop()\">{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=\"cancel()\">{{ cancelLabel }}</div></footer>"
   );
 
 

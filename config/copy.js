@@ -12,7 +12,7 @@ module.exports = function(grunt, options){
 				"dist/lucca-ui.js",
 				"node_modules/iban/iban.js", 
 				"node_modules/@cgross/angular-notify/dist/angular-notify.min.js", 
-				"node_modules/ng-img-crop-full-extended/compile/minified/ng-img-crop.js"
+				"node_modules/ui-cropper/compile/minified/ui-cropper.js"
 			],
 			dest: "demo/libs/",
 		},

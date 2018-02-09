@@ -120,7 +120,7 @@
 			height: map-gets($vars, cropper, height);
 
 			// copy pasted from the bower component
-			> img-crop {
+			> ui-cropper {
 				width: 100%;
 				height: 100%;
 				display: block;

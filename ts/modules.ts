@@ -10,7 +10,7 @@ module lui {
 	angular.module("lui.translate", ["lui", "pascalprecht.translate"]);
 	angular.module("lui.notify", ["lui", "cgNotify"]);
 	angular.module("lui.formly", ["lui", "formly"]);
-	angular.module("lui.crop", ["lui", "lui.translate", "ngImgCrop"]);
+	angular.module("lui.crop", ["lui", "lui.translate", "uiCropper"]);
 	angular.module("lui.iban", ["lui", "iban"]);
 	angular.module("lui.tablegrid", ["lui", "lui.translate"]);
 }
