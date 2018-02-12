@@ -27,6 +27,10 @@
     - `underscore`: ~1.8.3
 - `ng-img-crop-full-extended` has been moved to a new repo. It is now used as `ui-cropper` (v1.0.6)
 
+## 3.1.23 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.23)
+### Bug fixes
+- `duration-filter` - when displaying a duration in days, it behaved
+
 ## 3.1.22 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.22)
 ### Bug fixes
 - `lud-moment`- moment-picker with min and max hours
