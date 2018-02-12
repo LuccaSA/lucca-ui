@@ -2,10 +2,12 @@
 
 ## in dev
 ### Breaking Changes
-- Move every bower dependencies to npm. You should update to the latest version and update your referencies.
- 
 ### Changes (non-breaking)
 ### Bug fixes
+
+## 4.0.0
+### Breaking Changes
+- Move every bower dependencies to npm. You should update to the latest version and update your dependencies and paths.
 
 ## 3.1.22 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.22)
 ### Bug fixes
