@@ -9,18 +9,18 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'bower_components/api-check/dist/api-check.js',
-			'bower_components/angular/angular.js',
-			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-			'bower_components/angular-formly/dist/formly.js',
-			'bower_components/angular-mocks/angular-mocks.js',
-			'bower_components/angular-notify/dist/angular-notify.min.js',
-			'bower_components/angular-sanitize/angular-sanitize.js',
-			'bower_components/angular-translate/angular-translate.js',
-			'bower_components/moment/min/moment-with-locales.js',
-			'bower_components/ng-img-crop-full-extended/compile/unminified/ng-img-crop.js',
-			'bower_components/ui-select/dist/select.js',
-			'bower_components/underscore/underscore-min.js',
+			'node_modules/api-check/dist/api-check.js',
+			'node_modules/angular/angular.js',
+			'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+			'node_modules/angular-formly/dist/formly.js',
+			'node_modules/angular-mocks/angular-mocks.js',
+			'node_modules/@cgross/angular-notify/dist/angular-notify.min.js',
+			'node_modules/angular-sanitize/angular-sanitize.js',
+			'node_modules/angular-translate/dist/angular-translate.js',
+			'node_modules/moment/min/moment-with-locales.js',
+			'node_modules/ui-cropper/compile/unminified/ui-cropper.js',
+			'node_modules/ui-select/dist/select.js',
+			'node_modules/underscore/underscore-min.js',
 
 
 			"dist/lucca-ui.js",
