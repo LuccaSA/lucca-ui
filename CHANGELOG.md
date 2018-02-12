@@ -8,6 +8,24 @@
 ## 4.0.0
 ### Breaking Changes
 - Move every bower dependencies to npm. You should update to the latest version and update your dependencies and paths.
+## Changes
+- Updates the following dependencies to their newest version :
+    - `@cgross/angular-notify`: ~2.5.0
+    - `angular`: 1.6.x
+    - `angular-formly`: ~8.4.0
+    - `angular-route`: 1.6.x
+    - `angular-ui-bootstrap`: ~2.5.0
+    - `angular-sanitize`: 1.6.x
+    - `angular-translate`: ~2.17.0
+    - `api-check`: ~7.5.5
+    - `iban`: 0.0.10
+    - `lucca-icons`: ~1.1.16
+    - `moment`: ~2.20.0
+    - `normalize.css`: ~8.0.0
+    - `ng-sortable`: 1.3.2
+    - `ui-select`: ~0.19.3
+    - `underscore`: ~1.8.3
+- `ng-img-crop-full-extended` has been moved to a new repo. It is now used as `ui-cropper` (v1.0.6)
 
 ## 3.1.22 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.22)
 ### Bug fixes
