@@ -4,6 +4,10 @@
 ### Changes (non-breaking)
 ### Bug fixes
 
+## 3.1.23 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.23)
+### Bug fixes
+- `duration-filter` - when displaying a duration in days, it behaved
+
 ## 3.1.22 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.22)
 ### Bug fixes
 - `lud-moment`- moment-picker with min and max hours

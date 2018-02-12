@@ -5833,8 +5833,8 @@ var lui;
 			var minimumUnit = Math.max(config.index, getNextNotNull(values, 0));
 			values[config.index] = Math.abs(d[config.dateConversion]() >= 0 ? Math.floor(d[config.dateConversion]()) : Math.ceil(d[config.dateConversion]()));
 
-			if (config.index === 0 && getConfigIndex(_precision) === 0 && d.asDays() > 0){
-				var myDays = d.asDays();
+			if (config.index === 0 && getConfigIndex(_precision) === 0 && d.asDays() !== 0){
+				var myDays = Math.abs(d.asDays());
 				var decimalNumber = getDecimalNumber(myDays);
 				minimumUnit = 0;
 				values[0] = $filter("number")(myDays, decimalNumber);
