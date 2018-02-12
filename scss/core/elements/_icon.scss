@@ -1,7 +1,7 @@
 
 $luccaIcons_icon-base-selector: luiTheme(element, icon, iconBaseSelector);
 $luccaIcons_font-create-classes: luiTheme(element, icon, createClasses);
-@import "node_modules/lucca-icons/src/lucca-icons";
+@import "bower_components/lucca-icons/src/lucca-icons";
 
 @mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
