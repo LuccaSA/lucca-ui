@@ -1,9 +1,9 @@
 language: node_js
 node_js:
-  - "6.9"
+  - "8.9.4"
 
 before_script:
 
-script: 
+script:
   - grunt dist
   - grunt travis-karma
