@@ -6,7 +6,7 @@
 ### Bug fixes
 
 
-## 4.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.1)
+## 4.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.2)
 ### Breaking Changes
 This projects now builds under NodeJS LTS 8.9.4.
 ### Changes (non-breaking)
