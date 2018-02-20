@@ -4,6 +4,7 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
+- `luid-iban` - add error when iban is initially too long
 
 ## 4.0.0
 ### Breaking Changes
@@ -33,7 +34,7 @@
 
 ## 3.1.22 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.22)
 ### Bug fixes
-- `lud-moment`- moment-picker with min and max hours
+- `luid-moment`- moment-picker with min and max hours
 
 ## 3.1.21 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/3.1.21)
 ### Bug fixes
