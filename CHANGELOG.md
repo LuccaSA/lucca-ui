@@ -4,9 +4,19 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
+
+
+## 4.0.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.1)
+### Breaking Changes
+This projects now builds under NodeJS LTS 8.9.4.
+### Changes (non-breaking)
+- Updates the following dependencies to their newest version to reflect the use of new Node LTS 8.9.4:
+    - `grunt`: ^1.0.1
+    - `grunt-sass`: ^2.1.0
+### Bug fixes
 - `luid-iban` - add error when iban is initially too long
 
-## 4.0.0
+## 4.0.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.0)
 ### Breaking Changes
 - Move every bower dependencies to npm. You should update to the latest version and update your dependencies and paths.
 ## Changes
