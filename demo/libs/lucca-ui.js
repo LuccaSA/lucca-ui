@@ -1684,6 +1684,12 @@ var lui;
                     }
                     return true;
                 };
+                this.ngModelCtrl.$validators.maxlength = function () {
+                    if (!!_this.ngModelCtrl.$viewValue) {
+                        return _this.ngModelCtrl.$viewValue.length <= 34;
+                    }
+                    return true;
+                };
             };
             LuidIbanController.prototype.setInputs = function (elt) {
                 var inputs = elt.find("input");
@@ -4183,7 +4189,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/iban.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-iban ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-iban><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.iban\">{{::options.templateOptions.ibanError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><luid-iban ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" name=\"{{::id}}\" ng-disabled=\"options.templateOptions.disabled\"></luid-iban><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && (form.{{::id}}.$error.iban || form.{{::id}}.$error.maxlength)\">{{::options.templateOptions.ibanError}}</small></div>"
   );
 
 

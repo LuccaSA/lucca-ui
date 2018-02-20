@@ -304,6 +304,7 @@ declare module lui.iban {
 declare module lui.iban {
     interface ILuidIbanValidators extends ng.IModelValidators {
         iban: () => boolean;
+        maxlength: () => boolean;
     }
 }
 declare module lui.iban {
