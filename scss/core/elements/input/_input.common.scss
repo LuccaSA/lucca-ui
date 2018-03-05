@@ -112,6 +112,17 @@
 			&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 		}
 
+		// removes webkit search clear button
+		&[type="search"]::-webkit-search-cancel-button, &[type="search"]::-webkit-search-decoration,
+		input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+			-webkit-appearance: none;
+		}
+		// removes IE/Edge clear button
+		&[type="search"]::-ms-clear
+		input[type="search"]::-ms-clear {
+			display: none;
+		}
+
 		// Textarea specifics
 		// ====
 		textarea {
