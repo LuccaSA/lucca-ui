@@ -4,7 +4,7 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
-
+The SASS build was breaking when `$prefix` was empty.
 
 ## 4.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.2)
 ### Breaking Changes

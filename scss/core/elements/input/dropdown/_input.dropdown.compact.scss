@@ -18,15 +18,11 @@
 	@at-root #{$namespace} {
 		@if lui_input_style_enabled("compact") {
 			$selector: lui_input_get_style_selector("compact");
-			#{$prefix}#{$selector} {
-
-				&.dropdown .dropdown-header {
-					@extend %lui_dropdown_list_group_header_compact;
-				}
-
-				&[uib-dropdown] ul li {
-					@extend %lui_dropdown_list_item_compact;
-				}
+			#{$prefix}#{$selector}.dropdown .dropdown-header {
+				@extend %lui_dropdown_list_group_header_compact;
+			}
+			#{$prefix}#{$selector}[uib-dropdown] ul li {
+				@extend %lui_dropdown_list_item_compact;
 			}
 		}
 	}
