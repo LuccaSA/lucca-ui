@@ -7,7 +7,8 @@
 
 ## 4.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.3)
 ### Bug fixes
-The SASS build was breaking when `$prefix` was empty.
+- The SASS build was breaking when `$prefix` was empty.
+- Remove browser input clear that was previously removed by `normalize.css`
 
 ## 4.0.2 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.2)
 ### Breaking Changes
