@@ -632,6 +632,7 @@ declare module lui.userpicker {
         allowClear: boolean;
         showFormerEmployees: boolean;
         searchByEmployeeNumber: boolean;
+        legalEntityIds: number[];
         displayMeFirst: boolean;
         controlDisabled: boolean;
         homonymsProperties: IHomonymProperty[];

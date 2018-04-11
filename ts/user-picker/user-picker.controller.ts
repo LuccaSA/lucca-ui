@@ -101,6 +101,13 @@ module lui.userpicker {
 				}
 			});
 
+			this.$scope.$watch("legalEntityIds", (newValue: boolean, oldValue: boolean) => {
+				if (this.$scope.legalEntityIds !== undefined && newValue !== oldValue) {
+					this.resetUsers();
+					this.refresh(this.clue);
+				}
+			});
+
 			this.$scope.$watchGroup(["appId", "operations"], (newValue: [number, string[]], oldValue: [number, string[]]) => {
 				if (angular.isDefined(newValue) && angular.isDefined(newValue[0]) &&
 					angular.isDefined(newValue[1]) && newValue[1].length > 0 &&
@@ -271,7 +278,8 @@ module lui.userpicker {
 				"formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
 				(!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
 				(!!clue ? "&clue=" + clue : "") +
-				"&searchByEmployeeNumber=" + (!!s.searchByEmployeeNumber ? "true" : "false");
+				"&searchByEmployeeNumber=" + (!!s.searchByEmployeeNumber ? "true" : "false") +
+				(!!s.legalEntityIds && s.legalEntityIds.length > 0 ? "&legalEntityIds=" + s.legalEntityIds.join(",") : "");
 			// (!!clue || s.disablePaging ? "&paging=0," + MAX_SEARCH_LIMIT : "&paging=" + s.lastPagingOffset + "," + MAGIC_PAGING);
 			return filter;
 		}
