@@ -11,7 +11,8 @@ module lui.imagepicker {
 			croppingDisabled: "=",
 			deleteEnabled: "=",
 			hideEditHint: "=",
-			isDisabled: "="
+			isDisabled: "=",
+			onDeletion: "&"
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -40,6 +41,7 @@ module lui.imagepicker {
 		onCancelled(): void;
 		onClick(event: ng.IAngularEvent): void;
 		onDelete(): void;
+		onDeletion(): void;
 		setTouched(): void;
 		uploadNewImage($event: ng.IAngularEvent): void;
 		togglePopover($event: ng.IAngularEvent): void;
@@ -88,6 +90,9 @@ module lui.imagepicker {
 			$scope.onDelete = () => {
 				this.setViewValue(undefined);
 				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
+				if (this.$scope.onDeletion() != null) {
+					this.$scope.onDeletion();
+				}
 				this.closePopover();
 			};
 		}
@@ -98,6 +103,7 @@ module lui.imagepicker {
 				let vv = this.getViewValue();
 				if (!!vv && !!vv.href) {
 					this.$scope.pictureStyle = { "background-image": "url('" + vv.href + "')" };
+					this.$scope.file = vv;
 				} else {
 					this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 				}

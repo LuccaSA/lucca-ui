@@ -52,14 +52,13 @@
 				}
 
 				input[type="file"] {
-					cursor: pointer;
 					vertical-align: top;
 					font-size: 0;
 					height: 100%;
 					width: 100%;
 					opacity: 0;
-					cursor: pointer;
 					text-indent: -100%;
+					pointer-events: none;
 				}
 
 				.lui.loader.inverted {
