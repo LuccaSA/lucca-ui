@@ -53,7 +53,7 @@ module lui.userpicker {
 		private meApiUrl = "/api/v3/users/me";
 		private userLookUpApiUrl = "/api/v3/users/find";
 		private userApiUrl = "/api/v3/users";
-		private userLookupFields = "fields=Id,firstName,lastName,dtContractEnd,employeeNumber";
+		private userLookupFields = "fields=id,firstName,lastName,dtContractStart,dtContractEnd,employeeNumber";
 
 		private meCache: IUserLookup;
 

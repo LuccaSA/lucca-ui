@@ -24,11 +24,11 @@ module lui.userpicker.Test {
 			$q = _$q_;
 			service = userPickerService;
 
-			fakeUser1 = <IUserLookup>{ id: 42, firstName: "Robert", lastName: "Vincent", dtContractEnd: null, employeeNumber: "3003" };
-			fakeUser2 = <IUserLookup>{ id: 43, firstName: "Roger", lastName: "Thomas", dtContractEnd: null, employeeNumber: "3013" };
-			fakeUser3 = <IUserLookup>{ id: 44, firstName: "Albert", lastName: "Rick", dtContractEnd: null, employeeNumber: "3133" };
-			fakeUser4 = <IUserLookup>{ id: 45, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null, employeeNumber: "3313" };
-			fakeUser5 = <IUserLookup>{ id: 46, firstName: "Robert", lastName: "Dupuis", dtContractEnd: null, employeeNumber: "3103" };
+			fakeUser1 = <IUserLookup>{ id: 42, firstName: "Robert", lastName: "Vincent", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3003" };
+			fakeUser2 = <IUserLookup>{ id: 43, firstName: "Roger", lastName: "Thomas", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3013" };
+			fakeUser3 = <IUserLookup>{ id: 44, firstName: "Albert", lastName: "Rick", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3133" };
+			fakeUser4 = <IUserLookup>{ id: 45, firstName: "Robert", lastName: "Dupuis", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3313" };
+			fakeUser5 = <IUserLookup>{ id: 46, firstName: "Robert", lastName: "Dupuis", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3103" };
 
 			fakeUsers = new Array<IUserLookup>(fakeUser1, fakeUser2, fakeUser3, fakeUser4, fakeUser5);
 		}));
@@ -50,7 +50,7 @@ module lui.userpicker.Test {
 
 		describe("getMe()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: fakeUser1 });
 				service.getMe().then((me: IUserLookup) => { expect(me).toEqual(fakeUser1) });
 				expect($httpBackend.flush).not.toThrow();
@@ -68,7 +68,7 @@ module lui.userpicker.Test {
 
 		describe("getUsers()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&paging=0,15&fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&paging=0,15&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: { items: { fakeUsers } } });
 				service.getUsers("formerEmployees=false").then((users: IUserLookup[]) => {
 					expect(_.intersection(users, fakeUsers).length).toBe(0);
@@ -79,7 +79,7 @@ module lui.userpicker.Test {
 
 		describe("getUserById()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: { items: [fakeUser1] }});
 				service.getUserById(42).then((user: IUserLookup) => {
 					expect(user.id).toBe(fakeUser1.id);
@@ -90,11 +90,11 @@ module lui.userpicker.Test {
 
 		describe("getUsersByIds()", () => {
 			it("should call the right API and return exactly what the API returns", () => {
-				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: { items: [fakeUser1] }});
-				$httpBackend.expectGET(/api\/v3\/users\?id=43\&fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\?id=43\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: { items: [fakeUser2] }});
-				$httpBackend.expectGET(/api\/v3\/users\?id=44\&fields=Id,firstName,lastName,dtContractEnd*/i)
+				$httpBackend.expectGET(/api\/v3\/users\?id=44\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
 					.respond(200, { data: { items: [fakeUser3] }});
 				service.getUsersByIds([42, 43, 44]).then((users: IUserLookup[]) => {
 					expect(users.length).toBe(3);

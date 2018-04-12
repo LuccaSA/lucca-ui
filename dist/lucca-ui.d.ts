@@ -589,6 +589,7 @@ declare module lui.userpicker {
         firstName: string;
         lastName: string;
         employeeNumber: string;
+        dtContractStart: string;
         dtContractEnd?: string;
         hasLeft?: boolean;
         info?: string;

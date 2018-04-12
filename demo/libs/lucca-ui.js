@@ -3577,7 +3577,7 @@ var lui;
                     var me = datas[1];
                     if (!offset) {
                         if (!clue && _this.$scope.displayAllUsers) {
-                            var all = { id: -1, firstName: "", lastName: "", employeeNumber: "" };
+                            var all = { id: -1, firstName: "", lastName: "", dtContractStart: "", employeeNumber: "" };
                             allUsers.unshift(all);
                         }
                         if (!clue && _this.$scope.displayMeFirst) {
@@ -3780,7 +3780,7 @@ var lui;
                 this.meApiUrl = "/api/v3/users/me";
                 this.userLookUpApiUrl = "/api/v3/users/find";
                 this.userApiUrl = "/api/v3/users";
-                this.userLookupFields = "fields=Id,firstName,lastName,dtContractEnd,employeeNumber";
+                this.userLookupFields = "fields=id,firstName,lastName,dtContractStart,dtContractEnd,employeeNumber";
                 this.$http = $http;
                 this.defaultHttpService = $http;
                 this.$q = $q;

@@ -5,6 +5,10 @@
 ### Changes (non-breaking)
 ### Bug fixes
 
+## 4.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.1)
+### Bug fixe
+- add the missing field `dtContractStart`
+
 ## 4.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.0)
 ### New features
 - `lui-user-picker`- add possibility to filter by legal entities with the parameter `legalEntityIds`

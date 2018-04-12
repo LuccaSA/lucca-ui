@@ -235,7 +235,7 @@ module lui.userpicker {
 				let me = datas[1];
 				if (!offset) {
 					if (!clue && this.$scope.displayAllUsers) {
-						let all: IUserLookup = { id: -1, firstName: "", lastName: "", employeeNumber: ""};
+						let all: IUserLookup = { id: -1, firstName: "", lastName: "", dtContractStart: "", employeeNumber: ""};
 						allUsers.unshift(all);
 					}
 					if (!clue && this.$scope.displayMeFirst) {

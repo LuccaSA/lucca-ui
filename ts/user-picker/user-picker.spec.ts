@@ -23,16 +23,16 @@ module lui.userpicker.Test {
 			$q = _$q_;
 			service = userPickerService;
 
-			me = <IUserLookup>{ id: 1, firstName: "Roger", lastName: "Thomas", dtContractEnd: null, employeeNumber: "400" };
+			me = <IUserLookup>{ id: 1, firstName: "Roger", lastName: "Thomas", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "400" };
 
-			user2 = <IUserLookup>{ id: 2, firstName: "Jon", lastName: "Snow", dtContractEnd: null, employeeNumber: "414" };
-			user3 = <IUserLookup>{ id: 3, firstName: "Rick", lastName: "Sanchez", dtContractEnd: null, employeeNumber: "415" };
-			user4 = <IUserLookup>{ id: 4, firstName: "Dirk", lastName: "Gently", dtContractEnd: null, employeeNumber: "417" };
-			user5 = <IUserLookup>{ id: 5, firstName: "Jane", lastName: "Ives", dtContractEnd: null, employeeNumber: "419" };
-			user6 = <IUserLookup>{ id: 6, firstName: "Homer", lastName: "Simpson", dtContractEnd: null, employeeNumber: "420" };
+			user2 = <IUserLookup>{ id: 2, firstName: "Jon", lastName: "Snow", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "414" };
+			user3 = <IUserLookup>{ id: 3, firstName: "Rick", lastName: "Sanchez", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "415" };
+			user4 = <IUserLookup>{ id: 4, firstName: "Dirk", lastName: "Gently", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "417" };
+			user5 = <IUserLookup>{ id: 5, firstName: "Jane", lastName: "Ives", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "419" };
+			user6 = <IUserLookup>{ id: 6, firstName: "Homer", lastName: "Simpson", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "420" };
 
-			user7 = <IUserLookup>{ id: 7, firstName: "John", lastName: "Doe", dtContractEnd: null, employeeNumber: "425" };
-			user8 = <IUserLookup>{ id: 8, firstName: "John", lastName: "Doe", dtContractEnd: null, employeeNumber: "425" };
+			user7 = <IUserLookup>{ id: 7, firstName: "John", lastName: "Doe", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "425" };
+			user8 = <IUserLookup>{ id: 8, firstName: "John", lastName: "Doe", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "425" };
 
 			users = new Array<IUserLookup>(me, user2, user3, user4, user5, user6);
 			usersWithHomonyms = new Array<IUserLookup>(me, user2, user3, user4, user5, user6, user7, user8);
@@ -160,7 +160,7 @@ module lui.userpicker.Test {
 
 			it("should handle appInstanceId and operations attributes", () => {
 				$httpBackend.expectGET(/api\/v3\/users\/me\?fields=id/i).respond(200, { data: { id: me.id } });
-				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&appinstanceid=104&operations=1,2&searchByEmployeeNumber=false&paging=0,15&fields=Id,firstName,lastName,dtContractEnd/i)
+				$httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&appinstanceid=104&operations=1,2&searchByEmployeeNumber=false&paging=0,15&fields=Id,firstName,lastName,dtContractStart,dtContractEnd/i)
 					.respond(200, { data: { items: users } });
 				let scope = <ILuidUserPickerScope>$rootScope.$new();
 				scope.appId = 104;
