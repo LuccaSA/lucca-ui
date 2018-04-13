@@ -61,6 +61,11 @@ module lui.imagepicker {
 						} else {
 							scope.onCropped(scope.image, scope.fileName);
 						}
+
+						// Clear the value of the file input, otherwise it will not trigger ngChange when uploading a file with the same name
+						if (element[0] != null) {
+							(<any>element[0]).value = "";
+						}
 					});
 				};
 				reader.readAsDataURL(file);
