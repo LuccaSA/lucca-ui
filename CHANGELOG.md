@@ -3,7 +3,9 @@
 ## in dev
 ### Breaking Changes
 ### Changes (non-breaking)
+- `image-picker` - add call back method onDeletion
 ### Bug fixes
+- `image-picker` - togglepopover opening
 
 ## 4.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.3)
 ### Bug fixes
