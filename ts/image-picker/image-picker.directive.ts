@@ -11,8 +11,7 @@ module lui.imagepicker {
 			croppingDisabled: "=",
 			deleteEnabled: "=",
 			hideEditHint: "=",
-			isDisabled: "=",
-			onDeletion: "&"
+			isDisabled: "="
 		};
 		public controller: string = LuidImagePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
@@ -89,10 +88,8 @@ module lui.imagepicker {
 			};
 			$scope.onDelete = () => {
 				this.setViewValue(undefined);
+				$scope.file = undefined;
 				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
-				if (this.$scope.onDeletion() != null) {
-					this.$scope.onDeletion();
-				}
 				this.closePopover();
 			};
 		}
@@ -100,10 +97,9 @@ module lui.imagepicker {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				let vv = this.getViewValue();
-				if (!!vv && !!vv.href) {
-					this.$scope.pictureStyle = { "background-image": "url('" + vv.href + "')" };
-					this.$scope.file = vv;
+				this.$scope.file = this.getViewValue();
+				if (!!this.$scope.file && !!this.$scope.file.href) {
+					this.$scope.pictureStyle = { "background-image": "url('" + this.$scope.file.href + "')" };
 				} else {
 					this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 				}
@@ -158,6 +154,7 @@ module lui.imagepicker {
 		private setViewValue(file: IFile): void {
 			this.ngModelCtrl.$setTouched();
 			this.ngModelCtrl.$setViewValue(file);
+			this.$scope.file = file;
 		}
 	}
 
