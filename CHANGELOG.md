@@ -4,6 +4,8 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
+- `image-picker` - togglepopover opening
+- `image-cropper` - cropper modal opening when uploading a new file with same name
 
 ## 4.0.3 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.3)
 ### Bug fixes

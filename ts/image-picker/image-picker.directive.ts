@@ -40,6 +40,7 @@ module lui.imagepicker {
 		onCancelled(): void;
 		onClick(event: ng.IAngularEvent): void;
 		onDelete(): void;
+		onDeletion(): void;
 		setTouched(): void;
 		uploadNewImage($event: ng.IAngularEvent): void;
 		togglePopover($event: ng.IAngularEvent): void;
@@ -87,6 +88,7 @@ module lui.imagepicker {
 			};
 			$scope.onDelete = () => {
 				this.setViewValue(undefined);
+				$scope.file = undefined;
 				this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 				this.closePopover();
 			};
@@ -95,9 +97,9 @@ module lui.imagepicker {
 		public setNgModelCtrl(ngModelCtrl: ng.INgModelController): void {
 			this.ngModelCtrl = ngModelCtrl;
 			ngModelCtrl.$render = () => {
-				let vv = this.getViewValue();
-				if (!!vv && !!vv.href) {
-					this.$scope.pictureStyle = { "background-image": "url('" + vv.href + "')" };
+				this.$scope.file = this.getViewValue();
+				if (!!this.$scope.file && !!this.$scope.file.href) {
+					this.$scope.pictureStyle = { "background-image": "url('" + this.$scope.file.href + "')" };
 				} else {
 					this.$scope.pictureStyle = { "background-image": "url('" + this.placeholder + "')" };
 				}
@@ -152,6 +154,7 @@ module lui.imagepicker {
 		private setViewValue(file: IFile): void {
 			this.ngModelCtrl.$setTouched();
 			this.ngModelCtrl.$setViewValue(file);
+			this.$scope.file = file;
 		}
 	}
 
