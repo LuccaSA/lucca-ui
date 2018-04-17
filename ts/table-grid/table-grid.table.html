@@ -26,7 +26,7 @@
 				</div>
 				<div class="lui fitting input" ng-if="header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1">
 					<ui-select ng-model="filters[$index].currentValues[0]" reset-search-input="true" on-select="updateFilteredRows()" allow-clear>
-						<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}">{{ $select.selected }}</ui-select-match>
+						<ui-select-match allow-clear="true" placeholder="{{ 'SELECT_ITEM' | translate }}" title="{{ $select.selected }}">{{ $select.selected }}</ui-select-match>
 						<ui-select-choices repeat="value in filters[$index].selectValues | filter: $select.search"><span ng-bind-html="value"></span></ui-select-choices>
 					</ui-select>
 				</div>
