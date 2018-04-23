@@ -3,6 +3,7 @@
 ## in dev
 ### Breaking Changes
 ### Changes (non-breaking)
+- `image-picker` - attribut delete-enabled dynamic value. value is true by default.
 ### Bug fixes
 - `image-picker` - togglepopover opening
 - `image-cropper` - cropper modal opening when uploading a new file with same name
