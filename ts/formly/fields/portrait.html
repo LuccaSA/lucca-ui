@@ -5,7 +5,7 @@
 			name="{{::id}}"
 			ng-required="{{options.templateOptions.required}}"
 			ng-disabled="options.templateOptions.disabled"
-			delete-enabled="options.templateOptions.deleteEnabled == null ? true : options.templateOptions.deleteEnabled"
+			delete-enabled="options.templateOptions.deleteEnabled"
 			cropping-ratio="options.templateOptions.ratio"></luid-image-picker>
 		<label for="{{::id}}">{{ options.templateOptions.label }}</label>
 	</div>

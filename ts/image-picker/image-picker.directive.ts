@@ -9,7 +9,7 @@ module lui.imagepicker {
 			placeholderUrl: "@",
 			croppingRatio: "=",
 			croppingDisabled: "=",
-			deleteEnabled: "=",
+			deleteEnabled: "=?",
 			hideEditHint: "=",
 			isDisabled: "="
 		};
@@ -59,6 +59,8 @@ module lui.imagepicker {
 
 		constructor($scope: IImagepickerScope, uploaderService: IUploaderService, $timeout: ng.ITimeoutService) {
 			this.$scope = $scope;
+			this.$scope.deleteEnabled = this.$scope.deleteEnabled == null ? true : this.$scope.deleteEnabled;
+
 			$scope.setTouched = () => {
 				this.ngModelCtrl.$setTouched();
 			};
