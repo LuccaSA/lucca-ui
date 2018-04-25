@@ -1,13 +1,17 @@
 # Change log
 
-## in dev
-- add the missing field `dtContractStart`
-- `lui-user-picker`- add possibility to filter by legal entities with the parameter `legalEntityIds`
 
+## in dev
 ### Breaking Changes
 ### Changes (non-breaking)
-- `image-picker` - attribut delete-enabled dynamic value. value is true by default.
 ### Bug fixes
+
+## 4.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.0)
+### New Features
+- add the missing field `dtContractStart`
+- `lui-user-picker`- add possibility to filter by legal entities with the parameter `legalEntityIds`
+### Changes (non-breaking)
+- `image-picker` - attribut delete-enabled dynamic value. value is true by default.
 
 ## 4.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.4)
 ### Bug fixes
