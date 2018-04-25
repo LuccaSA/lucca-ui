@@ -5,6 +5,7 @@ module lui.userpicker {
 		firstName: string;
 		lastName: string;
 		employeeNumber: string;
+		dtContractStart: string;
 		dtContractEnd?: string;
 
 		/** Indicates if dtContractEnd < today */

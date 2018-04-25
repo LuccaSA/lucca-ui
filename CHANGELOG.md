@@ -1,6 +1,9 @@
 # Change log
 
 ## in dev
+- add the missing field `dtContractStart`
+- `lui-user-picker`- add possibility to filter by legal entities with the parameter `legalEntityIds`
+
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes

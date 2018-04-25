@@ -3459,6 +3459,12 @@ var lui;
                         });
                     }
                 });
+                this.$scope.$watch("legalEntityIds", function (newValue, oldValue) {
+                    if (_this.$scope.legalEntityIds !== undefined && newValue !== oldValue) {
+                        _this.resetUsers();
+                        _this.refresh(_this.clue);
+                    }
+                });
                 this.$scope.$watchGroup(["appId", "operations"], function (newValue, oldValue) {
                     if (angular.isDefined(newValue) && angular.isDefined(newValue[0]) &&
                         angular.isDefined(newValue[1]) && newValue[1].length > 0 &&
@@ -3571,7 +3577,7 @@ var lui;
                     var me = datas[1];
                     if (!offset) {
                         if (!clue && _this.$scope.displayAllUsers) {
-                            var all = { id: -1, firstName: "", lastName: "", employeeNumber: "" };
+                            var all = { id: -1, firstName: "", lastName: "", dtContractStart: "", employeeNumber: "" };
                             allUsers.unshift(all);
                         }
                         if (!clue && _this.$scope.displayMeFirst) {
@@ -3604,7 +3610,8 @@ var lui;
                 var filter = "formerEmployees=" + (!!s.showFormerEmployees ? s.showFormerEmployees.toString() : "false") +
                     (!!s.appId && !!s.operations && s.operations.length > 0 ? "&appinstanceid=" + s.appId + "&operations=" + s.operations.join(",") : "") +
                     (!!clue ? "&clue=" + clue : "") +
-                    "&searchByEmployeeNumber=" + (!!s.searchByEmployeeNumber ? "true" : "false");
+                    "&searchByEmployeeNumber=" + (!!s.searchByEmployeeNumber ? "true" : "false") +
+                    (!!s.legalEntityIds && s.legalEntityIds.length > 0 ? "&legalEntityIds=" + s.legalEntityIds.join(",") : "");
                 return filter;
             };
             LuidUserPickerController.IID = "luidUserPickerController";
@@ -3688,6 +3695,7 @@ var lui;
                     customHttpService: "=",
                     bypassOperationsFor: "=",
                     searchByEmployeeNumber: "=",
+                    legalEntityIds: "=",
                 };
                 this.controller = userpicker.LuidUserPickerController.IID;
             }
@@ -3734,6 +3742,7 @@ var lui;
                     displayMeFirst: "=",
                     customHttpService: "=",
                     bypassOperationsFor: "=",
+                    legalEntityIds: "=",
                 };
                 this.controller = userpicker.LuidUserPickerController.IID;
             }
@@ -3771,7 +3780,7 @@ var lui;
                 this.meApiUrl = "/api/v3/users/me";
                 this.userLookUpApiUrl = "/api/v3/users/find";
                 this.userApiUrl = "/api/v3/users";
-                this.userLookupFields = "fields=Id,firstName,lastName,dtContractEnd,employeeNumber";
+                this.userLookupFields = "fields=id,firstName,lastName,dtContractStart,dtContractEnd,employeeNumber";
                 this.$http = $http;
                 this.defaultHttpService = $http;
                 this.$q = $q;

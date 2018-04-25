@@ -30,6 +30,7 @@ module lui.userpicker {
 			bypassOperationsFor: "=", // List of users that should be displayed even if they don't have access to the operations
 
 			searchByEmployeeNumber: "=", // bool, default false
+			legalEntityIds: "=", // filter users from a list of legal entities
 		};
 		public controller: string = LuidUserPickerController.IID;
 		public static factory(): angular.IDirectiveFactory { return () => { return new LuidUserPicker(); }; }
