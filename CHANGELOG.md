@@ -6,6 +6,7 @@
 
 ### Breaking Changes
 ### Changes (non-breaking)
+- `image-picker` - attribut delete-enabled dynamic value. value is true by default.
 ### Bug fixes
 
 ## 4.0.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.0.4)
