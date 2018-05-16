@@ -119,7 +119,7 @@ module lui.imagepicker {
 			scope.popover = { isOpen: false };
 			scope.togglePopover = ($event: ng.IAngularEvent) => {
 				$event.preventDefault();
-				if (!!scope.file && !!scope.deleteEnabled) {
+				if (!!scope.file && !!scope.file.href && !!scope.deleteEnabled) {
 					this.togglePopover($event);
 				} else {
 					this.$scope.uploadNewImage($event);
