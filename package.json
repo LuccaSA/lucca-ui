@@ -2,7 +2,7 @@
   "name": "lucca-ui",
   "version": "4.1.1",
   "description": "less and js framework by lucca",
-  "main": "Gruntfile.js",
+  "main": "dist/lucca-ui.js",
   "dependencies": {
     "@cgross/angular-notify": "~2.5.0",
     "angular": "1.6.x",
