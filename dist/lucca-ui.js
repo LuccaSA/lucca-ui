@@ -2061,7 +2061,7 @@ var lui;
                 scope.popover = { isOpen: false };
                 scope.togglePopover = function ($event) {
                     $event.preventDefault();
-                    if (!!scope.file && !!scope.deleteEnabled) {
+                    if (!!scope.file && !!scope.file.href && !!scope.deleteEnabled) {
                         _this.togglePopover($event);
                     }
                     else {
