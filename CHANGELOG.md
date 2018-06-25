@@ -5,6 +5,11 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
+
+## 4.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.1)
+### Breaking Changes
+### Changes (non-breaking)
+### Bug fixes
 - `lui-image-picker` - togglepopover display only if valid file object
 
 ## 4.1.0 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.0)
