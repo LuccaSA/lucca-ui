@@ -4,6 +4,7 @@
 ## in dev
 ### Breaking Changes
 ### Changes (non-breaking)
+- `lui-image-picker` - change translations of popover menu
 ### Bug fixes
 
 ## 4.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.1)
