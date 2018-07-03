@@ -4,6 +4,7 @@
 ## in dev
 ### Breaking Changes
 ### Changes (non-breaking)
+- `lui-image-picker` - change translations of popover menu
 ### Bug fixes
 - `lui-image-picker` - togglepopover display only if valid file object
 
