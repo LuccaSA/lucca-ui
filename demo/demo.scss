@@ -2,9 +2,10 @@ html, body {
 	min-height: 100%;
 	width: 100%;
 }
-#demo{
-	$prefix: '.lui';
-	@import "../scss/lucca-ui.namespaced.scss";
+$prefix: '.lui';
+@import "../scss/lucca-ui.namespaced.scss";
+
+#demo {
 	$light: luiPalette(light, color);
 	// Table of contents
 	$toc-width: 11em;
@@ -70,7 +71,7 @@ html, body {
 	}
 
 	article {
-		@extend #{$prefix}.clear;
+		@extend %lui_clearfix;
 	}
 
 	.hljs {

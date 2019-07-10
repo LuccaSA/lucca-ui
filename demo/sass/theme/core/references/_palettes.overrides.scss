@@ -1,0 +1,26 @@
+
+// Default color scheme
+// @type: reference
+// ===================================
+
+$myPalettes: (
+	colors: (
+		grey: 		( class: "grey", 		color: #8198A3, text: #FFF ),
+		light: 		( class: "light", 		color: #C0CCD1, text: #666 ),
+		primary: 	( class: "primary", 	color: #66CCAA, text: #FFF ),
+		secondary: 	( class: "secondary", 	color: #734f97, text: #FFF ),
+		red: 		( class: "red", 		color: #F60, 	text: #FFF ),
+		orange: 	( class: "orange", 		color: #F90, 	text: #FFF ),
+		green: 		( class: "green", 		color: #66cc94, text: #FFF ),
+		yellow: 	( class: "yellow", 		color: #FFC900, text: #666 ),
+		dark: 		( class: "dark",  		color: #383F5D, text: #FFF)
+	),
+	manipulations: (
+		x-dark: 	(darken, 25),
+		dark: 		(darken, 15),
+		x-light: 	(lighten, 25),
+		light: 		(lighten, 15),
+		accent: 	(saturate, 15),
+		x-accent: 	(saturate, 25)
+	)
+);
