@@ -1,5 +1,7 @@
 'use strict';
 
+const sass = require('sass');
+
 module.exports = function(grunt, options){
 	return {
 		options:{
@@ -8,6 +10,7 @@ module.exports = function(grunt, options){
 			includePaths: [
 				'scss/themes/sample'
 			],
+			implementation: sass
 		},
 		dist:{
 			files: [
@@ -19,6 +22,7 @@ module.exports = function(grunt, options){
 		demo:{
 			options: {
 				includePaths: [
+					'demo/sass/theme',
 					'scss/themes/sample'
 				],
 				outputStyle: "expanded",
