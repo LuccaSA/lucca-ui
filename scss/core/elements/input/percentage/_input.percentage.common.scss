@@ -1,14 +1,12 @@
 @if luiTheme(element, field, percentage, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, percentage);
+	$vars: luiTheme(element, field, percentage);
 
-		luid-percentage {
-			display: inline-block;
+	luid-percentage {
+		display: inline-block;
 
-			input {
-				width: map-gets($vars, width) !important;
-				text-align: right !important;
-			}
+		input {
+			width: map-gets($vars, width) !important;
+			text-align: right !important;
 		}
 	}
 }

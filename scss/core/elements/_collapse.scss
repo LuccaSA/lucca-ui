@@ -1,14 +1,12 @@
 @if luiTheme(element, collapse, enabled) {
-	@at-root #{$namespace} {
-		[uib-collapse] {
-			transition-property: height;
-			transition-duration: luiTheme(element, collapse, transition-duration);
-			transition-timing-function: luiTheme(element, collapse, transition-easing);
-			&.collapse:not(.in),
-			&.collapsing {
-				height: 0;
-				overflow: hidden;
-			}
+	[uib-collapse] {
+		transition-property: height;
+		transition-duration: luiTheme(element, collapse, transition-duration);
+		transition-timing-function: luiTheme(element, collapse, transition-easing);
+		&.collapse:not(.in),
+		&.collapsing {
+			height: 0;
+			overflow: hidden;
 		}
 	}
 }

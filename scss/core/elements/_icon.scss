@@ -6,8 +6,6 @@ $luccaIcons_font-create-classes: luiTheme(element, icon, createClasses);
 @mixin lui_make_icon($name, $position: left) { @include luccaIcons_make($name, $position); }
 
 @if luiTheme(element, icon, enabled) {
-	@at-root #{$namespace} {
-		#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
-		i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
-	}
+	#{$luccaIcons_icon-base-selector} { @include lui_supports_sizing(); };
+	i#{$luccaIcons_icon-base-selector} { @include lui_supports_text_coloring(); };
 }

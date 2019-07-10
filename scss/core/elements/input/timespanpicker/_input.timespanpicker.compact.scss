@@ -1,12 +1,10 @@
 @if luiTheme(element, field, timespanpicker, enabled) {
 	@if lui_input_style_enabled("compact") {
 		$selector: lui_input_get_style_selector("compact");
-		@at-root #{$namespace} {
-			#{$prefix}.input#{$selector} luid-timespan, luid-timespan#{$selector} {
-				> .timespan.input {
-					input {
-						@extend %lui_quick_compact_input;
-					}
+		#{$prefix}.input#{$selector} luid-timespan, luid-timespan#{$selector} {
+			> .timespan.input {
+				input {
+					@extend %lui_quick_compact_input;
 				}
 			}
 		}

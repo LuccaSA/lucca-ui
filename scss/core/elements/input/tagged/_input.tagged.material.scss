@@ -16,16 +16,15 @@
 @if luiTheme(element, field, tagged, enabled) {
 	@if lui_input_style_enabled("material") {
 		$selector: lui_input_get_style_selector("material");
-		@at-root #{$namespace} {
-			$vars: luiTheme(element, field, tagged);
 
-			#{$prefix}.tagged.input#{$selector} {
-				.tag {
-					@extend %lui_tagged_input_tag_material;
+		$vars: luiTheme(element, field, tagged);
 
-					&.selected {
-						@extend %lui_tagged_input_tag_active_material;
-					}
+		#{$prefix}.tagged.input#{$selector} {
+			.tag {
+				@extend %lui_tagged_input_tag_material;
+
+				&.selected {
+					@extend %lui_tagged_input_tag_active_material;
 				}
 			}
 		}

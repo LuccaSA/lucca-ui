@@ -1,64 +1,62 @@
 @if luiTheme(element, field, departmentpicker, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, departmentpicker);
+	$vars: luiTheme(element, field, departmentpicker);
 
-		luid-department-picker{
-			display: inline-block;
-			.ui-select-highlight {
-				background: luiTheme(element, field, input, selection-background);
-				color: luiTheme(element, field, input, selection-text);
+	luid-department-picker{
+		display: inline-block;
+		.ui-select-highlight {
+			background: luiTheme(element, field, input, selection-background);
+			color: luiTheme(element, field, input, selection-text);
+		}
+
+		.ui-select-container input.ui-select-search {
+			@include stylePlaceholder() {
+				color: map-get($vars, placeholder-color);
+				font-size: 1em;
 			}
+		}
 
-			.ui-select-container input.ui-select-search {
-				@include stylePlaceholder() {
-					color: map-get($vars, placeholder-color);
-					font-size: 1em;
-				}
-			}
+		.departmentpicker-label {
+			font-weight: 700;
+			position: relative;
+		}
 
-			.departmentpicker-label {
+		.departmentpicker-tree-level ~ .departmentpicker-label {
+			font-weight: 400;
+		}
+		.ui-select-choices-row-inner > div {
+			@include display-flex;
+		}
+		.ui-select-container:not(.is-searching) {
+			.ui-select-choices-row-inner > div.has-child .departmentpicker-label {
+				padding-left: .8em;
 				font-weight: 700;
-				position: relative;
-			}
-
-			.departmentpicker-tree-level ~ .departmentpicker-label {
-				font-weight: 400;
-			}
-			.ui-select-choices-row-inner > div {
-				@include display-flex;
-			}
-			.ui-select-container:not(.is-searching) {
-				.ui-select-choices-row-inner > div.has-child .departmentpicker-label {
-					padding-left: .8em;
-					font-weight: 700;
-					&::before {
-						@include lui_points_towards(right, grey, 5px);
-						position: absolute;
-						top: 50%;
-						left: 0;
-						transform: translate(0, -50%);
-					}
+				&::before {
+					@include lui_points_towards(right, grey, 5px);
+					position: absolute;
+					top: 50%;
+					left: 0;
+					transform: translate(0, -50%);
 				}
 			}
-			.ui-select-choices-row-inner > div em{
-				margin-right: 1em;
-				&::before {
+		}
+		.ui-select-choices-row-inner > div em{
+			margin-right: 1em;
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				border-right: 1px dotted #CCC;
+			}
+			&:last-of-type {
+
+				&::after {
 					content: '';
 					position: absolute;
-					top: 0;
-					bottom: 0;
-					border-right: 1px dotted #CCC;
-				}
-				&:last-of-type {
-
-					&::after {
-						content: '';
-						position: absolute;
-						width: 8px;
-						top: 50%;
-						height: 1px;
-						border-bottom: 1px dotted #CCC;
-					}
+					width: 8px;
+					top: 50%;
+					height: 1px;
+					border-bottom: 1px dotted #CCC;
 				}
 			}
 		}

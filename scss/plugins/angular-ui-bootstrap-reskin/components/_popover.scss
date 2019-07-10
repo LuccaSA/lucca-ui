@@ -1,27 +1,26 @@
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+	#{$prefix}.popover {
+		@extend #{$prefix}.tooltip;
+		pointer-events: auto;
+		min-width: map-gets($pluginVars, popover, minWidth);
+		max-width: map-gets($pluginVars, popover, maxWidth);
 
-		#{$prefix}.popover {
-			@extend #{$prefix}.tooltip;
-			pointer-events: auto;
-			min-width: map-gets($pluginVars, popover, minWidth);
-			max-width: map-gets($pluginVars, popover, maxWidth);
-
-			.popover-inner { @extend #{$prefix}.clear; }
-
-			.popover-inner, .popover-title {
-				padding: (map-gets($pluginVars, popover, innerVerticalPadding)) (map-gets($pluginVars, popover, innerHorizontalPadding));
-			}
-
-			.popover-title {
-				font-size: map-gets($pluginVars, popover, title, fontSize);
-				background: map-gets($pluginVars, popover, title, background);
-				border-bottom: 1px solid map-gets($pluginVars, popover, title, dividerColor);
-				margin: (- map-gets($pluginVars, popover, innerVerticalPadding)) (- map-gets($pluginVars, popover, innerHorizontalPadding)) (map-gets($pluginVars, popover, title, bottomMargin)) (- map-gets($pluginVars, popover, innerHorizontalPadding));
-			}
-
-			// Default coloring
-			@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, popover, defaultColoring));
+		.popover-inner {
+			@extend %lui_clearfix;
 		}
+
+		.popover-inner, .popover-title {
+			padding: (map-gets($pluginVars, popover, innerVerticalPadding)) (map-gets($pluginVars, popover, innerHorizontalPadding));
+		}
+
+		.popover-title {
+			font-size: map-gets($pluginVars, popover, title, fontSize);
+			background: map-gets($pluginVars, popover, title, background);
+			border-bottom: 1px solid map-gets($pluginVars, popover, title, dividerColor);
+			margin: (- map-gets($pluginVars, popover, innerVerticalPadding)) (- map-gets($pluginVars, popover, innerHorizontalPadding)) (map-gets($pluginVars, popover, title, bottomMargin)) (- map-gets($pluginVars, popover, innerHorizontalPadding));
+		}
+
+		// Default coloring
+		@include lui_nguibs_tooltip_coloring(map-gets($pluginVars, popover, defaultColoring));
 	}
 }

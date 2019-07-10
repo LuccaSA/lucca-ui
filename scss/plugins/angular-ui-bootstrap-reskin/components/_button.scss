@@ -1,19 +1,16 @@
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+	#{$prefix} .btn { cursor: pointer; }
 
-		#{$prefix} .btn { cursor: pointer; }
-
-		#{$prefix} .btn-primary {
-			&, &:active, &.active, &:focus, &:hover {
-				background-color: lui_get_colorscheme(primary, color);
-				border-color: lui_get_colorscheme(primary, color);
-			}
+	#{$prefix} .btn-primary {
+		&, &:active, &.active, &:focus, &:hover {
+			background-color: lui_get_colorscheme(primary, color);
+			border-color: lui_get_colorscheme(primary, color);
 		}
-		#{$prefix} .btn-secondary {
-			&, &:active, &.active, &:focus, &:hover {
-				background-color: lui_get_colorscheme(secondary, color);
-				border-color: lui_get_colorscheme(secondary, color);
-			}
+	}
+	#{$prefix} .btn-secondary {
+		&, &:active, &.active, &:focus, &:hover {
+			background-color: lui_get_colorscheme(secondary, color);
+			border-color: lui_get_colorscheme(secondary, color);
 		}
 	}
 }

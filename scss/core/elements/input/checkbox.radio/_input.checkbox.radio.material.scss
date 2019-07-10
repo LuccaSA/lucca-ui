@@ -1,25 +1,23 @@
 @if luiTheme(element, field, enabled) {
-	@at-root #{$namespace} {
-		@if lui_input_style_enabled("material") {
-			$selector: lui_input_get_style_selector("material");
-			
-			#{$prefix}.input#{$selector} .radio.input,
-			#{$prefix}.input#{$selector} .checkbox.input,
-			#{$prefix}.radio.input#{$selector},
-			#{$prefix}.checkbox.input#{$selector} {
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
+		
+		#{$prefix}.input#{$selector} .radio.input,
+		#{$prefix}.input#{$selector} .checkbox.input,
+		#{$prefix}.radio.input#{$selector},
+		#{$prefix}.checkbox.input#{$selector} {
 
-				> input {
+			> input {
 
-					&:focus + label:after {
-						box-shadow: 0 0 0.25em luiPalette(primary, color),
-									inset 0 0 0.25em luiPalette(primary, color);
-					}
+				&:focus + label:after {
+					box-shadow: 0 0 0.25em luiPalette(primary, color),
+								inset 0 0 0.25em luiPalette(primary, color);
 				}
+			}
 
-				& ~ label {
-					@extend %lui_input_label_displacable;
-					@extend %lui_input_label_displaced;
-				}
+			& ~ label {
+				@extend %lui_input_label_displacable;
+				@extend %lui_input_label_displaced;
 			}
 		}
 	}

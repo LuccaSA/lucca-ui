@@ -1,268 +1,266 @@
 
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
-		$inputVars: luiTheme(element, input);
+	$inputVars: luiTheme(element, input);
 
-		#{$prefix}.ui-select,
-		#{$prefix}.ui-select-bootstrap {
-			@extend %lui_input_holder_base;
-			@extend %lui_nguibs_dropdown;
+	#{$prefix}.ui-select,
+	#{$prefix}.ui-select-bootstrap {
+		@extend %lui_input_holder_base;
+		@extend %lui_nguibs_dropdown;
 
-			min-width: map-gets($pluginVars, uiSelect, minWidth);
+		min-width: map-gets($pluginVars, uiSelect, minWidth);
 
-			// Displays the arrow icon
-			@include lui_make_icon("south arrow");
-			&:before {
-				pointer-events: none;
-				font-size: lui_rem(0.6);
-				position: absolute;
-				z-index: 4;
-				right: map-gets($inputVars, padding, right);
-				top: 50%; transform: translateY(-50%);
+		// Displays the arrow icon
+		@include lui_make_icon("south arrow");
+		&:before {
+			pointer-events: none;
+			font-size: lui_rem(0.6);
+			position: absolute;
+			z-index: 4;
+			right: map-gets($inputVars, padding, right);
+			top: 50%; transform: translateY(-50%);
 
-			.ui-select-choices {
-				border-color: map-gets($inputVars, focusBorderColor);
+		.ui-select-choices {
+			border-color: map-gets($inputVars, focusBorderColor);
+		}
+
+		.btn { box-sizing: border-box; }
+		.ui-select-toggle { vertical-align: top; }
+		> .ui-select-match { width: 100%; }
+
+		.ui-select-match > .btn,
+		> .ui-select-search,
+		&.ui-select-multiple > div {
+			@extend %lui_input_field_base;
+			@extend %lui_input_text_field;
+		}
+
+		.ui-select-search { width: 100% !important; } // Prevents JS from messing up sizing
+
+		&:not(.ui-select-multiple) .ui-select-search { display: none; }
+
+		.ui-select-toggle {
+			display: block;
+			a.btn-xs {
+				font-size: 0.5em;
+				float: right;
+				.glyphicon-remove {
+					color: luiPalette(grey, color, x-light);
+					@include lui_make_icon("cross");
+				}
+				&:hover .glyphicon { color: luiPalette(grey, color); }
 			}
+		}
 
-			.btn { box-sizing: border-box; }
-			.ui-select-toggle { vertical-align: top; }
-			> .ui-select-match { width: 100%; }
+		// Multiselect mode
+		&.ui-select-multiple {
+			> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
+
+			input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
+
+			.ui-select-match { display: inline; line-height: 1; &:empty { display: none; } }
+
+			span { display: inline-block; max-width: 100%; word-wrap: break-word; }
+
+			.ui-select-match-item {
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 0.9em;
+				margin: 0 0.1em;
+				padding: 0.1em 0.5em;
+				border: 1px solid map-gets($inputVars, borderColor);
+				border-radius: map-gets($inputVars, borderRadius);
+
+				background-color: map-gets($inputVars, background);
+
+				@include lui_is_animated("down scale in");
+
+				> span > span { line-height: map-gets($pluginVars, uiSelect, multiple, closeSize); }
+
+				// active state ~ selected
+				&.btn-primary { background-color: #EEE; }
+
+				// Close button
+				.ui-select-match-close {
+					cursor: pointer;
+					float: right;
+					font-size: map-gets($pluginVars, uiSelect, multiple, closeSize);
+					font-weight: 600;
+				}
+			}
+			.ui-select-match-item:focus { outline: none; outline: 0; }
+		}
+
+		// Dropped state
+		&.open {
+			box-shadow:  map-gets($inputVars, shadow);
+			&:not(.ui-select-multiple) .ui-select-match { display: none; }
+			&:not(.ui-select-multiple) .ui-select-search { display: block; }
 
 			.ui-select-match > .btn,
 			> .ui-select-search,
-			&.ui-select-multiple > div {
-				@extend %lui_input_field_base;
-				@extend %lui_input_text_field;
+			&.ui-select-multiple > div { z-index: 100; }
+
+			> .ui-select-search,
+			&.ui-select-multiple:not(.direction-up) > div {
+				border-color:  map-gets($inputVars, focusBorderColor);
+				border-bottom-color: transparent !important;
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
 			}
-
-			.ui-select-search { width: 100% !important; } // Prevents JS from messing up sizing
-
-			&:not(.ui-select-multiple) .ui-select-search { display: none; }
-
-			.ui-select-toggle {
-				display: block;
-				a.btn-xs {
-					font-size: 0.5em;
-					float: right;
-					.glyphicon-remove {
-						color: luiPalette(grey, color, x-light);
-						@include lui_make_icon("cross");
-					}
-					&:hover .glyphicon { color: luiPalette(grey, color); }
-				}
-			}
-
-			// Multiselect mode
-			&.ui-select-multiple {
-				> div { padding: 0 map-gets($pluginVars, uiSelect, horizontalPadding) !important; height: auto !important; max-width: 100%; }
-
-				input { background: transparent; border: none; &:focus { outline: none; outline: 0; }}
-
-				.ui-select-match { display: inline; line-height: 1; &:empty { display: none; } }
-
-				span { display: inline-block; max-width: 100%; word-wrap: break-word; }
-
-				.ui-select-match-item {
-					display: inline-block;
-					vertical-align: middle;
-					font-size: 0.9em;
-					margin: 0 0.1em;
-					padding: 0.1em 0.5em;
-					border: 1px solid map-gets($inputVars, borderColor);
-					border-radius: map-gets($inputVars, borderRadius);
-
-					background-color: map-gets($inputVars, background);
-
-					@include lui_is_animated("down scale in");
-
-					> span > span { line-height: map-gets($pluginVars, uiSelect, multiple, closeSize); }
-
-					// active state ~ selected
-					&.btn-primary { background-color: #EEE; }
-
-					// Close button
-					.ui-select-match-close {
-						cursor: pointer;
-						float: right;
-						font-size: map-gets($pluginVars, uiSelect, multiple, closeSize);
-						font-weight: 600;
-					}
-				}
-				.ui-select-match-item:focus { outline: none; outline: 0; }
-			}
-
-			// Dropped state
-			&.open {
-				box-shadow:  map-gets($inputVars, shadow);
-				&:not(.ui-select-multiple) .ui-select-match { display: none; }
-				&:not(.ui-select-multiple) .ui-select-search { display: block; }
-
-				.ui-select-match > .btn,
-				> .ui-select-search,
-				&.ui-select-multiple > div { z-index: 100; }
-
-				> .ui-select-search,
-				&.ui-select-multiple:not(.direction-up) > div {
-					border-color:  map-gets($inputVars, focusBorderColor);
-					border-bottom-color: transparent !important;
-					border-bottom-left-radius: 0;
-					border-bottom-right-radius: 0;
-				}
-				&.ui-select-multiple.direction-up > div {
-					z-index: 1001;
-					border-color:  map-gets($inputVars, focusBorderColor);
-					border-top-left-radius: 0;
-					border-top-right-radius: 0;
-				}
-			}
-
-			// Disabled state
-			&[disabled="disabled"] {
-				&:before {
-					display: none;
-				}
-				.ui-select-toggle {
-					cursor: default;
-				}
-			}
-
-
-			// Thumbnail support
-			.ui-select-choices-row .thumbnail {
-				width: map-gets($pluginVars, uiSelect, thumbSize);
-				height: map-gets($pluginVars, uiSelect, thumbSize);
-				vertical-align: middle;
-				margin-right: 0.5em;
-			}
-
-			// Search disabled
-			&[search-enabled="false"]:not(.ui-select-multiple) {
-				&.open {
-					.ui-select-match {
-						display: block !important;
-						> .btn {
-							border-bottom-left-radius: 0;
-							border-bottom-right-radius: 0;
-							border-bottom-color: transparent;
-						}
-					}
-				}
-			}
-
-
-			// Highlighting support
-			.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
-
-			.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
-
-			// Supports sizing
-			@each $class, $length in luiTheme(element, input, lengths) {
-				&.#{$class} {
-					width: $length;
-				}
-			}
-			&.fitting {
-				width: 100%;
-			}
-
-			// Invalid
-			&.invalid .ui-select-match span {
-				border-color: map-gets($inputVars, invalidColor);
+			&.ui-select-multiple.direction-up > div {
+				z-index: 1001;
+				border-color:  map-gets($inputVars, focusBorderColor);
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
 			}
 		}
 
-		#{$prefix}.field:not(.inline) > label + #{$prefix}.ui-select-bootstrap { margin-top: 0.5em; }
-
-
-		luid-user-picker {
-			.dividing {
-				margin: unquote("-0.5em -#{map-gets($inputVars, padding, right)} -0.5em -#{map-gets($inputVars, padding, left)}");
-				padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
-			}
-		}
-
-
-		// Natural style
-		// ====
-		#{$prefix}.ui-select.natural,
-		#{$prefix}.ui-select-bootstrap.natural {
-			line-height: lui_rem(1);
-			margin-bottom: 1px;
-			min-width: 1em;
-
-			& + .natural {
-				margin-left: 0.25em;
-			}
-
-			&[search-enabled="false"] {
-				.ui-select-match { display: block !important; }
-			}
-
-			// Caret
+		// Disabled state
+		&[disabled="disabled"] {
 			&:before {
 				display: none;
-
-				position: absolute;
-				transform: translate(-50%, -50%);
-				left: 50%;
-				content: '';
-				width: 0; height: 0;
-				border-style: solid; border-color: transparent;
-				border-left-width: 0.5em;
-				border-right-width: 0.5em;
 			}
+			.ui-select-toggle {
+				cursor: default;
+			}
+		}
 
-			// On open
+
+		// Thumbnail support
+		.ui-select-choices-row .thumbnail {
+			width: map-gets($pluginVars, uiSelect, thumbSize);
+			height: map-gets($pluginVars, uiSelect, thumbSize);
+			vertical-align: middle;
+			margin-right: 0.5em;
+		}
+
+		// Search disabled
+		&[search-enabled="false"]:not(.ui-select-multiple) {
 			&.open {
-				box-shadow: none;
-				&:before { display: block; }
-				.dropdown-menu { animation-name: none; }
+				.ui-select-match {
+					display: block !important;
+					> .btn {
+						border-bottom-left-radius: 0;
+						border-bottom-right-radius: 0;
+						border-bottom-color: transparent;
+					}
+				}
 			}
+		}
 
-			&.input > input,
-			&.input > .addon,
-			.ui-select-toggle,
-			.ui-select-search {
-				border-radius: 0;
-				padding: 0;
-				border: none;
-				border-bottom: map-gets($pluginVars, uiSelect, natural, border);
-				font-weight: map-gets($pluginVars, uiSelect, natural, fontWeight);
-				color: darken(luiTheme(element, typography, body, color), 20);
-				padding: 0 0.25em;
-			}
-			.ui-select-toggle:hover {
-				transition: background-color 0.25s;
-				background-color: luiPalette(light, color, light);
-			}
 
+		// Highlighting support
+		.ui-select-highlight { font-weight: 600; background-color: rgba(50, 50, 50, 0.1);}
+
+		.ui-select-offscreen { clip: rect(0 0 0 0); width: 1px; height: 1px; border: 0; margin: 0; padding: 0; overflow: hidden; position: absolute; outline: 0; left: 0; top: 0; }
+
+		// Supports sizing
+		@each $class, $length in luiTheme(element, input, lengths) {
+			&.#{$class} {
+				width: $length;
+			}
+		}
+		&.fitting {
+			width: 100%;
+		}
+
+		// Invalid
+		&.invalid .ui-select-match span {
+			border-color: map-gets($inputVars, invalidColor);
+		}
+	}
+
+	#{$prefix}.field:not(.inline) > label + #{$prefix}.ui-select-bootstrap { margin-top: 0.5em; }
+
+
+	luid-user-picker {
+		.dividing {
+			margin: unquote("-0.5em -#{map-gets($inputVars, padding, right)} -0.5em -#{map-gets($inputVars, padding, left)}");
+			padding: unquote("0.5em #{map-gets($inputVars, padding, right)} 0.5em #{map-gets($inputVars, padding, left)}");
+		}
+	}
+
+
+	// Natural style
+	// ====
+	#{$prefix}.ui-select.natural,
+	#{$prefix}.ui-select-bootstrap.natural {
+		line-height: lui_rem(1);
+		margin-bottom: 1px;
+		min-width: 1em;
+
+		& + .natural {
+			margin-left: 0.25em;
+		}
+
+		&[search-enabled="false"] {
+			.ui-select-match { display: block !important; }
+		}
+
+		// Caret
+		&:before {
+			display: none;
+
+			position: absolute;
+			transform: translate(-50%, -50%);
+			left: 50%;
+			content: '';
+			width: 0; height: 0;
+			border-style: solid; border-color: transparent;
+			border-left-width: 0.5em;
+			border-right-width: 0.5em;
+		}
+
+		// On open
+		&.open {
+			box-shadow: none;
+			&:before { display: block; }
+			.dropdown-menu { animation-name: none; }
+		}
+
+		&.input > input,
+		&.input > .addon,
+		.ui-select-toggle,
+		.ui-select-search {
+			border-radius: 0;
+			padding: 0;
+			border: none;
+			border-bottom: map-gets($pluginVars, uiSelect, natural, border);
+			font-weight: map-gets($pluginVars, uiSelect, natural, fontWeight);
+			color: darken(luiTheme(element, typography, body, color), 20);
+			padding: 0 0.25em;
+		}
+		.ui-select-toggle:hover {
+			transition: background-color 0.25s;
+			background-color: luiPalette(light, color, light);
+		}
+
+		.dropdown-menu {
+			// Width must be even in order for transformX not to land on a half pixel and thus render blurry text
+			// By the way, this variable MUST be set in pixels, unfortunately. The lui_rem function can be used though, as it actually does returns pixel values.
+			$dropdownWidth: map-gets($pluginVars, uiSelect, natural, dropdownWidth)+0px;
+			@if not (($dropdownWidth / 1px) % 2 == 0) { $dropdownWidth: $dropdownWidth + 1px; }
+			min-width: $dropdownWidth; width: $dropdownWidth;
+			left: 50%; transform: translateX(-#{($dropdownWidth / 2)});
+		}
+
+		&.direction-up {
 			.dropdown-menu {
-				// Width must be even in order for transformX not to land on a half pixel and thus render blurry text
-				// By the way, this variable MUST be set in pixels, unfortunately. The lui_rem function can be used though, as it actually does returns pixel values.
-				$dropdownWidth: map-gets($pluginVars, uiSelect, natural, dropdownWidth)+0px;
-				@if not (($dropdownWidth / 1px) % 2 == 0) { $dropdownWidth: $dropdownWidth + 1px; }
-				min-width: $dropdownWidth; width: $dropdownWidth;
-				left: 50%; transform: translateX(-#{($dropdownWidth / 2)});
+				transform-origin: center bottom;
+				margin-bottom: 0.25em;
+				top: auto !important;
+				bottom: 100%;
 			}
-
-			&.direction-up {
-				.dropdown-menu {
-					transform-origin: center bottom;
-					margin-bottom: 0.25em;
-					top: auto !important;
-					bottom: 100%;
-				}
-				&:before {
-					border-top: 0.5em solid luiPalette(light, color);
-					top: auto;
-					bottom: 100%;
-					margin-bottom: -1em;
-				}
+			&:before {
+				border-top: 0.5em solid luiPalette(light, color);
+				top: auto;
+				bottom: 100%;
+				margin-bottom: -1em;
 			}
-			&:not(.direction-up) {
-				.dropdown-menu { margin-top: 0.25em; }
-				&:before { border-bottom: 0.5em solid luiPalette(light, color); top: 100%; }
-			}
+		}
+		&:not(.direction-up) {
+			.dropdown-menu { margin-top: 0.25em; }
+			&:before { border-bottom: 0.5em solid luiPalette(light, color); top: 100%; }
 		}
 	}
 }

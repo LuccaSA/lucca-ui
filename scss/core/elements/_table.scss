@@ -1,133 +1,131 @@
 @if luiTheme(element, table, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, table);
+	$vars: luiTheme(element, table);
 
-		#{$prefix}.table {
+	#{$prefix}.table {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+		border-spacing: 0;
+		border-collapse: collapse;
+		text-align: map-gets($vars, textAlignment);
+		margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
+		background-color: map-gets($vars, background);
+
+		> .thead .tr, > .tbody .tr,
+		> thead tr, > tbody tr {
 			display: table;
 			table-layout: fixed;
 			width: 100%;
-			border-spacing: 0;
-			border-collapse: collapse;
-			text-align: map-gets($vars, textAlignment);
-			margin: (map-gets($vars, verticalMargin)) (map-gets($vars, horizontalMargin));
+		}
+
+		> .thead > .tr:not(:first-child) > .th, > .tbody > .tr:not(:first-child) > .td,
+		> thead > tr:not(:first-child) > th, > tbody > tr:not(:first-child) > td {
+			border-top: map-gets($vars, border);
+		}
+
+		> .thead > .tr > .th, > .tbody > .tr > .td,
+		> thead > tr > th, > tbody > tr > td {
+			display: table-cell;
+			float: none;
+			vertical-align: top;
+			padding: map-gets($vars, padding);
+		}
+
+		// thead
+		// ====
+		> .thead, > thead {
+			display: table-header-group;
+			padding: map-gets($vars, padding);
+			border: map-gets($vars, border);
+		}
+		> .thead > .tr > .th, > thead > tr > th {
+			font-weight: 600;
+			padding-top: 1em;
+			padding-bottom: 1em;
+			vertical-align: middle;
+		}
+
+		// tbody
+		// ====
+		> .tbody, > tbody {
+			display: table-row-group;
+			border: map-gets($vars, border);
+			border-top: none;
 			background-color: map-gets($vars, background);
+		}
 
-			> .thead .tr, > .tbody .tr,
-			> thead tr, > tbody tr {
-				display: table;
-				table-layout: fixed;
-				width: 100%;
+		// Zebra table
+		// ====
+		&.zebra {
+			> tbody > tr, .tbody > .tr {
+				border: none;
+				&:nth-child(odd) {
+					background-color: map-gets($vars, zebraBackground);
+				}
 			}
+		}
 
-			> .thead > .tr:not(:first-child) > .th, > .tbody > .tr:not(:first-child) > .td,
-			> thead > tr:not(:first-child) > th, > tbody > tr:not(:first-child) > td {
-				border-top: map-gets($vars, border);
+		// Clickable table 
+		// ====
+		&.clickable {
+			> tbody > tr, .tbody > .tr {
+				cursor: pointer;
+				@include lui_transition(background-color, 150ms);
+
+				&:hover{
+					background: darken(map-gets($vars, background), 10);
+				}
 			}
+		}
 
-			> .thead > .tr > .th, > .tbody > .tr > .td,
-			> thead > tr > th, > tbody > tr > td {
-				display: table-cell;
+		// Verticaly aligned
+		// ====
+		&[class*="vertically aligned table"] {
+			vertical-align: middle;
+
+			> tbody > tr > td,
+			> .tbody > .tr > .td,
+			> thead > tr > th,
+			> .thead > .tr > .th {
+				vertical-align: middle;
 				float: none;
-				vertical-align: top;
-				padding: map-gets($vars, padding);
-			}
-
-			// thead
-			// ====
-			> .thead, > thead {
-				display: table-header-group;
-				padding: map-gets($vars, padding);
-				border: map-gets($vars, border);
-			}
-			> .thead > .tr > .th, > thead > tr > th {
-				font-weight: 600;
-				padding-top: 1em;
-				padding-bottom: 1em;
-				vertical-align: middle;
-			}
-
-			// tbody
-			// ====
-			> .tbody, > tbody {
-				display: table-row-group;
-				border: map-gets($vars, border);
-				border-top: none;
-				background-color: map-gets($vars, background);
-			}
-
-			// Zebra table
-			// ====
-			&.zebra {
-				> tbody > tr, .tbody > .tr {
-					border: none;
-					&:nth-child(odd) {
-						background-color: map-gets($vars, zebraBackground);
-					}
-				}
-			}
-
-			// Clickable table 
-			// ====
-			&.clickable {
-				> tbody > tr, .tbody > .tr {
-					cursor: pointer;
-					@include lui_transition(background-color, 150ms);
-
-					&:hover{
-						background: darken(map-gets($vars, background), 10);
-					}
-				}
-			}
-
-			// Verticaly aligned
-			// ====
-			&[class*="vertically aligned table"] {
-				vertical-align: middle;
-
-				> tbody > tr > td,
-				> .tbody > .tr > .td,
-				> thead > tr > th,
-				> .thead > .tr > .th {
-					vertical-align: middle;
-					float: none;
-				}
 			}
 		}
+	}
 
 
-		// Coloring support
-		// ===================================
-		#{$prefix}.table {
-			.tr > .th:first-child,
-			.tr > .td:first-child,
-			tr > th:first-child,
-			tr > td:first-child {
+	// Coloring support
+	// ===================================
+	#{$prefix}.table {
+		.tr > .th:first-child,
+		.tr > .td:first-child,
+		tr > th:first-child,
+		tr > td:first-child {
 
-				display: table-cell;
-				position: relative;
-				box-sizing: border-box;
-				&:after {
-					visibility: visible !important; // Neutralises possible clearfix
-					position: absolute;
-					z-index: 2;
-					display: block;
-					content: "";
-					top: 0px; bottom: -1px; left: -1px;
-					width: map-gets($vars, coloredBorderWidth);
-					min-height: 100%;
-				}
+			display: table-cell;
+			position: relative;
+			box-sizing: border-box;
+			&:after {
+				visibility: visible !important; // Neutralises possible clearfix
+				position: absolute;
+				z-index: 2;
+				display: block;
+				content: "";
+				top: 0px; bottom: -1px; left: -1px;
+				width: map-gets($vars, coloredBorderWidth);
+				min-height: 100%;
 			}
 		}
+	}
 
-		#{$prefix}.table tr,
-		#{$prefix}.table .tr {
-			@each $name, $scheme in luiPalettes() {
-				&.#{map-get($scheme, class)} {
-					> .th:first-child:after,
-					> .td:first-child:after,
-					> th:first-child:after,
-					> td:first-child:after { background: map-get($scheme, color); }
-				}
+	#{$prefix}.table tr,
+	#{$prefix}.table .tr {
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				> .th:first-child:after,
+				> .td:first-child:after,
+				> th:first-child:after,
+				> td:first-child:after { background: map-get($scheme, color); }
 			}
 		}
 	}

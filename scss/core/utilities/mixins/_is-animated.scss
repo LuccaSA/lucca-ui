@@ -1,5 +1,5 @@
 @mixin lui_is_animated($name, $loop: false) {
-	@extend %#{$cleanNamespace}-animated;
+	@extend %lui-animated;
 
 	animation-name: unquote(str-camelcase($name));
 

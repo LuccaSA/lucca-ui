@@ -1,36 +1,36 @@
 // <div id="app"> should be the first (and only) element coming after the iLucca banner
-@if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+@if (map-get($pluginVars, enabled)) {
+	#{map-get($pluginVars, namespace)} {
 		overflow: hidden;
 		width: 100%;
 		min-height: 100%; min-height: 100vh;
 		box-sizing: border-box;
 		position: relative;
 		top: 0; left: 0;
-
+	
 		background-color: map-gets($vars, appBackground);
-
-		// #app contains a <main> element
-		// There can be only one <main> element (http://www.w3schools.com/tags/tag_main.asp)
-		// This is your current app view (main-sidebar excluded)
-		main {
-			// min-height: 100%; min-height: 100vh;
-			position: relative;
-			margin-left: map-gets($vars, navigation, width);
-		}
-
 		padding-bottom: map-gets($vars, bottomMargin);
+	}
 
-		// Main Navigation is hidden on mobiles --> remove margin
-		main {
-			@include lui_screens_smaller_than(tablet) {
-				margin-left: 0;
-			}
-		}
+	// #app contains a <main> element
+	// There can be only one <main> element (http://www.w3schools.com/tags/tag_main.asp)
+	// This is your current app view (main-sidebar excluded)
+	main {
+		// min-height: 100%; min-height: 100vh;
+		position: relative;
+		margin-left: map-gets($vars, navigation, width);
+	}
 
-		// Progress bar support
-		#{$prefix}.progress-bar {
-			top: map-gets($vars, topOffset) !important;
+
+	// Main Navigation is hidden on mobiles --> remove margin
+	main {
+		@include lui_screens_smaller_than(tablet) {
+			margin-left: 0;
 		}
+	}
+
+	// Progress bar support
+	#{$prefix}.progress-bar {
+		top: map-gets($vars, topOffset) !important;
 	}
 }

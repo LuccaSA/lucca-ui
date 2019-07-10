@@ -38,126 +38,124 @@
 // ===================================
 
 @if luiTheme(element, callout, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, callout);
+	$vars: luiTheme(element, callout);
 
-		#{$prefix}.callout {
-			display: block;
-			box-sizing: border-box;
-			position: relative;
+	#{$prefix}.callout {
+		display: block;
+		box-sizing: border-box;
+		position: relative;
 
-			@extend #{$prefix}.raised;
+		@include lui_raised();
 
-			margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
-			border: 1px solid map-gets($vars, borderColor);
-			background: map-gets($vars, background);
+		margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
+		border: 1px solid map-gets($vars, borderColor);
+		background: map-gets($vars, background);
+		padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
+
+
+		// Header
+		> .header {
+			padding: (map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) (map-gets($vars, verticalPadding)/2) (map-gets($vars, horizontalPadding));
+			margin: (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding)) 0.5em (- map-gets($vars, horizontalPadding));
+		}
+
+
+		// Footer
+		> .footer {
+			text-align: right;
+			margin: map-gets($vars, verticalPadding) (- map-gets($vars, horizontalPadding)) (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding));
 			padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-
-
-			// Header
-			> .header {
-				padding: (map-gets($vars, verticalPadding)) (map-gets($vars, horizontalPadding)) (map-gets($vars, verticalPadding)/2) (map-gets($vars, horizontalPadding));
-				margin: (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding)) 0.5em (- map-gets($vars, horizontalPadding));
-			}
-
-
-			// Footer
-			> .footer {
-				text-align: right;
-				margin: map-gets($vars, verticalPadding) (- map-gets($vars, horizontalPadding)) (- map-gets($vars, verticalPadding)) (- map-gets($vars, horizontalPadding));
-				padding: map-gets($vars, verticalPadding) map-gets($vars, horizontalPadding);
-			}
-
-			// Handle border
-			&:after {
-				visibility: visible !important; // neutralise possible clearfix
-				position: absolute;
-				z-index: 2;
-				display: block;
-				content: "";
-			}
-			// Position - defaults to left
-			&:after {
-				top: 0; left: 0;
-				width: map-gets($vars, borderWidth);
-				min-height: 100%;
-			}
-			&[class*="up callout"]:after {
-				top: 0; left: 0;
-				width: 100%;
-				min-height: map-gets($vars, borderWidth);
-			}
-			&[class*="right callout"]:after {
-				top: 0; left: auto; right: 0;
-				width: map-gets($vars, borderWidth);
-				min-height: 100%;
-			}
-			&[class*="left callout"]:after {
-				top: 0; left: 0;
-				width: map-gets($vars, borderWidth);
-				min-height: 100%;
-			}
-			&[class*="down callout"]:after {
-				top: auto; bottom: 0; left: 0;
-				width: 100%;
-				min-height: map-gets($vars, borderWidth);
-			}
 		}
 
-
-		// Filled style
-		// =====
-		#{$prefix}.callout.filled {
-			&:after {
-				display: none;
-			}
+		// Handle border
+		&:after {
+			visibility: visible !important; // neutralise possible clearfix
+			position: absolute;
+			z-index: 2;
+			display: block;
+			content: "";
 		}
-
-
-		// Coloring support
-		// ===================================
-
-		// Default coloring
-		// =====
-		#{$prefix}.callout {
-			// Default coloring scheme
-			@include lui_callout_coloring(map-gets($vars, defaultColoring));
-			// Coloring support
-			@each $name, $scheme in luiPalettes() {
-				&.#{map-get($scheme, class)} {
-					@include lui_callout_coloring($scheme);
-				}
-			}
+		// Position - defaults to left
+		&:after {
+			top: 0; left: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
 		}
-
-
-
-		// Callouts
-		// =====
-		#{$prefix}.callouts {
-			@extend #{$prefix}.clear;
-			> #{$prefix}.callout {
-				margin: 0;
-
-				&:not(.filled):not(:first-child) {
-					border-top: none;
-				}
-			}
+		&[class*="up callout"]:after {
+			top: 0; left: 0;
+			width: 100%;
+			min-height: map-gets($vars, borderWidth);
 		}
-
-		// Attached progress support
-		// ===================================
-		#{$prefix}.callout .progress.attached {
-			margin: 0;
-			position: absolute; z-index: 3;
-			left: 0; right: 0; top: 0;
-
-			> .indicator {
-				min-height: map-gets($vars, borderWidth);
-				border-radius: 0;
-				&:after { content: ""; }
-			}
+		&[class*="right callout"]:after {
+			top: 0; left: auto; right: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
 		}
-		#{$prefix}[class*="down callout"] .progress.attached { top: auto; bottom: 0; }
+		&[class*="left callout"]:after {
+			top: 0; left: 0;
+			width: map-gets($vars, borderWidth);
+			min-height: 100%;
+		}
+		&[class*="down callout"]:after {
+			top: auto; bottom: 0; left: 0;
+			width: 100%;
+			min-height: map-gets($vars, borderWidth);
+		}
 	}
+
+
+	// Filled style
+	// =====
+	#{$prefix}.callout.filled {
+		&:after {
+			display: none;
+		}
+	}
+
+
+	// Coloring support
+	// ===================================
+
+	// Default coloring
+	// =====
+	#{$prefix}.callout {
+		// Default coloring scheme
+		@include lui_callout_coloring(map-gets($vars, defaultColoring));
+		// Coloring support
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				@include lui_callout_coloring($scheme);
+			}
+		}
+	}
+
+
+
+	// Callouts
+	// =====
+	#{$prefix}.callouts {
+		@extend %lui_clearfix;
+		> #{$prefix}.callout {
+			margin: 0;
+
+			&:not(.filled):not(:first-child) {
+				border-top: none;
+			}
+		}
+	}
+
+	// Attached progress support
+	// ===================================
+	#{$prefix}.callout .progress.attached {
+		margin: 0;
+		position: absolute; z-index: 3;
+		left: 0; right: 0; top: 0;
+
+		> .indicator {
+			min-height: map-gets($vars, borderWidth);
+			border-radius: 0;
+			&:after { content: ""; }
+		}
+	}
+	#{$prefix}[class*="down callout"] .progress.attached { top: auto; bottom: 0; }
 }

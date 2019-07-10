@@ -1,29 +1,27 @@
 @if luiTheme(element, field, iban, enabled) {
-	@at-root #{$namespace} {
-		@if lui_input_style_enabled("material") {
-			$selector: lui_input_get_style_selector("material");
-			#{$prefix}.input#{$selector} {
-				luid-iban {
-					> input:not(:last-of-type) {
-						margin-right: 0.5em;
-					}
-					// Styling
-					// ====
-					> input {
-						@extend %lui_input_reset_material;
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
+		#{$prefix}.input#{$selector} {
+			luid-iban {
+				> input:not(:last-of-type) {
+					margin-right: 0.5em;
+				}
+				// Styling
+				// ====
+				> input {
+					@extend %lui_input_reset_material;
 
-						&:focus {
-							@extend %lui_input_focus_material;
-						}
+					&:focus {
+						@extend %lui_input_focus_material;
 					}
+				}
 
-					// Invalid style
-					&.ng-invalid.ng-touched,
-					&.ng-not-empty.ng-pristine.ng-invalid {
-						box-shadow: none !important;
-						input {
-							@extend %lui_input_invalid_input_material;
-						}
+				// Invalid style
+				&.ng-invalid.ng-touched,
+				&.ng-not-empty.ng-pristine.ng-invalid {
+					box-shadow: none !important;
+					input {
+						@extend %lui_input_invalid_input_material;
 					}
 				}
 			}

@@ -1,52 +1,50 @@
 @if luiTheme(element, field, translations-list, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, translations-list);
+	$vars: luiTheme(element, field, translations-list);
 
-		luid-translations-list {
+	luid-translations-list {
 
-			content {
-				display: block;
-				padding: 1em;
-				background-color: map-gets($vars, background-color);
+		content {
+			display: block;
+			padding: 1em;
+			background-color: map-gets($vars, background-color);
+		}
+
+		#{$prefix}.input {
+			width: 100%;
+			padding: .2em 0;
+
+			> input[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations) {
+				width: auto;
+				@include flex(1);
 			}
+		}
 
-			#{$prefix}.input {
-				width: 100%;
-				padding: .2em 0;
+		#{$prefix}.icon.cross[class*="cross"]{
+			margin: -4px 0 0 0;
+			padding: 0;
+			height: 100%;
 
-				> input[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations) {
-					width: auto;
-					@include flex(1);
-				}
-			}
-
-			#{$prefix}.icon.cross[class*="cross"]{
-				margin: -4px 0 0 0;
-				padding: 0;
-				height: 100%;
-
-				&:hover {
-					text-decoration: none;
-					&::before {
-						color: map-gets($vars, hover-color);
-					}
-				}
+			&:hover {
+				text-decoration: none;
 				&::before {
-					content: "\00d7";
-					color: luiTheme(element, field, input, label, color);
-					font-size: 1.5em;
-				}
-
-				&:focus, &:active {
-					outline: none;
+					color: map-gets($vars, hover-color);
 				}
 			}
+			&::before {
+				content: "\00d7";
+				color: luiTheme(element, field, input, label, color);
+				font-size: 1.5em;
+			}
 
-			footer {
-				padding: .2em 0;
-				> button.lui.button {
-					margin-left: 0;
-				}
+			&:focus, &:active {
+				outline: none;
+			}
+		}
+
+		footer {
+			padding: .2em 0;
+			> button.lui.button {
+				margin-left: 0;
 			}
 		}
 	}

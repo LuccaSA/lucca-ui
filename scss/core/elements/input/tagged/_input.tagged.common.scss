@@ -30,24 +30,22 @@
 }
 
 @if luiTheme(element, field, tagged, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, tagged);
+	$vars: luiTheme(element, field, tagged);
 
-		#{$prefix}.tagged.input {
-			@extend %lui_tagged_input;
-			.tag {
-				@extend %lui_tagged_input_tag;
+	#{$prefix}.tagged.input {
+		@extend %lui_tagged_input;
+		.tag {
+			@extend %lui_tagged_input_tag;
+		}
+		.close {
+			text-decoration: none;
+			@extend %lui_tagged_input_close;
+			&:after {
+				content: "\00d7";
 			}
-			.close {
-				text-decoration: none;
-				@extend %lui_tagged_input_close;
-				&:after {
-					content: "\00d7";
-				}
-			}
-			input {
-				@extend %lui_tagged_input_input;
-			}
+		}
+		input {
+			@extend %lui_tagged_input_input;
 		}
 	}
 }

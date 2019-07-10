@@ -1,62 +1,59 @@
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+	#{$prefix}.modal {
+		display: none; overflow: hidden;
+		position: fixed;
+		top: 0; right: 0; bottom: 0; left: 0;
+		z-index: map-gets($pluginVars, modal, zIndex);
+		-webkit-overflow-scrolling: touch;
+		outline: 0; // Chrome fix
 
-		#{$prefix}.modal {
-			display: none; overflow: hidden;
-			position: fixed;
-			top: 0; right: 0; bottom: 0; left: 0;
-			z-index: map-gets($pluginVars, modal, zIndex);
-			-webkit-overflow-scrolling: touch;
-			outline: 0; // Chrome fix
+		// When fading in the modal, animate it to slide down
+		&.in .modal-dialog {
+			@include lui_is_animated("up fade in");
+		}
+		&:not(.in) .modal-dialog {
+			@include lui_is_animated("up fade out");
+		}
 
-			// When fading in the modal, animate it to slide down
-			&.in .modal-dialog {
-				@include lui_is_animated("up fade in");
-			}
-			&:not(.in) .modal-dialog {
-				@include lui_is_animated("up fade out");
-			}
+		.modal-dialog {
+			@extend #{$prefix}.high.raised;
+			@extend #{$prefix}.rounded;
+			margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
+			background: map-gets($pluginVars, modal, background);
+			max-width: map-gets($pluginVars, modal, maxWidth);
 
-			.modal-dialog {
-				@extend #{$prefix}.high.raised;
-				@extend #{$prefix}.rounded;
-				margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
-				background: map-gets($pluginVars, modal, background);
-				max-width: map-gets($pluginVars, modal, maxWidth);
-
-				@each $size, $width in map-gets($pluginVars, modal, sizes) {
-					&.modal-#{$size} {
-						width: $width;
-					}
-				}
-				@each $size, $props in luiTheme(reference, breakpoints) {
-					&.modal-#{$size} {
-						width: map-get($props, break);
-					}
+			@each $size, $width in map-gets($pluginVars, modal, sizes) {
+				&.modal-#{$size} {
+					width: $width;
 				}
 			}
-
-			.modal-content { padding: map-gets($pluginVars, modal, padding); }
-			.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($pluginVars, modal, padding)}"); padding: map-gets($pluginVars, modal, padding); }
-			.modal-header { margin-bottom: unquote("#{map-gets($pluginVars, modal, padding)}"); border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
-			.modal-footer { margin-top: unquote("#{map-gets($pluginVars, modal, padding)}"); border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+			@each $size, $props in luiTheme(reference, breakpoints) {
+				&.modal-#{$size} {
+					width: map-get($props, break);
+				}
+			}
 		}
 
-		#{$prefix}.modal-backdrop {
-			@extend #{$prefix}.overlay;
+		.modal-content { padding: map-gets($pluginVars, modal, padding); }
+		.modal-header, .modal-body, .modal-footer { margin: unquote("-#{map-gets($pluginVars, modal, padding)}"); padding: map-gets($pluginVars, modal, padding); }
+		.modal-header { margin-bottom: unquote("#{map-gets($pluginVars, modal, padding)}"); border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+		.modal-footer { margin-top: unquote("#{map-gets($pluginVars, modal, padding)}"); border-top: luiTheme(element, divider, width) solid luiTheme(element, divider, color); }
+	}
 
-			visibility: hidden;
-			opacity: 0;
-			@include lui_transition_properties(opacity);
+	#{$prefix}.modal-backdrop {
+		@extend #{$prefix}.overlay;
 
-			&.in { visibility: visible; opacity: 1; }
-			&:not(.in) { visibility: visible; opacity: 0; }
-		}
+		visibility: hidden;
+		opacity: 0;
+		@include lui_transition_properties(opacity);
 
-		// Kill the scroll on the "body"
-		&.modal-open {
-			overflow: hidden;
-			#{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
-		}
+		&.in { visibility: visible; opacity: 1; }
+		&:not(.in) { visibility: visible; opacity: 0; }
+	}
+
+	// Kill the scroll on the "body"
+	&.modal-open {
+		overflow: hidden;
+		#{$prefix}.modal { overflow-x: hidden; overflow-y: auto; }
 	}
 }

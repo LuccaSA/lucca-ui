@@ -1,25 +1,23 @@
 @if luiTheme(element, field, userpicker, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, userpicker);
+	$vars: luiTheme(element, field, userpicker);
 
-		luid-user-picker,
-		luid-user-picker-multiple {
-			display: block;
-			.ui-select-highlight {
-				background: luiPalette(primary, color);
-			}
-			.selected-first { font-weight: 600; }
-			.dividing {
-				position: relative;
-				&:after {
-					display: block;
-					content: '';
-					position: absolute;
-					bottom: -#{luiTheme(element, field, input, vertical-padding)};
-					left: -1em;
-					right: -1em;
-					border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color);
-				}
+	luid-user-picker,
+	luid-user-picker-multiple {
+		display: block;
+		.ui-select-highlight {
+			background: luiPalette(primary, color);
+		}
+		.selected-first { font-weight: 600; }
+		.dividing {
+			position: relative;
+			&:after {
+				display: block;
+				content: '';
+				position: absolute;
+				bottom: -#{luiTheme(element, field, input, vertical-padding)};
+				left: -1em;
+				right: -1em;
+				border-bottom: luiTheme(element, divider, width) solid luiTheme(element, divider, color);
 			}
 		}
 	}

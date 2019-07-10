@@ -12,90 +12,87 @@
 }
 
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+	ul#{$prefix}.pagination {
+		margin: map-gets($pluginVars, pagination, verticalMargin) map-gets($pluginVars, pagination, horizontalMargin);
 
-		ul#{$prefix}.pagination {
-			margin: map-gets($pluginVars, pagination, verticalMargin) map-gets($pluginVars, pagination, horizontalMargin);
+		@include display-flex();
+		@include flex-justify-content(center);
+		@include flex-align-items(center);
 
-			@include display-flex();
-			@include flex-justify-content(center);
-			@include flex-align-items(center);
+		li {
+			display: inline-block;
 
-			li {
-				display: inline-block;
+			a { @extend %lui_basic_button; background-color: map-gets($pluginVars, pagination, background); color: luiTheme(element, typography, body, color); }
 
-				a { @extend %lui_basic_button; background-color: map-gets($pluginVars, pagination, background); color: luiTheme(element, typography, body, color); }
-
-				// Page numbers
-				// ====
-				&.pagination-page a {
-					box-shadow: none;
-					transition: background-color luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
-					text-align: center;
-					font-weight: 600;
-				}
-
-				// Active state
-				// ===
-				&.active a {
-					font-weight: 800;
-				}
-
-				// Prev / next buttons
-				// ====
-				&:not(.pagination-page) a { @extend %lui_basic_button; }
-			}
-
-
-			// Default style
+			// Page numbers
 			// ====
-			&:not(.dividing) li.active a {
-				@include lui_is_animated(pulseUp);
+			&.pagination-page a {
+				box-shadow: none;
+				transition: background-color luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
+				text-align: center;
+				font-weight: 600;
 			}
 
+			// Active state
+			// ===
+			&.active a {
+				font-weight: 800;
+			}
 
-			// Dividing style
+			// Prev / next buttons
 			// ====
-			&.dividing {
-				li.pagination-page {
-					position: relative;
+			&:not(.pagination-page) a { @extend %lui_basic_button; }
+		}
 
-					a:after {
-						display: block; content: "";
-						position: absolute; left: 0; right: 0;
-						height: map-gets($pluginVars, pagination, dividing, borderWidth);
 
-						transform: scale(0, 1);
-						transition: transform luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
-					}
+		// Default style
+		// ====
+		&:not(.dividing) li.active a {
+			@include lui_is_animated(pulseUp);
+		}
 
-					&.active a:after { transform: scale(1, 1); }
+
+		// Dividing style
+		// ====
+		&.dividing {
+			li.pagination-page {
+				position: relative;
+
+				a:after {
+					display: block; content: "";
+					position: absolute; left: 0; right: 0;
+					height: map-gets($pluginVars, pagination, dividing, borderWidth);
+
+					transform: scale(0, 1);
+					transition: transform luiTheme(adjective, animated, animationDuration) luiTheme(adjective, animated, animationEasing);
 				}
-				&:not([class*="top dividing"]) li.pagination-page a:after { bottom: 0; }
-				&[class*="top dividing"] li.pagination-page a:after { top: 0; }
+
+				&.active a:after { transform: scale(1, 1); }
 			}
+			&:not([class*="top dividing"]) li.pagination-page a:after { bottom: 0; }
+			&[class*="top dividing"] li.pagination-page a:after { top: 0; }
+		}
 
 
-			// Bordered style
-			// ====
-			&.bordered {
-				a { margin: 0 !important; border-radius: 0 !important; }
-				li.pagination-page a {
-					box-shadow: 0 0 0 luiTheme(element, button, defaultBorderWidth) luiTheme(element, button, defaultBorderColor) inset;
-				}
-				li + li {
-					margin-left: -1px;
-				}
-				li:first-child a { border-top-left-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjective, rounded, radius) !important; }
-				li:last-child a { border-top-right-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjective, rounded, radius) !important; }
+		// Bordered style
+		// ====
+		&.bordered {
+			a { margin: 0 !important; border-radius: 0 !important; }
+			li.pagination-page a {
+				box-shadow: 0 0 0 luiTheme(element, button, defaultBorderWidth) luiTheme(element, button, defaultBorderColor) inset;
 			}
+			li + li {
+				margin-left: -1px;
+			}
+			li:first-child a { border-top-left-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-left-radius: luiTheme(adjective, rounded, radius) !important; }
+			li:last-child a { border-top-right-radius: luiTheme(adjective, rounded, radius) !important; border-bottom-right-radius: luiTheme(adjective, rounded, radius) !important; }
+		}
 
-			@include lui_nguibs_pagination_coloring(map-gets($pluginVars, pagination, defaultColoring));
+		@include lui_nguibs_pagination_coloring(map-gets($pluginVars, pagination, defaultColoring));
 
-			@each $name, $scheme in luiPalettes() {
-				&.#{map-get($scheme, class)} {
-					@include lui_nguibs_pagination_coloring($scheme);
-				}
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				@include lui_nguibs_pagination_coloring($scheme);
 			}
 		}
 	}

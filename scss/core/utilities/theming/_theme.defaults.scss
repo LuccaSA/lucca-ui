@@ -5,43 +5,35 @@
 // Default color scheme
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/references/palettes.defaults";
+// Defaults
+$myPalettes: () !default;
+@import "../../../themes/default/core/references/palettes.defaults";
 
-	// Theme overrides
-	@import "core/references/palettes.overrides";
-	$luiTheme: luiSetTheme(reference, palettes, $myTheme);
-}
-
+// Theme overrides
+@import "core/references/palettes.overrides";
+$luiTheme: luiSetTheme(reference, palettes, $myPalettes);
 
 // Sizes
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/references/sizes.defaults";
+// Defaults
+$mySizes: () !default;
+@import "../../../themes/default/core/references/sizes.defaults";
 
-	// Theme overrides
-	@import "core/references/sizes.overrides";
-	$luiTheme: luiSetTheme(reference, sizes, $myTheme);
-}
+// Theme overrides
+@import "core/references/sizes.overrides";
+$luiTheme: luiSetTheme(reference, sizes, $mySizes);
 
 
 // Breakpoints
 // ===================================
+// Defaults
+$myBreakpoints: () !default;
+@import "../../../themes/default/core/references/breakpoints.defaults";
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/references/breakpoints.defaults";
-
-	// Theme overrides
-	@import "core/references/breakpoints.overrides";
-	$luiTheme: luiSetTheme(reference, breakpoints, $myTheme);
-}
+// Theme overrides
+@import "core/references/breakpoints.overrides";
+$luiTheme: luiSetTheme(reference, breakpoints, $myBreakpoints);
 
 
 
@@ -52,100 +44,88 @@
 // Unstyled
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/unstyled.defaults";
+// Defaults
+$myUnstyled: () !default;
+@import "../../../themes/default/core/adjectives/unstyled.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/unstyled.overrides";
-	$luiTheme: luiSetTheme(adjective, unstyled, $myTheme);
-}
+// Theme overrides
+@import "core/adjectives/unstyled.overrides";
+$luiTheme: luiSetTheme(adjective, unstyled, $myUnstyled);
 
 
 // Animated
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/animated.defaults";
+// Defaults
+$myAnimated: () !default;
+@import "../../../themes/default/core/adjectives/animated.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/animated.overrides";
-	$luiTheme: luiSetTheme(adjective, animated, $myTheme);
-}
-
+// Theme overrides
+@import "core/adjectives/animated.overrides";
+$luiTheme: luiSetTheme(adjective, animated, $myAnimated);
 
 // Pointing
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/pointing.defaults";
+// Defaults
+$myPointing: () !default;
+@import "../../../themes/default/core/adjectives/pointing.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/pointing.overrides";
-	$luiTheme: luiSetTheme(adjective, pointing, $myTheme);
-}
+// Theme overrides
+@import "core/adjectives/pointing.overrides";
+$luiTheme: luiSetTheme(adjective, pointing, $myPointing);
 
 
 // Raised
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/raised.defaults";
+// Defaults
+$myRaised: () !default;
+@import "../../../themes/default/core/adjectives/raised.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/raised.overrides";
-	$luiTheme: luiSetTheme(adjective, raised, $myTheme);
-}
-
+// Theme overrides
+@import "core/adjectives/raised.overrides";
+$luiTheme: luiSetTheme(adjective, raised, $myRaised);
 
 // Rounded
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/rounded.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/rounded.overrides";
-	$luiTheme: luiSetTheme(adjective, rounded, $myTheme);
-}
+// Defaults
+$myRounded: () !default;
+@import "../../../themes/default/core/adjectives/rounded.defaults";
+
+// Theme overrides
+@import "core/adjectives/rounded.overrides";
+$luiTheme: luiSetTheme(adjective, rounded, $myRounded);
+
 
 
 // Stuck
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/stuck.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/stuck.overrides";
-	$luiTheme: luiSetTheme(adjective, stuck, $myTheme);
-}
+// Defaults
+$myStuck: () !default;
+@import "../../../themes/default/core/adjectives/stuck.defaults";
+
+// Theme overrides
+@import "core/adjectives/stuck.overrides";
+$luiTheme: luiSetTheme(adjective, stuck, $myStuck);
+
 
 
 // Visible
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/adjectives/visible.defaults";
 
-	// Theme overrides
-	@import "core/adjectives/visible.overrides";
-	$luiTheme: luiSetTheme(adjective, visible, $myTheme);
-}
+// Defaults
+$myVisible: () !default;
+@import "../../../themes/default/core/adjectives/visible.defaults";
 
+// Theme overrides
+@import "core/adjectives/visible.overrides";
+$luiTheme: luiSetTheme(adjective, visible, $myVisible);
 
 
 // ===================================
@@ -155,317 +135,277 @@
 // Lucca icons
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/icon.defaults";
+// Defaults
+$myIcons: () !default;
+@import "../../../themes/default/core/elements/icon.defaults";
 
-	// Theme overrides
-	@import "core/elements/icon.overrides";
-	$luiTheme: luiSetTheme(element, icon, $myTheme);
-}
-
+// Theme overrides
+@import "core/elements/icon.overrides";
+$luiTheme: luiSetTheme(element, icon, $myIcons);
 
 
 // Grid
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/grid.defaults";
+// Defaults
+$myGrid: () !default;
+@import "../../../themes/default/core/elements/grid.defaults";
 
-	// Theme overrides
-	@import "core/elements/grid.overrides";
-	$luiTheme: luiSetTheme(element, grid, $myTheme);
-}
+// Theme overrides
+@import "core/elements/grid.overrides";
+$luiTheme: luiSetTheme(element, grid, $myGrid);
 
 
 // Collapse
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/collapse.defaults";
+// Defaults
+$myCollapse: () !default;
+@import "../../../themes/default/core/elements/collapse.defaults";
 
-	// Theme overrides
-	@import "core/elements/collapse.overrides";
-	$luiTheme: luiSetTheme(element, collapse, $myTheme);
-}
+// Theme overrides
+@import "core/elements/collapse.overrides";
+$luiTheme: luiSetTheme(element, collapse, $myCollapse);
 
 
 // Divider
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/divider.defaults";
+// Defaults
+$myDivider: () !default;
+@import "../../../themes/default/core/elements/divider.defaults";
 
-	// Theme overrides
-	@import "core/elements/divider.overrides";
-	$luiTheme: luiSetTheme(element, divider, $myTheme);
-}
+// Theme overrides
+@import "core/elements/divider.overrides";
+$luiTheme: luiSetTheme(element, divider, $myDivider);
 
 
 // Typography
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/typography.defaults";
+// Defaults
+$myTypography: () !default;
+@import "../../../themes/default/core/elements/typography.defaults";
 
-	// Theme overrides
-	@import "core/elements/typography.overrides";
-	$luiTheme: luiSetTheme(element, typography, $myTheme);
-}
+// Theme overrides
+@import "core/elements/typography.overrides";
+$luiTheme: luiSetTheme(element, typography, $myTypography);
 
 
 // Button
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/button.defaults";
+// Defaults
+$myButton: () !default;
+@import "../../../themes/default/core/elements/button.defaults";
 
-	// Theme overrides
-	@import "core/elements/button.overrides";
-	$luiTheme: luiSetTheme(element, button, $myTheme);
-}
+// Theme overrides
+@import "core/elements/button.overrides";
+$luiTheme: luiSetTheme(element, button, $myButton);
 
 
 // Field
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/field.defaults";
+// Defaults
+$myField: () !default;
+@import "../../../themes/default/core/elements/field.defaults";
 
-	// Theme overrides
-	@import "core/elements/field.overrides";
-	$luiTheme: luiSetTheme(element, field, $myTheme);
-}
-
+// Theme overrides
+@import "core/elements/field.overrides";
+$luiTheme: luiSetTheme(element, field, $myField);
 
 
 // Table
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/table.defaults";
+// Defaults
+$myTable: () !default;
+@import "../../../themes/default/core/elements/table.defaults";
 
-	// Theme overrides
-	@import "core/elements/table.overrides";
-	$luiTheme: luiSetTheme(element, table, $myTheme);
-}
+// Theme overrides
+@import "core/elements/table.overrides";
+$luiTheme: luiSetTheme(element, table, $myTable);
 
 
 // Menu
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/menu.defaults";
+// Defaults
+$myMenu: () !default;
+@import "../../../themes/default/core/elements/menu.defaults";
 
-	// Theme overrides
-	@import "core/elements/menu.overrides";
-	$luiTheme: luiSetTheme(element, menu, $myTheme);
-}
+// Theme overrides
+@import "core/elements/menu.overrides";
+$luiTheme: luiSetTheme(element, menu, $myMenu);
 
 
 // Breadcrumbs
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/breadcrumbs.defaults";
+// Defaults
+$myBreadcrumbs: () !default;
+@import "../../../themes/default/core/elements/breadcrumbs.defaults";
 
-	// Theme overrides
-	@import "core/elements/breadcrumbs.overrides";
-	$luiTheme: luiSetTheme(element, breadcrumbs, $myTheme);
-}
+// Theme overrides
+@import "core/elements/breadcrumbs.overrides";
+$luiTheme: luiSetTheme(element, breadcrumbs, $myBreadcrumbs);
 
 
 // label
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/label.defaults";
+// Defaults
+$myLabel: () !default;
+@import "../../../themes/default/core/elements/label.defaults";
 
-	// Theme overrides
-	@import "core/elements/label.overrides";
-	$luiTheme: luiSetTheme(element, label, $myTheme);
-}
+// Theme overrides
+@import "core/elements/label.overrides";
+$luiTheme: luiSetTheme(element, label, $myLabel);
 
 
 // Callout
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/callout.defaults";
+// Defaults
+$myCallout: () !default;
+@import "../../../themes/default/core/elements/callout.defaults";
 
-	// Theme overrides
-	@import "core/elements/callout.overrides";
-	$luiTheme: luiSetTheme(element, callout, $myTheme);
-}
+// Theme overrides
+@import "core/elements/callout.overrides";
+$luiTheme: luiSetTheme(element, callout, $myCallout);
 
 
 // Block
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/block.defaults";
+// Defaults
+$myBlock: () !default;
+@import "../../../themes/default/core/elements/block.defaults";
 
-	// Theme overrides
-	@import "core/elements/block.overrides";
-	$luiTheme: luiSetTheme(element, block, $myTheme);
-}
+// Theme overrides
+@import "core/elements/block.overrides";
+$luiTheme: luiSetTheme(element, block, $myBlock);
 
 
 // Overlay
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/overlay.defaults";
+// Defaults
+$myOverlay: () !default;
+@import "../../../themes/default/core/elements/overlay.defaults";
 
-	// Theme overrides
-	@import "core/elements/overlay.overrides";
-	$luiTheme: luiSetTheme(element, overlay, $myTheme);
-}
+// Theme overrides
+@import "core/elements/overlay.overrides";
+$luiTheme: luiSetTheme(element, overlay, $myOverlay);
 
 
 // Progress
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/progress.defaults";
+// Defaults
+$myProgress: () !default;
+@import "../../../themes/default/core/elements/progress.defaults";
 
-	// Theme overrides
-	@import "core/elements/progress.overrides";
-	$luiTheme: luiSetTheme(element, progress, $myTheme);
-}
+// Theme overrides
+@import "core/elements/progress.overrides";
+$luiTheme: luiSetTheme(element, progress, $myProgress);
 
 
 // Day block
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/day-block.defaults";
+// Defaults
+$myDayBlock: () !default;
+@import "../../../themes/default/core/elements/day-block.defaults";
 
-	// Theme overrides
-	@import "core/elements/day-block.overrides";
-	$luiTheme: luiSetTheme(element, dayblock, $myTheme);
-}
+// Theme overrides
+@import "core/elements/day-block.overrides";
+$luiTheme: luiSetTheme(element, dayblock, $myDayBlock);
+
 
 // Table Grid
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/tablegrid.defaults";
+// Defaults
+$myTableGrid: () !default;
+@import "../../../themes/default/core/elements/tablegrid.defaults";
 
-	// Theme overrides
-	@import "core/elements/tablegrid.overrides";
-	$luiTheme: luiSetTheme(element, tablegrid, $myTheme);
-}
+// Theme overrides
+@import "core/elements/tablegrid.overrides";
+$luiTheme: luiSetTheme(element, tablegrid, $myTableGrid);
+
 
 // notify
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/notify.defaults";
+// Defaults
+$myNotify: () !default;
+@import "../../../themes/default/core/elements/notify.defaults";
 
-	// Theme overrides
-	@import "core/elements/notify.overrides";
-	$luiTheme: luiSetTheme(element, notify, $myTheme);
-}
+// Theme overrides
+@import "core/elements/notify.overrides";
+$luiTheme: luiSetTheme(element, notify, $myNotify);
+
 
 
 // Tooltip
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/tooltip.defaults";
+// Defaults
+$myTooltip: () !default;
+@import "../../../themes/default/core/elements/tooltip.defaults";
 
-	// Theme overrides
-	@import "core/elements/tooltip.overrides";
-	$luiTheme: luiSetTheme(element, tooltip, $myTheme);
-}
+// Theme overrides
+@import "core/elements/tooltip.overrides";
+$luiTheme: luiSetTheme(element, tooltip, $myTooltip);
+
 
 
 // Popover
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/popover.defaults";
+// Defaults
+$myPopover: () !default;
+@import "../../../themes/default/core/elements/popover.defaults";
 
-	// Theme overrides
-	@import "core/elements/popover.overrides";
-	$luiTheme: luiSetTheme(element, popover, $myTheme);
-}
+// Theme overrides
+@import "core/elements/popover.overrides";
+$luiTheme: luiSetTheme(element, popover, $myPopover);
+
 
 // Modal
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/modal.defaults";
+// Defaults
+$myModal: () !default;
+@import "../../../themes/default/core/elements/modal.defaults";
 
-	// Theme overrides
-	@import "core/elements/modal.overrides";
-	$luiTheme: luiSetTheme(element, modal, $myTheme);
-}
+// Theme overrides
+@import "core/elements/modal.overrides";
+$luiTheme: luiSetTheme(element, modal, $myModal);
+
 
 // Pagination
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/pagination.defaults";
+// Defaults
+$myPagination: () !default;
+@import "../../../themes/default/core/elements/pagination.defaults";
 
-	// Theme overrides
-	@import "core/elements/pagination.overrides";
-	$luiTheme: luiSetTheme(element, pagination, $myTheme);
-}
+// Theme overrides
+@import "core/elements/pagination.overrides";
+$luiTheme: luiSetTheme(element, pagination, $myPagination);
+
 
 // Sortable
 // ===================================
 
-@at-root {
-	// Defaults
-	$myTheme: () !default;
-	@import "../../../themes/default/core/elements/sortable.defaults";
+// Defaults
+$mySortable: () !default;
+@import "../../../themes/default/core/elements/sortable.defaults";
 
-	// Theme overrides
-	@import "core/elements/sortable.overrides";
-	$luiTheme: luiSetTheme(element, pagination, $myTheme);
-}
+// Theme overrides
+@import "core/elements/sortable.overrides";
+$luiTheme: luiSetTheme(element, pagination, $mySortable);
+

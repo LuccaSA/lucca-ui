@@ -1,19 +1,17 @@
 @if luiTheme(element, field, timespanpicker, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, field, timespanpicker);
+	$vars: luiTheme(element, field, timespanpicker);
 
-		luid-timespan {
-			display: inline-block;
+	luid-timespan {
+		display: inline-block;
 
-			input {
-				width: map-gets($vars, width) !important;
-			}
+		input {
+			width: map-gets($vars, width) !important;
 		}
+	}
 
-		#{$prefix}.natural.form luid-timespan {
-			input {
-				text-align: center;
-			}
+	#{$prefix}.natural.form luid-timespan {
+		input {
+			text-align: center;
 		}
 	}
 }

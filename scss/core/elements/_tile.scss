@@ -34,7 +34,7 @@
 	#{$prefix}.tile.hoverable:hover {
 		transition-property: box-shadow;
 
-		&:hover { @extend %#{$cleanNamespace}-raised; }
+		&:hover { @include lui_raised(); }
 	}
 
 	// Stacked

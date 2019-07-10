@@ -1,55 +1,52 @@
-@at-root #{$namespace} {
+@if luiTheme(element, field, image-picker, enabled) {
+	@if lui_input_style_enabled("compact") {
+		$selector: lui_input_get_style_selector("compact");
+		$vars: luiTheme(element, field, image-picker);
 
-	@if luiTheme(element, field, image-picker, enabled) {
-		@if lui_input_style_enabled("compact") {
-			$selector: lui_input_get_style_selector("compact");
-			$vars: luiTheme(element, field, image-picker);
+		#{$prefix}.input#{$selector} luid-image-picker, luid-image-picker#{$selector} {
+			position: relative;
+			height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+			max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+			line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
 
-			#{$prefix}.input#{$selector} luid-image-picker, luid-image-picker#{$selector} {
-				position: relative;
+			.input-overlay {
 				height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-				max-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-				line-height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
+			}
 
-				.input-overlay {
-					height: 1em + 2 * luiTheme(element, field, input, vertical-padding);
-				}
-
-				.input-overlay {
-					.overlay-content {
-						color: #A6A6A6;
-						> i {
-							display: none;
-						}
+			.input-overlay {
+				.overlay-content {
+					color: #A6A6A6;
+					> i {
+						display: none;
 					}
 				}
+			}
 
-				.luid-image-picker-popup.lui.popover {
-					top: 100% !important;
-					left: 0 !important;
-					line-height: 1.4em;
-				}
+			.luid-image-picker-popup.lui.popover {
+				top: 100% !important;
+				left: 0 !important;
+				line-height: 1.4em;
+			}
 
-				&:hover .image-picker:not(.is-disabled) {
-					.luid-image-picker-picture {
-						background-color: luiTheme(element, field, input, compact, focus, background-color);
-						color: #666;
-						border-color: #A6A6A6;
-					}
-				}
-
+			&:hover .image-picker:not(.is-disabled) {
 				.luid-image-picker-picture {
-					background-position: 0 0;
-					background-repeat: no-repeat;
-					background-size: contain;
-					background-color: luiTheme(element, field, input, compact, background-color);
-					border: 1px dashed #DAE0E4;
-					border-radius: luiTheme(element, field, input, compact, border-radius);
+					background-color: luiTheme(element, field, input, compact, focus, background-color);
+					color: #666;
+					border-color: #A6A6A6;
+				}
+			}
 
-					.input-overlay,
-					.output-overlay {
-						padding-left: 1em;
-					}
+			.luid-image-picker-picture {
+				background-position: 0 0;
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-color: luiTheme(element, field, input, compact, background-color);
+				border: 1px dashed #DAE0E4;
+				border-radius: luiTheme(element, field, input, compact, border-radius);
+
+				.input-overlay,
+				.output-overlay {
+					padding-left: 1em;
 				}
 			}
 		}

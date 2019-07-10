@@ -6,14 +6,16 @@
 // ===================================
 
 @mixin lui_body_typeset {
-	font-size: luiTheme(element, typography, body, fontSize);
-	color: luiTheme(element, typography, body, color);
-	line-height: luiTheme(element, typography, body, lineHeight);
+	body {
+		font-size: luiTheme(element, typography, body, fontSize);
+		color: luiTheme(element, typography, body, color);
+		line-height: luiTheme(element, typography, body, lineHeight);
 
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
 
-	&, * {
+	body, * {
 		// Normalize-css override
 		font-family: unquote(luiTheme(element, typography, body, fontFamily));
 	}
@@ -29,226 +31,224 @@
 // ===================================
 
 @if luiTheme(element, typography, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, typography);
+	$vars: luiTheme(element, typography);
 
-		// Common and shortcuts
-		// ===================================
-		@include lui_body_typeset;
+	// Common and shortcuts
+	// ===================================
+		@include lui_body_typeset();
 
-		#{$prefix}.small, small { font-size: map-get($vars, smallSize); }
+	#{$prefix}.small, small { font-size: map-get($vars, smallSize); }
 
-		#{$prefix}.italic { font-style: italic; }
+	#{$prefix}.italic { font-style: italic; }
 
-		#{$prefix}.bold,
-		b, strong { font-weight: map-gets($vars, body, boldWeight); }
-
+	#{$prefix}.bold,
+	b, strong { font-weight: map-gets($vars, body, boldWeight); }
 
 
-		// Headings
-		// ===================================
 
-		h1, h2, h3, h4, h5, h6 {
-			font-family: unquote(map-gets($vars, headings, fontFamily));
+	// Headings
+	// ===================================
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: unquote(map-gets($vars, headings, fontFamily));
+		margin: 0;
+		padding: 0em;
+
+		// Icon in headings support
+		> #{$prefix}.icon:not(.button) {
+			margin-right: .5em;
+			vertical-align: top;
+			font-size: map-gets($vars, headings, iconSize);
+
+			&.right {
+				margin-left: .5em;
+				margin-right: 0;
+			}
+		}
+	}
+
+	@each $heading in (h1, h2, h3, h4, h5, h6) {
+		#{$heading} {
+			font-size: map-gets($vars, headings, $heading, fontSize);
+			line-height: map-gets($vars, headings, $heading, lineHeight);
+			font-weight: map-gets($vars, headings, $heading, fontWeight);
+		}
+	}
+
+
+	// Sub heading
+	// ===================================
+	h1, h2, h3, h4, h5, h6 {
+		#{$prefix}.sub {
+			letter-spacing: normal;
+			display: block;
+			font-weight: map-gets($vars, headings, sub, fontWeight);
+			font-size: map-gets($vars, headings, sub, fontSize);
+			color: map-gets($vars, headings, sub, color);
 			margin: 0;
-			padding: 0em;
-
-			// Icon in headings support
-			> #{$prefix}.icon:not(.button) {
-				margin-right: .5em;
-				vertical-align: top;
-				font-size: map-gets($vars, headings, iconSize);
-
-				&.right {
-					margin-left: .5em;
-					margin-right: 0;
-				}
-			}
 		}
-
-		@each $heading in (h1, h2, h3, h4, h5, h6) {
-			#{$heading} {
-				font-size: map-gets($vars, headings, $heading, fontSize);
-				line-height: map-gets($vars, headings, $heading, lineHeight);
-				font-weight: map-gets($vars, headings, $heading, fontWeight);
-			}
-		}
-
-
-		// Sub heading
-		// ===================================
-		h1, h2, h3, h4, h5, h6 {
-			#{$prefix}.sub {
-				letter-spacing: normal;
-				display: block;
-				font-weight: map-gets($vars, headings, sub, fontWeight);
-				font-size: map-gets($vars, headings, sub, fontSize);
-				color: map-gets($vars, headings, sub, color);
-				margin: 0;
-			}
-			#{$prefix}.sub.inline {
-				display: inline-block;
-				vertical-align: baseline;
-				margin-left: 1em;
-			}
-		}
-
-
-		// Horizontal ruler
-		// ===================================
-
-		#{$prefix}.typeset hr {
-			clear: both;
-			@extend %lui_divider_base;
-		}
-
-
-		// Definition lists
-		// ===================================
-
-		dl#{$prefix}.definition-list,
-		#{$prefix}.typeset dl {
-			@extend #{$prefix}.clear;
-			dt {
-				width: map-gets($vars, definitionList, termWidth);
-				font-weight: map-gets($vars, definitionList, termWeight);
-				margin-bottom: map-gets($vars, definitionList, itemVerticalSpacing);
-				&:after {
-					content: map-gets($vars, definitionList, divider);;
-				}
-			}
-
-			dd {
-				width: calc(100% - #{map-gets($vars, definitionList, termWidth)} - #{map-gets($vars, definitionList, gutter)});
-				font-weight: map-gets($vars, definitionList, definitionWeight);
-				margin: 0 0 map-gets($vars, definitionList, itemVerticalSpacing) map-gets($vars, definitionList, gutter);;
-			}
-			dd, dt { float: left; &:last-of-type { margin-bottom: 0; } }
-		}
-
-
-		// Text alignment
-		// ===================================
-
-		#{$prefix}[class*="center aligned"] { text-align: center; }
-		#{$prefix}[class*="left aligned"] { text-align: left; }
-		#{$prefix}[class*="right aligned"] { text-align: right; }
-		#{$prefix}[class*="justify aligned"] { text-align: justify; }
-
-
-		// Links
-		// ===================================
-
-		#{$prefix}.link,
-		a {
-			cursor: pointer;
-			color: map-gets($vars, links, color);
-			text-decoration: map-gets($vars, links, decoration);
-			&:hover, &:active {
-				color: map-gets($vars, links, hover, color);
-				text-decoration: map-gets($vars, links, hover, decoration);
-			}
-			&:visited {
-				color: map-gets($vars, links, visited, color);
-			}
-		}
-		#{$prefix}.fancy.link {
-			&, &:hover, &:active, &:visited { text-decoration: none; }
-
+		#{$prefix}.sub.inline {
 			display: inline-block;
 			vertical-align: baseline;
-			position: relative;
+			margin-left: 1em;
+		}
+	}
+
+
+	// Horizontal ruler
+	// ===================================
+
+	#{$prefix}.typeset hr {
+		clear: both;
+		@extend %lui_divider_base;
+	}
+
+
+	// Definition lists
+	// ===================================
+
+	dl#{$prefix}.definition-list,
+	#{$prefix}.typeset dl {
+		@extend %lui_clearfix;
+		dt {
+			width: map-gets($vars, definitionList, termWidth);
+			font-weight: map-gets($vars, definitionList, termWeight);
+			margin-bottom: map-gets($vars, definitionList, itemVerticalSpacing);
 			&:after {
-				display: block;
-				content: "";
-				position: absolute;
-				width: 0%;
-				top: 100%;
-				left: 0; right: 0;
-				margin: 0 auto;
-				border-bottom: 1px solid map-gets($vars, links, hover, color);
-
-				@include lui_transition(width);
-			}
-
-			&:visited:after { border-color: map-gets($vars, links, visited, color); }
-
-			&:hover:after {
-				width: 100%;
+				content: map-gets($vars, definitionList, divider);;
 			}
 		}
 
+		dd {
+			width: calc(100% - #{map-gets($vars, definitionList, termWidth)} - #{map-gets($vars, definitionList, gutter)});
+			font-weight: map-gets($vars, definitionList, definitionWeight);
+			margin: 0 0 map-gets($vars, definitionList, itemVerticalSpacing) map-gets($vars, definitionList, gutter);;
+		}
+		dd, dt { float: left; &:last-of-type { margin-bottom: 0; } }
+	}
 
-		// Capitalization
-		// ===================================
 
-		#{$prefix}[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
-		#{$prefix}.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
-		#{$prefix}.uppercase { text-transform: uppercase; }
+	// Text alignment
+	// ===================================
+
+	#{$prefix}[class*="center aligned"] { text-align: center; }
+	#{$prefix}[class*="left aligned"] { text-align: left; }
+	#{$prefix}[class*="right aligned"] { text-align: right; }
+	#{$prefix}[class*="justify aligned"] { text-align: justify; }
+
+
+	// Links
+	// ===================================
+
+	#{$prefix}.link,
+	a {
+		cursor: pointer;
+		color: map-gets($vars, links, color);
+		text-decoration: map-gets($vars, links, decoration);
+		&:hover, &:active {
+			color: map-gets($vars, links, hover, color);
+			text-decoration: map-gets($vars, links, hover, decoration);
+		}
+		&:visited {
+			color: map-gets($vars, links, visited, color);
+		}
+	}
+	#{$prefix}.fancy.link {
+		&, &:hover, &:active, &:visited { text-decoration: none; }
+
+		display: inline-block;
+		vertical-align: baseline;
+		position: relative;
+		&:after {
+			display: block;
+			content: "";
+			position: absolute;
+			width: 0%;
+			top: 100%;
+			left: 0; right: 0;
+			margin: 0 auto;
+			border-bottom: 1px solid map-gets($vars, links, hover, color);
+
+			@include lui_transition(width);
+		}
+
+		&:visited:after { border-color: map-gets($vars, links, visited, color); }
+
+		&:hover:after {
+			width: 100%;
+		}
+	}
+
+
+	// Capitalization
+	// ===================================
+
+	#{$prefix}[class*="capitalized sentence"]::first-letter { text-transform: capitalize; }
+	#{$prefix}.capitalized:not([class*="capitalized sentence"]) { text-transform: capitalize; }
+	#{$prefix}.uppercase { text-transform: uppercase; }
 
 
 
-		#{$prefix}.typeset {
-			h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
-			h1:first-child {
-				margin-top: 0;
+	#{$prefix}.typeset {
+		h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em 0; }
+		h1:first-child {
+			margin-top: 0;
+		}
+	}
+
+
+	// Blockquotes
+	// ===================================
+
+	#{$prefix}.quote,
+	#{$prefix}.typeset blockquote {
+		font-size: map-gets($vars, quote, fontSize);
+		font-style: map-gets($vars, quote, fontStyle);
+		border-left-width: map-gets($vars, quote, border, width);
+		border-left-style: map-gets($vars, quote, border, style);
+		border-left-color: map-gets($vars, quote, border, color);
+		margin: map-gets($vars, quote, margin, top) map-gets($vars, quote, margin, right) map-gets($vars, quote, margin, bottom) map-gets($vars, quote, margin, left);
+		padding: map-gets($vars, quote, padding, top) map-gets($vars, quote, padding, right) map-gets($vars, quote, padding, bottom) map-gets($vars, quote, padding, left);
+
+		cite {
+			display: block;
+			font-size: map-gets($vars, quote, cite, fontSize);
+			font-style: map-gets($vars, quote, cite, fontStyle);
+			font-weight: map-gets($vars, quote, cite, fontWeight);
+			&:before {
+				display: inline-block;
+				content: "\2014 \0020";
+				margin-right: 0.25em;
 			}
 		}
+	}
 
 
-		// Blockquotes
-		// ===================================
+	// Keyboard key
+	// ===================================
 
-		#{$prefix}.quote,
-		#{$prefix}.typeset blockquote {
-			font-size: map-gets($vars, quote, fontSize);
-			font-style: map-gets($vars, quote, fontStyle);
-			border-left-width: map-gets($vars, quote, border, width);
-			border-left-style: map-gets($vars, quote, border, style);
-			border-left-color: map-gets($vars, quote, border, color);
-			margin: map-gets($vars, quote, margin, top) map-gets($vars, quote, margin, right) map-gets($vars, quote, margin, bottom) map-gets($vars, quote, margin, left);
-			padding: map-gets($vars, quote, padding, top) map-gets($vars, quote, padding, right) map-gets($vars, quote, padding, bottom) map-gets($vars, quote, padding, left);
-
-			cite {
-				display: block;
-				font-size: map-gets($vars, quote, cite, fontSize);
-				font-style: map-gets($vars, quote, cite, fontStyle);
-				font-weight: map-gets($vars, quote, cite, fontWeight);
-				&:before {
-					display: inline-block;
-					content: "\2014 \0020";
-					margin-right: 0.25em;
-				}
-			}
-		}
+	#{$prefix}.keyboard.key,
+	#{$prefix}.typeset kbd {
+		display: inline-block;
+		font-family: map-gets($vars, kbd, fontFamily);
+		font-size: map-gets($vars, kbd, fontSize);
+		color: map-gets($vars, kbd, color);
+		background: map-gets($vars, kbd, background);
+		border-radius: map-gets($vars, kbd, borderRadius);
+		border: map-gets($vars, kbd, border, width) map-gets($vars, kbd, border, style) map-gets($vars, kbd, border, color);
+		padding: map-gets($vars, kbd, padding, top) map-gets($vars, kbd, padding, right) map-gets($vars, kbd, padding, bottom) map-gets($vars, kbd, padding, left);
+		box-shadow: 0 map-gets($vars, kbd, extrude) 0 map-gets($vars, kbd, extrude) darken(map-gets($vars, kbd, border, color), 10);
+		margin-left: map-gets($vars, kbd, extrude);
+		margin-right: map-gets($vars, kbd, extrude);
+	}
 
 
-		// Keyboard key
-		// ===================================
+	// Lists
+	// ===================================
 
-		#{$prefix}.keyboard.key,
-		#{$prefix}.typeset kbd {
-			display: inline-block;
-			font-family: map-gets($vars, kbd, fontFamily);
-			font-size: map-gets($vars, kbd, fontSize);
-			color: map-gets($vars, kbd, color);
-			background: map-gets($vars, kbd, background);
-			border-radius: map-gets($vars, kbd, borderRadius);
-			border: map-gets($vars, kbd, border, width) map-gets($vars, kbd, border, style) map-gets($vars, kbd, border, color);
-			padding: map-gets($vars, kbd, padding, top) map-gets($vars, kbd, padding, right) map-gets($vars, kbd, padding, bottom) map-gets($vars, kbd, padding, left);
-			box-shadow: 0 map-gets($vars, kbd, extrude) 0 map-gets($vars, kbd, extrude) darken(map-gets($vars, kbd, border, color), 10);
-			margin-left: map-gets($vars, kbd, extrude);
-			margin-right: map-gets($vars, kbd, extrude);
-		}
-
-
-		// Lists
-		// ===================================
-
-		#{$prefix}.list,
-		#{$prefix}.typeset ul,
-		#{$prefix}.typeset ol {
-			list-style: none;
-		}
+	#{$prefix}.list,
+	#{$prefix}.typeset ul,
+	#{$prefix}.typeset ol {
+		list-style: none;
 	}
 }

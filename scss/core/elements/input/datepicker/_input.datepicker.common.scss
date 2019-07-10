@@ -1,480 +1,477 @@
-@at-root #{$namespace} {
+@if luiTheme(element, field, datepicker, enabled) {
+	$vars: luiTheme(element, field, datepicker);
 
-	@if luiTheme(element, field, datepicker, enabled) {
-		$vars: luiTheme(element, field, datepicker);
+	// Reset
+	luid-date-picker,
+	luid-date-picker-popup,
+	luid-daterange-picker {
+		display: inline-block;
+		vertical-align: middle;
+	}
 
-		// Reset
+	// Fitting size
+	// ====
+	#{$prefix}.fitting.field {
 		luid-date-picker,
 		luid-date-picker-popup,
 		luid-daterange-picker {
-			display: inline-block;
-			vertical-align: middle;
-		}
-
-		// Fitting size
-		// ====
-		#{$prefix}.fitting.field {
-			luid-date-picker,
-			luid-date-picker-popup,
-			luid-daterange-picker {
-				display: block;
-				width: 100%;
-
-				> .input {
-					width: 100% !important;
-				}
-			}
-		}
-
-		// Neutralize popover max-width
-		// ====
-		luid-date-picker-popup .popover-inner,
-		luid-daterange-picker .popover-inner {
-			max-width: none !important;
-			margin: luiTheme(element, field, field, focus-border-width) !important;
-		}
-
-		// Handle multiple calendars
-		// ====
-		luid-date-picker[displayed-calendars],
-		luid-date-picker-popup[displayed-calendars],
-		luid-daterange-picker {
-			.calendar > header > button {
-				display: none !important;
-			}
-			.calendar:first-child > header button.previous,
-			.calendar:last-child > header button.next {
-				display: block !important;
-			}
-			.calendar {
-				float: left;
-				& + .calendar {
-					margin-left: 1em;
-				}
-			}
-		}
-		luid-date-picker-popup[displayed-calendars],
-		luid-daterange-picker {
-			.popover-inner {
-				box-sizing: border-box;
-				width: 14 * map-gets($vars, day,size) + 1;
-			}
-		}
-
-		// Style input
-		// ====
-		luid-date-picker-popup .lui.datepicker.input,
-		luid-daterange-picker .lui.daterange.input {
-			position: relative;
+			display: block;
 			width: 100%;
-			border-bottom: none !important;
 
-			> input, label {
+			> .input {
 				width: 100% !important;
-				padding-right: 2.25em;
-			}
-			.clickable { cursor: pointer; }
-			i.empty { z-index: 1; }
-		}
-
-		luid-date-picker-popup,
-		luid-daterange-picker {
-			> .lui.input > input[readonly] {
-				cursor: pointer;
-			}
-			position: relative;
-			&.ng-empty {
-				i.empty { display: none; }
-				@include lui_make_icon("calendar", right);
-				&:after {
-					pointer-events: none;
-					@extend %lui_field_input_inner_right_icon;
-				}
 			}
 		}
+	}
 
-		luid-daterange-picker {
-			&.ng-open > .lui.input {
-				> input {
-					color: transparent !important;
-					visibility: hidden;
-				}
+	// Neutralize popover max-width
+	// ====
+	luid-date-picker-popup .popover-inner,
+	luid-daterange-picker .popover-inner {
+		max-width: none !important;
+		margin: luiTheme(element, field, field, focus-border-width) !important;
+	}
+
+	// Handle multiple calendars
+	// ====
+	luid-date-picker[displayed-calendars],
+	luid-date-picker-popup[displayed-calendars],
+	luid-daterange-picker {
+		.calendar > header > button {
+			display: none !important;
+		}
+		.calendar:first-child > header button.previous,
+		.calendar:last-child > header button.next {
+			display: block !important;
+		}
+		.calendar {
+			float: left;
+			& + .calendar {
+				margin-left: 1em;
 			}
-			.inputs {
-				@include display-flex();
-				@include flex-wrap(nowrap);
+		}
+	}
+	luid-date-picker-popup[displayed-calendars],
+	luid-daterange-picker {
+		.popover-inner {
+			box-sizing: border-box;
+			width: 14 * map-gets($vars, day,size) + 1;
+		}
+	}
+
+	// Style input
+	// ====
+	luid-date-picker-popup .lui.datepicker.input,
+	luid-daterange-picker .lui.daterange.input {
+		position: relative;
+		width: 100%;
+		border-bottom: none !important;
+
+		> input, label {
+			width: 100% !important;
+			padding-right: 2.25em;
+		}
+		.clickable { cursor: pointer; }
+		i.empty { z-index: 1; }
+	}
+
+	luid-date-picker-popup,
+	luid-daterange-picker {
+		> .lui.input > input[readonly] {
+			cursor: pointer;
+		}
+		position: relative;
+		&.ng-empty {
+			i.empty { display: none; }
+			@include lui_make_icon("calendar", right);
+			&:after {
+				pointer-events: none;
+				@extend %lui_field_input_inner_right_icon;
+			}
+		}
+	}
+
+	luid-daterange-picker {
+		&.ng-open > .lui.input {
+			> input {
+				color: transparent !important;
+				visibility: hidden;
+			}
+		}
+		.inputs {
+			@include display-flex();
+			@include flex-wrap(nowrap);
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+
+			.icon {
 				position: absolute;
-				z-index: 1;
-				top: 0;
-				bottom: 0;
-				left: 0;
-				right: 0;
-
-				.icon {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-					font-size: 0.5em;
-				}
-
-				> input {
-					width: 50% !important;
-					box-sizing: border-box;
-					@extend %lui_input_reset;
-					&:first-of-type {
-						padding-right: 1em;
-					}
-					&:last-of-type {
-						padding-left: 1em;
-					}
-				}
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				font-size: 0.5em;
 			}
 
-			.hidden-input { opacity: 0; }
-		}
-
-		luid-date-picker,
-		luid-date-picker-popup .popover-content,
-		luid-daterange-picker .popover-content {
-
-			.calendars {
-				@extend %lui_clearfix;
-			}
-			.calendar {
-				position: relative;
-			}
-
-			.calendar > header {
-				position: relative;
-				z-index: 3;
-
-				> span {
-					font-size: 1em;
-					line-height: 1;
-					cursor: pointer;
-
-					display: block;
-					padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
-					text-align: center;
-
-					font-size: map-gets($vars, header, font-size);
-					font-weight: map-gets($vars, header, font-weight);
-
-					&:hover {
-						font-weight: map-gets($vars, header, hover-weight);
-					}
+			> input {
+				width: 50% !important;
+				box-sizing: border-box;
+				@extend %lui_input_reset;
+				&:first-of-type {
+					padding-right: 1em;
 				}
-
-				> button.previous,
-				> button.next {
-					display: block;
-					background: transparent;
-					border: none;
-					outline: 0; outline: none;
-
-					position: absolute;
-					z-index: 2;
-					top: 0;
-
-					padding: 1em;
-					border-radius: 3px;
-
-					font-family: 'lucca-icons';
-					font-size: lui_rem(0.8);
-
-					&:hover {
-						background-color: luiPalette(light, color, light);
-					}
-
-					&:not([disabled]) {
-						cursor: pointer;
-					}
-				}
-				> button.previous {
-					left: 0;
-					&:before {
-						content: "\e053";
-					}
-				}
-				> button.next {
-					right: 0;
-					&:before {
-						content: "\e054";
-					}
-				}
-			}
-
-			.calendar > .days {
-				position: relative;
-				margin-right: 1px; // Border hack
-
-				min-width: 7 * map-gets($vars, day, size);
-				table-layout: fixed;
-				border-collapse: collapse;
-
-				> tbody > tr > td,
-				> thead > tr > th {
-					width: map-gets($vars, day, size);
-					height: map-gets($vars, day, size);
-				}
-
-				> thead > tr > th {
-					color: map-gets($vars, heads, color);
-					font-weight: map-gets($vars, heads, font-weight);
-				}
-
-				> tbody > tr > td {
-					text-align: center;
-					color: map-gets($vars, day, color);
-					-moz-user-select: none;
-					-ms-user-select: none;
-					-webkit-user-select: none;
-					user-select: none;
-				}
-
-				> tbody > tr > td.empty {
-					opacity: 0;
-					pointer-events: none;
-					border: map-gets($vars, day, empty, border, width) map-gets($vars, day, empty, border, style) map-gets($vars, day, empty, border, color);
-				}
-
-				> tbody > tr > td:not(.empty) {
-					cursor: pointer;
-					border: map-gets($vars, day, default, border, width) map-gets($vars, day, default, border, style) map-gets($vars, day, default, border, color);
-
-					color: map-gets($vars, day, default, color);
-					background-color: map-gets($vars, day, default, background-color);
-
-					&:hover {
-						color: map-gets($vars, day, default, hover, color);
-						background-color: map-gets($vars, day, default, hover, background-color);
-					}
-
-					&.in-between.start,
-					&.in-between.end {
-						position: relative;
-						&:before {
-							display: block;
-							content: '';
-							position: absolute;
-							width: 8px;
-							background-color: darken(map-gets($vars, day, selected, border, color), 5);
-							top: -1px;
-							bottom: -1px;
-						}
-					}
-					&.start:before {
-						right: 100%;
-						border-top-left-radius: 4px;
-						border-bottom-left-radius: 4px;
-					}
-					&.end:before {
-						left: 100%;
-						border-top-right-radius: 4px;
-						border-bottom-right-radius: 4px;
-					}
-
-					&.in-between {
-						color: map-gets($vars, day, in-between, color);
-						background-color: map-gets($vars, day, in-between, background-color);
-						border: map-gets($vars, day, in-between, border, width) map-gets($vars, day, in-between, border, style) map-gets($vars, day, in-between, border, color);
-
-						&:hover {
-							color: map-gets($vars, day, in-between, hover, color);
-							background-color: map-gets($vars, day, in-between, hover, background-color);
-						}
-					}
-
-					&.selected,
-					&.start,
-					&.end {
-						z-index: 2;
-						color: map-gets($vars, day, selected, color);
-						background-color: map-gets($vars, day, selected, background-color);
-						border: map-gets($vars, day, selected, border, width) map-gets($vars, day, selected, border, style) map-gets($vars, day, selected, border, color);
-
-						&:hover {
-							color: map-gets($vars, day, selected, hover, color);
-							background-color: map-gets($vars, day, selected, hover, background-color);
-						}
-					}
-					&.disabled, &[disabled="disabled"] {
-						opacity: map-gets($vars, day, disabled, opacity);
-						pointer-events: none;
-					}
-				}
-			}
-
-			> footer {
-				text-align: left;
-				padding: 1em 0;
-
-				ul { list-style: none; margin: 0; padding: 0; }
-				li { margin: 0; padding: 0; }
-
-				li.group {
-
-				}
-				li.shortcut {
-					display: inline-block;
+				&:last-of-type {
+					padding-left: 1em;
 				}
 			}
 		}
 
-		luid-daterange-picker .popover-content,
-		luid-date-picker-popup .popover-content {
-			> footer {
-				background-color: map-gets($vars, popup, footer, background);
-				margin: 0.5em -1em -1em -1em;
-				padding: 0.5em 1em;
-				border-top: 1px solid luiTheme(element, divider, color);
-			}
+		.hidden-input { opacity: 0; }
+	}
+
+	luid-date-picker,
+	luid-date-picker-popup .popover-content,
+	luid-daterange-picker .popover-content {
+
+		.calendars {
+			@extend %lui_clearfix;
+		}
+		.calendar {
+			position: relative;
 		}
 
+		.calendar > header {
+			position: relative;
+			z-index: 3;
 
-		luid-daterange-picker,
-		luid-date-picker-popup[displayed-calendars="2"] {
-			.popover-inner { width: 40em; }
-		}
+			> span {
+				font-size: 1em;
+				line-height: 1;
+				cursor: pointer;
 
-		luid-date-picker,
-		luid-date-picker-popup,
-		luid-daterange-picker {
-			.months,
-			.years {
-				background: #FFF;
-			}
-			.months ul,
-			.years ul {
-				@extend %lui_unstyled_list;
-				@extend %lui_user_select_none;
+				display: block;
+				padding: map-gets($vars, header, padding, vertical) map-gets($vars, header, padding, horizontal);
 				text-align: center;
 
-				li {
-					display: inline-block;
-					width: 33.33%;
-					box-sizing: border-box;
-					padding: 1em 0.5em;
+				font-size: map-gets($vars, header, font-size);
+				font-weight: map-gets($vars, header, font-weight);
+
+				&:hover {
+					font-weight: map-gets($vars, header, hover-weight);
+				}
+			}
+
+			> button.previous,
+			> button.next {
+				display: block;
+				background: transparent;
+				border: none;
+				outline: 0; outline: none;
+
+				position: absolute;
+				z-index: 2;
+				top: 0;
+
+				padding: 1em;
+				border-radius: 3px;
+
+				font-family: 'lucca-icons';
+				font-size: lui_rem(0.8);
+
+				&:hover {
+					background-color: luiPalette(light, color, light);
+				}
+
+				&:not([disabled]) {
 					cursor: pointer;
+				}
+			}
+			> button.previous {
+				left: 0;
+				&:before {
+					content: "\e053";
+				}
+			}
+			> button.next {
+				right: 0;
+				&:before {
+					content: "\e054";
+				}
+			}
+		}
 
-					&:hover {
-						color: map-gets($vars, day, default, hover, color);
-						background-color: map-gets($vars, day, default, hover, background-color);
-					}
+		.calendar > .days {
+			position: relative;
+			margin-right: 1px; // Border hack
 
-					&.selected,
-					&.start,
-					&.end {
-						color: map-gets($vars, day, selected, color);
-						background-color: map-gets($vars, day, selected, background-color);
-						&:hover {
-							color: map-gets($vars, day, selected, hover, color);
-							background-color: map-gets($vars, day, selected, hover, background-color);
-						}
-					}
+			min-width: 7 * map-gets($vars, day, size);
+			table-layout: fixed;
+			border-collapse: collapse;
 
-					&.start,
-					&.end {
-						position: relative;
-					}
-					&.start:before,
-					&.end:after {
+			> tbody > tr > td,
+			> thead > tr > th {
+				width: map-gets($vars, day, size);
+				height: map-gets($vars, day, size);
+			}
+
+			> thead > tr > th {
+				color: map-gets($vars, heads, color);
+				font-weight: map-gets($vars, heads, font-weight);
+			}
+
+			> tbody > tr > td {
+				text-align: center;
+				color: map-gets($vars, day, color);
+				-moz-user-select: none;
+				-ms-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+			}
+
+			> tbody > tr > td.empty {
+				opacity: 0;
+				pointer-events: none;
+				border: map-gets($vars, day, empty, border, width) map-gets($vars, day, empty, border, style) map-gets($vars, day, empty, border, color);
+			}
+
+			> tbody > tr > td:not(.empty) {
+				cursor: pointer;
+				border: map-gets($vars, day, default, border, width) map-gets($vars, day, default, border, style) map-gets($vars, day, default, border, color);
+
+				color: map-gets($vars, day, default, color);
+				background-color: map-gets($vars, day, default, background-color);
+
+				&:hover {
+					color: map-gets($vars, day, default, hover, color);
+					background-color: map-gets($vars, day, default, hover, background-color);
+				}
+
+				&.in-between.start,
+				&.in-between.end {
+					position: relative;
+					&:before {
 						display: block;
 						content: '';
 						position: absolute;
 						width: 8px;
 						background-color: darken(map-gets($vars, day, selected, border, color), 5);
-						top: 0;
-						bottom: 0;
+						top: -1px;
+						bottom: -1px;
 					}
-					&.start:before {
-						right: 100%;
-						border-top-left-radius: 4px;
-						border-bottom-left-radius: 4px;
-					}
-					&.end:after {
-						left: 100%;
-						border-top-right-radius: 4px;
-						border-bottom-right-radius: 4px;
-					}
+				}
+				&.start:before {
+					right: 100%;
+					border-top-left-radius: 4px;
+					border-bottom-left-radius: 4px;
+				}
+				&.end:before {
+					left: 100%;
+					border-top-right-radius: 4px;
+					border-bottom-right-radius: 4px;
+				}
 
-					&.in-between {
-						color: map-gets($vars, day, in-between, color);
-						background-color: map-gets($vars, day, in-between, background-color);
+				&.in-between {
+					color: map-gets($vars, day, in-between, color);
+					background-color: map-gets($vars, day, in-between, background-color);
+					border: map-gets($vars, day, in-between, border, width) map-gets($vars, day, in-between, border, style) map-gets($vars, day, in-between, border, color);
 
-						&:hover {
-							color: map-gets($vars, day, in-between, hover, color);
-							background-color: map-gets($vars, day, in-between, hover, background-color);
-						}
+					&:hover {
+						color: map-gets($vars, day, in-between, hover, color);
+						background-color: map-gets($vars, day, in-between, hover, background-color);
 					}
+				}
 
-					&.disabled, &[disabled="disabled"] {
-						opacity: map-gets($vars, day, disabled, opacity);
-						pointer-events: none;
+				&.selected,
+				&.start,
+				&.end {
+					z-index: 2;
+					color: map-gets($vars, day, selected, color);
+					background-color: map-gets($vars, day, selected, background-color);
+					border: map-gets($vars, day, selected, border, width) map-gets($vars, day, selected, border, style) map-gets($vars, day, selected, border, color);
+
+					&:hover {
+						color: map-gets($vars, day, selected, hover, color);
+						background-color: map-gets($vars, day, selected, hover, background-color);
 					}
+				}
+				&.disabled, &[disabled="disabled"] {
+					opacity: map-gets($vars, day, disabled, opacity);
+					pointer-events: none;
 				}
 			}
+		}
 
-			// Mode switching & animations
-			// ====
-			.calendar:not([mode="0"]) + .calendar:after,
-			.calendar:not([mode="0"]) + .calendar:after {
-				position: absolute;
-				content: "";
-				top: 2.5em; bottom: 0;
-				left: 0;
-				border-left: 1px solid luiTheme(element, divider, color);
-			}
-			.calendar:not([mode="0"]) > .days {
-				display: none;
-			}
-			.calendar > .months,
-			.calendar > .years {
-				opacity: 0;
-			}
-			&[min-mode="months"] .calendar > .months,
-			&[min-mode="years"] .calendar > .years {
-				opacity: 1;
-			}
-			.calendar {
-				width: 18em;
+		> footer {
+			text-align: left;
+			padding: 1em 0;
 
-				> .days,
-				> .months,
-				> .years {
-					@extend %#{$cleanNamespace}-animated;
-					animation-fill-mode: forwards;
+			ul { list-style: none; margin: 0; padding: 0; }
+			li { margin: 0; padding: 0; }
+
+			li.group {
+
+			}
+			li.shortcut {
+				display: inline-block;
+			}
+		}
+	}
+
+	luid-daterange-picker .popover-content,
+	luid-date-picker-popup .popover-content {
+		> footer {
+			background-color: map-gets($vars, popup, footer, background);
+			margin: 0.5em -1em -1em -1em;
+			padding: 0.5em 1em;
+			border-top: 1px solid luiTheme(element, divider, color);
+		}
+	}
+
+
+	luid-daterange-picker,
+	luid-date-picker-popup[displayed-calendars="2"] {
+		.popover-inner { width: 40em; }
+	}
+
+	luid-date-picker,
+	luid-date-picker-popup,
+	luid-daterange-picker {
+		.months,
+		.years {
+			background: #FFF;
+		}
+		.months ul,
+		.years ul {
+			@extend %lui_unstyled_list;
+			@extend %lui_user_select_none;
+			text-align: center;
+
+			li {
+				display: inline-block;
+				width: 33.33%;
+				box-sizing: border-box;
+				padding: 1em 0.5em;
+				cursor: pointer;
+
+				&:hover {
+					color: map-gets($vars, day, default, hover, color);
+					background-color: map-gets($vars, day, default, hover, background-color);
 				}
-				&.mode-change {
-					.days,
-					.months,
-					.years {
-						animation-duration: luiTheme(adjective, animated, transitions, animationDuration) / 2;
+
+				&.selected,
+				&.start,
+				&.end {
+					color: map-gets($vars, day, selected, color);
+					background-color: map-gets($vars, day, selected, background-color);
+					&:hover {
+						color: map-gets($vars, day, selected, hover, color);
+						background-color: map-gets($vars, day, selected, hover, background-color);
 					}
 				}
-				&.out.mode-change {
-					&[mode="1"] .months,
-					&[mode="2"] .years {
-						animation-name: upScaleIn;
+
+				&.start,
+				&.end {
+					position: relative;
+				}
+				&.start:before,
+				&.end:after {
+					display: block;
+					content: '';
+					position: absolute;
+					width: 8px;
+					background-color: darken(map-gets($vars, day, selected, border, color), 5);
+					top: 0;
+					bottom: 0;
+				}
+				&.start:before {
+					right: 100%;
+					border-top-left-radius: 4px;
+					border-bottom-left-radius: 4px;
+				}
+				&.end:after {
+					left: 100%;
+					border-top-right-radius: 4px;
+					border-bottom-right-radius: 4px;
+				}
+
+				&.in-between {
+					color: map-gets($vars, day, in-between, color);
+					background-color: map-gets($vars, day, in-between, background-color);
+
+					&:hover {
+						color: map-gets($vars, day, in-between, hover, color);
+						background-color: map-gets($vars, day, in-between, hover, background-color);
 					}
 				}
-				&.in.mode-change {
-					&[mode="0"] .days,
-					&[mode="1"] .months {
-						animation-name: downScaleIn;
-					}
+
+				&.disabled, &[disabled="disabled"] {
+					opacity: map-gets($vars, day, disabled, opacity);
+					pointer-events: none;
 				}
-				&.previous[mode="0"] .days,
-				&.previous[mode="1"] .months,
-				&.previous[mode="2"] .years, {
-					animation-name: leftFadeIn;
+			}
+		}
+
+		// Mode switching & animations
+		// ====
+		.calendar:not([mode="0"]) + .calendar:after,
+		.calendar:not([mode="0"]) + .calendar:after {
+			position: absolute;
+			content: "";
+			top: 2.5em; bottom: 0;
+			left: 0;
+			border-left: 1px solid luiTheme(element, divider, color);
+		}
+		.calendar:not([mode="0"]) > .days {
+			display: none;
+		}
+		.calendar > .months,
+		.calendar > .years {
+			opacity: 0;
+		}
+		&[min-mode="months"] .calendar > .months,
+		&[min-mode="years"] .calendar > .years {
+			opacity: 1;
+		}
+		.calendar {
+			width: 18em;
+
+			> .days,
+			> .months,
+			> .years {
+				@extend %lui-animated;
+				animation-fill-mode: forwards;
+			}
+			&.mode-change {
+				.days,
+				.months,
+				.years {
+					animation-duration: luiTheme(adjective, animated, transitions, animationDuration) / 2;
 				}
-				&.next[mode="0"] .days,
-				&.next[mode="1"] .months,
-				&.next[mode="2"] .years, {
-					animation-name: rightFadeIn;
+			}
+			&.out.mode-change {
+				&[mode="1"] .months,
+				&[mode="2"] .years {
+					animation-name: upScaleIn;
 				}
+			}
+			&.in.mode-change {
+				&[mode="0"] .days,
+				&[mode="1"] .months {
+					animation-name: downScaleIn;
+				}
+			}
+			&.previous[mode="0"] .days,
+			&.previous[mode="1"] .months,
+			&.previous[mode="2"] .years, {
+				animation-name: leftFadeIn;
+			}
+			&.next[mode="0"] .days,
+			&.next[mode="1"] .months,
+			&.next[mode="2"] .years, {
+				animation-name: rightFadeIn;
 			}
 		}
 	}

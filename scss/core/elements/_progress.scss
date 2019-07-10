@@ -47,112 +47,110 @@
 // ===================================
 
 @if luiTheme(element, progress, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, progress);
+	$vars: luiTheme(element, progress);
 
-		#{$prefix}.progress {
-			background: map-gets($vars, background);
-			border-radius: map-gets($vars, borderRadius);
-			margin: map-gets($vars, verticalMargin) 0;
-		}
+	#{$prefix}.progress {
+		background: map-gets($vars, background);
+		border-radius: map-gets($vars, borderRadius);
+		margin: map-gets($vars, verticalMargin) 0;
+	}
 
-		// Progress indicator
-		// ===================================
-		#{$prefix}.progress > .indicator {
-			position: relative;
-			height: map-gets($vars, height);
-			border-radius: map-gets($vars, borderRadius);
+	// Progress indicator
+	// ===================================
+	#{$prefix}.progress > .indicator {
+		position: relative;
+		height: map-gets($vars, height);
+		border-radius: map-gets($vars, borderRadius);
 
-			transition: width 0.3s ease-out;
+		transition: width 0.3s ease-out;
 
-			&:after {
-				display: block;
-				position: absolute;
-				top: 0; bottom: 0; right: 0.5em;
-				content: attr(data-percentage) "%";
-				line-height: map-gets($vars, height);
-			}
-		}
-
-		// Progress status
-		// A progress bar can have a status message below it
-		// ===================================
-		#{$prefix}.progress .status {
-			text-align: center;
-			font-weight: map-gets($vars, status, fontWeight);
-		}
-
-		// Progressing: play animation
-		// ===================================
-		#{$prefix}.progressing.progress > .indicator:before {
+		&:after {
 			display: block;
-			content: "";
 			position: absolute;
-			left: 0; top: 0; bottom: 0;
-
-			animation-name: progressing;
-			animation-duration: 1.5s;
-			animation-iteration-count: infinite;
-			animation-timing-function: ease-out;
+			top: 0; bottom: 0; right: 0.5em;
+			content: attr(data-percentage) "%";
+			line-height: map-gets($vars, height);
 		}
+	}
 
-		// Slim progress bar
-		// ===================================
-		#{$prefix}.progress.slim {
-			margin-top: (1em + map-gets($vars, verticalMargin));
-			> .indicator {
-				height: map-gets($vars, slimHeight);
-				&:after {
-					right: 0;
-					-ms-transform: translateX(50%);
-					transform: translateX(50%);
-					line-height: 1;
-					top: -1.1em;
-				}
+	// Progress status
+	// A progress bar can have a status message below it
+	// ===================================
+	#{$prefix}.progress .status {
+		text-align: center;
+		font-weight: map-gets($vars, status, fontWeight);
+	}
+
+	// Progressing: play animation
+	// ===================================
+	#{$prefix}.progressing.progress > .indicator:before {
+		display: block;
+		content: "";
+		position: absolute;
+		left: 0; top: 0; bottom: 0;
+
+		animation-name: progressing;
+		animation-duration: 1.5s;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-out;
+	}
+
+	// Slim progress bar
+	// ===================================
+	#{$prefix}.progress.slim {
+		margin-top: (1em + map-gets($vars, verticalMargin));
+		> .indicator {
+			height: map-gets($vars, slimHeight);
+			&:after {
+				right: 0;
+				-ms-transform: translateX(50%);
+				transform: translateX(50%);
+				line-height: 1;
+				top: -1.1em;
 			}
 		}
+	}
 
-		// Coloring support
-		// ===================================
+	// Coloring support
+	// ===================================
 
-		#{$prefix}.progress {
-			// Default coloring
-			@include lui_progressbar_coloring(map-get($vars, defaultColoring));
-			// Loop colors
-			@each $name, $scheme in luiPalettes() {
-				&.#{map-get($scheme, class)} {
-					@include lui_progressbar_coloring($scheme);
-				}
+	#{$prefix}.progress {
+		// Default coloring
+		@include lui_progressbar_coloring(map-get($vars, defaultColoring));
+		// Loop colors
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} {
+				@include lui_progressbar_coloring($scheme);
 			}
 		}
+	}
 
-		// ===================================
-		// ============= Mixins ==============
-		// ===================================
+	// ===================================
+	// ============= Mixins ==============
+	// ===================================
 
-		#{$prefix}.progress-bar {
-			position: fixed;
-			top: 0px;
-			z-index: map-gets($vars, progressBar, zIndex);
-			width: 100%;
-			overflow: hidden;
-			background-color: transparent;
-			margin: 0 !important;
+	#{$prefix}.progress-bar {
+		position: fixed;
+		top: 0px;
+		z-index: map-gets($vars, progressBar, zIndex);
+		width: 100%;
+		overflow: hidden;
+		background-color: transparent;
+		margin: 0 !important;
 
-			transition-property: opacity, height;
-			transition-duration: map-gets($vars, progressBar, fadeInDuration);
-			transition-timing-function:  ease-out;
-		}
+		transition-property: opacity, height;
+		transition-duration: map-gets($vars, progressBar, fadeInDuration);
+		transition-timing-function:  ease-out;
+	}
 
-		#{$prefix}.progress-bar.in{
-			opacity: 1;
-			height: map-gets($vars, progressBar, height);
-		}
+	#{$prefix}.progress-bar.in{
+		opacity: 1;
+		height: map-gets($vars, progressBar, height);
+	}
 
 
-		#{$prefix}.progress-bar.out{
-			opacity: 0;
-			height: 0;
-		}
+	#{$prefix}.progress-bar.out{
+		opacity: 0;
+		height: 0;
 	}
 }

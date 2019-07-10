@@ -7,240 +7,237 @@
 }
 
 @if luiTheme(element, field, enabled) {
-	@at-root #{$namespace} {
+	$vars: luiTheme(element, field);
 
-		$vars: luiTheme(element, field);
+	// Forms are a whole group of inputs.
+	// Best practice: You should have only one (displayed) form per page.
+	// ====
+	#{$prefix}.form, #{$prefix}.fieldset {
+	}
 
-		// Forms are a whole group of inputs.
-		// Best practice: You should have only one (displayed) form per page.
+	// Fieldsets are a group of fields
+	// =====================================================================
+	#{$prefix}.form fieldset,
+	#{$prefix}.fieldset {
+
+		// A fieldset can have a legend
+		> legend,
+		.legend {
+			display: block;
+			font-size: map-gets($vars, fieldset, legend, font-size);
+			font-weight: map-gets($vars, fieldset, legend, font-weight);
+		}
+	}
+
+
+	// Fields are a label coupled with an input and a potential validation message
+	// =====================================================================
+	#{$prefix}.field {
+		@include display-flex();
+		@include flex-direction(row);
+		@include flex-wrap(wrap);
+		@include flex-align-items(flex-start);
+
+		margin: map-gets($vars, vertical-margin) 0;
+
+		@include lui_clearfix(); // Prevent margin-collapse
+
+		& > .field {
+			margin: 0;
+		}
+
+		position: relative;
+
+		// Messages
 		// ====
-		#{$prefix}.form, #{$prefix}.fieldset {
+		.messages {
+			margin-left: 1em;
+		}
+		.message {
+			display: block;
+			font-size: map-gets($vars, message, font-size);
+			line-height: normal;
+			margin-top: 0.5em;
+			margin-right: 0.5em;
 		}
 
-		// Fieldsets are a group of fields
-		// =====================================================================
-		#{$prefix}.form fieldset,
-		#{$prefix}.fieldset {
+		// Helper
+		// ====
+		.helper.message {
+			color: map-gets($vars, message, helper-color);
+		}
 
-			// A fieldset can have a legend
-			> legend,
-			.legend {
-				display: block;
-				font-size: map-gets($vars, fieldset, legend, font-size);
-				font-weight: map-gets($vars, fieldset, legend, font-weight);
+
+		// Textarea count characters
+		.count {
+			text-align: right;
+		}
+	}
+
+	#{$prefix}.field > .input {
+		@include display-flex();
+		@include flex-align-items(center);
+	}
+
+	#{$prefix}.input {
+		@include display-flex(true);
+		@include flex-align-items(center);
+	}
+
+
+	// Required
+	// =====================================================================
+	#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label {
+		padding-right: 1em;
+	}
+	#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after {
+		position: absolute;
+		content: '*';
+		font-size: lui_rem(1.2);
+		display: inline-block;
+		margin-left: 0.25em;
+		color: luiPalette(red, color);
+	}
+
+	#{$prefix}.field .error {
+		color: map-gets($vars, invalid-color);
+	}
+
+	// Valid
+	// !!! This class goes on the .input div itself !!!
+	// =====================================================================
+	#{$prefix}.is-valid.input {
+		@include lui_make_icon("check", right);
+		&:after {
+			@include lui_is_animated('right fade in');
+
+			line-height: 1 + map-gets($vars, input, vertical-padding);
+			font-size: map-gets($vars, valid-icon-size);
+			color: map-gets($vars, valid-color);
+		}
+	}
+
+
+	// Field length (horizontal sizing)
+	// =====================================================================
+	// Defaults to medium
+	#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations),
+	#{$prefix}.input:not(.radio):not(.checkbox):not(.switch) > label {
+		max-width: 100%;
+		width: map-gets($vars, lengths, medium);
+	}
+
+	// Sizing
+	@each $sizeName, $sizeEms in map-gets($vars, lengths) {
+		#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]) {
+			min-width: 0;
+			width: $sizeEms;
+		}
+	}
+
+	// Fitting size: takes up the whole available width
+	// =====================================================================
+	#{$prefix}.fitting.field,
+	#{$prefix}.fitting.field > .input,
+	#{$prefix}.fitting.input {
+		width: 100% !important;
+	}
+
+	@if lui_input_style_enabled("material") {
+		$selector: lui_input_get_style_selector("material");
+		#{$prefix}.field #{$selector}.input {
+			margin-top: 1.3em;
+		}
+		#{$prefix}.field #{$selector}.input {
+			~ .messages, ~ .message {
+				width: 100%;
+				margin-left: 0;
 			}
 		}
+		#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
+			width: 100% !important;
+		}
+		#{$prefix}.fitting.field > .input > label,
+		#{$prefix}.fitting.input#{$selector} > label {
+			width: 100% !important;
+		}
 
-
-		// Fields are a label coupled with an input and a potential validation message
-		// =====================================================================
-		#{$prefix}.field {
-			@include display-flex();
-			@include flex-direction(row);
-			@include flex-wrap(wrap);
-			@include flex-align-items(flex-start);
-
-			margin: map-gets($vars, vertical-margin) 0;
-
-			@include lui_clearfix(); // Prevent margin-collapse
-
-			& > .field {
-				margin: 0;
-			}
-
-			position: relative;
-
-			// Messages
-			// ====
-			.messages {
-				margin-left: 1em;
-			}
-			.message {
-				display: block;
-				font-size: map-gets($vars, message, font-size);
-				line-height: normal;
-				margin-top: 0.5em;
-				margin-right: 0.5em;
-			}
-
-			// Helper
-			// ====
-			.helper.message {
-				color: map-gets($vars, message, helper-color);
-			}
-
-
-			// Textarea count characters
-			.count {
-				text-align: right;
+		#{$prefix}.fitting.field > .input#{$selector},
+		#{$prefix}.fitting.input#{$selector} {
+			& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
+				width: 100%;
 			}
 		}
-
-		#{$prefix}.field > .input {
-			@include display-flex();
-			@include flex-align-items(center);
-		}
-
-		#{$prefix}.input {
-			@include display-flex(true);
-			@include flex-align-items(center);
-		}
-
-
-		// Required
-		// =====================================================================
-		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label {
-			padding-right: 1em;
-		}
-		#{$prefix}.field *[required]:not([type="checkbox"]):not([type="radio"]) ~ label:after {
-			position: absolute;
-			content: '*';
-			font-size: lui_rem(1.2);
-			display: inline-block;
-			margin-left: 0.25em;
-			color: luiPalette(red, color);
-		}
-
-		#{$prefix}.field .error {
-			color: map-gets($vars, invalid-color);
-		}
-
-		// Valid
-		// !!! This class goes on the .input div itself !!!
-		// =====================================================================
-		#{$prefix}.is-valid.input {
-			@include lui_make_icon("check", right);
-			&:after {
-				@include lui_is_animated('right fade in');
-
-				line-height: 1 + map-gets($vars, input, vertical-padding);
-				font-size: map-gets($vars, valid-icon-size);
-				color: map-gets($vars, valid-color);
-			}
-		}
-
-
-		// Field length (horizontal sizing)
-		// =====================================================================
-		// Defaults to medium
-		#{$prefix}.input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]):not(luid-translations),
-		#{$prefix}.input:not(.radio):not(.checkbox):not(.switch) > label {
-			max-width: 100%;
-			width: map-gets($vars, lengths, medium);
-		}
-
-		// Sizing
 		@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-			#{$prefix}.field.#{$sizeName} > .input > *[ng-model]:not([type="checkbox"]):not([type="radio"]):not([size]) {
+			#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch):not(.compact) > label, #{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
 				min-width: 0;
 				width: $sizeEms;
 			}
 		}
+	}
 
-		// Fitting size: takes up the whole available width
-		// =====================================================================
-		#{$prefix}.fitting.field,
-		#{$prefix}.fitting.field > .input,
-		#{$prefix}.fitting.input {
-			width: 100% !important;
+	// Inline style
+	// Fields are stacked on each line
+	// Default is block
+	// =====================================================================
+	#{$prefix}.form.inline .field,
+	#{$prefix}.fieldset.inline .field,
+	#{$prefix}.field.inline {
+		display: inline-block;
+		vertical-align: top;
+
+		& + .field.inline {
+			margin-left: 1em;
+		}
+	}
+
+
+	// Natural style
+	// =====================================================================
+	#{$prefix}.natural.form {
+		font-size: 2em - luiTheme(element, field, input, font-size);
+
+		> span {
+			font-size: luiTheme(element, field, input, font-size);
 		}
 
-		@if lui_input_style_enabled("material") {
-			$selector: lui_input_get_style_selector("material");
-			#{$prefix}.field #{$selector}.input {
-				margin-top: 1.3em;
-			}
-			#{$prefix}.field #{$selector}.input {
-				~ .messages, ~ .message {
-					width: 100%;
-					margin-left: 0;
-				}
-			}
-			#{$prefix}.fitting.field #{$selector}.input ~ .messages .message {
-				width: 100% !important;
-			}
-			#{$prefix}.fitting.field > .input > label,
-			#{$prefix}.fitting.input#{$selector} > label {
-				width: 100% !important;
-			}
-
-			#{$prefix}.fitting.field > .input#{$selector},
-			#{$prefix}.fitting.input#{$selector} {
-				& > *[ng-model]:not([type="checkbox"]):not([type="radio"]), & > input:not([type="checkbox"]):not([type="radio"]) {
-					width: 100%;
-				}
-			}
-			@each $sizeName, $sizeEms in map-gets($vars, lengths) {
-				#{$prefix}.field.#{$sizeName} > .input:not(.radio):not(.checkbox):not(.switch):not(.compact) > label, #{$prefix}.field.#{$sizeName} .material.input ~ .messages .message {
-					min-width: 0;
-					width: $sizeEms;
-				}
-			}
-		}
-
-		// Inline style
-		// Fields are stacked on each line
-		// Default is block
-		// =====================================================================
-		#{$prefix}.form.inline .field,
-		#{$prefix}.fieldset.inline .field,
-		#{$prefix}.field.inline {
+		> span,
+		> #{$prefix}.field,
+		> #{$prefix}.input,
+		> [ng-model] {
 			display: inline-block;
-			vertical-align: top;
-
-			& + .field.inline {
-				margin-left: 1em;
-			}
+			vertical-align: middle;
+			margin: 0 #{lui_rem(0.12)} 0 0;
 		}
 
-
-		// Natural style
-		// =====================================================================
-		#{$prefix}.natural.form {
-			font-size: 2em - luiTheme(element, field, input, font-size);
-
-			> span {
-				font-size: luiTheme(element, field, input, font-size);
-			}
-
-			> span,
-			> #{$prefix}.field,
-			> #{$prefix}.input,
-			> [ng-model] {
-				display: inline-block;
-				vertical-align: middle;
-				margin: 0 #{lui_rem(0.12)} 0 0;
-			}
-
-			.input .unit {
-				font-weight: inherit;
-			}
-
-			.input:hover {
-				> input:not([type="checkbox"]):not([type="radio"]),
-				> textarea {
-					background-color: luiTheme(element, field, natural-hover-background);
-				}
-			}
+		.input .unit {
+			font-weight: inherit;
 		}
 
+		.input:hover {
+			> input:not([type="checkbox"]):not([type="radio"]),
+			> textarea {
+				background-color: luiTheme(element, field, natural-hover-background);
+			}
+		}
+	}
 
-		// UI-select directive extensions
-		// =====================================================================
-		luid-api-select,
-		luid-api-select-multiple,
-		luid-user-picker,
-		luid-user-picker-multiple {
-			display: block;
-			width: 100%;
 
-			&.ng-invalid.ng-touched,
-			&.ng-invalid.ng-dirty,
-			&.ng-not-empty.ng-pristine.ng-invalid {
-				.ui-select-container .ui-select-toggle,
-				.ui-select-container .ui-select-search {
-					@extend %lui_input_invalid_input_material;
-				}
+	// UI-select directive extensions
+	// =====================================================================
+	luid-api-select,
+	luid-api-select-multiple,
+	luid-user-picker,
+	luid-user-picker-multiple {
+		display: block;
+		width: 100%;
+
+		&.ng-invalid.ng-touched,
+		&.ng-invalid.ng-dirty,
+		&.ng-not-empty.ng-pristine.ng-invalid {
+			.ui-select-container .ui-select-toggle,
+			.ui-select-container .ui-select-search {
+				@extend %lui_input_invalid_input_material;
 			}
 		}
 	}

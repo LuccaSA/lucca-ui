@@ -1,81 +1,78 @@
 @if luiTheme(element, popover, enabled) {
-	@at-root #{$namespace} {
+	$vars: luiTheme(element, popover);
 
-		$vars: luiTheme(element, popover);
+	[popover-trigger="'outsideClick'"],
+	[popover-trigger="outsideClick"],
+	[popover-trigger="click"] {
+		cursor: pointer;
+	}
 
-		[popover-trigger="'outsideClick'"],
-		[popover-trigger="outsideClick"],
-		[popover-trigger="click"] {
-			cursor: pointer;
+	#{$prefix}.popover {
+		position: absolute;
+		z-index: map-gets($vars, z-index);
+
+		opacity: 0;
+		transform: scale(0);
+
+		transition-property: opacity, transform;
+		transition-duration: map-gets($vars, animation-duration);
+		transition-timing-function: map-gets($vars, animation-easing);
+
+		.popover-inner {
+			background-color: #FFF;
+			box-sizing: border-box;
+
+			min-width:map-gets($vars, min-width);
+			max-width:map-gets($vars, max-width);
+
+			padding: map-gets($vars, vertical-padding) map-gets($vars, horizontal-padding);
+
+			@include lui_raised(2);
+			border-radius: luiTheme(adjective, rounded, radius);
 		}
 
-		#{$prefix}.popover {
-			position: absolute;
-			z-index: map-gets($vars, z-index);
-
-			opacity: 0;
-			transform: scale(0);
-
-			transition-property: opacity, transform;
-			transition-duration: map-gets($vars, animation-duration);
-			transition-timing-function: map-gets($vars, animation-easing);
-
-			.popover-inner {
-				background-color: #FFF;
-				box-sizing: border-box;
-
-				min-width:map-gets($vars, min-width);
-				max-width:map-gets($vars, max-width);
-
-				padding: map-gets($vars, vertical-padding) map-gets($vars, horizontal-padding);
-
-				@include lui_raised(2);
-				border-radius: luiTheme(adjective, rounded, radius);
-			}
-
-			.popover-title {
-				margin-top: 0;
-				font-size: map-gets($vars, title, font-size);
-			}
-
-			&.in {
-				opacity: 1;
-				transform: scale(1);
-			}
-
-			&.top .popover-inner,
-			&.top-left .popover-inner,
-			&.top-right .popover-inner { margin-bottom: map-gets($vars, offset); }
-
-			&.bottom .popover-inner,
-			&.bottom-left .popover-inner,
-			&.bottom-right .popover-inner { margin-top: map-gets($vars, offset); }
-
-			&.left .popover-inner,
-			&.left-top .popover-inner,
-			&.left-bottom .popover-inner { margin-right: map-gets($vars, offset); }
-
-			&.right .popover-inner,
-			&.right-top .popover-inner,
-			&.right-bottom .popover-inner { margin-left: map-gets($vars, offset); }
-
-			&.top { transform-origin: bottom center; }
-			&.bottom { transform-origin: top center; }
-			&.left { transform-origin: center right; }
-			&.right { transform-origin: center left; }
-
-			&.top-left,
-			&.right-bottom { transform-origin: bottom left; }
-
-			&.top-right,
-			&.left-bottom { transform-origin: bottom right; }
-
-
-			&.bottom-left,
-			&.right-top { transform-origin: top left; }
-
-			&.bottom-right,
-			&.left-top { transform-origin: top right; }
+		.popover-title {
+			margin-top: 0;
+			font-size: map-gets($vars, title, font-size);
 		}
+
+		&.in {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		&.top .popover-inner,
+		&.top-left .popover-inner,
+		&.top-right .popover-inner { margin-bottom: map-gets($vars, offset); }
+
+		&.bottom .popover-inner,
+		&.bottom-left .popover-inner,
+		&.bottom-right .popover-inner { margin-top: map-gets($vars, offset); }
+
+		&.left .popover-inner,
+		&.left-top .popover-inner,
+		&.left-bottom .popover-inner { margin-right: map-gets($vars, offset); }
+
+		&.right .popover-inner,
+		&.right-top .popover-inner,
+		&.right-bottom .popover-inner { margin-left: map-gets($vars, offset); }
+
+		&.top { transform-origin: bottom center; }
+		&.bottom { transform-origin: top center; }
+		&.left { transform-origin: center right; }
+		&.right { transform-origin: center left; }
+
+		&.top-left,
+		&.right-bottom { transform-origin: bottom left; }
+
+		&.top-right,
+		&.left-bottom { transform-origin: bottom right; }
+
+
+		&.bottom-left,
+		&.right-top { transform-origin: top left; }
+
+		&.bottom-right,
+		&.left-top { transform-origin: top right; }
 	}
 }

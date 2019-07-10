@@ -2,6 +2,7 @@
 @mixin lui_supports_sizing() {
 	@each $name, $sizeEms in map-gets($luiTheme, references, sizes) {
 		&.#{$name} {
+			@warn $sizeEms;
 			font-size: $sizeEms;
 		}
 	}

@@ -1,62 +1,59 @@
 @if map-get($pluginVars, enabled) {
-	@at-root #{$namespace} {
+	$popoverWidth: 50em;
+	$shortcutsWidth: 15em;
 
-		$popoverWidth: 50em;
-		$shortcutsWidth: 15em;
+	#{$prefix}.daterange {
+		.popover-inner { width: $popoverWidth; }
+		&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
+		.shortcuts.menu {
+			width: $shortcutsWidth;
+			float: right;
+			.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
+		}
+		.datepicker { float: left; border: none; }
+		.datepicker + .datepicker { margin-left: 1em; }
 
-		#{$prefix}.daterange {
-			.popover-inner { width: $popoverWidth; }
-			&.has-periods .popover-inner { width: $popoverWidth + $shortcutsWidth; }
-			.shortcuts.menu {
-				width: $shortcutsWidth;
-				float: right;
-				.item { background-color: luiPalette(light, color, light); margin: 0.25em 0; padding: 0.5em 1em; }
-			}
-			.datepicker { float: left; border: none; }
-			.datepicker + .datepicker { margin-left: 1em; }
+		.datepicker .in-between,
+		.datepicker .start,
+		.datepicker .end {
+			background-color: luiPalette(primary, color, x-light);
+			color: luiPalette(primary, text);
+		}
 
-			.datepicker .in-between,
-			.datepicker .start,
-			.datepicker .end {
-				background-color: luiPalette(primary, color, x-light);
-				color: luiPalette(primary, text);
-			}
+		.datepicker td.start {
+			border-top-left-radius: 1em;
+			border-bottom-left-radius: 1em;
+		}
+		.datepicker td.end {
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+		}
+		.datepicker td.startend button,
+		.datepicker td.start button,
+		.datepicker td.end button {
+			border-radius: 1em;
+			box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
 
-			.datepicker td.start {
-				border-top-left-radius: 1em;
-				border-bottom-left-radius: 1em;
+			&:hover {
+				background: #FFF;
 			}
-			.datepicker td.end {
-				border-top-right-radius: 1em;
-				border-bottom-right-radius: 1em;
-			}
-			.datepicker td.startend button,
-			.datepicker td.start button,
-			.datepicker td.end button {
-				border-radius: 1em;
-				box-shadow: 0 0 0 2px luiPalette(primary, color, x-light) inset;
+		}
+		.datepicker.start-date td.start button,
+		.datepicker.end-date td.end button {
+			background-color: #FFF;
+		}
 
-				&:hover {
-					background: #FFF;
-				}
-			}
-			.datepicker.start-date td.start button,
-			.datepicker.end-date td.end button {
-				background-color: #FFF;
-			}
+		tbody button.active { background-color: transparent; }
 
-			tbody button.active { background-color: transparent; }
+		footer {
+			border-top: 1px solid luiTheme(element, divider, color);
+			margin-top: 1em;
+			padding-top: 0.25em;
+		}
 
-			footer {
-				border-top: 1px solid luiTheme(element, divider, color);
-				margin-top: 1em;
-				padding-top: 0.25em;
-			}
-
-			hr {
-				clear: both;
-				@extend %lui_divider_base;
-			}
+		hr {
+			clear: both;
+			@extend %lui_divider_base;
 		}
 	}
 }

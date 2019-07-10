@@ -37,6 +37,4 @@ $luiTheme: () !default;
 
 // Load core defaults
 // @import "core/theming/defaults.values";
-@at-root {
-	@import "theme.defaults";
-}
+@import "theme.defaults";

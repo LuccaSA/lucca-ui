@@ -2,81 +2,77 @@
 
 	$vars: luiTheme(element, sortable);
 
-	@at-root #{$namespace} {
+	// base styling for any sortable list
+	#{$prefix}.sortable {
+		// Dragged element styling
+		.as-sortable-dragging {
+			background-color: map-gets($vars, background);
+			opacity: map-gets($vars, dragging, opacity);
+			@include lui_raised(map-gets($vars, dragging, raise));
 
-		// base styling for any sortable list
-		#{$prefix}.sortable {
-			// Dragged element styling
-			.as-sortable-dragging {
-				background-color: map-gets($vars, background);
-				opacity: map-gets($vars, dragging, opacity);
-				@include lui_raised(map-gets($vars, dragging, raise));
+			.as-sortable-item-handle {
+				opacity: 1;
+			}
+		}
+		// Placeholder styling
+		.as-sortable-placeholder {
+			background-color: map-gets($vars, placeholder, background);
+			border: map-gets($vars, placeholder, border);
+		}
 
+		// Fix for sortable tables
+		table.as-sortable-dragging {
+			display: table;
+			> tr {
+				display: table-row;
+				> td {
+					display: table-cell;
+				}
+			}
+		}
+	}
+
+	// styling for sortable list with a handle
+	#{$prefix}.sortable.sortable--whandle {
+		> .as-sortable-item {
+			> .as-sortable-item-handle {
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				opacity: 0;
+				transition-property: opacity;
+				transition-timing-function: map-gets($vars, transition, timing-function);
+				transition-duration: map-gets($vars, transition, duration);
+
+				// center any icon of any size vertically
+				&::before{
+					position: relative;
+					top: 50%;
+					transform: translate3d(0,-50%,0);
+				}
+			}
+
+			&:hover {
 				.as-sortable-item-handle {
 					opacity: 1;
 				}
 			}
-			// Placeholder styling
-			.as-sortable-placeholder {
-				background-color: map-gets($vars, placeholder, background);
-				border: map-gets($vars, placeholder, border);
-			}
+		}
+	}
 
-			// Fix for sortable tables
-			table.as-sortable-dragging {
-				display: table;
-				> tr {
-					display: table-row;
-					> td {
-						display: table-cell;
-					}
-				}
-			}
+	#{$prefix}.sortable.sortable--whandle.sortable--whandle-right .as-sortable-item  > .as-sortable-item-handle {
+			right: 1em;
 		}
 
-		// styling for sortable list with a handle
-		#{$prefix}.sortable.sortable--whandle {
-			> .as-sortable-item {
-				> .as-sortable-item-handle {
-					display: block;
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					opacity: 0;
-					transition-property: opacity;
-					transition-timing-function: map-gets($vars, transition, timing-function);
-					transition-duration: map-gets($vars, transition, duration);
+	#{$prefix}.sortable.sortable--whandle.sortable--whandle-left {
+		.as-sortable-item {
+			padding-left: 3em !important; // shift the content to make room for the handle
 
-					// center any icon of any size vertically
-					&::before{
-						position: relative;
-						top: 50%;
-						transform: translate3d(0,-50%,0);
-					}
-				}
-
-				&:hover {
-					.as-sortable-item-handle {
-						opacity: 1;
-					}
-				}
+			.as-sortable-item-handle {
+				left: 1em;
 			}
+
 		}
-
-		#{$prefix}.sortable.sortable--whandle.sortable--whandle-right .as-sortable-item  > .as-sortable-item-handle {
-				right: 1em;
-			}
-
-		#{$prefix}.sortable.sortable--whandle.sortable--whandle-left {
-			.as-sortable-item {
-				padding-left: 3em !important; // shift the content to make room for the handle
-
-				.as-sortable-item-handle {
-					left: 1em;
-				}
-
-			}
-		}
-
 	}
 }

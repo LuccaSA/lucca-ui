@@ -1,177 +1,175 @@
 @if luiTheme(element, tablegrid, enabled) {
-	@at-root #{$namespace} {
-		$vars: luiTheme(element, tablegrid);
+	$vars: luiTheme(element, tablegrid);
 
-		#{$prefix}.tablegrid {
-			position: relative;
+	#{$prefix}.tablegrid {
+		position: relative;
+		overflow: hidden;
+
+		// Common
+		// ====
+		text-align: map-gets($vars, textAlignment);
+
+		table {
+			table-layout: fixed;
+			width: 100%;
+			min-height: 1px;
+			border-spacing: 0;
+			border-collapse: collapse;
+		}
+
+		// Field
+		// ===
+		.field {
+			margin: 0;
+		}
+
+		// Columns
+		// ====
+		.columns {
+			background-color: map-gets($vars, background);
+		}
+		.locked.columns {
+			position: absolute;
 			overflow: hidden;
+			z-index: 1;
+			top: 0; bottom: 0; left: 0; right: 0;
 
-			// Common
-			// ====
-			text-align: map-gets($vars, textAlignment);
+			// table { height: 100%; }
 
-			table {
-				table-layout: fixed;
-				width: 100%;
-				min-height: 1px;
-				border-spacing: 0;
-				border-collapse: collapse;
+			thead {
+				z-index: 4;
+			}
+		}
+		.holder {
+			overflow: hidden;
+		}
+		.scrollable.columns {
+			z-index: 1;
+			overflow: auto;
+
+			thead {
+				z-index: 1;
+			}
+		}
+
+		// Cells
+		// ====
+		th, td {
+			padding: map-gets($vars, cell, padding);
+			box-sizing: border-box;
+
+			/* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+			-ms-word-break: break-all;
+			/* Non standard for webkit */
+			word-break: break-word;
+			-webkit-hyphens: auto;
+			-moz-hyphens: auto;
+			-ms-hyphens: auto;
+			hyphens: auto;
+
+			border: 1px solid luiPalette(light, color);
+
+			&.sortable {
+				cursor: pointer;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+
+				&.asc {
+					@include lui_make_icon("south arrow");
+				}
+				&.desc {
+					@include lui_make_icon("north arrow");
+				}
+				&:before {
+					float: right;
+					font-size: 0.6em;
+					padding: 0.5em;
+					line-height: 1;
+					border-radius: luiTheme(adjective, rounded, radius);
+					color: map-gets($vars, header, background);
+					background-color: map-gets($vars, header, text);
+				}
+			}
+		}
+
+		thead, tbody {
+			display: table;
+			width: auto;
+			box-sizing: border-box;
+			table-layout: fixed;
+		}
+
+		// Header
+		// ====
+		thead {
+			position: absolute; top: 0;
+			min-width: 100%;
+			color: map-gets($vars, header, text);
+			text-align: map-gets($vars, header, textAlignment);
+			@include lui_raised();
+
+			a {
+				color: map-gets($vars, header, text);
+				text-decoration: none;
 			}
 
-			// Field
-			// ===
-			.field {
-				margin: 0;
-			}
+			th {
+				background-color: map-gets($vars, header, background);
+				vertical-align: bottom;
+				border-color: map-gets($vars, header, borderColor);
+				font-weight: map-gets($vars, header, fontWeight);
 
-			// Columns
-			// ====
-			.columns {
-				background-color: map-gets($vars, background);
+				&.filtering {
+					font-weight: normal;
+				}
+			}
+			tr:not(.filters) th:not([colspan]) {
+				padding-top: map-gets($vars, header, cellPaddingTop);
+			}
+		}
+		.fitting.ui-select-container {
+			min-width: 1em;
+		}
+
+
+		// Body
+		// ====
+		tbody {
+			min-width: 100%;
+			height: auto;
+			background-color: map-gets($vars, background);
+		}
+
+
+		// Styles
+		// ====
+		&.zebra {
+			tbody > tr:nth-child(2n) {
+				background-color: map-gets($vars, rows, zebraColor);
+			}
+		}
+
+		// Hover color
+		tr.hovering {
+			background-color: map-gets($vars, rows, hoverColor) !important;
+		}
+
+		// IE9: no support for locked columns
+		.ie9 & {
+			padding-top: 0 !important;
+			thead {
+				position: static;
+			}
+			.scrollable.columns,
+			.scrollable.columns .virtualscroll {
+				margin-left: 0 !important;
 			}
 			.locked.columns {
-				position: absolute;
-				overflow: hidden;
-				z-index: 1;
-				top: 0; bottom: 0; left: 0; right: 0;
-
-				// table { height: 100%; }
-
-				thead {
-					z-index: 4;
-				}
-			}
-			.holder {
-				overflow: hidden;
-			}
-			.scrollable.columns {
-				z-index: 1;
-				overflow: auto;
-
-				thead {
-					z-index: 1;
-				}
-			}
-
-			// Cells
-			// ====
-			th, td {
-				padding: map-gets($vars, cell, padding);
-				box-sizing: border-box;
-
-				/* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
-				-ms-word-break: break-all;
-				/* Non standard for webkit */
-				word-break: break-word;
-				-webkit-hyphens: auto;
-				-moz-hyphens: auto;
-				-ms-hyphens: auto;
-				hyphens: auto;
-
-				border: 1px solid luiPalette(light, color);
-
-				&.sortable {
-					cursor: pointer;
-					-webkit-touch-callout: none;
-					-webkit-user-select: none;
-					-khtml-user-select: none;
-					-moz-user-select: none;
-					-ms-user-select: none;
-					user-select: none;
-
-					&.asc {
-						@include lui_make_icon("south arrow");
-					}
-					&.desc {
-						@include lui_make_icon("north arrow");
-					}
-					&:before {
-						float: right;
-						font-size: 0.6em;
-						padding: 0.5em;
-						line-height: 1;
-						border-radius: luiTheme(adjective, rounded, radius);
-						color: map-gets($vars, header, background);
-						background-color: map-gets($vars, header, text);
-					}
-				}
-			}
-
-			thead, tbody {
-				display: table;
-				width: auto;
-				box-sizing: border-box;
-				table-layout: fixed;
-			}
-
-			// Header
-			// ====
-			thead {
-				position: absolute; top: 0;
-				min-width: 100%;
-				color: map-gets($vars, header, text);
-				text-align: map-gets($vars, header, textAlignment);
-				@include lui_raised();
-
-				a {
-					color: map-gets($vars, header, text);
-					text-decoration: none;
-				}
-
-				th {
-					background-color: map-gets($vars, header, background);
-					vertical-align: bottom;
-					border-color: map-gets($vars, header, borderColor);
-					font-weight: map-gets($vars, header, fontWeight);
-
-					&.filtering {
-						font-weight: normal;
-					}
-				}
-				tr:not(.filters) th:not([colspan]) {
-					padding-top: map-gets($vars, header, cellPaddingTop);
-				}
-			}
-			.fitting.ui-select-container {
-				min-width: 1em;
-			}
-
-
-			// Body
-			// ====
-			tbody {
-				min-width: 100%;
-				height: auto;
-				background-color: map-gets($vars, background);
-			}
-
-
-			// Styles
-			// ====
-			&.zebra {
-				tbody > tr:nth-child(2n) {
-					background-color: map-gets($vars, rows, zebraColor);
-				}
-			}
-
-			// Hover color
-			tr.hovering {
-				background-color: map-gets($vars, rows, hoverColor) !important;
-			}
-
-			// IE9: no support for locked columns
-			.ie9 & {
-				padding-top: 0 !important;
-				thead {
-					position: static;
-				}
-				.scrollable.columns,
-				.scrollable.columns .virtualscroll {
-					margin-left: 0 !important;
-				}
-				.locked.columns {
-					display: none;
-				}
+				display: none;
 			}
 		}
 	}

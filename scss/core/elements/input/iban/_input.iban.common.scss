@@ -7,27 +7,25 @@
 }
 
 @if luiTheme(element, field, iban, enabled) {
-	@at-root #{$namespace} {
-		#{$prefix}.input {
-			luid-iban {
-				vertical-align: middle;
-				@extend %luid-iban-flex;
+	#{$prefix}.input {
+		luid-iban {
+			vertical-align: middle;
+			@extend %luid-iban-flex;
 
-				// Styling
-				// ====
-				> input {
-					display: inline-block;
+			// Styling
+			// ====
+			> input {
+				display: inline-block;
 
-					&::-webkit-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
-					&::-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
-					&:-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
-					&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&::-webkit-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&::-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&:-ms-input-placeholder { color: luiTheme(element, field, input, placeholder-color); }
+				&:-moz-placeholder { color: luiTheme(element, field, input, placeholder-color); }
 
-					@extend %lui_input_sizing;
+				@extend %lui_input_sizing;
 
-					&:last-of-type {
-						max-width: 100%;
-					}
+				&:last-of-type {
+					max-width: 100%;
 				}
 			}
 		}
