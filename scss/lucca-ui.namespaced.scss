@@ -13,7 +13,7 @@
 // Initialization
 // ===================================
 $prefix: '' !default;
-$namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: str-replace(to-string($namespace), '#', '');
+// $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: str-replace(to-string($namespace), '#', '');
 
 
 // Build theme
@@ -87,13 +87,9 @@ $namespace: &; @if ($namespace == null) { $namespace: body; } $cleanNamespace: s
 
 // Angular UI Bootstrap reskin
 // ===================================
-@at-root #{$namespace} {
 	// @import "plugins/angular-ui-bootstrap-reskin/angular-ui-bootstrap-reskin";
-}
 
 
-// Lucca App Lqyout
+// Lucca App Layout
 // ===================================
-@at-root #{$namespace} {
-	@import "plugins/lucca-app-layout/lucca-app-layout";
-}
+@import "plugins/lucca-app-layout/lucca-app-layout";
