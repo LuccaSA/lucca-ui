@@ -6,7 +6,6 @@
 		bottom: 0;
 		left: 0;
 		background: map-gets($vars, navigation, background);
-		background: red !important;
 		width: map-gets($vars, navigation, width);
 		padding-top: map-gets($vars, topOffset) + lui_rem(1.5em);
 		box-sizing: border-box;
