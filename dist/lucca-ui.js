@@ -1,8 +1,16 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var lui;
 (function (lui) {
     "use strict";
@@ -39,7 +47,6 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var config;
     (function (config_1) {
@@ -135,8 +142,9 @@ var lui;
         var CalendarDay = (function (_super) {
             __extends(CalendarDay, _super);
             function CalendarDay(date) {
-                _super.call(this, date);
-                this.dayNum = date.date();
+                var _this = _super.call(this, date) || this;
+                _this.dayNum = date.date();
+                return _this;
             }
             return CalendarDay;
         }(CalendarDate));
@@ -147,12 +155,12 @@ var lui;
             return Shortcut;
         }());
         datepicker.Shortcut = Shortcut;
+        var CalendarMode;
         (function (CalendarMode) {
             CalendarMode[CalendarMode["Days"] = 0] = "Days";
             CalendarMode[CalendarMode["Months"] = 1] = "Months";
             CalendarMode[CalendarMode["Years"] = 2] = "Years";
-        })(datepicker.CalendarMode || (datepicker.CalendarMode = {}));
-        var CalendarMode = datepicker.CalendarMode;
+        })(CalendarMode = datepicker.CalendarMode || (datepicker.CalendarMode = {}));
     })(datepicker = lui.datepicker || (lui.datepicker = {}));
 })(lui || (lui = {}));
 var lui;
@@ -536,9 +544,8 @@ var lui;
         var LuidDatePickerController = (function (_super) {
             __extends(LuidDatePickerController, _super);
             function LuidDatePickerController($scope, $log, $timeout) {
-                var _this = this;
-                _super.call(this, $scope, $log);
-                this.$scope = $scope;
+                var _this = _super.call(this, $scope, $log) || this;
+                _this.$scope = $scope;
                 $scope.togglePopover = function ($event) {
                     _this.togglePopover($event);
                 };
@@ -595,6 +602,7 @@ var lui;
                     }
                     _this.validate();
                 };
+                return _this;
             }
             LuidDatePickerController.prototype.setNgModelCtrl = function (ngModelCtrl) {
                 var _this = this;
@@ -764,10 +772,9 @@ var lui;
         var LuidDaterangePickerController = (function (_super) {
             __extends(LuidDaterangePickerController, _super);
             function LuidDaterangePickerController($scope, $filter, $log) {
-                var _this = this;
-                _super.call(this, $scope, $log);
-                this.$scope = $scope;
-                this.$filter = $filter;
+                var _this = _super.call(this, $scope, $log) || this;
+                _this.$scope = $scope;
+                _this.$filter = $filter;
                 $scope.internal = {};
                 switch (moment.locale()) {
                     case "fr":
@@ -779,7 +786,7 @@ var lui;
                         $scope.toLabel = "To";
                         break;
                 }
-                this.rangeFormatDictionary = {
+                _this.rangeFormatDictionary = {
                     en: {
                         other: $scope.rangeFormat
                     }
@@ -874,6 +881,7 @@ var lui;
                     _this.closePopover();
                     $event.stopPropagation();
                 };
+                return _this;
             }
             LuidDaterangePickerController.prototype.setElement = function (element) {
                 this.element = element;
@@ -1087,12 +1095,10 @@ var lui;
                 var matching = _.filter(departments, function (department) {
                     return department.name.toLowerCase().indexOf(loweredClue) === 0;
                 });
-                var containing = _.chain(departments)
-                    .difference(matching)
+                var containing = _.difference(departments, matching)
                     .filter(function (department) {
                     return department.name.toLowerCase().indexOf(loweredClue) > -1;
-                })
-                    .value();
+                });
                 var childDepartments = _.filter(departments, function (department) {
                     return department.name.toLowerCase().indexOf(loweredClue) === -1
                         && !!department.ancestorsLabel
@@ -1592,11 +1598,10 @@ var lui;
                         $scope.choices.push({ id: 0, loading: true, name: "" });
                         loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
                             .then(function (nextChoices) {
-                            $scope.choices = _.chain($scope.choices)
+                            $scope.choices = _.uniq(_.chain($scope.choices)
                                 .reject(function (c) { return c.loading; })
                                 .union(nextChoices)
-                                .uniq(function (c) { return c.id; })
-                                .value();
+                                .value());
                             _this.offset = $scope.choices.length;
                             loadingPromise = undefined;
                         }, function () {
@@ -1837,7 +1842,6 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var imagepicker;
     (function (imagepicker) {
@@ -1888,7 +1892,7 @@ var lui;
         }());
         imagepicker.LuidImageCropper = LuidImageCropper;
         var LuidImageCropperController = (function () {
-            function LuidImageCropperController($scope, moment, $uibModal, luisConfig) {
+            function LuidImageCropperController($scope, $uibModal, luisConfig) {
                 $scope.image = "";
                 $scope.cropped = "";
                 $scope.openCropper = function () {
@@ -1925,11 +1929,11 @@ var lui;
                 };
             }
             LuidImageCropperController.IID = "luidImageCropperController";
-            LuidImageCropperController.$inject = ["$scope", "moment", "$uibModal", "luisConfig"];
+            LuidImageCropperController.$inject = ["$scope", "$uibModal", "luisConfig"];
             return LuidImageCropperController;
         }());
         var LuidImageCropperModalController = (function () {
-            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, fileName, croppingRatio, cancelLabel) {
+            function LuidImageCropperModalController($scope, $uibModalInstance, image, fileName, croppingRatio, cancelLabel) {
                 var doClose = false;
                 $scope.image = image;
                 $scope.fileName = fileName;
@@ -1954,7 +1958,7 @@ var lui;
                 });
             }
             LuidImageCropperModalController.IID = "luidImageCropperModalController";
-            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
+            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "image", "croppingRatio", "cancelLabel"];
             return LuidImageCropperModalController;
         }());
         angular.module("lui.crop").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
@@ -2137,7 +2141,6 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var notify;
     (function (notify_1) {
@@ -2166,29 +2169,30 @@ var lui;
         var ErrorNotify = (function (_super) {
             __extends(ErrorNotify, _super);
             function ErrorNotify(message) {
-                _super.call(this, 20000, errorTemplate, message);
+                return _super.call(this, 20000, errorTemplate, message) || this;
             }
             return ErrorNotify;
         }(ANotify));
         var WarningNotify = (function (_super) {
             __extends(WarningNotify, _super);
             function WarningNotify(message) {
-                _super.call(this, 10000, warningTemplate, message);
+                return _super.call(this, 10000, warningTemplate, message) || this;
             }
             return WarningNotify;
         }(ANotify));
         var SuccessNotify = (function (_super) {
             __extends(SuccessNotify, _super);
             function SuccessNotify(message) {
-                _super.call(this, 5000, successTemplate, message);
+                return _super.call(this, 5000, successTemplate, message) || this;
             }
             return SuccessNotify;
         }(ANotify));
         var LoadingNotify = (function (_super) {
             __extends(LoadingNotify, _super);
             function LoadingNotify(scope, message) {
-                _super.call(this, 86400000, loadingTemplate, message);
-                this.scope = scope;
+                var _this = _super.call(this, 86400000, loadingTemplate, message) || this;
+                _this.scope = scope;
+                return _this;
             }
             return LoadingNotify;
         }(ANotify));
@@ -2424,7 +2428,6 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var progressbar;
     (function (progressbar) {
@@ -2549,13 +2552,13 @@ var lui;
     var tablegrid;
     (function (tablegrid) {
         "use strict";
+        var FilterType;
         (function (FilterType) {
             FilterType[FilterType["NONE"] = 0] = "NONE";
             FilterType[FilterType["TEXT"] = 1] = "TEXT";
             FilterType[FilterType["SELECT"] = 2] = "SELECT";
             FilterType[FilterType["MULTISELECT"] = 3] = "MULTISELECT";
-        })(tablegrid.FilterType || (tablegrid.FilterType = {}));
-        var FilterType = tablegrid.FilterType;
+        })(FilterType = tablegrid.FilterType || (tablegrid.FilterType = {}));
     })(tablegrid = lui.tablegrid || (lui.tablegrid = {}));
 })(lui || (lui = {}));
 var lui;
@@ -3596,10 +3599,10 @@ var lui;
                 var _this = this;
                 return this.tidyUp(allUsers, clue)
                     .then(function (neatUsers) {
+                    var _a;
                     _this.$scope.users = _this.$scope.users || [];
                     (_a = _this.$scope.users).push.apply(_a, _.filter(neatUsers, function (neatUser) { return !_.any(_this.$scope.users, function (user) { return user.id === neatUser.id; }); }));
                     return _this.$scope.users;
-                    var _a;
                 });
             };
             LuidUserPickerController.prototype.resetUsers = function () {
@@ -3867,20 +3870,13 @@ var lui;
             };
             UserPickerService.prototype.reduceAdditionalProperties = function (users) {
                 var _this = this;
-                var groupedHomonyms = _.chain(users)
-                    .groupBy(function (user) { return _this.concatName(user); })
-                    .filter(function (groups) { return groups.length > 1; })
-                    .value();
+                var groupedHomonyms = _.filter(_.groupBy(users, function (user) { return _this.concatName(user); }), function (groups) { return groups.length > 1; });
                 if (groupedHomonyms.length === 0) {
                     return users;
                 }
                 _.each(groupedHomonyms, function (homonyms) {
                     var reducableProperties = new Array();
-                    var groupedProperties = _.chain(homonyms)
-                        .map(function (user) { return user.additionalProperties; })
-                        .flatten()
-                        .groupBy(function (property) { return property.name; })
-                        .value();
+                    var groupedProperties = _.groupBy(_.flatten(homonyms.map(function (user) { return user.additionalProperties; })), function (property) { return property.name; });
                     _.each(groupedProperties, function (propertyGroup) {
                         var uniq = _.uniq(propertyGroup, function (property) { return property.value; });
                         if (uniq.length === 1) {
@@ -3923,7 +3919,6 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var formatter;
     (function (formatter) {
@@ -4055,18 +4050,15 @@ var lui;
 (function (lui) {
     "use strict";
 })(lui || (lui = {}));
-var lui;
 (function (lui) {
     var upload;
     (function (upload) {
         "use strict";
         var UploaderService = (function () {
-            function UploaderService($http, $q, _, moment) {
+            function UploaderService($http, $q) {
                 this.mainApiUrl = "/api/files";
                 this.$http = $http;
                 this.$q = $q;
-                this._ = _;
-                this.moment = moment;
             }
             UploaderService.prototype.postFromUrl = function (url, fileName) {
                 var _this = this;
@@ -4124,7 +4116,7 @@ var lui;
                 return bb;
             };
             UploaderService.IID = "uploaderService";
-            UploaderService.$inject = ["$http", "$q", "_", "moment"];
+            UploaderService.$inject = ["$http", "$q"];
             return UploaderService;
         }());
         var ApiResponseItem = (function () {
