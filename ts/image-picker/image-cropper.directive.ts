@@ -76,9 +76,9 @@ module lui.imagepicker {
 	}
 	class LuidImageCropperController {
 		public static IID: string = "luidImageCropperController";
-		public static $inject: Array<string> = ["$scope", "moment", "$uibModal", "luisConfig"];
+		public static $inject: Array<string> = ["$scope", "$uibModal", "luisConfig"];
 
-		constructor($scope: IImageCropperScope, moment: moment.MomentStatic, $uibModal: angular.ui.bootstrap.IModalService, luisConfig: IConfig) {
+		constructor($scope: IImageCropperScope, $uibModal: angular.ui.bootstrap.IModalService, luisConfig: IConfig) {
 			$scope.image = "";
 			$scope.cropped = "";
 
@@ -117,9 +117,9 @@ module lui.imagepicker {
 	}
 	class LuidImageCropperModalController {
 		public static IID: string = "luidImageCropperModalController";
-		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
+		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "image", "croppingRatio", "cancelLabel"];
 
-		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, fileName: string, croppingRatio: number, cancelLabel: string) {
+		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, image: string, fileName: string, croppingRatio: number, cancelLabel: string) {
 			let doClose: boolean = false;
 			$scope.image = image;
 			$scope.fileName = fileName;

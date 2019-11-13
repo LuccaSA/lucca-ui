@@ -235,7 +235,7 @@ module lui.datepicker {
 				default: break;
 			}
 		}
-		private constructDates(start: moment.Moment, unitOfTime: string): CalendarDate[] {
+		private constructDates(start: moment.Moment, unitOfTime: moment.unitOfTime.DurationConstructor): CalendarDate[] {
 			return _.map(_.range(12), (i: number) => {
 				return new CalendarDate(moment(start).add(i, unitOfTime));
 			});

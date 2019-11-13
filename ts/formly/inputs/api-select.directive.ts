@@ -119,11 +119,13 @@ module lui.apiselect {
 					$scope.choices.push({ id: 0, loading: true, name: "" });
 					loadingPromise = service.get(clue, $scope.api, $scope.filter, paging, $scope.orderBy)
 					.then((nextChoices: IStandardApiResource[]) => {
-						$scope.choices = _.chain($scope.choices)
-						.reject(c => c.loading)
-						.union(nextChoices)
-						.uniq(c => c.id)
-						.value();
+						// Some issues with _.chain().uniq typings...
+						$scope.choices = _.uniq(
+							_.chain($scope.choices)
+							.reject(c => c.loading)
+							.union(nextChoices)
+							.value()
+						);
 						this.offset = $scope.choices.length;
 						loadingPromise = undefined;
 					}, () => {

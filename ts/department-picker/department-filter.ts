@@ -11,12 +11,10 @@ module lui.departmentpicker {
 			let matching = _.filter(departments, (department: IDepartment) => {
 				return department.name.toLowerCase().indexOf(loweredClue) === 0; // Department starts with the clue
 			});
-			let containing = _.chain(departments)
-			.difference(matching)
-			.filter((department: IDepartment) => {
-				return department.name.toLowerCase().indexOf(loweredClue) > -1; // Has the clue in the department name
-			})
-			.value();
+			let containing = _.difference(departments, matching)
+				.filter((department: IDepartment) => {
+					return department.name.toLowerCase().indexOf(loweredClue) > -1; // Has the clue in the department name
+				});
 			let childDepartments = _.filter(departments, (department: IDepartment) => {
 				return department.name.toLowerCase().indexOf(loweredClue) === -1
 				&& !!department.ancestorsLabel

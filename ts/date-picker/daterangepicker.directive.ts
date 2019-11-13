@@ -6,7 +6,7 @@ module lui.datepicker {
 		return { restrict: "A", link: ($scope: any, element: angular.IAugmentedJQuery): void => { element[0].focus(); } };
 	});
 
-	class LuidDaterangePicker implements angular.IDirective {
+	class LuidDaterangePicker implements angular.IDirective<IDaterangePickerScope, angular.IAugmentedJQuery, angular.IAttributes & { ngChange: string }> {
 		public static IID: string = "luidDaterangePicker";
 		public restrict = "E";
 		public templateUrl = "lui/templates/date-picker/daterangepicker.html";
@@ -30,7 +30,7 @@ module lui.datepicker {
 			disableKeyboardInput: "="
 		};
 		public controller: string = LuidDaterangePickerController.IID;
-		public static factory(): angular.IDirectiveFactory {
+		public static factory(): angular.IDirectiveFactory<IDaterangePickerScope, angular.IAugmentedJQuery, angular.IAttributes & { ngChange: string }> {
 			return () => { return new LuidDaterangePicker(); };
 		}
 		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {

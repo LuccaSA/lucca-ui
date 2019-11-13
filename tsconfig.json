@@ -5,10 +5,13 @@
 		"removeComments": true,
 		"sourceMap": false,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
+		"emitDecoratorMetadata": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true
 	},
-	"exclude":[
+	"exclude": [
 		"node_modules",
-		"bower_components"
+		"bower_components",
+		"dist"
 	]
 }

@@ -1,5 +1,7 @@
 module lui.datepicker.test {
 	"use strict";
+	type MomentAddSpy = { (amount?: moment.DurationInputArg1, unit?: moment.DurationInputArg2): moment.Moment };
+
 	// most methods are private or protected, i use this to be able to add spies
 	interface ICalendarController {
 		currentDate: moment.Moment;
@@ -44,7 +46,7 @@ module lui.datepicker.test {
 				ctrl.currentDate = moment().startOf("month");
 			});
 			it("should call constructMonth n times", () => {
-				spyOn(ctrl, "constructCalendar").and.returnValue({});
+				spyOn(ctrl, "constructCalendar").and.returnValue({} as Calendar);
 				ctrl.constructCalendars();
 				expect(ctrl.constructCalendar).toHaveBeenCalled();
 				expect((<jasmine.Spy>ctrl.constructCalendar).calls.count()).toBe(1);
@@ -138,7 +140,7 @@ module lui.datepicker.test {
 			});
 			it("should call moment.add and constructMonth", () => {
 				$scope.previous();
-				expect(m.add).toHaveBeenCalledWith(-1, "months");
+				expect<MomentAddSpy>(m.add).toHaveBeenCalledWith(-1, "months");
 				expect(ctrl.constructCalendars).toHaveBeenCalled();
 				expect(ctrl.assignClasses).toHaveBeenCalled();
 			});
@@ -155,7 +157,7 @@ module lui.datepicker.test {
 			});
 			it("should call moment.add and constructMonth", () => {
 				$scope.next();
-				expect(m.add).toHaveBeenCalledWith(1, "months");
+				expect<MomentAddSpy>(m.add).toHaveBeenCalledWith(1, "months");
 				expect(ctrl.constructCalendars).toHaveBeenCalled();
 				expect(ctrl.assignClasses).toHaveBeenCalled();
 			});

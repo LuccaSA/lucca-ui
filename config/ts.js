@@ -7,7 +7,6 @@ module.exports = function(grunt, options){
 		dist:{
 			src: [
 				// "ts/**/*.ts",
-				"typings/index.d.ts",
 				"ts/modules.ts",
 				"ts/**/*.ts",
 				"!ts/**/*.spec.ts", 
@@ -20,8 +19,8 @@ module.exports = function(grunt, options){
 		},
 		test:{
 			src: [
-				"typings/index.d.ts",
 				"dist/lucca-ui.d.ts",
+				"ts/moment-namespace.d.ts",
 				"ts/**/*.spec.ts",
 			], 
 			outDir: ".tests",

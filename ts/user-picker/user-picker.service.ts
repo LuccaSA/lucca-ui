@@ -150,21 +150,20 @@ module lui.userpicker {
 		}
 
 		public reduceAdditionalProperties(users: IUserLookup[]): IUserLookup[] {
-			let groupedHomonyms = _.chain(users)
-				.groupBy((user: IUserLookup) => { return this.concatName(user); })
-				.filter(groups => { return groups.length > 1; })
-				.value();
+			let groupedHomonyms = _.filter(
+				_.groupBy(users, user => this.concatName(user)),
+				groups => { return groups.length > 1; }
+			);
 
 			if (groupedHomonyms.length === 0) {
 				return users;
 			}
 			_.each(groupedHomonyms, (homonyms: IUserLookup[]) => {
 				let reducableProperties = new Array<string>();
-				let groupedProperties = _.chain(homonyms)
-					.map((user: IUserLookup) => { return user.additionalProperties; })
-					.flatten()
-					.groupBy((property: IHomonymProperty) => { return property.name; })
-					.value();
+				let groupedProperties = _.groupBy(
+					_.flatten(homonyms.map(user => user.additionalProperties)),
+					(property: IHomonymProperty) => property.name
+				);
 				_.each(groupedProperties, (propertyGroup: IHomonymProperty[]) => {
 					let uniq = _.uniq(propertyGroup, (property: IHomonymProperty) => { return property.value; });
 					if (uniq.length === 1) {

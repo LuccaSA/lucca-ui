@@ -124,7 +124,7 @@ module lui.userpicker.Test {
 
 			it("should add custom info to the users if asked to", () => {
 				let getCustomInfoAsync = (user: IUserLookup): ng.IPromise<string> => {
-					let dfd = $q.defer();
+					let dfd = $q.defer<string>();
 					dfd.resolve("customInfoAsync");
 					return dfd.promise;
 				};

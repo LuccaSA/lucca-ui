@@ -10,25 +10,20 @@ module lui.upload {
 	"use strict";
 	class UploaderService implements IUploaderService {
 		public static IID: string = "uploaderService";
-		public static $inject: Array<string> = ["$http", "$q", "_", "moment"];
+		public static $inject: Array<string> = ["$http", "$q"];
 
 		private mainApiUrl: string;
 		private $http: angular.IHttpService;
 		private $q: angular.IQService;
-		private _: UnderscoreStatic;
-		private moment: moment.MomentStatic;
 
-
-		constructor($http: angular.IHttpService, $q: angular.IQService, _: UnderscoreStatic, moment: moment.MomentStatic) {
+		constructor($http: angular.IHttpService, $q: angular.IQService) {
 			this.mainApiUrl = "/api/files";
 			this.$http = $http;
 			this.$q = $q;
-			this._ = _;
-			this.moment = moment;
 		}
 
 		public postFromUrl(url: string, fileName: string): ng.IPromise<IFile> {
-			let dfd = this.$q.defer();
+			let dfd = this.$q.defer<IFile>();
 
 			let req = new XMLHttpRequest();
 			req.open("GET", url, true);
@@ -36,7 +31,7 @@ module lui.upload {
 			req.onload = (event) => {
 				let blob = new Blob([req.response], {type: "image/jpeg"});
 				this.postBlob(blob, fileName)
-				.then((response: ng.IHttpPromiseCallbackArg<ApiResponseItem<IFile>>) => {
+				.then((response: IFile) => {
 					dfd.resolve(response);
 				}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
 					dfd.reject(response.data.Message);
@@ -53,7 +48,7 @@ module lui.upload {
 		}
 
 		public postBlob(blob: Blob, fileName: string): ng.IPromise<IFile> {
-			let dfd = this.$q.defer();
+			let dfd = this.$q.defer<IFile>();
 			let url = this.mainApiUrl;
 			let fd = new FormData();
 			fd.append(fileName.substring(0, fileName.lastIndexOf(".")), blob, fileName);
