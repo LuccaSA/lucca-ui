@@ -3043,9 +3043,9 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl"];
-        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
-        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl" };
+        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt"];
+        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067, pt: 2070 };
+        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 2067: "nl", 2070: "pt" };
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;

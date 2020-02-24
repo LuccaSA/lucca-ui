@@ -517,6 +517,7 @@ declare module lui.translate {
         fr: number;
         it: number;
         nl: number;
+        pt: number;
     };
     const CODES_TO_LANGUAGES: {
         1031: string;
@@ -525,6 +526,7 @@ declare module lui.translate {
         1036: string;
         1040: string;
         2067: string;
+        2070: string;
     };
     class CulturedList {
         culture: string;
