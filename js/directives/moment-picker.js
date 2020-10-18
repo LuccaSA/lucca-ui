@@ -451,13 +451,13 @@
 	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
 			"<div class='lui hours moment input' ng-class='{disabled: isDisabled}'>" +
-			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false' ng-model-options=\"{updateOn: 'blur'}\">" +
 			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled: maxed}'></i>" +
 			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"<span class='separator'>:</span>" +
 			"<div class='lui minutes moment input' ng-class='{disabled: isDisabled}'>" +
-			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false' ng-model-options=\"{updateOn: 'blur'}\">" +
 			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled: maxed}'></i>" +
 			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
