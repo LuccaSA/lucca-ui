@@ -194,7 +194,8 @@
 				switch(true){
 					case (Math.floor((days * 10) % 10) === 0 && Math.floor((days * 100) % 10) === 0):	return 0;
 					case (Math.floor((days * 100) % 10) === 0):											return 1;
-					default: 																			return 2;
+					case (Math.floor((days * 1000) % 10) === 0):										return 2;
+					default:																			return 3;
 				}
 			}
 
@@ -264,11 +265,16 @@
 				},
 			];
 
-			var d = moment.duration(_duration);
-
+			var d, securedDuration = undefined;
+				
+			if (!!_duration) {
+				securedDuration = !!_duration.asMilliseconds ? _duration.asMilliseconds() : _duration;
+			}
+			d = moment.duration(securedDuration);
+			
 			if (d.asMilliseconds() === 0) { return ''; }
 
-			var values = [Math.abs(d.days()), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
+			var values = [Math.floor(Math.abs(d.asDays())), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
 			var config = unitConfigs[getConfigIndex(_unit)];
 			var minimumUnit = Math.max(config.index, getNextNotNull(values, 0));
 			values[config.index] = Math.abs(d[config.dateConversion]() >= 0 ? Math.floor(d[config.dateConversion]()) : Math.ceil(d[config.dateConversion]()));
