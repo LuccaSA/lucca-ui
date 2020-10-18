@@ -4480,7 +4480,7 @@ var lui;
 				var translateCtrl = ctrls[0];
 
 				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067 };
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 2067, pt: 2070 };
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
@@ -5123,13 +5123,13 @@ var lui;
 	angular.module("lui").run(["$templateCache", function($templateCache) {
 		$templateCache.put("lui/directives/luidMoment.html",
 			"<div class='lui hours moment input' ng-class='{disabled: isDisabled}'>" +
-			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<input type='text' ng-model='hours' ng-change='changeHours()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusHours' ng-focus='focusHours()' ng-blur='blurHours()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false' ng-model-options=\"{updateOn: 'blur'}\">" +
 			"	<i ng-click='incrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button top left north arrow icon' ng-class='{disabled: maxed}'></i>" +
 			"	<i ng-click='decrHours()' ng-show='showButtons && hoursFocused' class='lui mp-button bottom left south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
 			"<span class='separator'>:</span>" +
 			"<div class='lui minutes moment input' ng-class='{disabled: isDisabled}'>" +
-			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false'>" +
+			"	<input type='text' ng-model='mins' ng-change='changeMins()' luid-select-on-click ng-pattern='pattern' luid-focus-on='focusMinutes' ng-focus='focusMins()' ng-blur='blurMins()' ng-disabled='isDisabled' maxLength='2' autocorrect='off' spellcheck='false' ng-model-options=\"{updateOn: 'blur'}\">" +
 			"	<i ng-click='incrMins()'  ng-show='showButtons && minsFocused' class='lui mp-button top right north arrow icon' ng-class='{disabled: maxed}'></i>" +
 			"	<i ng-click='decrMins()' ng-show='showButtons && minsFocused' class='lui mp-button bottom right south arrow icon' ng-class='{disabled: mined}'></i>" +
 			"</div>" +
@@ -5440,7 +5440,7 @@ var lui;
 						timespan += "-";
 						dur = moment.duration(-dur);
 					}
-					timespan += (dur.days() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
+					timespan += (dur.asDays() > 0 ? Math.floor(dur.asDays()) + '.' : '') + (dur.hours() < 10 ? '0' : '') + dur.hours() + ':' + (dur.minutes() < 10 ? '0' : '') + dur.minutes() + ':00';
 					return timespan;
 				}
 				return dur;
@@ -5652,7 +5652,21 @@ var lui;
 				sameYear: 'von start(Do MMMM) bis end(LL)',
 				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
 				other: 'von start(LL) bis end(LL)'
-			}
+			},
+			'es': {
+				startOnly: 'del date(dddd LL)',
+				startOnlyThisYear: 'del date(dddd LL)',
+				endOnly: 'al date(dddd LL)',
+				endOnlyThisYear: 'al date(dddd LL)',
+				date: 'date(LL)',
+				sameDay: 'el start(dddd LL)',
+				sameDayThisYear: 'el start(dddd LL)',
+				sameMonth: 'del start(D) al end(LL)',
+				sameMonthThisYear: 'del start(D) al end(LL)',
+				sameYear: 'del start(LL) al end(LL)',
+				sameYearThisYear: 'del start(LL) al end(LL)',
+				other: 'del start(LL) al end(LL)'
+			}	
 		};
 		function getTrad(trads, locale, key, fallbackKey) {
 			if (!!trads && !!trads[locale] && !!trads[locale][key]) {
@@ -5775,7 +5789,8 @@ var lui;
 				switch(true){
 					case (Math.floor((days * 10) % 10) === 0 && Math.floor((days * 100) % 10) === 0):	return 0;
 					case (Math.floor((days * 100) % 10) === 0):											return 1;
-					default: 																			return 2;
+					case (Math.floor((days * 1000) % 10) === 0):										return 2;
+					default:																			return 3;
 				}
 			}
 
@@ -5845,11 +5860,16 @@ var lui;
 				},
 			];
 
-			var d = moment.duration(_duration);
-
+			var d, securedDuration = undefined;
+				
+			if (!!_duration) {
+				securedDuration = !!_duration.asMilliseconds ? _duration.asMilliseconds() : _duration;
+			}
+			d = moment.duration(securedDuration);
+			
 			if (d.asMilliseconds() === 0) { return ''; }
 
-			var values = [Math.abs(d.days()), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
+			var values = [Math.floor(Math.abs(d.asDays())), Math.abs(d.hours()), Math.abs(d.minutes()), Math.abs(d.seconds()), Math.abs(d.milliseconds())];
 			var config = unitConfigs[getConfigIndex(_unit)];
 			var minimumUnit = Math.max(config.index, getNextNotNull(values, 0));
 			values[config.index] = Math.abs(d[config.dateConversion]() >= 0 ? Math.floor(d[config.dateConversion]()) : Math.ceil(d[config.dateConversion]()));
