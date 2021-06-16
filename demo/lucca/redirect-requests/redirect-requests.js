@@ -28,7 +28,7 @@
 
 				$httpBackend.whenPOST(/\/\/\w*.local\/.*/).passThrough();
 				$httpBackend.whenPOST(/\/\/\w*.local.dev\/.*/).passThrough();
-				$httpBackend.whenPOST(/api\/files/i).respond(function (method, url, data) { return rerouteToLocal("POST", url, data); });
+				$httpBackend.whenPOST(/api\/v3\/files/i).respond(function (method, url, data) { return rerouteToLocal("POST", url, data); });
 
 				var rerouteToLocal = function (method, url, data) {
 					if (!$scope.authToken) { alert("You are not authenticated on your local website. Log in and come back."); }

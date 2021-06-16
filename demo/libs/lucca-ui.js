@@ -4062,7 +4062,7 @@ var lui;
         "use strict";
         var UploaderService = (function () {
             function UploaderService($http, $q, _, moment) {
-                this.mainApiUrl = "/api/files";
+                this.mainApiUrl = "/api/v3/files";
                 this.$http = $http;
                 this.$q = $q;
                 this._ = _;
