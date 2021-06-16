@@ -20,7 +20,7 @@ module lui.upload {
 
 
 		constructor($http: angular.IHttpService, $q: angular.IQService, _: UnderscoreStatic, moment: moment.MomentStatic) {
-			this.mainApiUrl = "/api/files";
+			this.mainApiUrl = "/api/v3/files";
 			this.$http = $http;
 			this.$q = $q;
 			this._ = _;
