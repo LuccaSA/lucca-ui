@@ -42,7 +42,7 @@
     "grunt-sass": "^2.1.0",
     "grunt-ts": "^5.3.2",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.21",
+    "karma": "^6.3.14",
     "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.7",
     "karma-junit-reporter": "^0.3.8",
