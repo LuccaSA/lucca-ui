@@ -108,7 +108,7 @@
 
 		dl#{$prefix}.definition-list,
 		#{$prefix}.typeset dl {
-			@extend #{$prefix}.clear;
+			@extend .clear;
 			dt {
 				width: map-gets($vars, definitionList, termWidth);
 				font-weight: map-gets($vars, definitionList, termWeight);

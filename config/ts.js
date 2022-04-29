@@ -14,6 +14,7 @@ module.exports = function(grunt, options){
 				"!ts/**/*.e2e.ts",
 			],
 			dest: ".temp/lucca-ui-ts.js",
+			tsconfig: 'tsconfig.json',
 			options: {
 				declaration: true,
 			},

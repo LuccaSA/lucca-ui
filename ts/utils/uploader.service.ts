@@ -36,6 +36,7 @@ module lui.upload {
 			req.onload = (event) => {
 				let blob = new Blob([req.response], {type: "image/jpeg"});
 				this.postBlob(blob, fileName)
+				// @ts-ignore
 				.then((response: ng.IHttpPromiseCallbackArg<ApiResponseItem<IFile>>) => {
 					dfd.resolve(response);
 				}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
@@ -44,6 +45,7 @@ module lui.upload {
 			};
 			req.send();
 
+			// @ts-ignore
 			return dfd.promise;
 		}
 
@@ -72,6 +74,7 @@ module lui.upload {
 			}, (response: ng.IHttpPromiseCallbackArg<ApiError>) => {
 				dfd.reject(response.data.Message);
 			});
+			// @ts-ignore
 			return dfd.promise;
 		}
 

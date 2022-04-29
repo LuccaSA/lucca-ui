@@ -1,8 +1,9 @@
-'use strict';
+const sass = require('sass');
 
 module.exports = function(grunt, options){
 	return {
 		options:{
+			implementation: sass,
 			outputStyle: 'compressed',
 			sourcemap: 'inline',
 			includePaths: [

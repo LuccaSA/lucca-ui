@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('dist', ["clean:dist", "ts:dist", "ngtemplates:dist", 'concat:standard', 'uglify:standard', 'sass:dist', "copy:tsdefinitions", "copy:demolibs"]);
 
 	// use this tasks when you are developping
-	grunt.registerTask('debug', ["dist", "sass:demo", "clean:tests", "ts:test", "connect:server", "concurrent:debug"]);
+	grunt.registerTask('debug', ["dist", "sass:demo", "connect:server"]);
 	// // use this one when you're coding e2e tests
 	grunt.registerTask('e2e', ["dist", "ts:e2e", "connect", "protractor:singlerun", "concurrent:e2e"]);
 	// this updates the dists and tests it, creates karma coverage

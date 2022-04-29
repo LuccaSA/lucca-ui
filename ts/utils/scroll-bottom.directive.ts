@@ -10,6 +10,7 @@ module lui.scroll {
 			scope: { luidOnScrollBottom: "&" },
 			link: ($scope: any, element: angular.IAugmentedJQuery): void => {
 				element.bind("scroll", (eventArg: JQueryEventObject) => {
+					// @ts-ignore
 					let target: Element = eventArg.target || event.srcElement;
 					let scrollbarHeight = target.scrollHeight - target.clientHeight;
 					if (Math.abs(scrollbarHeight - target.scrollTop) < 2 && !!$scope.luidOnScrollBottom) {

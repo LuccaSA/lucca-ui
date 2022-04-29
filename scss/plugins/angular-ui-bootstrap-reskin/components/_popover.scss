@@ -2,12 +2,12 @@
 	@at-root #{$namespace} {
 
 		#{$prefix}.popover {
-			@extend #{$prefix}.tooltip;
+			@extend .tooltip;
 			pointer-events: auto;
 			min-width: map-gets($pluginVars, popover, minWidth);
 			max-width: map-gets($pluginVars, popover, maxWidth);
 
-			.popover-inner { @extend #{$prefix}.clear; }
+			.popover-inner { @extend .clear; }
 
 			.popover-inner, .popover-title {
 				padding: (map-gets($pluginVars, popover, innerVerticalPadding)) (map-gets($pluginVars, popover, innerHorizontalPadding));

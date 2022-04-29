@@ -50,9 +50,9 @@
 			&:last-child { margin-bottom: 0; }
 
 			// resets
-			@extend #{$prefix}.clear;
-			ul { @extend ul#{$prefix}.unstyled; }
-			a { @extend a#{$prefix}.unstyled; }
+			@extend .clear;
+			ul { @extend .unstyled; }
+			a { @extend .unstyled; }
 		}
 
 
@@ -139,7 +139,7 @@
 			// Resets
 			position: relative;
 			line-height: 1;
-			@extend #{$prefix}.clear;
+			@extend .clear;
 		}
 
 		// Link items

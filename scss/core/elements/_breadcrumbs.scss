@@ -3,7 +3,7 @@
 		$vars: luiTheme(element, breadcrumbs);
 
 		#{$prefix}.breadcrumbs {
-			@extend ul#{$prefix}.unstyled;
+			@extend .unstyled;
 
 			> li {
 				position: relative;

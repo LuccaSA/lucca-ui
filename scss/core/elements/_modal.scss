@@ -21,7 +21,7 @@
 
 			.modal-dialog {
 				@include lui_raised(5);
-				@extend #{$prefix}.rounded;
+				@extend .rounded;
 				margin: map-gets($vars, top-margin) auto map-gets($vars, bottom-margin) auto;
 				background: map-gets($vars, background);
 				max-width: map-gets($vars, max-width);
@@ -45,7 +45,7 @@
 		}
 
 		#{$prefix}.modal-backdrop {
-			@extend #{$prefix}.overlay;
+			@extend .overlay;
 
 			visibility: hidden;
 			opacity: 0;

@@ -31,8 +31,10 @@ module lui.datepicker {
 		};
 		public controller: string = LuidDaterangePickerController.IID;
 		public static factory(): angular.IDirectiveFactory {
+			// @ts-ignore
 			return () => { return new LuidDaterangePicker(); };
 		}
+		// @ts-ignore
 		public link(scope: IDaterangePickerScope, element: angular.IAugmentedJQuery, attrs: { ngChange: string }, ctrls: any[]): void {
 			let ngModelCtrl = <ng.INgModelController>ctrls[0];
 			let drCtrl = <LuidDaterangePickerController>ctrls[1];
