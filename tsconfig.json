@@ -1,20 +1,14 @@
 {
-  "compilerOptions": {
-		"declaration": true,
-    "lib": ["DOM", "es5"],
-    "skipLibCheck": true,
-		"skipDefaultLibCheck": true,
-    "target": "es5",
-    "removeComments": true,
-    "sourceMap": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-		"outFile": ".temp/lucca-ui-ts.js",
-		"types": [
-			"q"
-		]
-  },
-
-	"include": ["ts/**/*.ts"],
-  "exclude": ["node_modules", "bower_components", "ts/**/*.spec.ts", "ts/**/*.e2e.ts"]
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "commonjs",
+		"removeComments": true,
+		"sourceMap": false,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	},
+	"exclude":[
+		"node_modules",
+		"bower_components"
+	]
 }

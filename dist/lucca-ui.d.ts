@@ -1,3 +1,5 @@
+declare module lui {
+}
 declare module lui.cloak {
 }
 declare module lui {
@@ -114,8 +116,6 @@ declare module lui.datepicker {
         private changeCurrentDate(offset);
     }
 }
-declare module lui.datepicker.test {
-}
 declare module lui.datepicker {
 }
 declare module lui.datepicker {
@@ -173,8 +173,6 @@ declare module lui.departmentpicker {
         search(clue: string): void;
     }
 }
-declare module lui.departmentpicker.Test {
-}
 declare module lui.departmentpicker {
     interface IDepartmentPickerService {
         getDepartments(): ng.IPromise<IDepartment[]>;
@@ -201,8 +199,6 @@ declare module lui {
         end: moment.Moment;
         constructor(unformatted: IPeriod, formatter?: IFormatter<moment.Moment>);
     }
-}
-declare module lui.test {
 }
 declare module Lui.Filters {
 }
@@ -345,8 +341,6 @@ declare module lui.imagepicker {
 declare module lui.imagepicker {
 }
 declare module lui.imagepicker {
-}
-declare module lui {
 }
 declare module lui {
     interface INotifyService {
@@ -514,8 +508,6 @@ declare module lui.tablegrid {
         updateViewAfterOrderBy: () => void;
     }
 }
-declare module lui.tablegrid.test {
-}
 declare module lui.translate {
     const AVAILABLE_LANGUAGES: string[];
     const LANGUAGES_TO_CODE: {
@@ -669,8 +661,6 @@ declare module lui.userpicker {
         onOpen(isOpen: boolean): void;
     }
 }
-declare module lui.userpicker.Test {
-}
 declare module lui.userpicker {
     interface IUserPickerService {
         getMyId(): ng.IPromise<number>;
@@ -683,8 +673,6 @@ declare module lui.userpicker {
         reduceAdditionalProperties(users: IUserLookup[]): IUserLookup[];
         setCustomHttpService(httpService: ng.IHttpService): void;
     }
-}
-declare module lui.formatter.test {
 }
 declare module lui {
     interface IFormatter<T> {

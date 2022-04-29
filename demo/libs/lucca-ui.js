@@ -5,6 +5,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var lui;
 (function (lui) {
+    "use strict";
+    angular.module("moment", []).factory("moment", function () { return moment; });
+    angular.module("underscore", []).factory("_", function () { return _; });
+    angular.module("iban", []).factory("iban", function () { return IBAN; });
+    angular.module("lui", ["ngSanitize", "ui.bootstrap", "ui.select", "moment", "underscore"]);
+    angular.module("lui.translate", ["lui", "pascalprecht.translate"]);
+    angular.module("lui.notify", ["lui", "cgNotify"]);
+    angular.module("lui.formly", ["lui", "formly"]);
+    angular.module("lui.crop", ["lui", "lui.translate", "uiCropper"]);
+    angular.module("lui.iban", ["lui", "iban"]);
+    angular.module("lui.tablegrid", ["lui", "lui.translate"]);
+})(lui || (lui = {}));
+var lui;
+(function (lui) {
     var cloak;
     (function (cloak) {
         "use strict";
@@ -443,32 +457,6 @@ var lui;
             return CalendarController;
         }());
         datepicker.CalendarController = CalendarController;
-    })(datepicker = lui.datepicker || (lui.datepicker = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    var datepicker;
-    (function (datepicker) {
-        var test;
-        (function (test) {
-            "use strict";
-            beforeEach(angular.mock.module("lui"));
-            describe("luid-date-picker controller", function () {
-                var createController;
-                var $scope;
-                beforeEach(inject(function (_$controller_, _$rootScope_) {
-                    moment.locale("fr");
-                    $scope = _$rootScope_.$new();
-                    createController = function () {
-                        return _$controller_("luidDatePickerController", {
-                            $scope: $scope,
-                        });
-                    };
-                }));
-            });
-            describe("luid-date-picker directive", function () {
-            });
-        })(test = datepicker.test || (datepicker.test = {}));
     })(datepicker = lui.datepicker || (lui.datepicker = {}));
 })(lui || (lui = {}));
 var lui;
@@ -1239,193 +1227,6 @@ var lui;
 (function (lui) {
     var departmentpicker;
     (function (departmentpicker) {
-        var Test;
-        (function (Test) {
-            "use strict";
-            describe("luidDepartmentPicker", function () {
-                var $httpBackend;
-                var service;
-                var departmentsTree;
-                beforeEach(inject(function (_$httpBackend_, departmentPickerService) {
-                    $httpBackend = _$httpBackend_;
-                    service = departmentPickerService;
-                    departmentsTree = {
-                        node: null,
-                        children: [{
-                                node: {
-                                    id: 1,
-                                    name: "IXBLUE"
-                                },
-                                children: [{
-                                        node: {
-                                            id: 10,
-                                            name: "Holding"
-                                        },
-                                        children: [{
-                                                node: {
-                                                    id: 100,
-                                                    name: "Direction R&T"
-                                                },
-                                                children: []
-                                            }, {
-                                                node: {
-                                                    id: 101,
-                                                    name: "Direction Administrative et Financière"
-                                                },
-                                                children: [{
-                                                        node: {
-                                                            id: 1010,
-                                                            name: "Comptabilité"
-                                                        },
-                                                        children: []
-                                                    }, {
-                                                        node: {
-                                                            id: 1011,
-                                                            name: "Accueil"
-                                                        },
-                                                        children: []
-                                                    }]
-                                            }, {
-                                                node: {
-                                                    id: 102,
-                                                    name: "Ressources Humaines"
-                                                },
-                                                children: [{
-                                                        node: {
-                                                            id: 1020,
-                                                            name: "Recrutement et Mobilité"
-                                                        },
-                                                        children: [{
-                                                                node: {
-                                                                    id: 10200,
-                                                                    name: "Juridique"
-                                                                },
-                                                                children: []
-                                                            }]
-                                                    }]
-                                            }, {
-                                                node: {
-                                                    id: 103,
-                                                    name: "BU SYSTEMES DE NAVIGATION"
-                                                },
-                                                children: [{
-                                                        node: {
-                                                            id: 1030,
-                                                            name: "NS - Développement Produits Inertiels"
-                                                        },
-                                                        children: [] }]
-                                            }]
-                                    }, {
-                                        node: {
-                                            id: 11,
-                                            name: "BU Chantier naval"
-                                        },
-                                        children: [{
-                                                node: {
-                                                    id: 110,
-                                                    name: "MW - Comptabilité"
-                                                },
-                                                children: []
-                                            }, {
-                                                node: {
-                                                    id: 111,
-                                                    name: "MW - Administration"
-                                                },
-                                                children: []
-                                            }]
-                                    }]
-                            }, {
-                                node: {
-                                    id: 2,
-                                    name: "IXCORE"
-                                },
-                                children: [{
-                                        node: {
-                                            id: 20,
-                                            name: "IXcore - Direction Générale"
-                                        },
-                                        children: []
-                                    }, {
-                                        node: {
-                                            id: 21,
-                                            name: "IXcore - Holding"
-                                        },
-                                        children: [{
-                                                node: {
-                                                    id: 210,
-                                                    name: "IXcore - Diretion Administrative et Financière"
-                                                },
-                                                children: [{
-                                                        node: {
-                                                            id: 2100,
-                                                            name: "IXcore - Facility Management et HSE"
-                                                        },
-                                                        children: []
-                                                    }, {
-                                                        node: {
-                                                            id: 2101,
-                                                            name: "IXcore - Accueil"
-                                                        },
-                                                        children: []
-                                                    }]
-                                            }]
-                                    }]
-                            }]
-                    };
-                }));
-                describe("getDepartments()", function () {
-                    beforeEach(function () {
-                        $httpBackend.expectGET(/api\/v3\/departments\/tree\?fields=id,name*/i).respond(200, { data: departmentsTree });
-                    });
-                    it("should call the right API", function () {
-                        service.getDepartments();
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                    it("should have the right departments in the right order", function () {
-                        service.getDepartments()
-                            .then(function (departments) {
-                            expect(departments.length).toBe(20);
-                            expect(_.pluck(departments, "id")).toEqual([1, 10, 100, 101, 1010, 1011, 102, 1020, 10200, 103, 1030, 11, 110, 111, 2, 20, 21, 210, 2100, 2101]);
-                        });
-                        $httpBackend.flush();
-                    });
-                    it("should set the right ancestorsLabel property", function () {
-                        service.getDepartments()
-                            .then(function (departments) {
-                            expect(departments[0].ancestorsLabel).toBeUndefined();
-                            expect(departments[0].level).toBe(0);
-                            expect(departments[1].ancestorsLabel).toBe("IXBLUE");
-                            expect(departments[1].level).toBe(1);
-                            expect(departments[2].ancestorsLabel).toBe("IXBLUE > Holding");
-                            expect(departments[2].level).toBe(2);
-                            expect(departments[5].ancestorsLabel).toBe("IXBLUE > Holding > Direction Administrative et Financière");
-                            expect(departments[5].level).toBe(3);
-                            expect(departments[8].ancestorsLabel).toBe("IXBLUE > Holding > Ressources Humaines > Recrutement et Mobilité");
-                            expect(departments[8].level).toBe(4);
-                            expect(departments[9].ancestorsLabel).toBe("IXBLUE > Holding");
-                            expect(departments[9].level).toBe(2);
-                            expect(departments[12].ancestorsLabel).toBe("IXBLUE > BU Chantier naval");
-                            expect(departments[12].level).toBe(2);
-                            expect(departments[14].ancestorsLabel).toBeUndefined();
-                            expect(departments[14].level).toBe(0);
-                            expect(departments[17].ancestorsLabel).toBe("IXCORE > IXcore - Holding");
-                            expect(departments[17].level).toBe(2);
-                            expect(departments[18].ancestorsLabel).toBe("IXCORE > IXcore - Holding > IXcore - Diretion Administrative et Financière");
-                            expect(departments[18].level).toBe(3);
-                            expect(departments[19].ancestorsLabel).toBe("IXCORE > IXcore - Holding > IXcore - Diretion Administrative et Financière");
-                            expect(departments[19].level).toBe(3);
-                        });
-                        $httpBackend.flush();
-                    });
-                });
-            });
-        })(Test = departmentpicker.Test || (departmentpicker.Test = {}));
-    })(departmentpicker = lui.departmentpicker || (lui.departmentpicker = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    var departmentpicker;
-    (function (departmentpicker) {
         "use strict";
         var DepartmentPickerService = (function () {
             function DepartmentPickerService($http) {
@@ -1498,25 +1299,6 @@ var lui;
         return Period;
     }());
     lui.Period = Period;
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    var test;
-    (function (test) {
-        "use strict";
-        var $filter;
-        describe("luifStripAccents", function () {
-            beforeEach(function () { return angular.mock.module("lui"); });
-            beforeEach(inject(function (_$filter_) {
-                $filter = _$filter_;
-            }));
-            it("should work", function () {
-                expect($filter("luifStripAccents")("string without accented char")).toEqual("string without accented char");
-                expect($filter("luifStripAccents")("strîng wïth màny âccënted chars")).toEqual("string with many accented chars");
-                expect($filter("luifStripAccents")("Ît work on uppercÂsÉd tÔÕ")).toEqual("It work on uppercAsEd tOO");
-            });
-        });
-    })(test = lui.test || (lui.test = {}));
 })(lui || (lui = {}));
 var Lui;
 (function (Lui) {
@@ -2350,20 +2132,6 @@ var lui;
                 $translateProvider.translations("nl", {});
             }]);
     })(imagepicker = lui.imagepicker || (lui.imagepicker = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    "use strict";
-    angular.module("moment", []).factory("moment", function () { return moment; });
-    angular.module("underscore", []).factory("_", function () { return _; });
-    angular.module("iban", []).factory("iban", function () { return IBAN; });
-    angular.module("lui", ["ngSanitize", "ui.bootstrap", "ui.select", "moment", "underscore"]);
-    angular.module("lui.translate", ["lui", "pascalprecht.translate"]);
-    angular.module("lui.notify", ["lui", "cgNotify"]);
-    angular.module("lui.formly", ["lui", "formly"]);
-    angular.module("lui.crop", ["lui", "lui.translate", "uiCropper"]);
-    angular.module("lui.iban", ["lui", "iban"]);
-    angular.module("lui.tablegrid", ["lui", "lui.translate"]);
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
@@ -3272,16 +3040,6 @@ var lui;
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
-    var tablegrid;
-    (function (tablegrid) {
-        var test;
-        (function (test) {
-            "use strict";
-        })(test = tablegrid.test || (tablegrid.test = {}));
-    })(tablegrid = lui.tablegrid || (lui.tablegrid = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
     var translate;
     (function (translate) {
         "use strict";
@@ -4029,138 +3787,6 @@ var lui;
 (function (lui) {
     var userpicker;
     (function (userpicker) {
-        var Test;
-        (function (Test) {
-            "use strict";
-            describe("luidUserPicker", function () {
-                var $httpBackend;
-                var $q;
-                var service;
-                var fakeUsers;
-                var fakeUser1;
-                var fakeUser2;
-                var fakeUser3;
-                var fakeUser4;
-                var fakeUser5;
-                beforeEach(inject(function (_$httpBackend_, _$q_, userPickerService) {
-                    $httpBackend = _$httpBackend_;
-                    $q = _$q_;
-                    service = userPickerService;
-                    fakeUser1 = { id: 42, firstName: "Robert", lastName: "Vincent", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3003" };
-                    fakeUser2 = { id: 43, firstName: "Roger", lastName: "Thomas", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3013" };
-                    fakeUser3 = { id: 44, firstName: "Albert", lastName: "Rick", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3133" };
-                    fakeUser4 = { id: 45, firstName: "Robert", lastName: "Dupuis", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3313" };
-                    fakeUser5 = { id: 46, firstName: "Robert", lastName: "Dupuis", dtContractStart: "2007-09-01T00:00:00", dtContractEnd: null, employeeNumber: "3103" };
-                    fakeUsers = new Array(fakeUser1, fakeUser2, fakeUser3, fakeUser4, fakeUser5);
-                }));
-                describe("getMyId()", function () {
-                    it("should call the right API and return exactly what the API returns", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: 42 } });
-                        service.getMyId().then(function (id) { expect(id).toEqual(42); });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                    it("should have a cache system and call the API only once even if it is called twice", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\/me\?fields=id*/i).respond(200, { data: { id: 42 } });
-                        service.getMyId();
-                        expect($httpBackend.flush).not.toThrow();
-                        service.getMyId();
-                        expect($httpBackend.flush).toThrow();
-                    });
-                });
-                describe("getMe()", function () {
-                    it("should call the right API and return exactly what the API returns", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\/me\?fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: fakeUser1 });
-                        service.getMe().then(function (me) { expect(me).toEqual(fakeUser1); });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                });
-                describe("getHomonyms()", function () {
-                    it("should return the homonyms", function () {
-                        var homonyms = service.getHomonyms(fakeUsers);
-                        expect(homonyms.length).toBe(2);
-                        expect(_.filter(homonyms, function (h) { return h.id == fakeUser4.id; }).length).toBe(1);
-                        expect(_.filter(homonyms, function (h) { return h.id == fakeUser5.id; }).length).toBe(1);
-                    });
-                });
-                describe("getUsers()", function () {
-                    it("should call the right API and return exactly what the API returns", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\/find\?formerEmployees=false&paging=0,15&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: { items: { fakeUsers: fakeUsers } } });
-                        service.getUsers("formerEmployees=false").then(function (users) {
-                            expect(_.intersection(users, fakeUsers).length).toBe(0);
-                        });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                });
-                describe("getUserById()", function () {
-                    it("should call the right API and return exactly what the API returns", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: { items: [fakeUser1] } });
-                        service.getUserById(42).then(function (user) {
-                            expect(user.id).toBe(fakeUser1.id);
-                        });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                });
-                describe("getUsersByIds()", function () {
-                    it("should call the right API and return exactly what the API returns", function () {
-                        $httpBackend.expectGET(/api\/v3\/users\?id=42\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: { items: [fakeUser1] } });
-                        $httpBackend.expectGET(/api\/v3\/users\?id=43\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: { items: [fakeUser2] } });
-                        $httpBackend.expectGET(/api\/v3\/users\?id=44\&fields=Id,firstName,lastName,dtContractStart,dtContractEnd*/i)
-                            .respond(200, { data: { items: [fakeUser3] } });
-                        service.getUsersByIds([42, 43, 44]).then(function (users) {
-                            expect(users.length).toBe(3);
-                            expect(_.filter(users, function (h) { return h.id == fakeUser1.id; }).length).toBe(1);
-                            expect(_.filter(users, function (h) { return h.id == fakeUser2.id; }).length).toBe(1);
-                            expect(_.filter(users, function (h) { return h.id == fakeUser3.id; }).length).toBe(1);
-                        });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                });
-                describe("getAdditionalProperties()", function () {
-                    it("should call the right API", function () {
-                        var properties = [
-                            { translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email" },
-                            { translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list" }
-                        ];
-                        $httpBackend.expectGET(/api\/v3\/users\?id=45\&fields=mail,legalEntity.name*/i)
-                            .respond(200, { data: { items: [{ mail: "fakeuser@gmail.com", legalEntity: { name: "TotoEntity" } }] } });
-                        service.getAdditionalProperties(fakeUser4, properties)
-                            .then(function (props) {
-                            expect(props.length).toBe(2);
-                            var mail = _.filter(props, function (prop) { return prop.name == properties[0].name; });
-                            expect(mail.length).toBe(1);
-                            expect(mail[0].value).toBe("fakeuser@gmail.com");
-                            var le = _.filter(props, function (prop) { return prop.name == properties[1].name; });
-                            expect(le.length).toBe(1);
-                            expect(le[0].value).toBe("TotoEntity");
-                        });
-                        expect($httpBackend.flush).not.toThrow();
-                    });
-                });
-                describe("reduceAdditionalProperties()", function () {
-                    it("should remove the useless properties", function () {
-                        fakeUser4.additionalProperties = new Array({ translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email", value: "something@gmail.com" }, { translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list", value: "sameLE" });
-                        fakeUser5.additionalProperties = new Array({ translationKey: "LUIDUSERPICKER_MAIL", name: "mail", icon: "email", value: "somethingElse@gmail.com" }, { translationKey: "LUIDUSERPICKER_LEGALENTITY", name: "legalEntity.name", icon: "tree list", value: "sameLE" });
-                        var result = service.reduceAdditionalProperties([fakeUser4, fakeUser5]);
-                        expect(result.length).toBe(2);
-                        expect(result[0].additionalProperties.length).toBe(1);
-                        expect(result[1].additionalProperties.length).toBe(1);
-                        expect(result[0].additionalProperties[0].name).toBe("mail");
-                        expect(result[1].additionalProperties[0].name).toBe("mail");
-                    });
-                });
-            });
-        })(Test = userpicker.Test || (userpicker.Test = {}));
-    })(userpicker = lui.userpicker || (lui.userpicker = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    var userpicker;
-    (function (userpicker) {
         "use strict";
         var UserPickerService = (function () {
             function UserPickerService($http, $q, $filter) {
@@ -4304,51 +3930,6 @@ var lui;
         }());
         angular.module("lui").service(UserPickerService.IID, UserPickerService);
     })(userpicker = lui.userpicker || (lui.userpicker = {}));
-})(lui || (lui = {}));
-var lui;
-(function (lui) {
-    var formatter;
-    (function (formatter_1) {
-        var test;
-        (function (test) {
-            "use strict";
-            describe("moment formatter", function () {
-                var formatter;
-                it("moment <-> moment", function () {
-                    formatter = new formatter_1.MomentFormatter("moment");
-                    var input = moment("2016-05-24");
-                    var output = moment("2016-05-24");
-                    expect(formatter.parseValue(input)).toEqual(output);
-                    expect(formatter.formatValue(output)).toEqual(input);
-                });
-                it("date <-> moment", function () {
-                    formatter = new formatter_1.MomentFormatter("date");
-                    var input = new Date(2016, 4, 24);
-                    var output = moment("2016-05-24");
-                    expect(formatter.parseValue(input).diff(output)).toEqual(0);
-                    expect(input.getTime() - formatter.formatValue(output).getTime()).toEqual(0);
-                });
-                it("string <-> moment", function () {
-                    formatter = new formatter_1.MomentFormatter("YYYY-MM-DD");
-                    var input = "2016-05-24";
-                    var output = moment("2016-05-24");
-                    expect(formatter.parseValue(input).diff(output)).toEqual(0);
-                    expect(formatter.formatValue(output)).toEqual(input);
-                    formatter = new formatter_1.MomentFormatter("YYYYMMDD");
-                    input = "20160524";
-                    expect(formatter.parseValue(input).diff(output)).toEqual(0);
-                    expect(formatter.formatValue(output)).toEqual(input);
-                });
-                it("should use moment as default format", function () {
-                    formatter = new formatter_1.MomentFormatter();
-                    var input = moment("2016-05-24");
-                    var output = moment("2016-05-24");
-                    expect(formatter.parseValue(input)).toEqual(output);
-                    expect(formatter.formatValue(output)).toEqual(input);
-                });
-            });
-        })(test = formatter_1.test || (formatter_1.test = {}));
-    })(formatter = lui.formatter || (lui.formatter = {}));
 })(lui || (lui = {}));
 var lui;
 (function (lui) {
