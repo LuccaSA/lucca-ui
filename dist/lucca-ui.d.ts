@@ -1,5 +1,3 @@
-declare module lui {
-}
 declare module lui.cloak {
 }
 declare module lui {
@@ -54,7 +52,7 @@ declare module lui.datepicker {
     enum CalendarMode {
         Days = 0,
         Months = 1,
-        Years = 2
+        Years = 2,
     }
     interface ICalendarScope extends ng.IScope {
         customClass: (date: moment.Moment, mode?: CalendarMode) => string;
@@ -101,20 +99,22 @@ declare module lui.datepicker {
         protected constructDayLabels(): string[];
         protected assignClasses(): void;
         protected abstract selectDate(date: moment.Moment): void;
-        private setMinMode;
-        private assignDayClasses;
-        private assignMonthClasses;
-        private assignYearClasses;
-        private initCalendarScopeMethods;
-        private constructCalendar;
-        private constructDates;
-        private constructWeeks;
-        private constructWeek;
-        private extractDays;
-        private extractMonths;
-        private extractYears;
-        private changeCurrentDate;
+        private setMinMode(mode);
+        private assignDayClasses();
+        private assignMonthClasses();
+        private assignYearClasses();
+        private initCalendarScopeMethods($scope);
+        private constructCalendar(start, offset);
+        private constructDates(start, unitOfTime);
+        private constructWeeks(monthStart);
+        private constructWeek(weekStart, monthStart);
+        private extractDays();
+        private extractMonths();
+        private extractYears();
+        private changeCurrentDate(offset);
     }
+}
+declare module lui.datepicker.test {
 }
 declare module lui.datepicker {
 }
@@ -141,7 +141,7 @@ declare module lui.departmentpicker {
     type IDepartmentTree = ITree<IDepartment>;
 }
 declare module lui.departmentpicker {
-    const MAGIC_PAGING = 15;
+    const MAGIC_PAGING: number;
     class LuidDepartmentPickerController {
         static IID: string;
         static $inject: Array<string>;
@@ -152,10 +152,10 @@ declare module lui.departmentpicker {
         private departments;
         constructor($scope: ILuidDepartmentPickerScope, $filter: IDepartmentPickerFilters, departmentPickerService: IDepartmentPickerService);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
-        private initScope;
-        private initDepartments;
-        private filterDepartments;
-        private setViewValue;
+        private initScope();
+        private initDepartments();
+        private filterDepartments(clue?);
+        private setViewValue(department);
     }
 }
 declare module lui.departmentpicker {
@@ -172,6 +172,8 @@ declare module lui.departmentpicker {
         loadMore(clue: string): void;
         search(clue: string): void;
     }
+}
+declare module lui.departmentpicker.Test {
 }
 declare module lui.departmentpicker {
     interface IDepartmentPickerService {
@@ -199,6 +201,8 @@ declare module lui {
         end: moment.Moment;
         constructor(unformatted: IPeriod, formatter?: IFormatter<moment.Moment>);
     }
+}
+declare module lui.test {
 }
 declare module Lui.Filters {
 }
@@ -262,12 +266,12 @@ declare module lui.iban {
         constructor($scope: ILuidIbanScope, iban: IbanChecker);
         setNgModelCtrl(ngModelCtrl: ng.INgModelController): void;
         setInputs(elt: ng.IAugmentedJQuery): void;
-        private initScope;
-        private getViewValue;
-        private setViewValue;
-        private setTouched;
-        private focusCountryInput;
-        private focusControlInput;
+        private initScope();
+        private getViewValue();
+        private setViewValue(iban);
+        private setTouched();
+        private focusCountryInput();
+        private focusControlInput();
     }
 }
 declare module lui.iban {
@@ -343,6 +347,8 @@ declare module lui.imagepicker {
 declare module lui.imagepicker {
 }
 declare module lui {
+}
+declare module lui {
     interface INotifyService {
         error(message: string, details?: string): void;
         warning(message: string, details?: string): void;
@@ -370,7 +376,7 @@ declare module lui.notify {
         alert(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
         confirm(message: string, okLabel?: string, cancelLabel?: string): ng.IPromise<boolean>;
         loading(loadingPromise: ng.IPromise<string>, message?: string, cancelFn?: () => void): void;
-        private openModal;
+        private openModal(templateUrl, message, okLabel, cancelLabel, preventDismiss);
     }
 }
 declare module lui.progressbar {
@@ -417,7 +423,7 @@ declare module lui.tablegrid {
         NONE = 0,
         TEXT = 1,
         SELECT = 2,
-        MULTISELECT = 3
+        MULTISELECT = 3,
     }
 }
 declare module lui.tablegrid {
@@ -508,6 +514,8 @@ declare module lui.tablegrid {
         updateViewAfterOrderBy: () => void;
     }
 }
+declare module lui.tablegrid.test {
+}
 declare module lui.translate {
     const AVAILABLE_LANGUAGES: string[];
     const LANGUAGES_TO_CODE: {
@@ -520,8 +528,8 @@ declare module lui.translate {
         pt: number;
     };
     const CODES_TO_LANGUAGES: {
-        1033: string;
         1031: string;
+        1033: string;
         1034: string;
         1036: string;
         1040: string;
@@ -606,8 +614,8 @@ declare module lui.userpicker {
     }
 }
 declare module lui.userpicker {
-    const MAGIC_PAGING = 15;
-    const MAX_SEARCH_LIMIT = 10000;
+    const MAGIC_PAGING: number;
+    const MAX_SEARCH_LIMIT: number;
     class LuidUserPickerController {
         static IID: string;
         static $inject: Array<string>;
@@ -616,13 +624,13 @@ declare module lui.userpicker {
         private userPickerService;
         private clue;
         constructor($scope: ILuidUserPickerScope, $q: ng.IQService, userPickerService: IUserPickerService);
-        private initializeScope;
-        private tidyUp;
-        private refresh;
-        private getUsers;
-        private tidyUpAndAssign;
-        private resetUsers;
-        private getFilter;
+        private initializeScope();
+        private tidyUp(users, clue?);
+        private refresh(clue?);
+        private getUsers(clue?);
+        private tidyUpAndAssign(allUsers, clue);
+        private resetUsers();
+        private getFilter(clue);
     }
 }
 declare module lui.userpicker {
@@ -661,6 +669,8 @@ declare module lui.userpicker {
         onOpen(isOpen: boolean): void;
     }
 }
+declare module lui.userpicker.Test {
+}
 declare module lui.userpicker {
     interface IUserPickerService {
         getMyId(): ng.IPromise<number>;
@@ -674,6 +684,8 @@ declare module lui.userpicker {
         setCustomHttpService(httpService: ng.IHttpService): void;
     }
 }
+declare module lui.formatter.test {
+}
 declare module lui {
     interface IFormatter<T> {
         parseValue(value: any): T;
@@ -686,12 +698,12 @@ declare module lui.formatter {
         constructor(format?: string);
         parseValue(value: any): moment.Moment;
         formatValue(value: moment.Moment): any;
-        private parseMoment;
-        private parseDate;
-        private parseString;
-        private formatMoment;
-        private formatDate;
-        private formatString;
+        private parseMoment(value);
+        private parseDate(value);
+        private parseString(value);
+        private formatMoment(value);
+        private formatDate(value);
+        private formatString(value);
     }
 }
 declare module lui.popover {

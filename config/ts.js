@@ -5,19 +5,19 @@ module.exports = function(grunt, options){
 			sourceMap: false,
 		},
 		dist:{
-			src: [
-				// "ts/**/*.ts",
-				"typings/index.d.ts",
-				"ts/modules.ts",
-				"ts/**/*.ts",
-				"!ts/**/*.spec.ts", 
-				"!ts/**/*.e2e.ts",
-			],
-			dest: ".temp/lucca-ui-ts.js",
+			// src: [
+			// 	// "ts/**/*.ts",
+			// 	"typings/index.d.ts",
+			// 	// "ts/modules.ts",
+			// 	// "ts/**/*.ts",
+			// 	"!**/*.spec.ts", 
+			// 	"!**/*.e2e.ts",
+			// ],
+			// dest: ".temp/lucca-ui-ts.js",
 			tsconfig: 'tsconfig.json',
-			options: {
-				declaration: true,
-			},
+			// options: {
+			// 	declaration: true,
+			// },
 		},
 		test:{
 			src: [
