@@ -3665,6 +3665,18 @@ var lui;
                     "LUIDUSERPICKER_ME": "Moi :",
                     "LUIDUSERPICKER_ALL": "Tous les utilisateurs",
                 });
+                $translateProvider.translations("es", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "El contrato termina el {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "No hay resultados",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Error al recuperar los empleados",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} resultados mostrados de un total de {{all}}",
+                    "LUIDUSERPICKER_DEPARTMENT": "Departamento",
+                    "LUIDUSERPICKER_LEGALENTITY": "Entidad jurídica",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Número de empleado",
+                    "LUIDUSERPICKER_MAIL": "correo electrónico",
+                    "LUIDUSERPICKER_ME": "Yo :",
+                    "LUIDUSERPICKER_ALL": "Todos los usuarios",
+                });
             }]);
     })(userpicker = lui.userpicker || (lui.userpicker = {}));
 })(lui || (lui = {}));
@@ -4062,7 +4074,7 @@ var lui;
         "use strict";
         var UploaderService = (function () {
             function UploaderService($http, $q, _, moment) {
-                this.mainApiUrl = "/api/files";
+                this.mainApiUrl = "/api/v3/files";
                 this.$http = $http;
                 this.$q = $q;
                 this._ = _;

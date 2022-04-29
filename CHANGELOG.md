@@ -6,6 +6,13 @@
 ### Changes (non-breaking)
 ### Bug fixes
 
+## 4.1.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.5)
+### Changes (non-breaking)
+- `luid-user-picker` support ES translations
+## 4.1.4 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.4)
+### Changes (non-breaking)
+- `luid-image-picker` uses v3 files API
+
 ## 4.1.1 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.1)
 ### Breaking Changes
 ### Changes (non-breaking)

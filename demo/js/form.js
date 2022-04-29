@@ -301,7 +301,7 @@
 		$httpBackend.whenGET(/api\/.*/i).respond(function(method, url){
 			return rerouteToLocal(url);
 		});
-		$httpBackend.whenPOST(/api\/files/i).respond(function(method, url, data){
+		$httpBackend.whenPOST(/api\/v3\/files/i).respond(function(method, url, data){
 			return rerouteToLocal("POST", url, data);
 		});
 		$httpBackend.whenGET(/\/\/\w*.local\/.*/).passThrough();
