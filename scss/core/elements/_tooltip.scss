@@ -1,80 +1,83 @@
-@if luiTheme(element, tooltip, enabled) {
-	@at-root #{$namespace} {
-
+@mixin lui_tooltip {
+	@if luiTheme(element, tooltip, enabled) {
 		$vars: luiTheme(element, tooltip);
 
-		[uib-tooltip]:not([uib-tooltip=""]):not(a):not(button):not(.button) { cursor: help; }
+		position: absolute;
+		z-index: map-gets($vars, z-index);
+		pointer-events: none;
+		max-width: map-gets($vars, max-width);
+		font-size: map-gets($vars, font-size);
 
-		#{$prefix}.tooltip {
-			position: absolute;
-			z-index: map-gets($vars, z-index);
-			pointer-events: none;
-			max-width: map-gets($vars, max-width);
-			font-size: map-gets($vars, font-size);
+		// Offsets
+		// ====
+		&.top .tooltip-inner,
+		&.top-left .tooltip-inner,
+		&.top-right .tooltip-inner { margin-bottom: map-gets($vars, offset); }
+		&.bottom .tooltip-inner,
+		&.bottom-left .tooltip-inner,
+		&.bottom-right .tooltip-inner { margin-top: map-gets($vars, offset); }
+		&.left .tooltip-inner,
+		&.left-top .tooltip-inner,
+		&.left-bottom .tooltip-inner { margin-right: map-gets($vars, offset); }
+		&.right .tooltip-inner,
+		&.right-top .tooltip-inner,
+		&.right-bottom .tooltip-inner { margin-left: map-gets($vars, offset); }
 
-			// Offsets
-			// ====
-			&.top .tooltip-inner,
-			&.top-left .tooltip-inner,
-			&.top-right .tooltip-inner { margin-bottom: map-gets($vars, offset); }
-			&.bottom .tooltip-inner,
-			&.bottom-left .tooltip-inner,
-			&.bottom-right .tooltip-inner { margin-top: map-gets($vars, offset); }
-			&.left .tooltip-inner,
-			&.left-top .tooltip-inner,
-			&.left-bottom .tooltip-inner { margin-right: map-gets($vars, offset); }
-			&.right .tooltip-inner,
-			&.right-top .tooltip-inner,
-			&.right-bottom .tooltip-inner { margin-left: map-gets($vars, offset); }
+		// Animations
+		// ====
+		&.top,
+		&.top-left,
+		&.top-right {
+			&.in { @include lui_is_animated("up fade in"); }
+			&:not(.in) { @include lui_is_animated("up fade out"); }
+		}
+		&.bottom,
+		&.bottom-left,
+		&.bottom-right {
+			&.in { @include lui_is_animated("down fade in"); }
+			&:not(.in) { @include lui_is_animated("down fade out"); }
+		}
+		&.left,
+		&.left-top,
+		&.left-bottom {
+			&.in { @include lui_is_animated("left fade in"); }
+			&:not(.in) { @include lui_is_animated("left fade out"); }
+		}
+		&.right,
+		&.right-top,
+		&.right-bottom {
+			&.in { @include lui_is_animated("right fade in"); }
+			&:not(.in) { @include lui_is_animated("right fade out"); }
+		}
 
-			// Animations
-			// ====
-			&.top,
-			&.top-left,
-			&.top-right {
-				&.in { @include lui_is_animated("up fade in"); }
-				&:not(.in) { @include lui_is_animated("up fade out"); }
-			}
-			&.bottom,
-			&.bottom-left,
-			&.bottom-right {
-				&.in { @include lui_is_animated("down fade in"); }
-				&:not(.in) { @include lui_is_animated("down fade out"); }
-			}
-			&.left,
-			&.left-top,
-			&.left-bottom {
-				&.in { @include lui_is_animated("left fade in"); }
-				&:not(.in) { @include lui_is_animated("left fade out"); }
-			}
-			&.right,
-			&.right-top,
-			&.right-bottom {
-				&.in { @include lui_is_animated("right fade in"); }
-				&:not(.in) { @include lui_is_animated("right fade out"); }
-			}
+		&.in {
+			opacity: map-gets($vars, opacity) !important;
+		}
 
-			&.in {
-				opacity: map-gets($vars, opacity) !important;
-			}
+		// Coloring
+		// ====
+		.tooltip-inner {
+			border-radius: luiTheme(adjective, rounded, radius);
+			padding: map-gets($vars, vertical-padding) map-gets($vars, horizontal-padding);
+			background-color: map-gets($vars, default-coloring, color);
+			color: map-gets($vars, default-coloring, text);
+			white-space: pre-wrap; // Support for line breaks in tooltip content
+			word-break: break-word;
+		}
 
-			// Coloring
-			// ====
-			.tooltip-inner {
-				border-radius: luiTheme(adjective, rounded, radius);
-				padding: map-gets($vars, vertical-padding) map-gets($vars, horizontal-padding);
-				background-color: map-gets($vars, default-coloring, color);
-				color: map-gets($vars, default-coloring, text);
-				white-space: pre-wrap; // Support for line breaks in tooltip content
-				word-break: break-word;
-			}
-
-			@each $name, $scheme in luiPalettes() {
-				&.#{map-get($scheme, class)} .tooltip-inner {
-					background-color: map-get($scheme, color);
-					color: map-get($scheme, text);
-				}
+		@each $name, $scheme in luiPalettes() {
+			&.#{map-get($scheme, class)} .tooltip-inner {
+				background-color: map-get($scheme, color);
+				color: map-get($scheme, text);
 			}
 		}
+	}
+}
+
+@at-root #{$namespace} {
+	[uib-tooltip]:not([uib-tooltip=""]):not(a):not(button):not(.button) { cursor: help; }
+
+	#{$prefix}.tooltip {
+		@include lui_tooltip();
 	}
 }

@@ -70,7 +70,7 @@ html, body {
 	}
 
 	article {
-		@extend #{$prefix}.clear;
+		@include lui_clearfix();
 	}
 
 	.hljs {

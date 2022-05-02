@@ -4,12 +4,32 @@
 	user-select: none;
 }
 
+@mixin lui_unstyled_list {
+	list-style: none; padding: 0; margin: 0;
+}
+
+@mixin lui_unstyled_link {
+	list-style: none; padding: 0; margin: 0;
+}
+
+@mixin lui_unstyled_btn {
+	cursor: pointer;
+	border: none;
+	text-decoration: none;
+	font-style: normal;
+	line-height: 1;
+	font-weight: normal;
+	background-color: transparent;
+	border-radius: 0;
+	@include lui_user_select_none();
+}
+
 @if (luiTheme(adjective, unstyled, enabled)) {
 	%lui_user_select_none {
 		@include lui_user_select_none();
 	}
 	%lui_unstyled_list {
-		list-style: none; padding: 0; margin: 0;
+		@include lui_unstyled_list();
 	}
 
 	@at-root #{$namespace} {
@@ -18,27 +38,19 @@
 		// ====
 		ul#{$prefix}.unstyled,
 		ol#{$prefix}.unstyled {
-			@extend %lui_unstyled_list;
+			@include lui_unstyled_list();
 		}
 
 		// Links
 		// ====
 		a#{$prefix}.unstyled {
-			text-decoration: none;
+			@include lui_unstyled_link();
 		}
 
 		// Buttons
 		// =====
 		button#{$prefix}.unstyled {
-			cursor: pointer;
-			border: none;
-			text-decoration: none;
-			font-style: normal;
-			line-height: 1;
-			font-weight: normal;
-			background-color: transparent;
-			border-radius: 0;
-			@extend %lui_user_select_none;
+			@include lui_unstyled_btn();
 		}
 	}
 }

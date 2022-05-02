@@ -127,7 +127,7 @@
 		}
 
 		%lui_basic_button {
-			@extend button#{$prefix}.unstyled;
+			@include lui_unstyled_btn();
 
 			@extend %lui_button_sizing;
 

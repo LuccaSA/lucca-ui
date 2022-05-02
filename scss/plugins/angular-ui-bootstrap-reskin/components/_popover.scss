@@ -2,12 +2,12 @@
 	@at-root #{$namespace} {
 
 		#{$prefix}.popover {
-			@extend #{$prefix}.tooltip;
+			@include lui_tooltip();
 			pointer-events: auto;
 			min-width: map-gets($pluginVars, popover, minWidth);
 			max-width: map-gets($pluginVars, popover, maxWidth);
 
-			.popover-inner { @extend #{$prefix}.clear; }
+			.popover-inner { @include lui_clearfix(); }
 
 			.popover-inner, .popover-title {
 				padding: (map-gets($pluginVars, popover, innerVerticalPadding)) (map-gets($pluginVars, popover, innerHorizontalPadding));

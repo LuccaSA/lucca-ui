@@ -55,7 +55,7 @@ body, html { width: 100%; height: 100%; }
 		#{$prefix}.container {
 			padding: 0;
 			width: map-get($vars, containerWidth);
-			@extend #{$prefix}.clear;
+			@include lui_clearfix();
 		}
 		#{$prefix}.container #{$prefix}.column, {
 			float: left;
@@ -66,7 +66,7 @@ body, html { width: 100%; height: 100%; }
 		#{$prefix}.container #{$prefix}.column[class*="-push-"] { position: relative; }
 
 		// Bootstrap '.row' equivalent
-		#{$prefix}.container #{$prefix}.columns { @extend #{$prefix}.clear; }
+		#{$prefix}.container #{$prefix}.columns { @include lui_clearfix(); }
 
 
 		// Grid styles

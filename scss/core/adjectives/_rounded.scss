@@ -1,10 +1,13 @@
-@if luiTheme(adjective, rounded, enabled) {
-	@at-root #{$namespace} {
+@mixin lui_rounded {
+	@if luiTheme(adjective, rounded, enabled) {
 		$vars: luiTheme(adjective, rounded);
+		border-radius: map-get($vars, radius);
+		background-clip: padding-box;
+	}
+}
 
-		#{$prefix}.rounded {
-			border-radius: map-get($vars, radius);
-			background-clip: padding-box;
-		}
+@at-root #{$namespace} {
+	#{$prefix}.rounded {
+		@include lui_rounded;
 	}
 }

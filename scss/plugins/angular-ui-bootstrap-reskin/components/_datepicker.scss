@@ -101,7 +101,7 @@
 			}
 
 			li[ng-if="showButtonBar"] {
-				@extend #{$prefix}.clear;
+				@include lui_clearfix();
 				border-top: 1px solid map-gets($inputVars, borderColor);
 				.btn {
 					@extend %lui_basic_button;

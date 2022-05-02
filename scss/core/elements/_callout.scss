@@ -46,7 +46,7 @@
 			box-sizing: border-box;
 			position: relative;
 
-			@extend #{$prefix}.raised;
+			@extend .raised; // was @extend #{$prefix}.raised;
 
 			margin: map-gets($vars, verticalMargin) map-gets($vars, horizontalMargin);
 			border: 1px solid map-gets($vars, borderColor);
@@ -135,7 +135,7 @@
 		// Callouts
 		// =====
 		#{$prefix}.callouts {
-			@extend #{$prefix}.clear;
+			@extend .clear;
 			> #{$prefix}.callout {
 				margin: 0;
 

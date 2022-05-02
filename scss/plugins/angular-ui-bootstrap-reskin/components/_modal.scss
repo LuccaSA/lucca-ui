@@ -18,8 +18,8 @@
 			}
 
 			.modal-dialog {
-				@extend #{$prefix}.high.raised;
-				@extend #{$prefix}.rounded;
+				@include lui_raised(5);
+				@include lui_rounded();
 				margin: map-gets($pluginVars, modal, topMargin) auto map-gets($pluginVars, modal, bottomMargin) auto;
 				background: map-gets($pluginVars, modal, background);
 				max-width: map-gets($pluginVars, modal, maxWidth);
@@ -43,7 +43,7 @@
 		}
 
 		#{$prefix}.modal-backdrop {
-			@extend #{$prefix}.overlay;
+			@include lui_overlay();
 
 			visibility: hidden;
 			opacity: 0;
