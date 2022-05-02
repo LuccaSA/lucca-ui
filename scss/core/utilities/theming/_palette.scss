@@ -40,7 +40,7 @@
 		@if map-has-key($manipulations, $manipulation) {
 			$func: nth(map-get($manipulations, $manipulation), 1);
 			$param: nth(map-get($manipulations, $manipulation), 2);
-			$return: call($func, $color, $param);
+			$return: call(get-function($func), $color, $param);
 			@return $return;
 		}
 	}

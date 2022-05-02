@@ -6,8 +6,10 @@
 // The Loop(s)
 // ===================================
 
+@use "sass:math";
+
 @mixin lui_loop_columns($device, $spacing) {
-	$column: 100% / luiTheme(element, grid, columns);
+	$column: math.div(100%, luiTheme(element, grid, columns));
 
 	@for $i from 0 through luiTheme(element, grid, columns) {
 		@if $i > 0 {

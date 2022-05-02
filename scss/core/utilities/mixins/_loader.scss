@@ -16,7 +16,7 @@
 	&:after {
 		position: absolute;
 		@include lui_is_animated(spin, true);
-		top: 50%; margin-top: -$size/2; left: 50%; margin-left: -$size/2;
+		top: 50%; margin-top: -$size*0.5; left: 50%; margin-left: -$size*0.5;
 		animation-timing-function: linear;
 	}
 

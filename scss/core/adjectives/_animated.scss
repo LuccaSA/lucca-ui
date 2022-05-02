@@ -121,7 +121,7 @@
 		 // Down scale
 		@at-root {
 			@keyframes downScaleIn {
-				from { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
+				from { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) * 0.01)); opacity: 0; }
 				to { transform: scale(1); opacity: 1; }
 			}
 		}
@@ -130,7 +130,7 @@
 		@at-root {
 			@keyframes downScaleOut {
 				from { transform: scale(1); opacity: 1; }
-				to { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
+				to { transform: scale((1 - map-gets($vars, transitions, scaleAnimationRatio) * 0.01)); opacity: 0; }
 			}
 		}
 		#{$prefix}.animated[class*="down scale out"] { animation-name: downScaleOut; }
@@ -138,7 +138,7 @@
 		// Up scale
 		@at-root {
 			@keyframes upScaleIn {
-				from { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
+				from { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) * 0.01)); opacity: 0; }
 				to { transform: scale(1); opacity: 1; }
 			}
 		}
@@ -147,7 +147,7 @@
 		@at-root {
 			@keyframes upScaleOut {
 				from { transform: scale(1); opacity: 1; }
-				to { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) / 100)); opacity: 0; }
+				to { transform: scale((1 + map-gets($vars, transitions, scaleAnimationRatio) * 0.01)); opacity: 0; }
 			}
 		}
 		#{$prefix}.animated[class*="up scale out"] { animation-name: upScaleOut; }
@@ -218,7 +218,7 @@
 			@keyframes bounce {
 				0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
 				40% { transform: translateY(-(map-gets($vars, static, bounceDistance)));	}
-				60% { transform: translateY(-(map-gets($vars, static, bounceDistance) / 2)); }
+				60% { transform: translateY(-(map-gets($vars, static, bounceDistance) * 0.5)); }
 			}
 		}
 		#{$prefix}.animated[class*="bounce"] {

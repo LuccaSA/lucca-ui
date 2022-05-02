@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @mixin lui_points_towards($direction, $color, $size) {
 	& {
 		content: '';
@@ -11,25 +13,25 @@
 		& {
 			border-left-width: $size;
 			border-right-width: $size;
-			border-bottom: ($size / 1.25) solid $color;
+			border-bottom: math.div($size, 1.25) solid $color;
 		}
 	} @else if $direction == bottom {
 		& {
 			border-left-width: $size;
 			border-right-width: $size;
-			border-top: ($size / 1.25) solid $color;
+			border-top: math.div($size, 1.25) solid $color;
 		}
 	} @else if $direction == left {
 		& {
 			border-top-width: $size;
 			border-bottom-width: $size;
-			border-right: ($size / 1.25) solid $color;
+			border-right: math.div($size, 1.25) solid $color;
 		}
 	} @else if $direction == right {
 		& {
 			border-top-width: $size;
 			border-bottom-width: $size;
-			border-left: ($size / 1.25) solid $color;
+			border-left: math.div($size, 1.25) solid $color;
 		}
 	} @else {
 		@warn "#{$direction} is not a supported triangle direction";

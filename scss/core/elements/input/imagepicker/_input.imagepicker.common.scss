@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @at-root #{$namespace} {
 
 	@if luiTheme(element, field, image-picker, enabled) {
@@ -168,11 +170,11 @@
 
 			// 4:3 ratio
 			&.landscape luid-image-picker {
-				width: 4 * (map-gets($vars, size) / 3);
+				width: 4 * math.div(map-gets($vars, size), 3);
 				height: map-gets($vars, size);
 			}
 			&.portrait luid-image-picker {
-				width: 3 * (map-gets($vars, size) / 4);
+				width: 3 * (map-gets($vars, size) * 0.25);
 				height: map-gets($vars, size);
 			}
 

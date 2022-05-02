@@ -450,7 +450,7 @@
 					.days,
 					.months,
 					.years {
-						animation-duration: luiTheme(adjective, animated, transitions, animationDuration) / 2;
+						animation-duration: luiTheme(adjective, animated, transitions, animationDuration) * 0.5;
 					}
 				}
 				&.out.mode-change {
