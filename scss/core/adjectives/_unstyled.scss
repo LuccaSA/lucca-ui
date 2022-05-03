@@ -9,7 +9,7 @@
 }
 
 @mixin lui_unstyled_link {
-	list-style: none; padding: 0; margin: 0;
+	text-decoration: none;
 }
 
 @mixin lui_unstyled_btn {
