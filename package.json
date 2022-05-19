@@ -77,7 +77,7 @@
   "author": "Lucca",
   "license": "ISC",
   "scripts": {
-    "postinstall": "npx typings install",
+    "postinstall": "typings install && grunt dist",
     "start": "grunt",
     "test": "grunt test",
     "build": "grunt dist"
