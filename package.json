@@ -1,6 +1,6 @@
 {
   "name": "lucca-ui",
-  "version": "4.1.5",
+  "version": "4.2.0",
   "description": "less and js framework by lucca",
   "main": "dist/lucca-ui.js",
   "dependencies": {
@@ -82,6 +82,7 @@
     "build": "grunt dist"
   },
   "volta": {
-    "node": "8.17.0"
+    "node": "8.17.0",
+    "yarn": "1.21.1"
   }
 }

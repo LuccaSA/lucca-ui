@@ -1,5 +1,5 @@
 <div class="luid-cropper">
-	<ui-cropper image="image" result-image="cropped" area-type="rectangle" result-image-size="'max'" aspect-ratio="croppingRatio"></ui-cropper>
+	<ui-cropper image="image" result-image="cropped" result-image-format="{{imageFormat}}" area-type="rectangle" result-image-size="'max'" aspect-ratio="croppingRatio"></ui-cropper>
 </div>
 <footer class="modal-footer lui right aligned">
 	<div class="lui button" ng-click="crop()">{{ 'LUIIMGCROPPER_CROP' | translate }}</div>
