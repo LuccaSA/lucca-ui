@@ -353,6 +353,6 @@ module lui.userpicker {
 			"LUIDUSERPICKER_MAIL": "correo electrónico",
 			"LUIDUSERPICKER_ME": "Yo :",
 			"LUIDUSERPICKER_ALL": "Todos los usuarios",
-		})
+		});
 	}]);
 }

@@ -1842,6 +1842,11 @@ var lui;
     var imagepicker;
     (function (imagepicker) {
         "use strict";
+        var imageFormats = {
+            "image/jpeg": { extension: "jpg" },
+            "image/png": { extension: "png" },
+        };
+        var defaultImageFormat = "image/png";
         var LuidImageCropper = (function () {
             function LuidImageCropper() {
                 this.controller = LuidImageCropperController.IID;
@@ -1860,6 +1865,7 @@ var lui;
                             scope.$apply(function ($scope) {
                                 scope.image = event.target.result;
                                 scope.fileName = file.name;
+                                scope.imageFormat = Object.keys(imageFormats).indexOf(file.type) !== -1 ? file.type : defaultImageFormat;
                                 if (!scope.croppingDisabled) {
                                     scope.openCropper();
                                 }
@@ -1900,6 +1906,9 @@ var lui;
                             image: function () {
                                 return $scope.image;
                             },
+                            imageFormat: function () {
+                                return $scope.imageFormat;
+                            },
                             fileName: function () {
                                 return $scope.fileName;
                             },
@@ -1915,7 +1924,7 @@ var lui;
                     modalInstance.result.then(function (_a) {
                         var image = _a.image, cropped = _a.cropped;
                         $scope.cropped = image;
-                        var tempFileName = cropped ? $scope.fileName.substr(0, $scope.fileName.lastIndexOf(".")) + ".png" : $scope.fileName;
+                        var tempFileName = cropped ? $scope.fileName.slice(0, $scope.fileName.lastIndexOf(".")) + "." + imageFormats[$scope.imageFormat].extension : $scope.fileName;
                         $scope.onCropped(image, tempFileName);
                     }, function () {
                         if (!!$scope.onCancelled) {
@@ -1929,9 +1938,10 @@ var lui;
             return LuidImageCropperController;
         }());
         var LuidImageCropperModalController = (function () {
-            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, fileName, croppingRatio, cancelLabel) {
+            function LuidImageCropperModalController($scope, $uibModalInstance, moment, image, imageFormat, fileName, croppingRatio, cancelLabel) {
                 var doClose = false;
                 $scope.image = image;
+                $scope.imageFormat = imageFormat;
                 $scope.fileName = fileName;
                 $scope.cancelLabel = cancelLabel;
                 $scope.croppingRatio = croppingRatio;
@@ -1954,7 +1964,7 @@ var lui;
                 });
             }
             LuidImageCropperModalController.IID = "luidImageCropperModalController";
-            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
+            LuidImageCropperModalController.$inject = ["$scope", "$uibModalInstance", "moment", "image", "imageFormat", "croppingRatio", "cancelLabel"];
             return LuidImageCropperModalController;
         }());
         angular.module("lui.crop").directive(LuidImageCropper.IID, LuidImageCropper.Factory());
@@ -4191,7 +4201,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/checkbox.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox {{::options.templateOptions.style}} input\"><input type=\"checkbox\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-disabled=\"options.templateOptions.disabled\"> <label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui checkbox {{::options.templateOptions.style}} input\"><input type=\"checkbox\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small></div>"
   );
 
 
@@ -4211,7 +4221,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/email.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"email\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"> <label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"email\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.email\">{{::options.templateOptions.emailError}}</small></div>"
   );
 
 
@@ -4221,7 +4231,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/number.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"number\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"> <label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" type=\"number\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{::options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -4236,7 +4246,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/radio.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"> <label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><div class=\"lui radio input\" ng-repeat=\"choice in options.templateOptions.choices\"><input id=\"{{::id}}_{{$index}}\" type=\"radio\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" ng-value=\"choice\"><label for=\"{{::id}}_{{$index}}\">{{ choice.label }}</label></div><label>{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper}}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -4246,12 +4256,12 @@ var lui;
 
 
   $templateCache.put('lui/templates/formly/fields/text.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"> <label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><input placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\"><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
   $templateCache.put('lui/templates/formly/fields/textarea.html',
-    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" rows=\"{{::options.templateOptions.rows }}\"></textarea> <label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
+    "<div class=\"lui {{::options.templateOptions.display}} field\"><div class=\"lui {{::options.templateOptions.style}} input\"><textarea placeholder=\"{{::options.templateOptions.placeholder }}\" name=\"{{::id}}\" ng-model=\"model[options.key]\" ng-required=\"{{options.templateOptions.required}}\" ng-disabled=\"options.templateOptions.disabled\" rows=\"{{::options.templateOptions.rows }}\"></textarea><label for=\"{{::id}}\">{{ options.templateOptions.label }}</label></div><small class=\"message helper\">{{ options.templateOptions.helper }}</small> <small class=\"message error lui animated up fade in\" ng-show=\"form.{{::id}}.$dirty && form.{{::id}}.$error.required\">{{::options.templateOptions.requiredError}}</small></div>"
   );
 
 
@@ -4281,7 +4291,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/image-picker/image-cropper.modal.html',
-    "<div class=\"luid-cropper\"><ui-cropper image=\"image\" result-image=\"cropped\" area-type=\"rectangle\" result-image-size=\"'max'\" aspect-ratio=\"croppingRatio\"></ui-cropper></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=\"crop()\">{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=\"donotcrop()\">{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=\"cancel()\">{{ cancelLabel }}</div></footer>"
+    "<div class=\"luid-cropper\"><ui-cropper image=\"image\" result-image=\"cropped\" result-image-format=\"{{imageFormat}}\" area-type=\"rectangle\" result-image-size=\"'max'\" aspect-ratio=\"croppingRatio\"></ui-cropper></div><footer class=\"modal-footer lui right aligned\"><div class=\"lui button\" ng-click=\"crop()\">{{ 'LUIIMGCROPPER_CROP' | translate }}</div><div class=\"lui button\" ng-click=\"donotcrop()\">{{ 'LUIIMGCROPPER_DO_NOT_CROP' | translate }}</div><div class=\"lui flat button\" ng-click=\"cancel()\">{{ cancelLabel }}</div></footer>"
   );
 
 
@@ -4331,7 +4341,7 @@ var lui;
 
 
   $templateCache.put('lui/templates/table-grid/table-grid.table.html',
-    "<table><thead><tr role=\"row\" ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"></th><th role=\"columnheader\" class=\"sortable\" ng-repeat=\"header in ::row track by $index\" ng-click=\"updateOrderedRows(header)\" ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em', 'text-align': header.textAlign}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=\"row\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input ng-class=\"masterCheckBoxCssClass\" type=\"checkbox\" ng-model=\"allChecked.value\" ng-change=\"onMasterCheckBoxChange()\" ng-value=\"true\"> <label>&nbsp;</label></div></th><th role=\"columnheader\" ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=\"1\" rowspan=\"1\" class=\"filtering\"><div class=\"lui fitting searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=\"updateFilteredRows()\" ng-model=\"filters[$index].currentValues[0]\" ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\"><ui-select multiple ng-model=\"filters[$index].currentValues\" reset-search-input=\"true\" on-remove=\"updateFilteredRows()\" on-select=\"updateFilteredRows()\"><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select ng-model=\"filters[$index].currentValues[0]\" reset-search-input=\"true\" on-select=\"updateFilteredRows()\" allow-clear><ui-select-match allow-clear=\"true\" placeholder=\"{{ 'SELECT_ITEM' | translate }}\" title=\"{{ $select.selected }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=\"row\" ng-repeat=\"row in visibleRows\" ng-style=\"row.styles\" ng-click=\"internalRowClick($event, row);\"><td ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input type=\"checkbox\" ng-change=\"onCheckBoxChange()\" ng-model=\"row._luiTableGridRow.isChecked\"> <label>&nbsp;</label></div></td><td role=\"cell\" ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em', 'white-space': cell.preserveLineBreaks ? 'pre-line' : 'normal'}\" ng-bind-html=\"cell.getValue(row)\" ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
+    "<table><thead><tr role=\"row\" ng-repeat=\"row in ::headerRows track by $index\" ng-if=\"$index !== 0\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"></th><th role=\"columnheader\" class=\"sortable\" ng-repeat=\"header in ::row track by $index\" ng-click=\"updateOrderedRows(header)\" ng-class=\"{'locked': header.fixed, 'desc': (selected.orderBy === header && selected.reverse === false), 'asc': (selected.orderBy === header && selected.reverse === true)}\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em', 'text-align': header.textAlign}\" rowspan=\"{{ header.rowspan }}\" colspan=\"{{ header.colspan }}\">{{ header.label }}</th></tr><tr role=\"row\"><th ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" role=\"columnheader\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input ng-class=\"masterCheckBoxCssClass\" type=\"checkbox\" ng-model=\"allChecked.value\" ng-change=\"onMasterCheckBoxChange()\" ng-value=\"true\"><label>&nbsp;</label></div></th><th role=\"columnheader\" ng-repeat=\"header in ::colDefinitions track by $index\" ng-style=\"{'max-width': header.width + 'em', 'min-width': header.width + 'em'}\" ng-if=\"::header.filterType != FilterTypeEnum.NONE\" colspan=\"1\" rowspan=\"1\" class=\"filtering\"><div class=\"lui fitting searchable input\" ng-if=\"::header.filterType === FilterTypeEnum.TEXT\"><input ng-change=\"updateFilteredRows()\" ng-model=\"filters[$index].currentValues[0]\" ng-model-options=\"{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }\"></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.MULTISELECT && filters[$index].selectValues.length > 1\"><ui-select multiple ng-model=\"filters[$index].currentValues\" reset-search-input=\"true\" on-remove=\"updateFilteredRows()\" on-select=\"updateFilteredRows()\"><ui-select-match placeholder=\"{{ 'SELECT_ITEMS' | translate }}\">{{ $item }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div><div class=\"lui fitting input\" ng-if=\"header.filterType === FilterTypeEnum.SELECT && filters[$index].selectValues.length > 1\"><ui-select ng-model=\"filters[$index].currentValues[0]\" reset-search-input=\"true\" on-select=\"updateFilteredRows()\" allow-clear><ui-select-match allow-clear=\"true\" placeholder=\"{{ 'SELECT_ITEM' | translate }}\" title=\"{{ $select.selected }}\">{{ $select.selected }}</ui-select-match><ui-select-choices repeat=\"value in filters[$index].selectValues | filter: $select.search\"><span ng-bind-html=\"value\"></span></ui-select-choices></ui-select></div></th></tr></thead><tbody><tr role=\"row\" ng-repeat=\"row in visibleRows\" ng-style=\"row.styles\" ng-click=\"internalRowClick($event, row);\"><td ng-if=\"isSelectable\" style=\"width: 3.5em\" class=\"locked\" colspan=\"1\" rowspan=\"1\"><div class=\"lui solo checkbox input\"><input type=\"checkbox\" ng-change=\"onCheckBoxChange()\" ng-model=\"row._luiTableGridRow.isChecked\"><label>&nbsp;</label></div></td><td role=\"cell\" ng-repeat=\"cell in ::colDefinitions track by $index\" ng-style=\"{'max-width': cell.width + 'em', 'min-width': cell.width + 'em', 'white-space': cell.preserveLineBreaks ? 'pre-line' : 'normal'}\" ng-bind-html=\"cell.getValue(row)\" ng-class=\"{'locked': cell.fixed, 'lui left aligned': cell.textAlign == 'left', 'lui right aligned': cell.textAlign == 'right', 'lui center aligned': cell.textAlign == 'center'}\"></td></tr></tbody></table>"
   );
 
 

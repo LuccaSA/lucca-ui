@@ -8,8 +8,15 @@ module lui {
 }
 module lui.imagepicker {
 	"use strict";
+	type ImageFormat = "image/jpeg" | "image/png";
+	const imageFormats = {
+		"image/jpeg": { extension: "jpg" },
+		"image/png": { extension: "png" },
+	};
+	const defaultImageFormat: ImageFormat = "image/png";
 	interface IImageCropperScope extends angular.IScope {
 		image: string;
+		imageFormat: ImageFormat;
 		fileName: string;
 		cropped: string;
 		cancelLabel: string;
@@ -47,7 +54,7 @@ module lui.imagepicker {
 		public link: ng.IDirectiveLinkFn = (scope: IImageCropperScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes): void => {
 
 			let handleFileSelect = (evt) => {
-				let file = evt.currentTarget.files[0];
+				let file = (evt.currentTarget as HTMLInputElement).files[0];
 				let reader = new FileReader();
 				/* tslint:disable */
 				// see https://github.com/Microsoft/TypeScript/issues/4163
@@ -56,6 +63,7 @@ module lui.imagepicker {
 					scope.$apply(($scope) => {
 						scope.image = event.target.result;
 						scope.fileName = file.name;
+						scope.imageFormat = Object.keys(imageFormats).indexOf(file.type) !== -1 ? file.type as ImageFormat : defaultImageFormat;
 						if (!scope.croppingDisabled) {
 							scope.openCropper();
 						} else {
@@ -91,6 +99,9 @@ module lui.imagepicker {
 						image: (): string => {
 							return $scope.image;
 						},
+						imageFormat: (): ImageFormat => {
+							return $scope.imageFormat;
+						},
 						fileName: (): string => {
 							return $scope.fileName;
 						},
@@ -105,7 +116,7 @@ module lui.imagepicker {
 				let modalInstance = $uibModal.open(modalOptions);
 				modalInstance.result.then(({image, cropped}: {image: string, cropped: boolean}) => {
 					$scope.cropped = image;
-					const tempFileName = cropped ? $scope.fileName.substr(0, $scope.fileName.lastIndexOf(".")) + ".png" : $scope.fileName;
+					const tempFileName = cropped ? $scope.fileName.slice(0, $scope.fileName.lastIndexOf(".")) + "." + imageFormats[$scope.imageFormat].extension : $scope.fileName;
 					$scope.onCropped(image, tempFileName);
 				}, () => {
 					if (!!$scope.onCancelled) {
@@ -117,11 +128,12 @@ module lui.imagepicker {
 	}
 	class LuidImageCropperModalController {
 		public static IID: string = "luidImageCropperModalController";
-		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "croppingRatio", "cancelLabel"];
+		public static $inject: Array<string> = ["$scope", "$uibModalInstance", "moment", "image", "imageFormat", "croppingRatio", "cancelLabel"];
 
-		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, fileName: string, croppingRatio: number, cancelLabel: string) {
+		constructor($scope: IImageCropperScope, $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, moment: moment.MomentStatic, image: string, imageFormat: ImageFormat, fileName: string, croppingRatio: number, cancelLabel: string) {
 			let doClose: boolean = false;
 			$scope.image = image;
+			$scope.imageFormat = imageFormat;
 			$scope.fileName = fileName;
 			$scope.cancelLabel = cancelLabel;
 			$scope.croppingRatio = croppingRatio;
