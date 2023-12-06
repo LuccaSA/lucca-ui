@@ -525,7 +525,7 @@ declare module lui.translate {
         1034: string;
         1036: string;
         1040: string;
-        2067: string;
+        1043: string;
         2070: string;
     };
     class CulturedList {
