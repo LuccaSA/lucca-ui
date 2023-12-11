@@ -48,7 +48,7 @@
     "karma-junit-reporter": "^0.3.8",
     "karma-phantomjs-launcher": "^1.0.0",
     "load-grunt-configs": "^0.4.3",
-    "node-sass": "4.7.2",
+    "node-sass": "7.0.0",
     "phantomjs-prebuilt": "^2.1.4",
     "protractor": "=3.1.1",
     "remap-istanbul": "^0.5.1",
