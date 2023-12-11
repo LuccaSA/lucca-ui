@@ -5,7 +5,7 @@
   "main": "dist/lucca-ui.js",
   "dependencies": {
     "@cgross/angular-notify": "~2.5.0",
-    "angular": "1.6.x",
+    "angular": "1.8.x",
     "angular-formly": "~8.4.0",
     "angular-route": "1.6.x",
     "angular-ui-bootstrap": "~2.5.0",
@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "@cgross/angular-notify": "~2.5.0",
-    "angular": "1.6.x",
+    "angular": "1.8.x",
     "angular-formly": "~8.4.0",
     "angular-route": "1.6.x",
     "angular-ui-bootstrap": "~2.5.0",
