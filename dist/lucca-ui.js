@@ -4502,7 +4502,7 @@ var lui;
 				var translateCtrl = ctrls[0];
 
 				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043 };
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
