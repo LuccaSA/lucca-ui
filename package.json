@@ -1,6 +1,6 @@
 {
   "name": "lucca-ui",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "less and js framework by lucca",
   "main": "dist/lucca-ui.js",
   "dependencies": {

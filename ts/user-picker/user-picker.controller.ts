@@ -320,7 +320,7 @@ module lui.userpicker {
 			"LUIDUSERPICKER_FORMEREMPLOYEE": "Verließ die {{dtContractEnd | luifMoment : 'LL'}}",
 			"LUIDUSERPICKER_NORESULTS": "Keine Ergebnisse",
 			"LUIDUSERPICKER_ERR_GET_USERS": "Fehler",
-			"LUIDUSERPICKER_OVERFLOW": "Es werden {{cnt}} auf {{all}} Benutzernamen",
+			"LUIDUSERPICKER_OVERFLOW": "Es werden {{cnt}} von {{all}} Ergebnissen angezeigt",
 			// "LUIDUSERPICKER_PLACEHOLDER":"Geben Sie einen Benutzernamen...",
 			"LUIDUSERPICKER_DEPARTMENT": "Abteilung",
 			"LUIDUSERPICKER_LEGALENTITY": "Rechtsträger",

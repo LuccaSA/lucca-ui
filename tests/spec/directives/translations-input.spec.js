@@ -79,7 +79,7 @@ describe('luidTranslations', function(){
 		it("should return string at the correct format", function(){
 			isolateScope.internal.fr = "français";
 			isolateScope.update();
-			expect($scope.myTrads).toEqual("en:|de:|es:|fr:français|it:|nl:");
+			expect($scope.myTrads).toEqual("en:|de:|es:|fr:français|it:|nl:|pt:");
 		});
 	});
 
