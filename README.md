@@ -5,6 +5,9 @@
 Framework Sass &amp; Angular by Lucca
 [luccaSA.github.io/lucca-ui](http://luccaSA.github.io/lucca-ui)
 
+> ⚠️ This repository is not maintained anymore and will be archived in a near future.
+
+
 # Version 4.x
 
 ## How to install
