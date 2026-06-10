@@ -774,6 +774,10 @@ var lui;
                         $scope.fromLabel = "Du";
                         $scope.toLabel = "Au";
                         break;
+                    case "pl":
+                        $scope.fromLabel = "Od";
+                        $scope.toLabel = "Do";
+                        break;
                     default:
                         $scope.fromLabel = "From";
                         $scope.toLabel = "To";
@@ -2140,6 +2144,13 @@ var lui;
                 });
                 $translateProvider.translations("it", {});
                 $translateProvider.translations("nl", {});
+                $translateProvider.translations("pl", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "zmień zdjęcie",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "edytuj zdjęcie",
+                    "LUIIMGPICKER_DELETE_IMAGE": "usuń zdjęcie",
+                    "LUIIMGCROPPER_CROP": "Przytnij",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Nie przycinaj",
+                });
             }]);
     })(imagepicker = lui.imagepicker || (lui.imagepicker = {}));
 })(lui || (lui = {}));
@@ -3038,6 +3049,10 @@ var lui;
                 });
                 $translateProvider.translations("it", {});
                 $translateProvider.translations("nl", {});
+                $translateProvider.translations("pl", {
+                    "SELECT_ITEM": "Wybierz element",
+                    "SELECT_ITEMS": "Wybierz elementy",
+                });
             }]);
     })(tablegrid = lui.tablegrid || (lui.tablegrid = {}));
 })(lui || (lui = {}));
@@ -3053,9 +3068,9 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt"];
-        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
-        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt" };
+        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt", "pl"];
+        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt", 1045: "pl" };
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;
@@ -3211,6 +3226,10 @@ var lui;
                 $translateProvider.translations("fr", {
                     "LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
                     "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
+                });
+                $translateProvider.translations("pl", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Dodaj nową wartość",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Wprowadź wartość"
                 });
             }]);
     })(translate = lui.translate || (lui.translate = {}));
@@ -3686,6 +3705,18 @@ var lui;
                     "LUIDUSERPICKER_MAIL": "correo electrónico",
                     "LUIDUSERPICKER_ME": "Yo :",
                     "LUIDUSERPICKER_ALL": "Todos los usuarios",
+                });
+                $translateProvider.translations("pl", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Zakończył(a) pracę {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Brak wyników",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Błąd podczas wczytywania użytkowników",
+                    "LUIDUSERPICKER_OVERFLOW": "Wyświetlono {{cnt}} z {{all}} wyników",
+                    "LUIDUSERPICKER_DEPARTMENT": "Dział",
+                    "LUIDUSERPICKER_LEGALENTITY": "Podmiot prawny",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Numer pracownika",
+                    "LUIDUSERPICKER_MAIL": "E-mail",
+                    "LUIDUSERPICKER_ME": "Ja:",
+                    "LUIDUSERPICKER_ALL": "Wszyscy użytkownicy",
                 });
             }]);
     })(userpicker = lui.userpicker || (lui.userpicker = {}));
@@ -4502,7 +4533,7 @@ var lui;
 				var translateCtrl = ctrls[0];
 
 				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
@@ -5674,6 +5705,20 @@ var lui;
 				sameYear: 'von start(Do MMMM) bis end(LL)',
 				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
 				other: 'von start(LL) bis end(LL)'
+			},
+			'pl': {
+				startOnly: 'od date(dddd, LL)',
+				startOnlyThisYear: 'od date(dddd, Do MMMM)',
+				endOnly: 'do date(dddd, LL)',
+				endOnlyThisYear: 'do date(dddd, Do MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, Do MMMM)',
+				sameMonth: 'od start(Do) do end(LL)',
+				sameMonthThisYear: 'od start(Do) do end(Do MMMM)',
+				sameYear: 'od start(Do MMMM) do end(LL)',
+				sameYearThisYear: 'od start(Do MMMM) do end(Do MMMM)',
+				other: 'od start(LL) do end(LL)'
 			}
 		};
 		function getTrad(trads, locale, key, fallbackKey) {
