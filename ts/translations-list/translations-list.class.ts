@@ -6,12 +6,33 @@ module lui.translate {
 	 * (luid-translations-list and luid-translations), with their associated culture codes.
 	 * The keys order defines the display order of the languages.
 	 */
-	export const LANGUAGES_TO_CODE: { [language: string]: number } = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+	export const LANGUAGES_TO_CODE: { [language: string]: number } = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070 };
 	/** All the supported languages labels, derived from LANGUAGES_TO_CODE */
 	export const AVAILABLE_LANGUAGES: string[] = Object.keys(LANGUAGES_TO_CODE);
 	/** Used to convert culture codes to their associated labels, derived from LANGUAGES_TO_CODE */
 	export const CODES_TO_LANGUAGES: { [code: number]: string } = {};
 	AVAILABLE_LANGUAGES.forEach((language: string) => { CODES_TO_LANGUAGES[LANGUAGES_TO_CODE[language]] = language; });
+
+	/**
+	 * Registers an extra language at runtime, e.g. once the consuming app
+	 * has checked a feature flag (cf "enable-polish-culture").
+	 */
+	export function addLanguage(language: string, code: number): void {
+		if (LANGUAGES_TO_CODE[language] !== undefined) { return; }
+		LANGUAGES_TO_CODE[language] = code;
+		AVAILABLE_LANGUAGES.push(language);
+		CODES_TO_LANGUAGES[code] = language;
+	}
+
+	/** Unregisters a language added with addLanguage. */
+	export function removeLanguage(language: string): void {
+		const code = LANGUAGES_TO_CODE[language];
+		if (code === undefined) { return; }
+		delete LANGUAGES_TO_CODE[language];
+		delete CODES_TO_LANGUAGES[code];
+		const index = AVAILABLE_LANGUAGES.indexOf(language);
+		if (index >= 0) { AVAILABLE_LANGUAGES.splice(index, 1); }
+	}
 
 	export class CulturedList {
 		public culture: string;

@@ -509,25 +509,15 @@ declare module lui.tablegrid {
     }
 }
 declare module lui.translate {
-    const AVAILABLE_LANGUAGES: string[];
     const LANGUAGES_TO_CODE: {
-        en: number;
-        de: number;
-        es: number;
-        fr: number;
-        it: number;
-        nl: number;
-        pt: number;
+        [language: string]: number;
     };
+    const AVAILABLE_LANGUAGES: string[];
     const CODES_TO_LANGUAGES: {
-        1031: string;
-        1033: string;
-        1034: string;
-        1036: string;
-        1040: string;
-        1043: string;
-        2070: string;
+        [code: number]: string;
     };
+    function addLanguage(language: string, code: number): void;
+    function removeLanguage(language: string): void;
     class CulturedList {
         culture: string;
         originalId: number;

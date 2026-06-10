@@ -3068,10 +3068,32 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.LANGUAGES_TO_CODE = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+        translate.LANGUAGES_TO_CODE = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070 };
         translate.AVAILABLE_LANGUAGES = Object.keys(translate.LANGUAGES_TO_CODE);
         translate.CODES_TO_LANGUAGES = {};
         translate.AVAILABLE_LANGUAGES.forEach(function (language) { translate.CODES_TO_LANGUAGES[translate.LANGUAGES_TO_CODE[language]] = language; });
+        function addLanguage(language, code) {
+            if (translate.LANGUAGES_TO_CODE[language] !== undefined) {
+                return;
+            }
+            translate.LANGUAGES_TO_CODE[language] = code;
+            translate.AVAILABLE_LANGUAGES.push(language);
+            translate.CODES_TO_LANGUAGES[code] = language;
+        }
+        translate.addLanguage = addLanguage;
+        function removeLanguage(language) {
+            var code = translate.LANGUAGES_TO_CODE[language];
+            if (code === undefined) {
+                return;
+            }
+            delete translate.LANGUAGES_TO_CODE[language];
+            delete translate.CODES_TO_LANGUAGES[code];
+            var index = translate.AVAILABLE_LANGUAGES.indexOf(language);
+            if (index >= 0) {
+                translate.AVAILABLE_LANGUAGES.splice(index, 1);
+            }
+        }
+        translate.removeLanguage = removeLanguage;
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;
