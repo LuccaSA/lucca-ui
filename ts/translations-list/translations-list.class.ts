@@ -1,12 +1,17 @@
 module lui.translate {
 	"use strict";
 
-	/** All the languages supported by the translation-list directive */
-	export const AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt", "pl"];
-	/** Used to convert languages labels to their associated culture codes */
-	export const LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
-	/** Used to converted culture codes to their associated labels  */
-	export const CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt", 1045: "pl" };
+	/**
+	 * Single source of truth for the languages supported by the lui translation directives
+	 * (luid-translations-list and luid-translations), with their associated culture codes.
+	 * The keys order defines the display order of the languages.
+	 */
+	export const LANGUAGES_TO_CODE: { [language: string]: number } = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+	/** All the supported languages labels, derived from LANGUAGES_TO_CODE */
+	export const AVAILABLE_LANGUAGES: string[] = Object.keys(LANGUAGES_TO_CODE);
+	/** Used to convert culture codes to their associated labels, derived from LANGUAGES_TO_CODE */
+	export const CODES_TO_LANGUAGES: { [code: number]: string } = {};
+	AVAILABLE_LANGUAGES.forEach((language: string) => { CODES_TO_LANGUAGES[LANGUAGES_TO_CODE[language]] = language; });
 
 	export class CulturedList {
 		public culture: string;

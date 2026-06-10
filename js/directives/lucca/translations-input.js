@@ -13,8 +13,8 @@
 				var ngModelCtrl = ctrls[1];
 				var translateCtrl = ctrls[0];
 
-				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+				/** Associations language/code - single source of truth in translations-list.class.ts */
+				var languagesToCodes = lui.translate.LANGUAGES_TO_CODE;
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);

@@ -3068,9 +3068,10 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt", "pl"];
-        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
-        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt", 1045: "pl" };
+        translate.LANGUAGES_TO_CODE = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+        translate.AVAILABLE_LANGUAGES = Object.keys(translate.LANGUAGES_TO_CODE);
+        translate.CODES_TO_LANGUAGES = {};
+        translate.AVAILABLE_LANGUAGES.forEach(function (language) { translate.CODES_TO_LANGUAGES[translate.LANGUAGES_TO_CODE[language]] = language; });
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;
@@ -4532,8 +4533,8 @@ var lui;
 				var ngModelCtrl = ctrls[1];
 				var translateCtrl = ctrls[0];
 
-				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+				/** Associations language/code - single source of truth in translations-list.class.ts */
+				var languagesToCodes = lui.translate.LANGUAGES_TO_CODE;
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
