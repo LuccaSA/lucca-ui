@@ -161,5 +161,9 @@ module lui.translate {
 			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
 			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
 		});
+		$translateProvider.translations("pl", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Dodaj nową wartość",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Wprowadź wartość"
+		});
 	}]);
 }

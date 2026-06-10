@@ -354,5 +354,17 @@ module lui.userpicker {
 			"LUIDUSERPICKER_ME": "Yo :",
 			"LUIDUSERPICKER_ALL": "Todos los usuarios",
 		});
+		$translateProvider.translations("pl", {
+			"LUIDUSERPICKER_FORMEREMPLOYEE": "Zakończył(a) pracę {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS": "Brak wyników",
+			"LUIDUSERPICKER_ERR_GET_USERS": "Błąd podczas wczytywania użytkowników",
+			"LUIDUSERPICKER_OVERFLOW": "Wyświetlono {{cnt}} z {{all}} wyników",
+			"LUIDUSERPICKER_DEPARTMENT": "Dział",
+			"LUIDUSERPICKER_LEGALENTITY": "Podmiot prawny",
+			"LUIDUSERPICKER_EMPLOYEENUMBER": "Numer pracownika",
+			"LUIDUSERPICKER_MAIL": "E-mail",
+			"LUIDUSERPICKER_ME": "Ja:",
+			"LUIDUSERPICKER_ALL": "Wszyscy użytkownicy",
+		});
 	}]);
 }

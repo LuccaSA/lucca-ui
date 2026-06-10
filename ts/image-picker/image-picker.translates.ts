@@ -28,6 +28,13 @@ module lui.imagepicker {
 		$translateProvider.translations("nl", {
 
 		});
+		$translateProvider.translations("pl", {
+			"LUIIMGPICKER_UPLOAD_IMAGE": "zmień zdjęcie",
+			"LUIIMGPICKER_MODIFY_IMAGE": "edytuj zdjęcie",
+			"LUIIMGPICKER_DELETE_IMAGE": "usuń zdjęcie",
+			"LUIIMGCROPPER_CROP": "Przytnij",
+			"LUIIMGCROPPER_DO_NOT_CROP": "Nie przycinaj",
+		});
 	}]);
 	/* tslint:enable */
 }

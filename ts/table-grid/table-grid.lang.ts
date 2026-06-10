@@ -21,5 +21,9 @@ module lui.tablegrid {
 		$translateProvider.translations("nl", {
 
 		});
+		$translateProvider.translations("pl", {
+			"SELECT_ITEM": "Wybierz element",
+			"SELECT_ITEMS": "Wybierz elementy",
+		});
 	}]);
 }

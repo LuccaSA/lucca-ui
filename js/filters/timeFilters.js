@@ -57,6 +57,20 @@
 				sameYear: 'von start(Do MMMM) bis end(LL)',
 				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
 				other: 'von start(LL) bis end(LL)'
+			},
+			'pl': {
+				startOnly: 'od date(dddd, LL)',
+				startOnlyThisYear: 'od date(dddd, Do MMMM)',
+				endOnly: 'do date(dddd, LL)',
+				endOnlyThisYear: 'do date(dddd, Do MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, Do MMMM)',
+				sameMonth: 'od start(Do) do end(LL)',
+				sameMonthThisYear: 'od start(Do) do end(Do MMMM)',
+				sameYear: 'od start(Do MMMM) do end(LL)',
+				sameYearThisYear: 'od start(Do MMMM) do end(Do MMMM)',
+				other: 'od start(LL) do end(LL)'
 			}
 		};
 		function getTrad(trads, locale, key, fallbackKey) {
