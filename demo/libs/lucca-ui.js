@@ -3053,9 +3053,9 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt"];
-        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
-        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt" };
+        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt", "pl"];
+        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
+        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt", 1045: "pl" };
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;
@@ -4502,7 +4502,7 @@ var lui;
 				var translateCtrl = ctrls[0];
 
 				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
+				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070, pl: 1045 };
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
