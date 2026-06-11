@@ -107,6 +107,26 @@ module lui.datepicker {
 					$scope.fromLabel = "Du";
 					$scope.toLabel = "Au";
 					break;
+				case "de":
+					$scope.fromLabel = "Von";
+					$scope.toLabel = "Bis";
+					break;
+				case "es":
+					$scope.fromLabel = "Del";
+					$scope.toLabel = "Al";
+					break;
+				case "it":
+					$scope.fromLabel = "Dal";
+					$scope.toLabel = "Al";
+					break;
+				case "nl":
+					$scope.fromLabel = "Van";
+					$scope.toLabel = "Tot";
+					break;
+				case "pt":
+					$scope.fromLabel = "De";
+					$scope.toLabel = "Até";
+					break;
 				case "pl":
 					$scope.fromLabel = "Od";
 					$scope.toLabel = "Do";
