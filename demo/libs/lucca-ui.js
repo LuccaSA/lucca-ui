@@ -774,6 +774,30 @@ var lui;
                         $scope.fromLabel = "Du";
                         $scope.toLabel = "Au";
                         break;
+                    case "de":
+                        $scope.fromLabel = "Von";
+                        $scope.toLabel = "Bis";
+                        break;
+                    case "es":
+                        $scope.fromLabel = "Del";
+                        $scope.toLabel = "Al";
+                        break;
+                    case "it":
+                        $scope.fromLabel = "Dal";
+                        $scope.toLabel = "Al";
+                        break;
+                    case "nl":
+                        $scope.fromLabel = "Van";
+                        $scope.toLabel = "Tot";
+                        break;
+                    case "pt":
+                        $scope.fromLabel = "De";
+                        $scope.toLabel = "Até";
+                        break;
+                    case "pl":
+                        $scope.fromLabel = "Od";
+                        $scope.toLabel = "Do";
+                        break;
                     default:
                         $scope.fromLabel = "From";
                         $scope.toLabel = "To";
@@ -2129,8 +2153,20 @@ var lui;
                     "LUIIMGCROPPER_CROP": "Crop",
                     "LUIIMGCROPPER_DO_NOT_CROP": "Do not crop",
                 });
-                $translateProvider.translations("de", {});
-                $translateProvider.translations("es", {});
+                $translateProvider.translations("de", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "Bild ändern",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "Bild bearbeiten",
+                    "LUIIMGPICKER_DELETE_IMAGE": "Bild löschen",
+                    "LUIIMGCROPPER_CROP": "Zuschneiden",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Nicht zuschneiden",
+                });
+                $translateProvider.translations("es", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "cambiar la imagen",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "modificar la imagen",
+                    "LUIIMGPICKER_DELETE_IMAGE": "eliminar la imagen",
+                    "LUIIMGCROPPER_CROP": "Recortar",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "No recortar",
+                });
                 $translateProvider.translations("fr", {
                     "LUIIMGPICKER_UPLOAD_IMAGE": "changer l'image",
                     "LUIIMGPICKER_MODIFY_IMAGE": "modifier l'image",
@@ -2138,8 +2174,34 @@ var lui;
                     "LUIIMGCROPPER_CROP": "Recadrer",
                     "LUIIMGCROPPER_DO_NOT_CROP": "Ne pas recadrer",
                 });
-                $translateProvider.translations("it", {});
-                $translateProvider.translations("nl", {});
+                $translateProvider.translations("it", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "cambia immagine",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "modifica immagine",
+                    "LUIIMGPICKER_DELETE_IMAGE": "elimina immagine",
+                    "LUIIMGCROPPER_CROP": "Ritaglia",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Non ritagliare",
+                });
+                $translateProvider.translations("nl", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "afbeelding wijzigen",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "afbeelding bewerken",
+                    "LUIIMGPICKER_DELETE_IMAGE": "afbeelding verwijderen",
+                    "LUIIMGCROPPER_CROP": "Bijsnijden",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Niet bijsnijden",
+                });
+                $translateProvider.translations("pt", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "alterar a imagem",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "modificar a imagem",
+                    "LUIIMGPICKER_DELETE_IMAGE": "eliminar a imagem",
+                    "LUIIMGCROPPER_CROP": "Recortar",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Não recortar",
+                });
+                $translateProvider.translations("pl", {
+                    "LUIIMGPICKER_UPLOAD_IMAGE": "zmień zdjęcie",
+                    "LUIIMGPICKER_MODIFY_IMAGE": "edytuj zdjęcie",
+                    "LUIIMGPICKER_DELETE_IMAGE": "usuń zdjęcie",
+                    "LUIIMGCROPPER_CROP": "Przytnij",
+                    "LUIIMGCROPPER_DO_NOT_CROP": "Nie przycinaj",
+                });
             }]);
     })(imagepicker = lui.imagepicker || (lui.imagepicker = {}));
 })(lui || (lui = {}));
@@ -3030,14 +3092,34 @@ var lui;
                     "SELECT_ITEM": "Select an item",
                     "SELECT_ITEMS": "Select items",
                 });
-                $translateProvider.translations("de", {});
-                $translateProvider.translations("es", {});
+                $translateProvider.translations("de", {
+                    "SELECT_ITEM": "Element auswählen",
+                    "SELECT_ITEMS": "Elemente auswählen",
+                });
+                $translateProvider.translations("es", {
+                    "SELECT_ITEM": "Seleccione un elemento",
+                    "SELECT_ITEMS": "Seleccione elementos",
+                });
                 $translateProvider.translations("fr", {
                     "SELECT_ITEM": "Sélectionnez un élément",
                     "SELECT_ITEMS": "Sélectionnez des éléments",
                 });
-                $translateProvider.translations("it", {});
-                $translateProvider.translations("nl", {});
+                $translateProvider.translations("it", {
+                    "SELECT_ITEM": "Seleziona un elemento",
+                    "SELECT_ITEMS": "Seleziona elementi",
+                });
+                $translateProvider.translations("nl", {
+                    "SELECT_ITEM": "Selecteer een item",
+                    "SELECT_ITEMS": "Selecteer items",
+                });
+                $translateProvider.translations("pt", {
+                    "SELECT_ITEM": "Selecione um item",
+                    "SELECT_ITEMS": "Selecione itens",
+                });
+                $translateProvider.translations("pl", {
+                    "SELECT_ITEM": "Wybierz element",
+                    "SELECT_ITEMS": "Wybierz elementy",
+                });
             }]);
     })(tablegrid = lui.tablegrid || (lui.tablegrid = {}));
 })(lui || (lui = {}));
@@ -3053,9 +3135,32 @@ var lui;
     var translate;
     (function (translate) {
         "use strict";
-        translate.AVAILABLE_LANGUAGES = ["en", "fr", "de", "es", "it", "nl", "pt"];
-        translate.LANGUAGES_TO_CODE = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
-        translate.CODES_TO_LANGUAGES = { 1033: "en", 1031: "de", 1034: "es", 1036: "fr", 1040: "it", 1043: "nl", 2070: "pt" };
+        translate.LANGUAGES_TO_CODE = { en: 1033, fr: 1036, de: 1031, es: 1034, it: 1040, nl: 1043, pt: 2070 };
+        translate.AVAILABLE_LANGUAGES = Object.keys(translate.LANGUAGES_TO_CODE);
+        translate.CODES_TO_LANGUAGES = {};
+        translate.AVAILABLE_LANGUAGES.forEach(function (language) { translate.CODES_TO_LANGUAGES[translate.LANGUAGES_TO_CODE[language]] = language; });
+        function addLanguage(language, code) {
+            if (translate.LANGUAGES_TO_CODE[language] !== undefined) {
+                return;
+            }
+            translate.LANGUAGES_TO_CODE[language] = code;
+            translate.AVAILABLE_LANGUAGES.push(language);
+            translate.CODES_TO_LANGUAGES[code] = language;
+        }
+        translate.addLanguage = addLanguage;
+        function removeLanguage(language) {
+            var code = translate.LANGUAGES_TO_CODE[language];
+            if (code === undefined) {
+                return;
+            }
+            delete translate.LANGUAGES_TO_CODE[language];
+            delete translate.CODES_TO_LANGUAGES[code];
+            var index = translate.AVAILABLE_LANGUAGES.indexOf(language);
+            if (index >= 0) {
+                translate.AVAILABLE_LANGUAGES.splice(index, 1);
+            }
+        }
+        translate.removeLanguage = removeLanguage;
         var CulturedList = (function () {
             function CulturedList(culture) {
                 this.culture = culture;
@@ -3208,9 +3313,33 @@ var lui;
                     "LUID_TRANSLATIONSLIST_ADD_VALUE": "Add new value",
                     "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Input a value"
                 });
+                $translateProvider.translations("de", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Neuen Wert hinzufügen",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Einen Wert eingeben"
+                });
+                $translateProvider.translations("es", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Añadir un nuevo valor",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Introduzca un valor"
+                });
                 $translateProvider.translations("fr", {
                     "LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
                     "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
+                });
+                $translateProvider.translations("it", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Aggiungi un nuovo valore",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Inserisci un valore"
+                });
+                $translateProvider.translations("nl", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Nieuwe waarde toevoegen",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Voer een waarde in"
+                });
+                $translateProvider.translations("pt", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Adicionar um novo valor",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Introduza um valor"
+                });
+                $translateProvider.translations("pl", {
+                    "LUID_TRANSLATIONSLIST_ADD_VALUE": "Dodaj nową wartość",
+                    "LUID_TRANSLATIONSLIST_INPUT_VALUE": "Wprowadź wartość"
                 });
             }]);
     })(translate = lui.translate || (lui.translate = {}));
@@ -3686,6 +3815,54 @@ var lui;
                     "LUIDUSERPICKER_MAIL": "correo electrónico",
                     "LUIDUSERPICKER_ME": "Yo :",
                     "LUIDUSERPICKER_ALL": "Todos los usuarios",
+                });
+                $translateProvider.translations("it", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Ha lasciato l'azienda il {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Nessun risultato",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Errore durante il caricamento degli utenti",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} risultati visualizzati su {{all}}",
+                    "LUIDUSERPICKER_DEPARTMENT": "Dipartimento",
+                    "LUIDUSERPICKER_LEGALENTITY": "Entità giuridica",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Matricola",
+                    "LUIDUSERPICKER_MAIL": "Email",
+                    "LUIDUSERPICKER_ME": "Io:",
+                    "LUIDUSERPICKER_ALL": "Tutti gli utenti",
+                });
+                $translateProvider.translations("nl", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Vertrokken op {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Geen resultaten",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Fout bij het laden van gebruikers",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} van {{all}} resultaten weergegeven",
+                    "LUIDUSERPICKER_DEPARTMENT": "Afdeling",
+                    "LUIDUSERPICKER_LEGALENTITY": "Juridische entiteit",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Personeelsnummer",
+                    "LUIDUSERPICKER_MAIL": "E-mail",
+                    "LUIDUSERPICKER_ME": "Ik:",
+                    "LUIDUSERPICKER_ALL": "Alle gebruikers",
+                });
+                $translateProvider.translations("pt", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Saiu em {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Sem resultados",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Erro ao carregar os utilizadores",
+                    "LUIDUSERPICKER_OVERFLOW": "{{cnt}} resultados apresentados de {{all}}",
+                    "LUIDUSERPICKER_DEPARTMENT": "Departamento",
+                    "LUIDUSERPICKER_LEGALENTITY": "Entidade legal",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Número de funcionário",
+                    "LUIDUSERPICKER_MAIL": "Email",
+                    "LUIDUSERPICKER_ME": "Eu:",
+                    "LUIDUSERPICKER_ALL": "Todos os utilizadores",
+                });
+                $translateProvider.translations("pl", {
+                    "LUIDUSERPICKER_FORMEREMPLOYEE": "Zakończył(a) pracę {{dtContractEnd | luifMoment : 'LL'}}",
+                    "LUIDUSERPICKER_NORESULTS": "Brak wyników",
+                    "LUIDUSERPICKER_ERR_GET_USERS": "Błąd podczas wczytywania użytkowników",
+                    "LUIDUSERPICKER_OVERFLOW": "Wyświetlono {{cnt}} z {{all}} wyników",
+                    "LUIDUSERPICKER_DEPARTMENT": "Dział",
+                    "LUIDUSERPICKER_LEGALENTITY": "Podmiot prawny",
+                    "LUIDUSERPICKER_EMPLOYEENUMBER": "Numer pracownika",
+                    "LUIDUSERPICKER_MAIL": "E-mail",
+                    "LUIDUSERPICKER_ME": "Ja:",
+                    "LUIDUSERPICKER_ALL": "Wszyscy użytkownicy",
                 });
             }]);
     })(userpicker = lui.userpicker || (lui.userpicker = {}));
@@ -4501,8 +4678,8 @@ var lui;
 				var ngModelCtrl = ctrls[1];
 				var translateCtrl = ctrls[0];
 
-				/** Associations language/code */
-				var languagesToCodes = { en: 1033, de: 1031, es: 1034, fr: 1036, it: 1040, nl: 1043, pt: 2070 };
+				/** Associations language/code - single source of truth in translations-list.class.ts */
+				var languagesToCodes = lui.translate.LANGUAGES_TO_CODE;
 
 				/** List of all the available languages labels */
 				var cultures = _.keys(languagesToCodes);
@@ -5674,6 +5851,76 @@ var lui;
 				sameYear: 'von start(Do MMMM) bis end(LL)',
 				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
 				other: 'von start(LL) bis end(LL)'
+			},
+			'es': {
+				startOnly: 'a partir del date(dddd LL)',
+				startOnlyThisYear: 'a partir del date(dddd D [de] MMMM)',
+				endOnly: 'hasta el date(dddd LL)',
+				endOnlyThisYear: 'hasta el date(dddd D [de] MMMM)',
+				date: 'date(LL)',
+				sameDay: 'el start(dddd LL)',
+				sameDayThisYear: 'el start(dddd D [de] MMMM)',
+				sameMonth: 'del start(D) al end(LL)',
+				sameMonthThisYear: 'del start(D) al end(D [de] MMMM)',
+				sameYear: 'del start(D [de] MMMM) al end(LL)',
+				sameYearThisYear: 'del start(D [de] MMMM) al end(D [de] MMMM)',
+				other: 'del start(LL) al end(LL)'
+			},
+			'it': {
+				startOnly: 'a partire dal date(dddd LL)',
+				startOnlyThisYear: 'a partire dal date(dddd D MMMM)',
+				endOnly: 'fino al date(dddd LL)',
+				endOnlyThisYear: 'fino al date(dddd D MMMM)',
+				date: 'date(LL)',
+				sameDay: 'il start(dddd LL)',
+				sameDayThisYear: 'il start(dddd D MMMM)',
+				sameMonth: 'dal start(D) al end(LL)',
+				sameMonthThisYear: 'dal start(D) al end(D MMMM)',
+				sameYear: 'dal start(D MMMM) al end(LL)',
+				sameYearThisYear: 'dal start(D MMMM) al end(D MMMM)',
+				other: 'dal start(LL) al end(LL)'
+			},
+			'nl': {
+				startOnly: 'vanaf date(dddd LL)',
+				startOnlyThisYear: 'vanaf date(dddd D MMMM)',
+				endOnly: 'tot date(dddd LL)',
+				endOnlyThisYear: 'tot date(dddd D MMMM)',
+				date: 'date(LL)',
+				sameDay: 'op start(dddd LL)',
+				sameDayThisYear: 'op start(dddd D MMMM)',
+				sameMonth: 'van start(D) tot end(LL)',
+				sameMonthThisYear: 'van start(D) tot end(D MMMM)',
+				sameYear: 'van start(D MMMM) tot end(LL)',
+				sameYearThisYear: 'van start(D MMMM) tot end(D MMMM)',
+				other: 'van start(LL) tot end(LL)'
+			},
+			'pt': {
+				startOnly: 'a partir de date(dddd, LL)',
+				startOnlyThisYear: 'a partir de date(dddd, D [de] MMMM)',
+				endOnly: 'até date(dddd, LL)',
+				endOnlyThisYear: 'até date(dddd, D [de] MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, D [de] MMMM)',
+				sameMonth: 'de start(D) a end(LL)',
+				sameMonthThisYear: 'de start(D) a end(D [de] MMMM)',
+				sameYear: 'de start(D [de] MMMM) a end(LL)',
+				sameYearThisYear: 'de start(D [de] MMMM) a end(D [de] MMMM)',
+				other: 'de start(LL) a end(LL)'
+			},
+			'pl': {
+				startOnly: 'od date(dddd, LL)',
+				startOnlyThisYear: 'od date(dddd, Do MMMM)',
+				endOnly: 'do date(dddd, LL)',
+				endOnlyThisYear: 'do date(dddd, Do MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, Do MMMM)',
+				sameMonth: 'od start(Do) do end(LL)',
+				sameMonthThisYear: 'od start(Do) do end(Do MMMM)',
+				sameYear: 'od start(Do MMMM) do end(LL)',
+				sameYearThisYear: 'od start(Do MMMM) do end(Do MMMM)',
+				other: 'od start(LL) do end(LL)'
 			}
 		};
 		function getTrad(trads, locale, key, fallbackKey) {

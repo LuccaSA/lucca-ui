@@ -157,9 +157,33 @@ module lui.translate {
 			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Add new value",
 			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Input a value"
 		});
+		$translateProvider.translations("de", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Neuen Wert hinzufügen",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Einen Wert eingeben"
+		});
+		$translateProvider.translations("es", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Añadir un nuevo valor",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Introduzca un valor"
+		});
 		$translateProvider.translations("fr", {
 			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Ajouter une nouvelle valeur",
 			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Saisir une valeur"
+		});
+		$translateProvider.translations("it", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Aggiungi un nuovo valore",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Inserisci un valore"
+		});
+		$translateProvider.translations("nl", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Nieuwe waarde toevoegen",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Voer een waarde in"
+		});
+		$translateProvider.translations("pt", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Adicionar um novo valor",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Introduza um valor"
+		});
+		$translateProvider.translations("pl", {
+			"LUID_TRANSLATIONSLIST_ADD_VALUE": "Dodaj nową wartość",
+			"LUID_TRANSLATIONSLIST_INPUT_VALUE": "Wprowadź wartość"
 		});
 	}]);
 }

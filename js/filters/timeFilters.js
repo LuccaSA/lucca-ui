@@ -57,6 +57,76 @@
 				sameYear: 'von start(Do MMMM) bis end(LL)',
 				sameYearThisYear: 'von start(Do MMMM) bis end(Do MMMM)',
 				other: 'von start(LL) bis end(LL)'
+			},
+			'es': {
+				startOnly: 'a partir del date(dddd LL)',
+				startOnlyThisYear: 'a partir del date(dddd D [de] MMMM)',
+				endOnly: 'hasta el date(dddd LL)',
+				endOnlyThisYear: 'hasta el date(dddd D [de] MMMM)',
+				date: 'date(LL)',
+				sameDay: 'el start(dddd LL)',
+				sameDayThisYear: 'el start(dddd D [de] MMMM)',
+				sameMonth: 'del start(D) al end(LL)',
+				sameMonthThisYear: 'del start(D) al end(D [de] MMMM)',
+				sameYear: 'del start(D [de] MMMM) al end(LL)',
+				sameYearThisYear: 'del start(D [de] MMMM) al end(D [de] MMMM)',
+				other: 'del start(LL) al end(LL)'
+			},
+			'it': {
+				startOnly: 'a partire dal date(dddd LL)',
+				startOnlyThisYear: 'a partire dal date(dddd D MMMM)',
+				endOnly: 'fino al date(dddd LL)',
+				endOnlyThisYear: 'fino al date(dddd D MMMM)',
+				date: 'date(LL)',
+				sameDay: 'il start(dddd LL)',
+				sameDayThisYear: 'il start(dddd D MMMM)',
+				sameMonth: 'dal start(D) al end(LL)',
+				sameMonthThisYear: 'dal start(D) al end(D MMMM)',
+				sameYear: 'dal start(D MMMM) al end(LL)',
+				sameYearThisYear: 'dal start(D MMMM) al end(D MMMM)',
+				other: 'dal start(LL) al end(LL)'
+			},
+			'nl': {
+				startOnly: 'vanaf date(dddd LL)',
+				startOnlyThisYear: 'vanaf date(dddd D MMMM)',
+				endOnly: 'tot date(dddd LL)',
+				endOnlyThisYear: 'tot date(dddd D MMMM)',
+				date: 'date(LL)',
+				sameDay: 'op start(dddd LL)',
+				sameDayThisYear: 'op start(dddd D MMMM)',
+				sameMonth: 'van start(D) tot end(LL)',
+				sameMonthThisYear: 'van start(D) tot end(D MMMM)',
+				sameYear: 'van start(D MMMM) tot end(LL)',
+				sameYearThisYear: 'van start(D MMMM) tot end(D MMMM)',
+				other: 'van start(LL) tot end(LL)'
+			},
+			'pt': {
+				startOnly: 'a partir de date(dddd, LL)',
+				startOnlyThisYear: 'a partir de date(dddd, D [de] MMMM)',
+				endOnly: 'até date(dddd, LL)',
+				endOnlyThisYear: 'até date(dddd, D [de] MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, D [de] MMMM)',
+				sameMonth: 'de start(D) a end(LL)',
+				sameMonthThisYear: 'de start(D) a end(D [de] MMMM)',
+				sameYear: 'de start(D [de] MMMM) a end(LL)',
+				sameYearThisYear: 'de start(D [de] MMMM) a end(D [de] MMMM)',
+				other: 'de start(LL) a end(LL)'
+			},
+			'pl': {
+				startOnly: 'od date(dddd, LL)',
+				startOnlyThisYear: 'od date(dddd, Do MMMM)',
+				endOnly: 'do date(dddd, LL)',
+				endOnlyThisYear: 'do date(dddd, Do MMMM)',
+				date: 'date(LL)',
+				sameDay: 'start(dddd, LL)',
+				sameDayThisYear: 'start(dddd, Do MMMM)',
+				sameMonth: 'od start(Do) do end(LL)',
+				sameMonthThisYear: 'od start(Do) do end(Do MMMM)',
+				sameYear: 'od start(Do MMMM) do end(LL)',
+				sameYearThisYear: 'od start(Do MMMM) do end(Do MMMM)',
+				other: 'od start(LL) do end(LL)'
 			}
 		};
 		function getTrad(trads, locale, key, fallbackKey) {

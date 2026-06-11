@@ -79,7 +79,37 @@ describe('luidTranslations', function(){
 		it("should return string at the correct format", function(){
 			isolateScope.internal.fr = "français";
 			isolateScope.update();
-			expect($scope.myTrads).toEqual("en:|de:|es:|fr:français|it:|nl:|pt:");
+			expect($scope.myTrads).toEqual("en:|fr:français|de:|es:|it:|nl:|pt:");
+		});
+	});
+
+	describe("with polish enabled through addLanguage", function(){
+		beforeEach(function(){
+			lui.translate.addLanguage("pl", 1045);
+			$scope.myTrads = "";
+			var tpl = angular.element('<luid-translations ng-model="myTrads" mode="|"></luid-translations>');
+			elt = $compile(tpl)($scope);
+			$scope.$digest();
+			isolateScope = elt.isolateScope();
+			ngModelCtrl = elt.controller("ngModel");
+		});
+		afterEach(function(){
+			lui.translate.removeLanguage("pl");
+		});
+		it("should expose polish in the cultures list", function(){
+			expect(isolateScope.cultures).toContain("pl");
+		});
+		it("should serialize polish", function(){
+			isolateScope.internal.pl = "polski";
+			isolateScope.update();
+			expect($scope.myTrads).toEqual("en:|fr:|de:|es:|it:|nl:|pt:|pl:polski");
+		});
+		it("should no longer expose polish once removed", function(){
+			lui.translate.removeLanguage("pl");
+			var tpl = angular.element('<luid-translations ng-model="myTrads" mode="|"></luid-translations>');
+			var elt2 = $compile(tpl)($scope);
+			$scope.$digest();
+			expect(elt2.isolateScope().cultures).not.toContain("pl");
 		});
 	});
 

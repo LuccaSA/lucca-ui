@@ -354,5 +354,53 @@ module lui.userpicker {
 			"LUIDUSERPICKER_ME": "Yo :",
 			"LUIDUSERPICKER_ALL": "Todos los usuarios",
 		});
+		$translateProvider.translations("it", {
+			"LUIDUSERPICKER_FORMEREMPLOYEE": "Ha lasciato l'azienda il {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS": "Nessun risultato",
+			"LUIDUSERPICKER_ERR_GET_USERS": "Errore durante il caricamento degli utenti",
+			"LUIDUSERPICKER_OVERFLOW": "{{cnt}} risultati visualizzati su {{all}}",
+			"LUIDUSERPICKER_DEPARTMENT": "Dipartimento",
+			"LUIDUSERPICKER_LEGALENTITY": "Entità giuridica",
+			"LUIDUSERPICKER_EMPLOYEENUMBER": "Matricola",
+			"LUIDUSERPICKER_MAIL": "Email",
+			"LUIDUSERPICKER_ME": "Io:",
+			"LUIDUSERPICKER_ALL": "Tutti gli utenti",
+		});
+		$translateProvider.translations("nl", {
+			"LUIDUSERPICKER_FORMEREMPLOYEE": "Vertrokken op {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS": "Geen resultaten",
+			"LUIDUSERPICKER_ERR_GET_USERS": "Fout bij het laden van gebruikers",
+			"LUIDUSERPICKER_OVERFLOW": "{{cnt}} van {{all}} resultaten weergegeven",
+			"LUIDUSERPICKER_DEPARTMENT": "Afdeling",
+			"LUIDUSERPICKER_LEGALENTITY": "Juridische entiteit",
+			"LUIDUSERPICKER_EMPLOYEENUMBER": "Personeelsnummer",
+			"LUIDUSERPICKER_MAIL": "E-mail",
+			"LUIDUSERPICKER_ME": "Ik:",
+			"LUIDUSERPICKER_ALL": "Alle gebruikers",
+		});
+		$translateProvider.translations("pt", {
+			"LUIDUSERPICKER_FORMEREMPLOYEE": "Saiu em {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS": "Sem resultados",
+			"LUIDUSERPICKER_ERR_GET_USERS": "Erro ao carregar os utilizadores",
+			"LUIDUSERPICKER_OVERFLOW": "{{cnt}} resultados apresentados de {{all}}",
+			"LUIDUSERPICKER_DEPARTMENT": "Departamento",
+			"LUIDUSERPICKER_LEGALENTITY": "Entidade legal",
+			"LUIDUSERPICKER_EMPLOYEENUMBER": "Número de funcionário",
+			"LUIDUSERPICKER_MAIL": "Email",
+			"LUIDUSERPICKER_ME": "Eu:",
+			"LUIDUSERPICKER_ALL": "Todos os utilizadores",
+		});
+		$translateProvider.translations("pl", {
+			"LUIDUSERPICKER_FORMEREMPLOYEE": "Zakończył(a) pracę {{dtContractEnd | luifMoment : 'LL'}}",
+			"LUIDUSERPICKER_NORESULTS": "Brak wyników",
+			"LUIDUSERPICKER_ERR_GET_USERS": "Błąd podczas wczytywania użytkowników",
+			"LUIDUSERPICKER_OVERFLOW": "Wyświetlono {{cnt}} z {{all}} wyników",
+			"LUIDUSERPICKER_DEPARTMENT": "Dział",
+			"LUIDUSERPICKER_LEGALENTITY": "Podmiot prawny",
+			"LUIDUSERPICKER_EMPLOYEENUMBER": "Numer pracownika",
+			"LUIDUSERPICKER_MAIL": "E-mail",
+			"LUIDUSERPICKER_ME": "Ja:",
+			"LUIDUSERPICKER_ALL": "Wszyscy użytkownicy",
+		});
 	}]);
 }
