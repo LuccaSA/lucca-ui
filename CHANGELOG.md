@@ -5,6 +5,7 @@
 ### Breaking Changes
 ### Changes (non-breaking)
 ### Bug fixes
+- `ui-select-multiple` arrow icon don't block the click interaction anymore.
 
 ## 4.1.5 - [release](https://github.com/LuccaSA/lucca-ui/releases/tag/4.1.5)
 ### Changes (non-breaking)

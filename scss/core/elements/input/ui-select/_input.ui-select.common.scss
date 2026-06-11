@@ -64,9 +64,10 @@
 			&:not(.open) .ui-select-toggle,
 			&.ui-select-multiple:not(.open) > div {
 				@include lui_make_icon('south chevron', right);
-				&:after {
+				&::after {
 					@extend %lui_field_input_inner_right_icon;
 					font-size: 8px;
+					pointer-events: none;
 				}
 			}
 
